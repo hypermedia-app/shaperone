@@ -1,0 +1,8 @@
+{
+  "name": "@hydrofoil/shaperone",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@changesets/cli": "^2.8.0"
+  }
+}
