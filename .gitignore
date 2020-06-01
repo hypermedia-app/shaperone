@@ -1,1 +1,7 @@
 node_modules
+*.js
+*.js.map
+coverage/
+!**/test/**/*.js
+*.d.ts
+*.d.ts.map

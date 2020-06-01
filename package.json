@@ -2,7 +2,15 @@
   "name": "@hydrofoil/shaperone",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "watch": "tsc -w -p tsconfig.json"
+  },
+  "workspaces": [
+    "packages/*",
+    "demos/*"
+  ],
   "dependencies": {
-    "@changesets/cli": "^2.8.0"
+    "@changesets/cli": "^2.8.0",
+    "typescript": "^3.9.3"
   }
 }
