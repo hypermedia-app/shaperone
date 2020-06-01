@@ -3,6 +3,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "lint": "eslint . --ext .ts,.js --quiet --ignore-path .gitignore",
+    "test": "yarn workspaces run test",
     "watch": "tsc -w -p tsconfig.json"
   },
   "workspaces": [
@@ -11,6 +13,12 @@
   ],
   "dependencies": {
     "@changesets/cli": "^2.8.0",
-    "typescript": "^3.9.3"
+    "@tpluscode/eslint-config": "^0.1.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "eslint-plugin-import": "^2.20.2",
+    "standard": "^14.3.4",
+    "typescript": "^3.9.3",
+    "yarn": "^1.22.4"
   }
 }
