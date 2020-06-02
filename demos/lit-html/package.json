@@ -1,0 +1,30 @@
+{
+  "name": "@hydrofoil/shaperone-playground-lit",
+  "private": true,
+  "version": "0.0.0",
+  "description": "@hydrofoil/shaperone demo using lit-html",
+  "repository": "https://github.com/hypermedia-app/shaperone",
+  "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../docs/lit-html",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "@vaadin/vaadin-app-layout": "^2.1.0",
+    "@vaadin/vaadin-menu-bar": "^1.1.0",
+    "@vaadin/vaadin-split-layout": "^4.2.0",
+    "@vanillawc/wc-monaco-editor": "^1.10.1",
+    "lit-html": "^1.0.0",
+    "lit-element": "^2.0.1"
+  },
+  "devDependencies": {
+    "@open-wc/building-webpack": "^2.13.32",
+    "rimraf": "^3.0.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
+  }
+}
