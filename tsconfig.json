@@ -9,6 +9,9 @@
     "declarationMap": true,
     "sourceMap": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true
   }
 }

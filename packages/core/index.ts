@@ -1,46 +1,70 @@
 import rdfine from '@tpluscode/rdfine'
-import * as ns from '@tpluscode/rdf-ns-builders'
 import type { SingleContextClownface } from 'clownface'
 import type { BlankNode, NamedNode } from 'rdf-js'
-import type { PropertyShape, Shape } from '@rdfine/shacl'
+import type { PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
+import { createModel, createStore, ModelStore } from '@captaincodeman/rdx'
+import { PropertyMatcher } from './lib/propertyMatcher'
+import { FormState } from './lib/FormState'
+import * as reducers from './lib/formStateReducers'
+import * as DashMatcher from './DashMatcher'
 
-export interface Renderer<TResult> {
+export { dash } from './lib/dash'
+
+interface Renderer<TResult> {
+  appendEditor(group: PropertyGroup, prop: PropertyShape, value?: SingleContextClownface): void
   getResult(): TResult
 }
 
-interface ShapeMatcher {}
+export type FocusNode = SingleContextClownface<BlankNode | NamedNode>
 
 interface ChangeCallback {
-  (resource: SingleContextClownface<NamedNode | BlankNode>, property: PropertyShape, value: any): void
+  (resource: FocusNode, property: PropertyShape, value: any): void
 }
 
 export interface ChangeListener {
   onChange(cb: ChangeCallback): void
-  notify(resource: SingleContextClownface<NamedNode | BlankNode>, property: PropertyShape, value: any): void
+  notify(resource: FocusNode, property: PropertyShape, value: any): void
 }
 
-interface FormParams<TRenderer extends Renderer<TResult>, TResult> {
+interface FormParams {
   shape: SingleContextClownface<NamedNode | BlankNode> | Shape
-  resource: SingleContextClownface<NamedNode | BlankNode>
-  renderer: TRenderer
-  matcher: ShapeMatcher
+  focusNode: FocusNode
+  matcher: PropertyMatcher
   validationReport?: any
   changeListener?: ChangeListener
 }
 
-export async function form<TRenderer extends Renderer<TResult>, TResult>(params: FormParams<TRenderer, TResult>) {
-  const { resource } = params
-  let shape: Shape
+const form = () => createModel({
+  state: {
+    matchers: [DashMatcher],
+    focusNodes: {},
+  },
+  reducers,
+  effects(store: ModelStore<{ form: FormState }>) {
+    const dispatch = store.dispatch() as any
 
-  if ('_context' in params.shape) {
-    const { ShapeDependencies } = (await import('@rdfine/shacl/dependencies/Shape.js'))
-    rdfine.factory.addMixin(...Object.values(ShapeDependencies))
-    shape = rdfine.factory.createEntity(params.shape)
-  } else {
-    shape = params.shape
-  }
+    return {
+      async initAsync(params: { shape: SingleContextClownface | Shape; focusNode: FocusNode }) {
+        const { focusNode } = params
+        let shape: Shape
 
-  if (shape.targetClass) {
-    resource.addOut(ns.rdf.type, shape.targetClass.id)
-  }
-}
+        if ('_context' in params.shape) {
+          const { ShapeDependencies } = (await import('@rdfine/shacl/dependencies/Shape.js'))
+          rdfine.factory.addMixin(...Object.values(ShapeDependencies))
+          shape = rdfine.factory.createEntity(params.shape)
+        } else {
+          shape = params.shape
+        }
+
+        dispatch.form.initialize({
+          shape,
+          focusNode,
+        })
+      },
+    }
+  },
+})
+
+export const initialState = () => createStore({
+  models: { form: form() },
+})

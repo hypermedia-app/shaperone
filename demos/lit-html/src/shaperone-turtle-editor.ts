@@ -36,8 +36,18 @@ export class ShaperoneTurtleEditor extends LitElement {
     }`
   }
 
-  @property({ type: String })
-  value: string
+  __value = ''
+
+  get value() {
+    return this.__value
+  }
+
+  set value(value: string) {
+    this.__value = value
+    if (this.codeMirror?.__editor) {
+      this.codeMirror.__editor.setValue(value)
+    }
+  }
 
   @query('wc-codemirror')
   codeMirror: any
@@ -46,11 +56,14 @@ export class ShaperoneTurtleEditor extends LitElement {
     return html`<div class="wrapper"><wc-codemirror mode="turtle"></wc-codemirror></div>`
   }
 
-  protected async firstUpdated(props) {
+  protected async firstUpdated(props: any) {
     super.firstUpdated(props)
     await whenDefined(() => this.codeMirror?.__initialized)
 
     this.codeMirror.__editor.setSize('100%', '100%')
     this.codeMirror.setValue(this.value)
+    this.codeMirror.__editor.on('change', (c: any) => {
+      this.__value = c.getValue()
+    })
   }
 }

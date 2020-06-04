@@ -7,3 +7,4 @@ coverage/
 *.d.ts
 *.d.ts.map
 !docs/**
+!types/**/*.d.ts

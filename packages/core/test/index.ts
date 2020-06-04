@@ -4,20 +4,17 @@ import cf from 'clownface'
 import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
-import sinon from 'sinon'
-import { form } from '../index.js'
+import { initialState } from '../index.js'
+import DatasetExt from 'rdf-ext/lib/Dataset'
 
 const ex = namespace('http://example.com/')
 
-describe('@hydrofoil/shaperone/form', () => {
-  let dataset
-  let renderer
+describe('@hydrofoil/shaperone', () => {
+  let dataset: DatasetExt
+  let renderer: any
 
   beforeEach(() => {
     dataset = $rdf.dataset()
-    renderer = {
-      getResult: sinon.stub(),
-    }
   })
 
   it('adds rdf:type assertion', async () => {
@@ -28,12 +25,12 @@ describe('@hydrofoil/shaperone/form', () => {
       },
       property: [],
     }
-    const resource = cf({ dataset, term: ex.foo })
+    const focusNode = cf({ dataset, term: ex.foo })
 
     // when
-    await form({
+    await initialState({
       shape,
-      resource,
+      focusNode,
       matcher: {},
       renderer,
     })
@@ -48,12 +45,12 @@ describe('@hydrofoil/shaperone/form', () => {
       .blankNode()
       .addOut(ns.rdf.type, ns.sh.Shape)
       .addOut(ns.sh.targetClass, ns.schema.Person)
-    const resource = cf({ dataset, term: ex.foo })
+    const focusNode = cf({ dataset, term: ex.foo })
 
     // when
-    await form({
+    await initialize({
       shape,
-      resource,
+      focusNode,
       matcher: {},
       renderer,
     })

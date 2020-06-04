@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@hydrofoil/shaperone adds rdf:type assertion 1`] = `
+"<http://example.com/foo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+"
+`;
+
+exports[`@hydrofoil/shaperone wraps graph pointer as shape instance 1`] = `
+"<http://example.com/foo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+"
+`;
+
 exports[`@hydrofoil/shaperone/form adds rdf:type assertion 1`] = `
 "<http://example.com/foo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
 "

@@ -12,7 +12,7 @@ module.exports = merge(
       path: path.resolve(__dirname, '../../docs/lit-html'),
     },
     resolve: {
-      extensions: ['.js', '.json'],
+      extensions: ['.ts', '.js', '.json'],
     },
     module: {
       rules: [
