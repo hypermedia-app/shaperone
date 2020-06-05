@@ -2,7 +2,7 @@ import TermMap from '@rdfjs/term-map'
 import { NamedNode, Term } from 'rdf-js'
 import { html, TemplateResult } from 'lit-html'
 import { dash } from '@hydrofoil/shaperone-core'
-import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/lib/FormState'
+import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/state'
 import { literal } from '@rdf-esm/data-model'
 
 interface EditorFactoryParams {

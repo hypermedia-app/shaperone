@@ -11,8 +11,9 @@ import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import type { ShaperoneTurtleEditor } from './shaperone-turtle-editor'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
-import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
+import { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import { turtle } from '@tpluscode/rdf-string'
+import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
 
 const shapeMenu = [
   {
@@ -60,6 +61,11 @@ ex:John_Doe a schema:Person ;
   schema:name "John Doe" ;
   schema:knows ex:Jane_Doe .
 `
+
+ShaperoneForm.renderer.strategy = {
+  ...ShaperoneForm.renderer.strategy,
+  ...MaterialRenderStrategy,
+}
 
 @customElement('shaperone-playground-lit')
 export class ShaperonePlayground extends LitElement {

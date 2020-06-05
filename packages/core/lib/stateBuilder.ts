@@ -1,14 +1,15 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
-import { PropertyMatcher } from './propertyMatcher'
-import { FocusNodeState, EditorChoice, PropertyGroupState, PropertyState } from './FormState'
+import { EditorMatcher, EditorMatch } from './editorMatcher'
+import type { FocusNodeState, PropertyState } from '../state'
 import type { SafeClownface } from 'clownface'
 import { Term } from 'rdf-js'
 import TermMap from '@rdfjs/term-map'
 import { FocusNode } from '../index'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { sh } from '@tpluscode/rdf-ns-builders'
+import { byShOrder } from './order'
 
-function initialisePropertyShape(shape: PropertyShape, matchers: PropertyMatcher[], values: SafeClownface): PropertyState {
+function initialisePropertyShape(shape: PropertyShape, matchers: EditorMatcher[], values: SafeClownface): PropertyState {
   const compoundEditors = matchers.map(matcher => matcher.matchCompoundEditor?.(shape)).filter(Boolean)[0] || []
   const objects = values.map(object => {
     const allCandidates = matchers
@@ -16,7 +17,7 @@ function initialisePropertyShape(shape: PropertyShape, matchers: PropertyMatcher
       .reduce(Array.prototype.concat)
 
     const editors = [...allCandidates
-      .reduce<Map<Term, EditorChoice>>((editors, editorResult) => {
+      .reduce<Map<Term, EditorMatch>>((editors, editorResult) => {
       const previousMatch = editors.get(editorResult.editor)
       if (!previousMatch) {
         editors.set(editorResult.editor, editorResult)
@@ -48,25 +49,21 @@ function initialisePropertyShape(shape: PropertyShape, matchers: PropertyMatcher
   }
 }
 
-export function initialiseFocusNode(shape: NodeShape, matchers: PropertyMatcher[], focusNode: FocusNode): FocusNodeState {
-  const groups = shape.property.reduce<Record<string, PropertyGroupState>>((groups, prop) => {
-    let groupProps = groups[prop.group?.id?.value]
-    if (!groupProps) {
-      groupProps = {
-        group: prop.group,
-        properties: {},
-      }
-      groups[prop.group?.id?.value] = groupProps
-    }
+export function initialiseFocusNode(shape: NodeShape, matchers: EditorMatcher[], focusNode: FocusNode): FocusNodeState {
+  const groups = new Map()
 
-    groupProps.properties[prop.path.id.value] = initialisePropertyShape(prop, matchers, focusNode.out(prop.path.id))
+  const properties = shape.property
+    .sort(byShOrder)
+    .reduce<Array<PropertyState>>((map, prop) => {
+    groups.set(prop.group?.id?.value, prop.group)
 
-    return groups
-  }, {})
+    return [...map, initialisePropertyShape(prop, matchers, focusNode.out(prop.path.id))]
+  }, [])
 
   return {
     shape,
     focusNode,
-    groups,
+    groups: [...groups.values()].sort(byShOrder),
+    properties,
   }
 }

@@ -1,4 +1,4 @@
-import { customElement, LitElement, css, query, property } from 'lit-element'
+import { customElement, LitElement, css, query } from 'lit-element'
 import { html } from 'lit-html'
 
 function whenDefined(getter: () => unknown): Promise<void> {
