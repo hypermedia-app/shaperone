@@ -121,6 +121,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   __formMenuSelected(e: CustomEvent) {
     if (e.detail.value.type === 'components') {
       store.dispatch.components.switchComponents({ name: e.detail.value.text })
+      this.form.store.dispatch.form.resetEditors()
     } else if (e.detail.value.id === saveResource) {
       store.dispatch.resource.serialize(this.form.value)
     }

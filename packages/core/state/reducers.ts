@@ -204,6 +204,13 @@ export function editorLoaded(state: FormState, { editor }: { editor: NamedNode }
   }
 }
 
+export function resetEditors(state: FormState): FormState {
+  return {
+    ...state,
+    editors: {},
+  }
+}
+
 export function initialize(state: FormState, params: { focusNode: FocusNode; shape: Shape }): FormState {
   const { focusNode, shape } = params
 

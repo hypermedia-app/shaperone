@@ -1,10 +1,12 @@
 import { createModel } from '@captaincodeman/rdx'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import * as nativeComponents from '@hydrofoil/shaperone-wc/components'
+import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components'
 import { EditorFactory } from '@hydrofoil/shaperone-wc/components'
 
 const componentModules: Record<string, Record<string, EditorFactory>> = {
   Native: nativeComponents,
+  Material: mwcComponents,
   Vaadin: vaadinComponents,
 }
 export const components = createModel({

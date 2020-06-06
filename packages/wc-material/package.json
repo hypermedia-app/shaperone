@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "description": "Rendering forms in Material Design style",
   "main": "index.js",
-  "peerDependencies": {
-    "@hydrofoil/shaperone-wc": "0.0.0"
-  },
   "dependencies": {
+    "@hydrofoil/shaperone-wc": "0.0.0",
+    "@hydrofoil/shaperone-core": "0.0.0",
+    "@material/mwc-textarea": "^0.15.0",
+    "@material/mwc-textfield": "^0.15.0",
     "@material/mwc-icon": "^0.15.0",
     "@material/mwc-list": "^0.15.0",
     "@material/mwc-menu": "^0.15.0",
+    "@rdf-esm/data-model": "^0.5.0",
     "lit-element": "^2.3.1",
     "lit-html": "^1.2.1",
     "wc-menu-button": "^3.0.1"
