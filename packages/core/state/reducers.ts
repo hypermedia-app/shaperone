@@ -1,5 +1,5 @@
-import type { FormState, PropertyObjectState, PropertyState } from '../state'
-import { Shape } from '@rdfine/shacl'
+import type { FormState, PropertyObjectState } from '../state'
+import type { PropertyShape, Shape } from '@rdfine/shacl'
 import * as ns from '@tpluscode/rdf-ns-builders'
 import { dash, FocusNode } from '../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
@@ -8,7 +8,7 @@ import { NamedNode, Term } from 'rdf-js'
 
 interface BaseParams {
   focusNode: FocusNode
-  property: PropertyState
+  property: PropertyShape
 }
 
 interface SelectEditorParams extends BaseParams {
@@ -19,7 +19,7 @@ interface SelectEditorParams extends BaseParams {
 export function selectEditor(state: FormState, { focusNode, property, value, editor }: SelectEditorParams): FormState {
   const focusNodeState = state.focusNodes[focusNode.value]
   const properties = focusNodeState.properties.map(prop => {
-    if (!prop.shape.id.equals(property.shape.id)) {
+    if (!prop.shape.id.equals(property.id)) {
       return prop
     }
 
@@ -60,7 +60,7 @@ interface UpdateObjectParams extends BaseParams {
 export function updateObject(state: FormState, { focusNode, property, oldValue, newValue }: UpdateObjectParams): FormState {
   const focusNodeState = state.focusNodes[focusNode.value]
   const properties = focusNodeState.properties.map(prop => {
-    if (!prop.shape.id.equals(property.shape.id)) {
+    if (!prop.shape.id.equals(property.id)) {
       return prop
     }
 
@@ -76,8 +76,8 @@ export function updateObject(state: FormState, { focusNode, property, oldValue, 
     })
 
     focusNodeState.focusNode
-      .deleteOut(property.shape.path.id)
-      .addOut(property.shape.path.id, objects.map(o => o.object))
+      .deleteOut(property.path.id)
+      .addOut(property.path.id, objects.map(o => o.object))
 
     return {
       ...prop,
@@ -100,19 +100,19 @@ export function updateObject(state: FormState, { focusNode, property, oldValue, 
 export function addObject(state: FormState, { focusNode, property }: BaseParams): FormState {
   const focusNodeState = state.focusNodes[focusNode.value]
 
-  const object = property.shape.defaultValue ? focusNodeState.focusNode.node(property.shape.defaultValue) : focusNodeState.focusNode.literal('')
+  const object = property.defaultValue ? focusNodeState.focusNode.node(property.defaultValue) : focusNodeState.focusNode.literal('')
 
-  focusNodeState.focusNode.addOut(property.shape.path.id, object)
+  focusNodeState.focusNode.addOut(property.path.id, object)
 
   const properties = focusNodeState.properties.map(currentProperty => {
-    if (!currentProperty.shape.id.equals(property.shape.id)) {
+    if (!currentProperty.shape.id.equals(property.id)) {
       return currentProperty
     }
     if (currentProperty.objects.find(o => o.object.term.equals(object.term))) {
       return currentProperty
     }
 
-    const maxReached = (property.shape.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= currentProperty.objects.length + 1
+    const maxReached = (property.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= currentProperty.objects.length + 1
     const newObject: PropertyObjectState = {
       object,
       editors: [],
@@ -149,17 +149,17 @@ export function removeObject(state: FormState, { focusNode, property, object }: 
   const focusNodeState = state.focusNodes[focusNode.value]
 
   const properties = focusNodeState.properties.map(currentProperty => {
-    if (!currentProperty.shape.id.equals(property.shape.id)) {
+    if (!currentProperty.shape.id.equals(property.id)) {
       return currentProperty
     }
 
     const objects = currentProperty.objects.filter(o => !o.object.term.equals(object.object.term))
 
     focusNodeState.focusNode
-      .deleteOut(property.shape.path.id)
-      .addOut(property.shape.path.id, objects.map(o => o.object))
+      .deleteOut(property.path.id)
+      .addOut(property.path.id, objects.map(o => o.object))
 
-    const maxReached = (property.shape.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= objects.length
+    const maxReached = (property.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= objects.length
 
     return {
       ...currentProperty,
@@ -175,6 +175,30 @@ export function removeObject(state: FormState, { focusNode, property, object }: 
       [focusNode.value]: {
         ...focusNodeState,
         properties,
+      },
+    },
+  }
+}
+
+export function editorLoading(state: FormState, { editor }: { editor: NamedNode }): FormState {
+  return {
+    ...state,
+    editors: {
+      ...state.editors,
+      [editor.value]: {
+        loaded: false,
+      },
+    },
+  }
+}
+
+export function editorLoaded(state: FormState, { editor }: { editor: NamedNode }): FormState {
+  return {
+    ...state,
+    editors: {
+      ...state.editors,
+      [editor.value]: {
+        loaded: true,
       },
     },
   }

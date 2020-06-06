@@ -1,66 +1,106 @@
-import type { FocusNodeState, Dispatch } from '@hydrofoil/shaperone-core/state'
+import type { FormState, Dispatch } from '@hydrofoil/shaperone-core/state'
 import { TemplateResult } from 'lit-html'
+import { html } from 'lit-element'
 import type { CSSResult, CSSResultArray } from 'lit-element'
 import * as strategy from './lib/renderer'
-import { EditorFactory, EditorMap } from './lib/components'
-import { NamedNode } from 'rdf-js'
+import { EditorMap } from './EditorMap'
+import { Term } from 'rdf-js'
+import { FocusNode } from '@hydrofoil/shaperone-core'
+
+interface RenderParams {
+  state: FormState
+  focusNode: FocusNode
+  actions: Dispatch['form']
+}
 
 export interface Renderer {
-  components: Map<NamedNode, EditorFactory>
+  components: EditorMap
   strategy: {
     form: strategy.FormRenderStrategy
     group: strategy.GroupRenderStrategy
     property: strategy.PropertyRenderStrategy
     object: strategy.ObjectRenderStrategy
-    editor: strategy.EditorRenderStrategy
+    initialising: strategy.InitialisationStrategy
   }
-  render(params: { state: FocusNodeState; actions: Dispatch['form'] }): TemplateResult
+  render(params: RenderParams): TemplateResult
   styles: CSSResult | CSSResultArray
+  loadDependencies(): Promise<void>
+  ready: boolean
 }
 
 export const DefaultRenderer: Renderer = {
+  ready: false,
   components: new EditorMap(),
   strategy: {
     form: strategy.defaultFormRenderer,
     group: strategy.defaultGroupRenderer,
     property: strategy.defaultPropertyRenderer,
     object: strategy.defaultObjectRenderer,
-    editor: strategy.defaultEditorRender,
+    initialising() {
+      return 'Initialising form'
+    },
   },
 
-  render({ state, actions }: { state: FocusNodeState; actions: Dispatch['form'] }): TemplateResult {
-    const { focusNode } = state
+  render({ state, actions, focusNode }: RenderParams): TemplateResult {
+    const focusNodeState = state.focusNodes[focusNode.value]
 
-    return this.strategy.form(state, (group, properties) => {
+    if (!focusNodeState) {
+      return html``
+    }
+
+    return this.strategy.form(focusNodeState, (group, properties) => {
       return this.strategy.group(group, properties, property => {
-        return this.strategy.property(property, object => {
-          return this.strategy.object(object, () => {
-            return this.strategy.editor(this.components, property, object, {
-              update(newValue) {
-                actions.updateObject({
-                  focusNode,
-                  property,
-                  oldValue: object.object.term,
-                  newValue,
+        return this.strategy.property(property, value => {
+          return this.strategy.object(value, () => {
+            function update(newValue: Term) {
+              actions.updateObject({
+                focusNode,
+                property: property.shape,
+                oldValue: value.object.term,
+                newValue,
+              })
+            }
+
+            const component = this.components.get(value.selectedEditor)
+            if (!component) {
+              return html`No editor found for property`
+            }
+
+            if (component.loadDependencies) {
+              const editorState = state.editors[value.selectedEditor.value]
+              if (!editorState) {
+                actions.loadEditor({
+                  editor: value.selectedEditor,
+                  imports: component.loadDependencies(),
                 })
-              },
+              }
+
+              if (!editorState || !editorState.loaded) {
+                return html`Loading editor`
+              }
+            }
+
+            return component.render({
+              property,
+              value,
+              update,
             })
           }, {
             selectEditor(editor): void {
               actions.selectEditor({
                 focusNode,
-                property,
-                value: object.object.term,
+                property: property.shape,
+                value: value.object.term,
                 editor,
               })
             },
             remove(): void {
-              actions.removeObject({ focusNode, property, object })
+              actions.removeObject({ focusNode, property: property.shape, object: value })
             },
           })
         }, {
           addObject() {
-            actions.addObject({ focusNode, property })
+            actions.addObject({ focusNode, property: property.shape })
           },
         })
       })
@@ -74,5 +114,17 @@ export const DefaultRenderer: Renderer = {
       this.strategy.property.styles || [],
       this.strategy.object.styles || [],
     ]
+  },
+
+  async loadDependencies() {
+    await Promise.all(
+      Object.values(this.strategy).reduce<Array<Promise<unknown>>>((promises, strat) => {
+        if (!strat.loadDependencies) return promises
+
+        return [...promises, ...strat.loadDependencies()]
+      }, []),
+    )
+
+    this.ready = true
   },
 }

@@ -1,55 +1,40 @@
 import { html } from 'lit-element'
 import type { TemplateResult, CSSResult, CSSResultArray } from 'lit-element'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/state'
-import type { NamedNode, Term } from 'rdf-js'
+import type { NamedNode } from 'rdf-js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { repeat } from 'lit-html/directives/repeat'
 import type { PropertyGroup } from '@rdfine/shacl'
-import { EditorMap } from './components'
 import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
 
-export interface FormRenderStrategy {
+export interface RenderStrategy {
+  styles?: CSSResult | CSSResultArray
+  loadDependencies?(): Array<Promise<unknown>>
+}
+
+export interface FormRenderStrategy extends RenderStrategy {
   (formState: FocusNodeState, renderGroup: (group: PropertyGroup | undefined, properties: PropertyState[]) => TemplateResult): TemplateResult
-  styles?: CSSResult | CSSResultArray
 }
 
-export interface GroupRenderStrategy {
+export interface GroupRenderStrategy extends RenderStrategy {
   (group: PropertyGroup | undefined, properties: PropertyState[], renderProperty: (property: PropertyState) => TemplateResult): TemplateResult
-  styles?: CSSResult | CSSResultArray
 }
 
-export interface PropertyRenderStrategy {
+export interface PropertyRenderStrategy extends RenderStrategy {
   (property: PropertyState, renderObject: (object: PropertyObjectState) => TemplateResult, actions: {
     addObject(): void
   }): TemplateResult
-  styles?: CSSResult | CSSResultArray
 }
 
-export interface ObjectRenderStrategy {
+export interface ObjectRenderStrategy extends RenderStrategy {
   (object: PropertyObjectState, renderEditor: () => TemplateResult, actions: {
     selectEditor(editor: NamedNode): void
     remove(): void
   }): TemplateResult
-  styles?: CSSResult | CSSResultArray
 }
 
-export interface EditorRenderStrategy {
-  (components: EditorMap, property: PropertyState, value: PropertyObjectState, actions: {
-    update(newValue: Term): void
-  }): TemplateResult
-}
-
-export const defaultEditorRender: EditorRenderStrategy = (components, property, value, { update }) => {
-  const componentFactory = components.get(value.selectedEditor)
-  if (!componentFactory) {
-    return html`No editor found for property`
-  }
-
-  return componentFactory({
-    property,
-    value,
-    update,
-  })
+export interface InitialisationStrategy extends RenderStrategy {
+  (): TemplateResult | string
 }
 
 export const defaultFormRenderer: FormRenderStrategy = (formState, renderGroup) => {

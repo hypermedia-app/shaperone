@@ -1,11 +1,6 @@
-import {css, html} from 'lit-element'
+import { css, html } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
-import { PropertyRenderStrategy, ObjectRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
-
-import '@material/mwc-icon/mwc-icon'
-import '@material/mwc-list/mwc-list'
-import '@material/mwc-list/mwc-list-item'
-import './components/mwc-editor-toggle'
+import type { PropertyRenderStrategy, ObjectRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
 
 export const property: PropertyRenderStrategy = (property, renderObject, { addObject }) => {
   let addIcon = html``
@@ -19,6 +14,12 @@ export const property: PropertyRenderStrategy = (property, renderObject, { addOb
     ${repeat(property.objects, renderObject)}
   </mwc-list>`
 }
+
+property.loadDependencies = () => [
+  import('@material/mwc-icon/mwc-icon'),
+  import('@material/mwc-list/mwc-list'),
+  import('@material/mwc-list/mwc-list-item'),
+]
 
 property.styles = css`
   mwc-list-item {
@@ -38,3 +39,8 @@ export const object: ObjectRenderStrategy = (object, renderEditor, { selectEdito
                        @object-removed="${remove}"></mwc-editor-toggle>
   </mwc-list-item>`
 }
+
+object.loadDependencies = () => [
+  import('@material/mwc-list/mwc-list-item'),
+  import('./elements/mwc-editor-toggle'),
+]

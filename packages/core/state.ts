@@ -1,4 +1,4 @@
-import { StoreDispatch } from '@captaincodeman/rdx'
+import {ModelStore, StoreDispatch, StoreState} from '@captaincodeman/rdx'
 import { config } from './state/config'
 import type { SingleContextClownface } from 'clownface'
 import { EditorMatch, EditorMatcher } from './lib/editorMatcher'
@@ -6,7 +6,9 @@ import { NamedNode } from 'rdf-js'
 import { PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { FocusNode } from './index'
 
+export type State = StoreState<typeof config>
 export type Dispatch = StoreDispatch<typeof config>
+export type Store = ModelStore<Dispatch, State>
 
 export interface PropertyObjectState {
   object: SingleContextClownface
@@ -31,5 +33,6 @@ export interface FocusNodeState {
 
 export interface FormState {
   matchers: EditorMatcher[]
+  editors: Record<string, { loaded: boolean }>
   focusNodes: Record<string, FocusNodeState>
 }

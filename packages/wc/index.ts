@@ -56,8 +56,15 @@ export class ShaperoneForm extends connectEx(initialState, LitElement) {
   }
 
   render() {
+    if (!ShaperoneForm.renderer.ready) {
+      ShaperoneForm.renderer.loadDependencies().then(() => this.requestUpdate())
+
+      return ShaperoneForm.renderer.strategy.initialising()
+    }
+
     return ShaperoneForm.renderer.render({
-      state: this.formState.focusNodes[this.resource.value],
+      state: this.formState,
+      focusNode: this.resource,
       actions: this.store.dispatch.form,
     })
   }
