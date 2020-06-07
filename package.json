@@ -17,6 +17,7 @@
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
     "eslint-plugin-import": "^2.20.2",
+    "readable-stream": "^3.6.0",
     "standard": "^14.3.4",
     "typescript": "^3.9.3",
     "yarn": "^1.22.4"

@@ -13,6 +13,9 @@ module.exports = merge(
     },
     resolve: {
       extensions: ['.ts', '.js', '.json'],
+      alias: {
+        stream: 'readable-stream',
+      },
     },
     module: {
       rules: [
