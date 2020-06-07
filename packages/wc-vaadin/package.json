@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Rendering forms with Vaadin components",
   "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "@hydrofoil/shaperone-wc": "0.0.0",
     "@hydrofoil/shaperone-core": "0.0.0",

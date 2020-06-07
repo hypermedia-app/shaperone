@@ -12,6 +12,10 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "strictNullChecks": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ]
   }
 }

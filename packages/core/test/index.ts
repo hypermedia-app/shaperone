@@ -1,15 +1,8 @@
-import * as ns from '@tpluscode/rdf-ns-builders'
 import namespace from '@rdfjs/namespace'
-import cf from 'clownface'
-import { describe, it, beforeEach } from 'mocha'
-import { expect } from 'chai'
-import $rdf from 'rdf-ext'
-import { initialState } from '../index.js'
-import DatasetExt from 'rdf-ext/lib/Dataset'
-
-const ex = namespace('http://example.com/')
+import { describe } from 'mocha'
 
 describe('@hydrofoil/shaperone', () => {
+  /*
   let dataset: DatasetExt
   let renderer: any
 
@@ -58,4 +51,5 @@ describe('@hydrofoil/shaperone', () => {
     // then
     expect(dataset.toCanonical()).to.matchSnapshot()
   })
+  */
 })

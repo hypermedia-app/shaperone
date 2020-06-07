@@ -2,7 +2,13 @@
 const path = require('path')
 const merge = require('webpack-merge')
 const { createDefaultConfig } = require('@open-wc/building-webpack')
-const BundleAnalyzerPlugin = require('@bundle-analyzer/webpack-plugin')
+
+const plugins = []
+if (process.env.BUNDLE_ANALYZER_TOKEN) {
+  const BundleAnalyzerPlugin = require('@bundle-analyzer/webpack-plugin')
+
+  plugins.push(new BundleAnalyzerPlugin({ token: process.env.BUNDLE_ANALYZER_TOKEN }))
+}
 
 module.exports = merge(
   createDefaultConfig({
@@ -18,9 +24,7 @@ module.exports = merge(
         stream: 'readable-stream',
       },
     },
-    plugins: [
-      new BundleAnalyzerPlugin({ token: process.env.BUNDLE_ANALYZER_TOKEN }),
-    ],
+    plugins,
     module: {
       rules: [
         {
