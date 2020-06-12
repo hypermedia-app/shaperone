@@ -19,6 +19,21 @@ export function effects(dispatch: Dispatch) {
         shape = params.shape
       }
 
+      await new Promise(resolve => {
+        try {
+          // eslint-disable-next-line no-new
+          new EventTarget()
+        } catch {
+          const script = document.createElement('script')
+          script.setAttribute('src', 'https://unpkg.com/@ungap/event-target@0.1.0/min.js')
+          script.onload = resolve
+          document.head.appendChild(script)
+          return
+        }
+
+        resolve()
+      })
+
       dispatch.form.initialize({
         shape,
         focusNode,
