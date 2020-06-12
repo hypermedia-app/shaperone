@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.6",
+    "@rdf-esm/data-model": "^0.5.1",
     "@rdfine/shacl": "^0.1.4",
     "@rdfjs/namespace": "^1.1.0",
     "@rdfjs/term-map": "^1",
@@ -17,7 +18,6 @@
     "@zazuko/rdf-vocabularies": "^2020.3.23"
   },
   "devDependencies": {
-    "@rdf-esm/data-model": "^0.5.1",
     "@rdfjs/namespace": "^1.1.0",
     "@types/chai": "^4.2.11",
     "@types/clownface": "^0.12.14",

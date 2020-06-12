@@ -5,6 +5,7 @@ import { FocusNode } from '../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, Term } from 'rdf-js'
+import { blankNode, literal } from '@rdf-esm/data-model'
 
 interface BaseParams {
   focusNode: FocusNode
@@ -97,10 +98,18 @@ export function updateObject(state: FormState, { focusNode, property, oldValue, 
   }
 }
 
+function defaultValueNode(property: PropertyShape): Term {
+  if (property.get(sh.class) || property.get(sh.nodeKind)?.id.equals(sh.IRI)) {
+    return blankNode()
+  }
+
+  return literal('')
+}
+
 export function addObject(state: FormState, { focusNode, property }: BaseParams): FormState {
   const focusNodeState = state.focusNodes[focusNode.value]
 
-  const object = property.defaultValue ? focusNodeState.focusNode.node(property.defaultValue) : focusNodeState.focusNode.literal('')
+  const object = property.defaultValue ? focusNodeState.focusNode.node(property.defaultValue) : focusNodeState.focusNode.node(defaultValueNode(property))
 
   focusNodeState.focusNode.addOut(property.path.id, object)
 
