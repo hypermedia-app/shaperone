@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .ts,.js --quiet --ignore-path .gitignore",
+    "build": "yarn workspaces run build",
     "test": "yarn workspaces run test",
     "watch": "tsc -w -p tsconfig.json"
   },

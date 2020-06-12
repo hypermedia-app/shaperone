@@ -1,40 +1,26 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
-import { EditorMatcher, EditorMatch } from './editorMatcher'
 import type { FocusNodeState, PropertyState } from '../state'
 import type { SafeClownface } from 'clownface'
-import { Term } from 'rdf-js'
-import TermMap from '@rdfjs/term-map'
 import { FocusNode } from '../index'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { byShOrder } from './order'
+import type { CompoundEditor, Editor } from '../EditorMap'
 
-function initialisePropertyShape(shape: PropertyShape, matchers: EditorMatcher[], values: SafeClownface): PropertyState {
-  const compoundEditors = matchers.map(matcher => matcher.matchCompoundEditor?.(shape)).filter(Boolean)[0] || []
+function initialisePropertyShape(params: { shape: PropertyShape; editors: Editor[]; compoundEditors: CompoundEditor[]; values: SafeClownface }): PropertyState {
+  const { shape, values } = params
+
+  const compoundEditors = params.compoundEditors.map(({ match }) => match(shape)).filter(match => match.score === null || match.score > 0) || []
   const objects = values.map(object => {
-    const allCandidates = matchers
-      .map(matcher => matcher.matchValueEditor(shape, object))
-      .reduce(Array.prototype.concat)
-
-    const editors = [...allCandidates
-      .reduce<Map<Term, EditorMatch>>((editors, editorResult) => {
-      const previousMatch = editors.get(editorResult.editor)
-      if (!previousMatch) {
-        editors.set(editorResult.editor, editorResult)
-        return editors
-      }
-
-      if ((previousMatch.score || 0) < (editorResult.score || 0)) {
-        editors.set(editorResult.editor, editorResult)
-      }
-
-      return editors
-    }, new TermMap()).values()]
+    const editors = params.editors
+      .map(({ match }) => match(shape, object))
+      .filter(match => match.score === null || match.score > 0)
+      .sort((left, right) => left.score! - right.score!)
 
     return {
       object,
       editors,
-      selectedEditor: editors[0].editor,
+      selectedEditor: editors[0]?.editor,
     }
   })
 
@@ -49,7 +35,8 @@ function initialisePropertyShape(shape: PropertyShape, matchers: EditorMatcher[]
   }
 }
 
-export function initialiseFocusNode(shape: NodeShape, matchers: EditorMatcher[], focusNode: FocusNode): FocusNodeState {
+export function initialiseFocusNode(params: { shape: NodeShape; editors: Editor[]; compoundEditors: CompoundEditor[]; focusNode: FocusNode }): FocusNodeState {
+  const { shape, focusNode, editors, compoundEditors } = params
   const groups = new Map()
 
   const properties = shape.property
@@ -57,7 +44,12 @@ export function initialiseFocusNode(shape: NodeShape, matchers: EditorMatcher[],
     .reduce<Array<PropertyState>>((map, prop) => {
     groups.set(prop.group?.id?.value, prop.group)
 
-    return [...map, initialisePropertyShape(prop, matchers, focusNode.out(prop.path.id))]
+    return [...map, initialisePropertyShape({
+      shape: prop,
+      editors,
+      compoundEditors,
+      values: focusNode.out(prop.path.id),
+    })]
   }, [])
 
   return {

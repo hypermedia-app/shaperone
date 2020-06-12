@@ -1,7 +1,7 @@
 import type { FormState, PropertyObjectState } from '../state'
 import type { PropertyShape, Shape } from '@rdfine/shacl'
 import * as ns from '@tpluscode/rdf-ns-builders'
-import { dash, FocusNode } from '../index'
+import { FocusNode } from '../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, Term } from 'rdf-js'
@@ -112,11 +112,16 @@ export function addObject(state: FormState, { focusNode, property }: BaseParams)
       return currentProperty
     }
 
+    const editors = [...state.editorMap.values()]
+      .map(({ match }) => match(property, object))
+      .filter(match => match.score === null || match.score > 0)
+      .sort((left, right) => left.score! - right.score!)
+
     const maxReached = (property.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= currentProperty.objects.length + 1
     const newObject: PropertyObjectState = {
       object,
-      editors: [],
-      selectedEditor: dash.TextFieldEditor,
+      editors,
+      selectedEditor: editors[0]?.editor,
     }
 
     return {
@@ -222,7 +227,12 @@ export function initialize(state: FormState, params: { focusNode: FocusNode; sha
     ...state,
     focusNodes: {
       ...state.focusNodes,
-      [focusNode.value]: initialiseFocusNode(shape, state.matchers, focusNode),
+      [focusNode.value]: initialiseFocusNode({
+        shape,
+        editors: [...state.editorMap.values()],
+        compoundEditors: [...state.compoundEditorMap.values()],
+        focusNode,
+      }),
     },
   }
 }

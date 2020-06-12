@@ -9,12 +9,12 @@
   "dependencies": {
     "@hydrofoil/shaperone-wc": "0.0.0",
     "@hydrofoil/shaperone-core": "0.0.0",
-    "@rdf-esm/data-model": "^0.5.0",
+    "@rdf-esm/data-model": "^0.5.1",
     "@vaadin/vaadin-text-field": "^2.6.0",
     "lit-html": "^1.2.1"
   },
   "devDependencies": {
-    "@types/rdf-js": "^2.0.12"
+    "@types/rdf-js": "^3.0.1"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

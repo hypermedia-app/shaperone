@@ -5,7 +5,7 @@ import type { CSSResult, CSSResultArray } from 'lit-element'
 import * as strategy from './lib/renderer'
 import { EditorMap } from './EditorMap'
 import { Term } from 'rdf-js'
-import { FocusNode } from '@hydrofoil/shaperone-core'
+import { dash, FocusNode } from '@hydrofoil/shaperone-core'
 
 interface RenderParams {
   state: FormState
@@ -61,16 +61,17 @@ export const DefaultRenderer: Renderer = {
               })
             }
 
-            const component = this.components.get(value.selectedEditor)
+            const editor = value.selectedEditor || dash.TextFieldEditor
+            const component = this.components.get(editor)
             if (!component) {
               return html`No editor found for property`
             }
 
             if (component.loadDependencies) {
-              const editorState = state.editors[value.selectedEditor.value]
+              const editorState = state.editors[editor.value]
               if (!editorState) {
                 actions.loadEditor({
-                  editor: value.selectedEditor,
+                  editor,
                   imports: component.loadDependencies(),
                 })
               }
