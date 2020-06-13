@@ -2,7 +2,7 @@ import { css, html } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
 import type { PropertyRenderStrategy, ObjectRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
 
-export const property: PropertyRenderStrategy = (property, renderObject, { addObject }) => {
+export const property: PropertyRenderStrategy = (property, { addObject }, renderObject) => {
   let addIcon = html``
 
   if (!property.maxReached) {
@@ -27,7 +27,7 @@ property.styles = css`
     overflow: visible;
   }`
 
-export const object: ObjectRenderStrategy = (object, renderEditor, { selectEditor, remove }) => {
+export const object: ObjectRenderStrategy = (object, { selectEditor, remove }, renderEditor) => {
   function onEditorSelected(e: CustomEvent) {
     selectEditor(e.detail.editor)
   }

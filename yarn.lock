@@ -1749,6 +1749,13 @@
   dependencies:
     "@types/rdf-js" "^2.0.1"
 
+"@rdfjs/dataset@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@rdfjs/dataset/-/dataset-1.0.1.tgz#3dd1c378b568eaf55931195ca1c6a84cd34637eb"
+  integrity sha512-k/c6g4K881QX7LE3eskg6t1j31zDe+CKwTEiKkSCFk6M25gUJ/BReT/FrLdKmPjhXp+YOgHj97AtEphzTeKVeA==
+  dependencies:
+    "@rdfjs/data-model" "^1.1.1"
+
 "@rdfjs/namespace@^1.0.0", "@rdfjs/namespace@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rdfjs/namespace/-/namespace-1.1.0.tgz#869cb9a9f37c4ab4c0a03b603baeb0b95487609f"
@@ -2253,6 +2260,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/rdfjs__dataset@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/rdfjs__dataset/-/rdfjs__dataset-1.0.2.tgz#33b46c4a0da170e6337c2ca767fc67278d5093e1"
+  integrity sha512-FBWbKq5gJ4ZWUpsMPFWAW7eoGmttSK8QS/0agIkb7skDxRx343Jktbi+N0O5lAvW8ONQZVj7fLW0rWI4H1brTw==
+  dependencies:
+    "@types/rdf-js" "*"
+
 "@types/rdfjs__namespace@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/rdfjs__namespace/-/rdfjs__namespace-1.1.1.tgz#0f4b901fe3936d9b6e4d38560386d37ee1e6a6ad"
@@ -2539,11 +2553,6 @@
   integrity sha512-e81nbqY5zsaYhLJuOVkJkB/Um1pGK5POIqIlTNhUfjeoyGaJ63tiX8+D5n6F+GgVxUTLUarsKa6SKRcQel0AzA==
   dependencies:
     "@vaadin/vaadin-development-mode-detector" "^2.0.0"
-
-"@vanillawc/wc-codemirror@^1.7.2":
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/@vanillawc/wc-codemirror/-/wc-codemirror-1.7.2.tgz#2284be5fb64da353994cfd8a0d6f8cc1feffa6d6"
-  integrity sha512-ez7OSe22FiCeAqWQwRakYpZPfIZHkJtT7Rvzju8Jqq9/wuik1QsuFnr0bTxKK+0R+610RWxS3mRkdmQkdRzeQw==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"

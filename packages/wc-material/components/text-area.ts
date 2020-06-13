@@ -6,7 +6,7 @@ import { dash } from '@hydrofoil/shaperone-core'
 export const textArea: EditorFactory = {
   term: dash.TextAreaEditor,
 
-  render({ value, update }) {
+  render({ value }, { update }) {
     return html`
       <mwc-textarea
         .value="${value.object.value}"

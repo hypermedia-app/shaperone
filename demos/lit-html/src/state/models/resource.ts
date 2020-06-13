@@ -13,6 +13,9 @@ const triples = `@prefix schema: <http://schema.org/> .
 ex:John_Doe a schema:Person ;
   schema:name "John Doe" ;
   schema:knows ex:Jane_Doe .
+
+ex:Jane_Doe
+  schema:name "Janet" .
 `
 
 export interface State {

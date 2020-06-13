@@ -1,0 +1,13 @@
+{
+  "name": "@hydrofoil/shaperone-playground-examples",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hypermedia-app/shaperone",
+  "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@tpluscode/rdf-ns-builders": "^0.3.4",
+    "@hydrofoil/shaperone-wc": "0.0.0"
+  }
+}

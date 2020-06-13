@@ -6,8 +6,8 @@ import { EditorFactory } from '@hydrofoil/shaperone-wc/components'
 
 const componentModules: Record<string, Record<string, EditorFactory>> = {
   Native: nativeComponents,
-  Material: mwcComponents,
-  Vaadin: vaadinComponents,
+  Material: { ...nativeComponents, ...mwcComponents },
+  Vaadin: { ...nativeComponents, ...vaadinComponents },
 }
 export const components = createModel({
   state: {

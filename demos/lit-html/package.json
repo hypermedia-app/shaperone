@@ -16,6 +16,7 @@
     "@hydrofoil/shaperone-wc": "0.0.0",
     "@hydrofoil/shaperone-wc-material": "0.0.0",
     "@hydrofoil/shaperone-wc-vaadin": "0.0.0",
+    "@hydrofoil/shaperone-playground-examples": "0.0.0",
     "@rdf-esm/formats-common": "^0.5.2",
     "@tpluscode/rdf-ns-builders": "^0.3.4",
     "@tpluscode/rdf-string": "^0.2.15",

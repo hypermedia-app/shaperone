@@ -43,3 +43,15 @@ export const textArea = {
     return 0
   },
 }
+
+export const shape = {
+  term: sh.Shape,
+  label: 'Nested editor',
+  match(shape: PropertyShape) {
+    if (shape.get(sh.class)) {
+      return 20
+    }
+
+    return 0
+  },
+}

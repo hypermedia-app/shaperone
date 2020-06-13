@@ -1,5 +1,5 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
-import type { FocusNodeState, PropertyState } from '../state'
+import type { FocusNodeState, FormState, PropertyState } from '../state'
 import type { SafeClownface } from 'clownface'
 import { FocusNode } from '../index'
 import { shrink } from '@zazuko/rdf-vocabularies'
@@ -35,8 +35,9 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Editor
   }
 }
 
-export function initialiseFocusNode(params: { shape: NodeShape; editors: Editor[]; compoundEditors: CompoundEditor[]; focusNode: FocusNode }): FocusNodeState {
-  const { shape, focusNode, editors, compoundEditors } = params
+export function initialiseFocusNode(params: { shape: NodeShape; state: FormState; focusNode: FocusNode }): FocusNodeState {
+  const { shape, focusNode, state } = params
+  const { editorMap, compoundEditorMap } = state
   const groups = new Map()
 
   const properties = shape.property
@@ -46,8 +47,8 @@ export function initialiseFocusNode(params: { shape: NodeShape; editors: Editor[
 
     return [...map, initialisePropertyShape({
       shape: prop,
-      editors,
-      compoundEditors,
+      editors: [...editorMap.values()],
+      compoundEditors: [...compoundEditorMap.values()],
       values: focusNode.out(prop.path.id),
     })]
   }, [])

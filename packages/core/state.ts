@@ -1,6 +1,6 @@
 import { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
 import { config } from './state/config'
-import type { SingleContextClownface } from 'clownface'
+import type { Clownface, SingleContextClownface } from 'clownface'
 import { EditorMatch } from './lib/editorMatcher'
 import { NamedNode } from 'rdf-js'
 import { PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
@@ -33,8 +33,10 @@ export interface FocusNodeState {
 }
 
 export interface FormState {
+  shapesGraph: Clownface
   editorMap: EditorMap
   compoundEditorMap: EditorMap
   editors: Record<string, { loaded: boolean }>
   focusNodes: Record<string, FocusNodeState>
+  focusStack: FocusNode[]
 }

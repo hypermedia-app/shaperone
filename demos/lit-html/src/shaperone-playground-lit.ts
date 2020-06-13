@@ -6,7 +6,6 @@ import { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import './shaperone-turtle-editor'
 import type { ShaperoneTurtleEditor } from './shaperone-turtle-editor'
-import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
 import { store, State } from './state/store'
 import { connect } from '@captaincodeman/rdx'
 
@@ -23,11 +22,6 @@ const resourceMenu = [
     text: 'Update form',
   },
 ]
-
-ShaperoneForm.renderer.strategy = {
-  ...ShaperoneForm.renderer.strategy,
-  ...MaterialRenderStrategy,
-}
 
 @customElement('shaperone-playground-lit')
 export class ShaperonePlayground extends connect(store, LitElement) {
@@ -74,7 +68,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   components!: State['components']
 
   @property({ type: Object })
-  layout!: State['layout']
+  rendererMenu!: State['renderer']['menu']
 
   get formMenu() {
     return [
@@ -83,7 +77,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
         id: saveResource,
       },
       this.components,
-      this.layout,
+      this.rendererMenu,
     ]
   }
 
@@ -119,11 +113,19 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   }
 
   __formMenuSelected(e: CustomEvent) {
-    if (e.detail.value.type === 'components') {
-      store.dispatch.components.switchComponents({ name: e.detail.value.text })
-      this.form.store.dispatch.form.resetEditors()
-    } else if (e.detail.value.id === saveResource) {
-      store.dispatch.resource.serialize(this.form.value)
+    switch (e.detail.value.type) {
+      case 'components':
+        store.dispatch.components.switchComponents({ name: e.detail.value.text })
+        this.form.store.dispatch.form.resetEditors()
+        break
+      case 'layout':
+        break
+      case 'renderer':
+        store.dispatch.renderer.switchNesting({ name: e.detail.value.text })
+        break
+      default:
+        store.dispatch.resource.serialize(this.form.value)
+        break
     }
   }
 
@@ -138,10 +140,15 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   mapState(state: State) {
     ShaperoneForm.renderer.components.clear()
     ShaperoneForm.renderer.components.addModule(state.components.selected)
+    if (state.renderer.components) {
+      ShaperoneForm.renderer.components.addModule(state.renderer.components)
+    }
+
+    ShaperoneForm.renderer.strategy = state.renderer.strategy
 
     return {
       components: state.components,
-      layout: state.layout,
+      rendererMenu: state.renderer.menu,
       resource: state.resource,
       shape: state.shape,
     }

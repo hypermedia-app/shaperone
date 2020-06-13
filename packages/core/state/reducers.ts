@@ -1,4 +1,5 @@
 import type { FormState, PropertyObjectState } from '../state'
+import cf from 'clownface'
 import type { PropertyShape, Shape } from '@rdfine/shacl'
 import * as ns from '@tpluscode/rdf-ns-builders'
 import { FocusNode } from '../index'
@@ -6,6 +7,7 @@ import { initialiseFocusNode } from '../lib/stateBuilder'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, Term } from 'rdf-js'
 import { blankNode, literal } from '@rdf-esm/data-model'
+import RdfResource from '@tpluscode/rdfine/RdfResource'
 
 interface BaseParams {
   focusNode: FocusNode
@@ -225,6 +227,48 @@ export function resetEditors(state: FormState): FormState {
   }
 }
 
+export function pushFocusNode(state: FormState, { focusNode, property }: { focusNode: FocusNode; property: PropertyShape }): FormState {
+  const propertyTargetClass = property.get(sh.class)
+  if (!propertyTargetClass) {
+    return state
+  }
+
+  const shapePointer = state.shapesGraph.has(sh.targetClass, propertyTargetClass.id).toArray()
+  if (!shapePointer.length) {
+    return state
+  }
+
+  const shape = RdfResource.factory.createEntity<Shape>(shapePointer[0])
+
+  return {
+    ...state,
+    focusStack: [...state.focusStack, focusNode],
+    focusNodes: {
+      ...state.focusNodes,
+      [focusNode.value]: initialiseFocusNode({ focusNode, shape, state }),
+    },
+  }
+}
+
+export function truncateFocusNodes(state: FormState, { focusNode }: { focusNode: FocusNode }): FormState {
+  const topNodeIndex = state.focusStack.findIndex(fn => fn.term.equals(focusNode.term))
+  if (topNodeIndex < 0) {
+    return state
+  }
+
+  return {
+    ...state,
+    focusStack: state.focusStack.slice(0, topNodeIndex),
+  }
+}
+
+export function popFocusNode(state: FormState): FormState {
+  return {
+    ...state,
+    focusStack: state.focusStack.slice(0, -1),
+  }
+}
+
 export function initialize(state: FormState, params: { focusNode: FocusNode; shape: Shape }): FormState {
   const { focusNode, shape } = params
 
@@ -234,12 +278,12 @@ export function initialize(state: FormState, params: { focusNode: FocusNode; sha
 
   return {
     ...state,
+    shapesGraph: cf({ dataset: shape._selfGraph.dataset }),
+    focusStack: [focusNode],
     focusNodes: {
-      ...state.focusNodes,
       [focusNode.value]: initialiseFocusNode({
         shape,
-        editors: [...state.editorMap.values()],
-        compoundEditors: [...state.compoundEditorMap.values()],
+        state,
         focusNode,
       }),
     },
