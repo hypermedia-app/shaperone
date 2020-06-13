@@ -3,6 +3,7 @@ import { EditorFactory } from '@hydrofoil/shaperone-wc/components'
 import type { Renderer } from '@hydrofoil/shaperone-wc/renderer'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
+import * as AccordionRenderStrategy from '@hydrofoil/shaperone-wc-vaadin/renderer/accordion'
 import * as nestingComponents from '@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components'
 import * as nestingRenderer from '@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer'
 
@@ -47,7 +48,10 @@ const nestingMenu: Menu = {
 }
 
 function updateMenu(menu: Menu, type: Menu['type'], text: string): Menu {
-  const checked = menu.type === type && menu.text === text
+  let checked = menu.checked
+  if (menu.type === type) {
+    checked = menu.text === text
+  }
 
   return {
     ...menu,
@@ -70,7 +74,8 @@ export const renderer = createModel({
     switchNesting(state, { name }: { name :string }) {
       let components: Record<string, EditorFactory> | undefined
       const strategy = {
-        ...initialStrategy,
+        ...state.strategy,
+        form: initialStrategy.form,
       }
 
       if (name === 'Always one') {
@@ -83,6 +88,24 @@ export const renderer = createModel({
         strategy,
         components,
         menu: updateMenu(state.menu, 'renderer', name),
+      }
+    },
+    switchLayout(state, { text }: Menu) {
+      const strategy = {
+        ...state.strategy,
+        focusNode: initialStrategy.focusNode,
+        group: initialStrategy.group,
+      }
+
+      if (text === 'Vaadin accordion') {
+        strategy.group = AccordionRenderStrategy.AccordionGroupingRenderer
+        strategy.focusNode = AccordionRenderStrategy.AccordionFocusNodeRenderer
+      }
+
+      return {
+        ...state,
+        strategy,
+        menu: updateMenu(state.menu, 'layout', text),
       }
     },
   },

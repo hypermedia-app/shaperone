@@ -19,12 +19,26 @@ ex:PersonShape
     sh:name "Name" ;
     sh:datatype xsd:string ;
     sh:maxCount 1 ;
-    sh:minCount 1
+    sh:minCount 1 ;
+    sh:order 1
   ] ;
   sh:property [
     sh:path schema:knows ;
     sh:class schema:Person ;
-] .`
+    sh:group ex:FriendGroup
+  ] ;
+  sh:property [
+    sh:path schema:age ;
+    sh:name "Age" ;
+    sh:datatype xsd:integer ;
+    sh:order 2
+  ]
+.
+
+ex:FriendGroup
+  a sh:PropertyGroup ;
+  sh:name "Acquaintances"
+.`
 
 export interface State {
   triples: string

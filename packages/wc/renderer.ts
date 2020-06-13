@@ -1,10 +1,12 @@
-import type { FormState, Dispatch } from '@hydrofoil/shaperone-core/state'
+import type { FormState, Dispatch, PropertyState } from '@hydrofoil/shaperone-core/state'
 import { html, TemplateResult } from 'lit-element'
 import type { CSSResult, CSSResultArray } from 'lit-element'
 import * as strategy from './lib/renderer'
 import { EditorMap } from './EditorMap'
 import { NamedNode, Term } from 'rdf-js'
 import { dash, FocusNode } from '@hydrofoil/shaperone-core'
+import { repeat } from 'lit-html/directives/repeat'
+import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
 
 interface RenderParams {
   state: FormState
@@ -54,8 +56,8 @@ export const DefaultRenderer: Renderer = {
     return this.strategy.form(state, formRenderActions, (focusNodeState) => {
       const { focusNode } = focusNodeState
 
-      return this.strategy.focusNode(focusNodeState, formRenderActions, (group, properties) => {
-        return this.strategy.group(group, properties, property => {
+      return this.strategy.focusNode(focusNodeState, formRenderActions, () => {
+        const renderProperty = (property: PropertyState) => {
           const propertyRenderActions = {
             addObject: () => actions.addObject({ focusNode, property: property.shape }),
           }
@@ -117,7 +119,12 @@ export const DefaultRenderer: Renderer = {
               )
             })
           })
-        })
+        }
+
+        return html`${repeat(focusNodeState.groups, group => {
+          const properties = focusNodeState.properties.filter(byGroup(group))
+          return this.strategy.group(group, properties, renderProperty)
+        })}`
       })
     })
   },

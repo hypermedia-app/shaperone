@@ -5,7 +5,6 @@ import type { NamedNode } from 'rdf-js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { repeat } from 'lit-html/directives/repeat'
 import type { PropertyGroup } from '@rdfine/shacl'
-import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
 import { FocusNode } from '../../core/index'
 
 export interface RenderStrategy {
@@ -23,7 +22,7 @@ export interface FormRenderStrategy extends RenderStrategy {
 }
 
 export interface FocusNodeRenderStrategy extends RenderStrategy {
-  (formState: FocusNodeState, actions: FormRenderActions, renderGroup: (group: PropertyGroup | undefined, properties: PropertyState[]) => TemplateResult): TemplateResult
+  (focusNode: FocusNodeState, actions: FormRenderActions, renderGroups: () => TemplateResult): TemplateResult
 }
 
 export interface GroupRenderStrategy extends RenderStrategy {
@@ -66,12 +65,12 @@ export const defaultFormRenderer: FormRenderStrategy = (state, actions, renderFo
   return renderFocusNode(focusNodeState)
 }
 
-export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = (focusNode, actions, renderGroup) => {
+export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = (focusNode, actions, renderGroups) => {
   return html`<form>
     <div class="fieldset">
         <legend>${focusNode.shape.getString(sh.name)}</legend>
 
-        ${repeat(focusNode.groups, group => renderGroup(group, focusNode.properties.filter(byGroup(group))))}
+        ${renderGroups()}
     </div>
 </form>`
 }

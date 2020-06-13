@@ -119,6 +119,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
         this.form.store.dispatch.form.resetEditors()
         break
       case 'layout':
+        store.dispatch.renderer.switchLayout(e.detail.value)
         break
       case 'renderer':
         store.dispatch.renderer.switchNesting({ name: e.detail.value.text })
@@ -145,6 +146,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
     }
 
     ShaperoneForm.renderer.strategy = state.renderer.strategy
+    ShaperoneForm.renderer.ready = false
 
     return {
       components: state.components,

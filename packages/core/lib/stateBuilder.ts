@@ -1,4 +1,4 @@
-import { NodeShape, PropertyShape } from '@rdfine/shacl'
+import { NodeShape, PropertyGroup, PropertyShape } from '@rdfine/shacl'
 import type { FocusNodeState, FormState, PropertyState } from '../state'
 import type { SafeClownface } from 'clownface'
 import { FocusNode } from '../index'
@@ -38,12 +38,15 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Editor
 export function initialiseFocusNode(params: { shape: NodeShape; state: FormState; focusNode: FocusNode }): FocusNodeState {
   const { shape, focusNode, state } = params
   const { editorMap, compoundEditorMap } = state
-  const groups = new Map()
+  const groups = new Map<string, { group: PropertyGroup; order: number }>()
 
   const properties = shape.property
     .sort(byShOrder)
     .reduce<Array<PropertyState>>((map, prop) => {
-    groups.set(prop.group?.id?.value, prop.group)
+    groups.set(prop.group?.id?.value, {
+      group: prop.group,
+      order: prop.group ? prop.group.getNumber(sh.order) || 0 : -1,
+    })
 
     return [...map, initialisePropertyShape({
       shape: prop,
@@ -56,7 +59,7 @@ export function initialiseFocusNode(params: { shape: NodeShape; state: FormState
   return {
     shape,
     focusNode,
-    groups: [...groups.values()].sort(byShOrder),
-    properties,
+    groups: [...groups.values()].sort((l, r) => l.order - r.order).map(g => g.group),
+    properties: properties.sort((l, r) => byShOrder(l.shape, r.shape)),
   }
 }
