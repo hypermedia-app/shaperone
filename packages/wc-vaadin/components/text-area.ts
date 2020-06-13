@@ -6,7 +6,7 @@ import { dash } from '@hydrofoil/shaperone-core'
 export const textArea: EditorFactory = {
   term: dash.TextAreaEditor,
 
-  render({ value, update }) {
+  render({ value }, { update }) {
     return html`
       <vaadin-text-area
         .value="${value.object.value}"

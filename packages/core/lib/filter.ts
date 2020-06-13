@@ -1,7 +1,7 @@
 import { PropertyGroup } from '@rdfine/shacl'
 import { PropertyState } from '../state'
 
-export function byGroup(group: PropertyGroup) {
+export function byGroup(group: PropertyGroup | undefined) {
   return (property: PropertyState) => {
     if (!group && !property.shape.group) {
       return true

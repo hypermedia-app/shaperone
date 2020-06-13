@@ -1,11 +1,17 @@
 import { html } from 'lit-element'
 import type { TemplateResult, CSSResult, CSSResultArray } from 'lit-element'
-import type { FocusNodeState, FormState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/state'
+import type {
+  FocusNodeState,
+  FormState,
+  PropertyGroupState,
+  PropertyObjectState,
+  PropertyState,
+} from '@hydrofoil/shaperone-core/state'
 import type { NamedNode } from 'rdf-js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { repeat } from 'lit-html/directives/repeat'
 import type { PropertyGroup } from '@rdfine/shacl'
-import { FocusNode } from '../../core/index'
+import type { FocusNode } from '@hydrofoil/shaperone-core'
 
 export interface RenderStrategy {
   styles?: CSSResult | CSSResultArray
@@ -21,12 +27,25 @@ export interface FormRenderStrategy extends RenderStrategy {
   (formState: FormState, actions: FormRenderActions, renderFocusNode: (focusNode: FocusNodeState) => TemplateResult): TemplateResult
 }
 
+interface FocusNodeRenderActions extends FormRenderActions {
+  selectGroup(group: PropertyGroup | undefined): void
+}
+
 export interface FocusNodeRenderStrategy extends RenderStrategy {
-  (focusNode: FocusNodeState, actions: FormRenderActions, renderGroups: () => TemplateResult): TemplateResult
+  (focusNode: FocusNodeState, actions: FocusNodeRenderActions, renderGroup: (group: PropertyGroupState) => TemplateResult): TemplateResult
+}
+
+interface GroupRenderParams {
+  group: PropertyGroupState
+  properties: PropertyState[]
+  actions: {
+    selectGroup(): void
+  }
+  renderProperty(property: PropertyState): TemplateResult
 }
 
 export interface GroupRenderStrategy extends RenderStrategy {
-  (group: PropertyGroup | undefined, properties: PropertyState[], renderProperty: (property: PropertyState) => TemplateResult): TemplateResult
+  (params: GroupRenderParams): TemplateResult
 }
 
 interface PropertyRenderActions {
@@ -65,18 +84,18 @@ export const defaultFormRenderer: FormRenderStrategy = (state, actions, renderFo
   return renderFocusNode(focusNodeState)
 }
 
-export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = (focusNode, actions, renderGroups) => {
+export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = (focusNode, actions, renderGroup) => {
   return html`<form>
     <div class="fieldset">
         <legend>${focusNode.shape.getString(sh.name)}</legend>
 
-        ${renderGroups()}
+        ${repeat(focusNode.groups, renderGroup)}
     </div>
 </form>`
 }
 
-export const defaultGroupRenderer: GroupRenderStrategy = (group, properties, render) => {
-  return html`${repeat(properties, render)}`
+export const defaultGroupRenderer: GroupRenderStrategy = ({ properties, renderProperty }) => {
+  return html`${repeat(properties, renderProperty)}`
 }
 
 export const defaultPropertyRenderer: PropertyRenderStrategy = (property, actions, renderObject) => {

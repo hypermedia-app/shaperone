@@ -24,16 +24,21 @@ export interface PropertyState {
   objects: PropertyObjectState[]
   maxReached: boolean
 }
+export interface PropertyGroupState {
+  group: PropertyGroup | undefined
+  order: number
+  selected: boolean
+}
 
 export interface FocusNodeState {
   focusNode: FocusNode
   shape: Shape
   properties: PropertyState[]
-  groups: PropertyGroup[]
+  groups: PropertyGroupState[]
 }
 
 export interface FormState {
-  shapesGraph: Clownface
+  shapesGraph?: Clownface
   editorMap: EditorMap
   compoundEditorMap: EditorMap
   editors: Record<string, { loaded: boolean }>

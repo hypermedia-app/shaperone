@@ -4,6 +4,7 @@ import type { Renderer } from '@hydrofoil/shaperone-wc/renderer'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
 import * as AccordionRenderStrategy from '@hydrofoil/shaperone-wc-vaadin/renderer/accordion'
+import * as MaterialTabsRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer/tabs'
 import * as nestingComponents from '@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components'
 import * as nestingRenderer from '@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer'
 
@@ -100,6 +101,9 @@ export const renderer = createModel({
       if (text === 'Vaadin accordion') {
         strategy.group = AccordionRenderStrategy.AccordionGroupingRenderer
         strategy.focusNode = AccordionRenderStrategy.AccordionFocusNodeRenderer
+      } else if (text === 'Material tabs') {
+        strategy.group = MaterialTabsRenderStrategy.TabsGroupRenderer
+        strategy.focusNode = MaterialTabsRenderStrategy.TabsFocusNodeRenderer
       }
 
       return {

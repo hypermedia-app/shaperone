@@ -1,6 +1,6 @@
 import type { FormState, PropertyObjectState } from '../state'
 import cf from 'clownface'
-import type { PropertyShape, Shape } from '@rdfine/shacl'
+import type { PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import * as ns from '@tpluscode/rdf-ns-builders'
 import { FocusNode } from '../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
@@ -233,7 +233,7 @@ export function pushFocusNode(state: FormState, { focusNode, property }: { focus
     return state
   }
 
-  const shapePointer = state.shapesGraph.has(sh.targetClass, propertyTargetClass.id).toArray()
+  const shapePointer = state.shapesGraph!.has(sh.targetClass, propertyTargetClass.id).toArray()
   if (!shapePointer.length) {
     return state
   }
@@ -269,7 +269,36 @@ export function popFocusNode(state: FormState): FormState {
   }
 }
 
+export function selectGroup(state: FormState, { group, focusNode }: { focusNode: FocusNode; group?: PropertyGroup }): FormState {
+  const groups = state.focusNodes[focusNode.value].groups.map(g => {
+    let selected = false
+    if (!group && !g.group) {
+      selected = true
+    } else {
+      selected = group?.id.equals(g.group?.id) || false
+    }
+
+    return {
+      ...g,
+      selected,
+    }
+  })
+
+  return {
+    ...state,
+    focusNodes: {
+      ...state.focusNodes,
+      [focusNode.value]: {
+        ...state.focusNodes[focusNode.value],
+        groups,
+      },
+    },
+  }
+}
+
 export function initialize(state: FormState, params: { focusNode: FocusNode; shape: Shape }): FormState {
+  if (state.shapesGraph) return { ...state }
+
   const { focusNode, shape } = params
 
   if (shape.targetClass) {

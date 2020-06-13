@@ -1,6 +1,4 @@
 import { createModel } from '@captaincodeman/rdx'
-import $rdf from '@rdfjs/dataset'
-import cf from 'clownface'
 import * as DashEditors from '../DashEditors'
 import * as reducers from './reducers'
 import { FormState, Store } from '../state'
@@ -14,7 +12,6 @@ export const form = createModel({
     editors: {},
     focusNodes: {},
     focusStack: [],
-    shapesGraph: cf({ dataset: $rdf.dataset() }),
   },
   reducers,
   effects: (store: Store) => effects(store.dispatch()),

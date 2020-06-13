@@ -146,7 +146,11 @@ export class ShaperonePlayground extends connect(store, LitElement) {
     }
 
     ShaperoneForm.renderer.strategy = state.renderer.strategy
-    ShaperoneForm.renderer.ready = false
+    Object.values(ShaperoneForm.renderer.strategy).forEach(strat => {
+      if (strat.loadDependencies) strat.loadDependencies()
+    })
+
+    if (this.form?.requestUpdate) this.form.requestUpdate()
 
     return {
       components: state.components,

@@ -12,7 +12,6 @@
     "@rdf-esm/data-model": "^0.5.1",
     "@rdfine/shacl": "^0.1.4",
     "@rdfjs/namespace": "^1.1.0",
-    "@rdfjs/dataset": "^1.0.1",
     "@rdfjs/term-map": "^1",
     "@tpluscode/rdf-ns-builders": "^0.3.4",
     "@tpluscode/rdfine": "^0.4.15",

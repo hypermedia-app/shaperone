@@ -5,8 +5,8 @@ import * as strategy from './lib/renderer'
 import { EditorMap } from './EditorMap'
 import { NamedNode, Term } from 'rdf-js'
 import { dash, FocusNode } from '@hydrofoil/shaperone-core'
-import { repeat } from 'lit-html/directives/repeat'
 import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
+import { PropertyGroup } from '@rdfine/shacl'
 
 interface RenderParams {
   state: FormState
@@ -55,8 +55,17 @@ export const DefaultRenderer: Renderer = {
 
     return this.strategy.form(state, formRenderActions, (focusNodeState) => {
       const { focusNode } = focusNodeState
+      const focusNodeActions = {
+        ...formRenderActions,
+        selectGroup: (group: PropertyGroup | undefined) => actions.selectGroup({ focusNode, group }),
+      }
 
-      return this.strategy.focusNode(focusNodeState, formRenderActions, () => {
+      return this.strategy.focusNode(focusNodeState, focusNodeActions, (groupState) => {
+        const properties = focusNodeState.properties.filter(byGroup(groupState?.group))
+        const groupRenderActions = {
+          selectGroup: () => actions.selectGroup({ focusNode, group: groupState?.group }),
+        }
+
         const renderProperty = (property: PropertyState) => {
           const propertyRenderActions = {
             addObject: () => actions.addObject({ focusNode, property: property.shape }),
@@ -121,10 +130,12 @@ export const DefaultRenderer: Renderer = {
           })
         }
 
-        return html`${repeat(focusNodeState.groups, group => {
-          const properties = focusNodeState.properties.filter(byGroup(group))
-          return this.strategy.group(group, properties, renderProperty)
-        })}`
+        return this.strategy.group({
+          group: groupState,
+          properties,
+          actions: groupRenderActions,
+          renderProperty,
+        })
       })
     })
   },
