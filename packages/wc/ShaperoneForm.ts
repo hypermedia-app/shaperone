@@ -1,4 +1,4 @@
-import { LitElement, customElement, property, css } from 'lit-element'
+import { LitElement, customElement, property, css, html } from 'lit-element'
 import type { SingleContextClownface } from 'clownface'
 import { BlankNode, NamedNode, DatasetCore } from 'rdf-js'
 import { Shape } from '@rdfine/shacl'
@@ -14,7 +14,7 @@ export class ShaperoneForm extends connectEx(initialState, LitElement) {
     return [css`
       :host {
         display: block
-      }`, this.renderer.styles]
+      }`]
   }
 
   static renderer: Renderer = DefaultRenderer
@@ -63,10 +63,10 @@ export class ShaperoneForm extends connectEx(initialState, LitElement) {
       return ShaperoneForm.renderer.strategy.initialising()
     }
 
-    return ShaperoneForm.renderer.render({
+    return html`<style>${ShaperoneForm.renderer.styles}</style> ${ShaperoneForm.renderer.render({
       state: this.formState,
       actions: this.store.dispatch.form,
-    })
+    })}`
   }
 
   __initialize() {

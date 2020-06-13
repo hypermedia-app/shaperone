@@ -1,2 +1,2 @@
 export { ShaperoneForm } from './ShaperoneForm'
-export { html } from 'lit-element'
+export { html, css } from 'lit-element'
