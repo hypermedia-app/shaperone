@@ -14,10 +14,3 @@ jobs:
           node-version: 13
       - run: yarn install --ci
       - run: yarn build
-      - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-          target_branch: gh-pages
-          build_dir: docs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
