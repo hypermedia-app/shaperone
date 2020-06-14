@@ -1978,14 +1978,7 @@
   resolved "https://registry.yarnpkg.com/@tpluscode/eslint-config/-/eslint-config-0.1.0.tgz#c768e289229ae512e6b897ed5b1e6613717ca21f"
   integrity sha512-y5CgQPRVpNLTRo+KmQ7IBD48W/W+xugwHdPzV8mZk7zAQMZTywsatkMfzRBHIXxWIu6G0uAsIyQmzw9zPy6GrA==
 
-"@tpluscode/rdf-ns-builders@^0.3", "@tpluscode/rdf-ns-builders@^0.3.2":
-  version "0.3.3"
-  resolved "file:../../tpluscode/rdf-namespace-builders/tpluscode-rdf-ns-builders-0.3.3.tgz#caa3b2a3b787b0514b53491712b45ef2e57b87e7"
-  dependencies:
-    "@rdfjs/namespace" "^1.1.0"
-    esm "^3.2.25"
-
-"@tpluscode/rdf-ns-builders@^0.3.4":
+"@tpluscode/rdf-ns-builders@^0.3", "@tpluscode/rdf-ns-builders@^0.3.2", "@tpluscode/rdf-ns-builders@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@tpluscode/rdf-ns-builders/-/rdf-ns-builders-0.3.4.tgz#e4abe9184cc75f42d9595a1dc11620141cf85dce"
   integrity sha512-oAVPVKqzk1YDATREDSmCFefJBi/KQyN0nMMpzXHVGdC73NbuelvZqqukX4zRxt/OJwYJVXZuePmCunszD7GRZA==
