@@ -1847,13 +1847,6 @@
   dependencies:
     "@types/rdf-js" "^2.0.1"
 
-"@rdfjs/dataset@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@rdfjs/dataset/-/dataset-1.0.1.tgz#3dd1c378b568eaf55931195ca1c6a84cd34637eb"
-  integrity sha512-k/c6g4K881QX7LE3eskg6t1j31zDe+CKwTEiKkSCFk6M25gUJ/BReT/FrLdKmPjhXp+YOgHj97AtEphzTeKVeA==
-  dependencies:
-    "@rdfjs/data-model" "^1.1.1"
-
 "@rdfjs/namespace@^1.0.0", "@rdfjs/namespace@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rdfjs/namespace/-/namespace-1.1.0.tgz#869cb9a9f37c4ab4c0a03b603baeb0b95487609f"
