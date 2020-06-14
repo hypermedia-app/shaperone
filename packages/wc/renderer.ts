@@ -1,4 +1,11 @@
-import type { FormState, Dispatch, PropertyState } from '@hydrofoil/shaperone-core/state'
+import type {
+  FormState,
+  Dispatch,
+  PropertyState,
+  FocusNodeState,
+  PropertyGroupState,
+  PropertyObjectState,
+} from '@hydrofoil/shaperone-core/state'
 import { html, TemplateResult } from 'lit-element'
 import type { CSSResult, CSSResultArray } from 'lit-element'
 import * as strategy from './lib/renderer'
@@ -53,14 +60,14 @@ export const DefaultRenderer: Renderer = {
       popFocusNode: () => actions.popFocusNode(),
     }
 
-    return this.strategy.form(state, formRenderActions, (focusNodeState) => {
+    const renderFocusNode = (focusNodeState: FocusNodeState) => {
       const { focusNode } = focusNodeState
       const focusNodeActions = {
         ...formRenderActions,
         selectGroup: (group: PropertyGroup | undefined) => actions.selectGroup({ focusNode, group }),
       }
 
-      return this.strategy.focusNode(focusNodeState, focusNodeActions, (groupState) => {
+      const renderGroup = (groupState: PropertyGroupState) => {
         const properties = focusNodeState.properties.filter(byGroup(groupState?.group))
         const groupRenderActions = {
           selectGroup: () => actions.selectGroup({ focusNode, group: groupState?.group }),
@@ -71,7 +78,7 @@ export const DefaultRenderer: Renderer = {
             addObject: () => actions.addObject({ focusNode, property: property.shape }),
           }
 
-          return this.strategy.property(property, propertyRenderActions, value => {
+          const renderObject = (value: PropertyObjectState) => {
             const objectRenderActions = {
               selectEditor(editor: NamedNode): void {
                 actions.selectEditor({
@@ -86,7 +93,7 @@ export const DefaultRenderer: Renderer = {
               },
             }
 
-            return this.strategy.object(value, objectRenderActions, () => {
+            const renderEditor = () => {
               function update(newValue: Term) {
                 actions.updateObject({
                   focusNode,
@@ -126,7 +133,19 @@ export const DefaultRenderer: Renderer = {
                 { property, value },
                 { update, pushFocusNode },
               )
+            }
+
+            return this.strategy.object({
+              object: value,
+              actions: objectRenderActions,
+              renderEditor,
             })
+          }
+
+          return this.strategy.property({
+            property,
+            actions: propertyRenderActions,
+            renderObject,
           })
         }
 
@@ -136,7 +155,19 @@ export const DefaultRenderer: Renderer = {
           actions: groupRenderActions,
           renderProperty,
         })
+      }
+
+      return this.strategy.focusNode({
+        focusNode: focusNodeState,
+        actions: focusNodeActions,
+        renderGroup,
       })
+    }
+
+    return this.strategy.form({
+      form: state,
+      actions: formRenderActions,
+      renderFocusNode,
     })
   },
 

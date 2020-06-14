@@ -5,7 +5,7 @@ import { repeat } from 'lit-html/directives/repeat'
 import { styleMap } from 'lit-html/directives/style-map'
 import { PropertyGroupState } from '@hydrofoil/shaperone-core/state'
 
-export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = (focusNode, actions, renderGroup) => {
+export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, actions, renderGroup }) => {
   function renderTab(group: PropertyGroupState) {
     const header = group.group?.getString(sh.name) || 'Ungrouped properties'
 

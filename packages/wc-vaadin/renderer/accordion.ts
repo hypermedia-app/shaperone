@@ -3,7 +3,7 @@ import { html } from '@hydrofoil/shaperone-wc'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { repeat } from 'lit-html/directives/repeat'
 
-export const AccordionFocusNodeRenderer: FocusNodeRenderStrategy = (focusNode, actions, renderGroup) => {
+export const AccordionFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, actions, renderGroup }) => {
   function selectGroup(e: CustomEvent) {
     actions.selectGroup(focusNode.groups[e.detail.value]?.group)
   }
