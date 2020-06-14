@@ -1,4 +1,4 @@
-import {css, customElement, html, LitElement, property, query} from 'lit-element'
+import { css, customElement, html, LitElement, property, query } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
 import type { EditorMatch } from '@hydrofoil/shaperone-core/lib/editorMatcher'
 import type { Menu } from '@material/mwc-menu/mwc-menu'

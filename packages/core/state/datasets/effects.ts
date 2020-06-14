@@ -31,21 +31,6 @@ export function effects(store: Store) {
         shape = shapeOrPointer
       }
 
-      await new Promise(resolve => {
-        try {
-          // eslint-disable-next-line no-new
-          new EventTarget()
-        } catch {
-          const script = document.createElement('script')
-          script.setAttribute('src', 'https://unpkg.com/@ungap/event-target@0.1.0/min.js')
-          script.onload = resolve
-          document.head.appendChild(script)
-          return
-        }
-
-        resolve()
-      })
-
       if (shape._selfGraph.dataset !== store.getState().datasets.shape) {
         dispatch.datasets.replaceShape(shape)
 
