@@ -16,7 +16,7 @@ module.exports = merge(
   }),
   {
     output: {
-      path: path.resolve(__dirname, '../../docs/lit-html'),
+      path: path.resolve(__dirname, '../../playground'),
     },
     resolve: {
       extensions: ['.ts', '.js', '.json'],
