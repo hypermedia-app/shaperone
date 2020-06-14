@@ -6,5 +6,5 @@ coverage/
 !**/test/**/*.js
 *.d.ts
 *.d.ts.map
-!docs/**
+docs/
 !types/**/*.d.ts

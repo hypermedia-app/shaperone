@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 13
       - run: yarn install --ci
-      - run: yarn workspaces run build
+      - run: yarn build
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
