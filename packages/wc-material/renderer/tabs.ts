@@ -13,8 +13,8 @@ export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = (focusNode, action
   }
 
   return html`
-    ${focusNode.shape.getString(sh.name)}
-    <mwc-tab-bar>
+    ${focusNode.shape?.getString(sh.name)}
+    <mwc-tab-bar .activeIndex="${focusNode.groups.findIndex(g => g.selected)}">
         ${repeat(focusNode.groups, renderTab)}
     </mwc-tab-bar>
     ${repeat(focusNode.groups, renderGroup)}`

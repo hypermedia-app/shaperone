@@ -3,7 +3,7 @@ import type { FocusNodeState, FormState, PropertyGroupState, PropertyState } fro
 import type { SafeClownface } from 'clownface'
 import { FocusNode } from '../index'
 import { shrink } from '@zazuko/rdf-vocabularies'
-import { sh } from '@tpluscode/rdf-ns-builders'
+import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import { byShOrder } from './order'
 import type { CompoundEditor, Editor } from '../EditorMap'
 
@@ -35,10 +35,22 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Editor
   }
 }
 
-export function initialiseFocusNode(params: { shape: NodeShape; state: FormState; focusNode: FocusNode }): FocusNodeState {
-  const { shape, focusNode, state } = params
+export function initialiseFocusNode(params: { shape?: NodeShape; state: FormState; focusNode: FocusNode; selectedGroup?: string }): FocusNodeState {
+  const { shape, focusNode, state, selectedGroup } = params
   const { editorMap, compoundEditorMap } = state
   const groupMap = new Map<string, PropertyGroupState>()
+
+  if (!shape) {
+    return {
+      focusNode,
+      groups: [],
+      properties: [],
+    }
+  }
+
+  if (shape.targetClass) {
+    focusNode.addOut(rdf.type, shape.targetClass.id)
+  }
 
   const properties = shape.property
     .sort(byShOrder)
@@ -46,7 +58,7 @@ export function initialiseFocusNode(params: { shape: NodeShape; state: FormState
     groupMap.set(prop.group?.id?.value, {
       group: prop.group,
       order: prop.group ? prop.group.getNumber(sh.order) || 0 : -1,
-      selected: false,
+      selected: prop.group?.id?.value === selectedGroup,
     })
 
     return [...map, initialisePropertyShape({

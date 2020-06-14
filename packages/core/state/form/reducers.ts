@@ -1,9 +1,7 @@
-import type { FormState, PropertyObjectState } from '../state'
-import cf from 'clownface'
+import type { FocusNodeState, FormState, PropertyObjectState } from '../../state'
 import type { PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
-import * as ns from '@tpluscode/rdf-ns-builders'
-import { FocusNode } from '../index'
-import { initialiseFocusNode } from '../lib/stateBuilder'
+import { FocusNode } from '../../index'
+import { initialiseFocusNode } from '../../lib/stateBuilder'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, Term } from 'rdf-js'
 import { blankNode, literal } from '@rdf-esm/data-model'
@@ -233,7 +231,7 @@ export function pushFocusNode(state: FormState, { focusNode, property }: { focus
     return state
   }
 
-  const shapePointer = state.shapesGraph!.has(sh.targetClass, propertyTargetClass.id).toArray()
+  const shapePointer = state.rootShape!._selfGraph.has(sh.targetClass, propertyTargetClass.id).toArray()
   if (!shapePointer.length) {
     return state
   }
@@ -296,18 +294,14 @@ export function selectGroup(state: FormState, { group, focusNode }: { focusNode:
   }
 }
 
-export function initialize(state: FormState, params: { focusNode: FocusNode; shape: Shape }): FormState {
-  if (state.shapesGraph) return { ...state }
+export function initialize(state: FormState, params: { focusNode: FocusNode; rootShape?: Shape }): FormState {
+  const shape = state.rootShape || params.rootShape
 
-  const { focusNode, shape } = params
-
-  if (shape.targetClass) {
-    focusNode.addOut(ns.rdf.type, shape.targetClass.id)
-  }
+  const { focusNode } = params
 
   return {
     ...state,
-    shapesGraph: cf({ dataset: shape._selfGraph.dataset }),
+    rootShape: shape,
     focusStack: [focusNode],
     focusNodes: {
       [focusNode.value]: initialiseFocusNode({
@@ -316,5 +310,27 @@ export function initialize(state: FormState, params: { focusNode: FocusNode; sha
         focusNode,
       }),
     },
+  }
+}
+
+export function recalculateFocusNodes(state: FormState, shape: Shape): FormState {
+  const focusNodes = Object.values(state.focusNodes).reduce<Record<string, FocusNodeState>>((obj, focusNode) => {
+    const selectedGroup = focusNode.groups.find(g => g.selected)?.group?.id.value
+
+    return {
+      ...obj,
+      [focusNode.focusNode.value]: initialiseFocusNode({
+        shape,
+        state,
+        focusNode: focusNode.focusNode,
+        selectedGroup,
+      }),
+    }
+  }, {})
+
+  return {
+    ...state,
+    rootShape: shape,
+    focusNodes,
   }
 }

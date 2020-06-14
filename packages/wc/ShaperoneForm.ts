@@ -31,7 +31,7 @@ export class ShaperoneForm extends connectEx(initialState, LitElement) {
 
   set resource(value: FocusNode) {
     this.__resource = value
-    this.__initialize()
+    this.store.dispatch.datasets.updateResource(value)
   }
 
   get value(): DatasetCore {
@@ -47,7 +47,7 @@ export class ShaperoneForm extends connectEx(initialState, LitElement) {
 
   set shape(shape: SingleContextClownface<NamedNode | BlankNode> | Shape) {
     this.__shape = shape
-    this.__initialize()
+    this.store.dispatch.datasets.updateShape(shape)
   }
 
   mapState(state: any) {
@@ -67,14 +67,5 @@ export class ShaperoneForm extends connectEx(initialState, LitElement) {
       state: this.formState,
       actions: this.store.dispatch.form,
     })}`
-  }
-
-  __initialize() {
-    if (!this.shape || !this.resource) return
-
-    this.store.dispatch.form.initAsync({
-      shape: this.shape,
-      focusNode: this.resource,
-    })
   }
 }
