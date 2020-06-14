@@ -19,6 +19,7 @@
     "clownface": "^0.12.4"
   },
   "devDependencies": {
+    "@rdfjs/data-model": "^1.1.2",
     "@rdfjs/namespace": "^1.1.0",
     "@types/chai": "^4.2.11",
     "@types/clownface": "^0.12.14",

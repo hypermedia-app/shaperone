@@ -1,4 +1,4 @@
-import namespace from '@rdfjs/namespace'
+// import namespace from '@rdfjs/namespace'
 import { describe } from 'mocha'
 
 describe('@hydrofoil/shaperone', () => {

@@ -14,3 +14,4 @@ jobs:
           node-version: 13
       - run: yarn install --ci
       - run: yarn build
+      - run: yarn lint
