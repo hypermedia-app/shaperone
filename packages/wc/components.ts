@@ -1,7 +1,7 @@
 import { NamedNode, Term } from 'rdf-js'
 import { html, TemplateResult } from 'lit-element'
 import { dash } from '@hydrofoil/shaperone-core'
-import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/state'
+import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/state'
 import { literal } from '@rdf-esm/data-model'
 
 export interface EditorFactoryParams {
