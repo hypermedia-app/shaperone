@@ -8,7 +8,6 @@ import type {
   PropertyState,
 } from '@hydrofoil/shaperone-core/state'
 import type { NamedNode } from 'rdf-js'
-import { sh } from '@tpluscode/rdf-ns-builders'
 import { repeat } from 'lit-html/directives/repeat'
 import type { PropertyGroup } from '@rdfine/shacl'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
@@ -111,7 +110,7 @@ export const defaultFormRenderer: FormRenderStrategy = ({ form, renderFocusNode 
 export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, renderGroup }) => {
   return html`<form>
     <div class="fieldset">
-        <legend>${focusNode.shape?.getString(sh.name)}</legend>
+        <legend>${focusNode.shape?.label}</legend>
 
         ${repeat(focusNode.groups, renderGroup)}
     </div>

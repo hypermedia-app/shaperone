@@ -1,19 +1,18 @@
 import type { FocusNodeRenderStrategy, GroupRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
 import { html } from '@hydrofoil/shaperone-wc'
-import { sh } from '@tpluscode/rdf-ns-builders'
 import { repeat } from 'lit-html/directives/repeat'
 import { styleMap } from 'lit-html/directives/style-map'
 import { PropertyGroupState } from '@hydrofoil/shaperone-core/state'
 
 export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, actions, renderGroup }) => {
   function renderTab(group: PropertyGroupState) {
-    const header = group.group?.getString(sh.name) || 'Ungrouped properties'
+    const header = group.group?.label || 'Ungrouped properties'
 
     return html`<mwc-tab label="${header}" @MDCTab:interacted="${() => actions.selectGroup(group.group)}"></mwc-tab>`
   }
 
   return html`
-    ${focusNode.shape?.getString(sh.name)}
+    ${focusNode.shape?.label}
     <mwc-tab-bar .activeIndex="${focusNode.groups.findIndex(g => g.selected)}">
         ${repeat(focusNode.groups, renderTab)}
     </mwc-tab-bar>

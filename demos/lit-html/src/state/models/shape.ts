@@ -3,41 +3,40 @@ import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import cf, { SingleContextClownface } from 'clownface'
-import { rdf, sh } from '@tpluscode/rdf-ns-builders'
+import { rdf, sh, schema, xsd, rdfs } from '@tpluscode/rdf-ns-builders'
 import { Store } from '../store'
+import { turtle } from '@tpluscode/rdf-string'
 
-const triples = `@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix ex: <http://example.com/> .
-@prefix schema: <http://schema.org/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+const triples = turtle`@prefix ex: <http://example.com/> .
 
 ex:PersonShape
-  a sh:Shape ;
-  sh:targetClass schema:Person ;
-  sh:property [
-    sh:path schema:name ;
-    sh:name "Name" ;
-    sh:datatype xsd:string ;
-    sh:maxCount 1 ;
-    sh:minCount 1 ;
-    sh:order 1
+  a ${sh.Shape} ;
+  ${sh.targetClass} ${schema.Person} ;
+  ${rdfs.label} "Person" ;
+  ${sh.property} [
+    ${sh.path} ${schema.name} ;
+    ${sh.name} "Name" ;
+    ${sh.datatype} ${xsd.string} ;
+    ${sh.maxCount} 1 ;
+    ${sh.minCount} 1 ;
+    ${sh.order} 1
   ] ;
-  sh:property [
-    sh:path schema:knows ;
-    sh:class schema:Person ;
-    sh:group ex:FriendGroup
+  ${sh.property} [
+    ${sh.path} ${schema.knows} ;
+    ${sh.class} ${schema.Person} ;
+    ${sh.group} ex:FriendGroup
   ] ;
-  sh:property [
-    sh:path schema:age ;
-    sh:name "Age" ;
-    sh:datatype xsd:integer ;
-    sh:order 2
+  ${sh.property} [
+    ${sh.path} ${schema.age} ;
+    ${sh.name} "Age" ;
+    ${sh.datatype} ${xsd.integer} ;
+    ${sh.order} 2
   ]
 .
 
 ex:FriendGroup
-  a sh:PropertyGroup ;
-  sh:name "Acquaintances"
+  a ${sh.PropertyGroup} ;
+  ${rdfs.label} "Acquaintances"
 .`
 
 export interface State {
@@ -47,7 +46,7 @@ export interface State {
 
 export const shape = createModel({
   state: <State>{
-    triples,
+    triples: triples.toString(),
   },
   reducers: {
     setShape(state, pointer) {

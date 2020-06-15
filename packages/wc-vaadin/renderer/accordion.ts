@@ -1,6 +1,5 @@
 import { FocusNodeRenderStrategy, GroupRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
 import { html } from '@hydrofoil/shaperone-wc'
-import { sh } from '@tpluscode/rdf-ns-builders'
 import { repeat } from 'lit-html/directives/repeat'
 
 export const AccordionFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, actions, renderGroup }) => {
@@ -9,7 +8,7 @@ export const AccordionFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode,
   }
 
   return html`
-    ${focusNode.shape?.getString(sh.name)}
+    ${focusNode.shape?.label}
     <vaadin-accordion .opened="${focusNode.groups.findIndex(g => g.selected)}"
                       @opened-changed="${selectGroup}">
       ${repeat(focusNode.groups, renderGroup)}
@@ -21,7 +20,7 @@ AccordionFocusNodeRenderer.loadDependencies = () => {
 }
 
 export const AccordionGroupingRenderer: GroupRenderStrategy = ({ group, properties, renderProperty }) => {
-  const header = group.group?.getString(sh.name) || 'Ungrouped properties'
+  const header = group.group?.label || 'Ungrouped properties'
 
   return html`<vaadin-accordion-panel .opened="${group.selected}">
     <div slot="summary">${header}</div>
