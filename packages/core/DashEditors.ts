@@ -24,12 +24,12 @@ export const textField = {
 export const textArea = {
   term: dash.TextAreaEditor,
   label: 'Multi-line text',
-  match(shape: PropertyShape, value?: SingleContextClownface) {
+  match(shape: PropertyShape, value: SingleContextClownface) {
     const singleLine = shape.getBoolean(dash.singleLine)
     if (!singleLine) {
       let datatype = shape.get(sh.datatype)?.id
-      if (value?.term.termType === 'Literal') {
-        datatype = value?.term.datatype
+      if (value.term.termType === 'Literal') {
+        datatype = value.term.datatype
       }
       if (datatype?.equals(xsd.string)) {
         if (singleLine === false) {

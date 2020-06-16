@@ -100,6 +100,10 @@ export class ShaperoneForm extends LitElement {
     })}`
   }
 
+  public resetEditors() {
+    this[store].dispatch.form.resetEditors()
+  }
+
   private [onStateChange]() {
     this.state = this[store].state.form
   }

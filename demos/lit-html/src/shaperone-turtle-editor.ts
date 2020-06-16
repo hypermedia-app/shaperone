@@ -1,4 +1,4 @@
-import { customElement, LitElement, css, query } from 'lit-element'
+import { customElement, LitElement, css, query, property } from 'lit-element'
 import { html } from 'lit-html'
 
 function whenDefined(getter: () => unknown): Promise<void> {
@@ -37,6 +37,7 @@ export class ShaperoneTurtleEditor extends LitElement {
   }
 
   __value = ''
+  __language = ''
 
   get value() {
     return this.__value
@@ -52,8 +53,18 @@ export class ShaperoneTurtleEditor extends LitElement {
   @query('wc-codemirror')
   codeMirror: any
 
+  @property({ type: String })
+  get format(): string {
+    return this.__language
+  }
+
+  set format(value: string) {
+    this.__language = value
+    this.setLanguage()
+  }
+
   render() {
-    return html`<div class="wrapper"><wc-codemirror mode="turtle"></wc-codemirror></div>`
+    return html`<div class="wrapper"><wc-codemirror mode=${this.format}></wc-codemirror></div>`
   }
 
   protected async firstUpdated(props: any) {
@@ -65,5 +76,11 @@ export class ShaperoneTurtleEditor extends LitElement {
     this.codeMirror.__editor.on('change', (c: any) => {
       this.__value = c.getValue()
     })
+  }
+
+  private async setLanguage() {
+    if (this.codeMirror?.__initialized) {
+      this.codeMirror.__editor.setOption('mode', this.__language)
+    }
   }
 }

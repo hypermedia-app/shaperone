@@ -7,13 +7,7 @@ import * as AccordionRenderStrategy from '@hydrofoil/shaperone-wc-vaadin/rendere
 import * as MaterialTabsRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer/tabs'
 import * as nestingComponents from '@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components'
 import * as nestingRenderer from '@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer'
-
-export interface Menu {
-  type?: 'layout' | 'renderer'
-  text: string
-  checked?: boolean
-  children?: Menu[]
-}
+import { Menu, updateMenu } from '../../menu'
 
 export interface NestedShapesState {
   components?: Record<string, EditorFactory>
@@ -48,19 +42,6 @@ const nestingMenu: Menu = {
   }],
 }
 
-function updateMenu(menu: Menu, type: Menu['type'], text: string): Menu {
-  let checked = menu.checked
-  if (menu.type === type) {
-    checked = menu.text === text
-  }
-
-  return {
-    ...menu,
-    checked,
-    children: menu.children?.map(child => updateMenu(child, type, text)),
-  }
-}
-
 const initialStrategy = { ...DefaultStrategy, ...MaterialRenderStrategy }
 
 export const renderer = createModel({
@@ -72,14 +53,14 @@ export const renderer = createModel({
     },
   },
   reducers: {
-    switchNesting(state, { name }: { name :string }) {
+    switchNesting(state, { text }: Menu) {
       let components: Record<string, EditorFactory> | undefined
       const strategy = {
         ...state.strategy,
         form: initialStrategy.form,
       }
 
-      if (name === 'Always one') {
+      if (text === 'Always one') {
         components = nestingComponents
         strategy.form = nestingRenderer.topmostFocusNodeFormRenderer
       }
@@ -88,7 +69,7 @@ export const renderer = createModel({
         ...state,
         strategy,
         components,
-        menu: updateMenu(state.menu, 'renderer', name),
+        menu: updateMenu(state.menu, 'renderer', text),
       }
     },
     switchLayout(state, { text }: Menu) {

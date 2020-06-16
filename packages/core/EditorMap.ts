@@ -7,7 +7,7 @@ import { EditorMatch } from './lib/editorMatcher'
 export interface EditorDefinition {
   term: NamedNode
   label: string
-  match(shape: PropertyShape, value?: SingleContextClownface): number | null
+  match(shape: PropertyShape, value: SingleContextClownface): number | null
 }
 
 export interface Editor {

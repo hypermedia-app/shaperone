@@ -6,22 +6,10 @@ import { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import './shaperone-turtle-editor'
 import type { ShaperoneTurtleEditor } from './shaperone-turtle-editor'
-import { store, State } from './state/store'
+import { store, State, Dispatch } from './state/store'
 import { connect } from '@captaincodeman/rdx'
 
 const saveResource = Symbol('save resource')
-
-const shapeMenu = [
-  {
-    text: 'Update form',
-  },
-]
-
-const resourceMenu = [
-  {
-    text: 'Update form',
-  },
-]
 
 @customElement('shaperone-playground-lit')
 export class ShaperonePlayground extends connect(store, LitElement) {
@@ -81,6 +69,24 @@ export class ShaperonePlayground extends connect(store, LitElement) {
     ]
   }
 
+  get resourceMenu() {
+    return [
+      {
+        text: 'Update form',
+      },
+      this.resource.menu,
+    ]
+  }
+
+  get shapeMenu() {
+    return [
+      {
+        text: 'Update form',
+      },
+      this.shape.menu,
+    ]
+  }
+
   async connectedCallback() {
     super.connectedCallback()
 
@@ -94,8 +100,8 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       <div class="content">
       <vaadin-split-layout id="top-splitter">
         <div style="width: 33%">
-          <vaadin-menu-bar .items="${shapeMenu}" @item-selected="${this.__setShape}"></vaadin-menu-bar>
-          <shaperone-turtle-editor id="shapeEditor" .value="${this.shape.triples}"></shaperone-turtle-editor>
+          <vaadin-menu-bar .items="${this.shapeMenu}" @item-selected="${this.__editorMenuSelected(store.dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
+          <shaperone-turtle-editor id="shapeEditor" .value="${this.shape.serialized}" .format="${this.shape.format}"></shaperone-turtle-editor>
         </div>
 
         <vaadin-split-layout style="width: 67%">
@@ -104,8 +110,8 @@ export class ShaperonePlayground extends connect(store, LitElement) {
             <shaperone-form id="form" .shape="${this.shape.pointer}" .resource="${this.resource.pointer}"></shaperone-form>
           </div>
           <div style="max-width: 50%">
-            <vaadin-menu-bar .items="${resourceMenu}" @item-selected="${this.__parseResource}"></vaadin-menu-bar>
-            <shaperone-turtle-editor id="resourceEditor" .value="${this.resource.triples}"></shaperone-turtle-editor>
+            <vaadin-menu-bar .items="${this.resourceMenu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.shapeEditor)}"></vaadin-menu-bar>
+            <shaperone-turtle-editor id="resourceEditor" .value="${this.resource.serialized}" .format="${this.resource.format}"></shaperone-turtle-editor>
           </div>
         </vaadin-split-layout>
       </vaadin-split-layout></div>
@@ -115,14 +121,14 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   __formMenuSelected(e: CustomEvent) {
     switch (e.detail.value.type) {
       case 'components':
-        store.dispatch.components.switchComponents({ name: e.detail.value.text })
-        this.form.store.dispatch.form.resetEditors()
+        store.dispatch.components.switchComponents(e.detail.value)
+        this.form.resetEditors()
         break
       case 'layout':
         store.dispatch.renderer.switchLayout(e.detail.value)
         break
       case 'renderer':
-        store.dispatch.renderer.switchNesting({ name: e.detail.value.text })
+        store.dispatch.renderer.switchNesting(e.detail.value)
         break
       default:
         store.dispatch.resource.serialize(this.form.value)
@@ -130,12 +136,19 @@ export class ShaperonePlayground extends connect(store, LitElement) {
     }
   }
 
-  __parseResource() {
-    store.dispatch.resource.parse(this.resourceEditor.value)
-  }
-
-  async __setShape() {
-    store.dispatch.shape.parse(this.shapeEditor.value)
+  __editorMenuSelected(dispatch: Dispatch['shape'] | Dispatch['resource'], editor: ShaperoneTurtleEditor) {
+    return (e: CustomEvent) => {
+      switch (e.detail.value.type) {
+        case 'format':
+          dispatch.serialized(editor.value)
+          dispatch.changeFormat(e.detail.value)
+          break
+        default:
+          dispatch.serialized(editor.value)
+          dispatch.parse()
+          break
+      }
+    }
   }
 
   mapState(state: State) {
