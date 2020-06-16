@@ -12,7 +12,7 @@ import { Menu, updateMenu } from '../../menu'
 export interface NestedShapesState {
   components?: Record<string, EditorFactory>
   strategy: Renderer['strategy']
-  menu: Menu
+  menu: Menu[]
 }
 
 const layoutMenu: Menu = {
@@ -47,10 +47,7 @@ const initialStrategy = { ...DefaultStrategy, ...MaterialRenderStrategy }
 export const renderer = createModel({
   state: <NestedShapesState>{
     strategy: initialStrategy,
-    menu: {
-      text: 'Options',
-      children: [layoutMenu, nestingMenu],
-    },
+    menu: [layoutMenu, nestingMenu],
   },
   reducers: {
     switchNesting(state, { text }: Menu) {
@@ -69,7 +66,7 @@ export const renderer = createModel({
         ...state,
         strategy,
         components,
-        menu: updateMenu(state.menu, 'renderer', text),
+        menu: state.menu.map(menu => updateMenu(menu, 'renderer', text)),
       }
     },
     switchLayout(state, { text }: Menu) {
@@ -90,7 +87,7 @@ export const renderer = createModel({
       return {
         ...state,
         strategy,
-        menu: updateMenu(state.menu, 'layout', text),
+        menu: state.menu.map(menu => updateMenu(menu, 'layout', text)),
       }
     },
   },

@@ -65,7 +65,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
         id: saveResource,
       },
       this.components,
-      this.rendererMenu,
+      ...this.rendererMenu,
     ]
   }
 
