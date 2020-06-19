@@ -2,7 +2,8 @@ import { customElement, LitElement, css, property, query } from 'lit-element'
 import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
-import { ShaperoneForm } from '@hydrofoil/shaperone-wc'
+import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
+import '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import './shaperone-turtle-editor'
 import type { ShaperoneTurtleEditor } from './shaperone-turtle-editor'
@@ -53,10 +54,10 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   form!: ShaperoneForm
 
   @property({ type: Object })
-  components!: State['components']
+  components!: State['componentsSettings']
 
   @property({ type: Object })
-  rendererMenu!: State['renderer']['menu']
+  rendererMenu!: State['rendererSettings']['menu']
 
   get formMenu() {
     return [
@@ -110,7 +111,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
             <shaperone-form id="form" .shape="${this.shape.pointer}" .resource="${this.resource.pointer}"></shaperone-form>
           </div>
           <div style="max-width: 50%">
-            <vaadin-menu-bar .items="${this.resourceMenu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.shapeEditor)}"></vaadin-menu-bar>
+            <vaadin-menu-bar .items="${this.resourceMenu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
             <shaperone-turtle-editor id="resourceEditor" .value="${this.resource.serialized}" .format="${this.resource.format}"></shaperone-turtle-editor>
           </div>
         </vaadin-split-layout>
@@ -121,14 +122,13 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   __formMenuSelected(e: CustomEvent) {
     switch (e.detail.value.type) {
       case 'components':
-        store.dispatch.components.switchComponents(e.detail.value)
-        this.form.resetEditors()
+        store.dispatch.componentsSettings.switchComponents(e.detail.value)
         break
       case 'layout':
-        store.dispatch.renderer.switchLayout(e.detail.value)
+        store.dispatch.rendererSettings.switchLayout(e.detail.value)
         break
       case 'renderer':
-        store.dispatch.renderer.switchNesting(e.detail.value)
+        store.dispatch.rendererSettings.switchNesting(e.detail.value)
         break
       default:
         store.dispatch.resource.serialize(this.form.value)
@@ -152,22 +152,9 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   }
 
   mapState(state: State) {
-    ShaperoneForm.renderer.components.clear()
-    ShaperoneForm.renderer.components.addModule(state.components.selected)
-    if (state.renderer.components) {
-      ShaperoneForm.renderer.components.addModule(state.renderer.components)
-    }
-
-    ShaperoneForm.renderer.strategy = state.renderer.strategy
-    Object.values(ShaperoneForm.renderer.strategy).forEach(strat => {
-      if (strat.loadDependencies) strat.loadDependencies()
-    })
-
-    if (this.form?.requestUpdate) this.form.requestUpdate()
-
     return {
-      components: state.components,
-      rendererMenu: state.renderer.menu,
+      components: state.componentsSettings,
+      rendererMenu: state.rendererSettings.menu,
       resource: state.resource,
       shape: state.shape,
     }

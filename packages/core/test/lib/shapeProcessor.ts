@@ -5,12 +5,9 @@ import cf, { SingleContextClownface } from 'clownface'
 import RdfResource from '@tpluscode/rdfine'
 import * as Shacl from '@rdfine/shacl'
 import { ShapeMixin } from '@rdfine/shacl/Shape'
-import { sh, schema } from '@tpluscode/rdf-ns-builders'
+import { sh, schema, dash } from '@tpluscode/rdf-ns-builders'
 import * as sinon from 'sinon'
-import { initialize } from '../../state/reducers'
-import { dash } from '../../index'
 import { literal } from '@rdfjs/data-model'
-import { EditorMatcher } from '../../lib/editorMatcher'
 
 RdfResource.factory.addMixin(...Object.values(Shacl))
 

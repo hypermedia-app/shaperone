@@ -6,7 +6,7 @@ import type {
   PropertyGroupState,
   PropertyObjectState,
   PropertyState,
-} from '@hydrofoil/shaperone-core/state'
+} from '@hydrofoil/shaperone-core/state/form'
 import type { NamedNode } from 'rdf-js'
 import { repeat } from 'lit-html/directives/repeat'
 import type { PropertyGroup } from '@rdfine/shacl'

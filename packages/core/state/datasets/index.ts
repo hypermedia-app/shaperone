@@ -1,9 +1,14 @@
 import { createModel } from '@captaincodeman/rdx'
-import { DatasetsState } from './state'
+import type { DatasetCore } from 'rdf-js'
 import { Store } from '../../state'
 import { effects } from './effects'
 import { FocusNode } from '../../index'
 import { RdfResource } from '@tpluscode/rdfine'
+
+export interface DatasetsState {
+  shape?: DatasetCore
+  resource?: DatasetCore
+}
 
 export const datasets = createModel(({
   state: <DatasetsState>{},

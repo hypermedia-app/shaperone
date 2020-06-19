@@ -1,11 +1,12 @@
-import type { FocusNodeState, FormState, PropertyObjectState } from '../../state'
+import type { FocusNodeState, FormState, PropertyObjectState } from '../../state/form'
 import type { PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { FocusNode } from '../../index'
-import { initialiseFocusNode } from '../../lib/stateBuilder'
+import { initialiseFocusNode, matchEditors } from '../../lib/stateBuilder'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, Term } from 'rdf-js'
 import { blankNode, literal } from '@rdf-esm/data-model'
-import RdfResource from '@tpluscode/rdfine/RdfResource'
+import { EditorsState } from '../../editors/index'
+import RdfResource from '@tpluscode/rdfine'
 
 interface BaseParams {
   focusNode: FocusNode
@@ -106,7 +107,12 @@ function defaultValueNode(property: PropertyShape): Term {
   return literal('')
 }
 
-export function addObject(state: FormState, { focusNode, property }: BaseParams): FormState {
+interface AddObjectParams extends BaseParams {
+  editors: EditorsState
+}
+
+// todo: remove editors; move to effects
+export function addObject(state: FormState, { focusNode, property, editors }: AddObjectParams): FormState {
   const focusNodeState = state.focusNodes[focusNode.value]
 
   const object = property.defaultValue ? focusNodeState.focusNode.node(property.defaultValue) : focusNodeState.focusNode.node(defaultValueNode(property))
@@ -121,16 +127,13 @@ export function addObject(state: FormState, { focusNode, property }: BaseParams)
       return currentProperty
     }
 
-    const editors = [...state.editorMap.values()]
-      .map(({ match }) => match(property, object))
-      .filter(match => match.score === null || match.score > 0)
-      .sort((left, right) => left.score! - right.score!)
+    const matchingEditors = matchEditors(property, object, Object.values(editors.valueEditors))
 
     const maxReached = (property.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= currentProperty.objects.length + 1
     const newObject: PropertyObjectState = {
       object,
-      editors,
-      selectedEditor: editors[0]?.editor,
+      editors: matchingEditors,
+      selectedEditor: matchingEditors[0]?.term,
     }
 
     return {
@@ -194,38 +197,8 @@ export function removeObject(state: FormState, { focusNode, property, object }: 
   }
 }
 
-export function editorLoading(state: FormState, { editor }: { editor: NamedNode }): FormState {
-  return {
-    ...state,
-    editors: {
-      ...state.editors,
-      [editor.value]: {
-        loaded: false,
-      },
-    },
-  }
-}
-
-export function editorLoaded(state: FormState, { editor }: { editor: NamedNode }): FormState {
-  return {
-    ...state,
-    editors: {
-      ...state.editors,
-      [editor.value]: {
-        loaded: true,
-      },
-    },
-  }
-}
-
-export function resetEditors(state: FormState): FormState {
-  return {
-    ...state,
-    editors: {},
-  }
-}
-
-export function pushFocusNode(state: FormState, { focusNode, property }: { focusNode: FocusNode; property: PropertyShape }): FormState {
+// todo: remove editors; move to effects
+export function pushFocusNode(state: FormState, { focusNode, property, editors }: { focusNode: FocusNode; property: PropertyShape; editors: EditorsState }): FormState {
   const propertyTargetClass = property.get(sh.class)
   if (!propertyTargetClass) {
     return state
@@ -243,7 +216,7 @@ export function pushFocusNode(state: FormState, { focusNode, property }: { focus
     focusStack: [...state.focusStack, focusNode],
     focusNodes: {
       ...state.focusNodes,
-      [focusNode.value]: initialiseFocusNode({ focusNode, shape, state }),
+      [focusNode.value]: initialiseFocusNode({ focusNode, shape, editors }),
     },
   }
 }
@@ -294,10 +267,11 @@ export function selectGroup(state: FormState, { group, focusNode }: { focusNode:
   }
 }
 
-export function initialize(state: FormState, params: { focusNode: FocusNode; rootShape?: Shape }): FormState {
+// todo: remove editors; move to effects
+export function initialize(state: FormState, params: { focusNode: FocusNode; rootShape?: Shape; editors: EditorsState }): FormState {
   const shape = state.rootShape || params.rootShape
 
-  const { focusNode } = params
+  const { focusNode, editors } = params
 
   return {
     ...state,
@@ -306,22 +280,23 @@ export function initialize(state: FormState, params: { focusNode: FocusNode; roo
     focusNodes: {
       [focusNode.value]: initialiseFocusNode({
         shape,
-        state,
+        editors,
         focusNode,
       }),
     },
   }
 }
 
-export function recalculateFocusNodes(state: FormState, shape: Shape): FormState {
+// todo: remove editors; move to effects
+export function recalculateFocusNodes(state: FormState, { shape, editors }: {shape?: Shape; editors: EditorsState}): FormState {
   const focusNodes = Object.values(state.focusNodes).reduce<Record<string, FocusNodeState>>((obj, focusNode) => {
     const selectedGroup = focusNode.groups.find(g => g.selected)?.group?.id.value
 
     return {
       ...obj,
       [focusNode.focusNode.value]: initialiseFocusNode({
-        shape,
-        state,
+        shape: shape || state.rootShape,
+        editors,
         focusNode: focusNode.focusNode,
         selectedGroup,
       }),
@@ -330,7 +305,7 @@ export function recalculateFocusNodes(state: FormState, shape: Shape): FormState
 
   return {
     ...state,
-    rootShape: shape,
+    rootShape: shape || state.rootShape,
     focusNodes,
   }
 }

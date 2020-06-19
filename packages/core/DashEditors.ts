@@ -1,16 +1,15 @@
 import { PropertyShape } from '@rdfine/shacl'
 import type { SingleContextClownface } from 'clownface'
-import { dash } from './lib/dash'
-import { sh, xsd } from '@tpluscode/rdf-ns-builders'
+import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
+import { ValueEditor } from './editors/index'
 
-export const textField = {
+export const textField: ValueEditor = {
   term: dash.TextFieldEditor,
-  label: 'Single-line text',
-  match(shape: PropertyShape, value?: SingleContextClownface) {
+  match(shape: PropertyShape, value: SingleContextClownface) {
     let datatype = shape.get(sh.datatype)?.id
 
-    if (value?.term.termType === 'Literal') {
-      datatype = value?.term.datatype
+    if (value.term.termType === 'Literal') {
+      datatype = value.term.datatype
     }
 
     if (datatype?.equals(xsd.string)) {
@@ -21,9 +20,8 @@ export const textField = {
   },
 }
 
-export const textArea = {
+export const textArea: ValueEditor = {
   term: dash.TextAreaEditor,
-  label: 'Multi-line text',
   match(shape: PropertyShape, value: SingleContextClownface) {
     const singleLine = shape.getBoolean(dash.singleLine)
     if (!singleLine) {
@@ -45,8 +43,7 @@ export const textArea = {
 }
 
 export const shape = {
-  term: sh.Shape,
-  label: 'Nested editor',
+  term: dash.CompoundEditor,
   match(shape: PropertyShape) {
     if (shape.get(sh.class)) {
       return 20

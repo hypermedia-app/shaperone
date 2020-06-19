@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "rimraf ../../docs/lit-html",
     "build": "webpack --mode production",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server --mode development"
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.6",
@@ -19,7 +19,7 @@
     "@hydrofoil/shaperone-wc-vaadin": "0.0.0",
     "@rdf-esm/formats-common": "^0.5.2",
     "@rdfjs/serializer-jsonld-ext": "^2.0.0",
-    "@tpluscode/rdf-ns-builders": "^0.3.4",
+    "@tpluscode/rdf-ns-builders": "^0.3.5",
     "@tpluscode/rdf-string": "^0.2.15",
     "@vaadin/vaadin-app-layout": "^2.1.0",
     "@vaadin/vaadin-menu-bar": "^1.1.0",

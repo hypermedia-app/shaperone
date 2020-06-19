@@ -2876,10 +2876,10 @@
   resolved "https://registry.yarnpkg.com/@tpluscode/eslint-config/-/eslint-config-0.1.0.tgz#c768e289229ae512e6b897ed5b1e6613717ca21f"
   integrity sha512-y5CgQPRVpNLTRo+KmQ7IBD48W/W+xugwHdPzV8mZk7zAQMZTywsatkMfzRBHIXxWIu6G0uAsIyQmzw9zPy6GrA==
 
-"@tpluscode/rdf-ns-builders@^0.3", "@tpluscode/rdf-ns-builders@^0.3.2", "@tpluscode/rdf-ns-builders@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@tpluscode/rdf-ns-builders/-/rdf-ns-builders-0.3.4.tgz#e4abe9184cc75f42d9595a1dc11620141cf85dce"
-  integrity sha512-oAVPVKqzk1YDATREDSmCFefJBi/KQyN0nMMpzXHVGdC73NbuelvZqqukX4zRxt/OJwYJVXZuePmCunszD7GRZA==
+"@tpluscode/rdf-ns-builders@^0.3", "@tpluscode/rdf-ns-builders@^0.3.2", "@tpluscode/rdf-ns-builders@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@tpluscode/rdf-ns-builders/-/rdf-ns-builders-0.3.5.tgz#557218d08acebf3f8c56955253b15259c69bcd7f"
+  integrity sha512-GCDde1Am/HI8B8GjZp1MyF7AI2qCuxzJUKZVNixijlz1CTxSmEVt+bAmc6DbFY9jFwbBhF8iOG486XVrFu6pUQ==
   dependencies:
     "@rdfjs/namespace" "^1.1.0"
     esm "^3.2.25"
@@ -3858,10 +3858,21 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zazuko/rdf-vocabularies@^2020.2.3", "@zazuko/rdf-vocabularies@^2020.3.23":
+"@zazuko/rdf-vocabularies@^2020.2.3":
   version "2020.3.23"
   resolved "https://registry.yarnpkg.com/@zazuko/rdf-vocabularies/-/rdf-vocabularies-2020.3.23.tgz#5933f726811e0cead69ae0eb95c48032cf17b8e6"
   integrity sha512-CVUEIAsoKyZXSkWDi8ZEcQCSZrWAxQoMaeo/5537BPkLuWYw/Sp6NOaCffAa0Vb9hB0mcHiU2hLu4Qx+C3PE6Q==
+  dependencies:
+    "@rdfjs/parser-n3" "^1.1.2"
+    commander "^5.0.0"
+    rdf-ext "^1.3.0"
+    readable-stream "^3.6.0"
+    string-to-stream "^3.0.1"
+
+"@zazuko/rdf-vocabularies@^2020.6.17":
+  version "2020.6.17"
+  resolved "https://registry.yarnpkg.com/@zazuko/rdf-vocabularies/-/rdf-vocabularies-2020.6.17.tgz#1eba9ec5e6d2d307eb17e934157de85cd30be523"
+  integrity sha512-uYFvI5FnJykku26LTnVl0Vob8UcUhyL5bvjz7b10Rrx09ZcOBn3zcXAaVUn6rn0bvA6aq9tPbgU6owvt4QQq4A==
   dependencies:
     "@rdfjs/parser-n3" "^1.1.2"
     commander "^5.0.0"

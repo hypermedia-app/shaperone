@@ -1,10 +1,8 @@
 import type { SingleContextClownface } from 'clownface'
 import type { BlankNode, NamedNode } from 'rdf-js'
 import { createStore } from '@captaincodeman/rdx'
-import { config } from './state/config'
-
-export { dash } from './lib/dash'
+import * as state from './state/config'
 
 export type FocusNode = SingleContextClownface<BlankNode | NamedNode>
 
-export const initialState = () => createStore(config)
+export const createInstanceState = () => createStore(state.config)

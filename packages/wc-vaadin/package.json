@@ -9,7 +9,7 @@
   "dependencies": {
     "@hydrofoil/shaperone-wc": "0.0.0",
     "@hydrofoil/shaperone-core": "0.0.0",
-    "@tpluscode/rdf-ns-builders": "^0.3.4",
+    "@tpluscode/rdf-ns-builders": "^0.3.5",
     "@rdf-esm/data-model": "^0.5.1",
     "@vaadin/vaadin-accordion": "^2.0.0-alpha4",
     "@vaadin/vaadin-text-field": "^2.6.0",

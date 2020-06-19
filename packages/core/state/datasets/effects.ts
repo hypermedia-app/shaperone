@@ -4,6 +4,7 @@ import { Shape } from '@rdfine/shacl'
 import { FocusNode } from '../../index'
 import rdfine from '@tpluscode/rdfine'
 import type { Mixin } from '@tpluscode/rdfine/lib/ResourceFactory'
+import { EditorsState } from '../../editors/index'
 
 async function loadMixins(): Promise<Mixin[]> {
   const deps = [
@@ -25,17 +26,19 @@ export function effects(store: Store) {
   const dispatch = store.dispatch()
 
   return {
-    updateResource(focusNode: FocusNode) {
+    // todo: read editors from store
+    updateResource({ focusNode, editors }: { focusNode: FocusNode; editors: EditorsState }) {
       if (!focusNode) return
 
       if (focusNode.dataset !== store.getState().datasets.resource) {
         dispatch.datasets.replaceResource(focusNode)
 
-        dispatch.form.initialize({ focusNode })
+        dispatch.form.initialize({ focusNode, editors })
       }
     },
 
-    async updateShape(shapeOrPointer: SingleContextClownface | Shape) {
+    // todo: read editors from store
+    async updateShape({ shapeOrPointer, editors }: { shapeOrPointer: SingleContextClownface | Shape; editors: EditorsState }) {
       if (!shapeOrPointer) return
 
       let shape: Shape
@@ -51,7 +54,7 @@ export function effects(store: Store) {
       if (shape._selfGraph.dataset !== store.getState().datasets.shape) {
         dispatch.datasets.replaceShape(shape)
 
-        dispatch.form.recalculateFocusNodes(shape)
+        dispatch.form.recalculateFocusNodes({ shape, editors })
       }
     },
   }

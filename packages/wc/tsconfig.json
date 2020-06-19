@@ -1,4 +1,4 @@
 {
   "extends": "../../tsconfig",
-  "files": ["index.ts", "renderer.ts"]
+  "files": ["index.ts", "DefaultRenderer.ts"]
 }

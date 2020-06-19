@@ -1,4 +1,4 @@
-import { FormRenderStrategy, defaultFormRenderer } from '@hydrofoil/shaperone-wc/renderer'
+import { FormRenderStrategy, defaultFormRenderer } from '@hydrofoil/shaperone-wc/lib/renderer'
 import { html, css } from '@hydrofoil/shaperone-wc'
 
 export const topmostFocusNodeFormRenderer: FormRenderStrategy = (params) => {

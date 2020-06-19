@@ -1,5 +1,5 @@
 import { PropertyGroup } from '@rdfine/shacl'
-import { PropertyState } from '../state'
+import type { PropertyState } from '../state/form'
 
 export function byGroup(group: PropertyGroup | undefined) {
   return (property: PropertyState) => {

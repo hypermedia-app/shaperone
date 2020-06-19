@@ -1,6 +1,6 @@
 import { css, customElement, html, LitElement, property, query } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
-import type { EditorMatch } from '@hydrofoil/shaperone-core/lib/editorMatcher'
+import type { Editor } from '@hydrofoil/shaperone-core/editors'
 import type { Menu } from '@material/mwc-menu/mwc-menu'
 import type { WcMenuButton } from 'wc-menu-button'
 
@@ -23,7 +23,7 @@ export class MwcEditorToggle extends LitElement {
   menuButton!: WcMenuButton
 
   @property({ type: Array })
-  editors!: EditorMatch[]
+  editors!: Editor[]
 
   render() {
     return html`<wc-menu-button @opened="${this.__open}" @closed="${this.__close}"></wc-menu-button>
@@ -33,7 +33,7 @@ export class MwcEditorToggle extends LitElement {
       </mwc-menu>`
   }
 
-  __renderEditorSelector(choice: EditorMatch) {
+  __renderEditorSelector(choice: Editor) {
     return html`<mwc-list-item @click="${this.__dispatchEditorSelected(choice)}">${choice.label}</mwc-list-item>`
   }
 
@@ -49,11 +49,11 @@ export class MwcEditorToggle extends LitElement {
     this.menu.close()
   }
 
-  __dispatchEditorSelected(choice: EditorMatch) {
+  __dispatchEditorSelected(choice: Editor) {
     return () => {
       this.dispatchEvent(new CustomEvent('editor-selected', {
         detail: {
-          editor: choice.editor,
+          editor: choice.term,
         },
       }))
     }
