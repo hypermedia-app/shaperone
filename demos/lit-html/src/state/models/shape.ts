@@ -2,7 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
-import { sh, schema, xsd, rdfs } from '@tpluscode/rdf-ns-builders'
+import { sh, schema, xsd, rdfs, dash } from '@tpluscode/rdf-ns-builders'
 import { Store } from '../store'
 import { turtle } from '@tpluscode/rdf-string'
 import { Menu, updateMenu } from '../../menu'
@@ -27,6 +27,7 @@ ex:PersonShape
     ${sh.path} ${schema.name} ;
     ${sh.name} "Name" ;
     ${sh.datatype} ${xsd.string} ;
+    ${dash.singleLine} true ;
     ${sh.maxCount} 1 ;
     ${sh.minCount} 1 ;
     ${sh.order} 1
