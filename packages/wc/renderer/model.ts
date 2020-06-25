@@ -1,5 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
-import { CSSResult, css, CSSResultArray } from 'lit-element'
+import type { CSSResult, CSSResultArray } from 'lit-element'
+import { css } from 'lit-element'
 import { DefaultStrategy } from './DefaultStrategy'
 import * as strategy from '../lib/renderer'
 import { State } from '../store'
