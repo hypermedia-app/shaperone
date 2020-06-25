@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "TS_NODE_TRANSPILE_ONLY=true c8 --reporter=lcov mocha test/**/*.ts"
+    "test": "TS_NODE_TRANSPILE_ONLY=true c8 --all --reporter=lcov mocha test/**/*.ts"
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.6",
