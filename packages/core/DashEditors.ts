@@ -1,7 +1,7 @@
 import { PropertyShape } from '@rdfine/shacl'
 import type { SingleContextClownface } from 'clownface'
 import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
-import { ValueEditor } from './editors/index'
+import { ValueEditor } from './models/editors/index'
 
 export const textField: ValueEditor = {
   term: dash.TextFieldEditor,

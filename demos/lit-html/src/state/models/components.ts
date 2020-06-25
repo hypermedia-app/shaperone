@@ -3,7 +3,7 @@ import { Component } from '@hydrofoil/shaperone-wc'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents'
 import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components'
-import { store as sharedStore } from '@hydrofoil/shaperone-wc/store'
+import { components } from '@hydrofoil/shaperone-wc/configure'
 import { Menu } from '../../menu'
 
 const componentModules: Record<string, Record<string, Component>> = {
@@ -28,8 +28,7 @@ export const componentsSettings = createModel({
         checked: text === child.text,
       }))
 
-      // todo: expose as a configuration module
-      sharedStore.dispatch.components.pushComponents(componentModules[text])
+      components.pushComponents(componentModules[text])
 
       return {
         ...state,

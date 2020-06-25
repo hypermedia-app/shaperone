@@ -88,6 +88,16 @@ export class ShaperonePlayground extends connect(store, LitElement) {
     ]
   }
 
+  private get __serializeParams() {
+    const focusNode = this.form.state.focusNodes[this.form.state.focusStack[0].value]
+    const shape = focusNode.shape
+
+    return {
+      dataset: this.form.value,
+      shape,
+    }
+  }
+
   async connectedCallback() {
     super.connectedCallback()
 
@@ -108,7 +118,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
         <vaadin-split-layout style="width: 67%">
           <div>
             <vaadin-menu-bar .items="${this.formMenu}" @item-selected="${this.__formMenuSelected}"></vaadin-menu-bar>
-            <shaperone-form id="form" .shape="${this.shape.pointer}" .resource="${this.resource.pointer}"></shaperone-form>
+            <shaperone-form id="form" .shapes="${this.shape.dataset}" .resource="${this.resource.pointer}"></shaperone-form>
           </div>
           <div style="max-width: 50%">
             <vaadin-menu-bar .items="${this.resourceMenu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
@@ -130,8 +140,11 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       case 'renderer':
         store.dispatch.rendererSettings.switchNesting(e.detail.value)
         break
-      default:
-        store.dispatch.resource.serialize(this.form.value)
+      default: {
+        const { dataset, shape } = this.__serializeParams
+        if (dataset && shape) {
+          store.dispatch.resource.serialize({ dataset, shape })
+        } }
         break
     }
   }
@@ -139,10 +152,14 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   __editorMenuSelected(dispatch: Dispatch['shape'] | Dispatch['resource'], editor: ShaperoneTurtleEditor) {
     return (e: CustomEvent) => {
       switch (e.detail.value.type) {
-        case 'format':
+        case 'format': {
+          const { shape } = this.__serializeParams
           dispatch.serialized(editor.value)
-          dispatch.changeFormat(e.detail.value)
-          break
+          dispatch.changeFormat({
+            format: e.detail.value,
+            shape,
+          })
+        } break
         default:
           dispatch.serialized(editor.value)
           dispatch.parse()

@@ -1,18 +1,16 @@
-import { FormState } from '@hydrofoil/shaperone-core/state/form'
-import type * as SharedStore from '@hydrofoil/shaperone-core/state'
-import type * as InstanceStore from '../store'
+import { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { TemplateResult } from 'lit-element'
-import { NamedNode } from 'rdf-js'
+import { ComponentsState } from '@hydrofoil/shaperone-core/models/components'
+import { Dispatch } from '../store'
+import { ShaperoneForm } from '../ShaperoneForm'
+import { RendererState } from './model'
 
 export interface RenderParams {
-  form: FormState
-  state: InstanceStore.State
-  actions: InstanceStore.Dispatch & {
-    form: SharedStore.Dispatch['form']
-    components: {
-      load(editor: NamedNode): void
-    }
-  }
+  form: ShaperoneForm
+  state: FormState
+  components: ComponentsState
+  actions: Dispatch
+  strategy: RendererState['strategy']
 }
 
 export interface Renderer {

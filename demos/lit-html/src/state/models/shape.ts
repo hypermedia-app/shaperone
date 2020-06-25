@@ -2,8 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
-import cf, { SingleContextClownface } from 'clownface'
-import { rdf, sh, schema, xsd, rdfs } from '@tpluscode/rdf-ns-builders'
+import { sh, schema, xsd, rdfs } from '@tpluscode/rdf-ns-builders'
 import { Store } from '../store'
 import { turtle } from '@tpluscode/rdf-string'
 import { Menu, updateMenu } from '../../menu'
@@ -53,7 +52,7 @@ ex:FriendGroup
 export interface State {
   serialized: string
   format: string
-  pointer?: SingleContextClownface
+  dataset?: DatasetCore
   menu: Menu
 }
 
@@ -74,10 +73,10 @@ export const shape = createModel({
     },
   },
   reducers: {
-    setShape(state, pointer) {
+    setShape(state, dataset: DatasetCore) {
       return {
         ...state,
-        pointer,
+        dataset,
       }
     },
     serialized(state, serialized: string): State {
@@ -109,12 +108,8 @@ export const shape = createModel({
         }
 
         const dataset = await $rdf.dataset().import(stream)
-        const foundShapes = cf({ dataset }).has(rdf.type, [sh.NodeShape, sh.Shape])
-        if (foundShapes.terms.length === 0) {
-          throw new Error('Did not find any shape')
-        }
 
-        dispatch.shape.setShape(foundShapes.toArray()[0])
+        dispatch.shape.setShape(dataset)
       },
 
       async serialize(dataset: DatasetCore) {
@@ -132,13 +127,13 @@ export const shape = createModel({
         }))
       },
 
-      async changeFormat(format: Menu) {
+      async changeFormat({ format }: { format: Menu }) {
         const { shape } = store.getState()
 
         dispatch.shape.format(format.text)
 
-        if (shape.pointer) {
-          dispatch.shape.serialize(shape.pointer.dataset)
+        if (shape.dataset) {
+          dispatch.shape.serialize(shape.dataset)
         }
       },
     }

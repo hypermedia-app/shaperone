@@ -1,7 +1,7 @@
 import { html } from 'lit-element'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
-import { EditorFactoryActions, EditorFactoryParams } from '@hydrofoil/shaperone-core/components/index'
+import { EditorFactoryActions, EditorFactoryParams } from '@hydrofoil/shaperone-core/models/components'
 import { Component } from './index'
 
 export const textFieldEditor: Component = {

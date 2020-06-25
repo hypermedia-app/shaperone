@@ -4,7 +4,7 @@ import { Component, html } from '@hydrofoil/shaperone-wc'
 export const shapeLink: Component = {
   editor: dash.CompoundEditor,
 
-  render({ value }, { pushFocusNode }) {
-    return html`<a href="javascript:void(0)" @click="${pushFocusNode}">Edit ${value.object.value}</a>`
+  render({ value }, { focusOnObjectNode }) {
+    return html`<a href="javascript:void(0)" @click="${focusOnObjectNode}">Edit ${value.object.value}</a>`
   },
 }

@@ -1,25 +1,18 @@
 import { LitElement, customElement, property, css, html } from 'lit-element'
-import type { SingleContextClownface } from 'clownface'
-import { BlankNode, NamedNode, DatasetCore } from 'rdf-js'
-import { Shape } from '@rdfine/shacl'
-import type { FormState } from '@hydrofoil/shaperone-core/state/form'
-import type { FocusNode, createInstanceState } from '@hydrofoil/shaperone-core'
-import { connect, stateEvent } from '@captaincodeman/rdx'
+import { DatasetCore } from 'rdf-js'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
+import { connect } from '@captaincodeman/rdx'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import { Renderer } from './renderer'
 import { DefaultRenderer } from './DefaultRenderer'
 import * as NativeComponents from './NativeComponents'
 
-const storeSymbol: unique symbol = Symbol('form state store')
-const onStateChange: unique symbol = Symbol('form state store')
-
 store.dispatch.components.pushComponents(NativeComponents)
 
 @customElement('shaperone-form')
 export class ShaperoneForm extends connect(store, LitElement) {
-  private[storeSymbol]: ReturnType<typeof createInstanceState>
-
   static get styles() {
     return [css`
       :host {
@@ -30,101 +23,73 @@ export class ShaperoneForm extends connect(store, LitElement) {
   renderer: Renderer = DefaultRenderer
 
   @property({ type: Object })
-  configuration!: State
+  editors!: State['editors']
 
-  public constructor() {
-    super()
-    this[onStateChange] = this[onStateChange].bind(this)
-  }
+  @property({ type: Object })
+  components!: State['components']
+
+  @property({ type: Object })
+  rendererOptions!: State['renderer']
 
   async connectedCallback() {
     await ensureEventTarget()
-
-    const { createInstanceState } = await import('@hydrofoil/shaperone-core')
-
-    this[storeSymbol] = createInstanceState()
-    this[storeSymbol].addEventListener(stateEvent, this[onStateChange])
+    await loadMixins()
 
     store.dispatch.editors.loadDash()
+    store.dispatch.forms.connect(this)
 
-    await super.connectedCallback()
-
-    if (this.__shape) {
-      this[storeSymbol].dispatch.datasets.updateShape({
-        shapeOrPointer: this.__shape,
-        editors: this.configuration.editors,
-      })
-    }
-    if (this.__resource) {
-      this[storeSymbol].dispatch.datasets.updateResource({
-        focusNode: this.__resource,
-        editors: this.configuration.editors,
-      })
-    }
+    super.connectedCallback()
   }
 
-  disconnectedCallback(): void {
-    this.removeEventListener(stateEvent, this[onStateChange])
+  disconnectedCallback() {
+    store.dispatch.forms.disconnect(this)
     super.disconnectedCallback()
   }
 
   @property({ type: Object })
   state!: FormState
 
-  __resource!: FocusNode
+  set resource(rootPointer: FocusNode | undefined) {
+    if (!rootPointer) return
 
-  @property({ type: Object })
-  get resource(): FocusNode {
-    return this.__resource
+    store.dispatch.forms.setRootResource({ form: this, rootPointer })
   }
 
-  set resource(focusNode: FocusNode) {
-    this.__resource = focusNode
-    if (this[storeSymbol]) {
-      this[storeSymbol].dispatch.datasets.updateResource({ focusNode, editors: this.configuration.editors })
-    }
+  get value(): DatasetCore | undefined {
+    return this.state.resourceGraph
   }
 
-  get value(): DatasetCore {
-    return this.resource.dataset
-  }
+  set shapes(shapesGraph: DatasetCore | undefined) {
+    if (!shapesGraph) return
 
-  __shape!: SingleContextClownface<NamedNode | BlankNode> | Shape
-
-  @property({ type: Object })
-  get shape(): SingleContextClownface<NamedNode | BlankNode> | Shape {
-    return this.__shape
-  }
-
-  set shape(shapeOrPointer: SingleContextClownface<NamedNode | BlankNode> | Shape) {
-    this.__shape = shapeOrPointer
-    if (this[storeSymbol]) {
-      this[storeSymbol].dispatch.datasets.updateShape({
-        shapeOrPointer,
-        editors: this.configuration.editors,
-      })
-    }
+    store.dispatch.forms.setShapesGraph({
+      form: this,
+      shapesGraph,
+    })
   }
 
   render() {
-    if (!this.configuration.renderer.ready) {
+    if (!this.rendererOptions.ready) {
       store.dispatch.renderer.loadDependencies()
 
-      return this.configuration.renderer.strategy.initialising()
+      return this.rendererOptions.strategy.initialising()
     }
 
-    return html`<style>${this.configuration.renderer.styles}</style> ${this.renderer.render({
-      form: this.state,
-      state: this.configuration,
-      actions: { ...this[storeSymbol].dispatch, ...store.dispatch },
+    return html`<style>${this.rendererOptions.styles}</style> ${this.renderer.render({
+      form: this,
+      state: this.state,
+      components: this.components,
+      actions: store.dispatch,
+      strategy: this.rendererOptions.strategy,
     })}`
   }
 
-  mapState(configuration: State) {
-    return { configuration }
-  }
-
-  private [onStateChange]() {
-    this.state = this[storeSymbol].state.form
+  mapState(state: State) {
+    return {
+      state: state.forms.instances.get(this),
+      rendererOptions: state.renderer,
+      editors: state.editors,
+      components: state.components,
+    }
   }
 }

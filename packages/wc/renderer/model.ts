@@ -47,11 +47,12 @@ export const renderer = createModel({
       }
     },
     setStrategy(state, newStrategy: Partial<RendererState['strategy']>): RendererState {
-      const strategy = {...state.strategy, ...newStrategy}
+      const strategy = { ...state.strategy, ...newStrategy }
 
       return {
         ...state,
         strategy,
+        ready: false,
         styles: combineStyles(strategy),
       }
     },
@@ -65,7 +66,13 @@ export const renderer = createModel({
 
         await Promise.all(
           Object.values(state.renderer.strategy)
-            .map(strat => strat.loadDependencies && strat.loadDependencies()),
+            .reduce<Promise<unknown>[]>((promises, strat) => {
+            if (!strat.loadDependencies) {
+              return promises
+            }
+
+            return [...promises, ...strat.loadDependencies()]
+          }, []),
         )
 
         dispatch.renderer.ready()

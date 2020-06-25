@@ -2,7 +2,7 @@ import type { FocusNodeRenderStrategy, GroupRenderStrategy } from '@hydrofoil/sh
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit-html/directives/repeat'
 import { styleMap } from 'lit-html/directives/style-map'
-import { PropertyGroupState } from '@hydrofoil/shaperone-core/state/form'
+import { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
 
 export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, actions, renderGroup }) => {
   function renderTab(group: PropertyGroupState) {

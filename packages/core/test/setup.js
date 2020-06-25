@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const chai = require('chai')
-const { initSnapshotManager } = require('mocha-chai-jest-snapshot')
+const RdfResource = require('@tpluscode/rdfine/RdfResource').default
+const Shacl = require('@rdfine/shacl')
 
-chai.use(initSnapshotManager)
+RdfResource.factory.addMixin(...Object.values(Shacl))

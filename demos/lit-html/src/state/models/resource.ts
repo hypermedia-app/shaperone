@@ -4,7 +4,8 @@ import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import cf, { SingleContextClownface } from 'clownface'
 import { Store } from '../store'
-import { schema, sh } from '@tpluscode/rdf-ns-builders'
+import { schema } from '@tpluscode/rdf-ns-builders'
+import { Shape } from '@rdfine/shacl'
 import { DatasetCore } from 'rdf-js'
 import { Menu, updateMenu } from '../../menu'
 import { serialize } from '../../serializer'
@@ -19,6 +20,7 @@ const jsonld = {
   name: 'John Doe',
   knows: {
     '@id': 'ex:Jane_Doe',
+    '@type': 'Person',
     name: 'Janet',
   },
 }
@@ -101,13 +103,13 @@ export const resource = createModel({
         })
       },
 
-      async serialize(dataset: DatasetCore) {
-        const { resource, shape } = store.getState()
+      async serialize({ dataset, shape } : { dataset: DatasetCore; shape: Shape }) {
+        const { resource } = store.getState()
 
         dispatch.resource.serialized(await serialize(dataset, resource.format, {
           context: {
             '@context': { ...resource.context },
-            '@type': shape.pointer?.out(sh.targetClass).value,
+            '@type': shape.targetClass.id.value,
             '@embed': '@always',
           },
           compact: true,
@@ -115,13 +117,16 @@ export const resource = createModel({
         }))
       },
 
-      async changeFormat(format: Menu) {
+      async changeFormat({ format, shape }: { format: Menu; shape?: Shape }) {
         const { resource } = store.getState()
 
         dispatch.resource.format(format.text)
 
-        if (resource.pointer) {
-          dispatch.resource.serialize(resource.pointer.dataset)
+        if (resource.pointer && shape) {
+          dispatch.resource.serialize({
+            dataset: resource.pointer.dataset,
+            shape,
+          })
         }
       },
     }

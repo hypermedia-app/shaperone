@@ -1,11 +1,11 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
-import type { FocusNodeState, PropertyGroupState, PropertyState } from '../state/form'
 import type { SafeClownface, SingleContextClownface } from 'clownface'
-import { FocusNode } from '../index'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
-import { byShOrder } from './order'
-import { CompoundEditor, EditorsState, ValueEditor } from '../editors/index'
+import { CompoundEditor, ValueEditor } from '../../editors/index'
+import { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
+import { FocusNode } from '../../../index'
+import { byShOrder } from '../../../lib/order'
 
 export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: ValueEditor[]): ValueEditor[] {
   return editors.map(editor => ({ editor, score: editor.match(shape, object) }))
@@ -43,12 +43,13 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: ValueE
   }
 }
 
-export function initialiseFocusNode(params: { shape?: NodeShape; editors: EditorsState; focusNode: FocusNode; selectedGroup?: string }): FocusNodeState {
+export function initialiseFocusNode(params: { shape?: NodeShape; editors: ValueEditor[]; focusNode: FocusNode; selectedGroup?: string }): FocusNodeState {
   const { shape, focusNode, editors, selectedGroup } = params
   const groupMap = new Map<string, PropertyGroupState>()
 
   if (!shape) {
     return {
+      shape,
       focusNode,
       groups: [],
       properties: [],
@@ -70,14 +71,16 @@ export function initialiseFocusNode(params: { shape?: NodeShape; editors: Editor
 
     return [...map, initialisePropertyShape({
       shape: prop,
-      editors: Object.values(editors.valueEditors),
-      compoundEditors: Object.values(editors.aggregateEditors),
+      editors,
+      compoundEditors: [],
       values: focusNode.out(prop.path.id),
     })]
   }, [])
 
   const groups = [...groupMap.values()].sort((l, r) => l.order - r.order)
-  groups[0].selected = true
+  if (groups[0]) {
+    groups[0].selected = true
+  }
 
   return {
     shape,

@@ -1,12 +1,13 @@
 import { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
-import type { config } from '../state/config'
-import type { createComponentsModel } from '../components'
-import type { editors } from '../editors'
+import { forms } from '../models/forms'
+import { editors } from '../models/editors'
+import { createComponentsModel } from '../models/components'
 
-type Config = {
-  models: (typeof config)['models'] & {
-    components: ReturnType<typeof createComponentsModel>
+interface Config {
+  models: {
+    forms: typeof forms
     editors: typeof editors
+    components: ReturnType<typeof createComponentsModel>
   }
 }
 

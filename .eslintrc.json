@@ -8,5 +8,11 @@
   },
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**"]}]
-  }
+  },
+  "overrides": [{
+    "files": "**/test/**/*.ts",
+    "rules": {
+      "no-unused-expressions": "warn"
+    }
+  }]
 }

@@ -3,8 +3,7 @@ import type { DatasetCore, NamedNode } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
 import { vocabularies } from '@zazuko/rdf-vocabularies'
 import cf, { Clownface, SingleContextClownface } from 'clownface'
-import { Dispatch, Store } from '../state'
-import * as DashEditors from '../DashEditors'
+import { Dispatch, Store } from '../../state'
 import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 
 export type Editor<T extends EditorMatcher = ValueEditor | CompoundEditor> = T & {
@@ -89,11 +88,10 @@ export const editors = createModel(({
     return {
       async loadDash() {
         const { dash } = await vocabularies({ only: ['dash'] })
+        const DashEditors = await import('../../DashEditors')
 
         dispatch.editors.addMetadata(dash)
         dispatch.editors.addMatchers(DashEditors)
-
-        dispatch.form.recalculateFocusNodes({ editors: store.getState().editors })
       },
     }
   },

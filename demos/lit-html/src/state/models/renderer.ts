@@ -1,8 +1,9 @@
 import { createModel } from '@captaincodeman/rdx'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer/DefaultStrategy'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
+import { renderer, components } from '@hydrofoil/shaperone-wc/configure'
+import { dash } from '@tpluscode/rdf-ns-builders'
 import { Menu, updateMenu } from '../../menu'
-import { store as sharedStore } from '@hydrofoil/shaperone-wc/store'
 
 export interface NestedShapesState {
   menu: Menu[]
@@ -37,8 +38,7 @@ const nestingMenu: Menu = {
 
 const initialStrategy = { ...DefaultStrategy, ...MaterialRenderStrategy }
 
-// todo: expose as a configuration module
-sharedStore.dispatch.renderer.setStrategy(initialStrategy)
+renderer.setStrategy(initialStrategy)
 
 export const rendererSettings = createModel({
   state: <NestedShapesState>{
@@ -63,21 +63,18 @@ export const rendererSettings = createModel({
 
     return {
       async switchNesting({ text }: Menu) {
-        const strategy = {
-          form: initialStrategy.form,
-        }
-
         if (text === 'Always one') {
           const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer')
-          strategy.form = topmostFocusNodeFormRenderer
+          const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components')
+
+          renderer.setStrategy({
+            form: topmostFocusNodeFormRenderer,
+          })
+          components.pushComponents(nestingComponents)
+        } else {
+          renderer.setStrategy({ form: initialStrategy.form })
+          components.removeComponents([dash.CompoundEditor])
         }
-        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components')
-
-        // todo: expose as a configuration module
-        sharedStore.dispatch.renderer.setStrategy(strategy)
-        sharedStore.dispatch.components.pushComponents(nestingComponents)
-
-        sharedStore.dispatch.renderer.loadDependencies()
 
         dispatch.rendererSettings.checkNestingOption({ text })
       },
@@ -106,9 +103,7 @@ export const rendererSettings = createModel({
           strategy.focusNode = TabsFocusNodeRenderer
         }
 
-        // todo: expose as a configuration module
-        sharedStore.dispatch.renderer.setStrategy(strategy)
-        sharedStore.dispatch.renderer.loadDependencies()
+        renderer.setStrategy(strategy)
 
         dispatch.rendererSettings.checkLayoutOption({ text })
       },

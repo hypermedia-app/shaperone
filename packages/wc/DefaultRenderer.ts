@@ -3,44 +3,44 @@ import type {
   FocusNodeState,
   PropertyGroupState,
   PropertyObjectState,
-} from '@hydrofoil/shaperone-core/state/form'
+} from '@hydrofoil/shaperone-core/models/forms'
 import { html, TemplateResult } from 'lit-element'
 import { NamedNode, Term } from 'rdf-js'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
 import { PropertyGroup } from '@rdfine/shacl'
-import { dash } from '@tpluscode/rdf-ns-builders'
 import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
-  render({ form, state, actions }: RenderParams): TemplateResult {
+  render({ form, state, components, actions, strategy }: RenderParams): TemplateResult {
     const formRenderActions = {
-      truncateFocusNodes: (focusNode: FocusNode) => actions.form.truncateFocusNodes({ focusNode }),
-      popFocusNode: () => actions.form.popFocusNode(),
+      truncateFocusNodes: (focusNode: FocusNode) => actions.forms.truncateFocusNodes({ form, focusNode }),
+      popFocusNode: () => actions.forms.popFocusNode({ form }),
     }
 
     const renderFocusNode = (focusNodeState: FocusNodeState) => {
       const { focusNode } = focusNodeState
       const focusNodeActions = {
         ...formRenderActions,
-        selectGroup: (group: PropertyGroup | undefined) => actions.form.selectGroup({ focusNode, group }),
+        selectGroup: (group: PropertyGroup | undefined) => actions.forms.selectGroup({ form, focusNode, group }),
       }
 
       const renderGroup = (groupState: PropertyGroupState) => {
         const properties = focusNodeState.properties.filter(byGroup(groupState?.group))
         const groupRenderActions = {
-          selectGroup: () => actions.form.selectGroup({ focusNode, group: groupState?.group }),
+          selectGroup: () => actions.forms.selectGroup({ form, focusNode, group: groupState?.group }),
         }
 
         const renderProperty = (property: PropertyState) => {
           const propertyRenderActions = {
-            addObject: () => actions.form.addObject({ focusNode, property: property.shape, editors: state.editors }),
+            addObject: () => actions.forms.addObject({ form, focusNode, property: property.shape }),
           }
 
           const renderObject = (value: PropertyObjectState) => {
             const objectRenderActions = {
               selectEditor(editor: NamedNode): void {
-                actions.form.selectEditor({
+                actions.forms.selectEditor({
+                  form,
                   focusNode,
                   property: property.shape,
                   value: value.object.term,
@@ -48,13 +48,14 @@ export const DefaultRenderer: Renderer = {
                 })
               },
               remove(): void {
-                actions.form.removeObject({ focusNode, property: property.shape, object: value })
+                actions.forms.removeObject({ form, focusNode, property: property.shape, object: value })
               },
             }
 
             const renderEditor = () => {
               function update(newValue: Term) {
-                actions.form.updateObject({
+                actions.forms.updateObject({
+                  form,
                   focusNode,
                   property: property.shape,
                   oldValue: value.object.term,
@@ -62,16 +63,19 @@ export const DefaultRenderer: Renderer = {
                 })
               }
 
-              function pushFocusNode() {
+              function focusOnObjectNode() {
                 if (value.object.term.termType === 'NamedNode' || value.object.term.termType === 'BlankNode') {
-                  actions.form.pushFocusNode({ focusNode: value.object as any, property: property.shape, editors: state.editors })
+                  actions.forms.pushFocusNode({ form, focusNode: value.object as any })
                 }
               }
 
-              const editor = value.selectedEditor || dash.TextFieldEditor
-              const component = state.components[editor.value]
-              if (!component) {
+              const editor = value.selectedEditor
+              if (!editor) {
                 return html`No editor found for property`
+              }
+              const component = components[editor.value]
+              if (!component) {
+                return html`No component found for selected editor`
               }
 
               if (!component.loaded) {
@@ -83,25 +87,25 @@ export const DefaultRenderer: Renderer = {
 
               return component.render(
                 { property, value },
-                { update, pushFocusNode },
+                { update, focusOnObjectNode },
               )
             }
 
-            return state.renderer.strategy.object({
+            return strategy.object({
               object: value,
               actions: objectRenderActions,
               renderEditor,
             })
           }
 
-          return state.renderer.strategy.property({
+          return strategy.property({
             property,
             actions: propertyRenderActions,
             renderObject,
           })
         }
 
-        return state.renderer.strategy.group({
+        return strategy.group({
           group: groupState,
           properties,
           actions: groupRenderActions,
@@ -109,15 +113,15 @@ export const DefaultRenderer: Renderer = {
         })
       }
 
-      return state.renderer.strategy.focusNode({
+      return strategy.focusNode({
         focusNode: focusNodeState,
         actions: focusNodeActions,
         renderGroup,
       })
     }
 
-    return state.renderer.strategy.form({
-      form,
+    return strategy.form({
+      form: state,
       actions: formRenderActions,
       renderFocusNode,
     })

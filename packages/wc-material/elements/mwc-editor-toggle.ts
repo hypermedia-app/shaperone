@@ -1,6 +1,6 @@
 import { css, customElement, html, LitElement, property, query } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
-import type { Editor } from '@hydrofoil/shaperone-core/editors'
+import type { Editor } from '@hydrofoil/shaperone-core/models/editors'
 import type { Menu } from '@material/mwc-menu/mwc-menu'
 import type { WcMenuButton } from 'wc-menu-button'
 

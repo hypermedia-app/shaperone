@@ -1,6 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode, Term } from 'rdf-js'
-import { PropertyObjectState, PropertyState } from '../state/form'
+import { PropertyObjectState, PropertyState } from '../forms/index'
 
 export interface EditorFactoryParams {
   property: PropertyState
@@ -9,7 +9,7 @@ export interface EditorFactoryParams {
 
 export interface EditorFactoryActions {
   update(newValue: Term): void
-  pushFocusNode(): void
+  focusOnObjectNode(): void
 }
 
 export interface ComponentState<TRenderResult> extends Component<TRenderResult> {
@@ -47,6 +47,14 @@ export const createComponentsModel = <TRenderResult>() => createModel({
           loading: false,
         },
       }
+    },
+    removeComponents(components, toRemove: NamedNode[]) {
+      const newComponents = { ...components }
+      toRemove.forEach(editor => {
+        delete newComponents[editor.value]
+      })
+
+      return newComponents
     },
     pushComponents(components, toAdd: Record<string, Component<TRenderResult>>): ComponentsState {
       const newComponents = Object.values(toAdd).reduce<ComponentsState>((reduced, component) => {
