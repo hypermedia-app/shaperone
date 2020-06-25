@@ -12,8 +12,8 @@ jobs:
           node-version: 13
       - run: yarn install --ci
       - run: yarn lint
-      - run: yarn build
       - run: yarn test
+      - run: yarn build
       - name: Codecov
         uses: codecov/codecov-action@v1.0.5
         with:
