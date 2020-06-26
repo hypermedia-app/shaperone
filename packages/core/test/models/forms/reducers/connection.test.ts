@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { connect, disconnect } from '../../../../models/forms/reducers/connection'
 import { expect } from 'chai'
 
-describe('models/forms/reducers/connection', () => {
+describe('core/models/forms/reducers/connection', () => {
   describe('connect', () => {
     it('creates a state for given form', function () {
       // given

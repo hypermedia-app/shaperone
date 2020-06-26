@@ -1,0 +1,6 @@
+exports["core/models/forms/reducers/connection connect creates a state for given form"] = {
+	"shapes": [],
+	"focusNodes": {},
+	"focusStack": []
+};
+

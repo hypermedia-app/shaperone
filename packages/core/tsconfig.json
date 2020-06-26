@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig",
   "files": [
-    "index.ts",
-    "../../types/global.d.ts"
+    "index.ts"
   ],
-  "include": ["test"]
+  "include": []
 }

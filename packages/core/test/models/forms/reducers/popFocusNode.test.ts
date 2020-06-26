@@ -8,7 +8,7 @@ import { testState, testFocusNodeState } from '../util'
 
 const ex = ns('http://example.com/')
 
-describe('models/forms/reducers/popFocusNode', () => {
+describe('core/models/forms/reducers/popFocusNode', () => {
   it('remove top node from stack', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })

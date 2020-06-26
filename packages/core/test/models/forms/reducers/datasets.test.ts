@@ -10,7 +10,7 @@ import { testState } from '../util'
 
 const ex = ns('http://example.com/')
 
-describe('models/forms/reducers/datasets', () => {
+describe('core/models/forms/reducers/datasets', () => {
   const form = {}
 
   describe('setShapesGraph', () => {

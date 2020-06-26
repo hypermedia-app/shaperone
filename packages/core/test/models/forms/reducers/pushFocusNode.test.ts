@@ -8,7 +8,7 @@ import { testState } from '../util'
 
 const ex = ns('http://example.com/')
 
-describe('models/forms/reducers/pushFocusNode', () => {
+describe('core/models/forms/reducers/pushFocusNode', () => {
   it('adds to focus node stack', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })

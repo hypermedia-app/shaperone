@@ -1,0 +1,5 @@
+ignore:
+  - demos
+  - test-setup.js
+  - types
+  - packages/*/test

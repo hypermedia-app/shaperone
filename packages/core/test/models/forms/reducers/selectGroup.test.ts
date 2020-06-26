@@ -9,7 +9,7 @@ import { testFocusNodeState, testState } from '../util'
 
 const ex = ns('http://example.com/')
 
-describe('models/forms/reducers/selectGroup', () => {
+describe('core/models/forms/reducers/selectGroup', () => {
   it('sets flag on selected group and unsets others', () => {
     // given
     const form = {}

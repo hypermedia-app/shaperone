@@ -3,7 +3,7 @@ node_modules
 *.js.map
 !*.config.js
 coverage/
-!**/test/**/*.js
+!test-setup.js
 *.d.ts
 *.d.ts.map
 playground/

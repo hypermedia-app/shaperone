@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "lerna run build",
-    "test": "lerna run test",
+    "test": "TS_NODE_TRANSPILE_ONLY=true c8 --all --reporter=lcov mocha packages/**/*.test.ts",
     "watch": "tsc -w -p tsconfig.json"
   },
   "workspaces": [
@@ -14,15 +14,30 @@
   ],
   "dependencies": {
     "@changesets/cli": "^2.8.0",
+    "@rdfine/shacl": "^0.1.4",
     "@tpluscode/eslint-config": "^0.1.0",
+    "@tpluscode/rdfine": "^0.4.15",
     "@types/rdf-js": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
+    "c8": "^7.1.2",
+    "chai-snapshot-matcher": "^1.0.6",
     "eslint-plugin-import": "^2.20.2",
+    "esm": "^3.2.25",
     "lerna": "^3.22.1",
     "readable-stream": "^3.6.0",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0",
     "standard": "^14.3.4",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.3",
     "yarn": "^1.22.4"
+  },
+  "mocha": {
+    "file": "test-setup.js",
+    "watch-files": [
+      "./**/*.ts"
+    ],
+    "require": ["esm", "ts-node/register", "chai-snapshot-matcher"]
   }
 }

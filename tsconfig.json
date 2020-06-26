@@ -17,5 +17,11 @@
       "node_modules/@types",
       "types"
     ]
-  }
+  },
+  "include": [
+    "packages",
+    "demos",
+    "test-setup.js",
+    "types/global.d.ts"
+  ]
 }
