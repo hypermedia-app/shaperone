@@ -2,6 +2,7 @@ node_modules
 *.js
 *.js.map
 !*.config.js
+!*.conf.js
 coverage/
 !test-setup.js
 *.d.ts

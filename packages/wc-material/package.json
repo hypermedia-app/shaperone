@@ -4,7 +4,9 @@
   "description": "Rendering forms in Material Design style",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "karma start --coverage",
+    "test:watch": "karma start --auto-watch=true --single-run=false"
   },
   "dependencies": {
     "@hydrofoil/shaperone-wc": "0.0.0",
@@ -25,5 +27,20 @@
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-proposal-decorators": "^7.10.3",
+    "@open-wc/testing-karma": "^3",
+    "@open-wc/eslint-config": "^2.0.6",
+    "@open-wc/testing": "^2.0.0",
+    "@rdfjs/namespace": "^1.1.0",
+    "@rdfjs/dataset": "^1.0.1",
+    "clownface": "^0.12.4",
+    "deepmerge": "^3.2.0",
+    "es-dev-commonjs-transformer": "^0.2.0",
+    "eslint-plugin-lit": "^1.2.0",
+    "sinon": "^9.0.2"
+  }
 }

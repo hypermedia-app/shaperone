@@ -1,5 +1,8 @@
 {
-  "extends": [ "@tpluscode" ],
+  "extends": [
+    "@open-wc/eslint-config",
+    "@tpluscode"
+  ],
   "env": {
     "browser": true
   },
@@ -7,7 +10,9 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**"]}]
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**"]}],
+    "no-shadow": "off",
+    "max-len": ["error", 200]
   },
   "overrides": [{
     "files": "**/test/**/*.ts",

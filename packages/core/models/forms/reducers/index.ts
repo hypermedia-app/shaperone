@@ -1,5 +1,5 @@
-import { FormState, State } from '../index'
-import { ValueEditor } from '../../editors/index'
+import type { FormState, State } from '../index'
+import type { ValueEditor } from '../../editors/index'
 
 export interface BaseParams {
   form: any

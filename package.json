@@ -5,7 +5,9 @@
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "lerna run build",
-    "test": "TS_NODE_TRANSPILE_ONLY=true c8 --all --reporter=lcov mocha packages/**/*.test.ts",
+    "test": "run-p test:*",
+    "test:mocha": "TS_NODE_TRANSPILE_ONLY=true c8 --all --reporter=lcov mocha packages/core/**/*.test.ts",
+    "test:open-wc": "lerna run test",
     "watch": "tsc -w -p tsconfig.json"
   },
   "workspaces": [
@@ -25,6 +27,7 @@
     "eslint-plugin-import": "^2.20.2",
     "esm": "^3.2.25",
     "lerna": "^3.22.1",
+    "npm-run-all": "^4.1.5",
     "readable-stream": "^3.6.0",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
