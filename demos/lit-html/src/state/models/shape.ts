@@ -23,26 +23,39 @@ ex:PersonShape
   a ${sh.Shape} ;
   ${sh.targetClass} ${schema.Person} ;
   ${rdfs.label} "Person" ;
-  ${sh.property} [
-    ${sh.path} ${schema.name} ;
-    ${sh.name} "Name" ;
-    ${sh.datatype} ${xsd.string} ;
-    ${dash.singleLine} true ;
-    ${sh.maxCount} 1 ;
-    ${sh.minCount} 1 ;
-    ${sh.order} 1
-  ] ;
-  ${sh.property} [
-    ${sh.path} ${schema.knows} ;
-    ${sh.class} ${schema.Person} ;
-    ${sh.group} ex:FriendGroup
-  ] ;
-  ${sh.property} [
-    ${sh.path} ${schema.age} ;
-    ${sh.name} "Age" ;
-    ${sh.datatype} ${xsd.integer} ;
-    ${sh.order} 2
-  ]
+  ${sh.property} ex:NameProperty ,
+                 ex:KnowsProperty ,
+                 ex:AgeProperty ;
+.
+
+ex:SimplifiedPersonShape
+  a ${sh.Shape} ;
+  ${sh.targetClass} ${schema.Person} ;
+  ${rdfs.label} "Person (name-only)" ;
+  ${sh.property} ex:NameProperty ;
+.
+
+ex:NameProperty
+  ${sh.path} ${schema.name} ;
+  ${sh.name} "Name" ;
+  ${sh.datatype} ${xsd.string} ;
+  ${dash.singleLine} true ;
+  ${sh.maxCount} 1 ;
+  ${sh.minCount} 1 ;
+  ${sh.order} 1 ;
+.
+
+ex:KnowsProperty
+  ${sh.path} ${schema.knows} ;
+  ${sh.class} ${schema.Person} ;
+  ${sh.group} ex:FriendGroup ;
+.
+
+ex:AgeProperty
+  ${sh.path} ${schema.age} ;
+  ${sh.name} "Age" ;
+  ${sh.datatype} ${xsd.integer} ;
+  ${sh.order} 2 ;
 .
 
 ex:FriendGroup

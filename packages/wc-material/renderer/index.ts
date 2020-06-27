@@ -11,8 +11,9 @@ export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRe
     const { focusNode, actions } = params
 
     return html`<mwc-list>
-      <mwc-list-item hasmeta>
-          ${focusNode.shape?.label}
+      <mwc-list-item ?hasmeta="${focusNode.shapes.length > 1}" twoline>
+          ${focusNode.focusNode.value}
+          <span slot="secondary">${focusNode.shape?.label}</span>
           <mwc-shape-selector slot="meta" .shapes="${focusNode.shapes}" title="Select shape"
                              @shape-selected="${(e: CustomEvent) => actions.selectShape(e.detail.value)}"></mwc-shape-selector>
       </mwc-list-item>
