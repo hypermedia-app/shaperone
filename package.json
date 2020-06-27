@@ -26,7 +26,9 @@
     "chai-snapshot-matcher": "^1.0.6",
     "eslint-plugin-import": "^2.20.2",
     "esm": "^3.2.25",
+    "husky": "^4.2.5",
     "lerna": "^3.22.1",
+    "lint-staged": "^10.2.11",
     "npm-run-all": "^4.1.5",
     "readable-stream": "^3.6.0",
     "sinon": "^9.0.2",
@@ -42,5 +44,15 @@
       "./**/*.ts"
     ],
     "require": ["esm", "ts-node/register", "chai-snapshot-matcher"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix --quiet"
+    ]
   }
 }
