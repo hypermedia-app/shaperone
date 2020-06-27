@@ -43,13 +43,23 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: ValueE
   }
 }
 
-export function initialiseFocusNode(params: { shape?: NodeShape; editors: ValueEditor[]; focusNode: FocusNode; selectedGroup?: string }): FocusNodeState {
-  const { shape, focusNode, editors, selectedGroup } = params
+interface InitializeParams {
+  shapes: NodeShape[]
+  shape?: NodeShape
+  editors: ValueEditor[]
+  focusNode: FocusNode
+  selectedGroup?: string
+}
+
+export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
+  const { shapes, focusNode, editors, selectedGroup } = params
   const groupMap = new Map<string, PropertyGroupState>()
+
+  const shape = params.shape || shapes[0]
 
   if (!shape) {
     return {
-      shape,
+      shapes,
       focusNode,
       groups: [],
       properties: [],
@@ -84,6 +94,7 @@ export function initialiseFocusNode(params: { shape?: NodeShape; editors: ValueE
 
   return {
     shape,
+    shapes,
     focusNode,
     groups,
     properties: properties.sort((l, r) => byShOrder(l.shape, r.shape)),

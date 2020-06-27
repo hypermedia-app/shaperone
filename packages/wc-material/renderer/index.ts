@@ -1,15 +1,41 @@
 import { css, html } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
-import type { PropertyRenderStrategy, ObjectRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
+import {
+  PropertyRenderStrategy,
+  ObjectRenderStrategy,
+  FocusNodeRenderStrategy,
+} from '@hydrofoil/shaperone-wc/lib/renderer'
+
+export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRenderStrategy => {
+  const renderer: FocusNodeRenderStrategy = (params) => {
+    const { focusNode, actions } = params
+
+    return html`<mwc-list>
+      <mwc-list-item hasmeta>
+          ${focusNode.shape?.label}
+          <mwc-shape-selector slot="meta" .shapes="${focusNode.shapes}" title="Select shape"
+                             @shape-selected="${(e: CustomEvent) => actions.selectShape(e.detail.value)}"></mwc-shape-selector>
+      </mwc-list-item>
+  </mwc-list>
+
+  ${currentStrategy(params)}`
+  }
+
+  renderer.loadDependencies = () => [
+    import('../elements/mwc-shape-selector'),
+  ]
+
+  return renderer
+}
 
 export const property: PropertyRenderStrategy = ({ property, actions, renderObject }) => {
   let addIcon = html``
 
   if (!property.maxReached) {
-    addIcon = html`<mwc-icon slot="meta" @click="${actions.addObject}">add_circle</mwc-icon>`
+    addIcon = html`<mwc-icon slot="meta" @click="${actions.addObject}" title="Add value">add_circle</mwc-icon>`
   }
 
-  return html`<mwc-list>
+  return html`<mwc-list title="Select editor">
     <mwc-list-item hasmeta>${property.name} ${addIcon}</mwc-list-item>
     ${repeat(property.objects, renderObject)}
   </mwc-list>`
@@ -42,5 +68,5 @@ export const object: ObjectRenderStrategy = ({ object, actions, renderEditor }) 
 
 object.loadDependencies = () => [
   import('@material/mwc-list/mwc-list-item'),
-  import('./elements/mwc-editor-toggle'),
+  import('../elements/mwc-editor-toggle'),
 ]

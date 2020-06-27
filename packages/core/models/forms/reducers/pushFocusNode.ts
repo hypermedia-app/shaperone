@@ -11,7 +11,7 @@ export const pushFocusNode = formStateReducer(({ state, editors }, { focusNode }
       ...state.focusNodes,
       [focusNode.value]: initialiseFocusNode({
         focusNode,
-        shape: state.shapes.filter(matchFor(focusNode))[0],
+        shapes: state.shapes.filter(matchFor(focusNode)),
         editors,
       }),
     },

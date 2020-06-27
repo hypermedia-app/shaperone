@@ -8,7 +8,7 @@ import { html, TemplateResult } from 'lit-element'
 import { NamedNode, Term } from 'rdf-js'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
-import { PropertyGroup } from '@rdfine/shacl'
+import type { NodeShape, PropertyGroup } from '@rdfine/shacl'
 import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
@@ -23,6 +23,7 @@ export const DefaultRenderer: Renderer = {
       const focusNodeActions = {
         ...formRenderActions,
         selectGroup: (group: PropertyGroup | undefined) => actions.forms.selectGroup({ form, focusNode, group }),
+        selectShape: (shape: NodeShape) => actions.forms.selectShape({ form, focusNode, shape }),
       }
 
       const renderGroup = (groupState: PropertyGroupState) => {

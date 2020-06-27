@@ -20,14 +20,13 @@ export const setShapesGraph = formStateReducer(({ state, editors }, { shapesGrap
 
   const focusNodes = [...Object.values(state.focusNodes)].reduce<Record<string, FocusNodeState>>((focusNodes, focusNodeState) => {
     const { focusNode } = focusNodeState
-    const shape = shapes.find(s => s.id.equals(focusNodeState.shape?.id)) ||
-      shapes.filter(matchFor(focusNode))[0]
 
     return {
       ...focusNodes,
       [focusNode.value]: initialiseFocusNode({
         focusNode,
-        shape,
+        shapes: shapes.filter(matchFor(focusNode)),
+        shape: shapes.find(s => s.id.equals(focusNodeState.shape?.id)),
         editors,
       }),
     }
@@ -40,7 +39,7 @@ export const setShapesGraph = formStateReducer(({ state, editors }, { shapesGrap
       ...missingNodes,
       [focusNode.value]: initialiseFocusNode({
         focusNode,
-        shape: shapes.filter(matchFor(focusNode))[0],
+        shapes: shapes.filter(matchFor(focusNode)),
         editors,
       }),
     }
@@ -61,7 +60,7 @@ export const setRootResource = formStateReducer(({ state, editors }, { rootPoint
       focusNodes[rootPointer.value] = initialiseFocusNode({
         focusNode: rootPointer,
         editors,
-        shape: state.shapes.filter(matchFor(rootPointer))[0],
+        shapes: state.shapes.filter(matchFor(rootPointer)),
       })
     }
 

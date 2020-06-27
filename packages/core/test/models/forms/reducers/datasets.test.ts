@@ -77,13 +77,13 @@ describe('core/models/forms/reducers/datasets', () => {
       // given
       const state = testState(form)
       const shapesGraph = cf({ dataset: $rdf.dataset() })
-      const shape = new ShapeMixin.Class(shapesGraph.node(ex.Shape))
+      const shapes = [new ShapeMixin.Class(shapesGraph.node(ex.Shape))]
       const resourceGraph = cf({ dataset: $rdf.dataset() })
       const focusNode = resourceGraph.node(ex.Foo)
       const formState = state.instances.get(form)!
       formState.focusNodes = {
         [ex.Foo.value]: {
-          shape,
+          shapes,
           properties: [],
           groups: [],
           focusNode,

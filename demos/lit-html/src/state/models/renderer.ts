@@ -36,7 +36,11 @@ const nestingMenu: Menu = {
   }],
 }
 
-const initialStrategy = { ...DefaultStrategy, ...MaterialRenderStrategy }
+const initialStrategy = {
+  ...DefaultStrategy,
+  ...MaterialRenderStrategy,
+  focusNode: MaterialRenderStrategy.focusNode(DefaultStrategy.focusNode),
+}
 
 renderer.setStrategy(initialStrategy)
 

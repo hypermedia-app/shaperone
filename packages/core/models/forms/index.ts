@@ -6,6 +6,7 @@ import { pushFocusNode } from './reducers/pushFocusNode'
 import { removeObject } from './reducers/removeObject'
 import { selectEditor } from './reducers/selectEditor'
 import { selectGroup } from './reducers/selectGroup'
+import { selectShape } from './reducers/selectShape'
 import { truncateFocusNodes } from './reducers/truncateFocusNodes'
 import { updateObject } from './reducers/updateObject'
 import * as connection from './reducers/connection'
@@ -13,7 +14,7 @@ import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
 import { SingleContextClownface } from 'clownface'
 import { DatasetCore, NamedNode } from 'rdf-js'
-import { PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
+import { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { FocusNode } from '../../index'
 import { CompoundEditor, ValueEditor } from '../editors/index'
 
@@ -39,6 +40,7 @@ export interface PropertyGroupState {
 export interface FocusNodeState {
   focusNode: FocusNode
   shape?: Shape
+  shapes: NodeShape[]
   properties: PropertyState[]
   groups: PropertyGroupState[]
 }
@@ -63,6 +65,7 @@ const reducers = {
   removeObject,
   selectEditor,
   selectGroup,
+  selectShape,
   truncateFocusNodes,
   updateObject,
   ...connection,
