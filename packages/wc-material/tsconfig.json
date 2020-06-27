@@ -1,4 +1,3 @@
 {
-  "extends": "../../tsconfig",
-  "files": ["renderer.ts", "components.ts"]
+  "extends": "../../tsconfig"
 }
