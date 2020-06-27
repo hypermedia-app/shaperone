@@ -3,3 +3,4 @@ ignore:
   - test-setup.js
   - types
   - packages/*/test
+  - '**/*.js'
