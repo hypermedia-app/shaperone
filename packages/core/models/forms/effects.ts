@@ -1,4 +1,4 @@
-import { Store } from '../../state/index'
+import type { Store } from '../../state/index'
 
 export function effects(store: Store) {
   const dispatch = store.dispatch()

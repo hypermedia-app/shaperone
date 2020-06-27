@@ -1,12 +1,12 @@
-import { formStateReducer } from './index'
 import { DatasetCore } from 'rdf-js'
 import cf from 'clownface'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
 import { Shape, ShapeMixin } from '@rdfine/shacl'
-import { FocusNode } from '../../../index'
+import { formStateReducer } from './index'
+import type { FocusNode } from '../../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
-import { FocusNodeState, FormState } from '../index'
+import type { FocusNodeState, FormState } from '../index'
 import { matchFor } from '../lib/shapes'
 
 export const setShapesGraph = formStateReducer(({ state, editors }, { shapesGraph }: { shapesGraph: DatasetCore }) => {

@@ -19,12 +19,10 @@ export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, acti
     ${repeat(focusNode.groups, renderGroup)}`
 }
 
-TabsFocusNodeRenderer.loadDependencies = () => {
-  return [
-    import('@material/mwc-tab-bar/mwc-tab-bar'),
-    import('@material/mwc-tab/mwc-tab'),
-  ]
-}
+TabsFocusNodeRenderer.loadDependencies = () => [
+  import('@material/mwc-tab-bar/mwc-tab-bar'),
+  import('@material/mwc-tab/mwc-tab'),
+]
 
 export const TabsGroupRenderer: GroupRenderStrategy = ({ group, properties, renderProperty }) => {
   const styles = {

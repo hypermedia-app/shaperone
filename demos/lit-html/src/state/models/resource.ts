@@ -3,10 +3,10 @@ import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import cf, { SingleContextClownface } from 'clownface'
-import { Store } from '../store'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { Shape } from '@rdfine/shacl'
 import { DatasetCore } from 'rdf-js'
+import type { Store } from '../store'
 import { Menu, updateMenu } from '../../menu'
 import { serialize } from '../../serializer'
 
@@ -92,6 +92,7 @@ export const resource = createModel({
           try {
             const jsonld = JSON.parse(resource.serialized)
             dispatch.resource.context(jsonld['@context'])
+            // eslint-disable-next-line no-empty
           } catch (e) {
           }
         }

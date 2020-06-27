@@ -1,5 +1,5 @@
 export async function ensureEventTarget() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     try {
       // eslint-disable-next-line no-new
       new EventTarget()

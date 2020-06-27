@@ -3,10 +3,10 @@ import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import { sh, schema, xsd, rdfs, dash } from '@tpluscode/rdf-ns-builders'
-import { Store } from '../store'
 import { turtle } from '@tpluscode/rdf-string'
-import { Menu, updateMenu } from '../../menu'
 import { DatasetCore } from 'rdf-js'
+import type { Store } from '../store'
+import { Menu, updateMenu } from '../../menu'
 import { serialize } from '../../serializer'
 
 const context = [

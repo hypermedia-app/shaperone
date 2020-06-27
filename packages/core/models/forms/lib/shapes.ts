@@ -1,6 +1,6 @@
-import { FocusNode } from '../../../index'
 import { Shape } from '@rdfine/shacl'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
+import { FocusNode } from '../../../index'
 
 export function matchFor(focusNode: FocusNode) {
   return (shape: Shape) => {

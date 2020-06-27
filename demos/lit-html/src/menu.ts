@@ -6,7 +6,7 @@ export interface Menu {
 }
 
 export function updateMenu(menu: Menu, type: Menu['type'], text: string): Menu {
-  let checked = menu.checked
+  let { checked } = menu
   if (menu.type === type) {
     checked = menu.text === text
   }

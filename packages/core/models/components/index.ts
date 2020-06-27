@@ -1,6 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
-import { NamedNode, Term } from 'rdf-js'
-import { PropertyObjectState, PropertyState } from '../forms/index'
+import type { NamedNode, Term } from 'rdf-js'
+import type { PropertyObjectState, PropertyState } from '../forms/index'
 
 export interface EditorFactoryParams {
   property: PropertyState
@@ -50,7 +50,7 @@ export const createComponentsModel = <TRenderResult>() => createModel({
     },
     removeComponents(components, toRemove: NamedNode[]) {
       const newComponents = { ...components }
-      toRemove.forEach(editor => {
+      toRemove.forEach((editor) => {
         delete newComponents[editor.value]
       })
 

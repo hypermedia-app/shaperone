@@ -3,7 +3,7 @@ import type { CSSResult, CSSResultArray } from 'lit-element'
 import { css } from 'lit-element'
 import { DefaultStrategy } from './DefaultStrategy'
 import * as strategy from '../lib/renderer'
-import { State } from '../store'
+import type { State } from '../store'
 
 export interface RendererState {
   strategy: {
@@ -58,7 +58,7 @@ export const renderer = createModel({
       }
     },
   },
-  effects: store => {
+  effects: (store) => {
     const dispatch = store.dispatch()
 
     return {

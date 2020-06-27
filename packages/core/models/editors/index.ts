@@ -3,8 +3,8 @@ import type { DatasetCore, NamedNode } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
 import { vocabularies } from '@zazuko/rdf-vocabularies'
 import cf, { Clownface, SingleContextClownface } from 'clownface'
-import { Dispatch, Store } from '../../state'
 import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
+import type { Dispatch, Store } from '../../state'
 
 export type Editor<T extends EditorMatcher = ValueEditor | CompoundEditor> = T & {
   label: string

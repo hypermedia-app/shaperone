@@ -5,7 +5,7 @@ import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
 import { connect } from '@captaincodeman/rdx'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
-import { Renderer } from './renderer'
+import type { Renderer } from './renderer'
 import { DefaultRenderer } from './DefaultRenderer'
 import * as NativeComponents from './NativeComponents'
 

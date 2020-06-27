@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
-import { connect, disconnect } from '../../../../models/forms/reducers/connection'
 import { expect } from 'chai'
+import { connect, disconnect } from '../../../../models/forms/reducers/connection'
 
 describe('core/models/forms/reducers/connection', () => {
   describe('connect', () => {

@@ -12,12 +12,15 @@
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**"]}],
     "no-shadow": "off",
-    "max-len": ["error", 200]
+    "max-len": ["error", 200],
+    "wc/guard-super-call": "off",
+    "class-methods-use-this": "off"
   },
   "overrides": [{
     "files": "**/test/**/*.ts",
     "rules": {
-      "no-unused-expressions": "warn"
+      "no-unused-expressions": "warn",
+      "babel/no-unused-expressions": "off"
     }
   }]
 }

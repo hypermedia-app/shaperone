@@ -1,9 +1,9 @@
-import { FormState } from '@hydrofoil/shaperone-core/models/forms'
-import { TemplateResult } from 'lit-element'
-import { ComponentsState } from '@hydrofoil/shaperone-core/models/components'
-import { Dispatch } from '../store'
-import { ShaperoneForm } from '../ShaperoneForm'
-import { RendererState } from './model'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import type { TemplateResult } from 'lit-element'
+import type { ComponentsState } from '@hydrofoil/shaperone-core/models/components'
+import type { Dispatch } from '../store'
+import type { ShaperoneForm } from '../ShaperoneForm'
+import type { RendererState } from './model'
 
 export interface RenderParams {
   form: ShaperoneForm

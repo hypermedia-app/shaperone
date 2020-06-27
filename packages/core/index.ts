@@ -13,12 +13,10 @@ export async function loadMixins(): Promise<void> {
     import('@rdfine/shacl/dependencies/PropertyGroup.js').then(s => s.PropertyGroupDependencies),
   ]
 
-  const mixins = (await Promise.all(deps)).reduce<Mixin[]>((flat, mixins) => {
-    return [
-      ...flat,
-      ...Object.values(mixins),
-    ]
-  }, [])
+  const mixins = (await Promise.all(deps)).reduce<Mixin[]>((flat, mixins) => [
+    ...flat,
+    ...Object.values(mixins),
+  ], [])
 
   RdfResource.factory.addMixin(...mixins)
 }

@@ -1,8 +1,8 @@
-import { Term } from 'rdf-js'
+import type { Term } from 'rdf-js'
+import type { PropertyShape } from '@rdfine/shacl'
 import { formStateReducer } from './index'
-import { PropertyShape } from '@rdfine/shacl'
-import { PropertyObjectState } from '../index'
-import { FocusNode } from '../../../index'
+import type { PropertyObjectState } from '../index'
+import type { FocusNode } from '../../../index'
 
 export interface UpdateObjectParams {
   focusNode: FocusNode
@@ -11,9 +11,9 @@ export interface UpdateObjectParams {
   newValue: Term
 }
 
-export const updateObject = formStateReducer(function ({ state }, { focusNode, property, oldValue, newValue }: UpdateObjectParams) {
+export const updateObject = formStateReducer(({ state }, { focusNode, property, oldValue, newValue }: UpdateObjectParams) => {
   const focusNodeState = state.focusNodes[focusNode.value]
-  const properties = focusNodeState.properties.map(prop => {
+  const properties = focusNodeState.properties.map((prop) => {
     if (!prop.shape.id.equals(property.id)) {
       return prop
     }

@@ -13,7 +13,8 @@ function whenDefined(getter: () => unknown): Promise<void> {
         clearInterval(awaiter)
         resolve()
       }
-      if (++counter === maxWaits) {
+      counter += 1
+      if (counter === maxWaits) {
         clearInterval(awaiter)
         reject(new Error('Value did not become truthy in time'))
       }

@@ -32,9 +32,8 @@ export const textArea: ValueEditor = {
       if (datatype?.equals(xsd.string)) {
         if (singleLine === false) {
           return 20
-        } else {
-          return 5
         }
+        return 5
       }
     }
 

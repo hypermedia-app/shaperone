@@ -1,10 +1,10 @@
 import { SingleContextClownface } from 'clownface'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import { PropertyShape } from '@rdfine/shacl'
-import { FocusNode } from '../../..'
+import type { FocusNode } from '../../..'
 import { formStateReducer } from './index'
 import { matchEditors } from '../lib/stateBuilder'
-import { PropertyObjectState } from '../index'
+import type { PropertyObjectState } from '../index'
 
 export interface Params {
   focusNode: FocusNode
@@ -29,7 +29,7 @@ function defaultValueNode(property: PropertyShape, focusNode: FocusNode): Single
 export const addObject = formStateReducer(({ state, editors }, { focusNode, property }: Params) => {
   const focusNodeState = state.focusNodes[focusNode.value]
 
-  const properties = focusNodeState.properties.map(currentProperty => {
+  const properties = focusNodeState.properties.map((currentProperty) => {
     if (!currentProperty.shape.id.equals(property.id)) {
       return currentProperty
     }

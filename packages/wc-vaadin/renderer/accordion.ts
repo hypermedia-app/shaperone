@@ -15,9 +15,7 @@ export const AccordionFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode,
     </vaadin-accordion>`
 }
 
-AccordionFocusNodeRenderer.loadDependencies = () => {
-  return [import('@vaadin/vaadin-accordion/vaadin-accordion')]
-}
+AccordionFocusNodeRenderer.loadDependencies = () => [import('@vaadin/vaadin-accordion/vaadin-accordion')]
 
 export const AccordionGroupingRenderer: GroupRenderStrategy = ({ group, properties, renderProperty }) => {
   const header = group.group?.label || 'Ungrouped properties'

@@ -22,7 +22,7 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: ValueE
     .filter(match => match.score === null || match.score > 0)
     .map(e => e.editor) || []
 
-  const objects = values.map(object => {
+  const objects = values.map((object) => {
     const editors = matchEditors(shape, object, params.editors)
 
     return {

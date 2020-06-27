@@ -1,4 +1,4 @@
-import { State } from '../index'
+import type { State } from '../index'
 
 export function connect(map: State, form: any): State {
   map.instances.set(form, {

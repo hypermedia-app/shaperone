@@ -1,4 +1,4 @@
 import { store } from './store'
 
-export const components = store.dispatch.components
-export const renderer = store.dispatch.renderer
+export const { components } = store.dispatch
+export const { renderer } = store.dispatch

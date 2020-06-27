@@ -2,8 +2,8 @@ import { createStore, ModelStore, StoreDispatch, StoreState } from '@captaincode
 import { editors } from '@hydrofoil/shaperone-core/models/editors'
 import { createComponentsModel } from '@hydrofoil/shaperone-core/models/components'
 import { forms } from '@hydrofoil/shaperone-core/models/forms'
-import { renderer } from './renderer/model'
 import { TemplateResult } from 'lit-html'
+import { renderer } from './renderer/model'
 
 const config = {
   models: {

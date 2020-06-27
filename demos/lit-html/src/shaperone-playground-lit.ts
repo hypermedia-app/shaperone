@@ -6,9 +6,9 @@ import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import './shaperone-turtle-editor'
+import { connect } from '@captaincodeman/rdx'
 import type { ShaperoneTurtleEditor } from './shaperone-turtle-editor'
 import { store, State, Dispatch } from './state/store'
-import { connect } from '@captaincodeman/rdx'
 
 const saveResource = Symbol('save resource')
 
@@ -90,7 +90,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
 
   private get __serializeParams() {
     const focusNode = this.form.state.focusNodes[this.form.state.focusStack[0].value]
-    const shape = focusNode.shape
+    const { shape } = focusNode
 
     return {
       dataset: this.form.value,

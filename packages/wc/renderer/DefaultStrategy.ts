@@ -1,5 +1,5 @@
 import * as strategy from '../lib/renderer'
-import { RendererState } from './model'
+import type { RendererState } from './model'
 
 export const DefaultStrategy: RendererState['strategy'] = {
   form: strategy.defaultFormRenderer,

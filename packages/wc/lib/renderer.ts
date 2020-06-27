@@ -108,25 +108,17 @@ export const defaultFormRenderer: FormRenderStrategy = ({ form, renderFocusNode 
   return renderFocusNode(focusNodeState)
 }
 
-export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, renderGroup }) => {
-  return html`<form>
+export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, renderGroup }) => html`<form>
     <div class="fieldset">
         ${repeat(focusNode.groups, renderGroup)}
     </div>
 </form>`
-}
 
-export const defaultGroupRenderer: GroupRenderStrategy = ({ properties, renderProperty }) => {
-  return html`${repeat(properties, renderProperty)}`
-}
+export const defaultGroupRenderer: GroupRenderStrategy = ({ properties, renderProperty }) => html`${repeat(properties, renderProperty)}`
 
-export const defaultPropertyRenderer: PropertyRenderStrategy = ({ property, renderObject }) => {
-  return html`${repeat(property.objects, object => html`<div class="field">
+export const defaultPropertyRenderer: PropertyRenderStrategy = ({ property, renderObject }) => html`${repeat(property.objects, object => html`<div class="field">
     <label for="${property.shape.id.value}">${property.name}</label>
     ${renderObject(object)}`)}
 </div>`
-}
 
-export const defaultObjectRenderer: ObjectRenderStrategy = ({ renderEditor }) => {
-  return renderEditor()
-}
+export const defaultObjectRenderer: ObjectRenderStrategy = ({ renderEditor }) => renderEditor()

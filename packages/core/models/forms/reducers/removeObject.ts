@@ -1,8 +1,8 @@
 import { sh } from '@tpluscode/rdf-ns-builders'
+import type { PropertyShape } from '@rdfine/shacl'
 import { formStateReducer } from './index'
-import { PropertyShape } from '@rdfine/shacl'
-import { FocusNode } from '../../../index'
-import { PropertyObjectState } from '../index'
+import type { FocusNode } from '../../../index'
+import type { PropertyObjectState } from '../index'
 
 export interface RemoveObjectParams {
   focusNode: FocusNode
@@ -13,7 +13,7 @@ export interface RemoveObjectParams {
 export const removeObject = formStateReducer(({ state }, { focusNode, property, object }: RemoveObjectParams) => {
   const focusNodeState = state.focusNodes[focusNode.value]
 
-  const properties = focusNodeState.properties.map(currentProperty => {
+  const properties = focusNodeState.properties.map((currentProperty) => {
     if (!currentProperty.shape.id.equals(property.id)) {
       return currentProperty
     }
