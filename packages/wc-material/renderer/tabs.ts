@@ -12,7 +12,6 @@ export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, acti
   }
 
   return html`
-    ${focusNode.shape?.label}
     <mwc-tab-bar .activeIndex="${focusNode.groups.findIndex(g => g.selected)}">
         ${repeat(focusNode.groups, renderTab)}
     </mwc-tab-bar>

@@ -96,7 +96,7 @@ export const rendererSettings = createModel({
           } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion')
 
           strategy.group = AccordionGroupingRenderer
-          strategy.focusNode = AccordionFocusNodeRenderer
+          strategy.focusNode = MaterialRenderStrategy.focusNode(AccordionFocusNodeRenderer)
         } else if (text === 'Material tabs') {
           const {
             TabsGroupRenderer,
@@ -104,7 +104,7 @@ export const rendererSettings = createModel({
           } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs')
 
           strategy.group = TabsGroupRenderer
-          strategy.focusNode = TabsFocusNodeRenderer
+          strategy.focusNode = MaterialRenderStrategy.focusNode(TabsFocusNodeRenderer)
         }
 
         renderer.setStrategy(strategy)

@@ -8,7 +8,6 @@ export const AccordionFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode,
   }
 
   return html`
-    ${focusNode.shape?.label}
     <vaadin-accordion .opened="${focusNode.groups.findIndex(g => g.selected)}"
                       @opened-changed="${selectGroup}">
       ${repeat(focusNode.groups, renderGroup)}

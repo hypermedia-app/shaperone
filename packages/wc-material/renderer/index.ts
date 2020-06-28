@@ -22,9 +22,14 @@ export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRe
   ${currentStrategy(params)}`
   }
 
-  renderer.loadDependencies = () => [
-    import('../elements/mwc-shape-selector'),
-  ]
+  renderer.loadDependencies = () => {
+    const inheritedDependencies = currentStrategy.loadDependencies?.() || []
+
+    return [
+      import('../elements/mwc-shape-selector'),
+      ...inheritedDependencies,
+    ]
+  }
 
   return renderer
 }
