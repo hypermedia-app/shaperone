@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge'
 import { FocusNodeState, FormState, State } from '../../../models/forms/index'
-import { ValueEditor } from '../../../models/editors/index'
+import { SingleEditor } from '../../../models/editors/index'
 import { FocusNode } from '../../../index'
 
 type RecursivePartial<T> = {
@@ -12,13 +12,13 @@ type RecursivePartial<T> = {
 };
 
 interface Initializer {
-  valueEditors?: ValueEditor[]
+  singleEditors?: SingleEditor[]
   form?: Partial<FormState>
 }
 
 export function testState(form: unknown, initializer: Initializer = {}): State {
   const state = <State>{
-    valueEditors: initializer.valueEditors || [],
+    singleEditors: initializer.singleEditors || [],
     instances: new Map(),
   }
 

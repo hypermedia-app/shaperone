@@ -1,9 +1,9 @@
 import { PropertyShape } from '@rdfine/shacl'
 import type { SingleContextClownface } from 'clownface'
 import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
-import { ValueEditor } from './models/editors/index'
+import type { SingleEditor } from './models/editors/index'
 
-export const textField: ValueEditor = {
+export const textField: SingleEditor = {
   term: dash.TextFieldEditor,
   match(shape: PropertyShape, value: SingleContextClownface) {
     let datatype = shape.get(sh.datatype)?.id
@@ -20,7 +20,7 @@ export const textField: ValueEditor = {
   },
 }
 
-export const textArea: ValueEditor = {
+export const textArea: SingleEditor = {
   term: dash.TextAreaEditor,
   match(shape: PropertyShape, value: SingleContextClownface) {
     const singleLine = shape.getBoolean(dash.singleLine)
@@ -42,7 +42,7 @@ export const textArea: ValueEditor = {
 }
 
 export const shape = {
-  term: dash.CompoundEditor,
+  term: dash.DetailsEditor,
   match(shape: PropertyShape) {
     if (shape.get(sh.class)) {
       return 20

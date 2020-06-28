@@ -3,10 +3,10 @@ import type { DatasetCore, NamedNode } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
 import { vocabularies } from '@zazuko/rdf-vocabularies'
 import cf, { Clownface, SingleContextClownface } from 'clownface'
-import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 import type { Dispatch, Store } from '../../state'
+import addMatchers from './reducers/addMatchers'
 
-export type Editor<T extends EditorMatcher = ValueEditor | CompoundEditor> = T & {
+export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
   label: string
 }
 
@@ -15,11 +15,11 @@ export interface EditorMatcher {
   term: NamedNode
 }
 
-export interface CompoundEditor extends EditorMatcher {
+export interface MultiEditor extends EditorMatcher {
   match: (shape: PropertyShape) => number | null
 }
 
-export interface ValueEditor extends EditorMatcher {
+export interface SingleEditor extends EditorMatcher {
   match: (shape: PropertyShape, value: SingleContextClownface) => number | null
 }
 
@@ -27,14 +27,16 @@ type EditorMap<T> = Record<string, T>
 
 export interface EditorsState {
   metadata: Clownface
-  valueEditors: EditorMap<Editor<ValueEditor>>
-  aggregateEditors: EditorMap<Editor<CompoundEditor>>
+  allEditors: EditorMap<Editor<EditorMatcher>>
+  singleEditors: EditorMap<Editor<SingleEditor>>
+  multiEditors: EditorMap<Editor<MultiEditor>>
 }
 
 export const editors = createModel(({
   state: <EditorsState>{
-    aggregateEditors: {},
-    valueEditors: {},
+    multiEditors: {},
+    singleEditors: {},
+    allEditors: {},
   },
   reducers: {
     addMetadata(state, dataset: DatasetCore) {
@@ -50,37 +52,7 @@ export const editors = createModel(({
         metadata: cf({ dataset: metadata }),
       }
     },
-
-    addMatchers(state, editors: Record<string, ValueEditor | CompoundEditor>) {
-      return Object.values(editors).reduce((newState, editor) => {
-        const meta = state.metadata.node(editor.term)
-        const label = meta.out(rdfs.label).values[0] || editor.term.value
-
-        if (meta.has(rdf.type, dash.CompoundEditor).terms.length) {
-          return {
-            ...newState,
-            aggregateEditors: {
-              ...newState.aggregateEditors,
-              [editor.term.value]: {
-                ...editor as CompoundEditor,
-                label,
-              },
-            },
-          }
-        }
-
-        return {
-          ...newState,
-          valueEditors: {
-            ...newState.valueEditors,
-            [editor.term.value]: {
-              ...editor,
-              label,
-            },
-          },
-        }
-      }, state)
-    },
+    addMatchers,
   },
   effects(store: Store) {
     const dispatch: Dispatch = store.dispatch()

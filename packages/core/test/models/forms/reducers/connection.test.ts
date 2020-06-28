@@ -8,7 +8,7 @@ describe('core/models/forms/reducers/connection', () => {
       // given
       const before = {
         instances: new Map(),
-        valueEditors: [],
+        singleEditors: [],
       }
       const form = {}
 
@@ -27,7 +27,7 @@ describe('core/models/forms/reducers/connection', () => {
       const form = {}
       const before = {
         instances: new Map(),
-        valueEditors: [],
+        singleEditors: [],
       }
       before.instances.set(form, {})
 
