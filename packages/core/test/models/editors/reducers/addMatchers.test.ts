@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import ns from '@rdfjs/namespace'
 import { quad } from '@rdfjs/data-model'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
-import addMatchers from '../../../../models/editors/reducers/addMatchers'
+import { addMatchers } from '../../../../models/editors/reducers/addMatchers'
 import { testState } from '../util'
 
 const ex = ns('http://example.com/')

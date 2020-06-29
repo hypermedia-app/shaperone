@@ -78,7 +78,7 @@ export const DefaultRenderer: Renderer = {
               }
               const component = components[editor.value]
               if (!component) {
-                return html`No component found for ${editors.allEditors[editor.value].label}`
+                return html`No component found for ${editors.allEditors[editor.value].meta.label}`
               }
 
               if (!component.loaded) {

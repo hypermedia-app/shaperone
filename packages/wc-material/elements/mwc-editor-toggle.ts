@@ -18,7 +18,7 @@ export class MwcEditorToggle extends LitElement {
   }
 
   __renderEditorSelector(choice: Editor) {
-    return html`<mwc-list-item @click="${this.__dispatchEditorSelected(choice)}">${choice.label}</mwc-list-item></wc-menu>`
+    return html`<mwc-list-item @click="${this.__dispatchEditorSelected(choice)}">${choice.meta.label}</mwc-list-item></wc-menu>`
   }
 
   __dispatchEditorSelected(choice: Editor) {

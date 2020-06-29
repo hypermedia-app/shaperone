@@ -1,13 +1,17 @@
 import { createModel } from '@captaincodeman/rdx'
-import type { DatasetCore, NamedNode } from 'rdf-js'
+import type { NamedNode } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
+import type * as Rdfs from '@rdfine/rdfs'
 import { vocabularies } from '@zazuko/rdf-vocabularies'
-import cf, { Clownface, SingleContextClownface } from 'clownface'
+import cf from 'clownface'
+import $rdf from 'rdf-ext'
+import type { Clownface, SingleContextClownface } from 'clownface'
 import type { Dispatch, Store } from '../../state'
-import addMatchers from './reducers/addMatchers'
+import { addMatchers } from './reducers/addMatchers'
+import { addMetadata } from './reducers/addMetadata'
 
 export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
-  label: string
+  meta: Rdfs.Resource
 }
 
 // todo: re-export from main module
@@ -37,21 +41,10 @@ export const editors = createModel(({
     multiEditors: {},
     singleEditors: {},
     allEditors: {},
+    metadata: cf({ dataset: $rdf.dataset() }),
   },
   reducers: {
-    addMetadata(state, dataset: DatasetCore) {
-      let metadata: DatasetCore = state.metadata?.dataset
-      if (metadata) {
-        [...dataset].forEach(quad => metadata.add(quad))
-      } else {
-        metadata = dataset
-      }
-
-      return {
-        ...state,
-        metadata: cf({ dataset: metadata }),
-      }
-    },
+    addMetadata,
     addMatchers,
   },
   effects(store: Store) {
