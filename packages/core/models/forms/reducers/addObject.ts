@@ -13,7 +13,9 @@ export interface Params {
 }
 
 function defaultValueNode(property: PropertyShape, focusNode: FocusNode): SingleContextClownface {
-  if (property.get(sh.class) || property.get(sh.nodeKind)?.id.equals(sh.IRI)) {
+  const nodeKind = property.get(sh.nodeKind)
+
+  if (property.get(sh.class) || nodeKind?.id.equals(sh.IRI) || nodeKind?.id.equals(sh.BlankNode) || nodeKind?.id.equals(sh.BlankNodeOrIRI)) {
     const resourceNode = focusNode.blankNode()
     const propertyClass = property.get(sh.class)
     if (propertyClass) {

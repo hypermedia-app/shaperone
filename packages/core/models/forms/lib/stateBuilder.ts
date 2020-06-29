@@ -52,18 +52,25 @@ interface InitializeParams {
 }
 
 export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
-  const { shapes, focusNode, editors, selectedGroup } = params
+  const { focusNode, editors, selectedGroup } = params
+  let { shapes } = params
   const groupMap = new Map<string, PropertyGroupState>()
 
-  const shape = params.shape || shapes[0]
-
-  if (!shape) {
+  if (!params.shape && !shapes.length) {
     return {
       shapes,
       focusNode,
       groups: [],
       properties: [],
     }
+  }
+
+  let [shape] = shapes
+  if (params.shape) {
+    shape = params.shape
+  }
+  if (!shapes.find(s => s.id.equals(shape.id))) {
+    shapes = [shape, ...shapes]
   }
 
   if (shape.targetClass) {

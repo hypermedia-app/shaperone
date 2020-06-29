@@ -36,5 +36,6 @@ export function testFocusNodeState(focusNode: FocusNode, initializer: Partial<Fo
     focusNode,
     groups: [],
     properties: [],
+    shapes: [],
   }, initializer, { clone: false })
 }

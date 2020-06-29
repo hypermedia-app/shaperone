@@ -68,7 +68,7 @@ export const DefaultRenderer: Renderer = {
 
               function focusOnObjectNode() {
                 if (value.object.term.termType === 'NamedNode' || value.object.term.termType === 'BlankNode') {
-                  actions.forms.pushFocusNode({ form, focusNode: value.object as any })
+                  actions.forms.pushFocusNode({ form, focusNode: value.object as any, property: property.shape })
                 }
               }
 

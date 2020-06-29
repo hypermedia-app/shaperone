@@ -48,6 +48,7 @@ ex:NameProperty
 ex:KnowsProperty
   ${sh.path} ${schema.knows} ;
   ${sh.class} ${schema.Person} ;
+  ${sh.node} ex:SimplifiedPersonShape ;
   ${sh.group} ex:FriendGroup ;
 .
 
