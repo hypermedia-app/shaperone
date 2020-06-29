@@ -75,7 +75,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       {
         text: 'Update form',
       },
-      this.resource.menu,
+      ...this.resource.menu,
     ]
   }
 
@@ -99,6 +99,8 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   }
 
   async connectedCallback() {
+    document.addEventListener('resource-selected', (e: any) => store.dispatch.resource.selectResource({ id: e.detail.value }))
+
     super.connectedCallback()
 
     store.dispatch.resource.parse()

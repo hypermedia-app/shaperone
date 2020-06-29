@@ -2,13 +2,17 @@ import { createModel } from '@captaincodeman/rdx'
 import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
-import cf, { SingleContextClownface } from 'clownface'
+import cf, { Clownface, SingleContextClownface } from 'clownface'
 import { schema } from '@tpluscode/rdf-ns-builders'
+import TermSet from '@rdfjs/term-set'
 import { Shape } from '@rdfine/shacl'
 import { DatasetCore } from 'rdf-js'
+import type { ComboBoxElement } from '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { Store } from '../store'
-import { Menu, updateMenu } from '../../menu'
+import { Menu, updateComponent, updateMenu } from '../../menu'
 import { serialize } from '../../serializer'
+
+import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 
 const jsonld = {
   '@context': {
@@ -26,11 +30,27 @@ const jsonld = {
 }
 
 export interface State {
+  graph?: Clownface
   pointer?: SingleContextClownface
   format: string
   serialized: string
   context: Record<string, any>
-  menu: Menu
+  menu: Menu[]
+  resourceSelector?: ComboBoxElement
+}
+
+function createResourcesMenu() {
+  const comboBox: ComboBoxElement = document.createElement('vaadin-combo-box')
+
+  comboBox.addEventListener('selected-item-changed', (e: any) => {
+    comboBox.dispatchEvent(new CustomEvent('resource-selected', {
+      detail: e.detail,
+      bubbles: true,
+      composed: true,
+    }))
+  })
+
+  return comboBox
 }
 
 export const resource = createModel({
@@ -38,7 +58,12 @@ export const resource = createModel({
     serialized: JSON.stringify(jsonld, null, 2),
     format: 'application/ld+json',
     context: {},
-    menu: {
+    menu: [{
+      text: 'Resource',
+      children: [{
+        id: 'resource selector',
+      }],
+    }, {
       text: 'Format',
       children: [{
         type: 'format',
@@ -48,13 +73,43 @@ export const resource = createModel({
         type: 'format',
         text: 'text/turtle',
       }],
-    },
+    }],
   },
   reducers: {
-    updatePointer(state, { pointer }: { pointer: SingleContextClownface }) {
+    replaceGraph(state, { graph }: { graph: Clownface }) {
+      const pointers = graph.in().filter(node => node.term.termType === 'NamedNode')
+      const terms = new TermSet(pointers.map(node => node.term))
+      let pointer
+      const resourceSelector = state.resourceSelector || createResourcesMenu()
+
+      if (!state.pointer) {
+        pointer = graph.node($rdf.namedNode('http://example.com/John_Doe'))
+      } else {
+        pointer = graph.node(state.pointer.term)
+      }
+
+      resourceSelector.items = [...terms].map(node => node.value)
+      resourceSelector.selectedItem = pointer.value
       return {
         ...state,
+        graph,
         pointer,
+        menu: state.menu.map(item => updateComponent(item, 'resource selector', resourceSelector)),
+      }
+    },
+    selectResource(state, { id }: { id: string }) {
+      if (id === state.pointer?.value) {
+        return state
+      }
+
+      const { resourceSelector } = state
+      if (resourceSelector) {
+        resourceSelector.selectedItem = id
+      }
+
+      return {
+        ...state,
+        pointer: state.graph?.namedNode(id),
       }
     },
     serialized(state, serialized: string): State {
@@ -73,7 +128,7 @@ export const resource = createModel({
       return {
         ...state,
         format,
-        menu: updateMenu(state.menu, 'format', format),
+        menu: state.menu.map(item => updateMenu(item, 'format', format)),
       }
     },
   },
@@ -99,8 +154,8 @@ export const resource = createModel({
 
         const dataset = await $rdf.dataset().import(stream)
 
-        dispatch.resource.updatePointer({
-          pointer: cf({ dataset, term: $rdf.namedNode('http://example.com/John_Doe') }),
+        dispatch.resource.replaceGraph({
+          graph: cf({ dataset }),
         })
       },
 

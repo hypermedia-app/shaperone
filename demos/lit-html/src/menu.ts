@@ -1,8 +1,10 @@
 export interface Menu {
+  id?: string
   type?: 'layout' | 'renderer' | 'format'
   text: string
   checked?: boolean
   children?: Menu[]
+  component?: string | HTMLElement
 }
 
 export function updateMenu(menu: Menu, type: Menu['type'], text: string): Menu {
@@ -15,5 +17,18 @@ export function updateMenu(menu: Menu, type: Menu['type'], text: string): Menu {
     ...menu,
     checked,
     children: menu.children?.map(child => updateMenu(child, type, text)),
+  }
+}
+
+export function updateComponent(menu: Menu, id: string, newComponent: string | HTMLElement): Menu {
+  let { component } = menu
+  if (menu.id === id) {
+    component = newComponent
+  }
+
+  return {
+    ...menu,
+    component,
+    children: menu.children?.map(child => updateComponent(child, id, newComponent)),
   }
 }
