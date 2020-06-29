@@ -17,51 +17,137 @@ const context = [
   },
 ]
 
-const triples = turtle`@prefix ex: <http://example.com/> .
+const triples = turtle`@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <http://schema.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix shsh: <http://www.w3.org/ns/shacl-shacl#> .
 
-ex:PersonShape
-  a ${sh.Shape} ;
-  ${sh.targetClass} ${schema.Person} ;
-  ${rdfs.label} "Person" ;
-  ${sh.property} ex:NameProperty ,
-                 ex:KnowsProperty ,
-                 ex:AgeProperty ;
+@prefix p: <https://pipeline.described.at/> .
+@prefix code: <https://code.described.at/> .
+@prefix ex: <http://example.com/> .
+
+ex:PipelineShape
+  a sh:NodeShape ;
+  sh:targetClass p:Pipeline ;
+  rdfs:label "Pipeline" ;
+  sh:property [
+    sh:path p:steps ;
+    sh:name "Steps" ;
+    sh:node ex:StepListShape ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path p:variables ;
+    sh:name "Variable sets" ;
+    sh:node ex:VariableSetShape ;
+            sh:nodeKind sh:BlankNodeOrIRI
+  ]
 .
 
-ex:SimplifiedPersonShape
-  a ${sh.Shape} ;
-  ${sh.targetClass} ${schema.Person} ;
-  ${rdfs.label} "Person (name-only)" ;
-  ${sh.property} ex:NameProperty ;
+shsh:ListShape
+  a sh:NodeShape ;
+  rdfs:label "List shape"@en ;
+  rdfs:comment "A shape describing well-formed RDF lists. Currently does not check for non-recursion. This could be expressed using SHACL-SPARQL."@en ;
+  rdfs:seeAlso <https://www.w3.org/TR/shacl/#syntax-rule-SHACL-list> ;
+  sh:property [
+    sh:path [ sh:zeroOrMorePath rdf:rest ] ;
+    rdfs:comment "Each list member (including this node) must be have the shape shsh:ListNodeShape."@en ;
+    sh:hasValue rdf:nil ;
+    sh:node shsh:ListNodeShape ;
+  ] .
+
+
+shsh:ListNodeShape
+  a sh:NodeShape ;
+  rdfs:label "List node shape"@en ;
+  rdfs:comment "Defines constraints on what it means for a node to be a node within a well-formed RDF list. Note that this does not check whether the rdf:rest items are also well-formed lists as this would lead to unsupported recursion."@en ;
+  sh:or ( [
+        sh:hasValue rdf:nil ;
+            sh:property [
+          sh:path rdf:first ;
+          sh:maxCount 0 ;
+        ] ;
+        sh:property [
+          sh:path rdf:rest ;
+          sh:maxCount 0 ;
+        ] ;
+      ]
+      [
+        sh:not [ sh:hasValue rdf:nil ] ;
+        sh:property [
+          sh:path rdf:first ;
+                    sh:node ex:StepShape ;
+          sh:maxCount 1 ;
+          sh:minCount 1 ;
+        ] ;
+        sh:property [
+          sh:path rdf:rest ;
+          sh:maxCount 1 ;
+          sh:minCount 1 ;
+        ] ;
+      ] ) .
+
+ex:StepShape
+  a sh:NodeShape ;
+  sh:targetClass p:Step ;
+  sh:property [
+    sh:name "Implementation" ;
+    sh:path code:implementedBy ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:name "Arguments" ;
+    sh:path code:arguments ;
+    sh:or (
+      [ sh:node ex:PositionalArgumentsShape ]
+      [ sh:node ex:NamedArgumentsShape ]
+    )
+  ] ;
 .
 
-ex:NameProperty
-  ${sh.path} ${schema.name} ;
-  ${sh.name} "Name" ;
-  ${sh.datatype} ${xsd.string} ;
-  ${dash.singleLine} true ;
-  ${sh.maxCount} 1 ;
-  ${sh.minCount} 1 ;
-  ${sh.order} 1 ;
+ex:VariableSetShape
+  a sh:NodeShape ;
+  rdfs:label "Variable set" ;
+  sh:property [
+    sh:path p:variable ;
+    sh:name "Variable" ;
+    sh:node ex:VariableShape ;
+    sh:nodeKind sh:BlankNode
+  ]
 .
 
-ex:KnowsProperty
-  ${sh.path} ${schema.knows} ;
-  ${sh.class} ${schema.Person} ;
-  ${sh.node} ex:SimplifiedPersonShape ;
-  ${sh.group} ex:FriendGroup ;
+ex:VariableShape
+  a sh:NodeShape ;
+  rdfs:label "Variable" ;
+  sh:targetClass p:Variable ;
+  sh:property [
+    sh:name "Name" ;
+    sh:path p:name ;
+    ${dash.singleLine} true ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:name "Value" ;
+    sh:path p:value ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ]
 .
 
-ex:AgeProperty
-  ${sh.path} ${schema.age} ;
-  ${sh.name} "Age" ;
-  ${sh.datatype} ${xsd.integer} ;
-  ${sh.order} 2 ;
-.
-
-ex:FriendGroup
-  a ${sh.PropertyGroup} ;
-  ${rdfs.label} "Acquaintances"
+ex:EcmaScriptShape
+  a sh:NodeShape ;
+  sh:targetClass code:EcmaScript ;
+  sh:property [
+    sh:path code:link ;
+    sh:nodeKind sh:IRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ]
 .`
 
 export interface State {
