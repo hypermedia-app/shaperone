@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdfjs/namespace'
+import { PropertyShapeMixin } from '@rdfine/shacl'
 import { pushFocusNode } from '../../../../models/forms/reducers/pushFocusNode'
 import { testState } from '../util'
 
@@ -18,11 +19,13 @@ describe('core/models/forms/reducers/pushFocusNode', () => {
       graph.node(ex.FocusNode1),
       graph.node(ex.FocusNode2),
     ]
+    const property = new PropertyShapeMixin.Class(graph.namedNode(ex.propertyShape))
 
     // when
     const next = pushFocusNode(state, {
       form,
       focusNode: graph.node(ex.FocusNode3),
+      property,
     })
 
     // then
@@ -35,11 +38,13 @@ describe('core/models/forms/reducers/pushFocusNode', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const form = {}
     const state = testState(form)
+    const property = new PropertyShapeMixin.Class(graph.namedNode(ex.propertyShape))
 
     // when
     const next = pushFocusNode(state, {
       form,
       focusNode: graph.node(ex.FocusNode),
+      property,
     })
 
     // then

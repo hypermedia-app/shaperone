@@ -9,6 +9,7 @@ export type { Component } from './models/components'
 export async function loadMixins(): Promise<void> {
   const deps = [
     import('@rdfine/shacl/dependencies/Shape.js').then(s => s.ShapeDependencies),
+    import('@rdfine/shacl/dependencies/NodeShape.js').then(s => s.NodeShapeDependencies),
     import('@rdfine/shacl/dependencies/PropertyShape.js').then(s => s.PropertyShapeDependencies),
     import('@rdfine/shacl/dependencies/PropertyGroup.js').then(s => s.PropertyGroupDependencies),
   ]

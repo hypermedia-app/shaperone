@@ -4003,10 +4003,10 @@
     readable-stream "^3.6.0"
     string-to-stream "^3.0.1"
 
-"@zazuko/rdf-vocabularies@^2020.6.25-1":
-  version "2020.6.25-1"
-  resolved "https://registry.yarnpkg.com/@zazuko/rdf-vocabularies/-/rdf-vocabularies-2020.6.25-1.tgz#db1cf13d8934b8a62a56bc020ecda8802ae62260"
-  integrity sha512-0JBHOP5cdLe6gWCjw/1nlZGr+d7eaATs0Eej7E9TyX29EBpWwiEiGVZqMoWgGZPLZ24RPZoBvFF/1S7Prx22uQ==
+"@zazuko/rdf-vocabularies@^2020.6.29":
+  version "2020.6.29"
+  resolved "https://registry.yarnpkg.com/@zazuko/rdf-vocabularies/-/rdf-vocabularies-2020.6.29.tgz#2be2daf910e429ac051e280eb361a16398ab8795"
+  integrity sha512-eu4kqxklCHyA4fYKTp0Kf2SIR2cSR4OlghbAZPl5X/r5lFLuaudWFK0Zg/0l4WF8Tszu9OvkcW9H1DVkUFDT8w==
   dependencies:
     "@rdfjs/parser-n3" "^1.1.2"
     commander "^5.0.0"

@@ -41,11 +41,15 @@ export const textArea: SingleEditor = {
   },
 }
 
-export const shape = {
+export const shape: SingleEditor = {
   term: dash.DetailsEditor,
-  match(shape: PropertyShape) {
+  match(shape: PropertyShape, value) {
     if (shape.get(sh.class)) {
       return 20
+    }
+
+    if (value.term.termType === 'BlankNode' || value.term.termType === 'NamedNode') {
+      return null
     }
 
     return 0

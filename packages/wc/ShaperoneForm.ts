@@ -11,8 +11,14 @@ import * as NativeComponents from './NativeComponents'
 
 store.dispatch.components.pushComponents(NativeComponents)
 
+const resourceSymbol: unique symbol = Symbol('resource')
+const shapesSymbol: unique symbol = Symbol('shapes')
+
 @customElement('shaperone-form')
 export class ShaperoneForm extends connect(store, LitElement) {
+  private [resourceSymbol]?: FocusNode
+  private [shapesSymbol]?: DatasetCore | undefined
+
   static get styles() {
     return [css`
       :host {
@@ -39,6 +45,9 @@ export class ShaperoneForm extends connect(store, LitElement) {
     store.dispatch.forms.connect(this)
 
     super.connectedCallback()
+
+    this.resource = this[resourceSymbol]
+    this.shapes = this[shapesSymbol]
   }
 
   disconnectedCallback() {
@@ -52,6 +61,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
   set resource(rootPointer: FocusNode | undefined) {
     if (!rootPointer) return
 
+    this[resourceSymbol] = rootPointer
     store.dispatch.forms.setRootResource({ form: this, rootPointer })
   }
 
@@ -62,6 +72,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
   set shapes(shapesGraph: DatasetCore | undefined) {
     if (!shapesGraph) return
 
+    this[shapesSymbol] = shapesGraph
     store.dispatch.forms.setShapesGraph({
       form: this,
       shapesGraph,
