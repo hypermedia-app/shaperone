@@ -40,7 +40,7 @@ export interface State {
 }
 
 function createResourcesMenu() {
-  const comboBox: ComboBoxElement = document.createElement('vaadin-combo-box')
+  const comboBox = document.createElement('vaadin-combo-box') as ComboBoxElement
 
   comboBox.addEventListener('selected-item-changed', (e: any) => {
     comboBox.dispatchEvent(new CustomEvent('resource-selected', {
