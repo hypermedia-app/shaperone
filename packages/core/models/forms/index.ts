@@ -16,18 +16,18 @@ import * as connection from './reducers/connection'
 import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
 import { FocusNode } from '../../index'
-import { CompoundEditor, ValueEditor } from '../editors/index'
+import type { MultiEditor, SingleEditor } from '../editors/index'
 
 export interface PropertyObjectState {
   object: SingleContextClownface
-  editors: ValueEditor[]
+  editors: SingleEditor[]
   selectedEditor: NamedNode | undefined
 }
 
 export interface PropertyState {
   shape: PropertyShape
   name: string
-  compoundEditors: CompoundEditor[]
+  compoundEditors: MultiEditor[]
   objects: PropertyObjectState[]
   maxReached: boolean
 }
@@ -54,7 +54,7 @@ export interface FormState {
 }
 
 export type State = {
-  valueEditors: ValueEditor[]
+  singleEditors: SingleEditor[]
   instances: Map<unknown, FormState>
 }
 
@@ -75,7 +75,7 @@ const reducers = {
 
 export const forms = createModel<State, typeof reducers, ReturnType<typeof effects>>({
   state: {
-    valueEditors: [],
+    singleEditors: [],
     instances: new Map(),
   },
   reducers,

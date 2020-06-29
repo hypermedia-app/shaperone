@@ -2,22 +2,22 @@ import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { SafeClownface, SingleContextClownface } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
-import type { CompoundEditor, ValueEditor } from '../../editors/index'
+import type { MultiEditor, SingleEditor } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 
-export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: ValueEditor[]): ValueEditor[] {
+export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: SingleEditor[]): SingleEditor[] {
   return editors.map(editor => ({ editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort((left, right) => left.score! - right.score!)
     .map(e => e.editor)
 }
 
-function initialisePropertyShape(params: { shape: PropertyShape; editors: ValueEditor[]; compoundEditors: CompoundEditor[]; values: SafeClownface }): PropertyState {
+function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: SafeClownface }): PropertyState {
   const { shape, values } = params
 
-  const compoundEditors = params.compoundEditors
+  const compoundEditors = params.multiEditors
     .map(editor => ({ editor, score: editor.match(shape) }))
     .filter(match => match.score === null || match.score > 0)
     .map(e => e.editor) || []
@@ -46,7 +46,7 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: ValueE
 interface InitializeParams {
   shapes: NodeShape[]
   shape?: NodeShape
-  editors: ValueEditor[]
+  editors: SingleEditor[]
   focusNode: FocusNode
   selectedGroup?: string
 }
@@ -82,7 +82,7 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
     return [...map, initialisePropertyShape({
       shape: prop,
       editors,
-      compoundEditors: [],
+      multiEditors: [],
       values: focusNode.out(prop.path.id),
     })]
   }, [])

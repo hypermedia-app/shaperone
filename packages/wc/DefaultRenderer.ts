@@ -13,6 +13,8 @@ import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
   render({ form, state, components, actions, strategy }: RenderParams): TemplateResult {
+    const { editors } = form
+
     const formRenderActions = {
       truncateFocusNodes: (focusNode: FocusNode) => actions.forms.truncateFocusNodes({ form, focusNode }),
       popFocusNode: () => actions.forms.popFocusNode({ form }),
@@ -76,7 +78,7 @@ export const DefaultRenderer: Renderer = {
               }
               const component = components[editor.value]
               if (!component) {
-                return html`No component found for selected editor`
+                return html`No component found for ${editors.allEditors[editor.value].meta.label}`
               }
 
               if (!component.loaded) {

@@ -77,7 +77,7 @@ export const rendererSettings = createModel({
           components.pushComponents(nestingComponents)
         } else {
           renderer.setStrategy({ form: initialStrategy.form })
-          components.removeComponents([dash.CompoundEditor])
+          components.removeComponents([dash.DetailsEditor])
         }
 
         dispatch.rendererSettings.checkNestingOption({ text })

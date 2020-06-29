@@ -1,5 +1,5 @@
 import type { FormState, State } from '../index'
-import type { ValueEditor } from '../../editors/index'
+import type { SingleEditor } from '../../editors/index'
 
 export interface BaseParams {
   form: any
@@ -7,7 +7,7 @@ export interface BaseParams {
 
 export interface SharedParams {
   state: FormState
-  editors: ValueEditor[]
+  editors: SingleEditor[]
 }
 
 export function formStateReducer<T>(reduceForm: (sharedParams: SharedParams, payload: T) => FormState) {
@@ -16,7 +16,7 @@ export function formStateReducer<T>(reduceForm: (sharedParams: SharedParams, pay
     if (formState) {
       state.instances.set(params.form, reduceForm({
         state: formState,
-        editors: state.valueEditors,
+        editors: state.singleEditors,
       }, params))
     }
 
