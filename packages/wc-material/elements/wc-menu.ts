@@ -5,6 +5,8 @@ import type { WcMenuButton } from 'wc-menu-button'
 import '@material/mwc-menu/mwc-menu'
 import 'wc-menu-button'
 
+const menuCorner = 'END'
+
 @customElement('wc-menu')
 export class WcMenu extends LitElement {
   static get styles() {
@@ -22,7 +24,7 @@ export class WcMenu extends LitElement {
 
   render() {
     return html`<wc-menu-button @opened="${this.__open}" @closed="${this.__close}"></wc-menu-button>
-      <mwc-menu quick @closed="${this.__closeButton}">
+      <mwc-menu quick @closed="${this.__closeButton}" .menuCorner="${menuCorner}" .anchor="${this}">
         <slot></slot>
       </mwc-menu>`
   }
