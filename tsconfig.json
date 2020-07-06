@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "module": "ESNext",
+    "module": "CommonJS",
     "baseUrl": "./",
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "Node",
@@ -10,6 +10,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "strict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,

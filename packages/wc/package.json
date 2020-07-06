@@ -10,7 +10,7 @@
     "@captaincodeman/rdx": "^1.0.0-rc.6",
     "@hydrofoil/shaperone-core": "0.0.0",
     "@rdf-esm/data-model": "^0.5.1",
-    "@rdfine/shacl": "^0.1.4",
+    "@rdfine/shacl": "^0.2.2",
     "@rdfjs/term-map": "^1.0.0",
     "@tpluscode/rdf-ns-builders": "^0.3.5",
     "lit-element": "^2.3.1",

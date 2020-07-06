@@ -38,7 +38,7 @@
     "@rdfjs/namespace": "^1.1.0",
     "@rdfjs/dataset": "^1.0.1",
     "clownface": "^0.12.4",
-    "deepmerge": "^3.2.0",
+    "deepmerge": "^4.2.2",
     "es-dev-commonjs-transformer": "^0.2.0",
     "eslint-plugin-lit": "^1.2.0",
     "sinon": "^9.0.2"

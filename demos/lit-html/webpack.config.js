@@ -3,13 +3,6 @@ const path = require('path')
 const merge = require('webpack-merge')
 const { createDefaultConfig } = require('@open-wc/building-webpack')
 
-const plugins = []
-if (process.env.BUNDLE_ANALYZER_TOKEN) {
-  const BundleAnalyzerPlugin = require('@bundle-analyzer/webpack-plugin')
-
-  plugins.push(new BundleAnalyzerPlugin({ token: process.env.BUNDLE_ANALYZER_TOKEN }))
-}
-
 module.exports = merge(
   createDefaultConfig({
     input: path.resolve(__dirname, './index.html'),
@@ -19,12 +12,11 @@ module.exports = merge(
       path: path.resolve(__dirname, '../../playground'),
     },
     resolve: {
-      extensions: ['.ts', '.js', '.json'],
+      extensions: ['.ts', '.mjs', '.js', '.json'],
       alias: {
         stream: 'readable-stream',
       },
     },
-    plugins,
     module: {
       rules: [
         {
