@@ -18,7 +18,7 @@
     "@hydrofoil/shaperone-wc-material": "0.0.0",
     "@hydrofoil/shaperone-wc-vaadin": "0.0.0",
     "@rdf-esm/formats-common": "^0.5.2",
-    "@rdfine/shacl": "^0.1.4",
+    "@rdfine/shacl": "^0.2.2",
     "@rdfjs/serializer-jsonld-ext": "^2.0.0",
     "@rdfjs/term-set": "^1.0.1",
     "@tpluscode/rdf-ns-builders": "^0.3.5",

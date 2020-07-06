@@ -15,16 +15,13 @@
   ],
   "dependencies": {
     "@changesets/cli": "^2.8.0",
-    "@rdfine/shacl": "^0.1.4",
     "@tpluscode/eslint-config": "^0.1.0",
-    "@tpluscode/rdfine": "^0.4.15",
     "@types/rdf-js": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
     "c8": "^7.1.2",
     "chai-snapshot-matcher": "^1.0.6",
     "eslint-plugin-import": "^2.20.2",
-    "esm": "^3.2.25",
     "husky": "^4.2.5",
     "lerna": "^3.22.1",
     "lint-staged": "^10.2.11",
@@ -42,7 +39,10 @@
     "watch-files": [
       "./**/*.ts"
     ],
-    "require": ["esm", "ts-node/register", "chai-snapshot-matcher"]
+    "require": [
+      "ts-node/register",
+      "chai-snapshot-matcher"
+    ]
   },
   "husky": {
     "hooks": {
