@@ -1,7 +1,7 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { SafeClownface, SingleContextClownface } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
-import { rdf, sh } from '@tpluscode/rdf-ns-builders'
+import { sh } from '@tpluscode/rdf-ns-builders'
 import type { MultiEditor, SingleEditor } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
@@ -71,10 +71,6 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
   }
   if (!shapes.find(s => s.id.equals(shape.id))) {
     shapes = [shape, ...shapes]
-  }
-
-  if (shape.targetClass) {
-    focusNode.addOut(rdf.type, shape.targetClass.id)
   }
 
   const properties = shape.property
