@@ -5,6 +5,7 @@ import {
   ObjectRenderStrategy,
   FocusNodeRenderStrategy,
 } from '@hydrofoil/shaperone-wc/lib/renderer'
+import { TemplateResult } from 'lit-html'
 
 export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRenderStrategy => {
   const renderer: FocusNodeRenderStrategy = (params) => {
@@ -64,11 +65,18 @@ export const object: ObjectRenderStrategy = ({ object, actions, renderEditor }) 
     actions.selectEditor(e.detail.editor)
   }
 
+  let metaSlot: TemplateResult
+  if (object.editors.length > 1) {
+    metaSlot = html`<mwc-editor-toggle slot="meta" .editors="${object.editors}"
+                                       @editor-selected="${onEditorSelected}"
+                                       @object-removed="${actions.remove}"></mwc-editor-toggle>`
+  } else {
+    metaSlot = html`<mwc-icon slot="meta" @click="${actions.remove}" title="Remove value">remove_circle</mwc-icon>`
+  }
+
   return html`<mwc-list-item hasmeta>
     ${renderEditor()}
-    <mwc-editor-toggle slot="meta" .editors="${object.editors}"
-                       @editor-selected="${onEditorSelected}"
-                       @object-removed="${actions.remove}"></mwc-editor-toggle>
+    ${metaSlot}
   </mwc-list-item>`
 }
 
