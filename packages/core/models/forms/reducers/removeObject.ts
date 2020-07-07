@@ -1,8 +1,8 @@
-import { sh } from '@tpluscode/rdf-ns-builders'
 import type { PropertyShape } from '@rdfine/shacl'
 import { formStateReducer } from './index'
 import type { FocusNode } from '../../../index'
 import type { PropertyObjectState } from '../index'
+import { canAddObject, canRemoveObject } from '../lib/property'
 
 export interface RemoveObjectParams {
   focusNode: FocusNode
@@ -24,12 +24,11 @@ export const removeObject = formStateReducer(({ state }, { focusNode, property, 
       .deleteOut(property.path.id)
       .addOut(property.path.id, objects.map(o => o.object))
 
-    const maxReached = (property.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= objects.length
-
     return {
       ...currentProperty,
       objects,
-      maxReached,
+      canRemove: canRemoveObject(property, objects.length),
+      canAdd: canAddObject(property, objects.length),
     }
   })
 

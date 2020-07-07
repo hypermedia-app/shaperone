@@ -29,7 +29,8 @@ export interface PropertyState {
   name: string
   compoundEditors: MultiEditor[]
   objects: PropertyObjectState[]
-  maxReached: boolean
+  canAdd: boolean
+  canRemove: boolean
 }
 export interface PropertyGroupState {
   group: PropertyGroup | undefined
