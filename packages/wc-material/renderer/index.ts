@@ -5,7 +5,6 @@ import {
   ObjectRenderStrategy,
   FocusNodeRenderStrategy,
 } from '@hydrofoil/shaperone-wc/lib/renderer'
-import { TemplateResult } from 'lit-html'
 
 export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRenderStrategy => {
   const renderer: FocusNodeRenderStrategy = (params) => {
@@ -38,7 +37,7 @@ export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRe
 export const property: PropertyRenderStrategy = ({ property, actions, renderObject }) => {
   let addIcon = html``
 
-  if (!property.maxReached) {
+  if (property.canAdd) {
     addIcon = html`<mwc-icon slot="meta" @click="${actions.addObject}" title="Add value">add_circle</mwc-icon>`
   }
 
@@ -60,21 +59,25 @@ property.styles = css`
     overflow: visible;
   }`
 
-export const object: ObjectRenderStrategy = ({ object, actions, renderEditor }) => {
+export const object: ObjectRenderStrategy = ({ object, actions, renderEditor, property }) => {
   function onEditorSelected(e: CustomEvent) {
     actions.selectEditor(e.detail.editor)
   }
 
-  let metaSlot: TemplateResult
+  let hasMeta = false
+  let metaSlot = html``
   if (object.editors.length > 1) {
+    hasMeta = true
     metaSlot = html`<mwc-editor-toggle slot="meta" .editors="${object.editors}"
                                        @editor-selected="${onEditorSelected}"
+                                       .removeEnabled="${property.canRemove}"
                                        @object-removed="${actions.remove}"></mwc-editor-toggle>`
-  } else {
+  } else if (property.canRemove) {
+    hasMeta = true
     metaSlot = html`<mwc-icon slot="meta" @click="${actions.remove}" title="Remove value">remove_circle</mwc-icon>`
   }
 
-  return html`<mwc-list-item hasmeta>
+  return html`<mwc-list-item ?hasmeta="${hasMeta}">
     ${renderEditor()}
     ${metaSlot}
   </mwc-list-item>`

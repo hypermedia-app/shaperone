@@ -6,6 +6,7 @@ import type { MultiEditor, SingleEditor } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
+import { canAddObject, canRemoveObject } from './property'
 
 export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: SingleEditor[]): SingleEditor[] {
   return editors.map(editor => ({ editor, score: editor.match(shape, object) }))
@@ -32,14 +33,13 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
     }
   })
 
-  const maxReached = (shape.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= objects.length
-
   return {
     shape,
     name: shape.name?.value || shrink(shape.path.id.value),
     compoundEditors,
     objects,
-    maxReached,
+    canRemove: canRemoveObject(shape, objects.length),
+    canAdd: canAddObject(shape, objects.length),
   }
 }
 

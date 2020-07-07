@@ -96,6 +96,7 @@ export const DefaultRenderer: Renderer = {
 
             return strategy.object({
               object: value,
+              property,
               actions: objectRenderActions,
               renderEditor,
             })

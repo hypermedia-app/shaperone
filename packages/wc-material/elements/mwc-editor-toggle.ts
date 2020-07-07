@@ -10,10 +10,15 @@ export class MwcEditorToggle extends LitElement {
   @property({ type: Array })
   editors!: Editor[]
 
+  @property({ type: Boolean })
+  removeEnabled = false
+
   render() {
+    const removeButton = this.removeEnabled ? html`<mwc-list-item @click="${this.__dispatchObjectRemoved}">Remove</mwc-list-item>` : html``
+
     return html`<wc-menu>
         ${repeat(this.editors, this.__renderEditorSelector.bind(this))}
-        <mwc-list-item @click="${this.__dispatchObjectRemoved}">Remove</mwc-list-item>
+        ${removeButton}
     </wc-menu>`
   }
 

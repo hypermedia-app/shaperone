@@ -5,6 +5,7 @@ import type { FocusNode } from '../../..'
 import { formStateReducer } from './index'
 import { matchEditors } from '../lib/stateBuilder'
 import type { PropertyObjectState } from '../index'
+import { canAddObject, canRemoveObject } from '../lib/property'
 
 export interface Params {
   focusNode: FocusNode
@@ -43,7 +44,6 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
 
     const suitableEditors = matchEditors(property, object, editors)
 
-    const maxReached = (property.getNumber(sh.maxCount) || Number.POSITIVE_INFINITY) <= currentProperty.objects.length + 1
     const newObject: PropertyObjectState = {
       object,
       editors: suitableEditors,
@@ -56,7 +56,8 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
         ...currentProperty.objects,
         newObject,
       ],
-      maxReached,
+      canRemove: canRemoveObject(property, currentProperty.objects.length + 1),
+      canAdd: canAddObject(property, currentProperty.objects.length + 1),
     }
   })
 

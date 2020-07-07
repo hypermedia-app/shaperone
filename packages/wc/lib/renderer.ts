@@ -81,6 +81,7 @@ interface ObjectRenderActions {
 
 interface ObjectRenderParams {
   object: PropertyObjectState
+  property: PropertyState
   actions: ObjectRenderActions
   renderEditor: () => TemplateResult
 }

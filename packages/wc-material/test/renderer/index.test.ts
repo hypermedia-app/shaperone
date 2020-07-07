@@ -5,6 +5,7 @@ import $rdf from '@rdfjs/dataset'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import ns from '@rdfjs/namespace'
 import deepmerge from 'deepmerge'
+import { PropertyShapeMixin } from '@rdfine/shacl'
 import * as render from '../../renderer/index'
 import { FocusNode } from '../../../core/index'
 import { SingleEditor } from '../../../core/models/editors/index'
@@ -50,13 +51,21 @@ describe('wc-material/renderer', () => {
   describe('object', () => {
     type Params = Parameters<typeof render.object>[0]
     const nullParams: () => Params = () => {
-      const object = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shapesGraph = cf({ dataset: $rdf.dataset() })
 
       return ({
         object: {
-          object,
+          object: shapesGraph.blankNode(),
           editors: [],
           selectedEditor: undefined,
+        },
+        property: {
+          shape: new PropertyShapeMixin.Class(shapesGraph.blankNode()),
+          compoundEditors: [],
+          objects: [],
+          name: '',
+          canAdd: false,
+          canRemove: false,
         },
         renderEditor: sinon.spy(),
         actions: {
@@ -100,6 +109,51 @@ describe('wc-material/renderer', () => {
           selectedEditor: undefined,
         },
       })
+      params.property.canRemove = true
+
+      // when
+      const result = await fixture(render.object(params))
+
+      // then
+      expect(result).dom.to.equalSnapshot()
+    })
+
+    it('disables remove choice when property has multiple editors and minimum required values', async () => {
+      // given
+      const editor: SingleEditor = {
+        match: sinon.spy(),
+        term: dash.TextAreaEditor,
+      }
+      const params = deepmerge<Params>(nullParams(), {
+        object: {
+          editors: [editor, editor],
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          selectedEditor: undefined,
+        },
+      })
+      params.property.canRemove = false
+
+      // when
+      const result = await fixture(render.object(params))
+
+      // then
+      expect(result.querySelector('mwc-editor-toggle')).to.have.property('removeEnabled', false)
+    })
+
+    it('does not render remove button when property has minimum required values', async () => {
+      // given
+      const editor: SingleEditor = {
+        match: sinon.spy(),
+        term: dash.TextAreaEditor,
+      }
+      const params = deepmerge<Params>(nullParams(), {
+        object: {
+          editors: [editor],
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          selectedEditor: undefined,
+        },
+      })
+      params.property.canRemove = false
 
       // when
       const result = await fixture(render.object(params))

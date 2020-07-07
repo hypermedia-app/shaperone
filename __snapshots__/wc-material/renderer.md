@@ -41,6 +41,13 @@
     remove_circle
   </mwc-icon>
 </mwc-list-item>
+```
+
+####   `does not render remove button when property has minimum required values`
+
+```html
+<mwc-list-item>
+</mwc-list-item>
 
 ```
 
