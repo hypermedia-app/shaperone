@@ -1,6 +1,6 @@
 import { PropertyShape } from '@rdfine/shacl'
 import type { SingleContextClownface } from 'clownface'
-import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
+import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
 import type { SingleEditor } from './models/editors/index'
 
 export const textField: SingleEditor = {
@@ -12,7 +12,7 @@ export const textField: SingleEditor = {
       datatype = value.term.datatype
     }
 
-    if (datatype?.equals(xsd.string)) {
+    if (datatype && !datatype.equals(rdf.langString) && !datatype.equals(xsd.boolean)) {
       return 10
     }
 

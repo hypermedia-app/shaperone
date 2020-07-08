@@ -1,2 +1,2 @@
-export { textField } from './components/text-field'
-export { textArea } from './components/text-area'
+export { textField } from './components/textField'
+export { textArea } from './components/textArea'

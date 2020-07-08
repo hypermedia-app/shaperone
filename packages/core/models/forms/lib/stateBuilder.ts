@@ -2,6 +2,7 @@ import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { SafeClownface, SingleContextClownface } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { sh } from '@tpluscode/rdf-ns-builders'
+import { NamedNode } from 'rdf-js'
 import type { MultiEditor, SingleEditor } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
@@ -33,6 +34,12 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
     }
   })
 
+  let datatype: NamedNode | undefined
+  const shapeDatatype = shape.get(sh.datatype)
+  if (shapeDatatype?.id.termType === 'NamedNode') {
+    datatype = shapeDatatype.id
+  }
+
   return {
     shape,
     name: shape.name?.value || shrink(shape.path.id.value),
@@ -40,6 +47,7 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
     objects,
     canRemove: canRemoveObject(shape, objects.length),
     canAdd: canAddObject(shape, objects.length),
+    datatype,
   }
 }
 
