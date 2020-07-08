@@ -15,6 +15,7 @@ export const enumSelect: Component = {
   loadDependencies() {
     return [
       import('@material/mwc-select/mwc-select'),
+      import('@material/mwc-list/mwc-list-item'),
     ]
   },
 }

@@ -10,9 +10,15 @@ const menuCorner = 'END'
 @customElement('wc-menu')
 export class WcMenu extends LitElement {
   static get styles() {
-    return css`wc-menu-button {
+    return css`
+    :host {
+      display: block;
+      position: relative;
+      --wc-menu-button-cursor: pointer;
+    }
+
+    wc-menu-button {
       width: 24px;
-      cursor: pointer;
     }`
   }
 
@@ -24,7 +30,7 @@ export class WcMenu extends LitElement {
 
   render() {
     return html`<wc-menu-button @opened="${this.__open}" @closed="${this.__close}"></wc-menu-button>
-      <mwc-menu quick @closed="${this.__closeButton}" .menuCorner="${menuCorner}" .anchor="${this}">
+      <mwc-menu quick @closed="${this.__closeButton}" .menuCorner="${menuCorner}" corner="TOP_END" .anchor="${this}">
         <slot></slot>
       </mwc-menu>`
   }

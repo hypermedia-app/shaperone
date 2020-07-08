@@ -20,7 +20,13 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
     if (!currentProperty.shape.id.equals(property.id)) {
       return currentProperty
     }
-    const object = property.defaultValue ? focusNodeState.focusNode.node(property.defaultValue) : defaultValue(property, focusNodeState.focusNode)
+    let object: SingleContextClownface
+    if (property.defaultValue) {
+      object = focusNodeState.focusNode.node(property.defaultValue)
+      focusNode.addOut(property.path.id, object)
+    } else {
+      object = defaultValue(property, focusNodeState.focusNode)
+    }
 
     if (currentProperty.objects.find(o => o.object.term.equals(object.term))) {
       return currentProperty
