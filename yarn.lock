@@ -1981,7 +1981,7 @@
     "@material/theme" "8.0.0-canary.a78ceb112.0"
     tslib "^1.9.3"
 
-"@material/menu@=8.0.0-canary.a78ceb112.0":
+"@material/menu@8.0.0-canary.a78ceb112.0", "@material/menu@=8.0.0-canary.a78ceb112.0":
   version "8.0.0-canary.a78ceb112.0"
   resolved "https://registry.yarnpkg.com/@material/menu/-/menu-8.0.0-canary.a78ceb112.0.tgz#259c76ac52b769dde9309e385a72db1f2ae8ed7e"
   integrity sha512-Z9D8MyNjtMeZ47jwlcnvbGCLLsLSGc4h+a2g/LWnlpbMSyAa91d0x2XlQANmfIzFah3nTcjoon08q/9g8up93Q==
@@ -2027,7 +2027,7 @@
     lit-html "^1.1.2"
     tslib "^1.10.0"
 
-"@material/mwc-icon@^0.17.0":
+"@material/mwc-icon@^0.17.0", "@material/mwc-icon@^0.17.2":
   version "0.17.2"
   resolved "https://registry.yarnpkg.com/@material/mwc-icon/-/mwc-icon-0.17.2.tgz#06f019525001b3e42e18106fc6f321b4c8ca0b3c"
   integrity sha512-9EpoLbn82RD5Wsxv0J7o1hTyn+WLfC1tdaTBvDmkRJZhfFheXYKUWNQXWrra0I/BpmojOGvijStOH0rga513WA==
@@ -2059,7 +2059,7 @@
     lit-html "^1.1.2"
     tslib "^1.10.0"
 
-"@material/mwc-menu@^0.17.0":
+"@material/mwc-menu@^0.17.0", "@material/mwc-menu@^0.17.2":
   version "0.17.2"
   resolved "https://registry.yarnpkg.com/@material/mwc-menu/-/mwc-menu-0.17.2.tgz#53cfb5edf6ebc7c9e992a6909f211d529375effd"
   integrity sha512-WrQalgdp2NYr/ws5rX9ify8trKiqNUy7tAXlHYAg5qKRb3HpHV6gsmNCScOZ4e95xXJvEOaUp67YDZsma3/rzQ==
@@ -2101,6 +2101,26 @@
     "@material/dom" "=8.0.0-canary.a78ceb112.0"
     "@material/mwc-base" "^0.17.2"
     "@material/ripple" "=8.0.0-canary.a78ceb112.0"
+    lit-element "^2.3.0"
+    lit-html "^1.1.2"
+    tslib "^1.10.0"
+
+"@material/mwc-select@^0.17.0":
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/@material/mwc-select/-/mwc-select-0.17.2.tgz#4065a8972f8f66ec9e1927090b651fa4728c6eea"
+  integrity sha512-PwUrjcbvJ6DMkBAucNj8cN0lrzWxlrbcT5tf6F6sbGubclZojdHXtShY4X0cHZF4yZakX5InZp/ACHjKsv7lCA==
+  dependencies:
+    "@material/dom" "=8.0.0-canary.a78ceb112.0"
+    "@material/floating-label" "=8.0.0-canary.a78ceb112.0"
+    "@material/line-ripple" "=8.0.0-canary.a78ceb112.0"
+    "@material/mwc-base" "^0.17.2"
+    "@material/mwc-floating-label" "^0.17.2"
+    "@material/mwc-icon" "^0.17.2"
+    "@material/mwc-line-ripple" "^0.17.2"
+    "@material/mwc-list" "^0.17.2"
+    "@material/mwc-menu" "^0.17.2"
+    "@material/mwc-notched-outline" "^0.17.2"
+    "@material/select" "=8.0.0-canary.a78ceb112.0"
     lit-element "^2.3.0"
     lit-html "^1.1.2"
     tslib "^1.10.0"
@@ -2226,6 +2246,29 @@
   integrity sha512-+R/yFoO1Olt9hY0nvWRbTIQ7/PG9r7iv35J2Ld3Gx6CNZM2utql16bOG+5Ec81C6gBdvlgBcrCdQ8NdgYiablA==
   dependencies:
     "@material/theme" "8.0.0-canary.a78ceb112.0"
+
+"@material/select@=8.0.0-canary.a78ceb112.0":
+  version "8.0.0-canary.a78ceb112.0"
+  resolved "https://registry.yarnpkg.com/@material/select/-/select-8.0.0-canary.a78ceb112.0.tgz#91244e4bd49507dad21ef0e4fc98308108b4d908"
+  integrity sha512-0vyFZuHegdixB8zWOlvl/V/c2cWi0bGHBMnv3Wm25WfI4ijLOdsbMerGSmuRaVARFRfwFFrs6Aq+mWwVM27sIQ==
+  dependencies:
+    "@material/animation" "8.0.0-canary.a78ceb112.0"
+    "@material/base" "8.0.0-canary.a78ceb112.0"
+    "@material/density" "8.0.0-canary.a78ceb112.0"
+    "@material/dom" "8.0.0-canary.a78ceb112.0"
+    "@material/feature-targeting" "8.0.0-canary.a78ceb112.0"
+    "@material/floating-label" "8.0.0-canary.a78ceb112.0"
+    "@material/line-ripple" "8.0.0-canary.a78ceb112.0"
+    "@material/list" "8.0.0-canary.a78ceb112.0"
+    "@material/menu" "8.0.0-canary.a78ceb112.0"
+    "@material/menu-surface" "8.0.0-canary.a78ceb112.0"
+    "@material/notched-outline" "8.0.0-canary.a78ceb112.0"
+    "@material/ripple" "8.0.0-canary.a78ceb112.0"
+    "@material/rtl" "8.0.0-canary.a78ceb112.0"
+    "@material/shape" "8.0.0-canary.a78ceb112.0"
+    "@material/theme" "8.0.0-canary.a78ceb112.0"
+    "@material/typography" "8.0.0-canary.a78ceb112.0"
+    tslib "^1.9.3"
 
 "@material/shape@8.0.0-canary.a78ceb112.0":
   version "8.0.0-canary.a78ceb112.0"
@@ -3806,6 +3849,25 @@
     "@vaadin/vaadin-lumo-styles" "^1.3.0"
     "@vaadin/vaadin-material-styles" "^1.2.0"
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
+
+"@vaadin/vaadin-select@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-select/-/vaadin-select-2.2.0.tgz#b681709c67bcbfcfa32f7ca05bc2e34448b46fea"
+  integrity sha512-ilcfyEs+Bjsp/FT5PLWsDv5Bj1YGpVJG5Pb4bre7cZpEVGhzwD5Zb3hVWyaSVxvVyaXZLbQPoTC5LlCt4AnLtQ==
+  dependencies:
+    "@polymer/iron-media-query" "^3.0.0"
+    "@polymer/iron-resizable-behavior" "^3.0.0"
+    "@polymer/polymer" "^3.0.0"
+    "@vaadin/vaadin-control-state-mixin" "^2.1.1"
+    "@vaadin/vaadin-element-mixin" "^2.3.0"
+    "@vaadin/vaadin-item" "^2.2.0"
+    "@vaadin/vaadin-list-box" "^1.3.0"
+    "@vaadin/vaadin-list-mixin" "^2.4.0"
+    "@vaadin/vaadin-lumo-styles" "^1.1.0"
+    "@vaadin/vaadin-material-styles" "^1.1.0"
+    "@vaadin/vaadin-overlay" "^3.4.0"
+    "@vaadin/vaadin-text-field" "^2.6.0"
+    "@vaadin/vaadin-themable-mixin" "^1.5.2"
 
 "@vaadin/vaadin-split-layout@^4.2.0":
   version "4.2.0"

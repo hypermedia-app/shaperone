@@ -55,3 +55,10 @@ export const shape: SingleEditor = {
     return 0
   },
 }
+
+export const enumSelect: SingleEditor = {
+  term: dash.EnumSelectEditor,
+  match(shape) {
+    return shape.get(sh.in) ? 10 : 0
+  },
+}

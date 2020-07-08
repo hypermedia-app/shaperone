@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { PropertyShapeMixin } from '@rdfine/shacl'
 import { expect } from 'chai'
 import * as DashEditors from '../DashEditors'
@@ -73,6 +73,23 @@ describe('core/DashEditors', () => {
 
       // then
       expect(result).to.eq(0)
+    })
+  })
+
+  describe(dash.EnumSelectEditor.value, () => {
+    it('has score 10 when sh:in exists for property shape', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(
+        graph.blankNode().addList(sh.in, ['DE', 'EN']),
+      )
+      const value = graph.literal(3)
+
+      // when
+      const result = DashEditors.enumSelect.match(property, value)
+
+      // then
+      expect(result).to.eq(10)
     })
   })
 })
