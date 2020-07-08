@@ -6,14 +6,18 @@
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "lerna run build",
     "test": "run-p test:*",
-    "test:mocha": "TS_NODE_TRANSPILE_ONLY=true c8 --all --reporter=lcov mocha packages/core/**/*.test.ts",
-    "test:open-wc": "lerna run test"
+    "test:mocha": "TS_NODE_TRANSPILE_ONLY=true c8 --all -o coverage/mocha --reporter=lcov mocha packages/core/test/**/*.test.ts",
+    "test:open-wc": "karma start --coverage",
+    "test:open-wc:watch": "karma start --auto-watch=true --single-run=false"
   },
   "workspaces": [
     "packages/*",
     "demos/*"
   ],
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-proposal-decorators": "^7.10.3",
+    "@babel/preset-typescript": "^7.10.1",
     "@changesets/cli": "^2.8.0",
     "@tpluscode/eslint-config": "^0.1.0",
     "@types/rdf-js": "^3.0.0",
@@ -21,6 +25,7 @@
     "@typescript-eslint/parser": "^3.0.2",
     "c8": "^7.1.2",
     "chai-snapshot-matcher": "^1.0.6",
+    "es-dev-commonjs-transformer": "^0.2.0",
     "eslint-plugin-import": "^2.20.2",
     "husky": "^4.2.5",
     "lerna": "^3.22.1",

@@ -2571,6 +2571,11 @@
     portfinder "^1.0.21"
     request "^2.88.0"
 
+"@open-wc/lit-helpers@^0.3.10":
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/@open-wc/lit-helpers/-/lit-helpers-0.3.10.tgz#d1f64c020605ca174ff5ec527aded3d90fb0c16c"
+  integrity sha512-RR1Wch29q8Tj/PB9lDzFy+CENLOs5oWTzinwfV8daSoh8/OTY3JKge4tZOXT0Q3NJa4IzRjq1cFZ/45vGEezwA==
+
 "@open-wc/scoped-elements@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@open-wc/scoped-elements/-/scoped-elements-1.1.1.tgz#732744dac4d029ffacdeb169d85855714eda9d0c"
@@ -2785,7 +2790,7 @@
     "@tpluscode/rdf-ns-builders" "^0.3.6"
     "@tpluscode/rdfine" "^0.4.20"
 
-"@rdfine/shacl@^0.2.2", "@rdfine/shacl@^0.2.3":
+"@rdfine/shacl@^0.2.2", "@rdfine/shacl@^0.2.3", "@rdfine/shacl@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@rdfine/shacl/-/shacl-0.2.5.tgz#a87fb0a8c862419d76d249296dfa4c843dfc8348"
   integrity sha512-wOKvZYqEz0Eb/Bd+4AWNmVPipAGmKTsRwc4Y557K/3Xmi+FVquh9lRTeMcCUwVLgxqYZhNQ4I/SRgpzVCvhVYw==

@@ -6,6 +6,7 @@ import type {
 } from '@hydrofoil/shaperone-core/models/forms'
 import { html, TemplateResult } from 'lit-element'
 import { NamedNode, Term } from 'rdf-js'
+import { literal } from '@rdf-esm/data-model'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
 import type { NodeShape, PropertyGroup } from '@rdfine/shacl'
@@ -56,7 +57,11 @@ export const DefaultRenderer: Renderer = {
             }
 
             const renderEditor = () => {
-              function update(newValue: Term) {
+              function update(termOrString: Term | string) {
+                const newValue = typeof termOrString === 'string'
+                  ? literal(termOrString, property.datatype)
+                  : termOrString
+
                 actions.forms.updateObject({
                   form,
                   focusNode,

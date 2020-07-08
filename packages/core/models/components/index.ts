@@ -8,7 +8,7 @@ export interface EditorFactoryParams {
 }
 
 export interface EditorFactoryActions {
-  update(newValue: Term): void
+  update(newValue: Term | string): void
   focusOnObjectNode(): void
 }
 

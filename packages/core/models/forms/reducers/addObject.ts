@@ -1,32 +1,16 @@
 import { SingleContextClownface } from 'clownface'
-import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import { PropertyShape } from '@rdfine/shacl'
 import type { FocusNode } from '../../..'
 import { formStateReducer } from './index'
 import { matchEditors } from '../lib/stateBuilder'
 import type { PropertyObjectState } from '../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
+import { defaultValue } from '../lib/defaultValue'
 
 export interface Params {
   focusNode: FocusNode
   property: PropertyShape
   object?: SingleContextClownface
-}
-
-function defaultValueNode(property: PropertyShape, focusNode: FocusNode): SingleContextClownface {
-  const nodeKind = property.get(sh.nodeKind)
-
-  if (property.get(sh.class) || nodeKind?.id.equals(sh.IRI) || nodeKind?.id.equals(sh.BlankNode) || nodeKind?.id.equals(sh.BlankNodeOrIRI)) {
-    const resourceNode = focusNode.blankNode()
-    const propertyClass = property.get(sh.class)
-    if (propertyClass) {
-      resourceNode.addOut(rdf.type, propertyClass.id)
-    }
-
-    return resourceNode
-  }
-
-  return focusNode.literal('')
 }
 
 export const addObject = formStateReducer(({ state, editors }, { focusNode, property }: Params) => {
@@ -36,7 +20,7 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
     if (!currentProperty.shape.id.equals(property.id)) {
       return currentProperty
     }
-    const object = property.defaultValue ? focusNodeState.focusNode.node(property.defaultValue) : defaultValueNode(property, focusNodeState.focusNode)
+    const object = property.defaultValue ? focusNodeState.focusNode.node(property.defaultValue) : defaultValue(property, focusNodeState.focusNode)
 
     if (currentProperty.objects.find(o => o.object.term.equals(object.term))) {
       return currentProperty

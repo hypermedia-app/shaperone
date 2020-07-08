@@ -31,6 +31,7 @@ export interface PropertyState {
   objects: PropertyObjectState[]
   canAdd: boolean
   canRemove: boolean
+  datatype?: NamedNode
 }
 export interface PropertyGroupState {
   group: PropertyGroup | undefined

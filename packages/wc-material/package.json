@@ -4,9 +4,7 @@
   "description": "Rendering forms in Material Design style",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "test": "karma start --coverage",
-    "test:watch": "karma start --auto-watch=true --single-run=false"
+    "build": "tsc"
   },
   "dependencies": {
     "@hydrofoil/shaperone-core": "0.0.0",
@@ -29,9 +27,6 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/plugin-proposal-decorators": "^7.10.3",
-    "@babel/preset-typescript": "^7.10.1",
     "@open-wc/eslint-config": "^2.0.6",
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3",
@@ -40,7 +35,6 @@
     "@rdfjs/namespace": "^1.1.0",
     "clownface": "^0.12.4",
     "deepmerge": "^4.2.2",
-    "es-dev-commonjs-transformer": "^0.2.0",
     "eslint-plugin-lit": "^1.2.0",
     "sinon": "^9.0.2"
   }
