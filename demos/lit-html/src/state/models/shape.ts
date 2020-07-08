@@ -57,6 +57,8 @@ ex:AgeProperty
   ${sh.path} ${schema.age} ;
   ${sh.name} "Age" ;
   ${sh.datatype} ${xsd.integer} ;
+  ${sh.maxCount} 1 ;
+  ${sh.defaultValue} 21 ;
   ${sh.order} 2 ;
 .
 

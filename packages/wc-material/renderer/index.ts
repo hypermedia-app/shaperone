@@ -41,7 +41,7 @@ export const property: PropertyRenderStrategy = ({ property, actions, renderObje
     addIcon = html`<mwc-icon slot="meta" @click="${actions.addObject}" title="Add value">add_circle</mwc-icon>`
   }
 
-  return html`<mwc-list title="Select editor">
+  return html`<mwc-list>
     <mwc-list-item hasmeta>${property.name} ${addIcon}</mwc-list-item>
     ${repeat(property.objects, renderObject)}
   </mwc-list>`
@@ -64,26 +64,52 @@ export const object: ObjectRenderStrategy = ({ object, actions, renderEditor, pr
     actions.selectEditor(e.detail.editor)
   }
 
-  let hasMeta = false
   let metaSlot = html``
   if (object.editors.length > 1) {
-    hasMeta = true
-    metaSlot = html`<mwc-editor-toggle slot="meta" .editors="${object.editors}"
+    metaSlot = html`<mwc-editor-toggle .editors="${object.editors}"
                                        @editor-selected="${onEditorSelected}"
                                        .removeEnabled="${property.canRemove}"
-                                       @object-removed="${actions.remove}"></mwc-editor-toggle>`
+                                       @object-removed="${actions.remove}"
+                                       title="Select editor"></mwc-editor-toggle>`
   } else if (property.canRemove) {
-    hasMeta = true
-    metaSlot = html`<mwc-icon slot="meta" @click="${actions.remove}" title="Remove value">remove_circle</mwc-icon>`
+    metaSlot = html`<mwc-icon @click="${actions.remove}" title="Remove value">remove_circle</mwc-icon>`
   }
 
-  return html`<mwc-list-item ?hasmeta="${hasMeta}">
-    ${renderEditor()}
-    ${metaSlot}
-  </mwc-list-item>`
+  return html`<div class="sh-object">
+    <div class="editor">${renderEditor()}</div>
+    <div class="options">${metaSlot}</div>
+  </div>`
 }
 
+object.styles = css`
+.sh-object {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  padding-left: var(--mdc-list-side-padding, 16px);
+  padding-right: var(--mdc-list-side-padding, 16px);
+  color: var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.87));
+}
+
+.sh-object .editor {
+  flex: 1
+}
+
+.sh-object .editor * {
+  width: 100%
+}
+
+.sh-object .options {
+  padding-top: 5px;
+  width: 30px;
+  padding-left: 5px;
+  text-align: right;
+}
+
+mwc-icon {
+  cursor: pointer
+}`
+
 object.loadDependencies = () => [
-  import('@material/mwc-list/mwc-list-item'),
   import('../elements/mwc-editor-toggle'),
 ]
