@@ -14,6 +14,7 @@
     "@material/mwc-menu": "^0.17.0",
     "@material/mwc-tab": "^0.17.0",
     "@material/mwc-tab-bar": "^0.17.0",
+    "@material/mwc-select": "^0.17.0",
     "@material/mwc-textarea": "^0.17.0",
     "@material/mwc-textfield": "^0.17.0",
     "@rdf-esm/data-model": "^0.5.1",

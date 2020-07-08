@@ -2,7 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
-import { sh, schema, xsd, rdfs, dash } from '@tpluscode/rdf-ns-builders'
+import { sh, schema, xsd, rdfs, dash, foaf } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
 import { DatasetCore } from 'rdf-js'
 import type { Store } from '../store'
@@ -25,7 +25,8 @@ ex:PersonShape
   ${rdfs.label} "Person" ;
   ${sh.property} ex:NameProperty ,
                  ex:KnowsProperty ,
-                 ex:AgeProperty ;
+                 ex:AgeProperty ,
+                 ex:GenderProperty ;
 .
 
 ex:SimplifiedPersonShape
@@ -57,6 +58,17 @@ ex:AgeProperty
   ${sh.name} "Age" ;
   ${sh.datatype} ${xsd.integer} ;
   ${sh.order} 2 ;
+.
+
+ex:GenderProperty
+  ${sh.path} ${foaf.gender} ;
+  ${sh.name} "Gender" ;
+  ${sh.in} (
+    "Male" "Female" "Other" "Prefer not to tell"
+  ) ;
+  ${sh.maxCount} 1 ;
+  ${sh.order} 3 ;
+  ${dash.editor} ${dash.EnumSelectEditor} ;
 .
 
 ex:FriendGroup

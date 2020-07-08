@@ -1,7 +1,7 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { SafeClownface, SingleContextClownface } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
-import { sh } from '@tpluscode/rdf-ns-builders'
+import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import type { MultiEditor, SingleEditor } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
@@ -25,12 +25,25 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
     .map(e => e.editor) || []
 
   const objects = values.map((object) => {
-    const editors = matchEditors(shape, object, params.editors)
+    let editors = matchEditors(shape, object, params.editors)
+    let selectedEditor
+
+    const preferredEditorId = shape.get(dash.editor)?.id
+    if (preferredEditorId?.termType === 'NamedNode') {
+      const preferredEditor = params.editors.find(e => e.term.equals(preferredEditorId))
+      selectedEditor = preferredEditorId
+      if (preferredEditor) {
+        editors.splice(editors.indexOf(preferredEditor), 1)
+        editors = [preferredEditor, ...editors]
+      }
+    } else {
+      selectedEditor = editors[0]?.term
+    }
 
     return {
       object,
       editors,
-      selectedEditor: editors[0]?.term,
+      selectedEditor,
     }
   })
 
