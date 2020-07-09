@@ -3,7 +3,7 @@ import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import cf, { Clownface, SingleContextClownface } from 'clownface'
-import { foaf, schema } from '@tpluscode/rdf-ns-builders'
+import { foaf, schema, vcard } from '@tpluscode/rdf-ns-builders'
 import TermSet from '@rdfjs/term-set'
 import { Shape } from '@rdfine/shacl'
 import { DatasetCore } from 'rdf-js'
@@ -18,8 +18,13 @@ const jsonld = {
   '@context': {
     '@vocab': schema().value,
     foaf: `${foaf().value}`,
+    vcard: `${vcard().value}`,
     ex: 'http://example.com/',
     gender: 'foaf:gender',
+    language: {
+      '@id': 'vcard:language',
+      '@type': '@id',
+    },
   },
   '@id': 'ex:John_Doe',
   '@type': 'Person',

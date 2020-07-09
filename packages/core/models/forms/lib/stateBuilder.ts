@@ -53,13 +53,17 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
     datatype = shapeDatatype.id
   }
 
+  const multiEditor = compoundEditors[0]
+  const canRemove = !!multiEditor || canRemoveObject(shape, objects.length)
+  const canAdd = !!multiEditor || canAddObject(shape, objects.length)
+
   return {
     shape,
     name: shape.name?.value || shrink(shape.path.id.value),
-    compoundEditors,
+    multiEditor,
     objects,
-    canRemove: canRemoveObject(shape, objects.length),
-    canAdd: canAddObject(shape, objects.length),
+    canRemove,
+    canAdd,
     datatype,
   }
 }
@@ -68,12 +72,13 @@ interface InitializeParams {
   shapes: NodeShape[]
   shape?: NodeShape
   editors: SingleEditor[]
+  multiEditors: MultiEditor[]
   focusNode: FocusNode
   selectedGroup?: string
 }
 
 export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
-  const { focusNode, editors, selectedGroup } = params
+  const { focusNode, editors, multiEditors, selectedGroup } = params
   let { shapes } = params
   const groupMap = new Map<string, PropertyGroupState>()
 
@@ -106,7 +111,7 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
     return [...map, initialisePropertyShape({
       shape: prop,
       editors,
-      multiEditors: [],
+      multiEditors,
       values: focusNode.out(prop.path.id),
     })]
   }, [])

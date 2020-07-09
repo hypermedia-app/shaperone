@@ -40,6 +40,42 @@ export const DefaultRenderer: Renderer = {
             addObject: () => actions.forms.addObject({ form, focusNode, property: property.shape }),
           }
 
+          const renderMultiEditor = () => {
+            function update(termsOrStrings : Array<Term | string>) {
+              const terms = termsOrStrings.map(termOrString => (typeof termOrString === 'string'
+                ? literal(termOrString, property.datatype)
+                : termOrString))
+
+              actions.forms.replaceObjects({
+                form,
+                focusNode,
+                property: property.shape,
+                terms,
+              })
+            }
+
+            const editor = property.multiEditor?.term
+            if (!editor) {
+              return html`No editor found for property`
+            }
+            const component = components[editor.value]
+            if (!component) {
+              return html`No component found for ${editors.allEditors[editor.value].meta.label}`
+            }
+
+            if (!component.loaded) {
+              if (!component.loading) {
+                actions.components.load(editor)
+              }
+              return html`Loading editor`
+            }
+
+            return component.render(
+              { property },
+              { update },
+            )
+          }
+
           const renderObject = (value: PropertyObjectState) => {
             const objectRenderActions = {
               selectEditor(editor: NamedNode): void {
@@ -111,6 +147,7 @@ export const DefaultRenderer: Renderer = {
             property,
             actions: propertyRenderActions,
             renderObject,
+            renderMultiEditor,
           })
         }
 

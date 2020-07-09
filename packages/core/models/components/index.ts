@@ -2,13 +2,22 @@ import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import type { PropertyObjectState, PropertyState } from '../forms/index'
 
-export interface EditorFactoryParams {
+export interface SingleEditorRenderParams {
   property: PropertyState
   value: PropertyObjectState
 }
 
-export interface EditorFactoryActions {
+export interface MultiEditorRenderParams {
+  property: PropertyState
+}
+
+export interface SingleEditorActions {
   update(newValue: Term | string): void
+  focusOnObjectNode(): void
+}
+
+export interface MultiEditorActions {
+  update(newValues: Array<Term | string>): void
   focusOnObjectNode(): void
 }
 
@@ -19,8 +28,16 @@ export interface ComponentState<TRenderResult> extends Component<TRenderResult> 
 
 export interface Component<TRenderResult> {
   editor: NamedNode
-  render(params: EditorFactoryParams, actions: EditorFactoryActions): TRenderResult
+  render(...args: unknown[]): TRenderResult
   loadDependencies?(): Array<Promise<unknown>>
+}
+
+export interface SingleEditorComponent<TRenderResult> extends Component<TRenderResult> {
+  render(params: SingleEditorRenderParams, actions: SingleEditorActions): TRenderResult
+}
+
+export interface MultiEditorComponent<TRenderResult> extends Component<TRenderResult> {
+  render(params: MultiEditorRenderParams, actions: MultiEditorActions): TRenderResult
 }
 
 export type ComponentsState<TRenderResult = any> = Record<string, ComponentState<TRenderResult>>

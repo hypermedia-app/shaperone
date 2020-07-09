@@ -12,8 +12,7 @@ const ex = ns('http://example.com/')
 describe('core/models/forms/reducers/selectShape', () => {
   it('return original state if focus node is not found', () => {
     // given
-    const form = {}
-    const before = testState(form)
+    const { form, state: before } = testState()
     const focusNode = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
     const shape = new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.Shape))
 
@@ -30,9 +29,8 @@ describe('core/models/forms/reducers/selectShape', () => {
 
   it('replaces current shape with new', () => {
     // given
-    const form = {}
     const focusNode = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
-    const before = testState(form, {
+    const { form, state: before } = testState({
       form: {
         focusNodes: {
           [ex.Foo.value]: testFocusNodeState(focusNode, {
@@ -57,10 +55,9 @@ describe('core/models/forms/reducers/selectShape', () => {
 
   it('returns same focus node state if shape is equal pointer', () => {
     // given
-    const form = {}
     const focusNode = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
     const shape = new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.Shape))
-    const before = testState(form, {
+    const { form, state: before } = testState({
       form: {
         focusNodes: {
           [ex.Foo.value]: testFocusNodeState(focusNode, {

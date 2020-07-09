@@ -13,10 +13,12 @@ type RecursivePartial<T> = {
 
 interface Initializer {
   singleEditors?: SingleEditor[]
-  form?: Partial<FormState>
+  form?: RecursivePartial<FormState>
 }
 
-export function testState(form: unknown, initializer: Initializer = {}): State {
+export function testState(initializer: Initializer = {}) {
+  const form = {}
+
   const state = <State>{
     singleEditors: initializer.singleEditors || [],
     instances: new Map(),
@@ -26,9 +28,9 @@ export function testState(form: unknown, initializer: Initializer = {}): State {
     shapes: [],
     focusStack: [],
     focusNodes: {},
-  }, initializer.form || {}, { clone: false }))
+  }, (initializer.form || {}) as any, { clone: false }))
 
-  return state
+  return { form, state }
 }
 
 export function testFocusNodeState(focusNode: FocusNode, initializer: Partial<FocusNodeState> = {}): FocusNodeState {

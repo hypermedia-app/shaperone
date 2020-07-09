@@ -1,4 +1,4 @@
-import { EditorFactoryActions, EditorFactoryParams } from '@hydrofoil/shaperone-core/models/components'
+import { SingleEditorActions, SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import { PropertyShape, PropertyShapeMixin } from '@rdfine/shacl'
 import * as sinon from 'sinon'
@@ -12,7 +12,7 @@ interface EditorTestParams {
   datatype?: typeof xsd.integer
 }
 
-export function editorTestParams({ object, property, datatype }: EditorTestParams): { params: EditorFactoryParams; actions: EditorFactoryActions } {
+export function editorTestParams({ object, property, datatype }: EditorTestParams): { params: SingleEditorRenderParams; actions: SingleEditorActions } {
   const value: PropertyObjectState = {
     editors: [],
     selectedEditor: undefined,
@@ -26,7 +26,7 @@ export function editorTestParams({ object, property, datatype }: EditorTestParam
         canRemove: true,
         name: 'foo',
         objects: [value],
-        compoundEditors: [],
+        multiEditor: undefined,
         shape: new PropertyShapeMixin.Class(object.blankNode(), property),
         datatype,
       },

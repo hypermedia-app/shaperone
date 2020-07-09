@@ -25,41 +25,35 @@
 ####   `renders a menu when there is more than one editor`
 
 ```html
-<div class="sh-object">
-  <div class="editor">
-  </div>
-  <div class="options">
-    <mwc-editor-toggle title="Select editor">
-    </mwc-editor-toggle>
-  </div>
-</div>
+<mwc-item-lite>
+  <mwc-editor-toggle
+    slot="options"
+    title="Select editor"
+  >
+  </mwc-editor-toggle>
+</mwc-item-lite>
 
 ```
 
 ####   `renders a delete button when there is one editor`
 
 ```html
-<div class="sh-object">
-  <div class="editor">
-  </div>
-  <div class="options">
-    <mwc-icon title="Remove value">
-      remove_circle
-    </mwc-icon>
-  </div>
-</div>
+<mwc-item-lite>
+  <mwc-icon
+    slot="options"
+    title="Remove value"
+  >
+    remove_circle
+  </mwc-icon>
+</mwc-item-lite>
 
 ```
 
 ####   `does not render remove button when property has minimum required values`
 
 ```html
-<div class="sh-object">
-  <div class="editor">
-  </div>
-  <div class="options">
-  </div>
-</div>
+<mwc-item-lite>
+</mwc-item-lite>
 
 ```
 

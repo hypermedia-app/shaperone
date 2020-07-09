@@ -5,9 +5,10 @@ export function effects(store: Store) {
 
   return {
     'editors/addMatchers': () => {
-      const { editors: { singleEditors } } = store.getState()
+      const { editors: { singleEditors, multiEditors } } = store.getState()
       dispatch.forms.setEditors({
         singleEditors: [...Object.values(singleEditors)],
+        multiEditors: [...Object.values(multiEditors)],
       })
     },
 

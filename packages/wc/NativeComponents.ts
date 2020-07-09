@@ -1,5 +1,5 @@
 import { html } from 'lit-element'
-import { dash, sh } from '@tpluscode/rdf-ns-builders'
+import { dash, sh, rdfs } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
 import type { Component } from './index'
@@ -29,9 +29,11 @@ export const enumSelectEditor: Component = {
   render({ value, property }, { update }) {
     const choices = [...property.shape._selfGraph.out(sh.in).list()]
 
-    return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].value)}" required>
+    return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>
-        ${repeat(choices, choice => html`<option ?selected="${choice.value === value.object.value}" value="${choice}">${choice}</option>`)}
+        ${repeat(choices, choice => html`<option ?selected="${choice.value === value.object.value}" value="${choice}">
+            ${choice.out(rdfs.label).value || choice}
+        </option>`)}
     </select>`
   },
 }

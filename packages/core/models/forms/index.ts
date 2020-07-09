@@ -11,7 +11,7 @@ import { selectEditor } from './reducers/selectEditor'
 import { selectGroup } from './reducers/selectGroup'
 import { selectShape } from './reducers/selectShape'
 import { truncateFocusNodes } from './reducers/truncateFocusNodes'
-import { updateObject } from './reducers/updateObject'
+import * as objects from './reducers/updateObject'
 import * as connection from './reducers/connection'
 import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
@@ -27,7 +27,7 @@ export interface PropertyObjectState {
 export interface PropertyState {
   shape: PropertyShape
   name: string
-  compoundEditors: MultiEditor[]
+  multiEditor: MultiEditor | undefined
   objects: PropertyObjectState[]
   canAdd: boolean
   canRemove: boolean
@@ -57,6 +57,7 @@ export interface FormState {
 
 export type State = {
   singleEditors: SingleEditor[]
+  multiEditors: MultiEditor[]
   instances: Map<unknown, FormState>
 }
 
@@ -69,7 +70,7 @@ const reducers = {
   selectGroup,
   selectShape,
   truncateFocusNodes,
-  updateObject,
+  ...objects,
   ...connection,
   ...datasets,
   ...editors,
@@ -78,6 +79,7 @@ const reducers = {
 export const forms = createModel<State, typeof reducers, ReturnType<typeof effects>>({
   state: {
     singleEditors: [],
+    multiEditors: [],
     instances: new Map(),
   },
   reducers,

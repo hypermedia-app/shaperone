@@ -8,7 +8,7 @@ export interface Params {
   shape: NodeShape
 }
 
-export const selectShape = formStateReducer(({ state, editors }, { focusNode, shape }: Params) => {
+export const selectShape = formStateReducer(({ state, editors, multiEditors }, { focusNode, shape }: Params) => {
   const current = state.focusNodes[focusNode.value]
   if (!current || current.shape?.id.equals(shape.id)) {
     return state
@@ -19,6 +19,7 @@ export const selectShape = formStateReducer(({ state, editors }, { focusNode, sh
     shape,
     shapes: current.shapes,
     editors,
+    multiEditors,
     focusNode,
   })
 

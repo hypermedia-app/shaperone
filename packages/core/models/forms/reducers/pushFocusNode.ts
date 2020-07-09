@@ -5,7 +5,7 @@ import { FocusNode } from '../../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 import { matchFor } from '../lib/shapes'
 
-export const pushFocusNode = formStateReducer(({ state, editors }, { focusNode, property }: { focusNode: FocusNode; property: PropertyShape }) => ({
+export const pushFocusNode = formStateReducer(({ state, editors, multiEditors }, { focusNode, property }: { focusNode: FocusNode; property: PropertyShape }) => ({
   ...state,
   focusStack: [...state.focusStack, focusNode],
   focusNodes: {
@@ -15,6 +15,7 @@ export const pushFocusNode = formStateReducer(({ state, editors }, { focusNode, 
       shape: property.get<Shape>(sh.node),
       shapes: state.shapes.filter(matchFor(focusNode)),
       editors,
+      multiEditors,
     }),
   },
 }))

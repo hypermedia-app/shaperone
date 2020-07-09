@@ -14,8 +14,7 @@ describe('core/models/forms/reducers/popFocusNode', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const focusNode1 = graph.node(ex.FocusNode1)
     const focusNode2 = graph.node(ex.FocusNode2)
-    const form = {}
-    const state = testState(form, {
+    const { form, state } = testState({
       form: {
         focusStack: [focusNode1, focusNode2],
         focusNodes: {
@@ -38,8 +37,7 @@ describe('core/models/forms/reducers/popFocusNode', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
     const focusNode = graph.node(ex.FocusNode)
-    const form = {}
-    const state = testState(form, {
+    const { form, state } = testState({
       form: {
         focusStack: [focusNode],
         focusNodes: {
@@ -58,8 +56,7 @@ describe('core/models/forms/reducers/popFocusNode', () => {
 
   it('does nothing if stack is empty', () => {
     // given
-    const form = {}
-    const state = testState(form)
+    const { form, state } = testState()
 
     // when
     const next = popFocusNode(state, { form })

@@ -11,12 +11,10 @@ import { testState } from '../util'
 const ex = ns('http://example.com/')
 
 describe('core/models/forms/reducers/datasets', () => {
-  const form = {}
-
   describe('setShapesGraph', () => {
     it('sets dataset to state', () => {
       // given
-      const state = testState(form)
+      const { form, state } = testState()
       const shapesGraph = $rdf.dataset()
 
       // when
@@ -31,7 +29,7 @@ describe('core/models/forms/reducers/datasets', () => {
 
     it('extracts shape resources from graph', () => {
       // given
-      const state = testState(form)
+      const { form, state } = testState()
       const shapesGraph = cf({ dataset: $rdf.dataset() })
       shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
       shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
@@ -51,7 +49,7 @@ describe('core/models/forms/reducers/datasets', () => {
 
     it('creates focus nodes state for focus stack', () => {
       // given
-      const state = testState(form)
+      const { form, state } = testState()
       const resourceGraph = cf({ dataset: $rdf.dataset() })
       const shapesGraph = cf({ dataset: $rdf.dataset() })
       shapesGraph.node(ex.Shape).addOut(rdf.type, sh.Shape).addOut(sh.targetNode, [ex.Foo, ex.Bar])
@@ -75,7 +73,7 @@ describe('core/models/forms/reducers/datasets', () => {
 
     it('updates existing focus node states', () => {
       // given
-      const state = testState(form)
+      const { form, state } = testState()
       const shapesGraph = cf({ dataset: $rdf.dataset() })
       const shapes = [new ShapeMixin.Class(shapesGraph.node(ex.Shape))]
       const resourceGraph = cf({ dataset: $rdf.dataset() })
@@ -107,7 +105,7 @@ describe('core/models/forms/reducers/datasets', () => {
   describe('setRootResource', () => {
     it('pushes first focus node', () => {
       // given
-      const state = testState(form)
+      const { form, state } = testState()
       const rootPointer = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
 
       // when
@@ -125,7 +123,7 @@ describe('core/models/forms/reducers/datasets', () => {
       // given
       const dataset = $rdf.dataset()
       const graph = cf({ dataset })
-      const state = testState(form)
+      const { form, state } = testState()
 
       // when
       const after = setRootResource(state, {
@@ -141,7 +139,7 @@ describe('core/models/forms/reducers/datasets', () => {
     it('replaces current stack when resource changes', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const state = testState(form)
+      const { form, state } = testState()
       const initialFoo = graph.node(ex.Foo)
       const initialBar = graph.node(ex.Bar)
       state.instances.get(form)!.focusStack = [initialFoo, initialBar]
@@ -162,7 +160,7 @@ describe('core/models/forms/reducers/datasets', () => {
     it('does nothing if the resource is same pointer', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const before = testState(form)
+      const { form, state: before } = testState()
       const initialFoo = graph.node(ex.Foo)
       const initialBar = graph.node(ex.Bar)
       before.instances.get(form)!.focusStack = [initialFoo, initialBar]
@@ -179,7 +177,7 @@ describe('core/models/forms/reducers/datasets', () => {
 
     it('populates focus node state for root node', () => {
       // given
-      const state = testState(form)
+      const { form, state } = testState()
       const formState = state.instances.get(form)!
       const shapeGraph = cf({ dataset: $rdf.dataset() })
       formState.shapes.push(new ShapeMixin.Class(shapeGraph.node(ex.Shape), {
