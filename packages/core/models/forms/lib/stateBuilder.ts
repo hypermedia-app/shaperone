@@ -12,14 +12,19 @@ import { canAddObject, canRemoveObject } from './property'
 export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: SingleEditor[]): SingleEditor[] {
   return editors.map(editor => ({ editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
-    .sort((left, right) => left.score! - right.score!)
+    .sort((left, right) => {
+      const leftScore = left.score || 0
+      const rightScore = right.score || 0
+
+      return rightScore - leftScore
+    })
     .map(e => e.editor)
 }
 
 function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: SafeClownface }): PropertyState {
   const { shape, values } = params
 
-  const compoundEditors = params.multiEditors
+  const editors = params.multiEditors
     .map(editor => ({ editor, score: editor.match(shape) }))
     .filter(match => match.score === null || match.score > 0)
     .map(e => e.editor) || []
@@ -53,14 +58,15 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
     datatype = shapeDatatype.id
   }
 
-  const multiEditor = compoundEditors[0]
-  const canRemove = !!multiEditor || canRemoveObject(shape, objects.length)
-  const canAdd = !!multiEditor || canAddObject(shape, objects.length)
+  const editor = editors[0]
+  const canRemove = !!editor || canRemoveObject(shape, objects.length)
+  const canAdd = !!editor || canAddObject(shape, objects.length)
 
   return {
     shape,
     name: shape.name?.value || shrink(shape.path.id.value),
-    multiEditor,
+    editors,
+    selectedEditor: editor?.term,
     objects,
     canRemove,
     canAdd,

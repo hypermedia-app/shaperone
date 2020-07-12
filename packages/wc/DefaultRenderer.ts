@@ -10,6 +10,7 @@ import { literal } from '@rdf-esm/data-model'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { byGroup } from '@hydrofoil/shaperone-core/lib/filter'
 import type { NodeShape, PropertyGroup } from '@rdfine/shacl'
+import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
@@ -38,6 +39,8 @@ export const DefaultRenderer: Renderer = {
         const renderProperty = (property: PropertyState) => {
           const propertyRenderActions = {
             addObject: () => actions.forms.addObject({ form, focusNode, property: property.shape }),
+            selectMultiEditor: () => actions.forms.selectMultiEditor({ form, focusNode, property: property.shape }),
+            selectSingleEditors: () => actions.forms.selectSingleEditors({ form, focusNode, property: property.shape }),
           }
 
           const renderMultiEditor = () => {
@@ -54,7 +57,7 @@ export const DefaultRenderer: Renderer = {
               })
             }
 
-            const editor = property.multiEditor?.term
+            const editor = property.selectedEditor
             if (!editor) {
               return html`No editor found for property`
             }
@@ -95,7 +98,7 @@ export const DefaultRenderer: Renderer = {
             const renderEditor = () => {
               function update(termOrString: Term | string) {
                 const newValue = typeof termOrString === 'string'
-                  ? literal(termOrString, property.datatype)
+                  ? createTerm(property, termOrString)
                   : termOrString
 
                 actions.forms.updateObject({

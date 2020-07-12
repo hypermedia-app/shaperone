@@ -33,7 +33,7 @@ describe('core/models/forms/reducers/selectShape', () => {
     const { form, state: before } = testState({
       form: {
         focusNodes: {
-          [ex.Foo.value]: testFocusNodeState(focusNode, {
+          ...testFocusNodeState(focusNode, {
             shape: new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.OldShape)),
           }),
         },
@@ -60,7 +60,7 @@ describe('core/models/forms/reducers/selectShape', () => {
     const { form, state: before } = testState({
       form: {
         focusNodes: {
-          [ex.Foo.value]: testFocusNodeState(focusNode, {
+          ...testFocusNodeState(focusNode, {
             shape,
           }),
         },

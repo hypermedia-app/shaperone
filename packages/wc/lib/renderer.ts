@@ -62,6 +62,8 @@ export interface GroupRenderStrategy extends RenderStrategy {
 
 interface PropertyRenderActions {
   addObject(): void
+  selectMultiEditor(): void
+  selectSingleEditors(): void
 }
 
 interface PropertyRenderParams {

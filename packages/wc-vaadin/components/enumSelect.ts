@@ -11,13 +11,15 @@ export const enumSelect: Component = {
       label: choice.out(rdfs.label).value || choice.value,
     }))
 
-    return html`<vaadin-select .value="${value.object.value}" @value-changed="${(e: CustomEvent) => {
-      const pointer = choices.find(choice => choice.term.value === e.detail.value)
+    const selectValue = choices.find(choice => choice.term.equals(value.object.term))?.label
+
+    return html`<vaadin-select .value="${selectValue}" @value-changed="${(e: CustomEvent) => {
+      const pointer = choices.find(choice => choice.label === e.detail.value)
       if (pointer) update(pointer.term)
     }}">
         <template>
             <vaadin-list-box>
-                ${repeat(choices, choice => html`<vaadin-item ?selected="${choice.term.value === value.object.value}">${choice.label}</vaadin-item>`)}
+                ${repeat(choices, choice => html`<vaadin-item ?selected="${choice.term.equals(value.object.term)}">${choice.label}</vaadin-item>`)}
             </vaadin-list-box>
         </template>
 </vaadin-select>`

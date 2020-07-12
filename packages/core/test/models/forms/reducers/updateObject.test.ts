@@ -22,14 +22,15 @@ describe('core/models/forms/reducers/updateObject', () => {
       const { form, state } = testState({
         form: {
           focusNodes: {
-            [focusNode.value]: testFocusNodeState(focusNode, {
+            ...testFocusNodeState(focusNode, {
               properties: [{
                 shape: property,
                 objects: [],
                 name: 'prop',
                 canRemove: true,
                 canAdd: true,
-                multiEditor: undefined,
+                editors: [],
+                selectedEditor: undefined,
               }],
             }),
           },

@@ -40,8 +40,8 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
       selectedEditor: suitableEditors[0]?.term,
     }
 
-    const canRemove = !!currentProperty.multiEditor || canRemoveObject(property, currentProperty.objects.length + 1)
-    const canAdd = !!currentProperty.multiEditor || canAddObject(property, currentProperty.objects.length + 1)
+    const canRemove = !!currentProperty.selectedEditor || canRemoveObject(property, currentProperty.objects.length + 1)
+    const canAdd = !!currentProperty.selectedEditor || canAddObject(property, currentProperty.objects.length + 1)
 
     return {
       ...currentProperty,

@@ -10,8 +10,8 @@ import { Menu } from '../../menu'
 
 const componentModules: Record<string, Record<string, Component>> = {
   Native: { ...nativeComponents },
-  Material: { ...nativeComponents, ...mwcComponents },
-  Vaadin: { ...nativeComponents, ...vaadinComponents, languages: component },
+  Material: { ...nativeComponents, ...mwcComponents, languages: component('material') },
+  Vaadin: { ...nativeComponents, ...vaadinComponents, languages: component('lumo') },
 }
 
 editors.addMetadata($rdf.dataset([...metadata()]))
@@ -20,6 +20,7 @@ editors.addMatchers({ matcher })
 export const componentsSettings = createModel({
   state: {
     text: 'Components',
+    modules: componentModules.Native,
     children: Object.keys(componentModules).map(name => ({
       text: name,
       checked: name === 'Native',
@@ -33,10 +34,13 @@ export const componentsSettings = createModel({
         checked: text === child.text,
       }))
 
-      components.pushComponents(componentModules[text])
+      const modules = componentModules[text]
+      components.removeComponents(Object.values(state.modules).map(m => m.editor))
+      components.pushComponents(modules)
 
       return {
         ...state,
+        modules,
         children,
       }
     },

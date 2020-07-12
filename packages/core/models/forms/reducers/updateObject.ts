@@ -68,10 +68,11 @@ export const replaceObjects = formStateReducer(({ state, editors }, { focusNode,
 
     const objects = terms.map<PropertyObjectState>((term) => {
       const object = focusNode.node(term)
+      const suitableEditors = matchEditors(property, object, editors)
       return {
         object,
-        editors: matchEditors(property, object, editors),
-        selectedEditor: undefined,
+        editors: suitableEditors,
+        selectedEditor: suitableEditors[0]?.term,
       }
     })
 
