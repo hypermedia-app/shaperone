@@ -17,7 +17,7 @@ describe('core/models/forms/reducers/selectGroup', () => {
     const { form, state } = testState({
       form: {
         focusNodes: {
-          [ex.FocusNode.value]: testFocusNodeState(focusNode, {
+          ...testFocusNodeState(focusNode, {
             groups: [{
               selected: true,
               group: new PropertyGroupMixin.Class(graph.node(ex.Group0)),

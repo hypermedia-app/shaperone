@@ -5,7 +5,7 @@ import { vcard, dash, rdf, rdfs, sh } from '@tpluscode/rdf-ns-builders'
 
 const editor = namedNode('http://example.com/LanguageMultiSelect')
 
-export const component: MultiEditorComponent = {
+export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = theme => ({
   editor,
   render({ property }, { update }) {
     const languages = [...property.shape._selfGraph.out(sh.in).list()].map(lang => ({
@@ -24,10 +24,10 @@ export const component: MultiEditorComponent = {
   },
   loadDependencies() {
     return [
-      import('multiselect-combo-box/multiselect-combo-box'),
+      import(`multiselect-combo-box/theme/${theme}/multiselect-combo-box`),
     ]
   },
-}
+})
 
 export const matcher: MultiEditor = {
   term: editor,

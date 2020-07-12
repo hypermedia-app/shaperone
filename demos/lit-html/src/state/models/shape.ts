@@ -78,6 +78,7 @@ ex:GenderProperty
 ex:SpokenLanguagesProperty
   ${sh.path} ${vcard.language} ;
   ${sh.name} "Spoken languages" ;
+  ${sh.nodeKind} ${sh.IRI} ;
   ${sh.in} (
     lexvo:en lexvo:de lexvo:fr lexvo:pl lexvo:es
   ) ;

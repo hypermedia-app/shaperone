@@ -1,21 +1,29 @@
 import { customElement, html, LitElement, property } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
 import type { NodeShape } from '@rdfine/shacl'
+import { SelectableMenuMixin } from './SelectableMenuMixin'
 
 import './wc-menu'
 import '@material/mwc-list/mwc-list-item'
 
 @customElement('mwc-shape-selector')
-export class MwcShapeSelector extends LitElement {
+export class MwcShapeSelector extends SelectableMenuMixin(LitElement) {
   @property({ type: Array })
   shapes?: NodeShape[]
+
+  @property({ type: Object })
+  selected?: NodeShape
 
   render() {
     return html`<wc-menu>${repeat(this.shapes || [], this.__renderShapeMenuItem.bind(this))}</wc-menu>`
   }
 
   private __renderShapeMenuItem(shape: NodeShape) {
-    return html`<mwc-list-item @click="${this.__dispatchShapeSelected(shape)}">${shape.label}</mwc-list-item>`
+    return this.createItem({
+      text: shape.label,
+      selected: shape.equals(this.selected),
+      '@click': this.__dispatchShapeSelected(shape),
+    })
   }
 
   private __dispatchShapeSelected(shape: NodeShape) {

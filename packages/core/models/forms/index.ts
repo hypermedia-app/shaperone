@@ -15,19 +15,21 @@ import * as objects from './reducers/updateObject'
 import * as connection from './reducers/connection'
 import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
+import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
-import type { MultiEditor, SingleEditor } from '../editors/index'
+import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../editors/index'
 
 export interface PropertyObjectState {
   object: SingleContextClownface
-  editors: SingleEditor[]
+  editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
 }
 
 export interface PropertyState {
   shape: PropertyShape
   name: string
-  multiEditor: MultiEditor | undefined
+  editors: MultiEditor[]
+  selectedEditor: NamedNode | undefined
   objects: PropertyObjectState[]
   canAdd: boolean
   canRemove: boolean
@@ -74,6 +76,7 @@ const reducers = {
   ...connection,
   ...datasets,
   ...editors,
+  ...multiEditors,
 }
 
 export const forms = createModel<State, typeof reducers, ReturnType<typeof effects>>({

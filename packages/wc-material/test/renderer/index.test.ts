@@ -6,9 +6,11 @@ import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import ns from '@rdfjs/namespace'
 import deepmerge from 'deepmerge'
 import { PropertyShapeMixin } from '@rdfine/shacl'
+import { FocusNode } from '@hydrofoil/shaperone-core'
+import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
+import { RecursivePartial, testEditor, testPropertyState, testObjectState } from '@hydrofoil/shaperone-core/test/models/forms/util'
+import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import * as render from '../../renderer/index'
-import { FocusNode } from '../../../core/index'
-import { SingleEditor } from '../../../core/models/editors/index'
 
 const ex = ns('http://example.com/')
 
@@ -61,7 +63,8 @@ describe('wc-material/renderer', () => {
         },
         property: {
           shape: new PropertyShapeMixin.Class(shapesGraph.blankNode()),
-          multiEditor: undefined,
+          editors: [],
+          selectedEditor: undefined,
           objects: [],
           name: '',
           canAdd: false,
@@ -77,9 +80,10 @@ describe('wc-material/renderer', () => {
 
     it('renders a menu when there is more than one editor', async () => {
       // given
-      const editor: SingleEditor = {
+      const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        score: null,
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
@@ -98,9 +102,10 @@ describe('wc-material/renderer', () => {
 
     it('renders a delete button when there is one editor', async () => {
       // given
-      const editor: SingleEditor = {
+      const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        score: 1,
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
@@ -120,9 +125,10 @@ describe('wc-material/renderer', () => {
 
     it('disables remove choice when property has multiple editors and minimum required values', async () => {
       // given
-      const editor: SingleEditor = {
+      const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        score: null,
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
@@ -142,9 +148,10 @@ describe('wc-material/renderer', () => {
 
     it('does not render remove button when property has minimum required values', async () => {
       // given
-      const editor: SingleEditor = {
+      const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        score: null,
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
@@ -160,6 +167,82 @@ describe('wc-material/renderer', () => {
 
       // then
       expect(result).dom.to.equalSnapshot()
+    })
+  })
+
+  describe('property', () => {
+    type Params = Parameters<typeof render.property>[0]
+    const nullParams: (init?: RecursivePartial<PropertyState>) => Params = (init?: RecursivePartial<PropertyState>) => {
+      const pointer = cf({ dataset: $rdf.dataset() }).blankNode()
+
+      return ({
+        property: testPropertyState(pointer, init),
+        renderObject: sinon.spy(),
+        renderMultiEditor: sinon.spy(),
+        actions: {
+          addObject: sinon.spy(),
+          selectMultiEditor: sinon.spy(),
+          selectSingleEditors: sinon.spy(),
+        },
+      })
+    }
+
+    it('renders a selection menu when multi editor is available but not selected', async () => {
+      // given
+      const params = nullParams({
+        editors: [testEditor(dash.TestEditor1)],
+      })
+
+      // when
+      const result = await fixture(render.property(params))
+
+      // then
+      expect(result).dom.to.equalSnapshot()
+    })
+
+    it('renders multi editor when it is selected', async () => {
+      // given
+      const params = nullParams({
+        editors: [testEditor(dash.TestEditor1)],
+        selectedEditor: dash.TestEditor1,
+      })
+
+      // when
+      await fixture(render.property(params))
+
+      // then
+      expect(params.renderMultiEditor).to.have.been.called
+    })
+
+    it('does not render add row when caAdd=false', async () => {
+      // given
+      const params = nullParams({
+        canAdd: false,
+      })
+
+      // when
+      const result = await fixture(render.property(params))
+
+      // then
+      expect(result).dom.to.equalSnapshot()
+    })
+
+    it('renders every object', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const params = nullParams({
+        objects: [
+          testObjectState(graph.literal('foo')),
+          testObjectState(graph.literal('bar')),
+          testObjectState(graph.literal('baz')),
+        ],
+      })
+
+      // when
+      await fixture(render.property(params))
+
+      // then
+      expect(params.renderObject).to.have.been.calledThrice
     })
   })
 })

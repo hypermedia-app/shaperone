@@ -21,6 +21,7 @@ const jsonld = {
     vcard: `${vcard().value}`,
     ex: 'http://example.com/',
     gender: 'foaf:gender',
+    langIso: 'http://lexvo.org/id/iso639-1/',
     language: {
       '@id': 'vcard:language',
       '@type': '@id',

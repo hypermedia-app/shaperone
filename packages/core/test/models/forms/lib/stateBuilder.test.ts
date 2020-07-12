@@ -6,10 +6,13 @@ import ns from '@rdfjs/namespace'
 import { NodeShapeMixin } from '@rdfine/shacl'
 import { schema, sh, dash } from '@tpluscode/rdf-ns-builders'
 import { initialiseFocusNode } from '../../../../models/forms/lib/stateBuilder'
+import { loadMixins } from '../../../../index'
 
 const ex = ns('http://example.com/')
 
 describe('core/models/forms/lib/stateBuilder', () => {
+  before(loadMixins)
+
   describe('initialiseFocusNode', () => {
     it('positions explicitly selected shape at the head of shapes array', () => {
       // given

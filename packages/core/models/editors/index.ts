@@ -27,6 +27,10 @@ export interface SingleEditor extends EditorMatcher {
   match: (shape: PropertyShape, value: SingleContextClownface) => number | null
 }
 
+export interface SingleEditorMatch extends SingleEditor {
+  score: number | null
+}
+
 type EditorMap<T> = Record<string, T>
 
 export interface EditorsState {
