@@ -1,7 +1,9 @@
 import { PropertyShape } from '@rdfine/shacl'
 import type { SingleContextClownface } from 'clownface'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
+import { literal } from '@rdfjs/data-model'
 import type { SingleEditor } from './models/editors/index'
+import { isString } from './lib/datatypes'
 
 export const textField: SingleEditor = {
   term: dash.TextFieldEditor,
@@ -20,21 +22,27 @@ export const textField: SingleEditor = {
   },
 }
 
+const booleanTrue = literal('true', xsd.boolean)
+const booleanFalse = literal('false', xsd.boolean)
+
 export const textArea: SingleEditor = {
   term: dash.TextAreaEditor,
   match(shape: PropertyShape, value: SingleContextClownface) {
-    const singleLine = shape.getBoolean(dash.singleLine)
-    if (!singleLine) {
-      let datatype = shape.get(sh.datatype)?.id
-      if (value.term.termType === 'Literal') {
-        datatype = value.term.datatype
+    const singleLine = shape._selfGraph.out(dash.singleLine).term
+
+    if (isString(value)) {
+      if (singleLine?.equals(booleanTrue)) {
+        return 0
       }
-      if (datatype?.equals(xsd.string)) {
-        if (singleLine === false) {
-          return 20
-        }
-        return 5
+      if (singleLine?.equals(booleanFalse) || value.value.includes('\n')) {
+        return 20
       }
+
+      return 5
+    }
+
+    if (shape.get(sh.datatype)?.equals(xsd.string)) {
+      return 2
     }
 
     return 0

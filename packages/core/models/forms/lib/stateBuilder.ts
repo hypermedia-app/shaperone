@@ -3,14 +3,14 @@ import type { SafeClownface, SingleContextClownface } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
-import type { MultiEditor, SingleEditor } from '../../editors/index'
+import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
 
-export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: SingleEditor[]): SingleEditor[] {
-  return editors.map(editor => ({ editor, score: editor.match(shape, object) }))
+export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: SingleEditor[]): SingleEditorMatch[] {
+  return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort((left, right) => {
       const leftScore = left.score || 0
@@ -18,7 +18,6 @@ export function matchEditors(shape: PropertyShape, object: SingleContextClownfac
 
       return rightScore - leftScore
     })
-    .map(e => e.editor)
 }
 
 function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: SafeClownface }): PropertyState {
@@ -38,8 +37,8 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
       const preferredEditor = params.editors.find(e => e.term.equals(preferredEditorId))
       selectedEditor = preferredEditorId
       if (preferredEditor) {
-        editors.splice(editors.indexOf(preferredEditor), 1)
-        editors = [preferredEditor, ...editors]
+        editors.splice(editors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
+        editors = [{ ...preferredEditor, score: 100 }, ...editors]
       }
     } else {
       selectedEditor = editors[0]?.term

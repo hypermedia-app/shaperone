@@ -1,5 +1,6 @@
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
+import { SingleContextClownface } from 'clownface'
 
 const numericDatatypes = [
   xsd.int,
@@ -15,4 +16,8 @@ const numericDatatypes = [
 
 export function numericDatatype(datatype: ResourceIdentifier | undefined): typeof numericDatatypes[0] | undefined {
   return numericDatatypes.find(dt => datatype?.equals(dt))
+}
+
+export function isString(literal: SingleContextClownface): boolean {
+  return literal.term.termType === 'Literal' && literal.term.datatype.equals(xsd.string)
 }

@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { dash, sh } from '@tpluscode/rdf-ns-builders'
+import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { PropertyShapeMixin } from '@rdfine/shacl'
 import { expect } from 'chai'
 import * as DashEditors from '../DashEditors'
@@ -73,6 +73,36 @@ describe('core/DashEditors', () => {
 
       // then
       expect(result).to.eq(0)
+    })
+
+    it('has score 2 when field has datatype xsd:string', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: xsd.string,
+      })
+      const value = graph.literal(3)
+
+      // when
+      const result = DashEditors.textArea.match(property, value)
+
+      // then
+      expect(result).to.eq(2)
+    })
+
+    it('has score 5 when value is a string', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: xsd.string,
+      })
+      const value = graph.literal('3', 'en')
+
+      // when
+      const result = DashEditors.textArea.match(property, value)
+
+      // then
+      expect(result).to.eq(2)
     })
   })
 

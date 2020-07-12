@@ -17,11 +17,11 @@ import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
-import type { MultiEditor, SingleEditor } from '../editors/index'
+import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../editors/index'
 
 export interface PropertyObjectState {
   object: SingleContextClownface
-  editors: SingleEditor[]
+  editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
 }
 
