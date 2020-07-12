@@ -14,14 +14,13 @@ const ex = ns('http://example.com/')
 describe('core/models/forms/reducers/addObject', () => {
   it('updates canRemove flag', () => {
     // given
-    const form = {}
     const graph = cf({ dataset: $rdf.dataset() })
     const object = graph.literal('foo')
     const property = new PropertyShapeMixin.Class(graph.blankNode(), {
       [sh.minCount.value]: 2,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const before = testState(form, {
+    const { form, state: before } = testState({
       form: {
         focusNodes: {
           [ex.FocusNode.value]: {
@@ -33,7 +32,7 @@ describe('core/models/forms/reducers/addObject', () => {
               canAdd: true,
               name: 'prop',
               shape: property,
-              compoundEditors: [],
+              multiEditor: undefined,
               objects: [],
             }],
           },
@@ -56,14 +55,13 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('updates canRemove flag when it is indeed reached', () => {
     // given
-    const form = {}
     const graph = cf({ dataset: $rdf.dataset() })
     const object = graph.literal('foo')
     const property = new PropertyShapeMixin.Class(graph.blankNode(), {
       [sh.minCount.value]: 1,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const before = testState(form, {
+    const { form, state: before } = testState({
       form: {
         focusNodes: {
           [ex.FocusNode.value]: {
@@ -75,7 +73,7 @@ describe('core/models/forms/reducers/addObject', () => {
               canAdd: false,
               name: 'prop',
               shape: property,
-              compoundEditors: [],
+              multiEditor: undefined,
               objects: [],
             }],
           },
@@ -98,14 +96,13 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('keep minReached when is lower than after adding a value', () => {
     // given
-    const form = {}
     const graph = cf({ dataset: $rdf.dataset() })
     const object = graph.literal('foo')
     const property = new PropertyShapeMixin.Class(graph.blankNode(), {
       [sh.minCount.value]: 0,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const before = testState(form, {
+    const { form, state: before } = testState({
       form: {
         focusNodes: {
           [ex.FocusNode.value]: {
@@ -117,7 +114,7 @@ describe('core/models/forms/reducers/addObject', () => {
               canAdd: false,
               name: 'prop',
               shape: property,
-              compoundEditors: [],
+              multiEditor: undefined,
               objects: [],
             }],
           },
@@ -140,14 +137,13 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('adds triple for sh:defaultValue', () => {
     // given
-    const form = {}
     const graph = cf({ dataset: $rdf.dataset() })
     const property = new PropertyShapeMixin.Class(graph.blankNode(), {
       path: schema.name,
       [sh.defaultValue.value]: literal('John Doe', 'en'),
     })
     const focusNode = graph.node(ex.FocusNode)
-    const before = testState(form, {
+    const { form, state: before } = testState({
       form: {
         focusNodes: {
           [ex.FocusNode.value]: {
@@ -159,7 +155,7 @@ describe('core/models/forms/reducers/addObject', () => {
               canAdd: false,
               name: 'prop',
               shape: property,
-              compoundEditors: [],
+              multiEditor: undefined,
               objects: [],
             }],
           },

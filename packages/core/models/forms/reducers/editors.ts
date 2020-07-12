@@ -1,12 +1,13 @@
-import type { SingleEditor } from '../../editors/index'
+import type { MultiEditor, SingleEditor } from '../../editors/index'
 import type { FormState, State } from '../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 
 export interface Params {
   singleEditors: SingleEditor[]
+  multiEditors: MultiEditor[]
 }
 
-export const setEditors = (state: State, { singleEditors }: Params): State => {
+export const setEditors = (state: State, { singleEditors, multiEditors }: Params): State => {
   const forms = [...state.instances.entries()].map<[unknown, FormState]>(([form, formState]) => {
     const focusNodes = Object.entries(formState.focusNodes)
       .reduce((focusNodes, [id, focusNodeState]) => ({
@@ -14,6 +15,7 @@ export const setEditors = (state: State, { singleEditors }: Params): State => {
         [id]: initialiseFocusNode({
           ...focusNodeState,
           editors: singleEditors,
+          multiEditors,
         }),
       }), {})
 
@@ -26,6 +28,7 @@ export const setEditors = (state: State, { singleEditors }: Params): State => {
   return {
     ...state,
     singleEditors,
+    multiEditors,
     instances: new Map(forms),
   }
 }

@@ -61,7 +61,7 @@ describe('wc-material/renderer', () => {
         },
         property: {
           shape: new PropertyShapeMixin.Class(shapesGraph.blankNode()),
-          compoundEditors: [],
+          multiEditor: undefined,
           objects: [],
           name: '',
           canAdd: false,

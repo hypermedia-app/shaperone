@@ -2,7 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
-import { sh, schema, xsd, rdfs, dash, foaf } from '@tpluscode/rdf-ns-builders'
+import { sh, schema, xsd, rdfs, dash, foaf, vcard } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
 import { DatasetCore } from 'rdf-js'
 import type { Store } from '../store'
@@ -18,6 +18,7 @@ const context = [
 ]
 
 const triples = turtle`@prefix ex: <http://example.com/> .
+@prefix lexvo: <http://lexvo.org/id/iso639-1/> .
 
 ex:PersonShape
   a ${sh.Shape} ;
@@ -26,7 +27,8 @@ ex:PersonShape
   ${sh.property} ex:NameProperty ,
                  ex:KnowsProperty ,
                  ex:AgeProperty ,
-                 ex:GenderProperty ;
+                 ex:GenderProperty ,
+                 ex:SpokenLanguagesProperty ;
 .
 
 ex:SimplifiedPersonShape
@@ -73,10 +75,25 @@ ex:GenderProperty
   ${dash.editor} ${dash.EnumSelectEditor} ;
 .
 
+ex:SpokenLanguagesProperty
+  ${sh.path} ${vcard.language} ;
+  ${sh.name} "Spoken languages" ;
+  ${sh.in} (
+    lexvo:en lexvo:de lexvo:fr lexvo:pl lexvo:es
+  ) ;
+  ${sh.order} 4 ;
+.
+
 ex:FriendGroup
   a ${sh.PropertyGroup} ;
   ${rdfs.label} "Acquaintances"
-.`
+.
+
+lexvo:en ${rdfs.label} "English" .
+lexvo:de ${rdfs.label} "German" .
+lexvo:fr ${rdfs.label} "French" .
+lexvo:pl ${rdfs.label} "Polish" .
+lexvo:es ${rdfs.label} "Spanish" .`
 
 export interface State {
   serialized: string

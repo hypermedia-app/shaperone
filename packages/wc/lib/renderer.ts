@@ -68,6 +68,7 @@ interface PropertyRenderParams {
   property: PropertyState
   actions: PropertyRenderActions
   renderObject: (object: PropertyObjectState) => TemplateResult
+  renderMultiEditor: () => TemplateResult
 }
 
 export interface PropertyRenderStrategy extends RenderStrategy {

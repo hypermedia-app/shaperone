@@ -13,8 +13,7 @@ describe('core/models/forms/reducers/pushFocusNode', () => {
   it('adds to focus node stack', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const form = {}
-    const state = testState(form)
+    const { form, state } = testState()
     state.instances.get(form)!.focusStack = [
       graph.node(ex.FocusNode1),
       graph.node(ex.FocusNode2),
@@ -36,8 +35,7 @@ describe('core/models/forms/reducers/pushFocusNode', () => {
   it('initializes focus node state', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const form = {}
-    const state = testState(form)
+    const { form, state } = testState()
     const property = new PropertyShapeMixin.Class(graph.namedNode(ex.propertyShape))
 
     // when

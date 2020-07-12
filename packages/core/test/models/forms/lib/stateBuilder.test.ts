@@ -22,6 +22,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: [],
+        multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape],
       })
@@ -42,6 +43,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: [],
+        multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape, nestedShape],
       })
@@ -68,6 +70,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: [],
+        multiEditors: [],
         shape,
         shapes: [],
       })
@@ -93,6 +96,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: [],
+        multiEditors: [],
         shape,
         shapes: [],
       })
@@ -117,6 +121,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: [],
+        multiEditors: [],
         shape,
         shapes: [],
       })
@@ -145,6 +150,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: [fooEditor],
+        multiEditors: [],
         shape,
         shapes: [],
       })
@@ -177,6 +183,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: [fooEditor, barEditor],
+        multiEditors: [],
         shape,
         shapes: [],
       })
