@@ -18,8 +18,18 @@ export class MwcPropertyMenu extends LitElement {
 
   render() {
     return html`<wc-menu>
-        <mwc-list-item class="toggle" @click="${this.__dispatch('multi-editor-selected')}" ?current="${!this.property.selectedEditor}">Multi editor</mwc-list-item>
-        <mwc-list-item class="toggle" @click="${this.__dispatch('single-editors-selected')}" ?current="${this.property.selectedEditor}">Individual editors</mwc-list-item>
+        <mwc-list-item class="toggle" graphic="icon"
+                      @click="${this.__dispatch('multi-editor-selected')}"
+                      ?current="${!this.property.selectedEditor}">
+            <mwc-icon slot="graphic">wysiwyg</mwc-icon>
+            Multi editor
+        </mwc-list-item>
+        <mwc-list-item class="toggle" graphic="icon"
+                      @click="${this.__dispatch('single-editors-selected')}"
+                      ?current="${this.property.selectedEditor}">
+            <mwc-icon slot="graphic">list</mwc-icon>
+            Individual editors
+        </mwc-list-item>
     </wc-menu>`
   }
 
