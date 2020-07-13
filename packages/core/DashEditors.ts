@@ -70,3 +70,31 @@ export const enumSelect: SingleEditor = {
     return shape.get(sh.in) ? 10 : 0
   },
 }
+
+export const datePicker: SingleEditor = {
+  term: dash.DatePickerEditor,
+  match(shape, value: any) {
+    if (xsd.date.equals(value.term.datatype)) {
+      return 15
+    }
+    if (shape.get(sh.datatype)?.equals(xsd.date)) {
+      return 5
+    }
+
+    return 0
+  },
+}
+
+export const dateTimePicker: SingleEditor = {
+  term: dash.DateTimePickerEditor,
+  match(shape, value: any) {
+    if (xsd.dateTime.equals(value.term.datatype)) {
+      return 15
+    }
+    if (shape.get(sh.datatype)?.equals(xsd.dateTime)) {
+      return 5
+    }
+
+    return 0
+  },
+}

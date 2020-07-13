@@ -122,4 +122,64 @@ describe('core/DashEditors', () => {
       expect(result).to.eq(10)
     })
   })
+
+  describe(dash.DatePickerEditor.value, () => {
+    it('should have score 15 if value is xsd:date', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const value = graph.literal('2000-10-09', xsd.date)
+
+      // when
+      const result = DashEditors.datePicker.match(property, value)
+
+      // then
+      expect(result).to.eq(15)
+    })
+
+    it('should have score 5 if shape has datatype xsd:date', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: xsd.date,
+      })
+      const value = graph.literal('')
+
+      // when
+      const result = DashEditors.datePicker.match(property, value)
+
+      // then
+      expect(result).to.eq(5)
+    })
+  })
+
+  describe(dash.DateTimePickerEditor.value, () => {
+    it('should have score 15 if value is xsd:dateTime', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const value = graph.literal('2000-10-09', xsd.dateTime)
+
+      // when
+      const result = DashEditors.dateTimePicker.match(property, value)
+
+      // then
+      expect(result).to.eq(15)
+    })
+
+    it('should have score 5 if shape has datatype xsd:dateTime', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: xsd.dateTime,
+      })
+      const value = graph.literal('')
+
+      // when
+      const result = DashEditors.dateTimePicker.match(property, value)
+
+      // then
+      expect(result).to.eq(5)
+    })
+  })
 })
