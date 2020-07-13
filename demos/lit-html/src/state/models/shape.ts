@@ -28,7 +28,8 @@ ex:PersonShape
                  ex:KnowsProperty ,
                  ex:AgeProperty ,
                  ex:GenderProperty ,
-                 ex:SpokenLanguagesProperty ;
+                 ex:SpokenLanguagesProperty  ,
+                 ex:DateOfBirthProperty ;
 .
 
 ex:SimplifiedPersonShape
@@ -75,6 +76,14 @@ ex:GenderProperty
   ${dash.editor} ${dash.EnumSelectEditor} ;
 .
 
+ex:DateOfBirthProperty
+  ${sh.path} ${schema.birthDate} ;
+  ${sh.name} "Date of birth" ;
+  ${sh.maxCount} 1 ;
+  ${sh.order} 4 ;
+  ${sh.datatype} ${xsd.date} ;
+.
+
 ex:SpokenLanguagesProperty
   ${sh.path} ${vcard.language} ;
   ${sh.name} "Spoken languages" ;
@@ -82,7 +91,7 @@ ex:SpokenLanguagesProperty
   ${sh.in} (
     lexvo:en lexvo:de lexvo:fr lexvo:pl lexvo:es
   ) ;
-  ${sh.order} 4 ;
+  ${sh.order} 5 ;
 .
 
 ex:FriendGroup

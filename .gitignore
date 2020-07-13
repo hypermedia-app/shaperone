@@ -9,3 +9,4 @@ coverage/
 *.d.ts.map
 playground/
 !types/**/*.d.ts
+*.log
