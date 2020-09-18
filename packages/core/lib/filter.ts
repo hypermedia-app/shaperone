@@ -14,3 +14,11 @@ export function byGroup(group: PropertyGroup | undefined) {
     return false
   }
 }
+
+export function onlySingleProperty(property: PropertyState) {
+  if (Array.isArray(property.shape.path)) {
+    return property.shape.path.length === 1
+  }
+
+  return true
+}

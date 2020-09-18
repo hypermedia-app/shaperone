@@ -6,6 +6,7 @@ import { matchEditors } from '../lib/stateBuilder'
 import type { PropertyObjectState } from '../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
 import { defaultValue } from '../lib/defaultValue'
+import { getPathProperty } from '../../../lib/property'
 
 export interface Params {
   focusNode: FocusNode
@@ -23,7 +24,7 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
     let object: GraphPointer
     if (property.defaultValue) {
       object = focusNodeState.focusNode.node(property.defaultValue)
-      focusNode.addOut(property.path.id, object)
+      focusNode.addOut(getPathProperty(property).id, object)
     } else {
       object = defaultValue(property, focusNodeState.focusNode)
     }

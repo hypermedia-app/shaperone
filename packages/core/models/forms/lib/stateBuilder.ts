@@ -1,13 +1,14 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { MultiPointer, GraphPointer } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
-import { dash, sh } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
+import { getPathProperty } from '../../../lib/property'
 
 export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
   return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
@@ -52,7 +53,7 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
   })
 
   let datatype: NamedNode | undefined
-  const shapeDatatype = shape.get(sh.datatype)
+  const shapeDatatype = shape.datatype
   if (shapeDatatype?.id.termType === 'NamedNode') {
     datatype = shapeDatatype.id
   }
@@ -61,14 +62,9 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
   const canRemove = !!editor || canRemoveObject(shape, objects.length)
   const canAdd = !!editor || canAddObject(shape, objects.length)
 
-  let { name } = shape
-  if (!name && !Array.isArray(shape.path)) {
-    name = shrink(shape.path.id.value)
-  }
-
   return {
     shape,
-    name,
+    name: shape.name || shrink(getPathProperty(shape).id.value),
     editors,
     selectedEditor: editor?.term,
     objects,
@@ -90,7 +86,7 @@ interface InitializeParams {
 export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
   const { focusNode, editors, multiEditors, selectedGroup } = params
   let { shapes } = params
-  const groupMap = new Map<string, PropertyGroupState>()
+  const groupMap = new Map<string | undefined, PropertyGroupState>()
 
   if (!params.shape && !shapes.length) {
     return {
@@ -114,22 +110,15 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
     .reduce<Array<PropertyState>>((map, prop) => {
     groupMap.set(prop.group?.id?.value, {
       group: prop.group,
-      order: prop.group ? prop.group.getNumber(sh.order) || 0 : -1,
+      order: prop.group ? prop.group.order || 0 : -1,
       selected: prop.group?.id?.value === selectedGroup,
     })
-
-    let values: MultiPointer
-    if (!Array.isArray(prop.path)) {
-      values = focusNode.out(prop.path.id)
-    } else {
-      throw new Error('Property path lists are not supported')
-    }
 
     return [...map, initialisePropertyShape({
       shape: prop,
       editors,
       multiEditors,
-      values,
+      values: focusNode.out(getPathProperty(prop).id),
     })]
   }, [])
 

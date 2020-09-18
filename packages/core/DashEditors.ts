@@ -8,7 +8,7 @@ import { isString } from './lib/datatypes'
 export const textField: SingleEditor = {
   term: dash.TextFieldEditor,
   match(shape: PropertyShape, value: GraphPointer) {
-    let datatype = shape.get(sh.datatype)?.id
+    let datatype = shape.datatype?.id
 
     if (value.term.termType === 'Literal') {
       datatype = value.term.datatype
@@ -41,7 +41,7 @@ export const textArea: SingleEditor = {
       return 5
     }
 
-    if (shape.get(sh.datatype)?.equals(xsd.string)) {
+    if (shape.datatype?.equals(xsd.string)) {
       return 2
     }
 
@@ -52,7 +52,7 @@ export const textArea: SingleEditor = {
 export const shape: SingleEditor = {
   term: dash.DetailsEditor,
   match(shape: PropertyShape, value) {
-    if (shape.get(sh.class)) {
+    if (shape.class) {
       return 20
     }
 
@@ -77,7 +77,7 @@ export const datePicker: SingleEditor = {
     if (xsd.date.equals(value.term.datatype)) {
       return 15
     }
-    if (shape.get(sh.datatype)?.equals(xsd.date)) {
+    if (shape.datatype?.equals(xsd.date)) {
       return 5
     }
 
@@ -91,7 +91,7 @@ export const dateTimePicker: SingleEditor = {
     if (xsd.dateTime.equals(value.term.datatype)) {
       return 15
     }
-    if (shape.get(sh.datatype)?.equals(xsd.dateTime)) {
+    if (shape.datatype?.equals(xsd.dateTime)) {
       return 5
     }
 

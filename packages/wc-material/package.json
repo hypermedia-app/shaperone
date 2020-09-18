@@ -32,7 +32,7 @@
     "@open-wc/eslint-config": "^2.0.6",
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3",
-    "@rdfine/shacl": "^0.4.3",
+    "@rdfine/shacl": "^0.5",
     "@rdf-esm/dataset": "^0.5.0",
     "@rdf-esm/namespace": "^0.5.1",
     "clownface": "^1",

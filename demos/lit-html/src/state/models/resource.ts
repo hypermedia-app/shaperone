@@ -172,12 +172,18 @@ export const resource = createModel({
       async serialize({ dataset, shape } : { dataset: DatasetCore; shape: Shape }) {
         const { resource } = store.getState()
 
+        const context: Record<string, any> = {
+          '@context': { ...resource.context },
+          '@embed': '@always',
+        }
+
+        const [type] = shape.targetClass
+        if (type) {
+          context['@type'] = type
+        }
+
         dispatch.resource.serialized(await serialize(dataset, resource.format, {
-          context: {
-            '@context': { ...resource.context },
-            '@type': shape.targetClass.id.value,
-            '@embed': '@always',
-          },
+          context,
           compact: true,
           frame: true,
         }))

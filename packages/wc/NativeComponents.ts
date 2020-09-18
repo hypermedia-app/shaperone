@@ -1,7 +1,8 @@
 import { html } from 'lit-element'
-import { dash, sh, rdfs } from '@tpluscode/rdf-ns-builders'
+import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
+import { getInPointers } from '@hydrofoil/shaperone-core/lib/property'
 import type { SingleEditorComponent } from './index'
 import { getType } from './components/lib/textFieldType'
 
@@ -27,7 +28,7 @@ export const enumSelectEditor: SingleEditorComponent = {
   editor: dash.EnumSelectEditor,
 
   render({ value, property }, { update }) {
-    const choices = [...(property.shape.pointer.out(sh.in).list() || [])]
+    const choices = getInPointers(property.shape)
 
     return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>

@@ -32,7 +32,7 @@ export class MwcEditorToggle extends SelectableMenuMixin(LitElement) {
 
   __renderEditorSelector(choice: Editor) {
     return this.createItem({
-      text: choice.meta.label,
+      text: choice.meta.label || choice.term.value,
       selected: choice.term.equals(this.selected),
       '@click': this.__dispatchEditorSelected(choice),
     })

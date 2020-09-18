@@ -23,11 +23,11 @@ function defaultStringValue(datatype: RdfResource | undefined, graph: AnyPointer
 }
 
 export function defaultValue(property: PropertyShape, focusNode: FocusNode): GraphPointer {
-  const nodeKind = property.get(sh.nodeKind)
+  const { nodeKind } = property
 
-  if (property.get(sh.class) || nodeKind?.id.equals(sh.IRI) || nodeKind?.id.equals(sh.BlankNode) || nodeKind?.id.equals(sh.BlankNodeOrIRI)) {
+  if (property.class || nodeKind?.equals(sh.IRI) || nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI)) {
     const resourceNode = focusNode.blankNode()
-    const propertyClass = property.get(sh.class)
+    const propertyClass = property.class
     if (propertyClass) {
       resourceNode.addOut(rdf.type, propertyClass.id)
     }
@@ -35,6 +35,6 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Gra
     return resourceNode
   }
 
-  const datatype = property.get(sh.datatype)
+  const { datatype } = property
   return defaultNumericValue(datatype, focusNode) || defaultStringValue(datatype, focusNode)
 }
