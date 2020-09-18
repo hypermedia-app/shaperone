@@ -1,14 +1,15 @@
 import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
 import { quad, namedNode, literal } from '@rdf-esm/data-model'
 import { MultiEditor } from '@hydrofoil/shaperone-core'
-import { vcard, dash, rdf, rdfs, sh } from '@tpluscode/rdf-ns-builders'
+import { vcard, dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
+import { getInPointers, getPathProperty } from '@hydrofoil/shaperone-core/lib/property'
 
 const editor = namedNode('http://example.com/LanguageMultiSelect')
 
 export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = theme => ({
   editor,
   render({ property }, { update }) {
-    const languages = [...property.shape._selfGraph.out(sh.in).list()].map(lang => ({
+    const languages = getInPointers(property.shape).map(lang => ({
       id: lang.term.value,
       term: lang.term,
       label: lang.out(rdfs.label).value || lang.value,
@@ -32,7 +33,7 @@ export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = t
 export const matcher: MultiEditor = {
   term: editor,
   match(shape) {
-    return shape.path.equals(vcard.language) ? 50 : 0
+    return getPathProperty(shape).equals(vcard.language) ? 50 : 0
   },
 }
 

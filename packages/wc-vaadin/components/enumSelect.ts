@@ -1,12 +1,13 @@
 import type { Component } from '@hydrofoil/shaperone-wc'
-import { dash, sh, rdfs } from '@tpluscode/rdf-ns-builders'
+import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { html } from 'lit-html'
 import { repeat } from 'lit-html/directives/repeat'
+import { getInPointers } from '@hydrofoil/shaperone-core/lib/property'
 
 export const enumSelect: Component = {
   editor: dash.EnumSelectEditor,
   render({ value, property }, { update }) {
-    const choices = [...property.shape._selfGraph.out(sh.in).list()].map(choice => ({
+    const choices = getInPointers(property.shape).map(choice => ({
       term: choice.term,
       label: choice.out(rdfs.label).value || choice.value,
     }))

@@ -3,6 +3,7 @@ import { formStateReducer } from './index'
 import type { FocusNode } from '../../../index'
 import type { PropertyObjectState } from '../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
+import { getPathProperty } from '../../../lib/property'
 
 export interface RemoveObjectParams {
   focusNode: FocusNode
@@ -21,8 +22,8 @@ export const removeObject = formStateReducer(({ state }, { focusNode, property, 
     const objects = currentProperty.objects.filter(o => !o.object.term.equals(object.object.term))
 
     focusNodeState.focusNode
-      .deleteOut(property.path.id)
-      .addOut(property.path.id, objects.map(o => o.object))
+      .deleteOut(getPathProperty(property).id)
+      .addOut(getPathProperty(property).id, objects.map(o => o.object))
 
     return {
       ...currentProperty,

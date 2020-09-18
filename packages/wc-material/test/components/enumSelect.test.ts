@@ -1,6 +1,6 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
-import $rdf from '@rdfjs/dataset'
+import $rdf from '@rdf-esm/dataset'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { editorTestParams } from '../util'
 import { enumSelect } from '../../components/enumSelect'
@@ -12,7 +12,7 @@ describe('wc-material/components/enumSelect', () => {
     const { params, actions } = editorTestParams({
       object: graph.literal(''),
     })
-    params.property.shape._selfGraph.addList(sh.in, ['foo', 'bar'])
+    params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
     const result = await fixture(enumSelect.render(params, actions))
@@ -27,7 +27,7 @@ describe('wc-material/components/enumSelect', () => {
     const { params, actions } = editorTestParams({
       object: graph.literal('bar'),
     })
-    params.property.shape._selfGraph.addList(sh.in, ['foo', 'bar'])
+    params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
     const result = await fixture(enumSelect.render(params, actions))

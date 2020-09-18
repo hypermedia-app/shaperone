@@ -1,5 +1,4 @@
-import { PropertyShape, Shape } from '@rdfine/shacl'
-import { sh } from '@tpluscode/rdf-ns-builders'
+import { PropertyShape } from '@rdfine/shacl'
 import { formStateReducer } from './index'
 import { FocusNode } from '../../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
@@ -12,7 +11,7 @@ export const pushFocusNode = formStateReducer(({ state, editors, multiEditors },
     ...state.focusNodes,
     [focusNode.value]: initialiseFocusNode({
       focusNode,
-      shape: property.get<Shape>(sh.node),
+      shape: property.node,
       shapes: state.shapes.filter(matchFor(focusNode)),
       editors,
       multiEditors,

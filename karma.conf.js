@@ -2,6 +2,7 @@
 const { createDefaultConfig } = require('@open-wc/testing-karma')
 const merge = require('deepmerge')
 const cjsTransformer = require('es-dev-commonjs-transformer')
+const rdfjs = require('rdfjs-eds-plugin')
 
 module.exports = (config) => {
   config.set(
@@ -21,6 +22,7 @@ module.exports = (config) => {
         babel: true,
         nodeResolve: true,
         fileExtensions: ['.ts'],
+        plugins: [rdfjs],
         responseTransformers: [
           cjsTransformer([
             '**/node_modules/@open-wc/**/*',

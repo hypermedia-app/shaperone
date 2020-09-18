@@ -1,5 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import { SingleContextClownface } from 'clownface'
+import { GraphPointer } from 'clownface'
 import { DatasetCore, NamedNode } from 'rdf-js'
 import { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { effects } from './effects'
@@ -20,7 +20,7 @@ import { FocusNode } from '../../index'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../editors/index'
 
 export interface PropertyObjectState {
-  object: SingleContextClownface
+  object: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
 }

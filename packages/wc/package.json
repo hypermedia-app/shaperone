@@ -9,15 +9,16 @@
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.6",
     "@hydrofoil/shaperone-core": "0.0.1",
-    "@rdf-esm/data-model": "^0.5.1",
-    "@rdfine/shacl": "^0.2.2",
-    "@rdfjs/term-map": "^1.0.0",
-    "@tpluscode/rdf-ns-builders": "^0.3.5",
+    "@rdf-esm/data-model": "^0.5.3",
+    "@rdfine/shacl": "^0.5",
+    "@rdf-esm/term-map": "^0.5.0",
+    "@tpluscode/rdf-ns-builders": "^0.4.0",
     "lit-element": "^2.3.1",
     "lit-html": "^1.2.1"
   },
   "devDependencies": {
-    "@types/rdf-js": "^3.0.1"
+    "@types/rdf-js": "^4",
+    "@types/rdfjs__term-map": "^1.0.0"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

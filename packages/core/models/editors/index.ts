@@ -2,10 +2,10 @@ import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
 import type * as Rdfs from '@rdfine/rdfs'
-import { vocabularies } from '@zazuko/rdf-vocabularies'
+import { vocabularies } from '@zazuko/rdf-vocabularies/lib/vocabularies'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import type { Clownface, SingleContextClownface } from 'clownface'
+import type { AnyPointer, GraphPointer } from 'clownface'
 import type { Dispatch, Store } from '../../state'
 import { addMatchers } from './reducers/addMatchers'
 import { addMetadata } from './reducers/addMetadata'
@@ -24,7 +24,7 @@ export interface MultiEditor extends EditorMatcher {
 }
 
 export interface SingleEditor extends EditorMatcher {
-  match: (shape: PropertyShape, value: SingleContextClownface) => number | null
+  match: (shape: PropertyShape, value: GraphPointer) => number | null
 }
 
 export interface SingleEditorMatch extends SingleEditor {
@@ -34,7 +34,7 @@ export interface SingleEditorMatch extends SingleEditor {
 type EditorMap<T> = Record<string, T>
 
 export interface EditorsState {
-  metadata: Clownface
+  metadata: AnyPointer
   allEditors: EditorMap<Editor<EditorMatcher>>
   singleEditors: EditorMap<Editor<SingleEditor>>
   multiEditors: EditorMap<Editor<MultiEditor>>

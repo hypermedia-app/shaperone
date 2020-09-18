@@ -4,6 +4,7 @@ import { formStateReducer } from './index'
 import type { PropertyObjectState } from '../index'
 import type { FocusNode } from '../../../index'
 import { matchEditors } from '../lib/stateBuilder'
+import { getPathProperty } from '../../../lib/property'
 
 export interface UpdateObjectParams {
   focusNode: FocusNode
@@ -36,9 +37,10 @@ export const updateObject = formStateReducer(({ state }, { focusNode, property, 
       return o
     })
 
+    const pathProperty = getPathProperty(property).id
     focusNodeState.focusNode
-      .deleteOut(property.path.id)
-      .addOut(property.path.id, objects.map(o => o.object))
+      .deleteOut(pathProperty)
+      .addOut(pathProperty, objects.map(o => o.object))
 
     return {
       ...prop,
@@ -76,9 +78,10 @@ export const replaceObjects = formStateReducer(({ state, editors }, { focusNode,
       }
     })
 
+    const pathProperty = getPathProperty(property).id
     focusNodeState.focusNode
-      .deleteOut(property.path.id)
-      .addOut(property.path.id, terms)
+      .deleteOut(pathProperty)
+      .addOut(pathProperty, terms)
 
     return {
       ...prop,

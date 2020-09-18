@@ -2,9 +2,9 @@ import { createModel } from '@captaincodeman/rdx'
 import { parsers } from '@rdf-esm/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
-import cf, { Clownface, SingleContextClownface } from 'clownface'
+import cf, { AnyPointer, GraphPointer } from 'clownface'
 import { foaf, schema, vcard, xsd } from '@tpluscode/rdf-ns-builders'
-import TermSet from '@rdfjs/term-set'
+import TermSet from '@rdf-esm/term-set'
 import { Shape } from '@rdfine/shacl'
 import { DatasetCore } from 'rdf-js'
 import type { ComboBoxElement } from '@vaadin/vaadin-combo-box/vaadin-combo-box'
@@ -40,8 +40,8 @@ const jsonld = {
 }
 
 export interface State {
-  graph?: Clownface
-  pointer?: SingleContextClownface
+  graph?: AnyPointer
+  pointer?: GraphPointer
   format: string
   serialized: string
   context: Record<string, any>
@@ -86,7 +86,7 @@ export const resource = createModel({
     }],
   },
   reducers: {
-    replaceGraph(state, { graph }: { graph: Clownface }) {
+    replaceGraph(state, { graph }: { graph: AnyPointer }) {
       const pointers = graph.in().filter(node => node.term.termType === 'NamedNode')
       const terms = new TermSet(pointers.map(node => node.term))
       let pointer
@@ -172,12 +172,18 @@ export const resource = createModel({
       async serialize({ dataset, shape } : { dataset: DatasetCore; shape: Shape }) {
         const { resource } = store.getState()
 
+        const context: Record<string, any> = {
+          '@context': { ...resource.context },
+          '@embed': '@always',
+        }
+
+        const [type] = shape.targetClass
+        if (type) {
+          context['@type'] = type.id.value
+        }
+
         dispatch.resource.serialized(await serialize(dataset, resource.format, {
-          context: {
-            '@context': { ...resource.context },
-            '@type': shape.targetClass.id.value,
-            '@embed': '@always',
-          },
+          context,
           compact: true,
           frame: true,
         }))

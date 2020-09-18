@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import ns from '@rdfjs/namespace'
+import ns from '@rdf-esm/namespace'
 import { popFocusNode } from '../../../../models/forms/reducers/popFocusNode'
 import { testState, testFocusNodeState } from '../util'
 

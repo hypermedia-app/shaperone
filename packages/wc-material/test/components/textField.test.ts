@@ -1,6 +1,6 @@
 import { fixture, expect } from '@open-wc/testing'
 import cf from 'clownface'
-import $rdf from '@rdfjs/dataset'
+import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { textField } from '../../components/textField'
 import { editorTestParams } from '../util'

@@ -17,7 +17,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape._selfGraph, {
+              properties: [testPropertyState(shape.pointer, {
                 editors: [testEditor(dash.MultiEditor1)],
               })],
             }),
@@ -47,7 +47,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape._selfGraph, {
+              properties: [testPropertyState(shape.pointer, {
                 selectedEditor: dash.MultiEditor1,
               })],
             }),

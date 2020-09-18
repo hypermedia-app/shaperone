@@ -1,15 +1,16 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
-import type { SafeClownface, SingleContextClownface } from 'clownface'
+import type { MultiPointer, GraphPointer } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
-import { dash, sh } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
+import { getPathProperty } from '../../../lib/property'
 
-export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: SingleEditor[]): SingleEditorMatch[] {
+export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
   return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort((left, right) => {
@@ -20,7 +21,7 @@ export function matchEditors(shape: PropertyShape, object: SingleContextClownfac
     })
 }
 
-function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: SafeClownface }): PropertyState {
+function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: MultiPointer }): PropertyState {
   const { shape, values } = params
 
   const editors = params.multiEditors
@@ -52,7 +53,7 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
   })
 
   let datatype: NamedNode | undefined
-  const shapeDatatype = shape.get(sh.datatype)
+  const shapeDatatype = shape.datatype
   if (shapeDatatype?.id.termType === 'NamedNode') {
     datatype = shapeDatatype.id
   }
@@ -63,7 +64,7 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
 
   return {
     shape,
-    name: shape.name?.value || shrink(shape.path.id.value),
+    name: shape.name || shrink(getPathProperty(shape).id.value),
     editors,
     selectedEditor: editor?.term,
     objects,
@@ -85,7 +86,7 @@ interface InitializeParams {
 export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
   const { focusNode, editors, multiEditors, selectedGroup } = params
   let { shapes } = params
-  const groupMap = new Map<string, PropertyGroupState>()
+  const groupMap = new Map<string | undefined, PropertyGroupState>()
 
   if (!params.shape && !shapes.length) {
     return {
@@ -109,7 +110,7 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
     .reduce<Array<PropertyState>>((map, prop) => {
     groupMap.set(prop.group?.id?.value, {
       group: prop.group,
-      order: prop.group ? prop.group.getNumber(sh.order) || 0 : -1,
+      order: prop.group ? prop.group.order || 0 : -1,
       selected: prop.group?.id?.value === selectedGroup,
     })
 
@@ -117,7 +118,7 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
       shape: prop,
       editors,
       multiEditors,
-      values: focusNode.out(prop.path.id),
+      values: focusNode.out(getPathProperty(prop).id),
     })]
   }, [])
 
