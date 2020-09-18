@@ -179,7 +179,7 @@ export const resource = createModel({
 
         const [type] = shape.targetClass
         if (type) {
-          context['@type'] = type
+          context['@type'] = type.id.value
         }
 
         dispatch.resource.serialized(await serialize(dataset, resource.format, {
