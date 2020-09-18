@@ -1,13 +1,13 @@
 import { PropertyShape } from '@rdfine/shacl'
-import type { SingleContextClownface } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
-import { literal } from '@rdfjs/data-model'
-import type { SingleEditor } from './models/editors/index'
+import { literal } from '@rdf-esm/data-model'
+import type { SingleEditor } from './models/editors'
 import { isString } from './lib/datatypes'
 
 export const textField: SingleEditor = {
   term: dash.TextFieldEditor,
-  match(shape: PropertyShape, value: SingleContextClownface) {
+  match(shape: PropertyShape, value: GraphPointer) {
     let datatype = shape.get(sh.datatype)?.id
 
     if (value.term.termType === 'Literal') {
@@ -27,8 +27,8 @@ const booleanFalse = literal('false', xsd.boolean)
 
 export const textArea: SingleEditor = {
   term: dash.TextAreaEditor,
-  match(shape: PropertyShape, value: SingleContextClownface) {
-    const singleLine = shape._selfGraph.out(dash.singleLine).term
+  match(shape: PropertyShape, value: GraphPointer) {
+    const singleLine = shape.pointer.out(dash.singleLine).term
 
     if (isString(value)) {
       if (singleLine?.equals(booleanTrue)) {

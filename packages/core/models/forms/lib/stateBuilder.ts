@@ -1,5 +1,5 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
-import type { SafeClownface, SingleContextClownface } from 'clownface'
+import type { MultiPointer, GraphPointer } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
@@ -9,7 +9,7 @@ import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
 
-export function matchEditors(shape: PropertyShape, object: SingleContextClownface, editors: SingleEditor[]): SingleEditorMatch[] {
+export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
   return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort((left, right) => {
@@ -20,7 +20,7 @@ export function matchEditors(shape: PropertyShape, object: SingleContextClownfac
     })
 }
 
-function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: SafeClownface }): PropertyState {
+function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: MultiPointer }): PropertyState {
   const { shape, values } = params
 
   const editors = params.multiEditors
@@ -61,9 +61,14 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
   const canRemove = !!editor || canRemoveObject(shape, objects.length)
   const canAdd = !!editor || canAddObject(shape, objects.length)
 
+  let { name } = shape
+  if (!name && !Array.isArray(shape.path)) {
+    name = shrink(shape.path.id.value)
+  }
+
   return {
     shape,
-    name: shape.name?.value || shrink(shape.path.id.value),
+    name,
     editors,
     selectedEditor: editor?.term,
     objects,
@@ -113,11 +118,18 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
       selected: prop.group?.id?.value === selectedGroup,
     })
 
+    let values: MultiPointer
+    if (!Array.isArray(prop.path)) {
+      values = focusNode.out(prop.path.id)
+    } else {
+      throw new Error('Property path lists are not supported')
+    }
+
     return [...map, initialisePropertyShape({
       shape: prop,
       editors,
       multiEditors,
-      values: focusNode.out(prop.path.id),
+      values,
     })]
   }, [])
 

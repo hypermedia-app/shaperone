@@ -6,7 +6,7 @@ import { repeat } from 'lit-html/directives/repeat'
 export const enumSelect: Component = {
   editor: dash.EnumSelectEditor,
   render({ value, property }, { update }) {
-    const choices = [...property.shape._selfGraph.out(sh.in).list()].map(choice => ({
+    const choices = [...property.shape.pointer.out(sh.in).list()].map(choice => ({
       term: choice.term,
       label: choice.out(rdfs.label).value || choice.value,
     }))

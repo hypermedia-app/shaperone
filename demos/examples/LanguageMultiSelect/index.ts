@@ -8,7 +8,7 @@ const editor = namedNode('http://example.com/LanguageMultiSelect')
 export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = theme => ({
   editor,
   render({ property }, { update }) {
-    const languages = [...property.shape._selfGraph.out(sh.in).list()].map(lang => ({
+    const languages = [...(property.shape.pointer.out(sh.in).list() || [])].map(lang => ({
       id: lang.term.value,
       term: lang.term,
       label: lang.out(rdfs.label).value || lang.value,
@@ -32,6 +32,10 @@ export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = t
 export const matcher: MultiEditor = {
   term: editor,
   match(shape) {
+    if (Array.isArray(shape.path)) {
+      return 0
+    }
+
     return shape.path.equals(vcard.language) ? 50 : 0
   },
 }

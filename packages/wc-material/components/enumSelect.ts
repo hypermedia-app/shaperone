@@ -6,7 +6,7 @@ import { repeat } from 'lit-html/directives/repeat'
 export const enumSelect: SingleEditorComponent = {
   editor: dash.EnumSelectEditor,
   render({ value, property }, actions) {
-    const choices = [...property.shape._selfGraph.out(sh.in).list()]
+    const choices = [...(property.shape.pointer.out(sh.in).list() || [])]
 
     return html`<mwc-select @selected="${(e: CustomEvent) => actions.update(choices[e.detail.index].term)}">
     ${repeat(choices, choice => html`<mwc-list-item ?selected="${choice.value === value.object.value}" value="${choice}">

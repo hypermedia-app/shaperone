@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha'
-import ns from '@rdfjs/namespace'
+import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { PropertyShapeMixin } from '@rdfine/shacl'

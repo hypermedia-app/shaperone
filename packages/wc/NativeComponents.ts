@@ -27,7 +27,7 @@ export const enumSelectEditor: SingleEditorComponent = {
   editor: dash.EnumSelectEditor,
 
   render({ value, property }, { update }) {
-    const choices = [...property.shape._selfGraph.out(sh.in).list()]
+    const choices = [...(property.shape.pointer.out(sh.in).list() || [])]
 
     return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>

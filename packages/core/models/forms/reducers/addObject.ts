@@ -1,4 +1,4 @@
-import { SingleContextClownface } from 'clownface'
+import { GraphPointer } from 'clownface'
 import { PropertyShape } from '@rdfine/shacl'
 import type { FocusNode } from '../../..'
 import { formStateReducer } from './index'
@@ -10,7 +10,7 @@ import { defaultValue } from '../lib/defaultValue'
 export interface Params {
   focusNode: FocusNode
   property: PropertyShape
-  object?: SingleContextClownface
+  object?: GraphPointer
 }
 
 export const addObject = formStateReducer(({ state, editors }, { focusNode, property }: Params) => {
@@ -20,7 +20,7 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
     if (!currentProperty.shape.id.equals(property.id)) {
       return currentProperty
     }
-    let object: SingleContextClownface
+    let object: GraphPointer
     if (property.defaultValue) {
       object = focusNodeState.focusNode.node(property.defaultValue)
       focusNode.addOut(property.path.id, object)

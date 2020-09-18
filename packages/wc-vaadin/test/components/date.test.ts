@@ -1,5 +1,5 @@
 import cf from 'clownface'
-import $rdf from '@rdfjs/dataset'
+import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { dateTimePicker, datePicker } from '../../components/date'

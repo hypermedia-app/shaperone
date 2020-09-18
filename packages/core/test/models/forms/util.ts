@@ -1,7 +1,8 @@
 import deepmerge from 'deepmerge'
 import * as sinon from 'sinon'
-import { SingleContextClownface } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import { PropertyShapeMixin } from '@rdfine/shacl'
+import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import { FocusNodeState, FormState, PropertyObjectState, PropertyState, State } from '../../../models/forms/index'
 import { MultiEditor, SingleEditor } from '../../../models/editors/index'
 import { FocusNode } from '../../../index'
@@ -54,7 +55,7 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
   }
 }
 
-export function testPropertyState(pointer: SingleContextClownface, init: RecursivePartial<PropertyState> = {}): PropertyState {
+export function testPropertyState(pointer: ResourceNode, init: RecursivePartial<PropertyState> = {}): PropertyState {
   return deepmerge({
     editors: [],
     shape: new PropertyShapeMixin.Class(pointer),
@@ -67,7 +68,7 @@ export function testPropertyState(pointer: SingleContextClownface, init: Recursi
   }, init, { clone: false })
 }
 
-export function testObjectState(object: SingleContextClownface, init: RecursivePartial<PropertyObjectState> = {}): PropertyObjectState {
+export function testObjectState(object: GraphPointer, init: RecursivePartial<PropertyObjectState> = {}): PropertyObjectState {
   return deepmerge({
     selectedEditor: undefined,
     object,

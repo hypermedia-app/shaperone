@@ -1,11 +1,11 @@
 import type { PropertyShape } from '@rdfine/shacl'
-import type { Clownface, SingleContextClownface } from 'clownface'
+import type { AnyPointer, GraphPointer } from 'clownface'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import type { RdfResource } from '@tpluscode/rdfine'
 import type { FocusNode } from '../../../index'
 import * as datatypes from '../../../lib/datatypes'
 
-function defaultNumericValue(datatype: RdfResource | undefined, graph: Clownface): SingleContextClownface | null {
+function defaultNumericValue(datatype: RdfResource | undefined, graph: AnyPointer): GraphPointer | null {
   const numericDatatype = datatypes.numericDatatype(datatype?.id)
   if (numericDatatype) {
     return graph.literal('0', numericDatatype)
@@ -14,7 +14,7 @@ function defaultNumericValue(datatype: RdfResource | undefined, graph: Clownface
   return null
 }
 
-function defaultStringValue(datatype: RdfResource | undefined, graph: Clownface) {
+function defaultStringValue(datatype: RdfResource | undefined, graph: AnyPointer) {
   if (datatype?.id.termType === 'NamedNode') {
     return graph.literal('', datatype?.id)
   }
@@ -22,7 +22,7 @@ function defaultStringValue(datatype: RdfResource | undefined, graph: Clownface)
   return graph.literal('')
 }
 
-export function defaultValue(property: PropertyShape, focusNode: FocusNode): SingleContextClownface {
+export function defaultValue(property: PropertyShape, focusNode: FocusNode): GraphPointer {
   const nodeKind = property.get(sh.nodeKind)
 
   if (property.get(sh.class) || nodeKind?.id.equals(sh.IRI) || nodeKind?.id.equals(sh.BlankNode) || nodeKind?.id.equals(sh.BlankNodeOrIRI)) {

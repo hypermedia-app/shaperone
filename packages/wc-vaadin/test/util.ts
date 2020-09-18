@@ -2,14 +2,14 @@ import { SingleEditorRenderParams, SingleEditorActions } from '@hydrofoil/shaper
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import { PropertyShape, PropertyShapeMixin } from '@rdfine/shacl'
 import * as sinon from 'sinon'
-import { SingleContextClownface } from 'clownface'
+import { GraphPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
-import { xsd } from '@tpluscode/rdf-ns-builders'
+import { NamedNode } from 'rdf-js'
 
 interface EditorTestParams {
-  object: SingleContextClownface
+  object: GraphPointer
   property?: Initializer<PropertyShape>
-  datatype?: typeof xsd.integer
+  datatype?: NamedNode
 }
 
 export function editorTestParams({ object, property, datatype }: EditorTestParams): { params: SingleEditorRenderParams; actions: SingleEditorActions } {
