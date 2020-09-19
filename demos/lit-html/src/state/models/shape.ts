@@ -61,7 +61,6 @@ ex:GenderProperty
   ) ;
   ${sh.maxCount} 1 ;
   ${sh.order} 3 ;
-  ${dash.editor} ${dash.EnumSelectEditor} ;
 .
 
 ex:DateOfBirthProperty

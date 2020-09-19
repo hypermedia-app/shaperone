@@ -66,8 +66,16 @@ export const shape: SingleEditor = {
 
 export const enumSelect: SingleEditor = {
   term: dash.EnumSelectEditor,
-  match(shape) {
-    return shape.get(sh.in) ? 10 : 0
+  match(shape, value: GraphPointer) {
+    if (!shape.get(sh.in)) {
+      return 0
+    }
+
+    if (value.value === '') {
+      return 20
+    }
+
+    return shape.in.some(enumValue => value.term.equals(enumValue)) ? 20 : 6
   },
 }
 

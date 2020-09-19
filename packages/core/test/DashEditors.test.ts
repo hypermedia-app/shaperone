@@ -107,19 +107,49 @@ describe('core/DashEditors', () => {
   })
 
   describe(dash.EnumSelectEditor.value, () => {
-    it('has score 10 when sh:in exists for property shape', () => {
+    it('has score 20 when sh:in exists for property shape and non-empty value is part of the set', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const property = new PropertyShapeMixin.Class(
         graph.blankNode().addList(sh.in, ['DE', 'EN']),
       )
-      const value = graph.literal(3)
+      const value = graph.literal('EN')
 
       // when
       const result = DashEditors.enumSelect.match(property, value)
 
       // then
-      expect(result).to.eq(10)
+      expect(result).to.eq(20)
+    })
+
+    it('has score 20 when sh:in exists and value is empty string', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(
+        graph.blankNode().addList(sh.in, ['DE', 'EN']),
+      )
+      const value = graph.literal('')
+
+      // when
+      const result = DashEditors.enumSelect.match(property, value)
+
+      // then
+      expect(result).to.eq(20)
+    })
+
+    it('has score 6 when sh:in exists but value is not in the set', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(
+        graph.blankNode().addList(sh.in, ['DE', 'EN']),
+      )
+      const value = graph.literal('FR')
+
+      // when
+      const result = DashEditors.enumSelect.match(property, value)
+
+      // then
+      expect(result).to.eq(6)
     })
   })
 
