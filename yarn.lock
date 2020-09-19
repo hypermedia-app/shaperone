@@ -2673,11 +2673,6 @@
   resolved "https://registry.yarnpkg.com/@open-wc/lit-helpers/-/lit-helpers-0.3.10.tgz#d1f64c020605ca174ff5ec527aded3d90fb0c16c"
   integrity sha512-RR1Wch29q8Tj/PB9lDzFy+CENLOs5oWTzinwfV8daSoh8/OTY3JKge4tZOXT0Q3NJa4IzRjq1cFZ/45vGEezwA==
 
-"@open-wc/lit-helpers@^0.3.11":
-  version "0.3.11"
-  resolved "https://registry.yarnpkg.com/@open-wc/lit-helpers/-/lit-helpers-0.3.11.tgz#a0ef61df3d70824ac3c6b2c8d4da9d1f0075d251"
-  integrity sha512-LxqXBE1UEyKblzhOVyAPCwE8z8UdxYH72uU2g6/u/uTjj6OBgZUDDHccOuTdrTNu2BBRi09W7NH/FV2+5dk/lA==
-
 "@open-wc/scoped-elements@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@open-wc/scoped-elements/-/scoped-elements-1.1.1.tgz#732744dac4d029ffacdeb169d85855714eda9d0c"
@@ -2948,10 +2943,10 @@
     "@tpluscode/rdf-ns-builders" "^0.4"
     "@tpluscode/rdfine" "^0.5.5"
 
-"@rdfjs-elements/rdf-editor@^0.3":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.3.0.tgz#b5a90a4c13277eed8320301e122a83a031272846"
-  integrity sha512-zuO3TiEPzfejpW74P3BuOBalivnadW3YMD4GO8ISorm+nku5ug27RsExfcqEJhhkE6i2rupzuHWmKmljFOOkhA==
+"@rdfjs-elements/rdf-editor@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.3.2.tgz#39453562cae8867284468a5b172cb7bca303fc5a"
+  integrity sha512-g/b8ndB5pUvqenXPrzLp7+5azwLBaNoj8kD2a66gQDoY5uK3GxvskzcJ07kSWXaxpjVC4GO3CApHswk6jLBpJw==
   dependencies:
     "@graphy/content.trig.scribe" "^4.3.3"
     "@graphy/content.ttl.scribe" "^4.3.3"

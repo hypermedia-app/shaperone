@@ -21,7 +21,7 @@ export const selectShape = formStateReducer(({ state, editors, multiEditors }, {
     editors,
     multiEditors,
     focusNode,
-  })
+  }, state.focusNodes[focusNode.value])
 
   return {
     ...state,

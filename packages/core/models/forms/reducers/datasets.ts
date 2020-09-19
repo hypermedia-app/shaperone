@@ -29,7 +29,7 @@ export const setShapesGraph = formStateReducer(({ state, editors, multiEditors }
         shape: shapes.find(s => s.id.equals(focusNodeState.shape?.id)),
         editors,
         multiEditors,
-      }),
+      }, state.focusNodes[focusNode.value]),
     }
   }, {})
 
@@ -43,7 +43,7 @@ export const setShapesGraph = formStateReducer(({ state, editors, multiEditors }
         shapes: shapes.filter(matchFor(focusNode)),
         editors,
         multiEditors,
-      }),
+      }, state.focusNodes[focusNode.value]),
     }
   }, {})
 
@@ -64,7 +64,7 @@ export const setRootResource = formStateReducer(({ state, editors, multiEditors 
         editors,
         multiEditors,
         shapes: state.shapes.filter(matchFor(rootPointer)),
-      })
+      }, state.focusNodes[rootPointer.value])
     }
 
     return {

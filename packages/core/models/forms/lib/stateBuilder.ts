@@ -21,7 +21,14 @@ export function matchEditors(shape: PropertyShape, object: GraphPointer, editors
     })
 }
 
-function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: MultiPointer }): PropertyState {
+interface InitPropertyShapeParams {
+  shape: PropertyShape
+  editors: SingleEditor[]
+  multiEditors: MultiEditor[]
+  values: MultiPointer
+}
+
+function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
   const { shape, values } = params
 
   const editors = params.multiEditors
@@ -43,6 +50,11 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
       }
     } else {
       selectedEditor = editors[0]?.term
+    }
+
+    const previousObject = previous?.objects?.find(o => o.object.term.equals(object.term))
+    if (previousObject?.selectedEditor) {
+      selectedEditor = previousObject.selectedEditor
     }
 
     return {
@@ -83,7 +95,7 @@ interface InitializeParams {
   selectedGroup?: string
 }
 
-export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
+export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined): FocusNodeState {
   const { focusNode, editors, multiEditors, selectedGroup } = params
   let { shapes } = params
   const groupMap = new Map<string | undefined, PropertyGroupState>()
@@ -119,7 +131,7 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
       editors,
       multiEditors,
       values: focusNode.out(getPathProperty(prop).id),
-    })]
+    }, previous?.properties?.find(p => p.shape.equals(prop)))]
   }, [])
 
   const groups = [...groupMap.values()].sort((l, r) => l.order - r.order)

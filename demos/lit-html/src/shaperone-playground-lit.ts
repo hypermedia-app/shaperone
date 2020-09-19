@@ -8,7 +8,6 @@ import { html } from 'lit-html'
 import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
-import { spread } from '@open-wc/lit-helpers'
 import { store, State } from './state/store'
 
 const saveResource = Symbol('save resource')
@@ -87,21 +86,16 @@ export class ShaperonePlayground extends connect(store, LitElement) {
 
   async connectedCallback() {
     document.addEventListener('resource-selected', (e: any) => store.dispatch.resource.selectResource({ id: e.detail.value }))
+    document.addEventListener('prefixes-changed', (e: any) => store.dispatch.resource.setPrefixes(e.detail.value))
 
     super.connectedCallback()
   }
 
   render() {
-    const resourceData: Record<string, any> = {
-      '.quads': this.resourceEditor?.quads,
-    }
-    if (this.resource.pointer) {
-      if (this.resource.version > this.__resourceVersion) {
-        this.__resourceVersion = this.resource.version
-        resourceData['.quads'] = [...this.resource.pointer.dataset]
-      }
-    } else {
-      resourceData['.serialized'] = this.resource.serialized
+    let quads = this.resourceEditor?.quads
+    if (!quads || this.resource.version > this.__resourceVersion) {
+      this.__resourceVersion = this.resource.version
+      quads = [...this.resource.pointer.dataset]
     }
 
     return html`<vaadin-app-layout>
@@ -110,7 +104,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       <vaadin-split-layout id="top-splitter">
         <div style="width: 33%">
           <vaadin-menu-bar .items="${[this.shape.menu]}" @item-selected="${this.__editorMenuSelected(store.dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
-          <rdf-editor id="shapeEditor" prefixes="sh"
+          <rdf-editor id="shapeEditor" prefixes="sh,dash"
                      .serialized="${this.shape.serialized}"
                      .format="${this.shape.format}"
                      @quads-changed="${this.__setShape}"></rdf-editor>
@@ -123,9 +117,9 @@ export class ShaperonePlayground extends connect(store, LitElement) {
           </div>
           <div style="max-width: 50%">
             <vaadin-menu-bar .items="${this.resource.menu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
-            <rdf-editor id="resourceEditor" prefixes="schema"
+            <rdf-editor id="resourceEditor" prefixes="${this.resource.prefixes}"
                        .format="${this.resource.format}"
-                       ...="${spread(resourceData)}"
+                       .quads="${quads}"
                        @quads-changed="${this.__setResource}"></rdf-editor>
           </div>
         </vaadin-split-layout>

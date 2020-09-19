@@ -28,7 +28,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape],
-      })
+      }, undefined)
 
       // then
       expect(state.shapes).to.have.length(2)
@@ -49,11 +49,45 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape, nestedShape],
-      })
+      }, undefined)
 
       // then
       expect(state.shapes).to.have.length(2)
       expect(state.shapes).to.contain.ordered.members([otherShape, nestedShape])
+    })
+
+    it('does not reset selected editor of same object', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+        .addOut(ex.foo, 'bar')
+      const shape = new NodeShapeMixin.Class(graph.namedNode(ex.shape), {
+        property: [{
+          types: [sh.PropertyShape],
+          name: 'foo',
+          path: ex.foo,
+        }],
+      })
+      const before = initialiseFocusNode({
+        focusNode,
+        editors: [],
+        multiEditors: [],
+        shape,
+        shapes: [shape],
+      }, undefined)
+      before.properties[0].objects[0].selectedEditor = ex.FooEditor
+
+      // when
+      const after = initialiseFocusNode({
+        focusNode,
+        editors: [],
+        multiEditors: [],
+        shape,
+        shapes: [shape],
+      }, before)
+
+      // then
+      expect(after.properties[0].objects[0].selectedEditor).to.deep.eq(ex.FooEditor)
     })
 
     it('sets canRemove=false when object count equals sh:minCount', () => {
@@ -76,7 +110,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].canRemove).to.be.false
@@ -102,7 +136,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].canRemove).to.be.false
@@ -127,7 +161,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].objects[0].selectedEditor).to.deep.eq(ex.FooEditor)
@@ -156,7 +190,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
@@ -189,7 +223,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].objects[0].editors).to.have.length(2)
