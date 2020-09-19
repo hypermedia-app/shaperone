@@ -74,11 +74,16 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
   const canRemove = !!editor || canRemoveObject(shape, objects.length)
   const canAdd = !!editor || canAddObject(shape, objects.length)
 
+  let selectedEditor: NamedNode | undefined = editor?.term
+  if (previous) {
+    selectedEditor = previous.selectedEditor
+  }
+
   return {
     shape,
     name: shape.name || shrink(getPathProperty(shape).id.value),
     editors,
-    selectedEditor: editor?.term,
+    selectedEditor,
     objects,
     canRemove,
     canAdd,
