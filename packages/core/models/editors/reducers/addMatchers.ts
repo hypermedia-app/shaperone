@@ -2,7 +2,7 @@ import { dash } from '@tpluscode/rdf-ns-builders'
 import type { EditorsState, MultiEditor, SingleEditor } from '../index'
 import { EditorMeta } from '../lib/EditorMeta'
 
-export function addMatchers(state: EditorsState, editors: Record<string, SingleEditor | MultiEditor>): EditorsState {
+export function addMatchers(state: EditorsState, editors: Record<string, SingleEditor<any> | MultiEditor>): EditorsState {
   return Object.values(editors).reduce((newState, editor) => {
     const meta = new EditorMeta(state.metadata.node(editor.term))
 

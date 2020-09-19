@@ -1,5 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import type { NamedNode } from 'rdf-js'
+import type { NamedNode, Term } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
 import type * as Rdfs from '@rdfine/rdfs'
 import { vocabularies } from '@zazuko/rdf-vocabularies/lib/vocabularies'
@@ -23,8 +23,8 @@ export interface MultiEditor extends EditorMatcher {
   match: (shape: PropertyShape) => number | null
 }
 
-export interface SingleEditor extends EditorMatcher {
-  match: (shape: PropertyShape, value: GraphPointer) => number | null
+export interface SingleEditor<T extends Term = Term> extends EditorMatcher {
+  match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
 }
 
 export interface SingleEditorMatch extends SingleEditor {
