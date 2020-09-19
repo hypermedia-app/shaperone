@@ -5,12 +5,21 @@ import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
-import './shaperone-turtle-editor'
+import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
-import type { ShaperoneTurtleEditor } from './shaperone-turtle-editor'
-import { store, State, Dispatch } from './state/store'
+import { Quad } from 'rdf-js'
+import { spread } from '@open-wc/lit-helpers'
+import { store, State } from './state/store'
 
 const saveResource = Symbol('save resource')
+
+interface RdfEditor {
+  serialized: string
+  quads: Quad[]
+  codeMirror: {
+    value: string
+  }
+}
 
 @customElement('shaperone-playground-lit')
 export class ShaperonePlayground extends connect(store, LitElement) {
@@ -35,6 +44,10 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       z-index: 100;
       top: 0;
       background: white;
+    }
+
+    rdf-editor {
+      height: 100%;
     }`
   }
 
@@ -45,10 +58,10 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   resource!: State['resource']
 
   @query('#shapeEditor')
-  shapeEditor!: ShaperoneTurtleEditor
+  shapeEditor!: RdfEditor
 
   @query('#resourceEditor')
-  resourceEditor!: ShaperoneTurtleEditor
+  resourceEditor!: RdfEditor
 
   @query('#form')
   form!: ShaperoneForm
@@ -58,6 +71,8 @@ export class ShaperonePlayground extends connect(store, LitElement) {
 
   @property({ type: Object })
   rendererMenu!: State['rendererSettings']['menu']
+
+  __resourceVersion = 1
 
   get formMenu() {
     return [
@@ -70,51 +85,35 @@ export class ShaperonePlayground extends connect(store, LitElement) {
     ]
   }
 
-  get resourceMenu() {
-    return [
-      {
-        text: 'Update form',
-      },
-      ...this.resource.menu,
-    ]
-  }
-
-  get shapeMenu() {
-    return [
-      {
-        text: 'Update form',
-      },
-      this.shape.menu,
-    ]
-  }
-
-  private get __serializeParams() {
-    const focusNode = this.form.state.focusNodes[this.form.state.focusStack[0].value]
-    const { shape } = focusNode
-
-    return {
-      dataset: this.form.value,
-      shape,
-    }
-  }
-
   async connectedCallback() {
     document.addEventListener('resource-selected', (e: any) => store.dispatch.resource.selectResource({ id: e.detail.value }))
 
     super.connectedCallback()
-
-    store.dispatch.resource.parse()
-    store.dispatch.shape.parse()
   }
 
   render() {
+    const resourceData: Record<string, any> = {
+      '.quads': this.resourceEditor?.quads,
+    }
+    if (this.resource.pointer) {
+      if (this.resource.version > this.__resourceVersion) {
+        this.__resourceVersion = this.resource.version
+        resourceData['.quads'] = [...this.resource.pointer.dataset]
+      }
+    } else {
+      resourceData['.serialized'] = this.resource.serialized
+    }
+
     return html`<vaadin-app-layout>
       <h2 slot="navbar">@hydrofoil/shaperone playground</h2>
       <div class="content">
       <vaadin-split-layout id="top-splitter">
         <div style="width: 33%">
-          <vaadin-menu-bar .items="${this.shapeMenu}" @item-selected="${this.__editorMenuSelected(store.dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
-          <shaperone-turtle-editor id="shapeEditor" .value="${this.shape.serialized}" .format="${this.shape.format}"></shaperone-turtle-editor>
+          <vaadin-menu-bar .items="${[this.shape.menu]}" @item-selected="${this.__editorMenuSelected(store.dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
+          <rdf-editor id="shapeEditor" prefixes="sh"
+                     .serialized="${this.shape.serialized}"
+                     .format="${this.shape.format}"
+                     @quads-changed="${this.__setShape}"></rdf-editor>
         </div>
 
         <vaadin-split-layout style="width: 67%">
@@ -123,12 +122,23 @@ export class ShaperonePlayground extends connect(store, LitElement) {
             <shaperone-form id="form" .shapes="${this.shape.dataset}" .resource="${this.resource.pointer}"></shaperone-form>
           </div>
           <div style="max-width: 50%">
-            <vaadin-menu-bar .items="${this.resourceMenu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
-            <shaperone-turtle-editor id="resourceEditor" .value="${this.resource.serialized}" .format="${this.resource.format}"></shaperone-turtle-editor>
+            <vaadin-menu-bar .items="${this.resource.menu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
+            <rdf-editor id="resourceEditor" prefixes="schema"
+                       .format="${this.resource.format}"
+                       ...="${spread(resourceData)}"
+                       @quads-changed="${this.__setResource}"></rdf-editor>
           </div>
         </vaadin-split-layout>
       </vaadin-split-layout></div>
     </vaadin-app-layout>`
+  }
+
+  __setShape(e: CustomEvent) {
+    store.dispatch.shape.setShape(e.detail.value)
+  }
+
+  __setResource(e: CustomEvent) {
+    store.dispatch.resource.replaceGraph(e.detail.value)
   }
 
   __formMenuSelected(e: CustomEvent) {
@@ -142,29 +152,23 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       case 'renderer':
         store.dispatch.rendererSettings.switchNesting(e.detail.value)
         break
-      default: {
-        const { dataset, shape } = this.__serializeParams
-        if (dataset && shape) {
-          store.dispatch.resource.serialize({ dataset, shape })
-        } }
+      default:
+        if (this.form.value) {
+          store.dispatch.resource.replaceGraph(this.form.value)
+        }
         break
     }
   }
 
-  __editorMenuSelected(dispatch: Dispatch['shape'] | Dispatch['resource'], editor: ShaperoneTurtleEditor) {
+  __editorMenuSelected(dispatch: any, editor: RdfEditor) {
     return (e: CustomEvent) => {
       switch (e.detail.value.type) {
-        case 'format': {
-          const { shape } = this.__serializeParams
-          dispatch.serialized(editor.value)
-          dispatch.changeFormat({
-            format: e.detail.value,
-            shape,
-          })
-        } break
+        case 'format':
+          dispatch.format(e.detail.value.text)
+          break
         default:
-          dispatch.serialized(editor.value)
-          dispatch.parse()
+          dispatch.serialized(editor.codeMirror.value)
+          dispatch.setShape(editor.quads)
           break
       }
     }

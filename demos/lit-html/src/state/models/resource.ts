@@ -1,16 +1,11 @@
 import { createModel } from '@captaincodeman/rdx'
-import { parsers } from '@rdf-esm/formats-common'
-import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import cf, { AnyPointer, GraphPointer } from 'clownface'
 import { foaf, schema, vcard, xsd } from '@tpluscode/rdf-ns-builders'
 import TermSet from '@rdf-esm/term-set'
-import { Shape } from '@rdfine/shacl'
-import { DatasetCore } from 'rdf-js'
 import type { ComboBoxElement } from '@vaadin/vaadin-combo-box/vaadin-combo-box'
-import type { Store } from '../store'
+import { DatasetCore, Quad } from 'rdf-js'
 import { Menu, updateComponent, updateMenu } from '../../menu'
-import { serialize } from '../../serializer'
 
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 
@@ -47,6 +42,7 @@ export interface State {
   context: Record<string, any>
   menu: Menu[]
   resourceSelector?: ComboBoxElement
+  version: number
 }
 
 function createResourcesMenu() {
@@ -66,6 +62,7 @@ function createResourcesMenu() {
 export const resource = createModel({
   state: <State>{
     serialized: JSON.stringify(jsonld, null, 2),
+    version: 0,
     format: 'application/ld+json',
     context: {},
     menu: [{
@@ -86,7 +83,9 @@ export const resource = createModel({
     }],
   },
   reducers: {
-    replaceGraph(state, { graph }: { graph: AnyPointer }) {
+    replaceGraph(state, dataset: Quad[] | DatasetCore) {
+      const graph = Array.isArray(dataset) ? cf({ dataset: $rdf.dataset(dataset) }) : cf({ dataset })
+
       const pointers = graph.in().filter(node => node.term.termType === 'NamedNode')
       const terms = new TermSet(pointers.map(node => node.term))
       let pointer
@@ -104,6 +103,7 @@ export const resource = createModel({
         ...state,
         graph,
         pointer,
+        version: state.version + 1,
         menu: state.menu.map(item => updateComponent(item, 'resource selector', resourceSelector)),
       }
     },
@@ -141,66 +141,5 @@ export const resource = createModel({
         menu: state.menu.map(item => updateMenu(item, 'format', format)),
       }
     },
-  },
-  effects(store: Store) {
-    const dispatch = store.dispatch()
-    return {
-      async parse() {
-        const { resource } = store.getState()
-
-        const stream = parsers.import(resource.format, toStream(resource.serialized))
-        if (!stream) {
-          throw new Error('Failed to parse resource')
-        }
-
-        if (resource.format === 'application/ld+json') {
-          try {
-            const jsonld = JSON.parse(resource.serialized)
-            dispatch.resource.context(jsonld['@context'])
-            // eslint-disable-next-line no-empty
-          } catch (e) {
-          }
-        }
-
-        const dataset = await $rdf.dataset().import(stream)
-
-        dispatch.resource.replaceGraph({
-          graph: cf({ dataset }),
-        })
-      },
-
-      async serialize({ dataset, shape } : { dataset: DatasetCore; shape: Shape }) {
-        const { resource } = store.getState()
-
-        const context: Record<string, any> = {
-          '@context': { ...resource.context },
-          '@embed': '@always',
-        }
-
-        const [type] = shape.targetClass
-        if (type) {
-          context['@type'] = type.id.value
-        }
-
-        dispatch.resource.serialized(await serialize(dataset, resource.format, {
-          context,
-          compact: true,
-          frame: true,
-        }))
-      },
-
-      async changeFormat({ format, shape }: { format: Menu; shape?: Shape }) {
-        const { resource } = store.getState()
-
-        dispatch.resource.format(format.text)
-
-        if (resource.pointer && shape) {
-          dispatch.resource.serialize({
-            dataset: resource.pointer.dataset,
-            shape,
-          })
-        }
-      },
-    }
   },
 })

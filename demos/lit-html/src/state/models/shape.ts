@@ -1,21 +1,9 @@
 import { createModel } from '@captaincodeman/rdx'
-import { parsers } from '@rdf-esm/formats-common'
-import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import { sh, schema, xsd, rdfs, dash, foaf, vcard } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
-import { DatasetCore } from 'rdf-js'
-import type { Store } from '../store'
+import { DatasetCore, Quad } from 'rdf-js'
 import { Menu, updateMenu } from '../../menu'
-import { serialize } from '../../serializer'
-
-const context = [
-  'https://raw.githubusercontent.com/w3c/shacl/master/shacl-jsonld-context/shacl.context.ld.json',
-  {
-    schema: schema().value,
-    ex: 'http://example.com/',
-  },
-]
 
 const triples = turtle`@prefix ex: <http://example.com/> .
 @prefix lexvo: <http://lexvo.org/id/iso639-1/> .
@@ -129,7 +117,8 @@ export const shape = createModel({
     },
   },
   reducers: {
-    setShape(state, dataset: DatasetCore) {
+    setShape(state, quads: Quad[]) {
+      const dataset = $rdf.dataset(quads)
       return {
         ...state,
         dataset,
@@ -148,50 +137,5 @@ export const shape = createModel({
         menu: updateMenu(state.menu, 'format', format),
       }
     },
-  },
-  effects(store: Store) {
-    const dispatch = store.dispatch()
-
-    return {
-      async parse() {
-        const { shape } = store.getState()
-
-        const stream = parsers.import(shape.format, toStream(shape.serialized), {
-          context,
-        })
-        if (!stream) {
-          throw new Error('Failed to parse shape')
-        }
-
-        const dataset = await $rdf.dataset().import(stream)
-
-        dispatch.shape.setShape(dataset)
-      },
-
-      async serialize(dataset: DatasetCore) {
-        const { shape } = store.getState()
-
-        dispatch.shape.serialized(await serialize(dataset, shape.format, {
-          context: {
-            '@context': context,
-            '@type': 'Shape',
-            '@embed': '@always',
-          },
-          compact: true,
-          frame: true,
-          skipContext: true,
-        }))
-      },
-
-      async changeFormat({ format }: { format: Menu }) {
-        const { shape } = store.getState()
-
-        dispatch.shape.format(format.text)
-
-        if (shape.dataset) {
-          dispatch.shape.serialize(shape.dataset)
-        }
-      },
-    }
   },
 })
