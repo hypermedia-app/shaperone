@@ -9,6 +9,7 @@ import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
 import { getPathProperty } from '../../../lib/property'
+import { matchFor } from './shapes'
 
 export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
   return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
@@ -101,13 +102,13 @@ interface InitializeParams {
 }
 
 export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined): FocusNodeState {
-  const { focusNode, editors, multiEditors, selectedGroup } = params
-  let { shapes } = params
+  const { focusNode, editors, multiEditors, selectedGroup, shapes } = params
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
   if (!params.shape && !shapes.length) {
     return {
-      shapes,
+      matchingShapes: [],
+      shapes: [],
       focusNode,
       groups: [],
       properties: [],
@@ -115,12 +116,33 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     }
   }
 
-  let [shape] = shapes
+  const isMatch = matchFor(focusNode)
+  let { matchingShapes, otherShapes } = shapes.reduce(({ matchingShapes, otherShapes }, next) => {
+    if (isMatch(next)) {
+      return {
+        matchingShapes: [...matchingShapes, next],
+        otherShapes,
+      }
+    }
+
+    return {
+      matchingShapes,
+      otherShapes: [...otherShapes, next],
+    }
+  }, {
+    matchingShapes: [] as NodeShape[],
+    otherShapes: [] as NodeShape[],
+  })
+
+  let [shape] = matchingShapes
   if (params.shape) {
     shape = params.shape
   }
-  if (!shapes.find(s => s.id.equals(shape.id))) {
-    shapes = [shape, ...shapes]
+  if (!shape) {
+    [shape] = shapes
+  }
+  if (!matchingShapes.find(s => shape.equals(s))) {
+    matchingShapes = [shape, ...matchingShapes]
   }
 
   const properties = shape.property
@@ -147,7 +169,8 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
 
   return {
     shape,
-    shapes,
+    matchingShapes,
+    shapes: [...matchingShapes, ...otherShapes],
     focusNode,
     groups,
     properties: properties.sort((l, r) => byShOrder(l.shape, r.shape)),

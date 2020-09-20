@@ -7,7 +7,6 @@ import { formStateReducer } from './index'
 import type { FocusNode } from '../../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 import type { FocusNodeState, FormState } from '../index'
-import { matchFor } from '../lib/shapes'
 
 export const setShapesGraph = formStateReducer(({ state, editors, multiEditors }, { shapesGraph }: { shapesGraph: DatasetCore }) => {
   if (state.shapesGraph === shapesGraph) {
@@ -25,7 +24,7 @@ export const setShapesGraph = formStateReducer(({ state, editors, multiEditors }
       ...focusNodes,
       [focusNode.value]: initialiseFocusNode({
         focusNode,
-        shapes: shapes.filter(matchFor(focusNode)),
+        shapes,
         shape: shapes.find(s => s.id.equals(focusNodeState.shape?.id)),
         editors,
         multiEditors,
@@ -40,7 +39,7 @@ export const setShapesGraph = formStateReducer(({ state, editors, multiEditors }
       ...missingNodes,
       [focusNode.value]: initialiseFocusNode({
         focusNode,
-        shapes: shapes.filter(matchFor(focusNode)),
+        shapes,
         editors,
         multiEditors,
       }, state.focusNodes[focusNode.value]),
@@ -63,7 +62,7 @@ export const setRootResource = formStateReducer(({ state, editors, multiEditors 
         focusNode: rootPointer,
         editors,
         multiEditors,
-        shapes: state.shapes.filter(matchFor(rootPointer)),
+        shapes: state.shapes,
       }, state.focusNodes[rootPointer.value])
     }
 

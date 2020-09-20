@@ -82,6 +82,7 @@ describe('core/models/forms/reducers/datasets', () => {
       formState.focusNodes = {
         [ex.Foo.value]: {
           shapes,
+          matchingShapes: [],
           properties: [],
           groups: [],
           focusNode,

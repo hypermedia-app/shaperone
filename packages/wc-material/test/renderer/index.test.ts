@@ -24,6 +24,7 @@ describe('wc-material/renderer', () => {
         properties: [],
         focusNode,
         shapes: [],
+        matchingShapes: [],
         groups: [],
       },
       actions: {
