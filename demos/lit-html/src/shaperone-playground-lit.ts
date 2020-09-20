@@ -132,7 +132,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   }
 
   __setResource(e: CustomEvent) {
-    store.dispatch.resource.replaceGraph(e.detail.value)
+    store.dispatch.resource.replaceGraph({ dataset: e.detail.value, newVersion: false })
   }
 
   __formMenuSelected(e: CustomEvent) {
@@ -148,7 +148,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
         break
       default:
         if (this.form.value) {
-          store.dispatch.resource.replaceGraph(this.form.value)
+          store.dispatch.resource.replaceGraph({ dataset: this.form.value, newVersion: true })
         }
         break
     }

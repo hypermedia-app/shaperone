@@ -96,7 +96,7 @@ export const resource = createModel({
     }],
   },
   reducers: {
-    replaceGraph(state, dataset: Quad[] | DatasetCore) {
+    replaceGraph(state, { dataset, newVersion }: { dataset: Quad[] | DatasetCore; newVersion: boolean }) {
       const graph = Array.isArray(dataset) ? cf({ dataset: $rdf.dataset(dataset) }) : cf({ dataset })
 
       const pointers = graph.in().filter(node => node.term.termType === 'NamedNode')
@@ -117,7 +117,7 @@ export const resource = createModel({
         ...state,
         graph,
         pointer,
-        version: state.version + 1,
+        version: newVersion ? state.version + 1 : state.version,
         menu: state.menu.map(item => updateComponent(item, 'resource selector', resourceSelector)),
       }
     },

@@ -2943,10 +2943,10 @@
     "@tpluscode/rdf-ns-builders" "^0.4"
     "@tpluscode/rdfine" "^0.5.5"
 
-"@rdfjs-elements/rdf-editor@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.3.2.tgz#39453562cae8867284468a5b172cb7bca303fc5a"
-  integrity sha512-g/b8ndB5pUvqenXPrzLp7+5azwLBaNoj8kD2a66gQDoY5uK3GxvskzcJ07kSWXaxpjVC4GO3CApHswk6jLBpJw==
+"@rdfjs-elements/rdf-editor@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.3.3.tgz#2dc7a6192de7d7765dda5400197bf80229e44075"
+  integrity sha512-ronP0DHmfIRXEvy6GZhOdWaBBIlW/BakKKUgK1XhaXyDy0NNUrY3RS6FWwOmU3l0yasEzxu/Mi74bCHxtjU2Dw==
   dependencies:
     "@graphy/content.trig.scribe" "^4.3.3"
     "@graphy/content.ttl.scribe" "^4.3.3"
