@@ -12,7 +12,7 @@ export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRe
 
     return html`<mwc-list>
       <mwc-list-item ?hasmeta="${focusNode.shapes.length > 1}" twoline>
-          ${focusNode.focusNode.value}
+          ${focusNode.label}
           <span slot="secondary">${focusNode.shape?.label}</span>
           <mwc-shape-selector slot="meta" .shapes="${focusNode.shapes}" title="Select shape"
                              .selected="${focusNode.shape}"

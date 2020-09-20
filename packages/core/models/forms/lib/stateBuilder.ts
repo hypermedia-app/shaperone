@@ -1,7 +1,7 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { MultiPointer, GraphPointer } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
@@ -111,6 +111,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
       focusNode,
       groups: [],
       properties: [],
+      label: '',
     }
   }
 
@@ -150,5 +151,6 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     focusNode,
     groups,
     properties: properties.sort((l, r) => byShOrder(l.shape, r.shape)),
+    label: focusNode.out(rdfs.label).value || 'Resource',
   }
 }

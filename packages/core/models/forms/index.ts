@@ -47,6 +47,7 @@ export interface FocusNodeState {
   shapes: NodeShape[]
   properties: PropertyState[]
   groups: PropertyGroupState[]
+  label: string
 }
 
 export interface FormState {
