@@ -22,7 +22,7 @@ ex:PersonShape
 
 ex:SimplifiedPersonShape
   a ${sh.Shape} ;
-  ${sh.targetClass} ${schema.Person} ;
+  ${sh.targetNode} ex:Jane_Doe ;
   ${rdfs.label} "Person (name-only)" ;
   ${sh.property} ex:NameProperty ;
 .
@@ -40,7 +40,6 @@ ex:NameProperty
 ex:KnowsProperty
   ${sh.path} ${schema.knows} ;
   ${sh.class} ${schema.Person} ;
-  ${sh.node} ex:SimplifiedPersonShape ;
   ${sh.group} ex:FriendGroup ;
 .
 
