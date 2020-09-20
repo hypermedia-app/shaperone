@@ -3,6 +3,7 @@ import type { MultiPointer, GraphPointer } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
+import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
@@ -101,7 +102,11 @@ interface InitializeParams {
   selectedGroup?: string
 }
 
-export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined): FocusNodeState {
+interface FocusNodeInitOptions {
+  getMatcher?(focusNode: ResourceNode): (shape: NodeShape) => boolean
+}
+
+export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined, { getMatcher = matchFor }: FocusNodeInitOptions = {}): FocusNodeState {
   const { focusNode, editors, multiEditors, selectedGroup, shapes } = params
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
@@ -116,7 +121,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     }
   }
 
-  const isMatch = matchFor(focusNode)
+  const isMatch = getMatcher(focusNode)
   let { matchingShapes, otherShapes } = shapes.reduce(({ matchingShapes, otherShapes }, next) => {
     if (isMatch(next)) {
       return {

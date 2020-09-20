@@ -86,6 +86,7 @@ describe('core/models/forms/reducers/datasets', () => {
           properties: [],
           groups: [],
           focusNode,
+          label: '',
         },
       }
 

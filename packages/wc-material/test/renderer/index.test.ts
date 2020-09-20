@@ -26,6 +26,7 @@ describe('wc-material/renderer', () => {
         shapes: [],
         matchingShapes: [],
         groups: [],
+        label: '',
       },
       actions: {
         popFocusNode: sinon.spy(),

@@ -35,12 +35,13 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.shapes).to.contain.ordered.members([nestedShape, otherShape])
     })
 
-    it('does not reposition selected shape if it already', () => {
+    it('does not reposition selected shape if it already got matched', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
       const nestedShape = new NodeShapeMixin.Class(graph.namedNode(ex.nestedNode))
       const otherShape = new NodeShapeMixin.Class(graph.namedNode(ex.otherNode))
+      const getMatcher = () => () => true
 
       // when
       const state = initialiseFocusNode({
@@ -49,11 +50,12 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape, nestedShape],
-      }, undefined)
+      }, undefined, { getMatcher })
 
       // then
       expect(state.shapes).to.have.length(2)
-      expect(state.shapes).to.contain.ordered.members([otherShape, nestedShape])
+      expect(state.matchingShapes).to.have.length(2)
+      expect(state.matchingShapes).to.contain.ordered.members([otherShape, nestedShape])
     })
 
     it('does not reset selected editor of same object', () => {
