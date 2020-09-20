@@ -28,19 +28,20 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape],
-      })
+      }, undefined)
 
       // then
       expect(state.shapes).to.have.length(2)
       expect(state.shapes).to.contain.ordered.members([nestedShape, otherShape])
     })
 
-    it('does not reposition selected shape if it already', () => {
+    it('does not reposition selected shape if it already got matched', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
       const nestedShape = new NodeShapeMixin.Class(graph.namedNode(ex.nestedNode))
       const otherShape = new NodeShapeMixin.Class(graph.namedNode(ex.otherNode))
+      const getMatcher = () => () => true
 
       // when
       const state = initialiseFocusNode({
@@ -49,11 +50,105 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape, nestedShape],
-      })
+      }, undefined, { getMatcher })
 
       // then
       expect(state.shapes).to.have.length(2)
-      expect(state.shapes).to.contain.ordered.members([otherShape, nestedShape])
+      expect(state.matchingShapes).to.have.length(2)
+      expect(state.matchingShapes).to.contain.ordered.members([otherShape, nestedShape])
+    })
+
+    it('does not reset selected editor of same object', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+        .addOut(ex.foo, 'bar')
+      const shape = new NodeShapeMixin.Class(graph.namedNode(ex.shape), {
+        property: [{
+          types: [sh.PropertyShape],
+          name: 'foo',
+          path: ex.foo,
+        }],
+      })
+      const before = initialiseFocusNode({
+        focusNode,
+        editors: [],
+        multiEditors: [],
+        shape,
+        shapes: [shape],
+      }, undefined)
+      before.properties[0].objects[0].selectedEditor = ex.FooEditor
+
+      // when
+      const after = initialiseFocusNode({
+        focusNode,
+        editors: [],
+        multiEditors: [],
+        shape,
+        shapes: [shape],
+      }, before)
+
+      // then
+      expect(after.properties[0].objects[0].selectedEditor).to.deep.eq(ex.FooEditor)
+    })
+
+    it('does not reset selected multi editor', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+      const shape = new NodeShapeMixin.Class(graph.namedNode(ex.shape), {
+        property: [{
+          types: [sh.PropertyShape],
+          name: 'foo',
+          path: ex.foo,
+        }],
+      })
+      const params = {
+        focusNode,
+        editors: [],
+        multiEditors: [],
+        shape,
+        shapes: [shape],
+      }
+      const before = initialiseFocusNode(params, undefined)
+      before.properties[0].selectedEditor = ex.FooMultiEditor
+
+      // when
+      const after = initialiseFocusNode(params, before)
+
+      // then
+      expect(after.properties[0].selectedEditor).to.deep.eq(ex.FooMultiEditor)
+    })
+
+    it('does not reset selection of single editors', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+      const shape = new NodeShapeMixin.Class(graph.namedNode(ex.shape), {
+        property: [{
+          types: [sh.PropertyShape],
+          name: 'foo',
+          path: ex.foo,
+        }],
+      })
+      const params = {
+        focusNode,
+        editors: [],
+        multiEditors: [{
+          term: ex.FooMultiEditor,
+          match: () => 10,
+        }],
+        shape,
+        shapes: [shape],
+      }
+      const before = initialiseFocusNode(params, undefined)
+      before.properties[0].selectedEditor = undefined
+
+      // when
+      const after = initialiseFocusNode(params, before)
+
+      // then
+      expect(after.properties[0].selectedEditor).to.be.undefined
     })
 
     it('sets canRemove=false when object count equals sh:minCount', () => {
@@ -76,7 +171,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].canRemove).to.be.false
@@ -102,7 +197,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].canRemove).to.be.false
@@ -127,7 +222,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].objects[0].selectedEditor).to.deep.eq(ex.FooEditor)
@@ -156,7 +251,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
@@ -189,7 +284,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
-      })
+      }, undefined)
 
       // then
       expect(state.properties[0].objects[0].editors).to.have.length(2)

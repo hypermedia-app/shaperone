@@ -2,6 +2,7 @@ import { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
+import type { Literal } from 'rdf-js'
 import type { SingleEditor } from './models/editors'
 import { isString } from './lib/datatypes'
 
@@ -66,14 +67,22 @@ export const shape: SingleEditor = {
 
 export const enumSelect: SingleEditor = {
   term: dash.EnumSelectEditor,
-  match(shape) {
-    return shape.get(sh.in) ? 10 : 0
+  match(shape, value: GraphPointer) {
+    if (!shape.get(sh.in)) {
+      return 0
+    }
+
+    if (value.value === '') {
+      return 20
+    }
+
+    return shape.in.some(enumValue => value.term.equals(enumValue)) ? 20 : 6
   },
 }
 
-export const datePicker: SingleEditor = {
+export const datePicker: SingleEditor<Literal> = {
   term: dash.DatePickerEditor,
-  match(shape, value: any) {
+  match(shape, value) {
     if (xsd.date.equals(value.term.datatype)) {
       return 15
     }
@@ -85,9 +94,9 @@ export const datePicker: SingleEditor = {
   },
 }
 
-export const dateTimePicker: SingleEditor = {
+export const dateTimePicker: SingleEditor<Literal> = {
   term: dash.DateTimePickerEditor,
-  match(shape, value: any) {
+  match(shape, value) {
     if (xsd.dateTime.equals(value.term.datatype)) {
       return 15
     }

@@ -7,7 +7,6 @@
 ```html
 <mwc-list>
   <mwc-list-item twoline="">
-    http://example.com/Foo
     <span slot="secondary">
     </span>
     <mwc-shape-selector

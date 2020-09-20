@@ -1,14 +1,16 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { MultiPointer, GraphPointer } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
+import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
 import { getPathProperty } from '../../../lib/property'
+import { matchFor } from './shapes'
 
 export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
   return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
@@ -21,7 +23,14 @@ export function matchEditors(shape: PropertyShape, object: GraphPointer, editors
     })
 }
 
-function initialisePropertyShape(params: { shape: PropertyShape; editors: SingleEditor[]; multiEditors: MultiEditor[]; values: MultiPointer }): PropertyState {
+interface InitPropertyShapeParams {
+  shape: PropertyShape
+  editors: SingleEditor[]
+  multiEditors: MultiEditor[]
+  values: MultiPointer
+}
+
+function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
   const { shape, values } = params
 
   const editors = params.multiEditors
@@ -45,6 +54,11 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
       selectedEditor = editors[0]?.term
     }
 
+    const previousObject = previous?.objects?.find(o => o.object.term.equals(object.term))
+    if (previousObject?.selectedEditor) {
+      selectedEditor = previousObject.selectedEditor
+    }
+
     return {
       object,
       editors,
@@ -62,11 +76,16 @@ function initialisePropertyShape(params: { shape: PropertyShape; editors: Single
   const canRemove = !!editor || canRemoveObject(shape, objects.length)
   const canAdd = !!editor || canAddObject(shape, objects.length)
 
+  let selectedEditor: NamedNode | undefined = editor?.term
+  if (previous) {
+    selectedEditor = previous.selectedEditor
+  }
+
   return {
     shape,
     name: shape.name || shrink(getPathProperty(shape).id.value),
     editors,
-    selectedEditor: editor?.term,
+    selectedEditor,
     objects,
     canRemove,
     canAdd,
@@ -83,26 +102,52 @@ interface InitializeParams {
   selectedGroup?: string
 }
 
-export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
-  const { focusNode, editors, multiEditors, selectedGroup } = params
-  let { shapes } = params
+interface FocusNodeInitOptions {
+  getMatcher?(focusNode: ResourceNode): (shape: NodeShape) => boolean
+}
+
+export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined, { getMatcher = matchFor }: FocusNodeInitOptions = {}): FocusNodeState {
+  const { focusNode, editors, multiEditors, selectedGroup, shapes } = params
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
   if (!params.shape && !shapes.length) {
     return {
-      shapes,
+      matchingShapes: [],
+      shapes: [],
       focusNode,
       groups: [],
       properties: [],
+      label: '',
     }
   }
 
-  let [shape] = shapes
+  const isMatch = getMatcher(focusNode)
+  let { matchingShapes, otherShapes } = shapes.reduce(({ matchingShapes, otherShapes }, next) => {
+    if (isMatch(next)) {
+      return {
+        matchingShapes: [...matchingShapes, next],
+        otherShapes,
+      }
+    }
+
+    return {
+      matchingShapes,
+      otherShapes: [...otherShapes, next],
+    }
+  }, {
+    matchingShapes: [] as NodeShape[],
+    otherShapes: [] as NodeShape[],
+  })
+
+  let [shape] = matchingShapes
   if (params.shape) {
     shape = params.shape
   }
-  if (!shapes.find(s => s.id.equals(shape.id))) {
-    shapes = [shape, ...shapes]
+  if (!shape) {
+    [shape] = shapes
+  }
+  if (!matchingShapes.find(s => shape.equals(s))) {
+    matchingShapes = [shape, ...matchingShapes]
   }
 
   const properties = shape.property
@@ -119,7 +164,7 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
       editors,
       multiEditors,
       values: focusNode.out(getPathProperty(prop).id),
-    })]
+    }, previous?.properties?.find(p => p.shape.equals(prop)))]
   }, [])
 
   const groups = [...groupMap.values()].sort((l, r) => l.order - r.order)
@@ -129,9 +174,11 @@ export function initialiseFocusNode(params: InitializeParams): FocusNodeState {
 
   return {
     shape,
-    shapes,
+    matchingShapes,
+    shapes: [...matchingShapes, ...otherShapes],
     focusNode,
     groups,
     properties: properties.sort((l, r) => byShOrder(l.shape, r.shape)),
+    label: focusNode.out(rdfs.label).value || 'Resource',
   }
 }

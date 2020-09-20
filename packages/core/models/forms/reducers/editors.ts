@@ -16,7 +16,7 @@ export const setEditors = (state: State, { singleEditors, multiEditors }: Params
           ...focusNodeState,
           editors: singleEditors,
           multiEditors,
-        }),
+        }, undefined),
       }), {})
 
     return [form, {
