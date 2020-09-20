@@ -76,7 +76,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   get formMenu() {
     return [
       {
-        text: '"Save" resource',
+        text: '"Save" graph',
         id: saveResource,
       },
       this.components,
