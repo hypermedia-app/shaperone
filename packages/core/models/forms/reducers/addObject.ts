@@ -24,10 +24,10 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
     let object: GraphPointer
     if (property.defaultValue) {
       object = focusNodeState.focusNode.node(property.defaultValue)
-      focusNode.addOut(getPathProperty(property).id, object)
     } else {
       object = defaultValue(property, focusNodeState.focusNode)
     }
+    focusNode.addOut(getPathProperty(property).id, object)
 
     if (currentProperty.objects.find(o => o.object.term.equals(object.term))) {
       return currentProperty

@@ -174,4 +174,44 @@ describe('core/models/forms/reducers/addObject', () => {
     const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
     expect(fooState.focusNode.out(schema.name).term).to.deep.eq(literal('John Doe', 'en'))
   })
+
+  it('adds triple for new blank node object', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      path: schema.knows,
+      nodeKind: sh.IRI,
+    })
+    const focusNode = graph.node(ex.FocusNode)
+    const { form, state: before } = testState({
+      form: {
+        focusNodes: {
+          [ex.FocusNode.value]: {
+            focusNode,
+            shapes: [],
+            groups: [],
+            properties: [{
+              canRemove: true,
+              canAdd: false,
+              name: 'prop',
+              shape: property,
+              selectedEditor: undefined,
+              objects: [],
+            }],
+          },
+        },
+      },
+    })
+
+    // when
+    const after = addObject(before, {
+      form,
+      property,
+      focusNode,
+    })
+
+    // then
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
+    expect(fooState.focusNode.out(schema.knows).term?.termType).to.eq('BlankNode')
+  })
 })
