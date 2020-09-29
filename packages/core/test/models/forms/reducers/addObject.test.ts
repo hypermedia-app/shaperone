@@ -17,7 +17,8 @@ describe('core/models/forms/reducers/addObject', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const object = graph.literal('foo')
     const property = new PropertyShapeMixin.Class(graph.blankNode(), {
-      [sh.minCount.value]: 2,
+      minCount: 2,
+      path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
@@ -58,7 +59,8 @@ describe('core/models/forms/reducers/addObject', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const object = graph.literal('foo')
     const property = new PropertyShapeMixin.Class(graph.blankNode(), {
-      [sh.minCount.value]: 1,
+      minCount: 1,
+      path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
@@ -99,7 +101,8 @@ describe('core/models/forms/reducers/addObject', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const object = graph.literal('foo')
     const property = new PropertyShapeMixin.Class(graph.blankNode(), {
-      [sh.minCount.value]: 0,
+      minCount: 0,
+      path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
