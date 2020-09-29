@@ -1,6 +1,21 @@
 # @hydrofoil/shaperone-playground
 
+## 0.0.2
+
+### Patch Changes
+
+- 2f14bb3: Update rdfine to 0.5 and clownface to 1.0
+- b86f901: Improve selecting of root focus node
+- Updated dependencies [b86f901]
+- Updated dependencies [7787606]
+- Updated dependencies [2f14bb3]
+  - @hydrofoil/shaperone-wc-material@0.1.0
+  - @hydrofoil/shaperone-wc-vaadin@0.1.0
+  - @hydrofoil/shaperone-wc@0.0.2
+  - @hydrofoil/shaperone-playground-examples@0.0.2
+
 ## 0.0.1
+
 ### Patch Changes
 
 - Initial version
