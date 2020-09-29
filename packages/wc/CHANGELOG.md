@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-wc
 
+## 0.1.0
+
+### Minor Changes
+
+- e7348c4: Update @captaincodeman/rdx
+
+### Patch Changes
+
+- Updated dependencies [e7348c4]
+  - @hydrofoil/shaperone-core@0.2.0
+
 ## 0.0.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.2.0
+
+### Minor Changes
+
+- e7348c4: Update @captaincodeman/rdx
+
 ## 0.1.1
 
 ### Patch Changes
