@@ -52,7 +52,7 @@ export const editors = createModel(({
     addMatchers,
   },
   effects(store: Store) {
-    const dispatch: Dispatch = store.dispatch()
+    const dispatch: Dispatch = store.getDispatch()
 
     return {
       async loadDash() {

@@ -100,7 +100,7 @@ export const createComponentsModel = <TRenderResult>() => createModel({
     },
   },
   effects(store) {
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       async load(editor: NamedNode) {

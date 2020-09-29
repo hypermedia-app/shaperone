@@ -11,7 +11,7 @@
     "prepack": "tsc"
   },
   "dependencies": {
-    "@captaincodeman/rdx": "^1.0.0-rc.6",
+    "@captaincodeman/rdx": "^1.0.0-rc.8",
     "@rdf-esm/data-model": "^0.5.3",
     "@rdfine/rdfs": "^0.4",
     "@rdfine/shacl": "^0.5",

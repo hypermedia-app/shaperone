@@ -59,7 +59,7 @@ export const renderer = createModel({
     },
   },
   effects: (store) => {
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       async loadDependencies() {
