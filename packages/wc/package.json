@@ -3,8 +3,12 @@
   "version": "0.0.2",
   "description": "Web Component rendering SHACL forms",
   "main": "index.js",
+  "files": [
+    "**/*.js",
+    "**/*.d.ts"
+  ],
   "scripts": {
-    "build": "tsc"
+    "prepack": "tsc"
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.6",

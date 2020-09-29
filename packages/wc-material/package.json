@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "description": "Rendering forms in Material Design style",
   "main": "index.js",
+  "files": [
+    "**/*.js",
+    "**/*.d.ts"
+  ],
   "scripts": {
-    "build": "tsc"
+    "prepack": "tsc"
   },
   "dependencies": {
     "@hydrofoil/shaperone-core": "0.1.0",
