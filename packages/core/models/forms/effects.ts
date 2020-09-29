@@ -1,7 +1,7 @@
 import type { Store } from '../../state/index'
 
 export function effects(store: Store) {
-  const dispatch = store.dispatch()
+  const dispatch = store.getDispatch()
 
   return {
     'editors/addMatchers': () => {

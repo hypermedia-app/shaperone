@@ -867,6 +867,13 @@
   dependencies:
     "@bundle-analyzer/core" "^0.5.1"
 
+"@captaincodeman/rdx@1.0.0-rc.8":
+  version "1.0.0-rc.8"
+  resolved "https://registry.yarnpkg.com/@captaincodeman/rdx/-/rdx-1.0.0-rc.8.tgz#80a4543321f1290863c125b9656a859c02a67bc2"
+  integrity sha512-syS8fVkgYXXhCwgkzQTrMqoaUid3FPxzt/2mqxTsgybSg1uPCbJF2Uk2rWiR12AT9oaAzTJ2sPgkQCacBMQrmg==
+  dependencies:
+    "@captaincodeman/router" "^1.0.1"
+
 "@captaincodeman/rdx@^1.0.0-rc.6":
   version "1.0.0-rc.6"
   resolved "https://registry.yarnpkg.com/@captaincodeman/rdx/-/rdx-1.0.0-rc.6.tgz#175b836d15375b11ea0d32712828952e86f0b563"

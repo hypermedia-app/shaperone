@@ -58,6 +58,10 @@ export class ShaperoneForm extends connect(store, LitElement) {
   @property({ type: Object })
   state!: FormState
 
+  get resource(): FocusNode | undefined {
+    return this[resourceSymbol]
+  }
+
   set resource(rootPointer: FocusNode | undefined) {
     if (!rootPointer) return
 
@@ -67,6 +71,10 @@ export class ShaperoneForm extends connect(store, LitElement) {
 
   get value(): DatasetCore | undefined {
     return this.state.resourceGraph
+  }
+
+  get shapes(): DatasetCore | undefined {
+    return this[shapesSymbol]
   }
 
   set shapes(shapesGraph: DatasetCore | undefined) {
