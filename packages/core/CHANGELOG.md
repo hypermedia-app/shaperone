@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.1.1
+
+### Patch Changes
+
+- 5bbbc23: Fix packages but bundling build JS files
+
 ## 0.1.0
 
 ### Minor Changes

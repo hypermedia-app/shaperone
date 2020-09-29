@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.1.1
+
+### Patch Changes
+
+- 5bbbc23: Fix packages but bundling build JS files
+- Updated dependencies [5bbbc23]
+  - @hydrofoil/shaperone-core@0.1.1
+  - @hydrofoil/shaperone-wc@0.0.3
+
 ## 0.1.0
 
 ### Minor Changes
