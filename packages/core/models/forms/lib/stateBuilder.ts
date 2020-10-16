@@ -11,6 +11,7 @@ import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
 import { getPathProperty } from '../../../lib/property'
 import { matchFor } from './shapes'
+import { defaultValue } from './defaultValue'
 
 export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
   return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
@@ -61,6 +62,7 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
 }
 
 interface InitPropertyShapeParams {
+  focusNode: FocusNode
   shape: PropertyShape
   editors: SingleEditor[]
   multiEditors: MultiEditor[]
@@ -69,7 +71,16 @@ interface InitPropertyShapeParams {
 }
 
 function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
-  const { shape, values } = params
+  let { focusNode, shape, values } = params
+
+  if (values.values.length === 0 && params.shape.minCount && params.shape.minCount > 0) {
+    if (shape.defaultValue) {
+      values = focusNode.node(shape.defaultValue)
+      focusNode.addOut(getPathProperty(shape).id, values)
+    } else {
+      values = defaultValue(params.shape, focusNode)
+    }
+  }
 
   const editors = params.multiEditors
     .map(editor => ({ editor, score: editor.match(shape) }))
@@ -127,6 +138,7 @@ export function initialisePropertyShapes(shape: NodeShape, params: InitializePro
     })
 
     return [...map, initialisePropertyShape({
+      focusNode,
       shape: prop,
       editors,
       multiEditors,

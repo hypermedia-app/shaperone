@@ -303,6 +303,60 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.properties[0].objects[0].editors).to.have.length(2)
       expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
     })
+
+    it('adds a value to property with sh:minCount > 0', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+        property: [{
+          path: ex.foo,
+          types: [sh.PropertyShape],
+          minCount: 1,
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: [],
+        multiEditors: [],
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      expect(state.properties[0].objects[0]?.object.value).to.eq('')
+    })
+
+    it('when sh:minCount > 0 adds a triple if property has sh:default', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+        property: [{
+          path: ex.foo,
+          types: [sh.PropertyShape],
+          minCount: 1,
+          defaultValue: $rdf.literal('bar', 'en'),
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: [],
+        multiEditors: [],
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      expect(state.properties[0].objects[0]?.object.value).to.eq('bar')
+      expect(focusNode.out(ex.foo).term).to.deep.eq($rdf.literal('bar', 'en'))
+    })
   })
 
   describe('initialiseObjectState', () => {
