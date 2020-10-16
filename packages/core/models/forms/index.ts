@@ -1,5 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import { GraphPointer } from 'clownface'
+import { AnyPointer, GraphPointer } from 'clownface'
 import { DatasetCore, NamedNode } from 'rdf-js'
 import { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { effects } from './effects'
@@ -53,7 +53,7 @@ export interface FocusNodeState {
 
 export interface FormState {
   resourceGraph?: DatasetCore
-  shapesGraph?: DatasetCore
+  shapesGraph?: AnyPointer
   shapes: Shape[]
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]

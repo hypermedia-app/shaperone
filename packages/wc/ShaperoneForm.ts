@@ -3,6 +3,7 @@ import { DatasetCore } from 'rdf-js'
 import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
 import { connect } from '@captaincodeman/rdx'
+import type { AnyPointer } from 'clownface'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import type { Renderer } from './renderer'
@@ -17,7 +18,7 @@ const shapesSymbol: unique symbol = Symbol('shapes')
 @customElement('shaperone-form')
 export class ShaperoneForm extends connect(store, LitElement) {
   private [resourceSymbol]?: FocusNode
-  private [shapesSymbol]?: DatasetCore | undefined
+  private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
 
   static get styles() {
     return [css`
@@ -73,11 +74,11 @@ export class ShaperoneForm extends connect(store, LitElement) {
     return this.state.resourceGraph
   }
 
-  get shapes(): DatasetCore | undefined {
+  get shapes(): AnyPointer | DatasetCore | undefined {
     return this[shapesSymbol]
   }
 
-  set shapes(shapesGraph: DatasetCore | undefined) {
+  set shapes(shapesGraph: AnyPointer | DatasetCore | undefined) {
     if (!shapesGraph) return
 
     this[shapesSymbol] = shapesGraph

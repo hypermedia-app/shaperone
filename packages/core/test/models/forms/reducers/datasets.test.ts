@@ -24,7 +24,23 @@ describe('core/models/forms/reducers/datasets', () => {
       })
 
       // then
-      expect(after.instances.get(form)!.shapesGraph).to.eq(shapesGraph)
+      expect(after.instances.get(form)?.shapesGraph?.dataset).to.eq(shapesGraph)
+    })
+
+    it('sets pointer to state', () => {
+      // given
+      const { form, state } = testState()
+      const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+
+      // when
+      const after = setShapesGraph(state, {
+        form,
+        shapesGraph,
+      })
+
+      // then
+      expect(after.instances.get(form)?.shapesGraph?.dataset).to.eq(shapesGraph.dataset)
+      expect(after.instances.get(form)?.shapesGraph?._context[0].graph).to.deep.eq(ex.Graph)
     })
 
     it('extracts shape resources from graph', () => {
