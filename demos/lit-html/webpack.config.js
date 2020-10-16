@@ -21,10 +21,6 @@ module.exports = merge(
     module: {
       rules: [
         {
-          test: /\.nq$/,
-          use: ['raw-loader'],
-        },
-        {
           test: /\.ttl$/,
           use: ['raw-loader'],
         },
