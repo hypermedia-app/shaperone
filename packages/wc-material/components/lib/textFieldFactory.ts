@@ -1,8 +1,13 @@
 import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-element'
+import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+
+interface SingleEditorComponentFactory<TOptions> {
+  (editor: SingleEditorComponent['editor'], options?: TOptions): SingleEditorComponent & TOptions
+}
 
 export interface TextFieldOptions {
-  type(args: Parameters<SingleEditorComponent['render']>[0]): string
+  type(args: { value: PropertyObjectState; property: PropertyState }): string
 }
 
 const defaultTextField: TextFieldOptions = {
@@ -11,7 +16,7 @@ const defaultTextField: TextFieldOptions = {
   },
 }
 
-export const createTextField = (editor: SingleEditorComponent['editor'], options: TextFieldOptions = defaultTextField): SingleEditorComponent & TextFieldOptions => ({
+export const createTextField: SingleEditorComponentFactory<TextFieldOptions> = (editor, options = defaultTextField) => ({
   ...options,
   editor,
   render({ value, property }, { update }) {
