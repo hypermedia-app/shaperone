@@ -63,7 +63,7 @@ export const rendererSettings = createModel({
     },
   },
   effects(store) {
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       async switchNesting({ text }: Menu) {
