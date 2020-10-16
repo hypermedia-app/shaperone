@@ -1,5 +1,5 @@
 import { DatasetCore } from 'rdf-js'
-import cf from 'clownface'
+import cf, { AnyPointer } from 'clownface'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
 import { Shape, ShapeMixin } from '@rdfine/shacl'
@@ -8,12 +8,17 @@ import type { FocusNode } from '../../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 import type { FocusNodeState, FormState } from '../index'
 
-export const setShapesGraph = formStateReducer(({ state, editors, multiEditors }, { shapesGraph }: { shapesGraph: DatasetCore }) => {
+export interface SetShapesGraphParams {
+  shapesGraph: DatasetCore | AnyPointer
+}
+
+export const setShapesGraph = formStateReducer<SetShapesGraphParams>(({ state, editors, multiEditors }, { shapesGraph }) => {
   if (state.shapesGraph === shapesGraph) {
     return state
   }
 
-  const shapes = cf({ dataset: shapesGraph })
+  const shapesPointer = 'match' in shapesGraph ? cf({ dataset: shapesGraph }) : shapesGraph
+  const shapes = shapesPointer
     .has(rdf.type, [sh.Shape, sh.NodeShape])
     .map(pointer => RdfResource.factory.createEntity<Shape>(pointer, [ShapeMixin]))
 
@@ -48,7 +53,7 @@ export const setShapesGraph = formStateReducer(({ state, editors, multiEditors }
 
   return {
     ...state,
-    shapesGraph,
+    shapesGraph: shapesPointer,
     shapes,
     focusNodes: { ...focusNodes, ...missingNodes },
   }
