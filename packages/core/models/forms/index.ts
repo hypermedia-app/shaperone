@@ -23,6 +23,7 @@ export interface PropertyObjectState {
   object: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
+  editorSwitchDisabled?: boolean
 }
 
 export interface PropertyState {

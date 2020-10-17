@@ -32,6 +32,14 @@
 </mwc-item-lite>
 ```
 
+####   `does not render a menu when there is more than one editor but switching is disabled`
+
+```html
+<mwc-item-lite>
+</mwc-item-lite>
+
+```
+
 ####   `renders a delete button when there is one editor`
 
 ```html
@@ -89,6 +97,5 @@
     </b>
   </mwc-list-item>
 </mwc-list>
-
 ```
 

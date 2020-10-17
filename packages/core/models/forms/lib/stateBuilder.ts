@@ -5,7 +5,7 @@ import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
-import type { FocusNodeState, PropertyGroupState, PropertyState } from '../index'
+import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
@@ -38,7 +38,7 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
     .filter(match => match.score === null || match.score > 0)
     .map(e => e.editor) || []
 
-  const objects = values.map((object) => {
+  const objects = values.map<PropertyObjectState>((object) => {
     let editors = matchEditors(shape, object, params.editors)
     let selectedEditor
 

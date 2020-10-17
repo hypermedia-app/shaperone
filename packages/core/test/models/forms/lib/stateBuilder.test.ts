@@ -290,5 +290,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.properties[0].objects[0].editors).to.have.length(2)
       expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
     })
+
+    it('')
   })
 })
