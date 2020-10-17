@@ -17,22 +17,38 @@ const componentModules: Record<string, Record<string, Component>> = {
 editors.addMetadata($rdf.dataset([...metadata()]))
 editors.addMatchers({ matcher })
 
+export interface ComponentsState extends Menu {
+  modules: Record<string, Component>
+}
+
 export const componentsSettings = createModel({
-  state: {
+  state: <ComponentsState>{
     text: 'Components',
     modules: componentModules.Native,
-    children: Object.keys(componentModules).map(name => ({
+    children: [...Object.keys(componentModules).map(name => ({
       text: name,
       checked: name === 'Native',
       type: 'components',
-    })),
+    })), {
+      component: 'hr',
+    }, {
+      text: 'Disable editor choice',
+      checked: false,
+      type: 'editorChoice',
+    }],
   },
   reducers: {
     switchComponents(state, { text }: Menu) {
-      const children = state.children.map(child => ({
-        ...child,
-        checked: text === child.text,
-      }))
+      const children = state.children?.map((child) => {
+        if (child.type !== 'components') {
+          return child
+        }
+
+        return ({
+          ...child,
+          checked: text === child.text,
+        })
+      })
 
       const modules = componentModules[text]
       components.removeComponents(Object.values(state.modules).map(m => m.editor))
@@ -41,6 +57,22 @@ export const componentsSettings = createModel({
       return {
         ...state,
         modules,
+        children,
+      }
+    },
+    setEditorChoice(state, { checked }: Menu) {
+      const children = state.children?.map((child) => {
+        if (child.type === 'editorChoice') {
+          return {
+            ...child,
+            checked: !checked,
+          }
+        }
+
+        return child
+      })
+      return {
+        ...state,
         children,
       }
     },
