@@ -30,25 +30,18 @@ interface InitPropertyShapeParams {
   values: MultiPointer
 }
 
-function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
-  const { shape, values } = params
-
-  const editors = params.multiEditors
-    .map(editor => ({ editor, score: editor.match(shape) }))
-    .filter(match => match.score === null || match.score > 0)
-    .map(e => e.editor) || []
-
-  const objects = values.map<PropertyObjectState>((object) => {
-    let editors = matchEditors(shape, object, params.editors)
+export function initialiseObjectState({ shape, editors }: InitPropertyShapeParams, previous: PropertyState | undefined) {
+  return (object: GraphPointer): PropertyObjectState => {
+    let matchedEditors = matchEditors(shape, object, editors)
     let selectedEditor
 
     const preferredEditorId = shape.get(dash.editor)?.id
     if (preferredEditorId?.termType === 'NamedNode') {
-      const preferredEditor = params.editors.find(e => e.term.equals(preferredEditorId))
+      const preferredEditor = editors.find(e => e.term.equals(preferredEditorId))
       selectedEditor = preferredEditorId
       if (preferredEditor) {
-        editors.splice(editors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
-        editors = [{ ...preferredEditor, score: 100 }, ...editors]
+        matchedEditors.splice(editors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
+        matchedEditors = [{ ...preferredEditor, score: 100 }, ...matchedEditors]
       }
     } else {
       selectedEditor = editors[0]?.term
@@ -61,10 +54,22 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
 
     return {
       object,
-      editors,
+      editors: matchedEditors,
       selectedEditor,
+      editorSwitchDisabled: previousObject?.editorSwitchDisabled,
     }
-  })
+  }
+}
+
+function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
+  const { shape, values } = params
+
+  const editors = params.multiEditors
+    .map(editor => ({ editor, score: editor.match(shape) }))
+    .filter(match => match.score === null || match.score > 0)
+    .map(e => e.editor) || []
+
+  const objects = values.map(initialiseObjectState(params, previous))
 
   let datatype: NamedNode | undefined
   const shapeDatatype = shape.datatype

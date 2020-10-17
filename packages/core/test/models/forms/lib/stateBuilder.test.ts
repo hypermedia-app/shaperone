@@ -3,10 +3,12 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
-import { NodeShapeMixin } from '@rdfine/shacl'
+import { NodeShapeMixin, PropertyShapeMixin } from '@rdfine/shacl'
 import { schema, sh, dash } from '@tpluscode/rdf-ns-builders'
-import { initialiseFocusNode } from '../../../../models/forms/lib/stateBuilder'
+import { initialiseFocusNode, initialiseObjectState } from '../../../../models/forms/lib/stateBuilder'
 import { loadMixins } from '../../../../index'
+import { PropertyState } from '../../../../models/forms'
+import { testObjectState, testPropertyState } from '../util'
 
 const ex = ns('http://example.com/')
 
@@ -290,7 +292,54 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.properties[0].objects[0].editors).to.have.length(2)
       expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
     })
+  })
 
-    it('')
+  describe('initialiseObjectState', () => {
+    it('does not set the editorSwitchDisabled flag', () => {
+      // given
+      const shapeGraph = cf({ dataset: $rdf.dataset() })
+      const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
+      const shape = new PropertyShapeMixin.Class(shapeGraph.blankNode(), {
+        path: ex.foo,
+      })
+      const context = {
+        shape,
+        editors: [],
+        multiEditors: [],
+        values: dataGraph,
+      }
+
+      // when
+      const state = initialiseObjectState(context, undefined)(dataGraph.literal(5))
+
+      // then
+      expect(state.editorSwitchDisabled).to.be.undefined
+    })
+
+    it('keeps previous flag', () => {
+      // given
+      const shapeGraph = cf({ dataset: $rdf.dataset() })
+      const dataGraph = cf({ dataset: $rdf.dataset() })
+      const shape = new PropertyShapeMixin.Class(shapeGraph.blankNode(), {
+        path: ex.foo,
+      })
+      const context = {
+        shape,
+        editors: [],
+        multiEditors: [],
+        values: dataGraph.literal(5),
+      }
+      const previous: PropertyState = testPropertyState(shape.pointer, {
+        objects: [testObjectState(dataGraph.literal(5), {
+          editorSwitchDisabled: true,
+        })],
+      })
+
+      // when
+      const state = initialiseObjectState(context, previous)(dataGraph.literal(5))
+
+      // then
+      expect(state.editorSwitchDisabled).to.be.true
+    })
   })
 })
