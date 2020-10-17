@@ -105,6 +105,44 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
   }
 }
 
+interface InitializePropertyShapesParams {
+  editors: SingleEditor[]
+  multiEditors: MultiEditor[]
+  focusNode: FocusNode
+  selectedGroup?: string
+  shouldEnableEditorChoice: ShouldEnableEditorChoice
+}
+
+export function initialisePropertyShapes(shape: NodeShape, params: InitializePropertyShapesParams, previous: FocusNodeState | undefined) {
+  const { selectedGroup, editors, multiEditors, focusNode, shouldEnableEditorChoice } = params
+  const groupMap = new Map<string | undefined, PropertyGroupState>()
+
+  const properties = shape.property
+    .sort(byShOrder)
+    .reduce<Array<PropertyState>>((map, prop) => {
+    groupMap.set(prop.group?.id?.value, {
+      group: prop.group,
+      order: prop.group ? prop.group.order || 0 : -1,
+      selected: prop.group?.id?.value === selectedGroup,
+    })
+
+    return [...map, initialisePropertyShape({
+      shape: prop,
+      editors,
+      multiEditors,
+      values: focusNode.out(getPathProperty(prop).id),
+      shouldEnableEditorChoice,
+    }, previous?.properties?.find(p => p.shape.equals(prop)))]
+  }, []).sort((l, r) => byShOrder(l.shape, r.shape))
+
+  const groups = [...groupMap.values()].sort((l, r) => l.order - r.order)
+  if (groups[0]) {
+    groups[0].selected = true
+  }
+
+  return { groups, properties }
+}
+
 interface InitializeParams {
   shapes: NodeShape[]
   shape?: NodeShape
@@ -120,8 +158,7 @@ interface FocusNodeInitOptions {
 }
 
 export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined, { getMatcher = matchFor }: FocusNodeInitOptions = {}): FocusNodeState {
-  const { focusNode, editors, multiEditors, selectedGroup, shapes, shouldEnableEditorChoice } = params
-  const groupMap = new Map<string | undefined, PropertyGroupState>()
+  const { focusNode, shapes } = params
 
   if (!params.shape && !shapes.length) {
     return {
@@ -163,28 +200,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     matchingShapes = [shape, ...matchingShapes]
   }
 
-  const properties = shape.property
-    .sort(byShOrder)
-    .reduce<Array<PropertyState>>((map, prop) => {
-    groupMap.set(prop.group?.id?.value, {
-      group: prop.group,
-      order: prop.group ? prop.group.order || 0 : -1,
-      selected: prop.group?.id?.value === selectedGroup,
-    })
-
-    return [...map, initialisePropertyShape({
-      shape: prop,
-      editors,
-      multiEditors,
-      values: focusNode.out(getPathProperty(prop).id),
-      shouldEnableEditorChoice,
-    }, previous?.properties?.find(p => p.shape.equals(prop)))]
-  }, [])
-
-  const groups = [...groupMap.values()].sort((l, r) => l.order - r.order)
-  if (groups[0]) {
-    groups[0].selected = true
-  }
+  const { properties, groups } = initialisePropertyShapes(shape, params, previous)
 
   return {
     shape,
@@ -192,7 +208,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     shapes: [...matchingShapes, ...otherShapes],
     focusNode,
     groups,
-    properties: properties.sort((l, r) => byShOrder(l.shape, r.shape)),
+    properties,
     label: focusNode.out(rdfs.label).value || 'Resource',
   }
 }

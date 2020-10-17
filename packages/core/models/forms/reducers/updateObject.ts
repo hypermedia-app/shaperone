@@ -1,5 +1,6 @@
 import type { Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
+import produce from 'immer'
 import { formStateReducer } from './index'
 import type { PropertyObjectState } from '../index'
 import type { FocusNode } from '../../../index'
@@ -19,84 +20,44 @@ export interface ReplaceObjectsParams {
   terms: Term[]
 }
 
-export const updateObject = formStateReducer(({ state }, { focusNode, property, oldValue, newValue }: UpdateObjectParams) => {
+export const updateObject = formStateReducer(({ state }, { focusNode, property, oldValue, newValue }: UpdateObjectParams) => produce(state, (draft) => {
+  const focusNodeState = draft.focusNodes[focusNode.value]
+
+  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
+  if (!propertyState) {
+    return
+  }
+
+  const objectState = propertyState.objects.find(o => o.object.term.equals(oldValue))
+  if (objectState) {
+    objectState.object = focusNodeState.focusNode.node(newValue)
+  }
+  const pathProperty = getPathProperty(property).id
+  focusNodeState.focusNode
+    .deleteOut(pathProperty)
+    .addOut(pathProperty, propertyState.objects.map(o => o.object.term))
+}))
+
+export const replaceObjects = formStateReducer(({ state, editors }, { focusNode, property, terms }: ReplaceObjectsParams) => produce(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
-  const properties = focusNodeState.properties.map((prop) => {
-    if (!prop.shape.id.equals(property.id)) {
-      return prop
-    }
+  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
-    const objects = prop.objects.map((o): PropertyObjectState => {
-      if (o.object.term.equals(oldValue)) {
-        return {
-          ...o,
-          object: focusNodeState.focusNode.node(newValue),
-        }
-      }
+  if (!propertyState) {
+    return
+  }
 
-      return o
-    })
-
-    const pathProperty = getPathProperty(property).id
-    focusNodeState.focusNode
-      .deleteOut(pathProperty)
-      .addOut(pathProperty, objects.map(o => o.object))
-
+  propertyState.objects = terms.map<PropertyObjectState>((term) => {
+    const object = focusNode.node(term)
+    const suitableEditors = matchEditors(property, object, editors)
     return {
-      ...prop,
-      objects,
+      object,
+      editors: suitableEditors,
+      selectedEditor: suitableEditors[0]?.term,
     }
   })
 
-  return {
-    ...state,
-    focusNodes: {
-      ...state.focusNodes,
-      [focusNode.value]: {
-        ...focusNodeState,
-        properties,
-      },
-    },
-  }
-})
-
-export const replaceObjects = formStateReducer(({ state, editors }, { focusNode, property, terms }: ReplaceObjectsParams) => {
-  const focusNodeState = state.focusNodes[focusNode.value]
-
-  const properties = focusNodeState.properties.map((prop) => {
-    if (!prop.shape.id.equals(property.id)) {
-      return prop
-    }
-
-    const objects = terms.map<PropertyObjectState>((term) => {
-      const object = focusNode.node(term)
-      const suitableEditors = matchEditors(property, object, editors)
-      return {
-        object,
-        editors: suitableEditors,
-        selectedEditor: suitableEditors[0]?.term,
-      }
-    })
-
-    const pathProperty = getPathProperty(property).id
-    focusNodeState.focusNode
-      .deleteOut(pathProperty)
-      .addOut(pathProperty, terms)
-
-    return {
-      ...prop,
-      objects,
-    }
-  })
-
-  return {
-    ...state,
-    focusNodes: {
-      ...state.focusNodes,
-      [focusNode.value]: {
-        ...focusNodeState,
-        properties,
-      },
-    },
-  }
-})
+  const pathProperty = getPathProperty(property).id
+  focusNodeState.focusNode
+    .deleteOut(pathProperty)
+    .addOut(pathProperty, terms)
+}))
