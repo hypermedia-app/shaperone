@@ -1,7 +1,7 @@
 import produce from 'immer'
 import type { MultiEditor, SingleEditor } from '../../editors/index'
 import type { FormState, State } from '../index'
-import { initialiseFocusNode } from '../lib/stateBuilder'
+import { initialisePropertyShapes } from '../lib/stateBuilder'
 import { formStateReducer } from './index'
 
 export interface SetEditorsParams {
@@ -10,23 +10,24 @@ export interface SetEditorsParams {
 }
 
 export const setEditors = (state: State, { singleEditors, multiEditors }: SetEditorsParams): State => {
-  const forms = [...state.instances.entries()].map<[unknown, FormState]>(([form, formState]) => {
-    const focusNodes = Object.entries(formState.focusNodes)
-      .reduce((focusNodes, [id, focusNodeState]) => ({
-        ...focusNodes,
-        [id]: initialiseFocusNode({
-          ...focusNodeState,
+  const producer = produce((draft: [unknown, FormState]) => {
+    const formState = draft[1]
+    for (const [, focusNodeState] of Object.entries(formState.focusNodes)) {
+      if (focusNodeState.shape) {
+        const { groups, properties } = initialisePropertyShapes(focusNodeState.shape, {
           editors: singleEditors,
           multiEditors,
           shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
-        }, undefined),
-      }), {})
+          focusNode: focusNodeState.focusNode,
+        }, focusNodeState)
 
-    return [form, {
-      ...formState,
-      focusNodes,
-    }]
+        focusNodeState.properties = properties
+        focusNodeState.groups = groups
+      }
+    }
   })
+
+  const forms = [...state.instances.entries()].map(producer)
 
   return {
     ...state,

@@ -1,22 +1,16 @@
+import produce from 'immer'
 import { formStateReducer } from './index'
 import { FocusNode } from '../../../index'
 
-export const truncateFocusNodes = formStateReducer(({ state }, { focusNode }: { focusNode?: FocusNode }) => {
+export const truncateFocusNodes = formStateReducer(({ state }, { focusNode }: { focusNode?: FocusNode }) => produce(state, (draft) => {
   if (!focusNode) {
-    return {
-      ...state,
-      focusStack: [],
-      focusNodes: {},
-    }
+    draft.focusNodes = {}
+    draft.focusStack = []
+    return
   }
 
-  const topNodeIndex = state.focusStack.findIndex(fn => fn.term.equals(focusNode.term))
-  if (topNodeIndex < 0) {
-    return state
+  const topNodeIndex = draft.focusStack.findIndex(fn => fn.term.equals(focusNode.term))
+  if (topNodeIndex >= 0) {
+    draft.focusStack.splice(topNodeIndex, 1)
   }
-
-  return {
-    ...state,
-    focusStack: state.focusStack.slice(0, topNodeIndex),
-  }
-})
+}))

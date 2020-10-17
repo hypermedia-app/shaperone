@@ -1,3 +1,4 @@
+import produce from 'immer'
 import type { PropertyShape } from '@rdfine/shacl'
 import { formStateReducer } from './index'
 import { FocusNode } from '../../../index'
@@ -7,42 +8,20 @@ export interface MultiEditorParams {
   property: PropertyShape
 }
 
-export const selectMultiEditor = formStateReducer(({ state }, { focusNode, property }: MultiEditorParams) => ({
-  ...state,
-  focusNodes: {
-    ...state.focusNodes,
-    [focusNode.value]: {
-      ...state.focusNodes[focusNode.value],
-      properties: state.focusNodes[focusNode.value].properties.map((prop) => {
-        if (prop.shape.equals(property)) {
-          return {
-            ...prop,
-            selectedEditor: prop.editors[0]?.term,
-          }
-        }
+export const selectMultiEditor = formStateReducer(({ state }, { focusNode, property }: MultiEditorParams) => produce(state, (state) => {
+  const focusNodeState = state.focusNodes[focusNode.value]
+  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
-        return prop
-      }),
-    },
-  },
+  if (propertyState) {
+    propertyState.selectedEditor = propertyState.editors[0]?.term
+  }
 }))
 
-export const selectSingleEditors = formStateReducer(({ state }, { focusNode, property }: MultiEditorParams) => ({
-  ...state,
-  focusNodes: {
-    ...state.focusNodes,
-    [focusNode.value]: {
-      ...state.focusNodes[focusNode.value],
-      properties: state.focusNodes[focusNode.value].properties.map((prop) => {
-        if (prop.shape.equals(property)) {
-          return {
-            ...prop,
-            selectedEditor: undefined,
-          }
-        }
+export const selectSingleEditors = formStateReducer(({ state }, { focusNode, property }: MultiEditorParams) => produce(state, (state) => {
+  const focusNodeState = state.focusNodes[focusNode.value]
+  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
-        return prop
-      }),
-    },
-  },
+  if (propertyState) {
+    propertyState.selectedEditor = undefined
+  }
 }))

@@ -1,30 +1,14 @@
 import { PropertyGroup } from '@rdfine/shacl'
+import produce from 'immer'
 import { formStateReducer } from './index'
 import { FocusNode } from '../../../index'
 
-export const selectGroup = formStateReducer(({ state }, { group, focusNode }: { focusNode: FocusNode; group?: PropertyGroup }) => {
-  const groups = state.focusNodes[focusNode.value].groups.map((g) => {
-    let selected
+export const selectGroup = formStateReducer(({ state }, { group, focusNode }: { focusNode: FocusNode; group?: PropertyGroup }) => produce(state, (draft) => {
+  draft.focusNodes[focusNode.value].groups.forEach((g) => {
     if (!group && !g.group) {
-      selected = true
+      g.selected = true
     } else {
-      selected = group?.id.equals(g.group?.id) || false
-    }
-
-    return {
-      ...g,
-      selected,
+      g.selected = group?.id.equals(g.group?.id) || false
     }
   })
-
-  return {
-    ...state,
-    focusNodes: {
-      ...state.focusNodes,
-      [focusNode.value]: {
-        ...state.focusNodes[focusNode.value],
-        groups,
-      },
-    },
-  }
-})
+}))
