@@ -33,6 +33,7 @@ export const addObject = formStateReducer(({ state, editors }, { focusNode, prop
           object,
           editors: suitableEditors,
           selectedEditor: suitableEditors[0]?.term,
+          editorSwitchDisabled: !state.shouldEnableEditorChoice({ object }),
         })
       }
       currentProperty.canRemove = !!currentProperty.selectedEditor || canRemoveObject(property, currentProperty.objects.length)

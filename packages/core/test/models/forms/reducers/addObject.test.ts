@@ -23,6 +23,7 @@ describe('core/models/forms/reducers/addObject', () => {
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
       form: {
+        shouldEnableEditorChoice: () => true,
         focusNodes: {
           [ex.FocusNode.value]: {
             focusNode,
@@ -65,6 +66,7 @@ describe('core/models/forms/reducers/addObject', () => {
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
       form: {
+        shouldEnableEditorChoice: () => true,
         focusNodes: {
           [ex.FocusNode.value]: {
             focusNode,
@@ -107,6 +109,7 @@ describe('core/models/forms/reducers/addObject', () => {
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
       form: {
+        shouldEnableEditorChoice: () => true,
         focusNodes: {
           [ex.FocusNode.value]: {
             focusNode,
@@ -148,6 +151,7 @@ describe('core/models/forms/reducers/addObject', () => {
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
       form: {
+        shouldEnableEditorChoice: () => true,
         focusNodes: {
           [ex.FocusNode.value]: {
             focusNode,
@@ -188,6 +192,7 @@ describe('core/models/forms/reducers/addObject', () => {
     const focusNode = graph.node(ex.FocusNode)
     const { form, state: before } = testState({
       form: {
+        shouldEnableEditorChoice: () => true,
         focusNodes: {
           [ex.FocusNode.value]: {
             focusNode,
@@ -216,5 +221,47 @@ describe('core/models/forms/reducers/addObject', () => {
     // then
     const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
     expect(fooState.focusNode.out(schema.knows).term?.termType).to.eq('BlankNode')
+  })
+
+  it('adds state with correct editorSwitchDisabled flag', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const object = graph.literal('foo')
+    const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      path: ex.prop,
+    })
+    const focusNode = graph.node(ex.FocusNode)
+    const { form, state: before } = testState({
+      form: {
+        shouldEnableEditorChoice: () => false,
+        focusNodes: {
+          [ex.FocusNode.value]: {
+            focusNode,
+            shapes: [],
+            groups: [],
+            properties: [{
+              canRemove: true,
+              canAdd: true,
+              name: 'prop',
+              shape: property,
+              selectedEditor: undefined,
+              objects: [],
+            }],
+          },
+        },
+      },
+    })
+
+    // when
+    const after = addObject(before, {
+      form,
+      property,
+      focusNode,
+      object,
+    })
+
+    // then
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
+    expect(fooState.properties[0].objects[0].editorSwitchDisabled).to.be.true
   })
 })
