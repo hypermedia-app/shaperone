@@ -85,7 +85,7 @@ export const object: ObjectRenderStrategy = ({ object, actions, renderEditor, pr
   }
 
   let metaSlot = html``
-  if (object.editors.length > 1 && object.editorSwitchDisabled) {
+  if (object.editors.length > 1 && !object.editorSwitchDisabled) {
     metaSlot = html`<mwc-editor-toggle .editors="${object.editors}" slot="options"
                                        @editor-selected="${onEditorSelected}"
                                        .removeEnabled="${property.canRemove}"

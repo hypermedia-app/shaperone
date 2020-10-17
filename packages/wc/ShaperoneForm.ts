@@ -1,4 +1,4 @@
-import { LitElement, customElement, property, css, html } from 'lit-element'
+import { LitElement, customElement, property, css, html, PropertyValues } from 'lit-element'
 import { DatasetCore } from 'rdf-js'
 import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
@@ -38,6 +38,9 @@ export class ShaperoneForm extends connect(store, LitElement) {
   @property({ type: Object })
   rendererOptions!: State['renderer']
 
+  @property({ type: Boolean, attribute: 'no-editor-switches' })
+  noEditorSwitches = false
+
   async connectedCallback() {
     await ensureEventTarget()
     await loadMixins()
@@ -58,6 +61,13 @@ export class ShaperoneForm extends connect(store, LitElement) {
 
   @property({ type: Object })
   state!: FormState
+
+  protected updated(_changedProperties: PropertyValues) {
+    super.updated(_changedProperties)
+    if (_changedProperties.has('noEditorSwitches')) {
+      store.dispatch.forms.toggleSwitching({ form: this, switchingEnabled: !this.noEditorSwitches })
+    }
+  }
 
   get resource(): FocusNode | undefined {
     return this[resourceSymbol]

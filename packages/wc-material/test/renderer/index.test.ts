@@ -111,7 +111,7 @@ describe('wc-material/renderer', () => {
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
-          editorSwitchDisabled: false,
+          editorSwitchDisabled: true,
           editors: [editor, editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
