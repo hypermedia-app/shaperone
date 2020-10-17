@@ -1,5 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
+import produce from 'immer'
 import type { PropertyObjectState, PropertyState } from '../forms/index'
 
 export interface SingleEditorRenderParams {
@@ -46,57 +47,36 @@ export const createComponentsModel = <TRenderResult>() => createModel({
   state: <ComponentsState<TRenderResult>>{},
   reducers: {
     loading(components, editor): ComponentsState {
-      return {
-        ...components,
-        [editor.value]: {
-          ...components[editor.value],
-          loaded: false,
-          loading: true,
-        },
-      }
+      return produce(components, (draft) => {
+        draft[editor.value].loaded = false
+        draft[editor.value].loading = true
+      })
     },
     loaded(components, editor): ComponentsState {
-      return {
-        ...components,
-        [editor.value]: {
-          ...components[editor.value],
-          loaded: true,
-          loading: false,
-        },
-      }
+      return produce(components, (draft) => {
+        draft[editor.value].loaded = true
+        draft[editor.value].loading = false
+      })
     },
     removeComponents(components, toRemove: NamedNode[]) {
-      const newComponents = { ...components }
-      toRemove.forEach((editor) => {
-        delete newComponents[editor.value]
+      return produce(components, (newComponents) => {
+        for (const editor of toRemove) {
+          delete newComponents[editor.value]
+        }
       })
-
-      return newComponents
     },
     pushComponents(components, toAdd: Record<string, Component<TRenderResult>>): ComponentsState {
-      const newComponents = Object.values(toAdd).reduce<ComponentsState>((reduced, component) => {
-        if (!components[component.editor.value] || components[component.editor.value].render !== component.render) {
-          return {
-            ...reduced,
-            [component.editor.value]: {
+      return produce(components, (newComponents) => {
+        for (const component of Object.values(toAdd)) {
+          if (!components[component.editor.value] || components[component.editor.value].render !== component.render) {
+            newComponents[component.editor.value] = {
               ...component,
               loading: false,
               loaded: !component.loadDependencies,
-            },
+            }
           }
         }
-
-        return reduced
-      }, {})
-
-      if (!Object.keys(newComponents).some(Boolean)) {
-        return components
-      }
-
-      return {
-        ...components,
-        ...newComponents,
-      }
+      })
     },
   },
   effects(store) {
