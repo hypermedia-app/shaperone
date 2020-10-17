@@ -18,6 +18,7 @@ export const setEditors = (state: State, { singleEditors, multiEditors }: SetEdi
           ...focusNodeState,
           editors: singleEditors,
           multiEditors,
+          shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
         }, undefined),
       }), {})
 
@@ -36,6 +37,8 @@ export const setEditors = (state: State, { singleEditors, multiEditors }: SetEdi
 }
 
 export const toggleSwitching = formStateReducer<{ switchingEnabled: boolean }>(({ state }, { switchingEnabled }) => produce(state, (draft) => {
+  draft.shouldEnableEditorChoice = () => switchingEnabled
+
   for (const [, focusNode] of Object.entries(draft.focusNodes)) {
     for (const property of focusNode.properties) {
       for (const object of property.objects) {

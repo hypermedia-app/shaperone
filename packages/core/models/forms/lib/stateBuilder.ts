@@ -5,7 +5,7 @@ import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
-import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from '../index'
+import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
@@ -23,14 +23,13 @@ export function matchEditors(shape: PropertyShape, object: GraphPointer, editors
     })
 }
 
-interface InitPropertyShapeParams {
+interface InitPropertyObjectShapeParams {
   shape: PropertyShape
   editors: SingleEditor[]
-  multiEditors: MultiEditor[]
-  values: MultiPointer
+  shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
-export function initialiseObjectState({ shape, editors }: InitPropertyShapeParams, previous: PropertyState | undefined) {
+export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice }: InitPropertyObjectShapeParams, previous: PropertyState | undefined) {
   return (object: GraphPointer): PropertyObjectState => {
     let matchedEditors = matchEditors(shape, object, editors)
     let selectedEditor
@@ -40,11 +39,11 @@ export function initialiseObjectState({ shape, editors }: InitPropertyShapeParam
       const preferredEditor = editors.find(e => e.term.equals(preferredEditorId))
       selectedEditor = preferredEditorId
       if (preferredEditor) {
-        matchedEditors.splice(editors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
+        matchedEditors.splice(matchedEditors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
         matchedEditors = [{ ...preferredEditor, score: 100 }, ...matchedEditors]
       }
     } else {
-      selectedEditor = editors[0]?.term
+      selectedEditor = matchedEditors[0]?.term
     }
 
     const previousObject = previous?.objects?.find(o => o.object.term.equals(object.term))
@@ -56,9 +55,17 @@ export function initialiseObjectState({ shape, editors }: InitPropertyShapeParam
       object,
       editors: matchedEditors,
       selectedEditor,
-      editorSwitchDisabled: previousObject?.editorSwitchDisabled,
+      editorSwitchDisabled: !shouldEnableEditorChoice({ object }),
     }
   }
+}
+
+interface InitPropertyShapeParams {
+  shape: PropertyShape
+  editors: SingleEditor[]
+  multiEditors: MultiEditor[]
+  values: MultiPointer
+  shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
 function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
@@ -105,6 +112,7 @@ interface InitializeParams {
   multiEditors: MultiEditor[]
   focusNode: FocusNode
   selectedGroup?: string
+  shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
 interface FocusNodeInitOptions {
@@ -112,7 +120,7 @@ interface FocusNodeInitOptions {
 }
 
 export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined, { getMatcher = matchFor }: FocusNodeInitOptions = {}): FocusNodeState {
-  const { focusNode, editors, multiEditors, selectedGroup, shapes } = params
+  const { focusNode, editors, multiEditors, selectedGroup, shapes, shouldEnableEditorChoice } = params
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
   if (!params.shape && !shapes.length) {
@@ -169,6 +177,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
       editors,
       multiEditors,
       values: focusNode.out(getPathProperty(prop).id),
+      shouldEnableEditorChoice,
     }, previous?.properties?.find(p => p.shape.equals(prop)))]
   }, [])
 

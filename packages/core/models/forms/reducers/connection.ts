@@ -5,6 +5,7 @@ export function connect(map: State, form: any): State {
     shapes: [],
     focusNodes: {},
     focusStack: [],
+    shouldEnableEditorChoice: () => true,
   })
   return map
 }

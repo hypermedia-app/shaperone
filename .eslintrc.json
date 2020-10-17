@@ -14,7 +14,8 @@
     "no-shadow": "off",
     "max-len": ["error", 200],
     "wc/guard-super-call": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-param-reassign": ["error", { "props": false }]
   },
   "overrides": [{
     "files": "**/test/**/*.ts",
