@@ -3,15 +3,17 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
-import { NodeShapeMixin } from '@rdfine/shacl'
+import { NodeShapeMixin, PropertyShapeMixin } from '@rdfine/shacl'
 import { schema, sh, dash } from '@tpluscode/rdf-ns-builders'
-import { initialiseFocusNode } from '../../../../models/forms/lib/stateBuilder'
+import { initialiseFocusNode, initialiseObjectState } from '../../../../models/forms/lib/stateBuilder'
 import { loadMixins } from '../../../../index'
 
 const ex = ns('http://example.com/')
 
 describe('core/models/forms/lib/stateBuilder', () => {
   before(loadMixins)
+
+  const shouldEnableEditorChoice = () => true
 
   describe('initialiseFocusNode', () => {
     it('positions explicitly selected shape at the head of shapes array', () => {
@@ -28,6 +30,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape],
+        shouldEnableEditorChoice,
       }, undefined)
 
       // then
@@ -50,6 +53,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape: nestedShape,
         shapes: [otherShape, nestedShape],
+        shouldEnableEditorChoice,
       }, undefined, { getMatcher })
 
       // then
@@ -76,6 +80,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [shape],
+        shouldEnableEditorChoice,
       }, undefined)
       before.properties[0].objects[0].selectedEditor = ex.FooEditor
 
@@ -86,6 +91,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [shape],
+        shouldEnableEditorChoice,
       }, before)
 
       // then
@@ -109,6 +115,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [shape],
+        shouldEnableEditorChoice,
       }
       const before = initialiseFocusNode(params, undefined)
       before.properties[0].selectedEditor = ex.FooMultiEditor
@@ -140,6 +147,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         }],
         shape,
         shapes: [shape],
+        shouldEnableEditorChoice,
       }
       const before = initialiseFocusNode(params, undefined)
       before.properties[0].selectedEditor = undefined
@@ -171,6 +179,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
+        shouldEnableEditorChoice,
       }, undefined)
 
       // then
@@ -197,6 +206,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
+        shouldEnableEditorChoice,
       }, undefined)
 
       // then
@@ -222,6 +232,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
+        shouldEnableEditorChoice,
       }, undefined)
 
       // then
@@ -251,6 +262,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
+        shouldEnableEditorChoice,
       }, undefined)
 
       // then
@@ -284,11 +296,36 @@ describe('core/models/forms/lib/stateBuilder', () => {
         multiEditors: [],
         shape,
         shapes: [],
+        shouldEnableEditorChoice,
       }, undefined)
 
       // then
       expect(state.properties[0].objects[0].editors).to.have.length(2)
       expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
+    })
+  })
+
+  describe('initialiseObjectState', () => {
+    it('sets editorSwitchDisabled flag according to option', () => {
+      // given
+      const shapeGraph = cf({ dataset: $rdf.dataset() })
+      const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
+      const shape = new PropertyShapeMixin.Class(shapeGraph.blankNode(), {
+        path: ex.foo,
+      })
+      const context = {
+        shape,
+        editors: [],
+        shouldEnableEditorChoice() {
+          return false
+        },
+      }
+
+      // when
+      const state = initialiseObjectState(context, undefined)(dataGraph.literal(5))
+
+      // then
+      expect(state.editorSwitchDisabled).to.be.true
     })
   })
 })

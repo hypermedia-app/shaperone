@@ -23,6 +23,11 @@ export interface PropertyObjectState {
   object: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
+  editorSwitchDisabled?: boolean
+}
+
+export interface ShouldEnableEditorChoice {
+  ({ object }: { object: GraphPointer }): boolean
 }
 
 export interface PropertyState {
@@ -57,6 +62,7 @@ export interface FormState {
   shapes: Shape[]
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
+  shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
 export type State = {

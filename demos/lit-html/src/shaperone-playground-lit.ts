@@ -71,6 +71,9 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   @property({ type: Object })
   rendererMenu!: State['rendererSettings']['menu']
 
+  @property({ type: Boolean })
+  noEditorSwitches!: boolean
+
   __resourceVersion = 1
 
   get formMenu() {
@@ -113,7 +116,10 @@ export class ShaperonePlayground extends connect(store, LitElement) {
         <vaadin-split-layout style="width: 67%">
           <div>
             <vaadin-menu-bar .items="${this.formMenu}" @item-selected="${this.__formMenuSelected}"></vaadin-menu-bar>
-            <shaperone-form id="form" .shapes="${this.shape.dataset}" .resource="${this.resource.pointer}"></shaperone-form>
+            <shaperone-form id="form"
+                           .shapes="${this.shape.dataset}"
+                           .resource="${this.resource.pointer}"
+                           ?no-editor-switches="${this.noEditorSwitches}"></shaperone-form>
           </div>
           <div style="max-width: 50%">
             <vaadin-menu-bar .items="${this.resource.menu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
@@ -137,6 +143,9 @@ export class ShaperonePlayground extends connect(store, LitElement) {
 
   __formMenuSelected(e: CustomEvent) {
     switch (e.detail.value.type) {
+      case 'editorChoice':
+        store.dispatch.componentsSettings.setEditorChoice(e.detail.value)
+        break
       case 'components':
         store.dispatch.componentsSettings.switchComponents(e.detail.value)
         break
@@ -174,6 +183,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       rendererMenu: state.rendererSettings.menu,
       resource: state.resource,
       shape: state.shape,
+      noEditorSwitches: state.componentsSettings.children?.find(c => c.type === 'editorChoice')?.checked || false,
     }
   }
 }

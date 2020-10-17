@@ -102,6 +102,29 @@ describe('wc-material/renderer', () => {
       expect(result).dom.to.equalSnapshot()
     })
 
+    it('does not render a menu when there is more than one editor but switching is disabled', async () => {
+      // given
+      const editor: SingleEditorMatch = {
+        match: sinon.spy(),
+        term: dash.TextAreaEditor,
+        score: null,
+      }
+      const params = deepmerge<Params>(nullParams(), {
+        object: {
+          editorSwitchDisabled: true,
+          editors: [editor, editor],
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          selectedEditor: undefined,
+        },
+      })
+
+      // when
+      const result = await fixture(render.object(params))
+
+      // then
+      expect(result).dom.to.equalSnapshot()
+    })
+
     it('renders a delete button when there is one editor', async () => {
       // given
       const editor: SingleEditorMatch = {

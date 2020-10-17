@@ -33,6 +33,7 @@ export const setShapesGraph = formStateReducer<SetShapesGraphParams>(({ state, e
         shape: shapes.find(s => s.id.equals(focusNodeState.shape?.id)),
         editors,
         multiEditors,
+        shouldEnableEditorChoice: state.shouldEnableEditorChoice,
       }, state.focusNodes[focusNode.value]),
     }
   }, {})
@@ -47,6 +48,7 @@ export const setShapesGraph = formStateReducer<SetShapesGraphParams>(({ state, e
         shapes,
         editors,
         multiEditors,
+        shouldEnableEditorChoice: state.shouldEnableEditorChoice,
       }, state.focusNodes[focusNode.value]),
     }
   }, {})
@@ -68,6 +70,7 @@ export const setRootResource = formStateReducer(({ state, editors, multiEditors 
         editors,
         multiEditors,
         shapes: state.shapes,
+        shouldEnableEditorChoice: state.shouldEnableEditorChoice,
       }, state.focusNodes[rootPointer.value])
     }
 
