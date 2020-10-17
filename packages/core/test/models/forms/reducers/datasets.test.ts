@@ -165,13 +165,13 @@ describe('core/models/forms/reducers/datasets', () => {
       // when
       const after = setRootResource(state, {
         form,
-        rootPointer: cf({ dataset: $rdf.dataset() }).node(ex.Foo),
+        rootPointer: cf({ dataset: $rdf.dataset() }).node(ex.Baz),
       })
 
       // then
       const { focusStack } = after.instances.get(form)!
       expect(focusStack.length).to.eq(1)
-      expect(focusStack[0].value).to.eq(ex.Foo.value)
+      expect(focusStack[0].value).to.eq(ex.Baz.value)
       expect(focusStack[0]).not.to.eq(initialFoo)
     })
 
