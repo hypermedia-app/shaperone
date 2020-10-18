@@ -1,6 +1,6 @@
 import produce from 'immer'
 import type { MultiEditor, SingleEditor } from '../../editors/index'
-import type { FormState, State } from '../index'
+import type { FormState, PropertyObjectState, State } from '../index'
 import { initialisePropertyShapes } from '../lib/stateBuilder'
 import { formStateReducer } from './index'
 
@@ -42,8 +42,9 @@ export const toggleSwitching = formStateReducer<{ switchingEnabled: boolean }>((
 
   for (const [, focusNode] of Object.entries(draft.focusNodes)) {
     for (const property of focusNode.properties) {
-      for (const object of property.objects) {
-        object.editorSwitchDisabled = !switchingEnabled
+      for (const objectState of <PropertyObjectState[]>property.objects) {
+        const { object } = objectState
+        objectState.editorSwitchDisabled = !draft.shouldEnableEditorChoice({ object })
       }
     }
   }

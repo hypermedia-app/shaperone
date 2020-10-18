@@ -63,7 +63,7 @@ export const setShapesGraph = formStateReducer<SetShapesGraphParams>(({ state, e
 })
 
 export const setRootResource = formStateReducer(({ state, editors, multiEditors }, { rootPointer }: { rootPointer: FocusNode }) => produce(state, (draft) => {
-  if (rootPointer.term.equals(draft.focusStack[0]?.term)) {
+  if (rootPointer === draft.focusStack[0]) {
     return
   }
 
