@@ -74,11 +74,9 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
   let { focusNode, shape, values } = params
 
   if (values.values.length === 0 && params.shape.minCount && params.shape.minCount > 0) {
+    values = defaultValue(params.shape, focusNode)
     if (shape.defaultValue) {
-      values = focusNode.node(shape.defaultValue)
       focusNode.addOut(getPathProperty(shape).id, values)
-    } else {
-      values = defaultValue(params.shape, focusNode)
     }
   }
 

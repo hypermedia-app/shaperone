@@ -47,4 +47,18 @@ describe('core/models/forms/lib/defaultValue', () => {
     // then
     expect(pointer.term).to.deep.eq(literal('', xsd.anySimpleType))
   })
+
+  it('returns default value from property', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      defaultValue: literal('foo', xsd.anySimpleType),
+    })
+
+    // when
+    const pointer = defaultValue(property, graph.blankNode())
+
+    // then
+    expect(pointer.term).to.deep.eq(literal('foo', xsd.anySimpleType))
+  })
 })
