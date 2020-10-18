@@ -2948,6 +2948,18 @@
     "@tpluscode/rdf-ns-builders" "^0.4"
     "@tpluscode/rdfine" "^0.5.7"
 
+"@rdfine/shacl@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@rdfine/shacl/-/shacl-0.5.2.tgz#60277debe1c5ec82039e5aab6aacd180c0760f9e"
+  integrity sha512-opUBoPTuWfRTvpKEXEHI7wZ+anB8VXrmmqWU5LeDASef+myn0zSnvZP34+rXtrO2LEi1VZ4TVMYPcpv2Ze/HAw==
+  dependencies:
+    "@rdf-esm/data-model" "^0.5.3"
+    "@rdfine/owl" "^0.3.1"
+    "@rdfine/rdf" "^0.4.1"
+    "@rdfine/rdfs" "^0.5.0"
+    "@tpluscode/rdf-ns-builders" "^0.4"
+    "@tpluscode/rdfine" "^0.5.7"
+
 "@rdfjs-elements/rdf-editor@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.3.3.tgz#2dc7a6192de7d7765dda5400197bf80229e44075"
