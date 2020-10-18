@@ -25,6 +25,10 @@ function defaultStringValue(datatype: RdfResource | undefined, graph: AnyPointer
 export function defaultValue(property: PropertyShape, focusNode: FocusNode): GraphPointer {
   const { nodeKind } = property
 
+  if (property.defaultValue) {
+    return focusNode.node(property.defaultValue)
+  }
+
   if (property.class || nodeKind?.equals(sh.IRI) || nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI)) {
     const resourceNode = focusNode.blankNode()
     const propertyClass = property.class
