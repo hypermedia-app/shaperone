@@ -8,7 +8,7 @@ export const selectGroup = formStateReducer(({ state }, { group, focusNode }: { 
     if (!group && !g.group) {
       g.selected = true
     } else {
-      g.selected = group?.id.equals(g.group?.id) || false
+      g.selected = g.group?.equals(group) || false
     }
   })
 }))

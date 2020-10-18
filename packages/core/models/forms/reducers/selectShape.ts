@@ -17,7 +17,7 @@ export const selectShape = formStateReducer(({ state, editors, multiEditors }, {
 
   draft.focusNodes[focusNode.value] = initialiseFocusNode({
     shape,
-    shapes: current.shapes as any,
+    shapes: state.focusNodes[focusNode.value].shapes,
     editors,
     multiEditors,
     focusNode,
