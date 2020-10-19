@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-core
 
+## 0.2.1
+
+### Patch Changes
+
+- 8752a56: Add option to disable changing editors for all objects
+- 06aa5eb: Property with sh:minCount>0 should have an initial empty value
+- 76e0849: Allow setting a graph pointer for shapes
+- 1fef3d1: Only AnyPointer worked when setting shapes
+
 ## 0.2.0
 
 ### Minor Changes

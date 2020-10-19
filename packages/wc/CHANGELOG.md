@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc
 
+## 0.1.1
+
+### Patch Changes
+
+- 8752a56: Add option to disable changing editors for all objects
+- 76e0849: Allow setting a graph pointer for shapes
+- Updated dependencies [8752a56]
+- Updated dependencies [06aa5eb]
+- Updated dependencies [76e0849]
+- Updated dependencies [1fef3d1]
+  - @hydrofoil/shaperone-core@0.2.1
+
 ## 0.1.0
 
 ### Minor Changes

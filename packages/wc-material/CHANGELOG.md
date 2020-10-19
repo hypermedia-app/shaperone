@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.1.3
+
+### Patch Changes
+
+- 8752a56: Add option to disable changing editors for all objects
+- Updated dependencies [8752a56]
+- Updated dependencies [06aa5eb]
+- Updated dependencies [76e0849]
+- Updated dependencies [1fef3d1]
+  - @hydrofoil/shaperone-core@0.2.1
+  - @hydrofoil/shaperone-wc@0.1.1
+
 ## 0.1.2
 
 ### Patch Changes
