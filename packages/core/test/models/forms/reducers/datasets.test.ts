@@ -43,6 +43,26 @@ describe('core/models/forms/reducers/datasets', () => {
       expect(after.instances.get(form)?.shapesGraph?._context[0].graph).to.deep.eq(ex.Graph)
     })
 
+    it('extracts shapes from a pointer', () => {
+      // given
+      const { form, state } = testState()
+      const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+      shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
+      shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
+
+      // when
+      const after = setShapesGraph(state, {
+        form,
+        shapesGraph,
+      })
+
+      // then
+      const { shapes } = after.instances.get(form)!
+      expect(shapes.length).to.eq(2)
+      expect(shapes.map(s => s.label)).to.include('Shape one')
+      expect(shapes.map(s => s.label)).to.include('Shape two')
+    })
+
     it('extracts shape resources from graph', () => {
       // given
       const { form, state } = testState()
