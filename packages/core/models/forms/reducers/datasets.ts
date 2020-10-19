@@ -9,6 +9,13 @@ import type { FocusNode } from '../../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 import type { FocusNodeState } from '../index'
 
+declare module 'clownface' {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  interface AnyPointer {
+    any(): cf.AnyPointer
+  }
+}
+
 export interface SetShapesGraphParams {
   shapesGraph: DatasetCore | AnyPointer
 }
@@ -18,7 +25,7 @@ export const setShapesGraph = formStateReducer<SetShapesGraphParams>(({ state, e
     return state
   }
 
-  const shapesPointer = 'match' in shapesGraph ? cf({ dataset: shapesGraph }) : shapesGraph
+  const shapesPointer = 'match' in shapesGraph ? cf({ dataset: shapesGraph }) : shapesGraph.any()
   const shapes = shapesPointer
     .has(rdf.type, [sh.Shape, sh.NodeShape])
     .map(pointer => RdfResource.factory.createEntity<Shape>(pointer, [ShapeMixin]))
