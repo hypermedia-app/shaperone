@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.1.2
+
+### Patch Changes
+
+- ba567ae: Have global window.Shaperon.DEBUG flag control redux devtools integration
+
 ## 0.1.1
 
 ### Patch Changes
