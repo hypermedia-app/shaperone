@@ -21,7 +21,7 @@ interface RdfEditor {
 }
 
 @customElement('shaperone-playground-lit')
-export class ShaperonePlayground extends connect(store, LitElement) {
+export class ShaperonePlayground extends connect(store(), LitElement) {
   static get styles() {
     return css`:host {
       height: 100vh;
@@ -88,8 +88,8 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   }
 
   async connectedCallback() {
-    document.addEventListener('resource-selected', (e: any) => store.dispatch.resource.selectResource({ id: e.detail.value }))
-    document.addEventListener('prefixes-changed', (e: any) => store.dispatch.resource.setPrefixes(e.detail.value))
+    document.addEventListener('resource-selected', (e: any) => store().dispatch.resource.selectResource({ id: e.detail.value }))
+    document.addEventListener('prefixes-changed', (e: any) => store().dispatch.resource.setPrefixes(e.detail.value))
 
     super.connectedCallback()
   }
@@ -106,7 +106,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
       <div class="content">
       <vaadin-split-layout id="top-splitter">
         <div style="width: 33%">
-          <vaadin-menu-bar .items="${[this.shape.menu]}" @item-selected="${this.__editorMenuSelected(store.dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
+          <vaadin-menu-bar .items="${[this.shape.menu]}" @item-selected="${this.__editorMenuSelected(store().dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
           <rdf-editor id="shapeEditor" prefixes="sh,dash"
                      .serialized="${this.shape.serialized}"
                      .format="${this.shape.format}"
@@ -122,7 +122,7 @@ export class ShaperonePlayground extends connect(store, LitElement) {
                            ?no-editor-switches="${this.noEditorSwitches}"></shaperone-form>
           </div>
           <div style="max-width: 50%">
-            <vaadin-menu-bar .items="${this.resource.menu}" @item-selected="${this.__editorMenuSelected(store.dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
+            <vaadin-menu-bar .items="${this.resource.menu}" @item-selected="${this.__editorMenuSelected(store().dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
             <rdf-editor id="resourceEditor" prefixes="${this.resource.prefixes}"
                        .format="${this.resource.format}"
                        .quads="${quads}"
@@ -134,30 +134,30 @@ export class ShaperonePlayground extends connect(store, LitElement) {
   }
 
   __setShape(e: CustomEvent) {
-    store.dispatch.shape.setShape(e.detail.value)
+    store().dispatch.shape.setShape(e.detail.value)
   }
 
   __setResource(e: CustomEvent) {
-    store.dispatch.resource.replaceGraph({ dataset: e.detail.value, newVersion: false })
+    store().dispatch.resource.replaceGraph({ dataset: e.detail.value, newVersion: false })
   }
 
   __formMenuSelected(e: CustomEvent) {
     switch (e.detail.value.type) {
       case 'editorChoice':
-        store.dispatch.componentsSettings.setEditorChoice(e.detail.value)
+        store().dispatch.componentsSettings.setEditorChoice(e.detail.value)
         break
       case 'components':
-        store.dispatch.componentsSettings.switchComponents(e.detail.value)
+        store().dispatch.componentsSettings.switchComponents(e.detail.value)
         break
       case 'layout':
-        store.dispatch.rendererSettings.switchLayout(e.detail.value)
+        store().dispatch.rendererSettings.switchLayout(e.detail.value)
         break
       case 'renderer':
-        store.dispatch.rendererSettings.switchNesting(e.detail.value)
+        store().dispatch.rendererSettings.switchNesting(e.detail.value)
         break
       default:
         if (this.form.value) {
-          store.dispatch.resource.replaceGraph({ dataset: this.form.value, newVersion: true })
+          store().dispatch.resource.replaceGraph({ dataset: this.form.value, newVersion: true })
         }
         break
     }

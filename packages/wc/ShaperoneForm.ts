@@ -10,13 +10,13 @@ import type { Renderer } from './renderer'
 import { DefaultRenderer } from './DefaultRenderer'
 import * as NativeComponents from './NativeComponents'
 
-store.dispatch.components.pushComponents(NativeComponents)
+store().dispatch.components.pushComponents(NativeComponents)
 
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes')
 
 @customElement('shaperone-form')
-export class ShaperoneForm extends connect(store, LitElement) {
+export class ShaperoneForm extends connect(store(), LitElement) {
   private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
 
@@ -45,8 +45,8 @@ export class ShaperoneForm extends connect(store, LitElement) {
     await ensureEventTarget()
     await loadMixins()
 
-    store.dispatch.editors.loadDash()
-    store.dispatch.forms.connect(this)
+    store().dispatch.editors.loadDash()
+    store().dispatch.forms.connect(this)
 
     super.connectedCallback()
 
@@ -55,7 +55,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
   }
 
   disconnectedCallback() {
-    store.dispatch.forms.disconnect(this)
+    store().dispatch.forms.disconnect(this)
     super.disconnectedCallback()
   }
 
@@ -65,7 +65,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
   protected updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties)
     if (_changedProperties.has('noEditorSwitches')) {
-      store.dispatch.forms.toggleSwitching({ form: this, switchingEnabled: !this.noEditorSwitches })
+      store().dispatch.forms.toggleSwitching({ form: this, switchingEnabled: !this.noEditorSwitches })
     }
   }
 
@@ -77,7 +77,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
     if (!rootPointer) return
 
     this[resourceSymbol] = rootPointer
-    store.dispatch.forms.setRootResource({ form: this, rootPointer })
+    store().dispatch.forms.setRootResource({ form: this, rootPointer })
   }
 
   get value(): DatasetCore | undefined {
@@ -92,7 +92,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
     if (!shapesGraph) return
 
     this[shapesSymbol] = shapesGraph
-    store.dispatch.forms.setShapesGraph({
+    store().dispatch.forms.setShapesGraph({
       form: this,
       shapesGraph,
     })
@@ -100,7 +100,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
 
   render() {
     if (!this.rendererOptions.ready) {
-      store.dispatch.renderer.loadDependencies()
+      store().dispatch.renderer.loadDependencies()
 
       return this.rendererOptions.strategy.initialising()
     }
@@ -109,7 +109,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
       form: this,
       state: this.state,
       components: this.components,
-      actions: store.dispatch,
+      actions: store().dispatch,
       strategy: this.rendererOptions.strategy,
     })}`
   }
