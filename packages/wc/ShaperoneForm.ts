@@ -15,6 +15,23 @@ store().dispatch.components.pushComponents(NativeComponents)
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes')
 
+const id: (form: ShaperoneForm) => symbol = (() => {
+  const map = new WeakMap<ShaperoneForm, symbol>()
+  let nextId = 1
+
+  return (form: ShaperoneForm) => {
+    let thisId = map.get(form)
+
+    if (!thisId) {
+      thisId = Symbol(`${form.id || 'form'}-${nextId}`)
+      map.set(form, thisId)
+      nextId += 1
+    }
+
+    return thisId
+  }
+})()
+
 @customElement('shaperone-form')
 export class ShaperoneForm extends connect(store(), LitElement) {
   private [resourceSymbol]?: FocusNode
@@ -46,7 +63,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     await loadMixins()
 
     store().dispatch.editors.loadDash()
-    store().dispatch.forms.connect(this)
+    store().dispatch.forms.connect(id(this))
 
     super.connectedCallback()
 
@@ -55,7 +72,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   }
 
   disconnectedCallback() {
-    store().dispatch.forms.disconnect(this)
+    store().dispatch.forms.disconnect(id(this))
     super.disconnectedCallback()
   }
 
@@ -65,7 +82,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   protected updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties)
     if (_changedProperties.has('noEditorSwitches')) {
-      store().dispatch.forms.toggleSwitching({ form: this, switchingEnabled: !this.noEditorSwitches })
+      store().dispatch.forms.toggleSwitching({ form: id(this), switchingEnabled: !this.noEditorSwitches })
     }
   }
 
@@ -77,7 +94,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     if (!rootPointer) return
 
     this[resourceSymbol] = rootPointer
-    store().dispatch.forms.setRootResource({ form: this, rootPointer })
+    store().dispatch.forms.setRootResource({ form: id(this), rootPointer })
   }
 
   get value(): DatasetCore | undefined {
@@ -93,7 +110,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
 
     this[shapesSymbol] = shapesGraph
     store().dispatch.forms.setShapesGraph({
-      form: this,
+      form: id(this),
       shapesGraph,
     })
   }
@@ -106,7 +123,8 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     }
 
     return html`<style>${this.rendererOptions.styles}</style> ${this.renderer.render({
-      form: this,
+      form: id(this),
+      editors: this.editors,
       state: this.state,
       components: this.components,
       actions: store().dispatch,
@@ -116,7 +134,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
 
   mapState(state: State) {
     return {
-      state: state.forms.instances.get(this),
+      state: state.forms.instances.get(id(this)),
       rendererOptions: state.renderer,
       editors: state.editors,
       components: state.components,

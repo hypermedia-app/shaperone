@@ -14,9 +14,7 @@ import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
-  render({ form, state, components, actions, strategy }: RenderParams): TemplateResult {
-    const { editors } = form
-
+  render({ form, editors, state, components, actions, strategy }: RenderParams): TemplateResult {
     const formRenderActions = {
       truncateFocusNodes: (focusNode: FocusNode) => actions.forms.truncateFocusNodes({ form, focusNode }),
       popFocusNode: () => actions.forms.popFocusNode({ form }),

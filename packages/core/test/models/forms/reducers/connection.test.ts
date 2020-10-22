@@ -11,7 +11,7 @@ describe('core/models/forms/reducers/connection', () => {
         singleEditors: [],
         multiEditors: [],
       }
-      const form = {}
+      const form = Symbol('test')
 
       // when
       const after = connect(before, form)
@@ -25,7 +25,7 @@ describe('core/models/forms/reducers/connection', () => {
   describe('disconnect', () => {
     it('removes own state', () => {
       // given
-      const form = {}
+      const form = Symbol('test')
       const before = {
         instances: new Map(),
         singleEditors: [],

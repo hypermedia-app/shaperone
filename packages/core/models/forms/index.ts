@@ -68,7 +68,7 @@ export interface FormState {
 export type State = {
   singleEditors: SingleEditor[]
   multiEditors: MultiEditor[]
-  instances: Map<unknown, FormState>
+  instances: Map<symbol, FormState>
 }
 
 const reducers = {

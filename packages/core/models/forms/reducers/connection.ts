@@ -1,6 +1,6 @@
 import type { State } from '../index'
 
-export function connect(map: State, form: any): State {
+export function connect(map: State, form: symbol): State {
   map.instances.set(form, {
     shapes: [],
     focusNodes: {},
@@ -10,7 +10,7 @@ export function connect(map: State, form: any): State {
   return map
 }
 
-export function disconnect(map: State, form: any): State {
+export function disconnect(map: State, form: symbol): State {
   map.instances.delete(form)
   return map
 }

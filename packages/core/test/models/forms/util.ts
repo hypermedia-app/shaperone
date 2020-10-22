@@ -20,8 +20,11 @@ interface Initializer {
   form?: RecursivePartial<FormState>
 }
 
+let num = 0
+
 export function testState(initializer: Initializer = {}) {
-  const form = {}
+  num += 1
+  const form = Symbol(num)
 
   const state = <State>{
     singleEditors: initializer.singleEditors || [],

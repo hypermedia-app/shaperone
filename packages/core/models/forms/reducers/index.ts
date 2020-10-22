@@ -2,7 +2,7 @@ import type { FormState, State } from '../index'
 import type { MultiEditor, SingleEditor } from '../../editors/index'
 
 export interface BaseParams {
-  form: any
+  form: symbol
 }
 
 export interface SharedParams {
