@@ -15,6 +15,10 @@ import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
   render({ form, editors, state, components, actions, strategy }: RenderParams): TemplateResult {
+    if (!form || !editors || !state || !components) {
+      return html``
+    }
+
     const formRenderActions = {
       truncateFocusNodes: (focusNode: FocusNode) => actions.forms.truncateFocusNodes({ form, focusNode }),
       popFocusNode: () => actions.forms.popFocusNode({ form }),
