@@ -11,7 +11,7 @@ export const textFieldEditor: SingleEditorComponent = {
   editor: dash.TextFieldEditor,
 
   render({ value, property }, { update }) {
-    return html`<input .value="${value.object}"
+    return html`<input .value="${value.object.value}"
                        type="${getType(property.datatype)}"
                        @blur="${(e: any) => update(e.target.value)}">`
   },
@@ -33,7 +33,7 @@ export const enumSelectEditor: SingleEditorComponent = {
 
     return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>
-        ${repeat(choices, choice => html`<option ?selected="${choice.value === value.object.value}" value="${choice}">
+        ${repeat(choices, choice => html`<option ?selected="${choice.value === value.object.value}" value="${choice.value}">
             ${choice.out(rdfs.label).value || choice}
         </option>`)}
     </select>`
@@ -44,7 +44,7 @@ export const datePickerEditor: SingleEditorComponent = {
   editor: dash.DatePickerEditor,
 
   render({ value }, { update }) {
-    return html`<input .value="${value.object}"
+    return html`<input .value="${value.object.value}"
                        type="date"
                        @blur="${(e: any) => update(e.target.value)}">`
   },

@@ -8,7 +8,13 @@
     "**/*.d.ts"
   ],
   "scripts": {
-    "prepack": "tsc"
+    "prepack": "tsc",
+    "analyze": "run-p analyze:*",
+    "analyze:wc": "wca --format json --outFile ./custom-elements.json",
+    "analyze:readme": "wca --outFile ./README.md",
+    "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off",
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production"
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
@@ -17,13 +23,17 @@
     "@rdfine/shacl": "^0.5.1",
     "@rdf-esm/term-map": "^0.5.0",
     "@tpluscode/rdf-ns-builders": "^0.4.0",
+    "@tpluscode/rdfine": "^0.5.13",
     "lit-element": "^2.3.1",
     "lit-html": "^1.2.1"
   },
   "devDependencies": {
+    "@rdf-esm/dataset": "^0.5.1",
     "@types/clownface": "^1.0.3",
     "@types/rdf-js": "^4",
-    "@types/rdfjs__term-map": "^1.0.0"
+    "@types/rdfjs__term-map": "^1.0.0",
+    "api-viewer-element": "^0.4.4",
+    "clownface": "^1.1.0"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

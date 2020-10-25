@@ -47,7 +47,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
     "@bundle-analyzer/webpack-plugin": "^0.5.1",
-    "@open-wc/building-webpack": "^2.13.32",
     "@types/clownface": "^1",
     "@types/nanoid": "^2.1.0",
     "@types/rdf-ext": "^1.3.8",

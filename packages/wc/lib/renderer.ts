@@ -14,11 +14,13 @@ import type { FocusNode } from '@hydrofoil/shaperone-core'
 
 export interface RenderStrategy {
   styles?: CSSResult | CSSResultArray
+
   loadDependencies?(): Array<Promise<unknown>>
 }
 
 interface FormRenderActions {
   truncateFocusNodes(focusNode: FocusNode): void
+
   popFocusNode(): void
 }
 
@@ -34,6 +36,7 @@ export interface FormRenderStrategy extends RenderStrategy {
 
 interface FocusNodeRenderActions extends FormRenderActions {
   selectGroup(group: PropertyGroup | undefined): void
+
   selectShape(shape: NodeShape): void
 }
 
@@ -53,6 +56,7 @@ interface GroupRenderParams {
   actions: {
     selectGroup(): void
   }
+
   renderProperty(property: PropertyState): TemplateResult
 }
 
@@ -62,7 +66,9 @@ export interface GroupRenderStrategy extends RenderStrategy {
 
 interface PropertyRenderActions {
   addObject(): void
+
   selectMultiEditor(): void
+
   selectSingleEditors(): void
 }
 
@@ -79,6 +85,7 @@ export interface PropertyRenderStrategy extends RenderStrategy {
 
 interface ObjectRenderActions {
   selectEditor(editor: NamedNode): void
+
   remove(): void
 }
 
@@ -122,7 +129,6 @@ export const defaultGroupRenderer: GroupRenderStrategy = ({ properties, renderPr
 
 export const defaultPropertyRenderer: PropertyRenderStrategy = ({ property, renderObject }) => html`${repeat(property.objects, object => html`<div class="field">
     <label for="${property.shape.id.value}">${property.name}</label>
-    ${renderObject(object)}`)}
-</div>`
+    ${renderObject(object)}</div>`)}`
 
 export const defaultObjectRenderer: ObjectRenderStrategy = ({ renderEditor }) => renderEditor()

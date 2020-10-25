@@ -10,7 +10,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**"]}],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**", "**/demo/**"]}],
     "no-shadow": "off",
     "max-len": ["error", 200],
     "wc/guard-super-call": "off",

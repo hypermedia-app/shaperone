@@ -1,9 +1,11 @@
-import { LitElement, customElement, property, css, html, PropertyValues } from 'lit-element'
+import { LitElement, property, css, html, PropertyValues } from 'lit-element'
 import { DatasetCore } from 'rdf-js'
 import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
 import { connect } from '@captaincodeman/rdx'
+import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer } from 'clownface'
+import RdfResourceImpl from '@tpluscode/rdfine'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import type { Renderer } from './renderer'
@@ -32,7 +34,29 @@ const id: (form: any) => symbol = (() => {
   }
 })()
 
-@customElement('shaperone-form')
+/**
+ * A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).
+ * The underlying value is a graph represented using the [RDF/JS data model specification](https://rdf.js.org/data-model-spec/)
+ *
+ * ## Usage
+ *
+ * This example shows the element used with the default lit-html renderer
+ *
+ * ```typescript
+ * import '@hypermedia-app/shaperone-form/shaperone-form.js'
+ * import { html } from '@hypermedia-app/shaperone-form'
+ * import { Hydra } from 'alcaeus/web'
+ * import { dataset, blankNode } from '@rdf-esm/dataset'
+ *
+ * const shapes = await Hydra.loadResource('http://example.com/api/shape')
+ * const resource = clownface({
+ *   dataset: dataset(),
+ *   term: blankNode(),
+ * })
+ *
+ * const formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`
+ * ```
+ */
 export class ShaperoneForm extends connect(store(), LitElement) {
   private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
@@ -44,17 +68,40 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       }`]
   }
 
+  /**
+   * Gets or sets the renderer implementation
+   */
   renderer: Renderer = DefaultRenderer
 
+  /**
+   * Gets the state of the DASH editors model
+   *
+   * @readonly
+   */
   @property({ type: Object })
   editors!: State['editors']
 
+  /**
+   * Gets the state of the editor components
+   *
+   * @readonly
+   */
   @property({ type: Object })
   components!: State['components']
 
+  /**
+   * Gets the state of the renderer
+   *
+   * @readonly
+   */
   @property({ type: Object })
   rendererOptions!: State['renderer']
 
+  /**
+   * Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered
+   *
+   * @attr no-editor-switches
+   */
   @property({ type: Boolean, attribute: 'no-editor-switches' })
   noEditorSwitches = false
 
@@ -76,6 +123,9 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     super.disconnectedCallback()
   }
 
+  /**
+   * Gets the internal state of the form element
+   */
   @property({ type: Object })
   state!: FormState
 
@@ -86,6 +136,9 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     }
   }
 
+  /**
+   * Gets or sets the resource graph as graph pointer
+   */
   get resource(): FocusNode | undefined {
     return this[resourceSymbol]
   }
@@ -97,10 +150,27 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     store().dispatch.forms.setRootResource({ form: id(this), rootPointer })
   }
 
-  get value(): DatasetCore | undefined {
+  /**
+   * Gets the resource as graph as [RDF/JS DatasetCore](https://rdf.js.org/dataset-spec/#datasetcorefactory-interface)
+   */
+  get resourceDataset(): DatasetCore | undefined {
     return this.state.resourceGraph
   }
 
+  /**
+   * Gets the resource as a [rdfine](https://npm.im/@tpluscode/rdfine) object
+   */
+  get value(): RdfResource | null {
+    if (this.resource) {
+      return RdfResourceImpl.factory.createEntity(this.resource)
+    }
+
+    return null
+  }
+
+  /**
+   * Gets or sets the shapes graph
+   */
   get shapes(): AnyPointer | DatasetCore | undefined {
     return this[shapesSymbol]
   }
@@ -132,6 +202,9 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     })}`
   }
 
+  /**
+   * @private
+   */
   mapState(state: State) {
     return {
       state: state.forms.instances.get(id(this)),

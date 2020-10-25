@@ -1,0 +1,97 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "shaperone-form",
+      "path": "./shaperone-form.ts",
+      "description": "A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).\nThe underlying value is a graph represented using the [RDF/JS data model specification](https://rdf.js.org/data-model-spec/)\n\n## Usage\n\nThis example shows the element used with the default lit-html renderer\n\n```typescript\nimport '@hypermedia-app/shaperone-form/shaperone-form.js'\nimport { html } from '@hypermedia-app/shaperone-form'\nimport { Hydra } from 'alcaeus/web'\nimport { dataset, blankNode } from '@rdf-esm/dataset'\n\nconst shapes = await Hydra.loadResource('http://example.com/api/shape')\nconst resource = clownface({\n   dataset: dataset(),\n   term: blankNode(),\n})\n\nconst formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`\n```",
+      "attributes": [
+        {
+          "name": "editors",
+          "description": "Gets the state of the DASH editors model",
+          "type": "EditorsState"
+        },
+        {
+          "name": "components",
+          "description": "Gets the state of the editor components",
+          "type": "Record<string, ComponentState<TemplateResult>>"
+        },
+        {
+          "name": "rendererOptions",
+          "description": "Gets the state of the renderer",
+          "type": "RendererState"
+        },
+        {
+          "name": "no-editor-switches",
+          "description": "Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "state",
+          "description": "Gets the internal state of the form element",
+          "type": "FormState"
+        }
+      ],
+      "properties": [
+        {
+          "name": "renderer",
+          "description": "Gets or sets the renderer implementation",
+          "type": "Renderer",
+          "default": "{}"
+        },
+        {
+          "name": "editors",
+          "attribute": "editors",
+          "description": "Gets the state of the DASH editors model",
+          "type": "EditorsState"
+        },
+        {
+          "name": "components",
+          "attribute": "components",
+          "description": "Gets the state of the editor components",
+          "type": "Record<string, ComponentState<TemplateResult>>"
+        },
+        {
+          "name": "rendererOptions",
+          "attribute": "rendererOptions",
+          "description": "Gets the state of the renderer",
+          "type": "RendererState"
+        },
+        {
+          "name": "noEditorSwitches",
+          "attribute": "no-editor-switches",
+          "description": "Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "state",
+          "attribute": "state",
+          "description": "Gets the internal state of the form element",
+          "type": "FormState"
+        },
+        {
+          "name": "resource",
+          "description": "Gets or sets the resource graph as graph pointer",
+          "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "resourceDataset",
+          "description": "Gets the resource as graph as [RDF/JS DatasetCore](https://rdf.js.org/dataset-spec/#datasetcorefactory-interface)",
+          "type": "DatasetCore<Quad, Quad> | undefined"
+        },
+        {
+          "name": "value",
+          "description": "Gets the resource as a [rdfine](https://npm.im/@tpluscode/rdfine) object",
+          "type": "RdfResource<DatasetCore<Quad, Quad>> | null"
+        },
+        {
+          "name": "shapes",
+          "description": "Gets or sets the shapes graph",
+          "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
+        }
+      ]
+    }
+  ]
+}
