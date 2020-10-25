@@ -2,7 +2,7 @@
 const { merge } = require('webpack-merge')
 const { createDefaultConfig } = require('@open-wc/building-webpack')
 
-module.exports = ({ input, output, contentBase, options = {} }) => merge(
+module.exports = ({ input, output, contentBase, publicPath, options = {} }) => merge(
   createDefaultConfig({
     input,
     ...options,
@@ -10,6 +10,7 @@ module.exports = ({ input, output, contentBase, options = {} }) => merge(
   {
     output: {
       path: output,
+      publicPath,
     },
     resolve: {
       extensions: ['.ts', '.mjs', '.js', '.json'],
