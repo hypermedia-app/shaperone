@@ -51,11 +51,16 @@ const id: (form: any) => symbol = (() => {
  * const shapes = await Hydra.loadResource('http://example.com/api/shape')
  * const resource = clownface({
  *   dataset: dataset(),
- *   term: blankNode(),
- * })
+ * }).blankNode()
  *
  * const formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`
  * ```
+ *
+ * The above snippet assumes that shapes get loaded from a remote resource and the form value is initialized with a
+ * blank node without any properties.
+ *
+ * Such setup will render a very basic and unstyled form using native browser input elements and no specific layout.
+ * Check the main documentation page for instructions on customizing the form's rendering.
  */
 export class ShaperoneForm extends connect(store(), LitElement) {
   private [resourceSymbol]?: FocusNode

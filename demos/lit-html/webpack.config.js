@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = config({
   input: path.resolve(__dirname, './index.html'),
-  output: path.resolve(__dirname, '../../playground'),
+  output: path.resolve(__dirname, '../../dist/playground'),
   plugins: [
     new CopyWebpackPlugin({
       patterns: [

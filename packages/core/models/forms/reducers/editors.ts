@@ -1,12 +1,12 @@
 import produce from 'immer'
-import type { MultiEditor, SingleEditor } from '../../editors/index'
+import type { MultiEditor, SingleEditor, Editor } from '../../editors'
 import type { FormState, PropertyObjectState, State } from '../index'
 import { initialisePropertyShapes } from '../lib/stateBuilder'
 import { formStateReducer } from './index'
 
 export interface SetEditorsParams {
-  singleEditors: SingleEditor[]
-  multiEditors: MultiEditor[]
+  singleEditors: Editor<SingleEditor>[]
+  multiEditors: Editor<MultiEditor>[]
 }
 
 export const setEditors = (state: State, { singleEditors, multiEditors }: SetEditorsParams): State => {

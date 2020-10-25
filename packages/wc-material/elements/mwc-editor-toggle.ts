@@ -1,6 +1,6 @@
 import { customElement, html, LitElement, property } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
-import type { Editor } from '@hydrofoil/shaperone-core/models/editors'
+import type { Editor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
 
 import './wc-menu'
 import '@material/mwc-icon/mwc-icon'
@@ -11,10 +11,10 @@ import { SelectableMenuMixin } from './SelectableMenuMixin'
 @customElement('mwc-editor-toggle')
 export class MwcEditorToggle extends SelectableMenuMixin(LitElement) {
   @property({ type: Array })
-  editors!: Editor[]
+  editors: Editor<SingleEditor>[] = []
 
   @property({ type: Object })
-  selected!: NamedNode
+  selected: NamedNode | undefined
 
   @property({ type: Boolean })
   removeEnabled = false

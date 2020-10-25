@@ -5,8 +5,8 @@ import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
 import '@vaadin/vaadin-button/vaadin-button.js'
 import '@material/mwc-icon/mwc-icon.js'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
-import '@hydrofoil/shaperone-wc'
 import { html, render } from 'lit-html'
+import '@hydrofoil/shaperone-wc/shaperone-form'
 import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
@@ -209,7 +209,13 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         store().dispatch.rendererSettings.switchNesting(e.detail.value)
         break
       default:
+<<<<<<< HEAD
         this.__saveResource()
+=======
+        if (this.form.value && this.form.resourceDataset) {
+          store().dispatch.resource.replaceGraph({ dataset: this.form.resourceDataset })
+        }
+>>>>>>> build: change deployment buildsetup
         break
     }
   }

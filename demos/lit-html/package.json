@@ -7,7 +7,7 @@
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf ../../docs/lit-html",
+    "prebuild": "rimraf ../../dist/playground",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development"
   },

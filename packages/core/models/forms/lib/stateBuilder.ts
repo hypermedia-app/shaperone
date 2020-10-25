@@ -4,7 +4,7 @@ import { shrink } from '@zazuko/rdf-vocabularies'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
-import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
+import type { MultiEditor, SingleEditor, SingleEditorMatch, Editor } from '../../editors'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
@@ -13,7 +13,7 @@ import { getPathProperty } from '../../../lib/property'
 import { matchFor } from './shapes'
 import { defaultValue } from './defaultValue'
 
-export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
+export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: Editor<SingleEditor>[]): SingleEditorMatch[] {
   return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort((left, right) => {
@@ -26,7 +26,7 @@ export function matchEditors(shape: PropertyShape, object: GraphPointer, editors
 
 interface InitPropertyObjectShapeParams {
   shape: PropertyShape
-  editors: SingleEditor[]
+  editors: Editor<SingleEditor>[]
   shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
@@ -64,8 +64,8 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
 interface InitPropertyShapeParams {
   focusNode: FocusNode
   shape: PropertyShape
-  editors: SingleEditor[]
-  multiEditors: MultiEditor[]
+  editors: Editor<SingleEditor>[]
+  multiEditors: Editor<MultiEditor>[]
   values: MultiPointer
   shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
@@ -115,8 +115,8 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
 }
 
 interface InitializePropertyShapesParams {
-  editors: SingleEditor[]
-  multiEditors: MultiEditor[]
+  editors: Editor<SingleEditor>[]
+  multiEditors: Editor<MultiEditor>[]
   focusNode: FocusNode
   selectedGroup?: string
   shouldEnableEditorChoice: ShouldEnableEditorChoice
@@ -156,8 +156,8 @@ export function initialisePropertyShapes(shape: NodeShape, params: InitializePro
 interface InitializeParams {
   shapes: NodeShape[]
   shape?: NodeShape
-  editors: SingleEditor[]
-  multiEditors: MultiEditor[]
+  editors: Editor<SingleEditor>[]
+  multiEditors: Editor<MultiEditor>[]
   focusNode: FocusNode
   selectedGroup?: string
   shouldEnableEditorChoice: ShouldEnableEditorChoice

@@ -10,7 +10,7 @@ export const enumSelect: SingleEditorComponent = {
     const choices = getInPointers(property.shape)
 
     return html`<mwc-select @selected="${(e: CustomEvent) => actions.update(choices[e.detail.index].term)}">
-    ${repeat(choices, choice => html`<mwc-list-item ?selected="${choice.value === value.object.value}" value="${choice}">
+    ${repeat(choices, choice => html`<mwc-list-item ?selected="${choice.value === value.object.value}" value="${choice.value}">
         ${choice.out(rdfs.label).value || choice}
     </mwc-list-item>`)}
 </mwc-select>`

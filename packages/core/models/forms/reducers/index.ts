@@ -1,5 +1,5 @@
 import type { FormState, State } from '../index'
-import type { MultiEditor, SingleEditor } from '../../editors/index'
+import type { MultiEditor, SingleEditor, Editor } from '../../editors'
 
 export interface BaseParams {
   form: symbol
@@ -7,8 +7,8 @@ export interface BaseParams {
 
 export interface SharedParams {
   state: FormState
-  editors: SingleEditor[]
-  multiEditors: MultiEditor[]
+  editors: Editor<SingleEditor>[]
+  multiEditors: Editor<MultiEditor>[]
 }
 
 export function formStateReducer<T>(reduceForm: (sharedParams: SharedParams, payload: T) => FormState) {

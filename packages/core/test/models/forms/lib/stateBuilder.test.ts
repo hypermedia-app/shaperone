@@ -143,6 +143,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         editors: [],
         multiEditors: [{
           term: ex.FooMultiEditor,
+          meta: {},
           match: () => 10,
         }],
         shape,
@@ -252,6 +253,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       })
       const fooEditor = {
         term: ex.FooEditor,
+        meta: {},
         match: () => 0,
       }
 
@@ -282,10 +284,12 @@ describe('core/models/forms/lib/stateBuilder', () => {
       })
       const fooEditor = {
         term: ex.FooEditor,
+        meta: {},
         match: () => 5,
       }
       const barEditor = {
         term: ex.BarEditor,
+        meta: {},
         match: () => 10,
       }
 

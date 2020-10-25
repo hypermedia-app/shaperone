@@ -17,7 +17,7 @@ import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
-import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../editors/index'
+import type { MultiEditor, SingleEditor, SingleEditorMatch, Editor } from '../editors'
 
 export interface PropertyObjectState {
   object: GraphPointer
@@ -66,8 +66,8 @@ export interface FormState {
 }
 
 export type State = {
-  singleEditors: SingleEditor[]
-  multiEditors: MultiEditor[]
+  singleEditors: Editor<SingleEditor>[]
+  multiEditors: Editor<MultiEditor>[]
   instances: Map<symbol, FormState>
 }
 

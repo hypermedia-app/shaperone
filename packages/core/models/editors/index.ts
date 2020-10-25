@@ -24,10 +24,10 @@ export interface SingleEditor<T extends Term = Term> extends EditorMatcher {
 }
 
 export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
-  meta: Rdfs.Resource
+  meta: Partial<Rdfs.Resource>
 }
 
-export interface SingleEditorMatch extends SingleEditor {
+export interface SingleEditorMatch extends Editor<SingleEditor> {
   score: number | null
 }
 
