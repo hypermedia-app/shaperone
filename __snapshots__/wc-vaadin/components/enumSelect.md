@@ -4,9 +4,9 @@
 
 ```html
 <vaadin-select-text-field
-  has-value="" 
+  has-value=""
   tabindex="0"
-  >
+>
   <slot
     name="prefix"
     slot="prefix"
