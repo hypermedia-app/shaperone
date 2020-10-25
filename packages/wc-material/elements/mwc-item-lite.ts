@@ -1,4 +1,4 @@
-import { LitElement, html, css, customElement } from 'lit-element'
+import { LitElement, html, css, customElement, PropertyValues, query, property } from 'lit-element'
 
 @customElement('mwc-item-lite')
 export class MwcItemLite extends LitElement {
@@ -11,6 +11,10 @@ export class MwcItemLite extends LitElement {
   padding-left: var(--mdc-list-side-padding, 16px);
   padding-right: var(--mdc-list-side-padding, 16px);
   color: var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.87));
+}
+
+:host([no-options]) #options {
+  display: none;
 }
 
 #main {
@@ -34,9 +38,23 @@ slot[name=options]::slotted(mwc-icon) {
 }`
   }
 
+  @property({ type: Boolean, reflect: true, attribute: 'no-options' })
+  noOptions = true
+
+  @query('slot[name=options]')
+  optionsSlot: HTMLSlotElement | undefined
+
   render() {
     return html`
     <div id="main"><slot></slot></div>
     <div id="options"><slot name="options"></slot></div>`
+  }
+
+  protected firstUpdated(_changedProperties: PropertyValues) {
+    super.firstUpdated(_changedProperties)
+
+    this.optionsSlot?.addEventListener('slotchange', (e: any) => {
+      this.noOptions = !e.target.assignedElements().length
+    })
   }
 }
