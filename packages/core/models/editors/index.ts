@@ -10,10 +10,6 @@ import type { Dispatch, Store } from '../../state'
 import { addMatchers } from './reducers/addMatchers'
 import { addMetadata } from './reducers/addMetadata'
 
-export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
-  meta: Rdfs.Resource
-}
-
 // todo: re-export from main module
 export interface EditorMatcher {
   term: NamedNode
@@ -25,6 +21,10 @@ export interface MultiEditor extends EditorMatcher {
 
 export interface SingleEditor<T extends Term = Term> extends EditorMatcher {
   match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
+}
+
+export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
+  meta: Rdfs.Resource
 }
 
 export interface SingleEditorMatch extends SingleEditor {

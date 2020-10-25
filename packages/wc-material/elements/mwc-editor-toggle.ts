@@ -20,9 +20,11 @@ export class MwcEditorToggle extends SelectableMenuMixin(LitElement) {
   removeEnabled = false
 
   render() {
-    const removeButton = this.removeEnabled ? html`
+    const removeButton = this.removeEnabled
+      ? html`
         <li divider role="separator"></li>
-        <mwc-list-item graphic="icon" @click="${this.__dispatchObjectRemoved}"><mwc-icon slot="graphic">delete</mwc-icon>Remove</mwc-list-item>` : html``
+        <mwc-list-item graphic="icon" @click="${this.__dispatchObjectRemoved}"><mwc-icon slot="graphic">delete</mwc-icon>Remove</mwc-list-item>`
+      : html``
 
     return html`<wc-menu>
         ${repeat(this.editors, this.__renderEditorSelector.bind(this))}

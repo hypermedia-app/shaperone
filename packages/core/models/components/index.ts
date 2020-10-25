@@ -22,15 +22,15 @@ export interface MultiEditorActions {
   focusOnObjectNode(): void
 }
 
-export interface ComponentState<TRenderResult> extends Component<TRenderResult> {
-  loaded: boolean
-  loading: boolean
-}
-
 export interface Component<TRenderResult> {
   editor: NamedNode
   render(...args: unknown[]): TRenderResult
   loadDependencies?(): Array<Promise<unknown>>
+}
+
+export interface ComponentState<TRenderResult> extends Component<TRenderResult> {
+  loaded: boolean
+  loading: boolean
 }
 
 export interface SingleEditorComponent<TRenderResult> extends Component<TRenderResult> {

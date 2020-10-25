@@ -15,8 +15,8 @@ store().dispatch.components.pushComponents(NativeComponents)
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes')
 
-const id: (form: ShaperoneForm) => symbol = (() => {
-  const map = new WeakMap<ShaperoneForm, symbol>()
+const id: (form: any) => symbol = (() => {
+  const map = new WeakMap<any, symbol>()
   let nextId = 1
 
   return (form: ShaperoneForm) => {
