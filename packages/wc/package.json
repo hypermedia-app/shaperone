@@ -21,7 +21,7 @@
     "lit-html": "^1.2.1"
   },
   "devDependencies": {
-    "@types/clownface": "^1",
+    "@types/clownface": "^1.0.3",
     "@types/rdf-js": "^4",
     "@types/rdfjs__term-map": "^1.0.0"
   },

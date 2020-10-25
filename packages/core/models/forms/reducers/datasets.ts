@@ -9,13 +9,6 @@ import type { FocusNode } from '../../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
 import type { FocusNodeState } from '../index'
 
-declare module 'clownface' {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  interface AnyPointer {
-    any(): cf.AnyPointer
-  }
-}
-
 export interface SetShapesGraphParams {
   shapesGraph: DatasetCore | AnyPointer
 }
