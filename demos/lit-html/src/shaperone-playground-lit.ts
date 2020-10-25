@@ -61,7 +61,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       flex-basis: 100%;
     }
 
-    shaperone-form::part(focus-node) {
+    shaperone-form::part(focus-node), shaperone-form::part(property-group) {
       display: flex;
       flex-wrap: wrap;
     }`

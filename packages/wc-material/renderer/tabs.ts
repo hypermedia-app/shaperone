@@ -29,6 +29,8 @@ export const TabsGroupRenderer: GroupRenderStrategy = ({ group, properties, rend
   }
 
   return html`<div style="${styleMap(styles)}">
-    ${repeat(properties, renderProperty)}
+    <div part="property-group">
+      ${repeat(properties, renderProperty)}
+    </div>
   </div>`
 }

@@ -21,7 +21,9 @@ export const AccordionGroupingRenderer: GroupRenderStrategy = ({ group, properti
 
   return html`<vaadin-accordion-panel .opened="${group.selected}">
     <div slot="summary">${header}</div>
-    ${repeat(properties, renderProperty)}
+    <div part="property-group">
+      ${repeat(properties, renderProperty)}
+    </div>
   </vaadin-accordion-panel>`
 }
 
