@@ -113,7 +113,7 @@ export const defaultFormRenderer: FormRenderStrategy = ({ form, renderFocusNode 
 }
 
 export const defaultFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, renderGroup }) => html`<form>
-    <div class="fieldset">
+    <div class="fieldset" part="focus-node">
         ${repeat(focusNode.groups, renderGroup)}
     </div>
 </form>`

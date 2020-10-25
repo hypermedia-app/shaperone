@@ -47,6 +47,23 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
     rdf-editor {
       height: 100%;
+    }
+
+    shaperone-form::part(property) {
+      flex: 1;
+      min-width: 250px;
+      border: solid 1px black;
+      border-radius: 3px;
+      margin: 4px;
+    }
+
+    shaperone-form::part(property):nth-child(0) {
+      flex-basis: 100%;
+    }
+
+    shaperone-form::part(focus-node) {
+      display: flex;
+      flex-wrap: wrap;
     }`
   }
 
@@ -113,7 +130,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                      @quads-changed="${this.__setShape}"></rdf-editor>
         </div>
 
-        <vaadin-split-layout style="width: 67%">
+        <vaadin-split-layout style="width: 80%">
           <div>
             <vaadin-menu-bar .items="${this.formMenu}" @item-selected="${this.__formMenuSelected}"></vaadin-menu-bar>
             <shaperone-form id="form"
@@ -121,7 +138,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                            .resource="${this.resource.pointer}"
                            ?no-editor-switches="${this.noEditorSwitches}"></shaperone-form>
           </div>
-          <div style="max-width: 50%">
+          <div style="min-width: 50%; max-width: 80%">
             <vaadin-menu-bar .items="${this.resource.menu}" @item-selected="${this.__editorMenuSelected(store().dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
             <rdf-editor id="resourceEditor" prefixes="${this.resource.prefixes}"
                        .format="${this.resource.format}"
