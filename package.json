@@ -9,7 +9,8 @@
     "test:mocha": "TS_NODE_TRANSPILE_ONLY=true c8 --all -o coverage/mocha --reporter=lcov mocha packages/core/test/**/**/*.test.ts",
     "test:open-wc": "karma start --coverage",
     "test:open-wc:watch": "karma start --auto-watch=true --single-run=false",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "docs": "docsify serve ./dist"
   },
   "workspaces": [
     "packages/*",
@@ -27,6 +28,7 @@
     "@typescript-eslint/parser": "^4.5.0",
     "c8": "^7.1.2",
     "chai-snapshot-matcher": "^1.0.6",
+    "docsify-cli": "^4.4.1",
     "es-dev-commonjs-transformer": "^0.2.0",
     "eslint": "^7.12.0",
     "eslint-config-standard": "^15.0.0",

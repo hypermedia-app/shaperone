@@ -14,7 +14,7 @@ export const enumSelect: Component = {
 
     const selectValue = choices.find(choice => choice.term.equals(value.object.term))?.label
 
-    return html`<vaadin-select .value="${selectValue}" @value-changed="${(e: CustomEvent) => {
+    return html`<vaadin-select .value="${selectValue || ''}" @value-changed="${(e: CustomEvent) => {
       const pointer = choices.find(choice => choice.label === e.detail.value)
       if (pointer) update(pointer.term)
     }}">

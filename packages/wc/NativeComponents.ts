@@ -59,7 +59,7 @@ export const instancesSelectEditor: SingleEditorComponent = {
 
     return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>
-        ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object.term)}" value="${choice}">
+        ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object.term)}" value="${choice.value}">
             ${choice.out(rdfs.label).value || choice.value}
         </option>`)}
     </select>`

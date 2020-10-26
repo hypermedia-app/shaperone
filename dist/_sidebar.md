@@ -1,0 +1,10 @@
+* Getting started
+  * [Intro](README.md)
+  * [Configuration](configuration.md)
+* Editors
+  * [Intro](editors.md)
+  * [DASH](editors/dash.md "DASH")
+  * [Matchers](editors/matchers.md "Editor matchers")
+  * [Components](editors/components.md)
+  * [Metadata](editors/metadata.md "Editor metadata")
+* [Core library](core.md)
