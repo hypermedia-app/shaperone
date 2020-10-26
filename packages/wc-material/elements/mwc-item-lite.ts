@@ -20,6 +20,7 @@ export class MwcItemLite extends LitElement {
 #main {
   display: flex;
   flex: 1;
+  overflow: hidden;
 }
 
 slot::slotted(*) {
