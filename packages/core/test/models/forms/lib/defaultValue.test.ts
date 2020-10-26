@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { literal } from '@rdf-esm/data-model'
-import { xsd, sh, rdf, foaf } from '@tpluscode/rdf-ns-builders'
+import { xsd, sh, rdf, foaf, dash } from '@tpluscode/rdf-ns-builders'
 import { PropertyShapeMixin, NodeKindEnum } from '@rdfine/shacl'
 import { defaultValue } from '../../../../models/forms/lib/defaultValue'
 
@@ -70,7 +70,7 @@ describe('core/models/forms/lib/defaultValue', () => {
 
   resourceNodeKinds.forEach((nodeKind) => {
     it(`adds sh:class as rdf:type to node kind ${nodeKind.value}`, () => {
-    // given
+      // given
       const graph = cf({ dataset: $rdf.dataset() })
       const property = new PropertyShapeMixin.Class(graph.blankNode(), {
         nodeKind,
@@ -82,6 +82,21 @@ describe('core/models/forms/lib/defaultValue', () => {
 
       // then
       expect(pointer.out(rdf.type).term).to.deep.eq(foaf.Agent)
+    })
+
+    it(`does not add rdf:type when node kind is ${nodeKind.value} but editor is ${dash.InstancesSelectEditor}`, () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        nodeKind,
+        class: foaf.Agent,
+      })
+
+      // when
+      const pointer = defaultValue(property, graph.blankNode())
+
+      // then
+      expect(pointer.out(rdf.type).term).to.be.undefined
     })
   })
 })
