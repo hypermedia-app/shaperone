@@ -1,8 +1,9 @@
 import { html } from 'lit-element'
-import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
+import { dash, rdfs, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
 import { getInPointers } from '@hydrofoil/shaperone-core/lib/property'
+import type{ GraphPointer } from 'clownface'
 import type { SingleEditorComponent } from './index'
 import { getType } from './components/lib/textFieldType'
 
@@ -46,5 +47,21 @@ export const datePickerEditor: SingleEditorComponent = {
     return html`<input .value="${value.object}"
                        type="date"
                        @blur="${(e: any) => update(e.target.value)}">`
+  },
+}
+
+export const instancesSelectEditor: SingleEditorComponent = {
+  editor: dash.InstancesSelectEditor,
+  render({ property, value }, { update }) {
+    const choices: GraphPointer[] = property.shape.pointer.any()
+      .has(rdf.type, property.shape.class?.id)
+      .toArray()
+
+    return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
+        <option value=""></option>
+        ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object.term)}" value="${choice}">
+            ${choice.out(rdfs.label).value || choice.value}
+        </option>`)}
+    </select>`
   },
 }
