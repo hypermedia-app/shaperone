@@ -31,7 +31,7 @@ export interface SingleEditorMatch extends SingleEditor {
   score: number | null
 }
 
-type EditorMap<T> = Record<string, T>
+type EditorMap<T> = Record<string, T | undefined>
 
 export interface EditorsState {
   metadata: AnyPointer

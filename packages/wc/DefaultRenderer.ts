@@ -67,7 +67,7 @@ export const DefaultRenderer: Renderer = {
             }
             const component = components[editor.value]
             if (!component) {
-              return html`No component found for ${editors.allEditors[editor.value].meta.label}`
+              return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
             }
 
             if (!component.loaded) {
@@ -126,7 +126,7 @@ export const DefaultRenderer: Renderer = {
               }
               const component = components[editor.value]
               if (!component) {
-                return html`No component found for ${editors.allEditors[editor.value].meta.label}`
+                return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
               }
 
               if (!component.loaded) {

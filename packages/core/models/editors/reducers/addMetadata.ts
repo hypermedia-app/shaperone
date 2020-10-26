@@ -9,13 +9,19 @@ type MultiEditors = EditorsState['multiEditors']
 type SingleEditors = EditorsState['singleEditors']
 
 function updateMeta<T>(metadata: AnyPointer) {
-  return (previousValue: T, [key, editor]: [string, Editor<EditorMatcher>]): T => ({
-    ...previousValue,
-    [key]: {
-      ...editor,
-      meta: new EditorMeta(metadata.node(editor.term)),
-    },
-  })
+  return (previousValue: T, [key, editor]: [string, Editor<EditorMatcher> | undefined]): T => {
+    if (!editor) {
+      return previousValue
+    }
+
+    return {
+      ...previousValue,
+      [key]: {
+        ...editor,
+        meta: new EditorMeta(metadata.node(editor.term)),
+      },
+    }
+  }
 }
 
 export function addMetadata(state: EditorsState, dataset: DatasetCore): EditorsState {
