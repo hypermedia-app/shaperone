@@ -2,6 +2,7 @@ declare module '@vaadin/vaadin-text-field/vaadin-text-area'
 declare module '@vaadin/vaadin-text-field/vaadin-text-field' {
   class TextFieldElement extends HTMLElement {
     value: string
+    placeholder: string
   }
 }
 declare module '@vaadin/vaadin-text-field/vaadin-number-field'

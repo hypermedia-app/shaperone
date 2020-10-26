@@ -2,6 +2,8 @@ import { customElement, LitElement, css, property, query } from 'lit-element'
 import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
+import '@vaadin/vaadin-button/vaadin-button.js'
+import '@vaadin/vaadin-checkbox/vaadin-checkbox.js'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
@@ -107,6 +109,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   async connectedCallback() {
     document.addEventListener('resource-selected', (e: any) => store().dispatch.resource.selectResource({ id: e.detail.value }))
     document.addEventListener('prefixes-changed', (e: any) => store().dispatch.resource.setPrefixes(e.detail.value))
+    document.addEventListener('shape-load', (e: any) => store().dispatch.shape.loadShape(e.detail))
 
     super.connectedCallback()
   }
@@ -123,10 +126,11 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       <div class="content">
       <vaadin-split-layout id="top-splitter">
         <div style="width: 33%">
-          <vaadin-menu-bar .items="${[this.shape.menu]}" @item-selected="${this.__editorMenuSelected(store().dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
+          <vaadin-menu-bar .items="${this.shape.menu}" @item-selected="${this.__editorMenuSelected(store().dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
           <rdf-editor id="shapeEditor" prefixes="sh,dash"
                      .serialized="${this.shape.serialized}"
                      .format="${this.shape.format}"
+                     .quads="${this.shape.quads}"
                      @quads-changed="${this.__setShape}"></rdf-editor>
         </div>
 

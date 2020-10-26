@@ -3,7 +3,11 @@ import $rdf from 'rdf-ext'
 import { sh, schema, xsd, rdfs, dash, foaf, vcard } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
 import { DatasetCore, Quad } from 'rdf-js'
+import { TextFieldElement } from '@vaadin/vaadin-text-field/vaadin-text-field'
+import * as formats from '@rdf-esm/formats-common'
+import rdfFetch from '@rdfjs/fetch-lite'
 import { Menu, updateMenu } from '../../menu'
+import type { Store } from '../store'
 
 const triples = turtle`@prefix ex: <http://example.com/> .
 @prefix lexvo: <http://lexvo.org/id/iso639-1/> .
@@ -95,14 +99,52 @@ export interface State {
   serialized: string
   format: string
   dataset?: DatasetCore
-  menu: Menu
+  quads: Quad[]
+  menu: Menu[]
 }
+
+const fetchShapeMenu = (() => {
+  const fetchShapeInput = document.createElement('vaadin-text-field') as TextFieldElement
+  fetchShapeInput.placeholder = 'Shapes URL'
+
+  const authHeaderInput = document.createElement('vaadin-text-field') as TextFieldElement
+  authHeaderInput.placeholder = '(Optional) Authorization header'
+
+  const clearResource = document.createElement('vaadin-checkbox')
+  clearResource.innerText = 'Clear resource graph'
+
+  const fetchShapeButton = document.createElement('vaadin-button')
+  fetchShapeButton.innerText = 'Fetch shape'
+  fetchShapeButton.addEventListener('click', (e) => {
+    const authorization = authHeaderInput.value ? `Bearer ${authHeaderInput.value}` : ''
+
+    e.target?.dispatchEvent(new CustomEvent('shape-load', {
+      detail: {
+        shape: fetchShapeInput.value,
+        authorization,
+        clearResource: clearResource.checked,
+      },
+      bubbles: true,
+      composed: true,
+    }))
+  })
+
+  return [{
+    component: fetchShapeInput,
+  }, {
+    component: authHeaderInput,
+  }, {
+    component: clearResource,
+  }, {
+    component: fetchShapeButton,
+  }]
+})()
 
 export const shape = createModel({
   state: <State>{
     serialized: triples.toString(),
     format: 'text/turtle',
-    menu: {
+    menu: [{
       text: 'Format',
       children: [{
         type: 'format',
@@ -112,7 +154,10 @@ export const shape = createModel({
         text: 'text/turtle',
         checked: true,
       }],
-    },
+    }, {
+      text: 'Fetch shape',
+      children: fetchShapeMenu,
+    }],
   },
   reducers: {
     setShape(state, quads: Quad[]) {
@@ -120,6 +165,7 @@ export const shape = createModel({
       return {
         ...state,
         dataset,
+        quads,
       }
     },
     serialized(state, serialized: string): State {
@@ -132,8 +178,36 @@ export const shape = createModel({
       return {
         ...state,
         format,
-        menu: updateMenu(state.menu, 'format', format),
+        menu: state.menu.map(item => updateMenu(item, 'format', format)),
       }
     },
+  },
+  effects(store: Store) {
+    const dispatch = store.getDispatch()
+
+    return {
+      async loadShape({ shape, authorization, clearResource }: { shape: string; authorization: string; clearResource: boolean }) {
+        const shapes = await rdfFetch(shape, {
+          formats: formats as any,
+          factory: $rdf,
+          headers: {
+            authorization,
+          },
+        })
+
+        if (shapes.ok) {
+          const dataset = await shapes.dataset()
+          dispatch.shape.setShape([...dataset])
+          if (clearResource) {
+            dispatch.resource.replaceGraph({
+              dataset: [],
+              newVersion: false,
+            })
+          }
+        } else {
+          alert(`Failed to load shapes: ${shapes.status}`)
+        }
+      },
+    }
   },
 })
