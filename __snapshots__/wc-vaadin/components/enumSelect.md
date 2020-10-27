@@ -12,6 +12,11 @@
     slot="prefix"
   >
   </slot>
+  <slot
+    name="helper"
+    slot="helper"
+  >
+  </slot>
   <div
     part="value"
     slot=""

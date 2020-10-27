@@ -84,12 +84,13 @@ describe('core/models/forms/lib/defaultValue', () => {
       expect(pointer.out(rdf.type).term).to.deep.eq(foaf.Agent)
     })
 
-    it(`does not add rdf:type when node kind is ${nodeKind.value} but editor is ${dash.InstancesSelectEditor}`, () => {
+    it(`does not add rdf:type when node kind is ${nodeKind.value} but editor is ${dash.InstancesSelectEditor.value}`, () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const property = new PropertyShapeMixin.Class(graph.blankNode(), {
         nodeKind,
         class: foaf.Agent,
+        [dash.editor.value]: dash.InstancesSelectEditor,
       })
 
       // when
