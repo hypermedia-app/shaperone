@@ -9,6 +9,8 @@ import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
 import { store, State } from './state/store'
+import { shapeMenu } from './menu/shape'
+import { resourceMenu } from './menu/resource'
 
 const saveResource = Symbol('save resource')
 
@@ -91,8 +93,6 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   @property({ type: Boolean })
   noEditorSwitches!: boolean
 
-  __resourceVersion = 1
-
   get formMenu() {
     return [
       {
@@ -107,27 +107,25 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   async connectedCallback() {
     document.addEventListener('resource-selected', (e: any) => store().dispatch.resource.selectResource({ id: e.detail.value }))
     document.addEventListener('prefixes-changed', (e: any) => store().dispatch.resource.setPrefixes(e.detail.value))
+    document.addEventListener('shape-load', (e: any) => store().dispatch.shape.loadShape(e.detail))
+    document.addEventListener('generate-instances', (e: any) => store().dispatch.shape.generateInstances())
 
     super.connectedCallback()
   }
 
   render() {
-    let quads = this.resourceEditor?.quads
-    if (!quads || this.resource.version > this.__resourceVersion) {
-      this.__resourceVersion = this.resource.version
-      quads = [...this.resource.pointer.dataset]
-    }
-
     return html`<vaadin-app-layout>
       <h2 slot="navbar">@hydrofoil/shaperone playground</h2>
       <div class="content">
       <vaadin-split-layout id="top-splitter">
         <div style="width: 33%">
-          <vaadin-menu-bar .items="${[this.shape.menu]}" @item-selected="${this.__editorMenuSelected(store().dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
+          <vaadin-menu-bar .items="${shapeMenu(this.shape)}" @item-selected="${this.__editorMenuSelected(store().dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
           <rdf-editor id="shapeEditor" prefixes="sh,dash"
                      .serialized="${this.shape.serialized}"
                      .format="${this.shape.format}"
-                     @quads-changed="${this.__setShape}"></rdf-editor>
+                     .quads="${this.shape.quads}"
+                     @quads-changed="${this.__setShape}"
+                     @serialized="${this.__setSerializedShape}"></rdf-editor>
         </div>
 
         <vaadin-split-layout style="width: 80%">
@@ -139,11 +137,13 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                            ?no-editor-switches="${this.noEditorSwitches}"></shaperone-form>
           </div>
           <div style="min-width: 50%; max-width: 80%">
-            <vaadin-menu-bar .items="${this.resource.menu}" @item-selected="${this.__editorMenuSelected(store().dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
-            <rdf-editor id="resourceEditor" prefixes="${this.resource.prefixes}"
+            <vaadin-menu-bar .items="${resourceMenu(this.resource)}" @item-selected="${this.__editorMenuSelected(store().dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
+            <rdf-editor id="resourceEditor" prefixes="${this.resource.prefixes.join(',')}"
+                       .serialized="${this.resource.serialized}"
                        .format="${this.resource.format}"
-                       .quads="${quads}"
-                       @quads-changed="${this.__setResource}"></rdf-editor>
+                       .quads="${this.resource.quads}"
+                       @quads-changed="${this.__setResource}"
+                       @serialized="${this.__setSerializedResource}"></rdf-editor>
           </div>
         </vaadin-split-layout>
       </vaadin-split-layout></div>
@@ -152,10 +152,20 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
   __setShape(e: CustomEvent) {
     store().dispatch.shape.setShape(e.detail.value)
+    store().dispatch.shape.serialized(this.shapeEditor.codeMirror.value)
+  }
+
+  __setSerializedShape(e: any) {
+    store().dispatch.shape.serialized(e.detail.value)
+  }
+
+  __setSerializedResource(e: any) {
+    store().dispatch.resource.setSerialized(e.detail.value)
   }
 
   __setResource(e: CustomEvent) {
-    store().dispatch.resource.replaceGraph({ dataset: e.detail.value, newVersion: false })
+    store().dispatch.resource.replaceGraph({ dataset: e.detail.value })
+    store().dispatch.resource.setSerialized(this.resourceEditor.codeMirror.value)
   }
 
   __formMenuSelected(e: CustomEvent) {
@@ -174,7 +184,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         break
       default:
         if (this.form.value) {
-          store().dispatch.resource.replaceGraph({ dataset: this.form.value, newVersion: true })
+          store().dispatch.resource.replaceGraph({ dataset: this.form.value })
         }
         break
     }

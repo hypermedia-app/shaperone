@@ -2,7 +2,7 @@ import { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
-import type { Literal } from 'rdf-js'
+import type { BlankNode, Literal, NamedNode } from 'rdf-js'
 import type { SingleEditor } from './models/editors'
 import { isString } from './lib/datatypes'
 
@@ -105,5 +105,12 @@ export const dateTimePicker: SingleEditor<Literal> = {
     }
 
     return 0
+  },
+}
+
+export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
+  term: dash.InstancesSelectEditor,
+  match(shape) {
+    return shape.class ? null : 0
   },
 }

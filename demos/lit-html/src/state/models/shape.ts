@@ -1,9 +1,12 @@
 import { createModel } from '@captaincodeman/rdx'
 import $rdf from 'rdf-ext'
-import { sh, schema, xsd, rdfs, dash, foaf, vcard } from '@tpluscode/rdf-ns-builders'
+import { sh, schema, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
 import { DatasetCore, Quad } from 'rdf-js'
-import { Menu, updateMenu } from '../../menu'
+import * as formats from '@rdf-esm/formats-common'
+import rdfFetch from '@rdfjs/fetch-lite'
+import clownface from 'clownface'
+import type { Store } from '../store'
 
 const triples = turtle`@prefix ex: <http://example.com/> .
 @prefix lexvo: <http://lexvo.org/id/iso639-1/> .
@@ -95,23 +98,20 @@ export interface State {
   serialized: string
   format: string
   dataset?: DatasetCore
-  menu: Menu
+  quads: Quad[]
+  options: {
+    clearResource: boolean
+    loadedShapeUri?: string
+    authHeader?: string
+  }
 }
 
 export const shape = createModel({
   state: <State>{
     serialized: triples.toString(),
     format: 'text/turtle',
-    menu: {
-      text: 'Format',
-      children: [{
-        type: 'format',
-        text: 'application/ld+json',
-      }, {
-        type: 'format',
-        text: 'text/turtle',
-        checked: true,
-      }],
+    options: {
+      clearResource: false,
     },
   },
   reducers: {
@@ -120,6 +120,7 @@ export const shape = createModel({
       return {
         ...state,
         dataset,
+        quads,
       }
     },
     serialized(state, serialized: string): State {
@@ -132,8 +133,66 @@ export const shape = createModel({
       return {
         ...state,
         format,
-        menu: updateMenu(state.menu, 'format', format),
       }
     },
+    setOptions(state, options: State['options']) {
+      return {
+        ...state,
+        options,
+      }
+    },
+  },
+  effects(store: Store) {
+    const dispatch = store.getDispatch()
+
+    return {
+      async loadShape({ shape, authHeader, clearResource }: { shape: string; authHeader: string; clearResource: boolean }) {
+        const shapes = await rdfFetch(shape, {
+          formats: formats as any,
+          factory: $rdf,
+          headers: {
+            authorization: `Bearer ${authHeader}`,
+          },
+        })
+
+        if (shapes.ok) {
+          const dataset = await shapes.dataset()
+          dispatch.shape.setShape([...dataset])
+          if (clearResource) {
+            dispatch.resource.replaceGraph({
+              dataset: [],
+            })
+          }
+          dispatch.shape.setOptions({
+            clearResource,
+            loadedShapeUri: shape,
+            authHeader,
+          })
+        } else {
+          alert(`Failed to load shapes: ${shapes.status}`)
+        }
+      },
+      async generateInstances() {
+        const state = store.getState()
+        if (state.shape.dataset) {
+          const { nanoid } = await import('nanoid')
+
+          const dataset = $rdf.dataset([...state.shape.dataset])
+          const graph = clownface({ dataset })
+          graph
+            .has(sh.class)
+            .out(sh.class)
+            .forEach((clas) => {
+              const lastSeparator = Math.max(clas.value.lastIndexOf('#'), clas.value.lastIndexOf('/'))
+              const clasName = clas.value.substr(lastSeparator + 1)
+              const instanceId = nanoid(5)
+              graph.namedNode(`${document.location.origin}/${clasName}/${instanceId}`)
+                .addOut(rdf.type, clas)
+                .addOut(rdfs.label, `${clasName} ${instanceId}`)
+            })
+          dispatch.shape.setShape([...dataset])
+        }
+      },
+    }
   },
 })

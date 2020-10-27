@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
+import { dash, schema, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { PropertyShapeMixin } from '@rdfine/shacl'
 import { expect } from 'chai'
 import * as DashEditors from '../DashEditors'
@@ -210,6 +210,34 @@ describe('core/DashEditors', () => {
 
       // then
       expect(result).to.eq(5)
+    })
+  })
+
+  describe(dash.InstancesSelectEditor.value, () => {
+    it('should have score 0 if property does not have sh:class', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+
+      // when
+      const result = DashEditors.instancesSelectEditor.match(property, graph.blankNode())
+
+      // then
+      expect(result).to.eq(0)
+    })
+
+    it('should have score null if property has sh:class', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        class: schema.Person,
+      })
+
+      // when
+      const result = DashEditors.instancesSelectEditor.match(property, graph.blankNode())
+
+      // then
+      expect(result).to.eq(null)
     })
   })
 })

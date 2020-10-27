@@ -39,6 +39,10 @@ export const componentsSettings = createModel({
   },
   reducers: {
     switchComponents(state, { text }: Menu) {
+      if (!text) {
+        return state
+      }
+
       const children = state.children?.map((child) => {
         if (child.type !== 'components') {
           return child

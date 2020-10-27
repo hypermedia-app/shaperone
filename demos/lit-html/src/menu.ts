@@ -1,13 +1,13 @@
 export interface Menu {
   id?: string
   type?: 'layout' | 'renderer' | 'format' | 'components' | 'editorChoice'
-  text: string
+  text?: string
   checked?: boolean
   children?: Menu[]
   component?: string | HTMLElement
 }
 
-export function updateMenu(menu: Menu, type: Menu['type'], text: string): Menu {
+export function updateMenu(menu: Menu, type: Menu['type'], text: string | undefined): Menu {
   let { checked } = menu
   if (menu.type === type) {
     checked = menu.text === text
