@@ -1,11 +1,12 @@
 import { createModel } from '@captaincodeman/rdx'
 import $rdf from 'rdf-ext'
-import { sh, schema, xsd, rdfs, dash, foaf, vcard } from '@tpluscode/rdf-ns-builders'
+import { sh, schema, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
 import { DatasetCore, Quad } from 'rdf-js'
 import { TextFieldElement } from '@vaadin/vaadin-text-field/vaadin-text-field'
 import * as formats from '@rdf-esm/formats-common'
 import rdfFetch from '@rdfjs/fetch-lite'
+import clownface from 'clownface'
 import { Menu, updateMenu } from '../../menu'
 import type { Store } from '../store'
 
@@ -104,6 +105,9 @@ export interface State {
 }
 
 const fetchShapeMenu = (() => {
+  import('@vaadin/vaadin-button/vaadin-button.js')
+  import('@vaadin/vaadin-checkbox/vaadin-checkbox.js')
+
   const fetchShapeInput = document.createElement('vaadin-text-field') as TextFieldElement
   fetchShapeInput.placeholder = 'Shapes URL'
 
@@ -140,6 +144,23 @@ const fetchShapeMenu = (() => {
   }]
 })()
 
+const toolsMenu = (() => {
+  import('@vaadin/vaadin-button/vaadin-button.js')
+
+  const generateInstancesButton = document.createElement('vaadin-button')
+  generateInstancesButton.innerText = 'Generate dummy instances'
+  generateInstancesButton.addEventListener('click', () => {
+    generateInstancesButton.dispatchEvent(new CustomEvent('generate-instances', {
+      composed: true,
+      bubbles: true,
+    }))
+  })
+
+  return [{
+    component: generateInstancesButton,
+  }]
+})()
+
 export const shape = createModel({
   state: <State>{
     serialized: triples.toString(),
@@ -157,6 +178,9 @@ export const shape = createModel({
     }, {
       text: 'Fetch shape',
       children: fetchShapeMenu,
+    }, {
+      text: 'Tools',
+      children: toolsMenu,
     }],
   },
   reducers: {
@@ -206,6 +230,27 @@ export const shape = createModel({
           }
         } else {
           alert(`Failed to load shapes: ${shapes.status}`)
+        }
+      },
+      async generateInstances() {
+        const state = store.getState()
+        if (state.shape.dataset) {
+          const { nanoid } = await import('nanoid')
+
+          const dataset = $rdf.dataset([...state.shape.dataset])
+          const graph = clownface({ dataset })
+          graph
+            .has(sh.class)
+            .out(sh.class)
+            .forEach((clas) => {
+              const lastSeparator = Math.max(clas.value.lastIndexOf('#'), clas.value.lastIndexOf('/'))
+              const clasName = clas.value.substr(lastSeparator + 1)
+              const instanceId = nanoid(5)
+              graph.namedNode(`${document.location.origin}/${clasName}/${instanceId}`)
+                .addOut(rdf.type, clas)
+                .addOut(rdfs.label, `${clasName} ${instanceId}`)
+            })
+          dispatch.shape.setShape([...dataset])
         }
       },
     }

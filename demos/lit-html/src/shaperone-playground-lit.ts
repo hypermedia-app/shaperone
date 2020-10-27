@@ -2,8 +2,6 @@ import { customElement, LitElement, css, property, query } from 'lit-element'
 import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
-import '@vaadin/vaadin-button/vaadin-button.js'
-import '@vaadin/vaadin-checkbox/vaadin-checkbox.js'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
@@ -110,6 +108,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     document.addEventListener('resource-selected', (e: any) => store().dispatch.resource.selectResource({ id: e.detail.value }))
     document.addEventListener('prefixes-changed', (e: any) => store().dispatch.resource.setPrefixes(e.detail.value))
     document.addEventListener('shape-load', (e: any) => store().dispatch.shape.loadShape(e.detail))
+    document.addEventListener('generate-instances', (e: any) => store().dispatch.shape.generateInstances())
 
     super.connectedCallback()
   }
