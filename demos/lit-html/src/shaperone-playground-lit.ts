@@ -2,6 +2,7 @@ import { customElement, LitElement, css, property, query } from 'lit-element'
 import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
+import '@vaadin/vaadin-button/vaadin-button.js'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
@@ -49,6 +50,14 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
     rdf-editor {
       height: 100%;
+    }
+
+    #title {
+      flex: 1;
+    }
+
+    [slot=navbar] {
+      margin-right: 10px;
     }
 
     shaperone-form::part(property) {
@@ -115,7 +124,11 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
   render() {
     return html`<vaadin-app-layout>
-      <h2 slot="navbar">@hydrofoil/shaperone playground</h2>
+      <h2 id="title" slot="navbar">
+        <span>@hydrofoil/shaperone playground</span>
+      </h2>
+      <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
+
       <div class="content">
       <vaadin-split-layout id="top-splitter">
         <div style="width: 33%">
@@ -202,6 +215,11 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
           break
       }
     }
+  }
+
+  __reset() {
+    localStorage.removeItem(document.location.hostname)
+    document.location.reload()
   }
 
   mapState(state: State) {
