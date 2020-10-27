@@ -3,11 +3,9 @@ import $rdf from 'rdf-ext'
 import { sh, schema, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
 import { DatasetCore, Quad } from 'rdf-js'
-import { TextFieldElement } from '@vaadin/vaadin-text-field/vaadin-text-field'
 import * as formats from '@rdf-esm/formats-common'
 import rdfFetch from '@rdfjs/fetch-lite'
 import clownface from 'clownface'
-import { Menu, updateMenu } from '../../menu'
 import type { Store } from '../store'
 
 const triples = turtle`@prefix ex: <http://example.com/> .
@@ -101,87 +99,20 @@ export interface State {
   format: string
   dataset?: DatasetCore
   quads: Quad[]
-  menu: Menu[]
+  options: {
+    clearResource: boolean
+    loadedShapeUri?: string
+    authHeader?: string
+  }
 }
-
-const fetchShapeMenu = (() => {
-  import('@vaadin/vaadin-button/vaadin-button.js')
-  import('@vaadin/vaadin-checkbox/vaadin-checkbox.js')
-
-  const fetchShapeInput = document.createElement('vaadin-text-field') as TextFieldElement
-  fetchShapeInput.placeholder = 'Shapes URL'
-
-  const authHeaderInput = document.createElement('vaadin-text-field') as TextFieldElement
-  authHeaderInput.placeholder = '(Optional) Authorization header'
-
-  const clearResource = document.createElement('vaadin-checkbox')
-  clearResource.innerText = 'Clear resource graph'
-
-  const fetchShapeButton = document.createElement('vaadin-button')
-  fetchShapeButton.innerText = 'Fetch shape'
-  fetchShapeButton.addEventListener('click', (e) => {
-    const authorization = authHeaderInput.value ? `Bearer ${authHeaderInput.value}` : ''
-
-    e.target?.dispatchEvent(new CustomEvent('shape-load', {
-      detail: {
-        shape: fetchShapeInput.value,
-        authorization,
-        clearResource: clearResource.checked,
-      },
-      bubbles: true,
-      composed: true,
-    }))
-  })
-
-  return [{
-    component: fetchShapeInput,
-  }, {
-    component: authHeaderInput,
-  }, {
-    component: clearResource,
-  }, {
-    component: fetchShapeButton,
-  }]
-})()
-
-const toolsMenu = (() => {
-  import('@vaadin/vaadin-button/vaadin-button.js')
-
-  const generateInstancesButton = document.createElement('vaadin-button')
-  generateInstancesButton.innerText = 'Generate dummy instances'
-  generateInstancesButton.addEventListener('click', () => {
-    generateInstancesButton.dispatchEvent(new CustomEvent('generate-instances', {
-      composed: true,
-      bubbles: true,
-    }))
-  })
-
-  return [{
-    component: generateInstancesButton,
-  }]
-})()
 
 export const shape = createModel({
   state: <State>{
     serialized: triples.toString(),
     format: 'text/turtle',
-    menu: [{
-      text: 'Format',
-      children: [{
-        type: 'format',
-        text: 'application/ld+json',
-      }, {
-        type: 'format',
-        text: 'text/turtle',
-        checked: true,
-      }],
-    }, {
-      text: 'Fetch shape',
-      children: fetchShapeMenu,
-    }, {
-      text: 'Tools',
-      children: toolsMenu,
-    }],
+    options: {
+      clearResource: false,
+    },
   },
   reducers: {
     setShape(state, quads: Quad[]) {
@@ -202,7 +133,12 @@ export const shape = createModel({
       return {
         ...state,
         format,
-        menu: state.menu.map(item => updateMenu(item, 'format', format)),
+      }
+    },
+    setOptions(state, options: State['options']) {
+      return {
+        ...state,
+        options,
       }
     },
   },
@@ -210,12 +146,12 @@ export const shape = createModel({
     const dispatch = store.getDispatch()
 
     return {
-      async loadShape({ shape, authorization, clearResource }: { shape: string; authorization: string; clearResource: boolean }) {
+      async loadShape({ shape, authHeader, clearResource }: { shape: string; authHeader: string; clearResource: boolean }) {
         const shapes = await rdfFetch(shape, {
           formats: formats as any,
           factory: $rdf,
           headers: {
-            authorization,
+            authorization: `Bearer ${authHeader}`,
           },
         })
 
@@ -225,9 +161,13 @@ export const shape = createModel({
           if (clearResource) {
             dispatch.resource.replaceGraph({
               dataset: [],
-              newVersion: false,
             })
           }
+          dispatch.shape.setOptions({
+            clearResource,
+            loadedShapeUri: shape,
+            authHeader,
+          })
         } else {
           alert(`Failed to load shapes: ${shapes.status}`)
         }
