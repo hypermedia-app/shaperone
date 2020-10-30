@@ -1,5 +1,28 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.0
+
+### Minor Changes
+
+- e5cf691: Added persistence to playground state
+
+### Patch Changes
+
+- 9cdf176: Added a share button
+- dac43bb: Add reset button to clear persisted state
+- af00849: Added button to generate instances for dash:InstancesSelectEditor
+- 6e59acb: Add feature to fetch shape graph
+- Updated dependencies [15203fc]
+- Updated dependencies [d86891f]
+- Updated dependencies [7253387]
+- Updated dependencies [942f153]
+- Updated dependencies [6e59acb]
+- Updated dependencies [544acb4]
+  - @hydrofoil/shaperone-wc@0.1.3
+  - @hydrofoil/shaperone-wc-material@0.1.5
+  - @hydrofoil/shaperone-wc-vaadin@0.1.5
+  - @hydrofoil/shaperone-playground-examples@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

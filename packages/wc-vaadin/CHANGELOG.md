@@ -1,5 +1,18 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.1.5
+
+### Patch Changes
+
+- d86891f: Added support for dash:URIEditor
+- 6e59acb: Update vaadin dependencies
+- Updated dependencies [15203fc]
+- Updated dependencies [d86891f]
+- Updated dependencies [9073e8c]
+- Updated dependencies [544acb4]
+  - @hydrofoil/shaperone-core@0.2.2
+  - @hydrofoil/shaperone-wc@0.1.3
+
 ## 0.1.4
 
 ### Patch Changes

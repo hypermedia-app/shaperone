@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.2.2
+
+### Patch Changes
+
+- 15203fc: Added default components for dash:InstancesSelectEditor
+- d86891f: Added support for dash:URIEditor
+- 9073e8c: Do not initialize blank nodes with rdf:type for instance selector component
+
 ## 0.2.1
 
 ### Patch Changes
