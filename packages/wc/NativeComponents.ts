@@ -1,6 +1,6 @@
 import { html } from 'lit-element'
 import { dash, rdfs, rdf } from '@tpluscode/rdf-ns-builders'
-import { literal } from '@rdf-esm/data-model'
+import { literal, namedNode } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
 import { getInPointers } from '@hydrofoil/shaperone-core/lib/property'
 import type{ GraphPointer } from 'clownface'
@@ -63,5 +63,14 @@ export const instancesSelectEditor: SingleEditorComponent = {
             ${choice.out(rdfs.label).value || choice.value}
         </option>`)}
     </select>`
+  },
+}
+
+export const uriEditor: SingleEditorComponent = {
+  editor: dash.URIEditor,
+  render({ value }, { update }) {
+    return html`<input .value="${value.object.value}"
+                       type="url"
+                       @blur="${(e: any) => update(namedNode(e.target.value))}">`
   },
 }

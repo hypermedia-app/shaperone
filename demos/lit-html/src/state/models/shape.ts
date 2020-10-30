@@ -20,7 +20,8 @@ ex:PersonShape
                  ex:AgeProperty ,
                  ex:GenderProperty ,
                  ex:SpokenLanguagesProperty  ,
-                 ex:DateOfBirthProperty ;
+                 ex:DateOfBirthProperty ,
+                 ex:HomePageProperty ;
 .
 
 ex:SimplifiedPersonShape
@@ -81,6 +82,13 @@ ex:SpokenLanguagesProperty
     lexvo:en lexvo:de lexvo:fr lexvo:pl lexvo:es
   ) ;
   ${sh.order} 5 ;
+.
+
+ex:HomePageProperty
+  ${sh.path} ${foaf.homepage} ;
+  ${sh.name} "Homepage URL" ;
+  ${sh.nodeKind} ${sh.IRI} ;
+  ${sh.order} 6 ;
 .
 
 ex:FriendGroup

@@ -1,4 +1,4 @@
-import { PropertyShape } from '@rdfine/shacl'
+import { NodeKindEnum, PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
@@ -112,5 +112,16 @@ export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
   term: dash.InstancesSelectEditor,
   match(shape) {
     return shape.class ? null : 0
+  },
+}
+
+export const uriEditor: SingleEditor<NamedNode> = {
+  term: dash.URIEditor,
+  match(shape, { term: { termType } }) {
+    if (termType !== 'NamedNode' || shape.class) {
+      return 0
+    }
+
+    return NodeKindEnum.IRI.equals(shape.nodeKind) ? 10 : null
   },
 }
