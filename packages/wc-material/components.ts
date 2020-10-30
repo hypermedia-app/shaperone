@@ -1,4 +1,5 @@
 export { textField } from './components/textField'
+export { urlEditor } from './components/urlEditor'
 export { textArea } from './components/textArea'
 export { enumSelect } from './components/enumSelect'
 export { datePicker, dateTimePicker } from './components/date'

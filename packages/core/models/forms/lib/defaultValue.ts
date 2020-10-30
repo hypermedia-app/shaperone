@@ -30,7 +30,7 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Gra
   }
 
   if (property.class || nodeKind?.equals(sh.IRI) || nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI)) {
-    const resourceNode = focusNode.blankNode()
+    const resourceNode = nodeKind?.equals(sh.IRI) ? focusNode.namedNode('') : focusNode.blankNode()
     const propertyClass = property.class
     if (propertyClass && !property.get(dash.editor)?.equals(dash.InstancesSelectEditor)) {
       resourceNode.addOut(rdf.type, propertyClass.id)

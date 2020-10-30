@@ -240,4 +240,59 @@ describe('core/DashEditors', () => {
       expect(result).to.eq(null)
     })
   })
+
+  describe(dash.URIEditor.value, () => {
+    it('should have score 10 if the value is a IRI node and the property has sh:nodeKind sh:IRI', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        nodeKind: sh.IRI,
+      })
+
+      // when
+      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo'))
+
+      // then
+      expect(result).to.eq(10)
+    })
+
+    it('should have score 0 if the property has sh:class constraint', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        nodeKind: sh.IRI,
+        class: schema.Person,
+      })
+
+      // when
+      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo'))
+
+      // then
+      expect(result).to.eq(0)
+    })
+
+    it('should have score null if the value is IRI', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+
+      // when
+      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo'))
+
+      // then
+      expect(result).to.eq(null)
+    })
+
+    it('should have score 0 if the value is not IRI', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+
+      // when
+      const result = DashEditors.uriEditor.match(property, graph.blankNode() as any)
+
+      // then
+      expect(result).to.eq(0)
+    })
+  })
 })
