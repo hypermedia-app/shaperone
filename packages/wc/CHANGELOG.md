@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc
 
+## 0.1.3
+
+### Patch Changes
+
+- 15203fc: Added default components for dash:InstancesSelectEditor
+- d86891f: Added support for dash:URIEditor
+- 544acb4: Do not throw when meta is missing
+- Updated dependencies [15203fc]
+- Updated dependencies [d86891f]
+- Updated dependencies [9073e8c]
+  - @hydrofoil/shaperone-core@0.2.2
+
 ## 0.1.2
 
 ### Patch Changes
