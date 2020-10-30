@@ -8,7 +8,8 @@
     "test": "run-p test:*",
     "test:mocha": "TS_NODE_TRANSPILE_ONLY=true c8 --all -o coverage/mocha --reporter=lcov mocha packages/core/test/**/**/*.test.ts",
     "test:open-wc": "karma start --coverage",
-    "test:open-wc:watch": "karma start --auto-watch=true --single-run=false"
+    "test:open-wc:watch": "karma start --auto-watch=true --single-run=false",
+    "release": "changeset publish"
   },
   "workspaces": [
     "packages/*",
