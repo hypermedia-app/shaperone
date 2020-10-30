@@ -29,13 +29,10 @@ export const playground = createModel({
         sharePopup: true,
       }
     },
-    updateSharingParams(state, { key, value }: SharingParam) {
-      const sharingLink = new URL(state.sharingLink)
-      sharingLink.searchParams.set(key, value)
-
+    setSharingLink(state, sharingLink: string) {
       return {
         ...state,
-        sharingLink: sharingLink.toString(),
+        sharingLink,
       }
     },
   },
@@ -57,6 +54,14 @@ export const playground = createModel({
       },
       'shape/format': function (value: string) {
         dispatch.playground.updateSharingParams({ key: 'shapesFormat', value })
+      },
+      updateSharingParams({ key, value }: SharingParam) {
+        const { playground: state } = store.getState()
+
+        const sharingLink = new URL(state.sharingLink)
+        sharingLink.searchParams.set(key, value)
+
+        dispatch.playground.setSharingLink(sharingLink.toString())
       },
       restoreState() {
         const sharedState = new URLSearchParams(document.location.search)
