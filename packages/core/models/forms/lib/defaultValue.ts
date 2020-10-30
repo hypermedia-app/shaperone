@@ -1,7 +1,7 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import { dash, rdf, sh } from '@tpluscode/rdf-ns-builders'
-import type { RdfResource } from '@tpluscode/rdfine'
+import type { RdfResource, ResourceIdentifier } from '@tpluscode/rdfine'
 import type { FocusNode } from '../../../index'
 import * as datatypes from '../../../lib/datatypes'
 
@@ -30,7 +30,7 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Gra
   }
 
   if (property.class || nodeKind?.equals(sh.IRI) || nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI)) {
-    const resourceNode = nodeKind?.equals(sh.IRI) ? focusNode.namedNode('') : focusNode.blankNode()
+    const resourceNode: GraphPointer<ResourceIdentifier> = nodeKind?.equals(sh.IRI) ? focusNode.namedNode('') : focusNode.blankNode()
     const propertyClass = property.class
     if (propertyClass && !property.get(dash.editor)?.equals(dash.InstancesSelectEditor)) {
       resourceNode.addOut(rdf.type, propertyClass.id)
