@@ -3,9 +3,10 @@ import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
 import '@vaadin/vaadin-button/vaadin-button.js'
+import '@material/mwc-icon/mwc-icon.js'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import '@hydrofoil/shaperone-wc'
-import { html } from 'lit-html'
+import { html, render } from 'lit-html'
 import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
@@ -82,6 +83,9 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   shape!: State['shape']
 
   @property({ type: Object })
+  playground!: State['playground']
+
+  @property({ type: Object })
   resource!: State['resource']
 
   @query('#shapeEditor')
@@ -120,6 +124,8 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     document.addEventListener('generate-instances', (e: any) => store().dispatch.shape.generateInstances())
 
     super.connectedCallback()
+
+    store().dispatch.playground.restoreState()
   }
 
   render() {
@@ -128,6 +134,8 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         <span>@hydrofoil/shaperone playground</span>
       </h2>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
+      <vaadin-button slot="navbar" @click="${this.__share}"><mwc-icon>share</mwc-icon></vaadin-button>
+      <a href="https://github.com/hypermedia-app/shaperone" target="_blank" slot="navbar"><img alt="GitHub" src="./GitHub-Mark-32px.png"></a>
 
       <div class="content">
       <vaadin-split-layout id="top-splitter">
@@ -160,7 +168,12 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
           </div>
         </vaadin-split-layout>
       </vaadin-split-layout></div>
-    </vaadin-app-layout>`
+    </vaadin-app-layout>
+
+    <vaadin-dialog ?opened="${this.playground.sharePopup}"
+                   .renderer="${this.__renderSharingDialog(this)}"
+                   @opened-changed="${(e: any) => store().dispatch.playground.hideSharingDialog(!e.target.opened)}">
+    </vaadin-dialog>`
   }
 
   __setShape(e: CustomEvent) {
@@ -196,10 +209,14 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         store().dispatch.rendererSettings.switchNesting(e.detail.value)
         break
       default:
-        if (this.form.value) {
-          store().dispatch.resource.replaceGraph({ dataset: this.form.value })
-        }
+        this.__saveResource()
         break
+    }
+  }
+
+  __saveResource() {
+    if (this.form.value) {
+      store().dispatch.resource.replaceGraph({ dataset: this.form.value })
     }
   }
 
@@ -222,12 +239,42 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     document.location.reload()
   }
 
+  async __share() {
+    await import('@vaadin/vaadin-dialog/vaadin-dialog.js')
+    await import('@vaadin/vaadin-text-field/vaadin-text-field.js')
+    store().dispatch.playground.showSharingDialog()
+  }
+
+  __renderSharingDialog(parent: ShaperonePlayground) {
+    const save = () => parent.__saveResource()
+
+    return (root: HTMLElement) => {
+      let dialogContents: Element
+      if (!root.firstElementChild) {
+        dialogContents = document.createElement('div')
+        root.appendChild(dialogContents)
+      } else {
+        dialogContents = root.firstElementChild
+      }
+
+      render(html`<vaadin-text-field style="width:500px"
+                                     readonly autoselect
+                                     label="Copy this URL to share playground"
+                                    .value="${parent.playground.sharingLink}"></vaadin-text-field>
+                  <br>
+                  Make sure to <a href="javascript:void(0)" @click="${save}">save</a> first`, dialogContents)
+
+      dialogContents.querySelector('vaadin-text-field')?.focus()
+    }
+  }
+
   mapState(state: State) {
     return {
       components: state.componentsSettings,
       rendererMenu: state.rendererSettings.menu,
       resource: state.resource,
       shape: state.shape,
+      playground: state.playground,
       noEditorSwitches: state.componentsSettings.children?.find(c => c.type === 'editorChoice')?.checked || false,
     }
   }
