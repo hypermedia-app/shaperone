@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.2.3
+
+### Patch Changes
+
+- 7c88a8b: Update @zazuko/rdf-vocabularies
+
 ## 0.2.2
 
 ### Patch Changes
