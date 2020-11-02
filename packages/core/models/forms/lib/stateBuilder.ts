@@ -1,6 +1,6 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { MultiPointer, GraphPointer } from 'clownface'
-import { shrink } from '@zazuko/rdf-vocabularies'
+import { shrink } from '@zazuko/rdf-vocabularies/shrink'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'

@@ -1,6 +1,6 @@
 import TermSet from '@rdf-esm/term-set'
 import { MultiselectComboBox } from 'multiselect-combo-box/multiselect-combo-box'
-import { prefixes } from '@zazuko/rdf-vocabularies'
+import prefixes from '@zazuko/rdf-vocabularies/prefixes'
 import { State } from '../state/models/resource'
 import { Menu } from '../menu'
 

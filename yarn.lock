@@ -3201,15 +3201,15 @@
   dependencies:
     "@rdf-esm/namespace" "^0.5.1"
 
-"@tpluscode/rdf-string@^0.2.15":
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/@tpluscode/rdf-string/-/rdf-string-0.2.20.tgz#f026c67f09d8c7ea67be8b0c4f993874a00894d7"
-  integrity sha512-3CY/nWge3EwNPoApQRP/HMlWlLyn6G+ePHvb/OOhhBd2/k08cWK4X2tCfMKU0weuLTtsDyBduMu7tsjxfQu9Fw==
+"@tpluscode/rdf-string@^0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/@tpluscode/rdf-string/-/rdf-string-0.2.21.tgz#4c313f2f6b0fa26ebefd1cadfc55977b6fc691b2"
+  integrity sha512-AXcXoJc1xMrSfM2luWvix25lEoF/LnHnO6cjb3Rx4wzVcs88fvS7joPhkYKdKu0FPhQZnixNvXyoE8AIxz6f+w==
   dependencies:
     "@rdf-esm/data-model" "^0.5.3"
     "@rdf-esm/term-map" "^0.5.0"
     "@tpluscode/rdf-ns-builders" "^0.4"
-    "@zazuko/rdf-vocabularies" "^2020.6.29"
+    "@zazuko/rdf-vocabularies" "^2020.11.2"
 
 "@tpluscode/rdfine@^0.5.6", "@tpluscode/rdfine@^0.5.7":
   version "0.5.10"
@@ -4372,21 +4372,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zazuko/rdf-vocabularies@^2020.6.29":
-  version "2020.6.29"
-  resolved "https://registry.yarnpkg.com/@zazuko/rdf-vocabularies/-/rdf-vocabularies-2020.6.29.tgz#2be2daf910e429ac051e280eb361a16398ab8795"
-  integrity sha512-eu4kqxklCHyA4fYKTp0Kf2SIR2cSR4OlghbAZPl5X/r5lFLuaudWFK0Zg/0l4WF8Tszu9OvkcW9H1DVkUFDT8w==
-  dependencies:
-    "@rdfjs/parser-n3" "^1.1.2"
-    commander "^5.0.0"
-    rdf-ext "^1.3.0"
-    readable-stream "^3.6.0"
-    string-to-stream "^3.0.1"
-
-"@zazuko/rdf-vocabularies@^2020.7.13":
-  version "2020.7.13"
-  resolved "https://registry.yarnpkg.com/@zazuko/rdf-vocabularies/-/rdf-vocabularies-2020.7.13.tgz#2848c62f46856021d732caa8a0f03c58808ef7bd"
-  integrity sha512-oXjc/K46hWdj2oqr06U5jSKE0ihv4oMNzlz12zYSHHg+1tlyhnZa4VZ4R5mx/7PRsg22sUuZ492ZIJNzIvxCPA==
+"@zazuko/rdf-vocabularies@^2020.11.2", "@zazuko/rdf-vocabularies@^2020.7.13":
+  version "2020.11.2"
+  resolved "https://registry.yarnpkg.com/@zazuko/rdf-vocabularies/-/rdf-vocabularies-2020.11.2.tgz#d82190f4556e47213744bd5d35106f4316ef9adf"
+  integrity sha512-RhTeKHVX0Deb/qHPeoO2JT9uRmN0HTzGUtzUpe7MJQneYA9wHOOROC+lsEmq+YNGJ0oZtiNc0HZofIbMhd6T7g==
   dependencies:
     "@rdfjs/parser-n3" "^1.1.2"
     commander "^5.0.0"
@@ -12388,14 +12377,6 @@ raw-body@2.4.0:
     http-errors "1.7.2"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
-
-raw-loader@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-4.0.1.tgz#14e1f726a359b68437e183d5a5b7d33a3eba6933"
-  integrity sha512-baolhQBSi3iNh1cglJjA0mYzga+wePk7vdEX//1dTFd+v4TsQlQE0jitJSNF1OIP82rdYulH7otaVmdlDaJ64A==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^2.6.5"
 
 rc@^1.2.7:
   version "1.2.8"
