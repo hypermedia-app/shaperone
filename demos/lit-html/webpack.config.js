@@ -18,14 +18,6 @@ module.exports = merge(
         stream: 'readable-stream',
       },
     },
-    module: {
-      rules: [
-        {
-          test: /\.ttl$/,
-          use: ['raw-loader'],
-        },
-      ],
-    },
     node: {
       crypto: true,
     },
