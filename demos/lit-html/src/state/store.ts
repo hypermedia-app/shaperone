@@ -29,6 +29,12 @@ export const store = (() => {
           graph: undefined,
           quads: [],
         },
+        rendererSettings: {
+          ...state.rendererSettings,
+        },
+        componentsSettings: {
+          ...state.componentsSettings,
+        },
       }
     },
   })

@@ -13,8 +13,8 @@ import { Quad } from 'rdf-js'
 import { store, State } from './state/store'
 import { shapeMenu } from './menu/shape'
 import { resourceMenu } from './menu/resource'
-
-const saveResource = Symbol('save resource')
+import { formMenu } from './menu/formMenu'
+import { configureRenderer, selectComponents } from './configure'
 
 interface RdfEditor {
   serialized: string
@@ -101,21 +101,10 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   components!: State['componentsSettings']
 
   @property({ type: Object })
-  rendererMenu!: State['rendererSettings']['menu']
+  renderer!: State['rendererSettings']
 
   @property({ type: Boolean })
   noEditorSwitches!: boolean
-
-  get formMenu() {
-    return [
-      {
-        text: '"Save" graph',
-        id: saveResource,
-      },
-      this.components,
-      ...this.rendererMenu,
-    ]
-  }
 
   async connectedCallback() {
     document.addEventListener('resource-selected', (e: any) => store().dispatch.resource.selectResource({ id: e.detail.value }))
@@ -151,7 +140,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
         <vaadin-split-layout style="width: 80%">
           <div>
-            <vaadin-menu-bar .items="${this.formMenu}" @item-selected="${this.__formMenuSelected}"></vaadin-menu-bar>
+            <vaadin-menu-bar .items="${formMenu(this.components, this.renderer)}" @item-selected="${this.__formMenuSelected}"></vaadin-menu-bar>
             <shaperone-form id="form"
                            .shapes="${this.shape.dataset}"
                            .resource="${this.resource.pointer}"
@@ -197,16 +186,16 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   __formMenuSelected(e: CustomEvent) {
     switch (e.detail.value.type) {
       case 'editorChoice':
-        store().dispatch.componentsSettings.setEditorChoice(e.detail.value)
+        store().dispatch.componentsSettings.setEditorChoice(!e.detail.value.checked)
         break
       case 'components':
-        store().dispatch.componentsSettings.switchComponents(e.detail.value)
+        store().dispatch.componentsSettings.switchComponents(e.detail.value.text)
         break
       case 'layout':
-        store().dispatch.rendererSettings.switchLayout(e.detail.value)
+        store().dispatch.rendererSettings.switchLayout(e.detail.value.id)
         break
       case 'renderer':
-        store().dispatch.rendererSettings.switchNesting(e.detail.value)
+        store().dispatch.rendererSettings.switchNesting(e.detail.value.id)
         break
       default:
         this.__saveResource()
@@ -269,13 +258,17 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   mapState(state: State) {
+    selectComponents(state.componentsSettings.components)
+    configureRenderer.switchLayout(state.rendererSettings)
+    configureRenderer.switchNesting(state.rendererSettings)
+
     return {
       components: state.componentsSettings,
-      rendererMenu: state.rendererSettings.menu,
+      renderer: state.rendererSettings,
       resource: state.resource,
       shape: state.shape,
       playground: state.playground,
-      noEditorSwitches: state.componentsSettings.children?.find(c => c.type === 'editorChoice')?.checked || false,
+      noEditorSwitches: state.componentsSettings.disableEditorChoice,
     }
   }
 }
