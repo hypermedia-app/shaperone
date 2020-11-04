@@ -2,7 +2,6 @@ import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
 import type * as Rdfs from '@rdfine/rdfs'
-import { vocabularies } from '@zazuko/rdf-vocabularies/lib/vocabularies'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import type { AnyPointer, GraphPointer } from 'clownface'
@@ -56,10 +55,10 @@ export const editors = createModel(({
 
     return {
       async loadDash() {
-        const { dash } = await vocabularies({ only: ['dash'] })
+        const dash = (await import('@zazuko/rdf-vocabularies/datasets/dash')).default
         const DashEditors = await import('../../DashEditors')
 
-        dispatch.editors.addMetadata(dash)
+        dispatch.editors.addMetadata($rdf.dataset(dash($rdf)))
         dispatch.editors.addMatchers(DashEditors)
       },
     }
