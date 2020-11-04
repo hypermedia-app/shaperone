@@ -229,8 +229,9 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   async __share() {
-    await import('@vaadin/vaadin-dialog/vaadin-dialog.js')
-    await import('@vaadin/vaadin-text-field/vaadin-text-field.js')
+    await Promise.all([import('@vaadin/vaadin-dialog/vaadin-dialog.js'),
+      import('@vaadin/vaadin-text-field/vaadin-text-field.js'),
+      import('@vaadin/vaadin-checkbox/vaadin-checkbox.js')])
     store().dispatch.playground.showSharingDialog()
   }
 
@@ -251,7 +252,12 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                                      label="Copy this URL to share playground"
                                     .value="${parent.playground.sharingLink}"></vaadin-text-field>
                   <br>
-                  Make sure to <a href="javascript:void(0)" @click="${save}">save</a> first`, dialogContents)
+                  Make sure to <a href="javascript:void(0)" @click="${save}">save</a> first
+                  <br>
+                  <vaadin-checkbox ?checked="${parent.playground.shareFormSettings}"
+                                  @change="${() => store().dispatch.playground.shareFormSettings(!parent.playground.shareFormSettings)}">
+                                  Share form settings
+                  </vaadin-checkbox>`, dialogContents)
 
       dialogContents.querySelector('vaadin-text-field')?.focus()
     }
