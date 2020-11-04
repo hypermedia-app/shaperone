@@ -1,6 +1,7 @@
 * Getting started
   * [Intro](README.md)
   * [Configuration](configuration.md)
+  * [Anatomy of shaperone](anatomy.md)
 * Editors
   * [Intro](editors.md)
   * [DASH](editors/dash.md "DASH")
