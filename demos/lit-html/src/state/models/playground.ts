@@ -99,7 +99,8 @@ export const playground = createModel({
         dispatch.playground.updateSharingParams({ key: 'grouping', value })
       },
       restoreState() {
-        const sharedState: Map<SharingParam['key'], string> = new URLSearchParams(document.location.search) as any
+        const url = new URL(document.location.toString())
+        const sharedState: Map<SharingParam['key'], string> = url.searchParams as any
         const shapes = sharedState.get('shapes')
         const shapesFormat = sharedState.get('shapesFormat')
         const resource = sharedState.get('resource')
@@ -110,16 +111,20 @@ export const playground = createModel({
         const disableEditorChoice = sharedState.get('disableEditorChoice')
         const components = sharedState.get('components')
 
-        if (shapes && shapesFormat) {
+        if (shapesFormat) {
           dispatch.shape.format(shapesFormat)
+        }
+        if (shapes) {
           dispatch.shape.serialized(shapes)
         }
-        if (resource && resourceFormat) {
+        if (resourceFormat) {
           dispatch.resource.format(resourceFormat)
+        }
+        if (resource) {
           dispatch.resource.setSerialized(resource)
-          if (resourcePrefixes) {
-            dispatch.resource.setPrefixes(resourcePrefixes.split(','))
-          }
+        }
+        if (resourcePrefixes) {
+          dispatch.resource.setPrefixes(resourcePrefixes.split(','))
         }
         if (layout) {
           dispatch.rendererSettings.switchLayout(layout as any)
@@ -133,6 +138,9 @@ export const playground = createModel({
         if (components) {
           dispatch.componentsSettings.switchComponents(components as any)
         }
+
+        [...url.searchParams.keys()].forEach(key => url.searchParams.delete(key))
+        window.history.replaceState(null, '', url.toString())
       },
     }
   },
