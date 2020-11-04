@@ -12,15 +12,28 @@ export const rendererSettings = createModel({
   },
   reducers: {
     switchNesting(state, nesting: RendererState['nesting']) {
-      return {
-        ...state,
-        nesting,
+      switch (nesting) {
+        case 'none':
+        case 'always one':
+          return {
+            ...state,
+            nesting,
+          }
+        default:
+          return state
       }
     },
     switchLayout(state, grouping: RendererState['grouping']) {
-      return {
-        ...state,
-        grouping,
+      switch (grouping) {
+        case 'material tabs':
+        case 'none':
+        case 'vaadin accordion':
+          return {
+            ...state,
+            grouping,
+          }
+        default:
+          return state
       }
     },
   },
