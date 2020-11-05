@@ -6,7 +6,7 @@
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "lerna run build",
     "test": "run-p test:*",
-    "test:mocha": "TS_NODE_TRANSPILE_ONLY=true c8 --all -o coverage/mocha --reporter=lcov mocha packages/core/test/**/**/*.test.ts",
+    "test:mocha": "BABEL_ENV=test c8 --all -o coverage/mocha --reporter=lcov mocha --recursive 'packages/core/test/**/*.test.ts'",
     "test:open-wc": "karma start --coverage",
     "test:open-wc:watch": "karma start --auto-watch=true --single-run=false",
     "release": "changeset publish"
@@ -19,6 +19,7 @@
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-decorators": "^7.10.3",
     "@babel/preset-typescript": "^7.10.1",
+    "@babel/register": "^7.10.1",
     "@changesets/cli": "^2.8.0",
     "@tpluscode/eslint-config": "^0.1.1",
     "@types/rdf-js": "^4.0.0",
@@ -43,18 +44,15 @@
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "standard": "^14.3.4",
-    "ts-node": "^8.10.2",
     "typescript": "^3.9.3",
     "yarn": "^1.22.4"
   },
   "mocha": {
-    "file": "test-setup.js",
     "watch-files": [
       "./**/*.ts"
     ],
     "require": [
-      "ts-node/register",
-      "chai-snapshot-matcher"
+      "test-setup.js"
     ]
   },
   "husky": {
