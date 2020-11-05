@@ -3,9 +3,13 @@ import { dash } from '@tpluscode/rdf-ns-builders'
 import type { EditorsState, MultiEditor, SingleEditor } from '../index'
 import { EditorMeta } from '../lib/EditorMeta'
 
-export function addMatchers(state: EditorsState, editors: Record<string, SingleEditor<any> | MultiEditor>): EditorsState {
+type AnyEditor = SingleEditor<any> | MultiEditor
+
+export function addMatchers(state: EditorsState, editors: Record<string, AnyEditor> | AnyEditor[]): EditorsState {
   return produce(state, (state) => {
-    for (const editor of Object.values(editors)) {
+    const editorsArray = Array.isArray(editors) ? editors : Object.values(editors)
+
+    for (const editor of editorsArray) {
       const { term } = editor
       const key = editor.term.value
       const meta = new EditorMeta(state.metadata.node(term))
