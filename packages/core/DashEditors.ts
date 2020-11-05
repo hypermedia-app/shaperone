@@ -23,6 +23,38 @@ export const textField: SingleEditor = {
   },
 }
 
+export const textFieldWithLang: SingleEditor = {
+  term: dash.TextFieldWithLangEditor,
+  match(shape: PropertyShape, value: GraphPointer) {
+    const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
+    const propertyDatatype = shape.datatype?.id
+    const singleLine = shape.pointer.out(dash.singleLine).term
+
+    if (
+      valueDatatype?.equals(rdf.langString) ||
+      (
+        valueDatatype?.equals(xsd.string) && (
+          propertyDatatype?.equals(rdf.langString) ||
+          propertyDatatype?.equals(xsd.string)
+        )
+      )
+    ) {
+      return 10
+    }
+
+    if (
+      !singleLine?.equals(booleanFalse) && (
+        propertyDatatype?.equals(rdf.langString) ||
+        propertyDatatype?.equals(xsd.string)
+      )
+    ) {
+      return 5
+    }
+
+    return 0
+  },
+}
+
 const booleanTrue = literal('true', xsd.boolean)
 const booleanFalse = literal('false', xsd.boolean)
 
@@ -44,6 +76,33 @@ export const textArea: SingleEditor = {
 
     if (shape.datatype?.equals(xsd.string)) {
       return 2
+    }
+
+    return 0
+  },
+}
+
+export const textAreaWithLang: SingleEditor = {
+  term: dash.TextAreaWithLangEditor,
+  match(shape: PropertyShape, value: GraphPointer) {
+    const singleLine = shape.pointer.out(dash.singleLine).term
+    const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
+    const propertyDatatype = shape.datatype?.id
+
+    if (singleLine?.equals(booleanTrue)) {
+      return 0
+    }
+
+    if (singleLine?.equals(booleanFalse) && valueDatatype?.equals(rdf.langString)) {
+      return 15
+    }
+
+    if (
+      valueDatatype?.equals(rdf.langString) ||
+      propertyDatatype?.equals(rdf.langString) ||
+      propertyDatatype?.equals(rdf.string)
+    ) {
+      return 5
     }
 
     return 0

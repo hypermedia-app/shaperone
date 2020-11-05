@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { dash, schema, sh, xsd } from '@tpluscode/rdf-ns-builders'
+import { dash, rdf, schema, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { PropertyShapeMixin } from '@rdfine/shacl'
 import { expect } from 'chai'
 import * as DashEditors from '../DashEditors'
@@ -61,6 +61,80 @@ describe('core/DashEditors', () => {
     })
   })
 
+  describe(dash.TextFieldWithLangEditor.value, () => {
+    it('has score 10 for langString value', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const value = graph.literal('test', 'en')
+
+      // when
+      const result = DashEditors.textFieldWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(10)
+    })
+
+    it('has score 5 when datatype is langString', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: rdf.langString,
+      })
+      const value = graph.blankNode()
+
+      // when
+      const result = DashEditors.textFieldWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(5)
+    })
+
+    it('has score 5 when datatype is string', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: xsd.string,
+      })
+      const value = graph.blankNode()
+
+      // when
+      const result = DashEditors.textFieldWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(5)
+    })
+
+    it('has score 0 when singleLine is false', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: rdf.langString,
+        [dash.singleLine.value]: false,
+      })
+      const value = graph.blankNode()
+
+      // when
+      const result = DashEditors.textFieldWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(0)
+    })
+
+    it('has score 0 otherwise', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const value = graph.blankNode()
+
+      // when
+      const result = DashEditors.textFieldWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(0)
+    })
+  })
+
   describe(dash.TextAreaEditor.value, () => {
     it('has score 0 for non-string datatype', () => {
       // given
@@ -103,6 +177,79 @@ describe('core/DashEditors', () => {
 
       // then
       expect(result).to.eq(2)
+    })
+  })
+
+  describe(dash.TextAreaWithLangEditor.value, () => {
+    it('has score 0 when singleLine is true', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [dash.singleLine.value]: true,
+      })
+      const value = graph.literal(3)
+
+      // when
+      const result = DashEditors.textAreaWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(0)
+    })
+
+    it('has score 15 when value has type langString and singleLine is false', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [dash.singleLine.value]: false,
+      })
+      const value = graph.literal('test', 'fr')
+
+      // when
+      const result = DashEditors.textAreaWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(15)
+    })
+
+    it('has score 5 when value is a langString', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const value = graph.literal('test', 'en')
+
+      // when
+      const result = DashEditors.textAreaWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(5)
+    })
+
+    it('has score 5 when datatype is langString', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+        [sh.datatype.value]: rdf.langString,
+      })
+      const value = graph.blankNode()
+
+      // when
+      const result = DashEditors.textAreaWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(5)
+    })
+
+    it('has score 0 otherwise', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const value = graph.blankNode()
+
+      // when
+      const result = DashEditors.textAreaWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(0)
     })
   })
 
