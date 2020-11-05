@@ -1,6 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
-import produce from 'immer'
+import reducers from './reducers'
 import type { PropertyObjectState, PropertyState } from '../forms/index'
 
 export interface SingleEditorRenderParams {
@@ -45,40 +45,7 @@ export type ComponentsState<TRenderResult = any> = Record<string, ComponentState
 
 export const createComponentsModel = <TRenderResult>() => createModel({
   state: <ComponentsState<TRenderResult>>{},
-  reducers: {
-    loading(components, editor): ComponentsState {
-      return produce(components, (draft) => {
-        draft[editor.value].loaded = false
-        draft[editor.value].loading = true
-      })
-    },
-    loaded(components, editor): ComponentsState {
-      return produce(components, (draft) => {
-        draft[editor.value].loaded = true
-        draft[editor.value].loading = false
-      })
-    },
-    removeComponents(components, toRemove: NamedNode[]) {
-      return produce(components, (newComponents) => {
-        for (const editor of toRemove) {
-          delete newComponents[editor.value]
-        }
-      })
-    },
-    pushComponents(components, toAdd: Record<string, Component<TRenderResult>>): ComponentsState {
-      return produce(components, (newComponents) => {
-        for (const component of Object.values(toAdd)) {
-          if (!components[component.editor.value] || components[component.editor.value].render !== component.render) {
-            newComponents[component.editor.value] = {
-              ...component,
-              loading: false,
-              loaded: !component.loadDependencies,
-            }
-          }
-        }
-      })
-    },
-  },
+  reducers: reducers<TRenderResult>(),
   effects(store) {
     const dispatch = store.getDispatch()
 
