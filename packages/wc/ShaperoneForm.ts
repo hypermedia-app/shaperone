@@ -14,8 +14,9 @@ store().dispatch.components.pushComponents(NativeComponents)
 
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes')
+const notify: unique symbol = Symbol('notify')
 
-const id: (form: any) => symbol = (() => {
+export const id: (form: any) => symbol = (() => {
   const map = new WeakMap<any, symbol>()
   let nextId = 1
 
@@ -36,6 +37,7 @@ const id: (form: any) => symbol = (() => {
 export class ShaperoneForm extends connect(store(), LitElement) {
   private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
+  private [notify]: (detail: any) => void
 
   static get styles() {
     return [css`
@@ -57,6 +59,13 @@ export class ShaperoneForm extends connect(store(), LitElement) {
 
   @property({ type: Boolean, attribute: 'no-editor-switches' })
   noEditorSwitches = false
+
+  constructor() {
+    super()
+    this[notify] = (detail: any) => {
+      this.dispatchEvent(new CustomEvent('changed', { detail }))
+    }
+  }
 
   async connectedCallback() {
     await ensureEventTarget()
@@ -133,6 +142,8 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   }
 
   mapState(state: State) {
+    state.forms.instances.get(id(this))?.changeNotifier.onChange(this[notify])
+
     return {
       state: state.forms.instances.get(id(this)),
       rendererOptions: state.renderer,

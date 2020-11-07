@@ -56,6 +56,11 @@ export interface FocusNodeState {
   label: string
 }
 
+interface ChangeDetails {
+  focusNode: FocusNode
+  property: PropertyShape
+}
+
 export interface FormState {
   resourceGraph?: DatasetCore
   shapesGraph?: AnyPointer
@@ -63,6 +68,10 @@ export interface FormState {
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
   shouldEnableEditorChoice: ShouldEnableEditorChoice
+  changeNotifier: {
+    notify(detail: ChangeDetails): void
+    onChange(listener: (detail: ChangeDetails) => void): void
+  }
 }
 
 export type State = {

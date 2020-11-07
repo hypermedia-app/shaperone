@@ -2,8 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import { PropertyShape } from '@rdfine/shacl'
 import type * as Rdfs from '@rdfine/rdfs'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import * as $rdf from '@rdf-esm/dataset'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import type { Dispatch, Store } from '../../state'
 import { addMatchers } from './reducers/addMatchers'
@@ -44,7 +43,6 @@ export const editors = createModel(({
     multiEditors: {},
     singleEditors: {},
     allEditors: {},
-    metadata: cf({ dataset: $rdf.dataset() }),
   },
   reducers: {
     addMetadata,

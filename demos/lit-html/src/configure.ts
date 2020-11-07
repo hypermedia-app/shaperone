@@ -17,10 +17,8 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
   vaadin: { ...nativeComponents, ...vaadinComponents, languages: component('lumo') },
 }
 
-export function setUpLanguageMultiSelect() {
-  editors.addMetadata($rdf.dataset([...metadata()]))
-  editors.addMatchers({ matcher })
-}
+editors.addMetadata($rdf.dataset([...metadata()]))
+editors.addMatchers({ matcher })
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native

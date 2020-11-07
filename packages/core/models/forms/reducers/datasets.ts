@@ -67,15 +67,38 @@ export const setRootResource = formStateReducer(({ state, editors, multiEditors 
     return
   }
 
-  draft.focusStack = [rootPointer]
   draft.resourceGraph = rootPointer.dataset
-  draft.focusNodes = {
-    [rootPointer.value]: initialiseFocusNode({
-      focusNode: rootPointer,
+
+  if (!state.focusStack.length || rootPointer.value !== draft.focusStack[0].value) {
+    draft.focusStack = [rootPointer]
+    draft.focusNodes = {
+      [rootPointer.value]: initialiseFocusNode({
+        focusNode: rootPointer,
+        editors,
+        multiEditors,
+        shapes: state.shapes,
+        shouldEnableEditorChoice: draft.shouldEnableEditorChoice,
+      }, state.focusNodes[rootPointer.value]),
+    }
+    return
+  }
+
+  const focusStack = []
+  const focusNodes: Record<string, FocusNodeState> = {}
+  for (const currentFocusNode of state.focusStack) {
+    const focusNode = rootPointer.node(currentFocusNode)
+    if (!focusNode.out().values) break
+
+    focusStack.push(focusNode)
+    focusNodes[focusNode.value] = initialiseFocusNode({
+      focusNode,
       editors,
       multiEditors,
       shapes: state.shapes,
       shouldEnableEditorChoice: draft.shouldEnableEditorChoice,
-    }, state.focusNodes[rootPointer.value]),
+    }, state.focusNodes[focusNode.value])
   }
+
+  draft.focusStack = focusStack
+  draft.focusNodes = focusNodes
 }))

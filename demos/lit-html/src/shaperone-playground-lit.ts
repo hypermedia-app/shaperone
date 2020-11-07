@@ -144,7 +144,8 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
             <shaperone-form id="form"
                            .shapes="${this.shape.dataset}"
                            .resource="${this.resource.pointer}"
-                           ?no-editor-switches="${this.noEditorSwitches}"></shaperone-form>
+                           ?no-editor-switches="${this.noEditorSwitches}"
+                           @changed="${this.__saveResource}"></shaperone-form>
           </div>
           <div style="min-width: 50%; max-width: 80%">
             <vaadin-menu-bar .items="${resourceMenu(this.resource)}" @item-selected="${this.__editorMenuSelected(store().dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
@@ -198,7 +199,6 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         store().dispatch.rendererSettings.switchNesting(e.detail.value.id)
         break
       default:
-        this.__saveResource()
         break
     }
   }
@@ -236,8 +236,6 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   __renderSharingDialog(parent: ShaperonePlayground) {
-    const save = () => parent.__saveResource()
-
     return (root: HTMLElement) => {
       let dialogContents: Element
       if (!root.firstElementChild) {
@@ -251,8 +249,6 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                                      readonly autoselect
                                      label="Copy this URL to share playground"
                                     .value="${parent.playground.sharingLink}"></vaadin-text-field>
-                  <br>
-                  Make sure to <a href="javascript:void(0)" @click="${save}">save</a> first
                   <br>
                   <vaadin-checkbox ?checked="${parent.playground.shareFormSettings}"
                                   @change="${() => store().dispatch.playground.shareFormSettings(!parent.playground.shareFormSettings)}">

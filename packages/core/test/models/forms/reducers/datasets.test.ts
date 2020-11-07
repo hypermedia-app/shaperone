@@ -213,6 +213,25 @@ describe('core/models/forms/reducers/datasets', () => {
       expect(after).to.eq(before)
     })
 
+    it('does note replace stack if all resources exist in dataset', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { form, state: before } = testState()
+      const initialFoo = graph.node(ex.Foo)
+      const initialBar = graph.node(ex.Bar)
+      before.instances.get(form)!.focusStack = [initialFoo, initialBar]
+
+      // when
+      const newButSame = cf({ dataset: $rdf.dataset([...graph.dataset]) }).node(initialFoo)
+      const after = setRootResource(before, {
+        form,
+        rootPointer: newButSame,
+      })
+
+      // then
+      expect(after).to.eq(before)
+    })
+
     it('populates focus node state for root node', () => {
       // given
       const { form, state } = testState()
