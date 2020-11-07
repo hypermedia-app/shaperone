@@ -29,11 +29,13 @@ export type Dispatch = StoreDispatch<typeof config>
 export type Store = ModelStore<Dispatch, State>
 
 export const store = (() => {
-  const store = createStore(config)
+  let debug = false
+  let store = createStore(config)
 
   return () => {
-    if (window.Shaperone?.DEBUG === true) {
-      return devtools(store)
+    if (window.Shaperone?.DEBUG === true && !debug) {
+      debug = true
+      store = devtools(store)
     }
 
     return store
