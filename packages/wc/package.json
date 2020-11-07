@@ -13,7 +13,7 @@
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
     "@hydrofoil/shaperone-core": "0.2.3",
-    "@rdf-esm/data-model": "^0.5.3",
+    "@rdf-esm/data-model": "^0.5.4",
     "@rdfine/shacl": "^0.5.1",
     "@rdf-esm/term-map": "^0.5.0",
     "@tpluscode/rdf-ns-builders": "^0.4.0",
