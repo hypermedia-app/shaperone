@@ -32,7 +32,7 @@ export interface SingleEditorMatch extends SingleEditor {
 type EditorMap<T> = Record<string, T | undefined>
 
 export interface EditorsState {
-  metadata?: AnyPointer
+  metadata: AnyPointer
   allEditors: EditorMap<Editor<EditorMatcher>>
   singleEditors: EditorMap<Editor<SingleEditor>>
   multiEditors: EditorMap<Editor<MultiEditor>>

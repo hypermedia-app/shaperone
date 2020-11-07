@@ -34,6 +34,6 @@ describe('shaperone-form', () => {
 
     // then
     expect(foo.detail.focusNode.value).to.equal(resource.value)
-    expect(foo.detail.property).to.equal(shape.property)
+    expect(foo.detail.property.id).to.equal(shape.property[0].id)
   })
 })
