@@ -91,8 +91,8 @@ describe('core/models/forms/reducers/datasets', () => {
       shapesGraph.node(ex.Shape).addOut(rdf.type, sh.Shape).addOut(sh.targetNode, [ex.Foo, ex.Bar])
       const formState = state.instances.get(form)!
       formState.focusStack = [
-        resourceGraph.node(ex.Foo),
-        resourceGraph.node(ex.Bar),
+        resourceGraph.node(ex.Foo).term,
+        resourceGraph.node(ex.Bar).term,
       ]
 
       // when
@@ -144,7 +144,7 @@ describe('core/models/forms/reducers/datasets', () => {
     it('pushes first focus node', () => {
       // given
       const { form, state } = testState()
-      const rootPointer = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
+      const rootPointer = cf({ dataset: $rdf.dataset() }).node(ex.Foo).term
 
       // when
       const after = setRootResource(state, {
@@ -166,7 +166,7 @@ describe('core/models/forms/reducers/datasets', () => {
       // when
       const after = setRootResource(state, {
         form,
-        rootPointer: graph.node(ex.Foo),
+        rootPointer: graph.node(ex.Foo).term,
       })
 
       // then

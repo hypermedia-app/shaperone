@@ -19,7 +19,7 @@ export const selectEditor = formStateReducer(({ state }, { focusNode, property, 
     return
   }
 
-  const object = propertyState.objects.find(o => o.object.term.equals(value))
+  const object = propertyState.objects.find(o => o.object.equals(value))
   if (object) {
     object.selectedEditor = editor
   }

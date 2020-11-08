@@ -9,7 +9,7 @@ export const truncateFocusNodes = formStateReducer(({ state }, { focusNode }: { 
     return
   }
 
-  const topNodeIndex = draft.focusStack.findIndex(fn => fn.term.equals(focusNode.term))
+  const topNodeIndex = draft.focusStack.findIndex(fn => fn.equals(focusNode))
   if (topNodeIndex >= 0) {
     draft.focusStack.splice(topNodeIndex, 1)
   }

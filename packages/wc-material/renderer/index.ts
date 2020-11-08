@@ -10,7 +10,7 @@ export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRe
   const renderer: FocusNodeRenderStrategy = (params) => {
     const { focusNode, actions } = params
 
-    const shapes = focusNode.matchingShapes.length ? focusNode.matchingShapes : focusNode.shapes
+    const shapes = focusNode.shapes.length ? focusNode.shapes : params.shapes
 
     return html`<mwc-list part="focus-node-header">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>

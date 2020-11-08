@@ -15,7 +15,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal(3)
 
       // when
-      const result = DashEditors.textField.match(property, value)
+      const result = DashEditors.textField.match(property, value.term)
 
       // then
       expect(result).to.eq(10)
@@ -28,7 +28,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal(true)
 
       // when
-      const result = DashEditors.textField.match(property, value)
+      const result = DashEditors.textField.match(property, value.term)
 
       // then
       expect(result).to.eq(0)
@@ -41,7 +41,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('foo', 'en')
 
       // when
-      const result = DashEditors.textField.match(property, value)
+      const result = DashEditors.textField.match(property, value.term)
 
       // then
       expect(result).to.eq(0)
@@ -54,7 +54,7 @@ describe('core/DashEditors', () => {
       const value = graph.blankNode()
 
       // when
-      const result = DashEditors.textField.match(property, value)
+      const result = DashEditors.textField.match(property, value.term)
 
       // then
       expect(result).to.eq(0)
@@ -69,7 +69,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal(3)
 
       // when
-      const result = DashEditors.textArea.match(property, value)
+      const result = DashEditors.textArea.match(property, value.term)
 
       // then
       expect(result).to.eq(0)
@@ -99,7 +99,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('3', 'en')
 
       // when
-      const result = DashEditors.textArea.match(property, value)
+      const result = DashEditors.textArea.match(property, value.term)
 
       // then
       expect(result).to.eq(2)
@@ -116,7 +116,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('EN')
 
       // when
-      const result = DashEditors.enumSelect.match(property, value)
+      const result = DashEditors.enumSelect.match(property, value.term)
 
       // then
       expect(result).to.eq(20)
@@ -131,7 +131,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('')
 
       // when
-      const result = DashEditors.enumSelect.match(property, value)
+      const result = DashEditors.enumSelect.match(property, value.term)
 
       // then
       expect(result).to.eq(20)
@@ -146,7 +146,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('FR')
 
       // when
-      const result = DashEditors.enumSelect.match(property, value)
+      const result = DashEditors.enumSelect.match(property, value.term)
 
       // then
       expect(result).to.eq(6)
@@ -161,7 +161,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('2000-10-09', xsd.date)
 
       // when
-      const result = DashEditors.datePicker.match(property, value)
+      const result = DashEditors.datePicker.match(property, value.term)
 
       // then
       expect(result).to.eq(15)
@@ -176,7 +176,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('')
 
       // when
-      const result = DashEditors.datePicker.match(property, value)
+      const result = DashEditors.datePicker.match(property, value.term)
 
       // then
       expect(result).to.eq(5)
@@ -191,7 +191,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('2000-10-09', xsd.dateTime)
 
       // when
-      const result = DashEditors.dateTimePicker.match(property, value)
+      const result = DashEditors.dateTimePicker.match(property, value.term)
 
       // then
       expect(result).to.eq(15)
@@ -206,7 +206,7 @@ describe('core/DashEditors', () => {
       const value = graph.literal('')
 
       // when
-      const result = DashEditors.dateTimePicker.match(property, value)
+      const result = DashEditors.dateTimePicker.match(property, value.term)
 
       // then
       expect(result).to.eq(5)
@@ -220,7 +220,7 @@ describe('core/DashEditors', () => {
       const property = new PropertyShapeMixin.Class(graph.blankNode())
 
       // when
-      const result = DashEditors.instancesSelectEditor.match(property, graph.blankNode())
+      const result = DashEditors.instancesSelectEditor.match(property, graph.blankNode().term)
 
       // then
       expect(result).to.eq(0)
@@ -234,7 +234,7 @@ describe('core/DashEditors', () => {
       })
 
       // when
-      const result = DashEditors.instancesSelectEditor.match(property, graph.blankNode())
+      const result = DashEditors.instancesSelectEditor.match(property, graph.blankNode().term)
 
       // then
       expect(result).to.eq(null)
@@ -250,7 +250,7 @@ describe('core/DashEditors', () => {
       })
 
       // when
-      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo'))
+      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo').term)
 
       // then
       expect(result).to.eq(10)
@@ -265,7 +265,7 @@ describe('core/DashEditors', () => {
       })
 
       // when
-      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo'))
+      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo').term)
 
       // then
       expect(result).to.eq(0)
@@ -277,7 +277,7 @@ describe('core/DashEditors', () => {
       const property = new PropertyShapeMixin.Class(graph.blankNode())
 
       // when
-      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo'))
+      const result = DashEditors.uriEditor.match(property, graph.namedNode('foo').term)
 
       // then
       expect(result).to.eq(null)

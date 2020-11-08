@@ -1,43 +1,39 @@
-import { PropertyShape } from '@rdfine/shacl'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 import type { Store } from '../../state/index'
-import { Editor, MultiEditor, SingleEditor } from '../editors'
-import { BaseParams } from './reducers'
-import { FocusNode } from '../../index'
-
-function toDefined<T>(arr: T[], next: T | undefined): T[] {
-  if (!next) {
-    return arr
-  }
-
-  return [...arr, next]
-}
-
-function notify(store: Store) {
-  return ({ form, ...params }: BaseParams & { focusNode: FocusNode; property: PropertyShape }) => {
-    const { forms } = store.getState()
-    forms.instances.get(form)?.changeNotifier.notify({
-      ...params,
-    })
-  }
-}
+import * as setRoot from '../resources/reducers/setRoot'
 
 export function effects(store: Store) {
   const dispatch = store.getDispatch()
 
   return {
-    'editors/addMatchers': () => {
-      const { editors } = store.getState()
-      const singleEditors = Object.values(editors.singleEditors).reduce<Editor<SingleEditor>[]>(toDefined, [])
-      const multiEditors = Object.values(editors.multiEditors).reduce<Editor<MultiEditor>[]>(toDefined, [])
+    'shapes/setGraph': ({ form }: { form: symbol }) => {
+      const focusNodes = store.getState().forms.instances.get(form)?.focusNodes || {}
+      const graph = store.getState().resources.get(form)?.graph
+      if (!graph) {
+        return
+      }
 
-      dispatch.forms.setEditors({
-        singleEditors,
-        multiEditors,
+      Object.values(focusNodes).forEach((state) => {
+        const { focusNode } = state
+
+        dispatch.forms.replaceFocusNodes({
+          form,
+          focusNode,
+          label: graph.node(focusNode).out(rdfs.label).value || 'Resource',
+        })
       })
     },
-    'forms/addObject': notify(store),
-    'forms/updateObject': notify(store),
-    'forms/removeObject': notify(store),
-    'forms/replaceObjects': notify(store),
+    'resources/setRoot': ({ form, rootPointer }: setRoot.Params) => {
+      const { forms } = store.getState()
+      const formState = forms.instances.get(form)
+
+      if (!formState?.focusStack.length || rootPointer.value !== formState?.focusStack[0].value) {
+        dispatch.forms.replaceFocusNodes({
+          form,
+          focusNode: rootPointer.term,
+          label: rootPointer.out(rdfs.label).value || 'Resource',
+        })
+      }
+    },
   }
 }

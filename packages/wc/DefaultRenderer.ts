@@ -11,10 +11,11 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import { byGroup, onlySingleProperty } from '@hydrofoil/shaperone-core/lib/filter'
 import type { NodeShape, PropertyGroup } from '@rdfine/shacl'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
+import { nanoid } from 'nanoid'
 import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
-  render({ form, editors, state, components, actions, strategy }: RenderParams): TemplateResult {
+  render({ form, editors, state, components, actions, strategy, shapes }: RenderParams): TemplateResult {
     if (!form || !editors || !state || !components) {
       return html``
     }
@@ -42,7 +43,7 @@ export const DefaultRenderer: Renderer = {
 
         const renderProperty = (property: PropertyState) => {
           const propertyRenderActions = {
-            addObject: () => actions.forms.addObject({ form, focusNode, property: property.shape }),
+            addObject: () => actions.forms.addObject({ form, focusNode, property: property.shape, key: nanoid() }),
             selectMultiEditor: () => actions.forms.selectMultiEditor({ form, focusNode, property: property.shape }),
             selectSingleEditors: () => actions.forms.selectSingleEditors({ form, focusNode, property: property.shape }),
           }
@@ -90,7 +91,7 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  value: value.object.term,
+                  value: value.object,
                   editor,
                 })
               },
@@ -109,13 +110,13 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  oldValue: value.object.term,
+                  oldValue: value.object,
                   newValue,
                 })
               }
 
               function focusOnObjectNode() {
-                if (value.object.term.termType === 'NamedNode' || value.object.term.termType === 'BlankNode') {
+                if (value.object.termType === 'NamedNode' || value.object.termType === 'BlankNode') {
                   actions.forms.pushFocusNode({ form, focusNode: value.object as any, property: property.shape })
                 }
               }
@@ -167,6 +168,7 @@ export const DefaultRenderer: Renderer = {
       }
 
       return strategy.focusNode({
+        shapes,
         focusNode: focusNodeState,
         actions: focusNodeActions,
         renderGroup,

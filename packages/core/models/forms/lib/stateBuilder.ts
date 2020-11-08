@@ -1,43 +1,27 @@
 import { NodeShape, PropertyShape } from '@rdfine/shacl'
-import type { MultiPointer, GraphPointer } from 'clownface'
 import { shrink } from '@zazuko/rdf-vocabularies/shrink'
-import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
-import { NamedNode } from 'rdf-js'
-import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
-import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../../editors/index'
+import { dash } from '@tpluscode/rdf-ns-builders'
+import { NamedNode, Term } from 'rdf-js'
+import { nanoid } from 'nanoid'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
-import { getPathProperty } from '../../../lib/property'
-import { matchFor } from './shapes'
-import { defaultValue } from './defaultValue'
-
-export function matchEditors(shape: PropertyShape, object: GraphPointer, editors: SingleEditor[]): SingleEditorMatch[] {
-  return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
-    .filter(match => match.score === null || match.score > 0)
-    .sort((left, right) => {
-      const leftScore = left.score || 0
-      const rightScore = right.score || 0
-
-      return rightScore - leftScore
-    })
-}
+import { getPathProperty } from '../../resources/lib/property'
 
 interface InitPropertyObjectShapeParams {
   shape: PropertyShape
-  editors: SingleEditor[]
   shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
-export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice }: InitPropertyObjectShapeParams, previous: PropertyState | undefined) {
-  return (object: GraphPointer): PropertyObjectState => {
-    let matchedEditors = matchEditors(shape, object, editors)
+export function initialiseObjectState({ shape, shouldEnableEditorChoice }: InitPropertyObjectShapeParams, previous: PropertyState | undefined) {
+  return (object: Term): PropertyObjectState => {
+    let matchedEditors = matchEditors(shape, object, [])
     let selectedEditor
 
     const preferredEditorId = shape.get(dash.editor)?.id
     if (preferredEditorId?.termType === 'NamedNode') {
-      const preferredEditor = editors.find(e => e.term.equals(preferredEditorId))
+      const preferredEditor = [].find((e: any) => e.term.equals(preferredEditorId))
       selectedEditor = preferredEditorId
       if (preferredEditor) {
         matchedEditors.splice(matchedEditors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
@@ -47,12 +31,13 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
       selectedEditor = matchedEditors[0]?.term
     }
 
-    const previousObject = previous?.objects?.find(o => o.object.term.equals(object.term))
+    const previousObject = previous?.objects?.find(o => o.object.equals(object))
     if (previousObject?.selectedEditor) {
       selectedEditor = previousObject.selectedEditor
     }
 
     return {
+      key: nanoid(),
       object,
       editors: matchedEditors,
       selectedEditor,
@@ -64,26 +49,21 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
 interface InitPropertyShapeParams {
   focusNode: FocusNode
   shape: PropertyShape
-  editors: SingleEditor[]
-  multiEditors: MultiEditor[]
-  values: MultiPointer
+  values: Term[]
   shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
 function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
-  let { focusNode, shape, values } = params
+  const { shape, values } = params
 
   if (values.values.length === 0 && params.shape.minCount && params.shape.minCount > 0) {
-    values = defaultValue(params.shape, focusNode)
-    if (shape.defaultValue) {
-      focusNode.addOut(getPathProperty(shape).id, values)
-    }
+    // values = defaultValue(params.shape, focusNode)
+    // if (shape.defaultValue) {
+    //   focusNode.addOut(getPathProperty(shape).id, values)
+    // }
   }
 
-  const editors = params.multiEditors
-    .map(editor => ({ editor, score: editor.match(shape) }))
-    .filter(match => match.score === null || match.score > 0)
-    .map(e => e.editor) || []
+  const editors: any[] = []
 
   const objects = values.map(initialiseObjectState(params, previous))
 
@@ -115,15 +95,13 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
 }
 
 interface InitializePropertyShapesParams {
-  editors: SingleEditor[]
-  multiEditors: MultiEditor[]
   focusNode: FocusNode
   selectedGroup?: string
   shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
 export function initialisePropertyShapes(shape: NodeShape, params: InitializePropertyShapesParams, previous: FocusNodeState | undefined) {
-  const { selectedGroup, editors, multiEditors, focusNode, shouldEnableEditorChoice } = params
+  const { selectedGroup, focusNode, shouldEnableEditorChoice } = params
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
   const properties = shape.property
@@ -138,9 +116,7 @@ export function initialisePropertyShapes(shape: NodeShape, params: InitializePro
     return [...map, initialisePropertyShape({
       focusNode,
       shape: prop,
-      editors,
-      multiEditors,
-      values: focusNode.out(getPathProperty(prop).id),
+      values: [], // focusNode.out(getPathProperty(prop).id),
       shouldEnableEditorChoice,
     }, previous?.properties?.find(p => p.shape.equals(prop)))]
   }, []).sort((l, r) => byShOrder(l.shape, r.shape))
@@ -156,23 +132,16 @@ export function initialisePropertyShapes(shape: NodeShape, params: InitializePro
 interface InitializeParams {
   shapes: NodeShape[]
   shape?: NodeShape
-  editors: SingleEditor[]
-  multiEditors: MultiEditor[]
   focusNode: FocusNode
   selectedGroup?: string
   shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
-interface FocusNodeInitOptions {
-  getMatcher?(focusNode: ResourceNode): (shape: NodeShape) => boolean
-}
-
-export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined, { getMatcher = matchFor }: FocusNodeInitOptions = {}): FocusNodeState {
+function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined): Partial<FocusNodeState> {
   const { focusNode, shapes } = params
 
   if (!params.shape && !shapes.length) {
     return {
-      matchingShapes: [],
       shapes: [],
       focusNode,
       groups: [],
@@ -181,8 +150,8 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     }
   }
 
-  const isMatch = getMatcher(focusNode)
-  let { matchingShapes, otherShapes } = shapes.reduce(({ matchingShapes, otherShapes }, next) => {
+  const isMatch = () => false // getMatcher(focusNode)
+  const { matchingShapes, otherShapes } = shapes.reduce(({ matchingShapes, otherShapes }, next) => {
     if (isMatch(next)) {
       return {
         matchingShapes: [...matchingShapes, next],
@@ -206,19 +175,12 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
   if (!shape) {
     [shape] = shapes
   }
-  if (!matchingShapes.find(s => shape.equals(s))) {
-    matchingShapes = [shape, ...matchingShapes]
-  }
 
   const { properties, groups } = initialisePropertyShapes(shape, params, previous)
 
   return {
-    shape,
-    matchingShapes,
-    shapes: [...matchingShapes, ...otherShapes],
     focusNode,
     groups,
     properties,
-    label: focusNode.out(rdfs.label).value || 'Resource',
   }
 }

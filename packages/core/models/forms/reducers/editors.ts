@@ -1,41 +1,41 @@
 import produce from 'immer'
-import type { MultiEditor, SingleEditor } from '../../editors/index'
-import type { FormState, PropertyObjectState, State } from '../index'
-import { initialisePropertyShapes } from '../lib/stateBuilder'
+import { PropertyShape } from '@rdfine/shacl'
+import type { MultiEditor, SingleEditorMatch } from '../../editors/index'
+import type { PropertyObjectState } from '../index'
 import { formStateReducer } from './index'
+import { FocusNode } from '../../../index'
 
-export interface SetEditorsParams {
-  singleEditors: SingleEditor[]
-  multiEditors: MultiEditor[]
+export interface SetSingleEditorsParams {
+  focusNode: FocusNode
+  object: string
+  propertyShape: PropertyShape
+  editors: SingleEditorMatch[]
 }
 
-export const setEditors = (state: State, { singleEditors, multiEditors }: SetEditorsParams): State => {
-  const producer = produce((draft: [unknown, FormState]) => {
-    const formState = draft[1]
-    for (const [, focusNodeState] of Object.entries(formState.focusNodes)) {
-      if (focusNodeState.shape) {
-        const { groups, properties } = initialisePropertyShapes(focusNodeState.shape, {
-          editors: singleEditors,
-          multiEditors,
-          shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
-          focusNode: focusNodeState.focusNode,
-        }, focusNodeState)
-
-        focusNodeState.properties = properties
-        focusNodeState.groups = groups
-      }
+export const setSingleEditors = formStateReducer(({ state }, { editors, focusNode, propertyShape, object } :SetSingleEditorsParams) => produce(state, (draft) => {
+  const propertyState = draft.focusNodes[focusNode.value]?.properties.find(property => property.shape.equals(propertyShape))
+  const objectState = propertyState?.objects.find(os => os.key === object)
+  if (objectState) {
+    objectState.editors = editors
+    if (!objectState.selectedEditor || !editors.find(editor => editor.term.equals(objectState.selectedEditor))) {
+      objectState.selectedEditor = editors[0]?.term
     }
-  })
-
-  const forms = [...state.instances.entries()].map(producer)
-
-  return {
-    ...state,
-    singleEditors,
-    multiEditors,
-    instances: new Map(forms),
   }
+}))
+
+export interface SetMultiEditorsParams {
+  focusNode: FocusNode
+  propertyShape: PropertyShape
+  editors: MultiEditor[]
 }
+
+export const setPropertyEditors = formStateReducer(({ state }, { focusNode, propertyShape, editors }: SetMultiEditorsParams) => produce(state, (draft) => {
+  const propertyState = draft.focusNodes[focusNode.value]?.properties.find(property => property.shape.equals(propertyShape))
+
+  if (propertyState) {
+    propertyState.editors = editors
+  }
+}))
 
 export const toggleSwitching = formStateReducer<{ switchingEnabled: boolean }>(({ state }, { switchingEnabled }) => produce(state, (draft) => {
   draft.shouldEnableEditorChoice = () => switchingEnabled

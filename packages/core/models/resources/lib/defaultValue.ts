@@ -2,13 +2,14 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import { dash, rdf, sh } from '@tpluscode/rdf-ns-builders'
 import type { RdfResource, ResourceIdentifier } from '@tpluscode/rdfine'
+import { Term } from 'rdf-js'
 import type { FocusNode } from '../../../index'
 import * as datatypes from '../../../lib/datatypes'
 
-function defaultNumericValue(datatype: RdfResource | undefined, graph: AnyPointer): GraphPointer | null {
+function defaultNumericValue(datatype: RdfResource | undefined, graph: AnyPointer): Term | null {
   const numericDatatype = datatypes.numericDatatype(datatype?.id)
   if (numericDatatype) {
-    return graph.literal('0', numericDatatype)
+    return graph.literal('0', numericDatatype).term
   }
 
   return null
@@ -16,17 +17,17 @@ function defaultNumericValue(datatype: RdfResource | undefined, graph: AnyPointe
 
 function defaultStringValue(datatype: RdfResource | undefined, graph: AnyPointer) {
   if (datatype?.id.termType === 'NamedNode') {
-    return graph.literal('', datatype?.id)
+    return graph.literal('', datatype?.id).term
   }
 
-  return graph.literal('')
+  return graph.literal('').term
 }
 
-export function defaultValue(property: PropertyShape, focusNode: FocusNode): GraphPointer {
+export function defaultValue(property: PropertyShape, focusNode: GraphPointer<FocusNode>): Term {
   const { nodeKind } = property
 
   if (property.defaultValue) {
-    return focusNode.node(property.defaultValue)
+    return property.defaultValue
   }
 
   if (property.class || nodeKind?.equals(sh.IRI) || nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI)) {
@@ -36,7 +37,7 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Gra
       resourceNode.addOut(rdf.type, propertyClass.id)
     }
 
-    return resourceNode
+    return resourceNode.term
   }
 
   const { datatype } = property

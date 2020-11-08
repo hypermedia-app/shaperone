@@ -7,25 +7,12 @@ interface ChangeDetails {
   property: PropertyShape
 }
 
-class ChangeNotifier {
-  listeners: Set<(detail: ChangeDetails) => void> = new Set()
-
-  notify(detail: ChangeDetails): void {
-    this.listeners.forEach(l => l(detail))
-  }
-
-  onChange(listener: (detail: ChangeDetails) => void) {
-    this.listeners.add(listener)
-  }
-}
-
 export function connect(map: State, form: symbol): State {
   map.instances.set(form, {
     shapes: [],
     focusNodes: {},
     focusStack: [],
     shouldEnableEditorChoice: () => true,
-    changeNotifier: new ChangeNotifier(),
   })
   return map
 }

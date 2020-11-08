@@ -3,7 +3,8 @@ import { DatasetCore } from 'rdf-js'
 import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
 import { connect } from '@captaincodeman/rdx'
-import type { AnyPointer } from 'clownface'
+import type { AnyPointer, GraphPointer } from 'clownface'
+import { NodeShape } from '@rdfine/shacl'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import type { Renderer } from './renderer'
@@ -13,8 +14,9 @@ import * as NativeComponents from './NativeComponents'
 store().dispatch.components.pushComponents(NativeComponents)
 
 const resourceSymbol: unique symbol = Symbol('resource')
-const shapesSymbol: unique symbol = Symbol('shapes')
+const shapesSymbol: unique symbol = Symbol('shapes dataset')
 const notify: unique symbol = Symbol('notify')
+const shapes: unique symbol = Symbol('shapes')
 
 export const id: (form: any) => symbol = (() => {
   const map = new WeakMap<any, symbol>()
@@ -35,7 +37,7 @@ export const id: (form: any) => symbol = (() => {
 
 @customElement('shaperone-form')
 export class ShaperoneForm extends connect(store(), LitElement) {
-  private [resourceSymbol]?: FocusNode
+  private [resourceSymbol]?: GraphPointer<FocusNode>
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
   private [notify]: (detail: any) => void
 
@@ -47,6 +49,9 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   }
 
   renderer: Renderer = DefaultRenderer
+
+  @property({ type: Object })
+  private [shapes]: NodeShape[] = []
 
   @property({ type: Object })
   editors!: State['editors']
@@ -73,6 +78,8 @@ export class ShaperoneForm extends connect(store(), LitElement) {
 
     store().dispatch.editors.loadDash()
     store().dispatch.forms.connect(id(this))
+    store().dispatch.resources.connect(id(this))
+    store().dispatch.shapes.connect(id(this))
 
     super.connectedCallback()
 
@@ -95,20 +102,18 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     }
   }
 
-  get resource(): FocusNode | undefined {
+  get resource(): GraphPointer<FocusNode> | undefined {
     return this[resourceSymbol]
   }
 
-  set resource(rootPointer: FocusNode | undefined) {
+  set resource(rootPointer: GraphPointer<FocusNode> | undefined) {
     if (!rootPointer) return
 
     this[resourceSymbol] = rootPointer
-    store().dispatch.forms.setRootResource({ form: id(this), rootPointer })
+    store().dispatch.resources.setRoot({ form: id(this), rootPointer })
   }
 
-  get value(): DatasetCore | undefined {
-    return this.state.resourceGraph
-  }
+  value: DatasetCore | undefined
 
   get shapes(): AnyPointer | DatasetCore | undefined {
     return this[shapesSymbol]
@@ -118,7 +123,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     if (!shapesGraph) return
 
     this[shapesSymbol] = shapesGraph
-    store().dispatch.forms.setShapesGraph({
+    store().dispatch.shapes.setGraph({
       form: id(this),
       shapesGraph,
     })
@@ -138,14 +143,17 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       components: this.components,
       actions: store().dispatch,
       strategy: this.rendererOptions.strategy,
+      shapes: this[shapes],
     })}`
   }
 
   mapState(state: State) {
-    state.forms.instances.get(id(this))?.changeNotifier.onChange(this[notify])
+    state.resources.get(id(this))?.changeNotifier.onChange(this[notify])
 
     return {
       state: state.forms.instances.get(id(this)),
+      value: state.resources.get(id(this))?.graph?.dataset,
+      [shapes]: state.shapes.get(id(this))?.shapes || [],
       rendererOptions: state.renderer,
       editors: state.editors,
       components: state.components,

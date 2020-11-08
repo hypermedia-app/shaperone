@@ -16,7 +16,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       const { form, state } = testState({
         form: {
           focusNodes: {
-            ...testFocusNodeState(focusNode, {
+            ...testFocusNodeState(focusNode.term, {
               properties: [testPropertyState(shape.pointer, {
                 editors: [testEditor(dash.MultiEditor1)],
               })],
@@ -28,7 +28,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // when
       const after = selectMultiEditor(state, {
         form,
-        focusNode,
+        focusNode: focusNode.term,
         property: shape,
       })
 
@@ -46,7 +46,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       const { form, state } = testState({
         form: {
           focusNodes: {
-            ...testFocusNodeState(focusNode, {
+            ...testFocusNodeState(focusNode.term, {
               properties: [testPropertyState(shape.pointer, {
                 selectedEditor: dash.MultiEditor1,
               })],
@@ -58,7 +58,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // when
       const after = selectSingleEditors(state, {
         form,
-        focusNode,
+        focusNode: focusNode.term,
         property: shape,
       })
 

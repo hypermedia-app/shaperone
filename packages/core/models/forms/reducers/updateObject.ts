@@ -5,12 +5,11 @@ import { formStateReducer } from './index'
 import type { PropertyObjectState } from '../index'
 import type { FocusNode } from '../../../index'
 import { matchEditors } from '../lib/stateBuilder'
-import { getPathProperty } from '../../../lib/property'
 
 export interface UpdateObjectParams {
   focusNode: FocusNode
   property: PropertyShape
-  oldValue: Term
+  oldValue: Term | undefined
   newValue: Term
 }
 
@@ -28,17 +27,17 @@ export const updateObject = formStateReducer(({ state }, { focusNode, property, 
     return
   }
 
-  const objectState = propertyState.objects.find(o => o.object.term.equals(oldValue))
-  if (objectState) {
-    objectState.object = focusNodeState.focusNode.node(newValue)
+  if (newValue.equals(oldValue)) {
+    return
   }
-  const pathProperty = getPathProperty(property).id
-  focusNodeState.focusNode
-    .deleteOut(pathProperty)
-    .addOut(pathProperty, propertyState.objects.map(o => o.object.term))
+
+  const objectState = propertyState.objects.find(o => o.object.equals(oldValue))
+  if (objectState) {
+    objectState.object = newValue
+  }
 }))
 
-export const replaceObjects = formStateReducer(({ state, editors }, { focusNode, property, terms }: ReplaceObjectsParams) => produce(state, (state) => {
+export const replaceObjects = formStateReducer(({ state }, { focusNode, property, terms }: ReplaceObjectsParams) => produce(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
@@ -46,8 +45,7 @@ export const replaceObjects = formStateReducer(({ state, editors }, { focusNode,
     return
   }
 
-  propertyState.objects = terms.map<PropertyObjectState>((term) => {
-    const object = focusNode.node(term)
+  propertyState.objects = terms.map<PropertyObjectState>((object) => {
     const suitableEditors = matchEditors(property, object, editors)
     return {
       object,
@@ -55,9 +53,4 @@ export const replaceObjects = formStateReducer(({ state, editors }, { focusNode,
       selectedEditor: suitableEditors[0]?.term,
     }
   })
-
-  const pathProperty = getPathProperty(property).id
-  focusNodeState.focusNode
-    .deleteOut(pathProperty)
-    .addOut(pathProperty, terms)
 }))

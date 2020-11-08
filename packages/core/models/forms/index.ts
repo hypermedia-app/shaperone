@@ -1,6 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import { AnyPointer, GraphPointer } from 'clownface'
-import { DatasetCore, NamedNode } from 'rdf-js'
+import { NamedNode, Term } from 'rdf-js'
 import { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { effects } from './effects'
 import { addObject } from './reducers/addObject'
@@ -13,21 +12,24 @@ import { selectShape } from './reducers/selectShape'
 import { truncateFocusNodes } from './reducers/truncateFocusNodes'
 import * as objects from './reducers/updateObject'
 import * as connection from './reducers/connection'
-import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
-import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../editors/index'
+import type { MultiEditor, SingleEditorMatch } from '../editors/index'
+import { replaceFocusNodes } from './reducers/replaceFocusNodes'
+import { setObjectValue } from './reducers/setObjectValue'
+import { updatePropertyObjects } from './reducers/updatePropertyObjects'
 
 export interface PropertyObjectState {
-  object: GraphPointer
+  key: string
+  object: Term
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
 }
 
 export interface ShouldEnableEditorChoice {
-  ({ object }: { object: GraphPointer }): boolean
+  ({ object }: { object: Term }): boolean
 }
 
 export interface PropertyState {
@@ -49,39 +51,24 @@ export interface PropertyGroupState {
 export interface FocusNodeState {
   focusNode: FocusNode
   shape?: Shape
-  matchingShapes: NodeShape[]
   shapes: NodeShape[]
   properties: PropertyState[]
   groups: PropertyGroupState[]
   label: string
 }
-
-interface ChangeDetails {
-  focusNode: FocusNode
-  property: PropertyShape
-}
-
 export interface FormState {
-  resourceGraph?: DatasetCore
-  shapesGraph?: AnyPointer
-  shapes: Shape[]
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
   shouldEnableEditorChoice: ShouldEnableEditorChoice
-  changeNotifier: {
-    notify(detail: ChangeDetails): void
-    onChange(listener: (detail: ChangeDetails) => void): void
-  }
 }
 
 export type State = {
-  singleEditors: SingleEditor[]
-  multiEditors: MultiEditor[]
   instances: Map<symbol, FormState>
 }
 
 const reducers = {
   addObject,
+  replaceFocusNodes,
   popFocusNode,
   pushFocusNode,
   removeObject,
@@ -91,15 +78,14 @@ const reducers = {
   truncateFocusNodes,
   ...objects,
   ...connection,
-  ...datasets,
   ...editors,
   ...multiEditors,
+  setObjectValue,
+  updatePropertyObjects,
 }
 
 export const forms = createModel<State, typeof reducers, ReturnType<typeof effects>>({
   state: {
-    singleEditors: [],
-    multiEditors: [],
     instances: new Map(),
   },
   reducers,

@@ -2,7 +2,6 @@ import { html } from 'lit-element'
 import { dash, rdfs, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal, namedNode } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
-import { getInPointers } from '@hydrofoil/shaperone-core/lib/property'
 import type{ GraphPointer } from 'clownface'
 import type { SingleEditorComponent } from './index'
 import { getType } from './components/lib/textFieldType'
@@ -11,7 +10,7 @@ export const textFieldEditor: SingleEditorComponent = {
   editor: dash.TextFieldEditor,
 
   render({ value, property }, { update }) {
-    return html`<input .value="${value.object}"
+    return html`<input .value="${value.object.value}"
                        type="${getType(property.datatype)}"
                        @blur="${(e: any) => update(e.target.value)}">`
   },
@@ -21,7 +20,7 @@ export const textAreaEditor: SingleEditorComponent = {
   editor: dash.TextAreaEditor,
 
   render({ value }, { update }) {
-    return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object}</textarea>`
+    return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object.value}</textarea>`
   },
 }
 
@@ -29,7 +28,7 @@ export const enumSelectEditor: SingleEditorComponent = {
   editor: dash.EnumSelectEditor,
 
   render({ value, property }, { update }) {
-    const choices = getInPointers(property.shape)
+    const choices = property.shape.pointer.node(property.shape.in).toArray()
 
     return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>
@@ -59,7 +58,7 @@ export const instancesSelectEditor: SingleEditorComponent = {
 
     return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>
-        ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object.term)}" value="${choice}">
+        ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object)}" value="${choice}">
             ${choice.out(rdfs.label).value || choice.value}
         </option>`)}
     </select>`

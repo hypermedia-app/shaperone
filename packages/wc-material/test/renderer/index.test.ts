@@ -42,6 +42,7 @@ describe('wc-material/renderer', () => {
       const focusNode = cf({ dataset: $rdf.dataset() })
         .node(ex.Foo)
         .addOut(rdfs.label, 'Foo')
+        .term
       const params = nullParams(focusNode)
 
       // when
@@ -59,7 +60,7 @@ describe('wc-material/renderer', () => {
 
       return ({
         object: {
-          object: shapesGraph.blankNode(),
+          object: shapesGraph.blankNode().term,
           editors: [],
           selectedEditor: undefined,
         },
@@ -90,7 +91,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
           selectedEditor: undefined,
         },
       })
@@ -113,7 +114,7 @@ describe('wc-material/renderer', () => {
         object: {
           editorSwitchDisabled: true,
           editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
           selectedEditor: undefined,
         },
       })
@@ -135,7 +136,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
           selectedEditor: undefined,
         },
       })
@@ -158,7 +159,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
           selectedEditor: undefined,
         },
       })
@@ -181,7 +182,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
+          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
           selectedEditor: undefined,
         },
       })
