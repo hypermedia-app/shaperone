@@ -5,11 +5,11 @@ import $rdf from '@rdf-esm/dataset'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import ns from '@rdf-esm/namespace'
 import deepmerge from 'deepmerge'
-import { PropertyShapeMixin } from '@rdfine/shacl'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
 import { RecursivePartial, testEditor, testPropertyState, testObjectState } from '@hydrofoil/shaperone-core/test/models/forms/util'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import * as render from '../../renderer/index'
 
 const ex = ns('http://example.com/')
@@ -20,13 +20,12 @@ describe('wc-material/renderer', () => {
   describe('focusNode', () => {
     const nullRenderer = () => html``
     const nullParams = (focusNode: FocusNode): Params => ({
+      shapes: [],
       focusNode: {
         properties: [],
         focusNode,
         shapes: [],
-        matchingShapes: [],
         groups: [],
-        label: '',
       },
       actions: {
         popFocusNode: sinon.spy(),
@@ -42,7 +41,6 @@ describe('wc-material/renderer', () => {
       const focusNode = cf({ dataset: $rdf.dataset() })
         .node(ex.Foo)
         .addOut(rdfs.label, 'Foo')
-        .term
       const params = nullParams(focusNode)
 
       // when
@@ -60,12 +58,12 @@ describe('wc-material/renderer', () => {
 
       return ({
         object: {
-          object: shapesGraph.blankNode().term,
+          object: shapesGraph.blankNode(),
           editors: [],
           selectedEditor: undefined,
         },
         property: {
-          shape: new PropertyShapeMixin.Class(shapesGraph.blankNode()),
+          shape: propertyShape(shapesGraph.blankNode()),
           editors: [],
           selectedEditor: undefined,
           objects: [],
@@ -91,7 +89,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
         },
       })
@@ -114,7 +112,7 @@ describe('wc-material/renderer', () => {
         object: {
           editorSwitchDisabled: true,
           editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
         },
       })
@@ -136,7 +134,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
         },
       })
@@ -159,7 +157,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
         },
       })
@@ -182,7 +180,7 @@ describe('wc-material/renderer', () => {
       const params = deepmerge<Params>(nullParams(), {
         object: {
           editors: [editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode().term,
+          object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
         },
       })

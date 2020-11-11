@@ -13,7 +13,7 @@ describe('core/models/forms/reducers/selectGroup', () => {
   it('sets flag on selected group and unsets others', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const focusNode = graph.node(ex.FocusNode).term
+    const focusNode = graph.node(ex.FocusNode)
     const { form, state } = testState({
       form: {
         focusNodes: {

@@ -1,9 +1,8 @@
 import { Shape } from '@rdfine/shacl'
 import { rdf } from '@tpluscode/rdf-ns-builders'
-import { GraphPointer } from 'clownface'
 import { FocusNode } from '../../../index'
 
-export function matchFor(focusNode: GraphPointer<FocusNode>) {
+export function matchFor(focusNode: FocusNode) {
   return (shape: Shape) => {
     const { targetNode, targetClass } = shape
 

@@ -23,7 +23,7 @@ export const createTextField: SingleEditorComponentFactory<TextFieldOptions> = (
   editor,
   render({ value, property }, { update }) {
     return html`<mwc-textfield
-        .value="${value.object.value}"
+        .value="${value.object?.value}"
         type="${this.type({ value, property })}"
         required
         @blur="${(e: any) => update(this.createTerm ? this.createTerm(e.target.value) : e.target.value)}"></mwc-textfield>`

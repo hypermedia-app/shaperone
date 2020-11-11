@@ -16,7 +16,7 @@ export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = t
     }))
 
     const values = property.objects.map(o => o.object)
-    const selected = languages.filter(lang => values.find(object => object.equals(lang.term)))
+    const selected = languages.filter(lang => values.find(object => object?.term.equals(lang.term)))
 
     return html`<multiselect-combo-box item-id-path="id" item-label-path="label"
                     .selectedItems="${selected}"
@@ -33,7 +33,7 @@ export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = t
 export const matcher: MultiEditor = {
   term: editor,
   match(shape) {
-    return getPathProperty(shape).equals(vcard.language) ? 50 : 0
+    return getPathProperty(shape)?.equals(vcard.language) ? 50 : 0
   },
 }
 

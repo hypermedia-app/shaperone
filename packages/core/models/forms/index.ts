@@ -1,10 +1,10 @@
 import { createModel } from '@captaincodeman/rdx'
-import { NamedNode, Term } from 'rdf-js'
-import { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
+import { NamedNode } from 'rdf-js'
+import type { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
+import { GraphPointer } from 'clownface'
 import { effects } from './effects'
-import { addObject } from './reducers/addObject'
+import { addFormField } from './reducers/addFormField'
 import { popFocusNode } from './reducers/popFocusNode'
-import { pushFocusNode } from './reducers/pushFocusNode'
 import { removeObject } from './reducers/removeObject'
 import { selectEditor } from './reducers/selectEditor'
 import { selectGroup } from './reducers/selectGroup'
@@ -16,20 +16,17 @@ import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
 import type { MultiEditor, SingleEditorMatch } from '../editors/index'
-import { replaceFocusNodes } from './reducers/replaceFocusNodes'
-import { setObjectValue } from './reducers/setObjectValue'
-import { updatePropertyObjects } from './reducers/updatePropertyObjects'
+import { createFocusNodeState } from './reducers/replaceFocusNodes'
 
 export interface PropertyObjectState {
-  key: string
-  object: Term
+  object?: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
 }
 
 export interface ShouldEnableEditorChoice {
-  ({ object }: { object: Term }): boolean
+  (params?: { object?: GraphPointer }): boolean
 }
 
 export interface PropertyState {
@@ -54,8 +51,8 @@ export interface FocusNodeState {
   shapes: NodeShape[]
   properties: PropertyState[]
   groups: PropertyGroupState[]
-  label: string
 }
+
 export interface FormState {
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
@@ -67,10 +64,8 @@ export type State = {
 }
 
 const reducers = {
-  addObject,
-  replaceFocusNodes,
+  addFormField,
   popFocusNode,
-  pushFocusNode,
   removeObject,
   selectEditor,
   selectGroup,
@@ -80,8 +75,7 @@ const reducers = {
   ...connection,
   ...editors,
   ...multiEditors,
-  setObjectValue,
-  updatePropertyObjects,
+  createFocusNodeState,
 }
 
 export const forms = createModel<State, typeof reducers, ReturnType<typeof effects>>({

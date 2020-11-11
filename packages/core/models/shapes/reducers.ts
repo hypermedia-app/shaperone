@@ -4,10 +4,10 @@ import produce from 'immer'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
 import { Shape, ShapeMixin } from '@rdfine/shacl'
-import { formStateReducer } from '../index'
+import { BaseParams, formStateReducer } from '../index'
 import type { ShapeState } from '.'
 
-export interface SetShapesGraphParams {
+export interface SetShapesGraphParams extends BaseParams {
   shapesGraph: DatasetCore | AnyPointer
 }
 

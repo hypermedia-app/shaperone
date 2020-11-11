@@ -2,21 +2,21 @@ import { describe, it } from 'mocha'
 import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { PropertyShapeMixin } from '@rdfine/shacl'
 import { expect } from 'chai'
-import { replaceObjects } from '../../../../models/forms/reducers/updateObject'
-import { testFocusNodeState, testState } from '../util'
+import { setPropertyObjects } from '../../../../models/forms/reducers/updateObject'
+import { testFocusNodeState, testState, testStore } from '../util'
+import { propertyShape } from '../../../util'
 
 const ex = ns('http://example.com/')
 
 describe('core/models/forms/reducers/updateObject', () => {
-  describe('replaceObjects', () => {
+  describe('setPropertyObjects', () => {
     it('removes all current triples and creates new', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.FocusNode)
         .addOut(ex.prop, ['foo1', 'foo2'])
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape(graph.blankNode(), {
         path: ex.prop,
       })
       const { form, state } = testState({
@@ -38,19 +38,19 @@ describe('core/models/forms/reducers/updateObject', () => {
       })
 
       // when
-      const after = replaceObjects(state, {
+      const after = setPropertyObjects(state, {
         focusNode,
         form,
         property,
-        terms: [$rdf.literal('bar1'), $rdf.literal('bar2'), $rdf.literal('bar3')],
+        editors: testStore().store.getState().editors,
+        objects: graph.node([$rdf.literal('bar1'), $rdf.literal('bar2'), $rdf.literal('bar3')]),
       })
 
       // then
       const { focusNodes: { [focusNode.value]: focusNodeState } } = after.instances.get(form)!
-      const values = focusNodeState.properties[0].objects.map(os => os.object.value)
+      const values = focusNodeState.properties[0].objects.map(os => os.object?.value)
       expect(values).to.have.length(3)
       expect(values).to.include.members(['bar1', 'bar2', 'bar3'])
-      expect(focusNodeState.focusNode.out(ex.prop).values).to.include.members(['bar1', 'bar2', 'bar3'])
     })
   })
 })

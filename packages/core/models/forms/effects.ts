@@ -1,39 +1,70 @@
-import { rdfs } from '@tpluscode/rdf-ns-builders'
+import type { PropertyShape } from '@rdfine/shacl'
+import { Term } from 'rdf-js'
 import type { Store } from '../../state/index'
-import * as setRoot from '../resources/reducers/setRoot'
+import resourcesEffects from './effects/resources'
+import shapesEffects from './effects/shapes'
+import * as selectShape from './reducers/selectShape'
+import { BaseParams } from '../index'
+import { FocusNode } from '../../index'
+import { pushFocusNode } from './effects/pushFocusNode'
 
 export function effects(store: Store) {
   const dispatch = store.getDispatch()
 
   return {
-    'shapes/setGraph': ({ form }: { form: symbol }) => {
-      const focusNodes = store.getState().forms.instances.get(form)?.focusNodes || {}
-      const graph = store.getState().resources.get(form)?.graph
+    ...shapesEffects(store),
+    ...resourcesEffects(store),
+    selectShape({ form, focusNode, shape }: selectShape.Params) {
+      const { editors, shapes, resources, forms } = store.getState()
+      const graph = resources.get(form)?.graph
+      const formState = forms.instances.get(form)
+      if (!graph || !formState) {
+        return
+      }
+
+      dispatch.forms.createFocusNodeState({
+        form,
+        focusNode,
+        editors,
+        shape,
+        shapes: shapes.get(form)?.shapes || [],
+        shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
+      })
+    },
+    addObject({ form, property, focusNode }: { focusNode: FocusNode; property: PropertyShape } & BaseParams) {
+      const { editors, resources } = store.getState()
+      const graph = resources.get(form)?.graph
       if (!graph) {
         return
       }
 
-      Object.values(focusNodes).forEach((state) => {
-        const { focusNode } = state
-
-        dispatch.forms.replaceFocusNodes({
-          form,
-          focusNode,
-          label: graph.node(focusNode).out(rdfs.label).value || 'Resource',
-        })
+      dispatch.forms.addFormField({
+        form,
+        property,
+        focusNode,
+        editors: editors.matchSingleEditors({ shape: property }),
       })
     },
-    'resources/setRoot': ({ form, rootPointer }: setRoot.Params) => {
-      const { forms } = store.getState()
-      const formState = forms.instances.get(form)
-
-      if (!formState?.focusStack.length || rootPointer.value !== formState?.focusStack[0].value) {
-        dispatch.forms.replaceFocusNodes({
-          form,
-          focusNode: rootPointer.term,
-          label: rootPointer.out(rdfs.label).value || 'Resource',
-        })
+    pushFocusNode: pushFocusNode(store),
+    replaceObjects({ form, focusNode, property, terms }: {
+      focusNode: FocusNode
+      property: PropertyShape
+      terms: Term[]
+    } & BaseParams) {
+      const { editors, resources } = store.getState()
+      const graph = resources.get(form)?.graph
+      if (!graph) {
+        return
       }
+      const objects = graph.node(terms)
+
+      dispatch.forms.setPropertyObjects({
+        form,
+        editors,
+        focusNode,
+        property,
+        objects,
+      })
     },
   }
 }

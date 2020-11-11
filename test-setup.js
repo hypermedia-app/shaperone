@@ -10,7 +10,9 @@ const RdfResource = require('@tpluscode/rdfine/RdfResource').default
 const Shacl = require('@rdfine/shacl')
 const chaiQuantifiers = require('chai-quantifiers')
 const chai = require('chai')
+const sinonChai = require('sinon-chai')
 
+chai.use(sinonChai)
 chai.use(chaiQuantifiers)
 
 RdfResource.factory.addMixin(...Object.values(Shacl))

@@ -1,4 +1,5 @@
-import { NodeKindEnum, PropertyShape } from '@rdfine/shacl'
+import type { PropertyShape } from '@rdfine/shacl'
+import { NodeKindEnum } from '@rdfine/shacl'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
 import type { BlankNode, Literal, NamedNode } from 'rdf-js'
@@ -10,8 +11,8 @@ export const textField: SingleEditor = {
   match(shape: PropertyShape, value) {
     let datatype = shape.datatype?.id
 
-    if (value.termType === 'Literal') {
-      datatype = value.datatype
+    if (value?.term.termType === 'Literal') {
+      datatype = value.term.datatype
     }
 
     if (datatype && !datatype.equals(rdf.langString) && !datatype.equals(xsd.boolean)) {
@@ -30,11 +31,11 @@ export const textArea: SingleEditor = {
   match(shape: PropertyShape, value) {
     const singleLine = shape.pointer.out(dash.singleLine).term
 
-    if (isString(value)) {
+    if (isString(value?.term)) {
       if (singleLine?.equals(booleanTrue)) {
         return 0
       }
-      if (singleLine?.equals(booleanFalse) || value.value.includes('\n')) {
+      if (singleLine?.equals(booleanFalse) || value?.value.includes('\n')) {
         return 20
       }
 
@@ -56,7 +57,7 @@ export const shape: SingleEditor = {
       return 20
     }
 
-    if (value.termType === 'BlankNode' || value.termType === 'NamedNode') {
+    if (value?.term.termType === 'BlankNode' || value?.term.termType === 'NamedNode') {
       return null
     }
 
@@ -71,18 +72,18 @@ export const enumSelect: SingleEditor = {
       return 0
     }
 
-    if (value.value === '') {
+    if (value?.value === '') {
       return 20
     }
 
-    return shape.in.some(enumValue => value.equals(enumValue)) ? 20 : 6
+    return shape.in.some(enumValue => value?.term.equals(enumValue)) ? 20 : 6
   },
 }
 
 export const datePicker: SingleEditor<Literal> = {
   term: dash.DatePickerEditor,
   match(shape, value) {
-    if (xsd.date.equals(value.datatype)) {
+    if (xsd.date.equals(value?.term.datatype)) {
       return 15
     }
     if (shape.datatype?.equals(xsd.date)) {
@@ -96,7 +97,7 @@ export const datePicker: SingleEditor<Literal> = {
 export const dateTimePicker: SingleEditor<Literal> = {
   term: dash.DateTimePickerEditor,
   match(shape, value) {
-    if (xsd.dateTime.equals(value.datatype)) {
+    if (xsd.dateTime.equals(value?.term.datatype)) {
       return 15
     }
     if (shape.datatype?.equals(xsd.dateTime)) {
@@ -116,8 +117,8 @@ export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
 
 export const uriEditor: SingleEditor<NamedNode> = {
   term: dash.URIEditor,
-  match(shape, { termType }) {
-    if (termType !== 'NamedNode' || shape.class) {
+  match(shape, object) {
+    if (object?.term.termType !== 'NamedNode' || shape.class) {
       return 0
     }
 

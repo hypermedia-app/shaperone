@@ -3,7 +3,7 @@ import { DatasetCore } from 'rdf-js'
 import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
 import { connect } from '@captaincodeman/rdx'
-import type { AnyPointer, GraphPointer } from 'clownface'
+import type { AnyPointer } from 'clownface'
 import { NodeShape } from '@rdfine/shacl'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
@@ -37,7 +37,7 @@ export const id: (form: any) => symbol = (() => {
 
 @customElement('shaperone-form')
 export class ShaperoneForm extends connect(store(), LitElement) {
-  private [resourceSymbol]?: GraphPointer<FocusNode>
+  private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
   private [notify]: (detail: any) => void
 
@@ -102,11 +102,11 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     }
   }
 
-  get resource(): GraphPointer<FocusNode> | undefined {
+  get resource(): FocusNode | undefined {
     return this[resourceSymbol]
   }
 
-  set resource(rootPointer: GraphPointer<FocusNode> | undefined) {
+  set resource(rootPointer: FocusNode | undefined) {
     if (!rootPointer) return
 
     this[resourceSymbol] = rootPointer

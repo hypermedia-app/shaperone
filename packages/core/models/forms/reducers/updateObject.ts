@@ -1,22 +1,24 @@
 import type { Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
-import { formStateReducer } from './index'
+import { MultiPointer } from 'clownface'
+import { BaseParams, formStateReducer } from './index'
 import type { PropertyObjectState } from '../index'
 import type { FocusNode } from '../../../index'
-import { matchEditors } from '../lib/stateBuilder'
+import { EditorsState } from '../../editors'
 
-export interface UpdateObjectParams {
+export interface UpdateObjectParams extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
-  oldValue: Term | undefined
+  oldValue?: Term
   newValue: Term
 }
 
-export interface ReplaceObjectsParams {
+export interface ReplaceObjectsParams extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
-  terms: Term[]
+  objects: MultiPointer
+  editors: EditorsState
 }
 
 export const updateObject = formStateReducer(({ state }, { focusNode, property, oldValue, newValue }: UpdateObjectParams) => produce(state, (draft) => {
@@ -27,17 +29,13 @@ export const updateObject = formStateReducer(({ state }, { focusNode, property, 
     return
   }
 
-  if (newValue.equals(oldValue)) {
-    return
-  }
-
-  const objectState = propertyState.objects.find(o => o.object.equals(oldValue))
+  const objectState = propertyState.objects.find(o => o.object?.term.equals(oldValue))
   if (objectState) {
-    objectState.object = newValue
+    objectState.object = focusNodeState.focusNode.node(newValue)
   }
 }))
 
-export const replaceObjects = formStateReducer(({ state }, { focusNode, property, terms }: ReplaceObjectsParams) => produce(state, (state) => {
+export const setPropertyObjects = formStateReducer(({ state }, { focusNode, property, objects, editors }: ReplaceObjectsParams) => produce(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
@@ -45,8 +43,8 @@ export const replaceObjects = formStateReducer(({ state }, { focusNode, property
     return
   }
 
-  propertyState.objects = terms.map<PropertyObjectState>((object) => {
-    const suitableEditors = matchEditors(property, object, editors)
+  propertyState.objects = objects.map<PropertyObjectState>((object) => {
+    const suitableEditors = editors.matchSingleEditors({ shape: property, object })
     return {
       object,
       editors: suitableEditors,

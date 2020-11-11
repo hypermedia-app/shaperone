@@ -1,10 +1,9 @@
-import { GraphPointer } from 'clownface'
 import type { State } from '../index'
 import { BaseParams } from '../../index'
 import { FocusNode } from '../../../index'
 
 export interface Params extends BaseParams {
-  rootPointer: GraphPointer<FocusNode>
+  rootPointer: FocusNode
 }
 
 export function setRoot(map: State, { form, rootPointer }: Params) {

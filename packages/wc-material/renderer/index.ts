@@ -5,6 +5,7 @@ import {
   ObjectRenderStrategy,
   FocusNodeRenderStrategy,
 } from '@hydrofoil/shaperone-wc/lib/renderer'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 
 export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRenderStrategy => {
   const renderer: FocusNodeRenderStrategy = (params) => {
@@ -14,7 +15,7 @@ export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRe
 
     return html`<mwc-list part="focus-node-header">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>
-          ${focusNode.label}
+          ${focusNode.focusNode.out(rdfs.label).value || 'Resource'}
           <span slot="secondary">${focusNode.shape?.label}</span>
           <mwc-shape-selector slot="meta" .shapes="${shapes}" title="Select shape"
                              .selected="${focusNode.shape}"

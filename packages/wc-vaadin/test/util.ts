@@ -1,10 +1,11 @@
 import { SingleEditorRenderParams, SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
-import { PropertyShape, PropertyShapeMixin } from '@rdfine/shacl'
+import type { PropertyShape } from '@rdfine/shacl'
 import * as sinon from 'sinon'
 import { GraphPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import { NamedNode } from 'rdf-js'
+import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 
 interface EditorTestParams {
   object: GraphPointer
@@ -28,7 +29,7 @@ export function editorTestParams({ object, property, datatype }: EditorTestParam
         objects: [value],
         editors: [],
         selectedEditor: undefined,
-        shape: new PropertyShapeMixin.Class(object.blankNode(), property),
+        shape: propertyShape(object.blankNode(), property),
         datatype,
       },
       value,

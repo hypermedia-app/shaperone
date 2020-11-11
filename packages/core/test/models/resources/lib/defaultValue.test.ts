@@ -4,14 +4,15 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { literal } from '@rdf-esm/data-model'
 import { xsd, sh, rdf, foaf, dash } from '@tpluscode/rdf-ns-builders'
-import { PropertyShapeMixin, NodeKindEnum } from '@rdfine/shacl'
-import { defaultValue } from '../../../../models/forms/lib/defaultValue'
+import { NodeKindEnum } from '@rdfine/shacl'
+import { defaultValue } from '../../../../models/resources/lib/defaultValue'
+import { propertyShape } from '../../../util'
 
-describe('core/models/forms/lib/defaultValue', () => {
+describe('core/models/resources/lib/defaultValue', () => {
   it('returns literal 0 for numeric values', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+    const property = propertyShape(graph.blankNode(), {
       [sh.datatype.value]: xsd.nonNegativeInteger,
     })
 
@@ -25,7 +26,7 @@ describe('core/models/forms/lib/defaultValue', () => {
   it('returns empty string literal by default', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const property = new PropertyShapeMixin.Class(graph.blankNode())
+    const property = propertyShape(graph.blankNode())
 
     // when
     const pointer = defaultValue(property, graph.blankNode())
@@ -37,7 +38,7 @@ describe('core/models/forms/lib/defaultValue', () => {
   it('returns empty string literal with datatype', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+    const property = propertyShape(graph.blankNode(), {
       [sh.datatype.value]: xsd.anySimpleType,
     })
 
@@ -51,7 +52,7 @@ describe('core/models/forms/lib/defaultValue', () => {
   it('returns default value from property', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+    const property = propertyShape(graph.blankNode(), {
       defaultValue: literal('foo', xsd.anySimpleType),
     })
 
@@ -72,7 +73,7 @@ describe('core/models/forms/lib/defaultValue', () => {
     it(`adds sh:class as rdf:type to node kind ${nodeKind.value}`, () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape(graph.blankNode(), {
         nodeKind,
         class: foaf.Agent,
       })
@@ -87,7 +88,7 @@ describe('core/models/forms/lib/defaultValue', () => {
     it(`does not add rdf:type when node kind is ${nodeKind.value} but editor is ${dash.InstancesSelectEditor.value}`, () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape(graph.blankNode(), {
         nodeKind,
         class: foaf.Agent,
         [dash.editor.value]: dash.InstancesSelectEditor,

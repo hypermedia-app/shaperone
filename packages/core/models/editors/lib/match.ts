@@ -1,9 +1,18 @@
-import { PropertyShape } from '@rdfine/shacl'
-import { Term } from 'rdf-js'
-import type { SingleEditor, SingleEditorMatch } from '../index'
+import type { PropertyShape } from '@rdfine/shacl'
+import type { GraphPointer } from 'clownface'
+import type { EditorsState, SingleEditor, SingleEditorMatch, Editor, MultiEditor } from '../index'
 
-export function matchEditors(shape: PropertyShape, object: Term, editors: SingleEditor[]): SingleEditorMatch[] {
-  return editors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
+function toDefined<T>(arr: T[], next: T | undefined): T[] {
+  if (!next) {
+    return arr
+  }
+
+  return [...arr, next]
+}
+export function matchSingleEditors(this: EditorsState, { shape, object }: {shape: PropertyShape; object?: GraphPointer }): SingleEditorMatch[] {
+  const singleEditors = Object.values(this.singleEditors).reduce<Editor<SingleEditor>[]>(toDefined, [])
+
+  return singleEditors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort((left, right) => {
       const leftScore = left.score || 0
@@ -11,4 +20,13 @@ export function matchEditors(shape: PropertyShape, object: Term, editors: Single
 
       return rightScore - leftScore
     })
+}
+
+export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): Editor<MultiEditor>[] {
+  const multiEditors = Object.values(this.multiEditors).reduce<Editor<MultiEditor>[]>(toDefined, [])
+
+  return multiEditors
+    .map(editor => ({ editor, score: editor.match(shape) }))
+    .filter(match => match.score === null || match.score > 0)
+    .map(e => e.editor) || []
 }

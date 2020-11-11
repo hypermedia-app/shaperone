@@ -18,6 +18,6 @@ export function numericDatatype(datatype: ResourceIdentifier | undefined): Named
   return numericDatatypes.find(dt => datatype?.equals(dt))
 }
 
-export function isString(literal: Term): boolean {
-  return literal.termType === 'Literal' && literal.datatype.equals(xsd.string)
+export function isString(literal?: Term): boolean {
+  return literal?.termType === 'Literal' && literal.datatype.equals(xsd.string)
 }
