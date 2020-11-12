@@ -7,6 +7,7 @@
 ```html
 <mwc-list part="focus-node-header">
   <mwc-list-item twoline="">
+    Foo
     <span slot="secondary">
     </span>
     <mwc-shape-selector

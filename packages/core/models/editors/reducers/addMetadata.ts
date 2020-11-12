@@ -24,11 +24,15 @@ function updateMeta<T>(metadata: AnyPointer) {
   }
 }
 
-export function addMetadata(state: EditorsState, dataset: DatasetCore): EditorsState {
-  const metadataDataset = state.metadata.dataset;
-  [...dataset].forEach(({ subject, predicate, object }) => metadataDataset.add(RDF.quad(subject, predicate, object)))
+export function addMetadata(state: EditorsState, moreMeta: DatasetCore): EditorsState {
+  let dataset = state.metadata?.dataset
+  if (state.metadata?.dataset) {
+    [...moreMeta].forEach(({ subject, predicate, object }) => state.metadata?.dataset.add(RDF.quad(subject, predicate, object)))
+  } else {
+    dataset = moreMeta
+  }
 
-  const metadata = cf({ dataset: metadataDataset })
+  const metadata = cf({ dataset })
   const allEditors = Object.entries(state.allEditors).reduce(updateMeta<AllEditors>(metadata), {})
   const multiEditors = Object.entries(state.multiEditors).reduce(updateMeta<MultiEditors>(metadata), {})
   const singleEditors = Object.entries(state.singleEditors).reduce(updateMeta<SingleEditors>(metadata), {})

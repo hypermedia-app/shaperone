@@ -2,10 +2,10 @@ import { createModel } from '@captaincodeman/rdx'
 import $rdf from 'rdf-ext'
 import { sh, schema, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
-import { DatasetCore, Quad } from 'rdf-js'
+import { Quad } from 'rdf-js'
 import * as formats from '@rdf-esm/formats-common'
 import rdfFetch from '@rdfjs/fetch-lite'
-import clownface from 'clownface'
+import clownface, { AnyPointer } from 'clownface'
 import type { Store } from '../store'
 
 const triples = turtle`@prefix ex: <http://example.com/> .
@@ -105,7 +105,7 @@ lexvo:es ${rdfs.label} "Spanish" .`
 export interface State {
   serialized: string
   format: string
-  dataset?: DatasetCore
+  pointer?: AnyPointer
   quads: Quad[]
   options: {
     clearResource: boolean
@@ -124,10 +124,10 @@ export const shape = createModel({
   },
   reducers: {
     setShape(state, quads: Quad[]) {
-      const dataset = $rdf.dataset(quads)
+      const pointer = clownface({ dataset: $rdf.dataset(quads) })
       return {
         ...state,
-        dataset,
+        pointer,
         quads,
       }
     },
@@ -182,10 +182,10 @@ export const shape = createModel({
       },
       async generateInstances() {
         const state = store.getState()
-        if (state.shape.dataset) {
+        if (state.shape.pointer) {
           const { nanoid } = await import('nanoid')
 
-          const dataset = $rdf.dataset([...state.shape.dataset])
+          const dataset = $rdf.dataset([...state.shape.pointer.dataset])
           const graph = clownface({ dataset })
           graph
             .has(sh.class)

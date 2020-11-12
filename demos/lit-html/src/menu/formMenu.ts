@@ -58,9 +58,6 @@ function rendererMenu(renderer: RendererState): Menu[] {
 
 export function formMenu(components: ComponentsState, renderer: RendererState) {
   return [
-    {
-      text: '"Save" graph',
-    },
     componentsMenu(components),
     ...rendererMenu(renderer),
   ]

@@ -6,7 +6,7 @@ export const datePicker: SingleEditorComponent = {
   editor: dash.DatePickerEditor,
   render({ property, value }, { update }) {
     return html`<vaadin-date-picker
-                  .value="${value.object.value}"
+                  .value="${value.object?.value}"
                   @value-changed="${(e: CustomEvent) => update(e.detail.value)}"></vaadin-date-picker>`
   },
   loadDependencies: () => [
@@ -18,7 +18,7 @@ export const dateTimePicker: SingleEditorComponent = {
   editor: dash.DateTimePickerEditor,
   render({ property, value }, { update }) {
     return html`<vaadin-date-time-picker
-                  .value="${value.object.value}"
+                  .value="${value.object?.value}"
                   @value-changed="${(e: CustomEvent) => update(e.detail.value)}"></vaadin-date-time-picker>`
   },
   loadDependencies: () => [

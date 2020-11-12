@@ -28,7 +28,7 @@ describe('core/models/forms/reducers/popFocusNode', () => {
     const next = popFocusNode(state, { form })
 
     // then
-    const formState = next.instances.get(form)!
+    const formState = next.get(form)!
     expect(formState.focusStack.length).to.eq(1)
     expect(formState.focusStack).to.include(focusNode1)
   })
@@ -50,7 +50,7 @@ describe('core/models/forms/reducers/popFocusNode', () => {
     const next = popFocusNode(state, { form })
 
     // then
-    const formState = next.instances.get(form)!
+    const formState = next.get(form)!
     expect(formState.focusNodes).to.not.have.property(ex.FocusNode.value)
   })
 

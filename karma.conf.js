@@ -4,10 +4,21 @@ const merge = require('deepmerge')
 const cjsTransformer = require('es-dev-commonjs-transformer')
 const rdfjs = require('rdfjs-eds-plugin')
 
+const immer = {
+  resolveImport({ source }) {
+    if (/immer/.test(source)) {
+      return '/base/node_modules/immer/dist/immer.umd.development.js'
+    }
+
+    return undefined
+  },
+}
+
 module.exports = (config) => {
   config.set(
     merge(createDefaultConfig(config), {
       files: [
+        { pattern: config.grep ? config.grep : 'packages/wc/test/**/*.test.ts', type: 'module' },
         { pattern: config.grep ? config.grep : 'packages/wc-material/test/**/*.test.ts', type: 'module' },
         { pattern: config.grep ? config.grep : 'packages/wc-vaadin/test/**/*.test.ts', type: 'module' },
       ],
@@ -22,7 +33,7 @@ module.exports = (config) => {
         babel: true,
         nodeResolve: true,
         fileExtensions: ['.ts'],
-        plugins: [rdfjs],
+        plugins: [rdfjs, immer],
         responseTransformers: [
           cjsTransformer([
             '**/node_modules/@open-wc/**/*',
