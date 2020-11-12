@@ -2,6 +2,8 @@ import { createStore, ModelStore, StoreDispatch, StoreState, devtools } from '@c
 import { editors } from '@hydrofoil/shaperone-core/models/editors'
 import { createComponentsModel } from '@hydrofoil/shaperone-core/models/components'
 import { forms } from '@hydrofoil/shaperone-core/models/forms'
+import { resources } from '@hydrofoil/shaperone-core/models/resources'
+import { shapes } from '@hydrofoil/shaperone-core/models/shapes'
 import { TemplateResult } from 'lit-html'
 import { renderer } from './renderer/model'
 
@@ -20,6 +22,8 @@ const config = {
     editors,
     renderer,
     forms,
+    resources,
+    shapes,
     components: createComponentsModel<TemplateResult>(),
   },
 }

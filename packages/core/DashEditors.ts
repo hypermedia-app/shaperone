@@ -1,5 +1,5 @@
-import { NodeKindEnum, PropertyShape } from '@rdfine/shacl'
-import type { GraphPointer } from 'clownface'
+import type { PropertyShape } from '@rdfine/shacl'
+import { NodeKindEnum } from '@rdfine/shacl'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
 import type { BlankNode, Literal, NamedNode } from 'rdf-js'
@@ -8,7 +8,7 @@ import { isString } from './lib/datatypes'
 
 export const textField: SingleEditor = {
   term: dash.TextFieldEditor,
-  match(shape: PropertyShape, value: GraphPointer) {
+  match(shape: PropertyShape, value) {
     let datatype = shape.datatype?.id
 
     if (value.term.termType === 'Literal') {
@@ -28,10 +28,10 @@ const booleanFalse = literal('false', xsd.boolean)
 
 export const textArea: SingleEditor = {
   term: dash.TextAreaEditor,
-  match(shape: PropertyShape, value: GraphPointer) {
+  match(shape: PropertyShape, value) {
     const singleLine = shape.pointer.out(dash.singleLine).term
 
-    if (isString(value)) {
+    if (isString(value.term)) {
       if (singleLine?.equals(booleanTrue)) {
         return 0
       }
@@ -67,16 +67,16 @@ export const shape: SingleEditor = {
 
 export const enumSelect: SingleEditor = {
   term: dash.EnumSelectEditor,
-  match(shape, value: GraphPointer) {
+  match(shape, value) {
     if (!shape.get(sh.in)) {
       return 0
     }
 
-    if (value.value === '') {
+    if (value?.value === '') {
       return 20
     }
 
-    return shape.in.some(enumValue => value.term.equals(enumValue)) ? 20 : 6
+    return shape.in.some(enumValue => value?.term.equals(enumValue)) ? 20 : 6
   },
 }
 
@@ -117,8 +117,8 @@ export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
 
 export const uriEditor: SingleEditor<NamedNode> = {
   term: dash.URIEditor,
-  match(shape, { term: { termType } }) {
-    if (termType !== 'NamedNode' || shape.class) {
+  match(shape, object) {
+    if (object.term.termType !== 'NamedNode' || shape.class) {
       return 0
     }
 

@@ -1,11 +1,10 @@
 import { createModel } from '@captaincodeman/rdx'
-import { AnyPointer, GraphPointer } from 'clownface'
-import { DatasetCore, NamedNode } from 'rdf-js'
-import { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
-import { effects } from './effects'
-import { addObject } from './reducers/addObject'
+import { NamedNode } from 'rdf-js'
+import type { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
+import { GraphPointer } from 'clownface'
+import effects from './effects'
+import { addFormField } from './reducers/addFormField'
 import { popFocusNode } from './reducers/popFocusNode'
-import { pushFocusNode } from './reducers/pushFocusNode'
 import { removeObject } from './reducers/removeObject'
 import { selectEditor } from './reducers/selectEditor'
 import { selectGroup } from './reducers/selectGroup'
@@ -13,21 +12,25 @@ import { selectShape } from './reducers/selectShape'
 import { truncateFocusNodes } from './reducers/truncateFocusNodes'
 import * as objects from './reducers/updateObject'
 import * as connection from './reducers/connection'
-import * as datasets from './reducers/datasets'
 import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
-import type { MultiEditor, SingleEditor, SingleEditorMatch } from '../editors/index'
+import type { MultiEditor, SingleEditorMatch } from '../editors/index'
+import { createFocusNodeState } from './reducers/replaceFocusNodes'
+import shapesEffects from './effects/shapes'
+import resourcesEffects from './effects/resources'
+import type { Store } from '../../state'
 
 export interface PropertyObjectState {
-  object: GraphPointer
+  key: string
+  object?: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
 }
 
 export interface ShouldEnableEditorChoice {
-  ({ object }: { object: GraphPointer }): boolean
+  (params?: { object?: GraphPointer }): boolean
 }
 
 export interface PropertyState {
@@ -49,41 +52,22 @@ export interface PropertyGroupState {
 export interface FocusNodeState {
   focusNode: FocusNode
   shape?: Shape
-  matchingShapes: NodeShape[]
   shapes: NodeShape[]
   properties: PropertyState[]
   groups: PropertyGroupState[]
-  label: string
-}
-
-interface ChangeDetails {
-  focusNode: FocusNode
-  property: PropertyShape
 }
 
 export interface FormState {
-  resourceGraph?: DatasetCore
-  shapesGraph?: AnyPointer
-  shapes: Shape[]
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
   shouldEnableEditorChoice: ShouldEnableEditorChoice
-  changeNotifier: {
-    notify(detail: ChangeDetails): void
-    onChange(listener: (detail: ChangeDetails) => void): void
-  }
 }
 
-export type State = {
-  singleEditors: SingleEditor[]
-  multiEditors: MultiEditor[]
-  instances: Map<symbol, FormState>
-}
+export type State = Map<symbol, FormState>
 
 const reducers = {
-  addObject,
+  addFormField,
   popFocusNode,
-  pushFocusNode,
   removeObject,
   selectEditor,
   selectGroup,
@@ -91,17 +75,19 @@ const reducers = {
   truncateFocusNodes,
   ...objects,
   ...connection,
-  ...datasets,
   ...editors,
   ...multiEditors,
+  createFocusNodeState,
 }
 
-export const forms = createModel<State, typeof reducers, ReturnType<typeof effects>>({
-  state: {
-    singleEditors: [],
-    multiEditors: [],
-    instances: new Map(),
-  },
+export const forms = createModel({
+  state: <State> new Map(),
   reducers,
-  effects,
+  effects(store: Store) {
+    return {
+      ...shapesEffects(store),
+      ...resourcesEffects(store),
+      ...effects(store),
+    }
+  },
 })

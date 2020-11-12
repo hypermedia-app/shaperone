@@ -14,7 +14,7 @@ import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
-  render({ form, editors, state, components, actions, strategy }: RenderParams): TemplateResult {
+  render({ form, editors, state, components, actions, strategy, shapes }: RenderParams): TemplateResult {
     if (!form || !editors || !state || !components) {
       return html``
     }
@@ -90,12 +90,14 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  value: value.object.term,
+                  object: value,
                   editor,
                 })
               },
               remove(): void {
-                actions.forms.removeObject({ form, focusNode, property: property.shape, object: value })
+                if (value.object) {
+                  actions.forms.removeObject({ form, focusNode, property: property.shape, object: value })
+                }
               },
             }
 
@@ -109,13 +111,13 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  oldValue: value.object.term,
+                  object: value,
                   newValue,
                 })
               }
 
               function focusOnObjectNode() {
-                if (value.object.term.termType === 'NamedNode' || value.object.term.termType === 'BlankNode') {
+                if (value.object?.term.termType === 'NamedNode' || value.object?.term.termType === 'BlankNode') {
                   actions.forms.pushFocusNode({ form, focusNode: value.object as any, property: property.shape })
                 }
               }
@@ -167,6 +169,7 @@ export const DefaultRenderer: Renderer = {
       }
 
       return strategy.focusNode({
+        shapes,
         focusNode: focusNodeState,
         actions: focusNodeActions,
         renderGroup,

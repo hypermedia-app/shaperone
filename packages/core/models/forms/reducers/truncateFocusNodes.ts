@@ -1,8 +1,13 @@
 import produce from 'immer'
-import { formStateReducer } from './index'
+import { formStateReducer, BaseParams } from '../../index'
 import { FocusNode } from '../../../index'
+import type { FormState } from '../index'
 
-export const truncateFocusNodes = formStateReducer(({ state }, { focusNode }: { focusNode?: FocusNode }) => produce(state, (draft) => {
+export interface Params extends BaseParams {
+  focusNode?: FocusNode
+}
+
+export const truncateFocusNodes = formStateReducer((state: FormState, { focusNode }: Params) => produce(state, (draft) => {
   if (!focusNode) {
     draft.focusNodes = {}
     draft.focusStack = []
@@ -11,6 +16,6 @@ export const truncateFocusNodes = formStateReducer(({ state }, { focusNode }: { 
 
   const topNodeIndex = draft.focusStack.findIndex(fn => fn.term.equals(focusNode.term))
   if (topNodeIndex >= 0) {
-    draft.focusStack.splice(topNodeIndex, 1)
+    draft.focusStack.splice(topNodeIndex)
   }
 }))

@@ -49,7 +49,7 @@ describe('core/models/forms/reducers/selectShape', () => {
     })
 
     // then
-    const { focusNodes: { [ex.Foo.value]: formState } } = after.instances.get(form)!
+    const { focusNodes: { [ex.Foo.value]: formState } } = after.get(form)!
     expect(formState.shape).to.eq(shape)
   })
 
@@ -75,7 +75,7 @@ describe('core/models/forms/reducers/selectShape', () => {
     })
 
     // then
-    const { focusNodes: { [ex.Foo.value]: formState } } = after.instances.get(form)!
+    const { focusNodes: { [ex.Foo.value]: formState } } = after.get(form)!
     expect(formState.shape).to.eq(shape)
   })
 })

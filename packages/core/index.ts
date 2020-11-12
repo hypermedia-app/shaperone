@@ -1,6 +1,6 @@
-import type { GraphPointer } from 'clownface'
 import type { BlankNode, NamedNode } from 'rdf-js'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
+import { GraphPointer } from 'clownface'
 
 export type FocusNode = GraphPointer<BlankNode | NamedNode>
 export type { Component, SingleEditorComponent, MultiEditorComponent } from './models/components'

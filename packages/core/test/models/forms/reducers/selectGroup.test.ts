@@ -36,7 +36,7 @@ describe('core/models/forms/reducers/selectGroup', () => {
     const next = selectGroup(state, { form, focusNode, group: new PropertyGroupMixin.Class(graph.node(ex.Group1)) })
 
     // then
-    const focusNodeState = next.instances.get(form)!.focusNodes[ex.FocusNode.value]
+    const focusNodeState = next.get(form)!.focusNodes[ex.FocusNode.value]
     expect(focusNodeState.groups[0].selected).to.be.false
     expect(focusNodeState.groups[1].selected).to.be.true
   })

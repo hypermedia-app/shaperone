@@ -25,5 +25,7 @@ export function testState(initializer: Initializer = { }): EditorsState {
     multiEditors,
     allEditors: { ...singleEditors, ...multiEditors },
     metadata: cf({ dataset: $rdf.dataset(initializer.metadata || []) }),
+    matchSingleEditors: () => [],
+    matchMultiEditors: () => [],
   }
 }

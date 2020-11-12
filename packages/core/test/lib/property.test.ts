@@ -1,17 +1,17 @@
 import { describe, it } from 'mocha'
-import { PropertyShapeMixin } from '@rdfine/shacl'
 import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { createTerm } from '../../lib/property'
+import { propertyShape } from '../util'
 
 describe('core/lib/property', () => {
   it('creates named node when property has sh:IRI kind', () => {
     // given
     const pointer = cf({ dataset: $rdf.dataset() }).blankNode()
     const property = {
-      shape: new PropertyShapeMixin.Class(pointer, {
+      shape: propertyShape(pointer, {
         [sh.nodeKind.value]: sh.IRI,
       }),
     }
@@ -27,7 +27,7 @@ describe('core/lib/property', () => {
     // given
     const pointer = cf({ dataset: $rdf.dataset() }).blankNode()
     const property = {
-      shape: new PropertyShapeMixin.Class(pointer),
+      shape: propertyShape(pointer),
       datatype: xsd.int,
     }
 
