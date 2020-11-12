@@ -1,15 +1,15 @@
-import type { Component } from '@hydrofoil/shaperone-wc'
+import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { spread } from '@open-wc/lit-helpers'
 import { dash, xsd } from '@tpluscode/rdf-ns-builders'
 import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes'
 
-export const textField: Component = {
+export const textField: SingleEditorComponent = {
   editor: dash.TextFieldEditor,
 
   render({ value, property }, { update }) {
     const props = {
-      '.value': value.object.value,
+      '.value': value.object?.value || '',
       required: true,
       '?auto-validate': true,
       '@blur': (e: any) => update(e.target.value),

@@ -11,7 +11,7 @@ export const textField: SingleEditor = {
   match(shape: PropertyShape, value) {
     let datatype = shape.datatype?.id
 
-    if (value?.term.termType === 'Literal') {
+    if (value.term.termType === 'Literal') {
       datatype = value.term.datatype
     }
 
@@ -31,11 +31,11 @@ export const textArea: SingleEditor = {
   match(shape: PropertyShape, value) {
     const singleLine = shape.pointer.out(dash.singleLine).term
 
-    if (isString(value?.term)) {
+    if (isString(value.term)) {
       if (singleLine?.equals(booleanTrue)) {
         return 0
       }
-      if (singleLine?.equals(booleanFalse) || value?.value.includes('\n')) {
+      if (singleLine?.equals(booleanFalse) || value.value.includes('\n')) {
         return 20
       }
 
@@ -57,7 +57,7 @@ export const shape: SingleEditor = {
       return 20
     }
 
-    if (value?.term.termType === 'BlankNode' || value?.term.termType === 'NamedNode') {
+    if (value.term.termType === 'BlankNode' || value.term.termType === 'NamedNode') {
       return null
     }
 
@@ -83,7 +83,7 @@ export const enumSelect: SingleEditor = {
 export const datePicker: SingleEditor<Literal> = {
   term: dash.DatePickerEditor,
   match(shape, value) {
-    if (xsd.date.equals(value?.term.datatype)) {
+    if (xsd.date.equals(value.term.datatype)) {
       return 15
     }
     if (shape.datatype?.equals(xsd.date)) {
@@ -97,7 +97,7 @@ export const datePicker: SingleEditor<Literal> = {
 export const dateTimePicker: SingleEditor<Literal> = {
   term: dash.DateTimePickerEditor,
   match(shape, value) {
-    if (xsd.dateTime.equals(value?.term.datatype)) {
+    if (xsd.dateTime.equals(value.term.datatype)) {
       return 15
     }
     if (shape.datatype?.equals(xsd.dateTime)) {
@@ -118,7 +118,7 @@ export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
 export const uriEditor: SingleEditor<NamedNode> = {
   term: dash.URIEditor,
   match(shape, object) {
-    if (object?.term.termType !== 'NamedNode' || shape.class) {
+    if (object.term.termType !== 'NamedNode' || shape.class) {
       return 0
     }
 

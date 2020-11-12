@@ -1,15 +1,15 @@
-import type { Component } from '@hydrofoil/shaperone-wc'
+import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { spread } from '@open-wc/lit-helpers'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { namedNode } from '@rdf-esm/data-model'
 
-export const urlEditor: Component = {
+export const urlEditor: SingleEditorComponent = {
   editor: dash.URIEditor,
 
   render({ value }, { update }) {
     const props = {
-      '.value': value.object.value,
+      '.value': value.object?.value || '',
       required: true,
       '?auto-validate': true,
     }

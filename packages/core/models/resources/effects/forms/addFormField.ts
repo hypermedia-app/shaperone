@@ -16,7 +16,7 @@ export default function (store: Store) {
     }
 
     const pointer = defaultValue(property, focusNode)
-    if (!pointer.values.length) {
+    if (!pointer) {
       return
     }
 

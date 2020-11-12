@@ -21,7 +21,7 @@ export interface MultiEditor extends EditorMatcher {
 }
 
 export interface SingleEditor<T extends Term = Term> extends EditorMatcher {
-  match: (shape: PropertyShape, value?: GraphPointer<T>) => number | null
+  match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
 }
 
 export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {

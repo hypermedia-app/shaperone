@@ -1,5 +1,6 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
+import { xsd } from '@tpluscode/rdf-ns-builders'
 import type { EditorsState, SingleEditor, SingleEditorMatch, Editor, MultiEditor } from '../index'
 
 function toDefined<T>(arr: T[], next: T | undefined): T[] {
@@ -17,8 +18,32 @@ function byScore(left: { score: number | null }, right: { score: number | null }
   return rightScore - leftScore
 }
 
-export function matchSingleEditors(this: EditorsState, { shape, object }: {shape: PropertyShape; object?: GraphPointer }): SingleEditorMatch[] {
+function valuePlaceholder(shape: PropertyShape): GraphPointer {
+  switch (shape.nodeKind?.value) {
+    case 'http://www.w3.org/ns/shacl#BlankNode':
+    case 'http://www.w3.org/ns/shacl#BlankNodeOrIRI':
+    case 'http://www.w3.org/ns/shacl#BlankNodeOrLiteral':
+      return shape.pointer.blankNode()
+    case 'http://www.w3.org/ns/shacl#IRI':
+    case 'http://www.w3.org/ns/shacl#IRIOrLiteral':
+      return shape.pointer.namedNode('')
+    default: {
+      if (shape.languageIn.length || shape.datatype?.equals(xsd.langString)) {
+        return shape.pointer.literal('', shape.languageIn[0] || 'en')
+      }
+      if (shape.datatype?.id.termType === 'NamedNode') {
+        return shape.pointer.literal('', shape.datatype.id)
+      }
+
+      return shape.pointer.literal('')
+    }
+  }
+}
+
+export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { shape: PropertyShape; object?: GraphPointer }): SingleEditorMatch[] {
   const singleEditors = Object.values(this.singleEditors).reduce<Editor<SingleEditor>[]>(toDefined, [])
+
+  const object = rest.object || valuePlaceholder(shape)
 
   return singleEditors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
