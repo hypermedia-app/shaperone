@@ -1,14 +1,14 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
+import { Term } from 'rdf-js'
 import { BaseParams, formStateReducer } from './index'
 import type { FocusNode } from '../../../index'
-import type { PropertyObjectState } from '../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
 
 export interface RemoveObjectParams extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
-  object: PropertyObjectState
+  object: Term
 }
 
 export const removeObject = formStateReducer(({ state }, { focusNode, property, object }: RemoveObjectParams) => produce(state, (state) => {
@@ -19,7 +19,7 @@ export const removeObject = formStateReducer(({ state }, { focusNode, property, 
     return
   }
 
-  const objects = propertyState.objects.filter(o => !o.object?.term.equals(object.object?.term))
+  const objects = propertyState.objects.filter(o => !o.object?.term.equals(object))
 
   propertyState.objects = objects
   propertyState.canRemove = canRemoveObject(property, objects.length)

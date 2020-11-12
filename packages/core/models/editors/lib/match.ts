@@ -9,17 +9,20 @@ function toDefined<T>(arr: T[], next: T | undefined): T[] {
 
   return [...arr, next]
 }
+
+function byScore(left: { score: number | null }, right: { score: number | null }): number {
+  const leftScore = left.score || 0
+  const rightScore = right.score || 0
+
+  return rightScore - leftScore
+}
+
 export function matchSingleEditors(this: EditorsState, { shape, object }: {shape: PropertyShape; object?: GraphPointer }): SingleEditorMatch[] {
   const singleEditors = Object.values(this.singleEditors).reduce<Editor<SingleEditor>[]>(toDefined, [])
 
   return singleEditors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
-    .sort((left, right) => {
-      const leftScore = left.score || 0
-      const rightScore = right.score || 0
-
-      return rightScore - leftScore
-    })
+    .sort(byScore)
 }
 
 export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): Editor<MultiEditor>[] {
@@ -28,5 +31,6 @@ export function matchMultiEditors(this: EditorsState, { shape }: { shape: Proper
   return multiEditors
     .map(editor => ({ editor, score: editor.match(shape) }))
     .filter(match => match.score === null || match.score > 0)
-    .map(e => e.editor) || []
+    .sort(byScore)
+    .map(e => e.editor)
 }

@@ -1,12 +1,10 @@
-import type { PropertyShape } from '@rdfine/shacl'
-import type { FocusNode } from '../../../index'
-import type { BaseParams } from '../../index'
 import type { Store } from '../../../state'
+import { Params } from '../reducers/selectShape'
 
-export function pushFocusNode(store: Store) {
+export function selectShape(store: Store) {
   const dispatch = store.getDispatch()
 
-  return ({ form, focusNode, property }: { focusNode: FocusNode; property: PropertyShape } & BaseParams): void => {
+  return function ({ form, focusNode, shape }: Params) {
     const { editors, shapes, resources, forms } = store.getState()
     const graph = resources.get(form)?.graph
     const formState = forms.instances.get(form)
@@ -15,11 +13,10 @@ export function pushFocusNode(store: Store) {
     }
 
     dispatch.forms.createFocusNodeState({
-      appendToStack: true,
       form,
       focusNode,
       editors,
-      shape: property.node,
+      shape,
       shapes: shapes.get(form)?.shapes || [],
       shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
     })

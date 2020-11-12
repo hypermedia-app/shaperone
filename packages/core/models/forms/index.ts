@@ -2,7 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
 import type { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
-import { effects } from './effects'
+import effects from './effects'
 import { addFormField } from './reducers/addFormField'
 import { popFocusNode } from './reducers/popFocusNode'
 import { removeObject } from './reducers/removeObject'
@@ -17,6 +17,9 @@ import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
 import type { MultiEditor, SingleEditorMatch } from '../editors/index'
 import { createFocusNodeState } from './reducers/replaceFocusNodes'
+import shapesEffects from './effects/shapes'
+import resourcesEffects from './effects/resources'
+import type { Store } from '../../state'
 
 export interface PropertyObjectState {
   object?: GraphPointer
@@ -78,10 +81,16 @@ const reducers = {
   createFocusNodeState,
 }
 
-export const forms = createModel<State, typeof reducers, ReturnType<typeof effects>>({
-  state: {
+export const forms = createModel({
+  state: <State>{
     instances: new Map(),
   },
   reducers,
-  effects,
+  effects(store: Store) {
+    return {
+      ...shapesEffects(store),
+      ...resourcesEffects(store),
+      ...effects(store),
+    }
+  },
 })
