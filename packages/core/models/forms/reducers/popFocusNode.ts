@@ -1,7 +1,8 @@
 import produce from 'immer'
-import { formStateReducer } from './index'
+import type { FormState } from '../index'
+import { formStateReducer } from '../../index'
 
-export const popFocusNode = formStateReducer(({ state }) => produce(state, (state) => {
+export const popFocusNode = formStateReducer((state: FormState) => produce(state, (state) => {
   const poppedFocusNode = state.focusStack.pop()
   if (poppedFocusNode) {
     delete state.focusNodes[poppedFocusNode.value]

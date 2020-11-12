@@ -1,8 +1,10 @@
 import produce from 'immer'
-import type { PropertyObjectState } from '../index'
-import { formStateReducer } from './index'
+import type { PropertyObjectState, FormState } from '../index'
+import { BaseParams, formStateReducer } from '../..'
 
-export const toggleSwitching = formStateReducer<{ switchingEnabled: boolean }>(({ state }, { switchingEnabled }) => produce(state, (draft) => {
+type Params = BaseParams & { switchingEnabled: boolean }
+
+export const toggleSwitching = formStateReducer((state: FormState, { switchingEnabled }: Params) => produce(state, (draft) => {
   draft.shouldEnableEditorChoice = () => switchingEnabled
 
   for (const [, focusNode] of Object.entries(draft.focusNodes)) {

@@ -1,5 +1,5 @@
 import type { PropertyShape } from '@rdfine/shacl'
-import { BaseParams } from '../../forms/reducers'
+import { BaseParams } from '../..'
 import type { Store } from '../../../state'
 import { FocusNode } from '../../../index'
 

@@ -1,12 +1,13 @@
 import produce from 'immer'
-import { formStateReducer } from './index'
+import { BaseParams, formStateReducer } from '../../index'
 import { initialiseFocusNode } from '../lib/stateBuilder'
+import type { FormState } from '../index'
 
 type StackAction = {appendToStack?: true} | {replaceStack?: true}
 
-type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction
+type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction & BaseParams
 
-export const createFocusNodeState = formStateReducer<Params>(({ state }, { focusNode, ...rest }) => produce(state, (draft) => {
+export const createFocusNodeState = formStateReducer((state: FormState, { focusNode, ...rest }: Params) => produce(state, (draft) => {
   draft.focusNodes[focusNode.value] = initialiseFocusNode({
     focusNode,
     ...rest,

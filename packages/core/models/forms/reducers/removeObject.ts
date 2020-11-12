@@ -1,9 +1,10 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
 import { GraphPointer } from 'clownface'
-import { BaseParams, formStateReducer } from './index'
+import { BaseParams, formStateReducer } from '../../index'
 import type { FocusNode } from '../../../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
+import type { FormState } from '../index'
 
 export interface RemoveObjectParams extends BaseParams {
   focusNode: FocusNode
@@ -11,7 +12,7 @@ export interface RemoveObjectParams extends BaseParams {
   object: GraphPointer
 }
 
-export const removeObject = formStateReducer(({ state }, { focusNode, property, object }: RemoveObjectParams) => produce(state, (state) => {
+export const removeObject = formStateReducer((state: FormState, { focusNode, property, object }: RemoveObjectParams) => produce(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
