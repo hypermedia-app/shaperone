@@ -2,7 +2,6 @@ import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { dash, rdf, schema, sh, xsd } from '@tpluscode/rdf-ns-builders'
-import { PropertyShapeMixin } from '@rdfine/shacl'
 import { expect } from 'chai'
 import * as DashEditors from '../DashEditors'
 import { propertyShape } from './util'
@@ -66,7 +65,7 @@ describe('core/DashEditors', () => {
     it('has score 10 for langString value', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const property = propertyShape()
       const value = graph.literal('test', 'en')
 
       // when
@@ -79,7 +78,7 @@ describe('core/DashEditors', () => {
     it('has score 5 when datatype is langString', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape({
         [sh.datatype.value]: rdf.langString,
       })
       const value = graph.blankNode()
@@ -94,7 +93,7 @@ describe('core/DashEditors', () => {
     it('has score 5 when datatype is string', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape({
         [sh.datatype.value]: xsd.string,
       })
       const value = graph.blankNode()
@@ -109,7 +108,7 @@ describe('core/DashEditors', () => {
     it('has score 0 when singleLine is false', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape({
         [sh.datatype.value]: rdf.langString,
         [dash.singleLine.value]: false,
       })
@@ -125,7 +124,7 @@ describe('core/DashEditors', () => {
     it('has score 0 otherwise', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const property = propertyShape()
       const value = graph.blankNode()
 
       // when
@@ -185,7 +184,7 @@ describe('core/DashEditors', () => {
     it('has score 0 when singleLine is true', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape({
         [dash.singleLine.value]: true,
       })
       const value = graph.literal(3)
@@ -200,7 +199,7 @@ describe('core/DashEditors', () => {
     it('has score 15 when value has type langString and singleLine is false', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape({
         [dash.singleLine.value]: false,
       })
       const value = graph.literal('test', 'fr')
@@ -215,7 +214,7 @@ describe('core/DashEditors', () => {
     it('has score 5 when value is a langString', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const property = propertyShape()
       const value = graph.literal('test', 'en')
 
       // when
@@ -228,7 +227,7 @@ describe('core/DashEditors', () => {
     it('has score 5 when datatype is langString', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode(), {
+      const property = propertyShape({
         [sh.datatype.value]: rdf.langString,
       })
       const value = graph.blankNode()
@@ -243,7 +242,7 @@ describe('core/DashEditors', () => {
     it('has score 0 otherwise', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const property = new PropertyShapeMixin.Class(graph.blankNode())
+      const property = propertyShape()
       const value = graph.blankNode()
 
       // when

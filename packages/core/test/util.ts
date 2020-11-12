@@ -2,7 +2,7 @@ import type { PropertyShape } from '@rdfine/shacl'
 import { PropertyShapeMixin } from '@rdfine/shacl'
 import RdfResource, { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/RdfResource'
 import clownface, { GraphPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import * as $rdf from '@rdf-esm/dataset'
 import PropertyShapeEx from '../models/shapes/lib/PropertyShape'
 
 function isPointer(arg: GraphPointer<ResourceIdentifier> | Initializer<PropertyShape> | undefined): arg is GraphPointer<ResourceIdentifier> {

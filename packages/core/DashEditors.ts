@@ -3,6 +3,7 @@ import { NodeKindEnum } from '@rdfine/shacl'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
 import type { BlankNode, Literal, NamedNode } from 'rdf-js'
+import { GraphPointer } from 'clownface'
 import type { SingleEditor } from './models/editors'
 import { isString } from './lib/datatypes'
 
