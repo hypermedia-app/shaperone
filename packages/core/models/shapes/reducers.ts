@@ -12,7 +12,11 @@ export interface SetShapesGraphParams extends BaseParams {
 }
 
 export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce(state, (draft) => {
-  if (state.shapesGraph === shapesGraph) {
+  if ('dataset' in shapesGraph) {
+    if (state.shapesGraph?.dataset === shapesGraph.dataset) {
+      return
+    }
+  } else if (state.shapesGraph?.dataset === shapesGraph) {
     return
   }
 

@@ -142,7 +142,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
           <div>
             <vaadin-menu-bar .items="${formMenu(this.components, this.renderer)}" @item-selected="${this.__formMenuSelected}"></vaadin-menu-bar>
             <shaperone-form id="form"
-                           .shapes="${this.shape.dataset}"
+                           .shapes="${this.shape.pointer}"
                            .resource="${this.resource.pointer}"
                            ?no-editor-switches="${this.noEditorSwitches}"
                            @changed="${this.__saveResource}"></shaperone-form>
