@@ -2,11 +2,11 @@ import type { Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
 import { MultiPointer } from 'clownface'
-import { nanoid } from 'nanoid'
 import { BaseParams, formStateReducer } from '../../index'
 import type { FormState, PropertyObjectState } from '../index'
 import type { FocusNode } from '../../../index'
 import { EditorsState } from '../../editors'
+import { nextid } from '../lib/objectid'
 
 export interface UpdateObjectParams extends BaseParams {
   focusNode: FocusNode
@@ -47,7 +47,7 @@ export const setPropertyObjects = formStateReducer((state: FormState, { focusNod
   propertyState.objects = objects.map<PropertyObjectState>((object) => {
     const suitableEditors = editors.matchSingleEditors({ shape: property, object })
     return {
-      key: nanoid(),
+      key: nextid(),
       object,
       editors: suitableEditors,
       selectedEditor: suitableEditors[0]?.term,

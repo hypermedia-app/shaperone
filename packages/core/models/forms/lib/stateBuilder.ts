@@ -4,13 +4,13 @@ import { dash } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, Term } from 'rdf-js'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
 import TermMap from '@rdf-esm/term-map'
-import { nanoid } from 'nanoid'
 import type { EditorsState } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
 import { canAddObject, canRemoveObject } from './property'
 import PropertyShapeEx from '../../shapes/lib/PropertyShape'
+import { nextid } from './objectid'
 
 RdfResource.factory.addMixin(PropertyShapeEx)
 
@@ -43,7 +43,7 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
     }
 
     return {
-      key: nanoid(),
+      key: nextid(),
       object,
       editors: matchedEditors,
       selectedEditor,

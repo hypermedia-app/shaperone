@@ -1,11 +1,11 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
-import { nanoid } from 'nanoid'
 import type { FocusNode } from '../../..'
 import type { FormState } from '../index'
 import { formStateReducer, BaseParams } from '../../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
 import type { SingleEditorMatch } from '../../editors'
+import { nextid } from '../lib/objectid'
 
 export interface Params extends BaseParams {
   focusNode: FocusNode
@@ -22,7 +22,7 @@ export const addFormField = formStateReducer((state: FormState, { focusNode, pro
   }
 
   currentProperty.objects.push({
-    key: nanoid(),
+    key: nextid(),
     editors,
     selectedEditor: editors[0]?.term,
     editorSwitchDisabled: !state.shouldEnableEditorChoice(),
