@@ -22,7 +22,7 @@ export default function (store: Store) {
 
     state.graph.node(focusNode).addOut(getPathProperty(property)!.id, pointer)
     const { forms, editors } = store.getState()
-    const formState = forms.instances.get(form)
+    const formState = forms.get(form)
     const current = formState?.focusNodes[focusNode.value]
     notify({
       store,

@@ -33,7 +33,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       })
 
       // then
-      const propertyState = after.instances.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.deep.eq(dash.MultiEditor1)
     })
   })
@@ -63,7 +63,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       })
 
       // then
-      const propertyState = after.instances.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.be.undefined
     })
   })

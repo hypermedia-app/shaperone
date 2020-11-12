@@ -9,7 +9,7 @@ export function pushFocusNode(store: Store) {
   return ({ form, focusNode, property }: { focusNode: FocusNode; property: PropertyShape } & BaseParams): void => {
     const { editors, shapes, resources, forms } = store.getState()
     const graph = resources.get(form)?.graph
-    const formState = forms.instances.get(form)
+    const formState = forms.get(form)
     if (!graph || !formState) {
       return
     }

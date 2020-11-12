@@ -6,7 +6,7 @@ export default function (store: Store) {
 
   return ({ form, rootPointer }: setRoot.Params) => {
     const { forms, editors, shapes, resources } = store.getState()
-    const formState = forms.instances.get(form)
+    const formState = forms.get(form)
     const graph = resources.get(form)?.graph
     if (!graph || !formState) {
       return

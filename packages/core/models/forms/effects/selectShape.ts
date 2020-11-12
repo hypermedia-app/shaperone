@@ -7,7 +7,7 @@ export function selectShape(store: Store) {
   return function ({ form, focusNode, shape }: Params) {
     const { editors, shapes, resources, forms } = store.getState()
     const graph = resources.get(form)?.graph
-    const formState = forms.instances.get(form)
+    const formState = forms.get(form)
     if (!graph || !formState) {
       return
     }

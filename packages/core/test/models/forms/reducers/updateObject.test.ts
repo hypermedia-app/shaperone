@@ -47,7 +47,7 @@ describe('core/models/forms/reducers/updateObject', () => {
       })
 
       // then
-      const { focusNodes: { [focusNode.value]: focusNodeState } } = after.instances.get(form)!
+      const { focusNodes: { [focusNode.value]: focusNodeState } } = after.get(form)!
       const values = focusNodeState.properties[0].objects.map(os => os.object?.value)
       expect(values).to.have.length(3)
       expect(values).to.include.members(['bar1', 'bar2', 'bar3'])

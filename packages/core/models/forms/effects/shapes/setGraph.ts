@@ -6,7 +6,7 @@ export default function setGraph(store: Store) {
 
   return ({ form }: SetShapesGraphParams) => {
     const { editors, forms, shapes } = store.getState()
-    const formState = forms.instances.get(form)
+    const formState = forms.get(form)
     const graph = store.getState().resources.get(form)?.graph
     if (!graph || !formState) {
       return

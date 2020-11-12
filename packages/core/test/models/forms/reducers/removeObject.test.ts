@@ -20,13 +20,13 @@ describe('models/forms/reducers/removeObject', () => {
   beforeEach(() => {
     ({ form, store } = testStore())
     focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-    formState = store.getState().forms.instances.get(form)!
+    formState = store.getState().forms.get(form)!
   })
 
   it('removes state objects with matching value', () => {
     // given
     const property = propertyShape()
-    const object = $rdf.literal('1')
+    const object = focusNode.literal('1')
     formState.focusNodes[focusNode.value] = {
       properties: [{
         shape: property,
@@ -49,7 +49,7 @@ describe('models/forms/reducers/removeObject', () => {
     })
 
     // then
-    const afterProperty = afterState.instances.get(form)?.focusNodes[focusNode.value].properties[0]
+    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.objects).to.have.length(1)
     expect(afterProperty?.objects[0].object?.term).to.deep.eq($rdf.literal('2'))
   })
@@ -57,7 +57,7 @@ describe('models/forms/reducers/removeObject', () => {
   it('does not remove state objects without values', () => {
     // given
     const property = propertyShape()
-    const object = $rdf.literal('1')
+    const object = focusNode.literal('1')
     formState.focusNodes[focusNode.value] = {
       properties: [{
         shape: property,
@@ -77,7 +77,7 @@ describe('models/forms/reducers/removeObject', () => {
     })
 
     // then
-    const afterProperty = afterState.instances.get(form)?.focusNodes[focusNode.value].properties[0]
+    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.objects).to.have.length(3)
   })
 
@@ -86,7 +86,7 @@ describe('models/forms/reducers/removeObject', () => {
     const property = propertyShape({
       maxCount: 2,
     })
-    const object = $rdf.literal('1')
+    const object = focusNode.literal('1')
     formState.focusNodes[focusNode.value] = {
       properties: [{
         shape: property,
@@ -106,7 +106,7 @@ describe('models/forms/reducers/removeObject', () => {
     })
 
     // then
-    const afterProperty = afterState.instances.get(form)?.focusNodes[focusNode.value].properties[0]
+    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.canRemove).to.eq(true)
   })
 
@@ -115,7 +115,7 @@ describe('models/forms/reducers/removeObject', () => {
     const property = propertyShape({
       maxCount: 2,
     })
-    const object = $rdf.literal('1')
+    const object = focusNode.literal('1')
     formState.focusNodes[focusNode.value] = {
       properties: [{
         shape: property,
@@ -135,7 +135,7 @@ describe('models/forms/reducers/removeObject', () => {
     })
 
     // then
-    const afterProperty = afterState.instances.get(form)?.focusNodes[focusNode.value].properties[0]
+    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.canAdd).to.eq(true)
   })
 })

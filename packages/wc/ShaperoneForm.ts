@@ -151,7 +151,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     state.resources.get(id(this))?.changeNotifier.onChange(this[notify])
 
     return {
-      state: state.forms.instances.get(id(this)),
+      state: state.forms.get(id(this)),
       value: state.resources.get(id(this))?.graph?.dataset,
       [shapes]: state.shapes.get(id(this))?.shapes || [],
       rendererOptions: state.renderer,

@@ -40,7 +40,7 @@ describe('models/forms/effects/resources/setRoot', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const initialFoo = graph.node(ex.Foo)
     const initialBar = graph.node(ex.Bar)
-    store.getState().forms.instances.get(form)!.focusStack = [initialFoo, initialBar]
+    store.getState().forms.get(form)!.focusStack = [initialFoo, initialBar]
 
     // when
     setRoot(store)({
@@ -57,7 +57,7 @@ describe('models/forms/effects/resources/setRoot', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const initialFoo = graph.node(ex.Foo)
     const initialBar = graph.node(ex.Bar)
-    store.getState().forms.instances.get(form)!.focusStack = [initialFoo, initialBar]
+    store.getState().forms.get(form)!.focusStack = [initialFoo, initialBar]
     const rootPointer = cf({ dataset: $rdf.dataset() }).node(ex.Baz)
 
     // when

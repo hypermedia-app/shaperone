@@ -48,7 +48,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
     expect(fooState.properties[0].canRemove).to.eq(false)
   })
 
@@ -90,7 +90,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
     expect(fooState.properties[0].canRemove).to.eq(false)
   })
 
@@ -132,7 +132,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
     expect(fooState.properties[0].canRemove).to.eq(true)
   })
 
@@ -173,7 +173,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.instances.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
     expect(fooState.properties[0].objects[0].editorSwitchDisabled).to.be.true
   })
 })

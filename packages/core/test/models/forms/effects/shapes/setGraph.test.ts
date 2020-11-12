@@ -24,7 +24,7 @@ describe('models/forms/effects/shapes/setGraph', () => {
     const resourceGraph = cf({ dataset: $rdf.dataset() })
     const shapesGraph = cf({ dataset: $rdf.dataset() })
     shapesGraph.node(ex.Shape).addOut(rdf.type, sh.Shape).addOut(sh.targetNode, [ex.Foo, ex.Bar])
-    const formState = store.getState().forms.instances.get(form)!
+    const formState = store.getState().forms.get(form)!
     formState.focusStack = [
       resourceGraph.node(ex.Foo),
       resourceGraph.node(ex.Bar),

@@ -62,9 +62,7 @@ export interface FormState {
   shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
-export type State = {
-  instances: Map<symbol, FormState>
-}
+export type State = Map<symbol, FormState>
 
 const reducers = {
   addFormField,
@@ -82,9 +80,7 @@ const reducers = {
 }
 
 export const forms = createModel({
-  state: <State>{
-    instances: new Map(),
-  },
+  state: <State> new Map(),
   reducers,
   effects(store: Store) {
     return {

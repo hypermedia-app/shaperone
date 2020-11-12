@@ -32,12 +32,9 @@ export function testState(initializer: Initializer = {}) {
   num += 1
   const form = Symbol(num)
 
-  const state = <Form.State>{
-    singleEditors: initializer.singleEditors || [],
-    instances: new Map(),
-  }
+  const state = <Form.State> new Map()
 
-  state.instances.set(form, deepmerge<Form.FormState>({
+  state.set(form, deepmerge<Form.FormState>({
     focusStack: [],
     focusNodes: {},
   }, (initializer.form || {}) as any, { clone: false }))

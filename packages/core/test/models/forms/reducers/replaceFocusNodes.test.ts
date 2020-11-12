@@ -21,7 +21,7 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
   beforeEach(() => {
     ({ form, store } = testStore())
     focusNode = clownface({ dataset: $rdf.dataset() }).blankNode('baz')
-    formState = store.getState().forms.instances.get(form)!
+    formState = store.getState().forms.get(form)!
   })
 
   function commonParams(): Parameters<typeof initialiseFocusNode>[0] {
@@ -49,7 +49,7 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
       })
 
       // then
-      const afterForm = afterState.instances.get(form)
+      const afterForm = afterState.get(form)
       expect(afterForm?.focusStack).to.have.length(1)
       expect(afterForm?.focusStack[0].term).to.deep.eq(focusNode.term)
     })
@@ -69,7 +69,7 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
       })
 
       // then
-      const afterForm = afterState.instances.get(form)
+      const afterForm = afterState.get(form)
       expect(afterForm?.focusStack).to.have.length(3)
       expect(afterForm?.focusStack.map(fn => fn.term)).to.deep.contain.ordered.members([
         $rdf.blankNode('foo'),

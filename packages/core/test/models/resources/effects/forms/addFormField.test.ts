@@ -19,7 +19,7 @@ describe('models/resources/effects/forms/addFormField', () => {
 
   beforeEach(() => {
     ({ form, store } = testStore())
-    formState = store.getState().forms.instances.get(form)!;
+    formState = store.getState().forms.get(form)!;
     ({ graph } = store.getState().resources.get(form)!)
   })
 

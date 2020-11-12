@@ -6,19 +6,15 @@ describe('core/models/forms/reducers/connection', () => {
   describe('connect', () => {
     it('creates a state for given form', () => {
       // given
-      const before = {
-        instances: new Map(),
-        singleEditors: [],
-        multiEditors: [],
-      }
+      const before = new Map()
       const form = Symbol('test')
 
       // when
       const after = connect(before, form)
 
       // then
-      expect(after.instances.has(form))
-      expect(after.instances.get(form)).to.be.a('Object')
+      expect(after.has(form))
+      expect(after.get(form)).to.be.a('Object')
     })
   })
 
@@ -26,18 +22,14 @@ describe('core/models/forms/reducers/connection', () => {
     it('removes own state', () => {
       // given
       const form = Symbol('test')
-      const before = {
-        instances: new Map(),
-        singleEditors: [],
-        multiEditors: [],
-      }
-      before.instances.set(form, {})
+      const before = new Map()
+      before.set(form, {})
 
       // when
       const after = disconnect(before, form)
 
       // then
-      expect(after.instances.size).to.eq(0)
+      expect(after.size).to.eq(0)
     })
   })
 })
