@@ -14,7 +14,7 @@ describe('shaperone-form', () => {
     path: schema.name,
   })]
 
-  it('dispatches event when object values change', async () => {
+  xit('dispatches event when object values change', async () => {
     // given
     const resource = clownface({ dataset: dataset() }).blankNode()
     const form = await fixture(html`<shaperone-form .shapes="${shape}" .resource="${resource}"></shaperone-form>`)
