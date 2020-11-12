@@ -73,7 +73,7 @@ export const instancesSelectEditor: SingleEditorComponent = {
 export const uriEditor: SingleEditorComponent = {
   editor: dash.URIEditor,
   render({ value }, { update }) {
-    return html`<input .value="${value.object?.value}"
+    return html`<input .value="${value.object?.value || ''}"
                        type="url"
                        @blur="${(e: any) => update(namedNode(e.target.value))}">`
   },

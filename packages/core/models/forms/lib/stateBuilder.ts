@@ -4,6 +4,7 @@ import { dash } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, Term } from 'rdf-js'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
 import TermMap from '@rdf-esm/term-map'
+import { nanoid } from 'nanoid'
 import type { EditorsState } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
@@ -42,6 +43,7 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
     }
 
     return {
+      key: nanoid(),
       object,
       editors: matchedEditors,
       selectedEditor,

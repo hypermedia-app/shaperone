@@ -12,16 +12,15 @@ export default function (store: Store) {
       return
     }
 
-    const focusNode = rootPointer
-    if (focusNode === formState.focusStack[0]) {
+    if (rootPointer === formState.focusStack[0]) {
       return
     }
 
     if (!formState.focusStack.length || rootPointer.value !== formState.focusStack[0].value) {
-      dispatch.forms.truncateFocusNodes({ form, focusNode })
+      dispatch.forms.truncateFocusNodes({ form, focusNode: rootPointer })
       dispatch.forms.createFocusNodeState({
         form,
-        focusNode,
+        focusNode: rootPointer,
         editors,
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
         shapes: shapes.get(form)?.shapes || [],
@@ -31,11 +30,12 @@ export default function (store: Store) {
     }
 
     for (const currentFocusNode of formState.focusStack) {
-      if (!currentFocusNode.out().values) break
+      const focusNode = rootPointer.node(currentFocusNode)
+      if (!focusNode.out().values) break
 
       dispatch.forms.createFocusNodeState({
         form,
-        focusNode: currentFocusNode,
+        focusNode,
         editors,
         shapes: shapes.get(form)?.shapes || [],
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,

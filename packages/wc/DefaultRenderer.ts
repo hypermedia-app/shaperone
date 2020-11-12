@@ -96,7 +96,7 @@ export const DefaultRenderer: Renderer = {
               },
               remove(): void {
                 if (value.object) {
-                  actions.forms.removeObject({ form, focusNode, property: property.shape, object: value.object })
+                  actions.forms.removeObject({ form, focusNode, property: property.shape, object: value })
                 }
               },
             }
@@ -111,7 +111,7 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  oldValue: value.object?.term,
+                  object: value,
                   newValue,
                 })
               }

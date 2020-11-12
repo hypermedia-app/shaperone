@@ -22,6 +22,7 @@ import resourcesEffects from './effects/resources'
 import type { Store } from '../../state'
 
 export interface PropertyObjectState {
+  key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined

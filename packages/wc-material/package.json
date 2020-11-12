@@ -42,6 +42,7 @@
     "clownface": "^1",
     "deepmerge": "^4.2.2",
     "eslint-plugin-lit": "^1.2.0",
+    "nanoid": "^3.1.16",
     "sinon": "^9.0.2"
   },
   "publishConfig": {

@@ -58,6 +58,7 @@ describe('wc-material/renderer', () => {
 
       return ({
         object: {
+          key: '',
           object: shapesGraph.blankNode(),
           editors: [],
           selectedEditor: undefined,
@@ -88,6 +89,7 @@ describe('wc-material/renderer', () => {
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
+          key: 'foo',
           editors: [editor, editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
@@ -110,6 +112,7 @@ describe('wc-material/renderer', () => {
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
+          key: 'foo',
           editorSwitchDisabled: true,
           editors: [editor, editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
@@ -133,6 +136,7 @@ describe('wc-material/renderer', () => {
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
+          key: 'foo',
           editors: [editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
@@ -156,6 +160,7 @@ describe('wc-material/renderer', () => {
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
+          key: 'foo',
           editors: [editor, editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
@@ -179,6 +184,7 @@ describe('wc-material/renderer', () => {
       }
       const params = deepmerge<Params>(nullParams(), {
         object: {
+          key: 'foo',
           editors: [editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,

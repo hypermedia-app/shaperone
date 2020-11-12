@@ -25,6 +25,7 @@ describe('shaperone-form', () => {
       focusNode: resource,
       newValue: literal('new'),
       property: shape.property[0],
+      object: store().state.forms.get(id(form))!.focusNodes[resource.value].properties[0].objects[0],
     })
     const foo = await oneEvent(form, 'changed')
 

@@ -205,7 +205,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
   __saveResource() {
     if (this.form.value) {
-      store().dispatch.resource.replaceGraph({ dataset: this.form.value })
+      store().dispatch.resource.replaceGraph({ dataset: this.form.value, updatePointer: false })
     }
   }
 

@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import clownface from 'clownface'
 import $rdf from 'rdf-ext'
 import { removeObject } from '../../../../models/forms/reducers/removeObject'
-import { RecursivePartial, testStore } from '../util'
+import { RecursivePartial, testObjectState, testStore } from '../util'
 import { Store } from '../../../../state'
 import { FocusNode } from '../../../../index'
 import { propertyShape } from '../../../util'
@@ -23,19 +23,21 @@ describe('models/forms/reducers/removeObject', () => {
     formState = store.getState().forms.get(form)!
   })
 
-  it('removes state objects with matching value', () => {
+  it('removes state objects with matching key', () => {
     // given
     const property = propertyShape()
-    const object = focusNode.literal('1')
+    const object = testObjectState(focusNode.literal('1'), {
+      key: 'remove',
+    })
     formState.focusNodes[focusNode.value] = {
       properties: [{
         shape: property,
         objects: [{
-          object: focusNode.literal('1'),
+          key: 'remove',
         }, {
-          object: focusNode.literal('1'),
+          key: 'remove',
         }, {
-          object: focusNode.literal('2'),
+          key: 'foo',
         }],
       }],
     }
@@ -51,34 +53,7 @@ describe('models/forms/reducers/removeObject', () => {
     // then
     const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.objects).to.have.length(1)
-    expect(afterProperty?.objects[0].object?.term).to.deep.eq($rdf.literal('2'))
-  })
-
-  it('does not remove state objects without values', () => {
-    // given
-    const property = propertyShape()
-    const object = focusNode.literal('1')
-    formState.focusNodes[focusNode.value] = {
-      properties: [{
-        shape: property,
-        objects: [{
-        }, {
-        }, {
-        }],
-      }],
-    }
-
-    // when
-    const afterState = removeObject(store.getState().forms, {
-      form,
-      focusNode,
-      object,
-      property,
-    })
-
-    // then
-    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
-    expect(afterProperty?.objects).to.have.length(3)
+    expect(afterProperty?.objects[0].key).to.eq('foo')
   })
 
   it('updates canRemove flag', () => {
@@ -86,14 +61,18 @@ describe('models/forms/reducers/removeObject', () => {
     const property = propertyShape({
       maxCount: 2,
     })
-    const object = focusNode.literal('1')
+    const object = testObjectState(focusNode.literal('1'), {
+      key: 'remove',
+    })
     formState.focusNodes[focusNode.value] = {
       properties: [{
         shape: property,
         canRemove: false,
         objects: [{
-          object: focusNode.node(object),
-        }, {}],
+          key: 'remove',
+        }, {
+          key: 'stay',
+        }],
       }],
     }
 
@@ -115,14 +94,18 @@ describe('models/forms/reducers/removeObject', () => {
     const property = propertyShape({
       maxCount: 2,
     })
-    const object = focusNode.literal('1')
+    const object = testObjectState(focusNode.literal('1'), {
+      key: 'remove',
+    })
     formState.focusNodes[focusNode.value] = {
       properties: [{
         shape: property,
         canAdd: false,
         objects: [{
-          object: focusNode.node(object),
-        }, {}],
+          key: 'remove',
+        }, {
+          key: 'stay',
+        }],
       }],
     }
 

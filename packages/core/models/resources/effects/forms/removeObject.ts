@@ -16,7 +16,7 @@ export default function (store: Store) {
 
     state.graph.node(focusNode)
       .deleteOut(pathProperty.id)
-      .addOut(pathProperty.id, objects.filter(o => !o.equals(removed.term)))
+      .addOut(pathProperty.id, objects.filter(o => !o.equals(removed.object?.term)))
 
     notify({
       store,

@@ -22,7 +22,9 @@ describe('models/resources/effects/forms/updateObject', () => {
     // given
     const focusNode = graph.blankNode()
       .addOut(schema.age, ['5', '15'])
-    const oldValue = $rdf.literal('5')
+    const object = {
+      object: focusNode.literal('5'),
+    }
     const newValue = $rdf.literal('10')
     const property = propertyShape({
       path: schema.age,
@@ -32,7 +34,7 @@ describe('models/resources/effects/forms/updateObject', () => {
     updateObject(store)({
       form,
       focusNode,
-      oldValue,
+      object,
       newValue,
       property,
     })
@@ -48,6 +50,9 @@ describe('models/resources/effects/forms/updateObject', () => {
     // given
     const focusNode = graph.blankNode()
       .addOut(schema.age, ['5', '15'])
+    const object = {
+      object: undefined,
+    }
     const newValue = $rdf.literal('10')
     const property = propertyShape({
       path: schema.age,
@@ -59,6 +64,7 @@ describe('models/resources/effects/forms/updateObject', () => {
       focusNode,
       newValue,
       property,
+      object,
     })
 
     // then

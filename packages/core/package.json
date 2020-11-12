@@ -22,7 +22,8 @@
     "@tpluscode/rdfine": "^0.5.15",
     "@zazuko/rdf-vocabularies": "^2020.11.2",
     "clownface": "^1.1.0",
-    "immer": "^7.0.9"
+    "immer": "^7.0.9",
+    "nanoid": "^3.1.16"
   },
   "devDependencies": {
     "@rdf-esm/data-model": "^0.5.3",

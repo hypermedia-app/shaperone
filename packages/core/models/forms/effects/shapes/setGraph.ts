@@ -4,11 +4,12 @@ import { SetShapesGraphParams } from '../../../shapes/reducers'
 export default function setGraph(store: Store) {
   const dispatch = store.getDispatch()
 
-  return ({ form }: SetShapesGraphParams) => {
+  return ({ form, shapesGraph }: SetShapesGraphParams) => {
     const { editors, forms, shapes } = store.getState()
     const formState = forms.get(form)
+    const currentGraph = shapes.get(form)?.shapesGraph
     const graph = store.getState().resources.get(form)?.graph
-    if (!graph || !formState) {
+    if (!graph || !formState || currentGraph?.dataset === shapesGraph || currentGraph === shapesGraph) {
       return
     }
 

@@ -6,6 +6,7 @@ import { expect } from 'chai'
 import { testStore } from '../../forms/util'
 import { Editor, EditorsState, SingleEditor, MultiEditor } from '../../../../models/editors'
 import { matchSingleEditors, matchMultiEditors } from '../../../../models/editors/lib/match'
+import { propertyShape } from '../../../util'
 
 describe('models/editors/lib/match', () => {
   let editors: EditorsState
@@ -13,6 +14,7 @@ describe('models/editors/lib/match', () => {
 
   beforeEach(() => {
     ({ editors } = testStore().store.getState())
+    shape = propertyShape()
   })
 
   describe('matchSingleEditors', () => {

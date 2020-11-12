@@ -6,6 +6,7 @@ import { GraphPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import { NamedNode } from 'rdf-js'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
+import { nanoid } from 'nanoid'
 
 interface EditorTestParams {
   object: GraphPointer
@@ -15,6 +16,7 @@ interface EditorTestParams {
 
 export function editorTestParams({ object, property, datatype }: EditorTestParams): { params: SingleEditorRenderParams; actions: SingleEditorActions } {
   const value: PropertyObjectState = {
+    key: nanoid(),
     editors: [],
     selectedEditor: undefined,
     object,
