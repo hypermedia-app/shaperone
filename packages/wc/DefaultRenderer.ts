@@ -90,7 +90,7 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  value: value.object?.term,
+                  object: value,
                   editor,
                 })
               },

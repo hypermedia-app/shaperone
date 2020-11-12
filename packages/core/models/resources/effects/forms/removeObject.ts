@@ -2,12 +2,17 @@ import type { Store } from '../../../../state'
 import * as removeObject from '../../../forms/reducers/removeObject'
 import { getPathProperty } from '../../lib/property'
 import { notify } from '../../lib/notify'
+import { PropertyObjectState } from '../../../forms'
+
+type Params = Omit<removeObject.RemoveObjectParams, 'object'> & {
+  object: Pick<PropertyObjectState, 'object'>
+}
 
 export default function (store: Store) {
-  return function ({ form, focusNode, property, object: removed }: removeObject.RemoveObjectParams) {
+  return function ({ form, focusNode, property, object: removed }: Params) {
     const { resources } = store.getState()
     const state = resources.get(form)
-    if (!state?.graph) {
+    if (!state?.graph || !removed.object) {
       return
     }
 
