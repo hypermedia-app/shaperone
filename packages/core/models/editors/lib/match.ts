@@ -28,6 +28,9 @@ function valuePlaceholder(shape: PropertyShape): GraphPointer {
     case 'http://www.w3.org/ns/shacl#IRIOrLiteral':
       return shape.pointer.namedNode('')
     default: {
+      if (shape.class) {
+        return shape.pointer.blankNode()
+      }
       if (shape.languageIn.length || shape.datatype?.equals(xsd.langString)) {
         return shape.pointer.literal('', shape.languageIn[0] || 'en')
       }

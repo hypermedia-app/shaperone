@@ -11,9 +11,9 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
     return focusNode.node(property.defaultValue)
   }
 
-  if (property.class && (nodeKind?.equals(sh.IRI) || nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI))) {
+  const propertyClass = property.class
+  if (propertyClass || nodeKind?.equals(sh.IRI) || nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI)) {
     const resourceNode: GraphPointer<ResourceIdentifier> = nodeKind?.equals(sh.IRI) ? focusNode.namedNode('') : focusNode.blankNode()
-    const propertyClass = property.class
     if (propertyClass && !property.get(dash.editor)?.equals(dash.InstancesSelectEditor)) {
       resourceNode.addOut(rdf.type, propertyClass.id)
     }

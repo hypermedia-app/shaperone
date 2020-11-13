@@ -1,7 +1,7 @@
 import type { Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
-import { MultiPointer } from 'clownface'
+import { GraphPointer, MultiPointer } from 'clownface'
 import { BaseParams, formStateReducer } from '../../index'
 import type { FormState, PropertyObjectState } from '../index'
 import type { FocusNode } from '../../../index'
@@ -53,4 +53,27 @@ export const setPropertyObjects = formStateReducer((state: FormState, { focusNod
       selectedEditor: suitableEditors[0]?.term,
     }
   })
+}))
+
+export interface SetObjectValueParams extends BaseParams {
+  focusNode: FocusNode
+  property: PropertyShape
+  object: PropertyObjectState
+  value: GraphPointer
+  editors: EditorsState
+}
+
+export const setObjectValue = formStateReducer((state: FormState, { focusNode, property, object, value, editors }: SetObjectValueParams) => produce(state, (draft) => {
+  const focusNodeState = draft.focusNodes[focusNode.value]
+  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
+
+  const objectState = propertyState?.objects.find(o => o.key === object.key)
+  if (!objectState) {
+    return
+  }
+
+  const suitableEditors = editors.matchSingleEditors({ shape: property, object: value })
+  objectState.editors = suitableEditors
+  objectState.selectedEditor = suitableEditors[0]?.term
+  objectState.object = value
 }))
