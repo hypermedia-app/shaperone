@@ -10,7 +10,7 @@ export const textFieldEditor: SingleEditorComponent = {
   editor: dash.TextFieldEditor,
 
   render({ value, property }, { update }) {
-    return html`<input .value="${value.object?.value}"
+    return html`<input .value="${value.object?.value || ''}"
                        type="${getType(property.datatype)}"
                        @blur="${(e: any) => update(e.target.value)}">`
   },

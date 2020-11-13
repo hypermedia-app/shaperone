@@ -16,11 +16,12 @@ export default function (store: Store) {
     }
 
     const pointer = defaultValue(property, focusNode)
-    if (!pointer) {
+    const predicate = getPathProperty(property)!.id
+    if (!pointer || focusNode.has(predicate, pointer).terms.length) {
       return
     }
 
-    state.graph.node(focusNode).addOut(getPathProperty(property)!.id, pointer)
+    state.graph.node(focusNode).addOut(predicate, pointer)
     const { forms, editors } = store.getState()
     const formState = forms.get(form)
     const current = formState?.focusNodes[focusNode.value]

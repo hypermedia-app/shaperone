@@ -19,6 +19,10 @@ export default function (store: Store) {
       return
     }
 
+    if (newValue.equals(object.object?.term)) {
+      return
+    }
+
     const objects = state.graph.node(focusNode)
       .out(pathProperty)
       .terms
