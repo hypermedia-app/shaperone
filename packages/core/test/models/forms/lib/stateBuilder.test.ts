@@ -46,7 +46,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.shapes).to.contain.ordered.members([nestedShape, otherShape])
     })
 
-    it('repositions selected shape if it explciitly selected', () => {
+    it('does not reposition selected shape in shapes array', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
@@ -64,7 +64,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
 
       // then
       expect(state.shapes).to.have.length(2)
-      expect(state.shapes.map(s => s.id)).to.contain.ordered.members([nestedShape.id, otherShape.id])
+      expect(state.shapes.map(s => s.id)).to.contain.ordered.members([otherShape.id, nestedShape.id])
     })
 
     it('does not reset selected editor of same object', () => {
