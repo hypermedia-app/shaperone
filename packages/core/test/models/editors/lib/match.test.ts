@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { PropertyShape } from '@rdfine/shacl'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash, schema } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import { expect } from 'chai'
 import { testStore } from '../../forms/util'
@@ -76,6 +76,22 @@ describe('models/editors/lib/match', () => {
 
       // then
       expect(matches[2].term).to.deep.eq(dash.EnumSelectEditor)
+    })
+
+    it('matches blank nodes when property has sh:class', () => {
+      // given
+      shape.class = schema.Person as any
+      singleEditors(
+        [dash.TextFieldEditor, (prop, node) => (node.term.termType === 'BlankNode' ? 0 : 10)],
+        [dash.DetailsEditor, (prop, node) => (node.term.termType === 'BlankNode' ? 10 : 0)],
+      )
+
+      // when
+      const matches = matchSingleEditors.call(editors, { shape })
+
+      // then
+      expect(matches).to.have.length(1)
+      expect(matches[0].term).to.deep.eq(dash.DetailsEditor)
     })
   })
 

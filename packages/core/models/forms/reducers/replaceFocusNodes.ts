@@ -5,7 +5,7 @@ import type { FormState } from '../index'
 
 type StackAction = {appendToStack?: true} | {replaceStack?: true}
 
-type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction & BaseParams
+export type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction & BaseParams
 
 export const createFocusNodeState = formStateReducer((state: FormState, { focusNode, ...rest }: Params) => produce(state, (draft) => {
   draft.focusNodes[focusNode.value] = initialiseFocusNode({
