@@ -10,7 +10,7 @@ import { html, render } from 'lit-html'
 import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
-import { store, State } from './state/store'
+import { store, State, Dispatch } from './state/store'
 import { shapeMenu } from './menu/shape'
 import { resourceMenu } from './menu/resource'
 import { formMenu } from './menu/formMenu'
@@ -167,7 +167,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   __setShape(e: CustomEvent) {
-    store().dispatch.shape.setShape(e.detail.value)
+    store().dispatch.shape.setShapesGraph(e.detail.value)
     store().dispatch.shape.serialized(this.shapeEditor.codeMirror.value)
   }
 
@@ -209,15 +209,18 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     }
   }
 
-  __editorMenuSelected(dispatch: any, editor: RdfEditor) {
+  __editorMenuSelected(dispatch: Dispatch['shape'], editor: RdfEditor) {
     return (e: CustomEvent) => {
       switch (e.detail.value.type) {
         case 'format':
           dispatch.format(e.detail.value.text)
           break
+        case 'root shape':
+          dispatch.selectRootShape(e.detail.value.pointer)
+          break
         default:
           dispatch.serialized(editor.codeMirror.value)
-          dispatch.setShape(editor.quads)
+          dispatch.setShapesGraph(editor.quads)
           break
       }
     }

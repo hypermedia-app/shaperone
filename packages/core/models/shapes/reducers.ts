@@ -14,17 +14,31 @@ export interface SetShapesGraphParams extends BaseParams {
 export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce(state, (draft) => {
   if ('dataset' in shapesGraph) {
     if (state.shapesGraph?.dataset === shapesGraph.dataset) {
-      return
+      const samePreferredRootShape = !state.preferredRootShape || (state.preferredRootShape && state.preferredRootShape.equals(shapesGraph.term as any))
+      if (samePreferredRootShape) {
+        return
+      }
     }
   } else if (state.shapesGraph?.dataset === shapesGraph) {
     return
   }
 
-  const shapesPointer = 'match' in shapesGraph ? cf({ dataset: shapesGraph }) : shapesGraph.any()
+  let preferredRootShape: Shape | undefined
+  let shapesPointer: AnyPointer
+  if ('match' in shapesGraph) {
+    shapesPointer = cf({ dataset: shapesGraph })
+  } else {
+    shapesPointer = shapesGraph.any()
+    if (shapesGraph.term) {
+      preferredRootShape = RdfResource.factory.createEntity<Shape>(shapesGraph as any, [ShapeMixin])
+    }
+  }
+
   const shapes = shapesPointer
     .has(rdf.type, [sh.Shape, sh.NodeShape])
     .map(pointer => RdfResource.factory.createEntity<Shape>(pointer, [ShapeMixin]))
 
   draft.shapesGraph = shapesPointer
   draft.shapes = shapes
+  draft.preferredRootShape = preferredRootShape
 }))

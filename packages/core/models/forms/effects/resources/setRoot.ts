@@ -8,6 +8,7 @@ export default function (store: Store) {
     const { forms, editors, shapes, resources } = store.getState()
     const formState = forms.get(form)
     const graph = resources.get(form)?.graph
+    const shapesState = shapes.get(form)
     if (!graph || !formState) {
       return
     }
@@ -23,7 +24,8 @@ export default function (store: Store) {
         focusNode: rootPointer,
         editors,
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
-        shapes: shapes.get(form)?.shapes || [],
+        shapes: shapesState?.shapes || [],
+        shape: shapesState?.preferredRootShape,
         replaceStack: true,
       })
       return
@@ -37,7 +39,7 @@ export default function (store: Store) {
         form,
         focusNode,
         editors,
-        shapes: shapes.get(form)?.shapes || [],
+        shapes: shapesState?.shapes || [],
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
       })
     }
