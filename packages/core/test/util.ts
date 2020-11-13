@@ -1,5 +1,5 @@
-import type { PropertyShape } from '@rdfine/shacl'
-import { PropertyShapeMixin } from '@rdfine/shacl'
+import type { NodeShape, PropertyShape } from '@rdfine/shacl'
+import { NodeShapeMixin, PropertyShapeMixin } from '@rdfine/shacl'
 import RdfResource, { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/RdfResource'
 import clownface, { GraphPointer } from 'clownface'
 import * as $rdf from '@rdf-esm/dataset'
@@ -28,4 +28,16 @@ export function propertyShape(shape?: GraphPointer<ResourceIdentifier> | Initial
   return RdfResource.factory.createEntity<PropertyShape>(node, [PropertyShapeMixin, PropertyShapeEx], {
     initializer,
   })
+}
+
+function isTerm(term: any): term is ResourceIdentifier {
+  return 'termType' in term
+}
+
+export function nodeShape(idOrInit: ResourceIdentifier | Initializer<NodeShape>, shape?: Initializer<NodeShape>): NodeShape {
+  const graph = clownface({ dataset: $rdf.dataset() })
+  if (isTerm(idOrInit)) {
+    return new NodeShapeMixin.Class(graph.node(idOrInit), shape)
+  }
+  return new NodeShapeMixin.Class(graph.blankNode(), idOrInit)
 }

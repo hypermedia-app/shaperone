@@ -2,6 +2,7 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { FocusNode } from '../../../index'
 import type { BaseParams } from '../../index'
 import type { Store } from '../../../state'
+import { matchShapes } from '../../shapes/lib'
 
 export function pushFocusNode(store: Store) {
   const dispatch = store.getDispatch()
@@ -20,7 +21,7 @@ export function pushFocusNode(store: Store) {
       focusNode,
       editors,
       shape: property.node,
-      shapes: shapes.get(form)?.shapes || [],
+      shapes: matchShapes(shapes.get(form)?.shapes).to(focusNode),
       shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
     })
   }

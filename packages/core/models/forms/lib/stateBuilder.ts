@@ -161,7 +161,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
   const { properties, groups } = initialisePropertyShapes(shape, params, previous)
 
   return {
-    shape: shapes[0],
+    shape,
     shapes,
     focusNode,
     groups,
