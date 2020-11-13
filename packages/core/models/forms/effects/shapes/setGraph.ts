@@ -1,6 +1,7 @@
 import { AnyPointer } from 'clownface'
 import type { Store } from '../../../../state'
 import { SetShapesGraphParams } from '../../../shapes/reducers'
+import { matchShapes } from '../../../shapes/lib'
 
 export default function setGraph(store: Store) {
   const dispatch = store.getDispatch()
@@ -25,7 +26,7 @@ export default function setGraph(store: Store) {
         form,
         focusNode,
         editors,
-        shapes: shapes.get(form)?.shapes || [],
+        shapes: matchShapes(shapes.get(form)?.shapes).to(focusNode),
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
       })
     })
