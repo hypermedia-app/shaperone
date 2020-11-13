@@ -1,9 +1,8 @@
-import type { NodeShape, PropertyShape, Shape } from '@rdfine/shacl'
+import type { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { NamedNode, Term } from 'rdf-js'
+import { NamedNode } from 'rdf-js'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
-import TermMap from '@rdf-esm/term-map'
 import type { EditorsState } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
@@ -141,7 +140,7 @@ export interface InitializeParams {
 }
 
 export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined): FocusNodeState {
-  const { focusNode } = params
+  let { focusNode, shape } = params
 
   if (!params.shape && !params.shapes.length) {
     return {
@@ -152,20 +151,18 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     }
   }
 
-  const shapeMap = [params.shape, ...params.shapes]
-    .reduce((map, shape) => {
-      if (shape && !map.has(shape.id)) {
-        map.set(shape.id, shape)
-      }
-      return map
-    }, new TermMap<Term, Shape>())
-  const [shape, ...rest] = shapeMap.values()
+  const shapes = [...params.shapes]
+  if (!shape) {
+    [shape] = params.shapes
+  } else if (shape && !shapes.find(s => s.equals(shape))) {
+    shapes.unshift(shape)
+  }
 
   const { properties, groups } = initialisePropertyShapes(shape, params, previous)
 
   return {
-    shape,
-    shapes: [shape, ...rest],
+    shape: shapes[0],
+    shapes,
     focusNode,
     groups,
     properties,
