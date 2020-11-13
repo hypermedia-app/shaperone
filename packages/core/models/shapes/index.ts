@@ -6,6 +6,7 @@ import { setGraph } from './reducers'
 export interface ShapeState {
   shapesGraph?: AnyPointer
   shapes: NodeShape[]
+  preferredRootShape?: NodeShape
 }
 
 export type State = Map<symbol, ShapeState>

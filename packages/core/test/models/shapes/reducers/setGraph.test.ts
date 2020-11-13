@@ -4,6 +4,7 @@ import $rdf from 'rdf-ext'
 import cf from 'clownface'
 import ns from '@rdf-esm/namespace'
 import { rdf, rdfs, sh } from '@tpluscode/rdf-ns-builders'
+import { NodeShapeMixin } from '@rdfine/shacl'
 import { setGraph } from '../../../../models/shapes/reducers'
 import { testStore } from '../../forms/util'
 
@@ -62,6 +63,46 @@ describe('models/shapes/reducers/setGraph', () => {
     expect(shapes.length).to.eq(2)
     expect(shapes.map(s => s.label)).to.include('Shape one')
     expect(shapes.map(s => s.label)).to.include('Shape two')
+  })
+
+  it('sets new preferred shape if it was selected from same dataset', () => {
+    // given
+    const { form, store } = testStore()
+    const before = store.getState().shapes
+    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
+    shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
+    before.get(form)!.shapesGraph = shapesGraph
+    before.get(form)!.preferredRootShape = new NodeShapeMixin.Class(shapesGraph.node(ex.Shape1))
+
+    // when
+    const after = setGraph(before, {
+      form,
+      shapesGraph: shapesGraph.node(ex.Shape2),
+    })
+
+    // then
+    const { preferredRootShape } = after.get(form)!
+    expect(preferredRootShape?.id).to.deep.eq(ex.Shape2)
+  })
+
+  it('sets preferred root shape is parameter is graph pointer', () => {
+    // given
+    const { form, store } = testStore()
+    const before = store.getState().shapes
+    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
+    shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
+
+    // when
+    const after = setGraph(before, {
+      form,
+      shapesGraph: shapesGraph.node(ex.Shape2),
+    })
+
+    // then
+    const { preferredRootShape } = after.get(form)!
+    expect(preferredRootShape?.id).to.deep.eq(ex.Shape2)
   })
 
   it('extracts shape resources from graph', () => {

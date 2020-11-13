@@ -10,22 +10,23 @@ export default function setGraph(store: Store) {
   return ({ form }: SetShapesGraphParams) => {
     const { editors, forms, shapes } = store.getState()
     const formState = forms.get(form)
-    const shapesGraph = shapes.get(form)?.shapesGraph
+    const shapesState = shapes.get(form)
     const graph = store.getState().resources.get(form)?.graph
     if (!graph || !formState) {
       return
     }
 
-    if (previousShapes && previousShapes === shapesGraph) {
+    if (previousShapes && previousShapes === shapesState?.shapesGraph) {
       return
     }
 
-    previousShapes = shapesGraph
+    previousShapes = shapesState?.shapesGraph
     formState.focusStack.forEach((focusNode) => {
       dispatch.forms.createFocusNodeState({
         form,
         focusNode,
         editors,
+        shape: shapesState?.preferredRootShape,
         shapes: matchShapes(shapes.get(form)?.shapes).to(focusNode),
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
       })
