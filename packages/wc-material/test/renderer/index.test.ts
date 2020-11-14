@@ -1,5 +1,5 @@
 import { expect, fixture, html } from '@open-wc/testing'
-import * as sinon from 'sinon'
+import { sinon } from '@shaperone/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
