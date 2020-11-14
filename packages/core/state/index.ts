@@ -1,7 +1,7 @@
 import { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
 import { forms } from '../models/forms'
 import { editors } from '../models/editors'
-import { createComponentsModel } from '../models/components'
+import { components } from '../models/components'
 import { resources } from '../models/resources'
 import { shapes } from '../models/shapes'
 
@@ -11,7 +11,7 @@ interface Config {
     editors: typeof editors
     resources: typeof resources
     shapes: typeof shapes
-    components: ReturnType<typeof createComponentsModel>
+    components: typeof components
   }
 }
 

@@ -16,7 +16,7 @@ describe('core/models/components/reducers', () => {
       }
 
       // when
-      const after = reducers().pushComponents(before, {
+      const after = reducers.pushComponents(before, {
         component,
       })
 
@@ -35,7 +35,7 @@ describe('core/models/components/reducers', () => {
       }
 
       // when
-      const after = reducers().pushComponents(before, [component])
+      const after = reducers.pushComponents(before, [component])
 
       // then
       expect(after[dash.FooEditor.value].render).to.eq(component.render)

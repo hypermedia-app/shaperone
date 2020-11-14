@@ -1,12 +1,10 @@
-import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { literal } from '@rdf-esm/data-model'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import '@material/mwc-textarea/mwc-textarea'
 
-export const textArea: SingleEditorComponent = {
-  editor: dash.TextAreaEditor,
-
-  render({ value }, { update }) {
+export const textArea: RenderSingleEditor =
+  function render({ value }, { update }) {
     return html`
       <mwc-textarea
         .value="${value.object?.value || ''}"
@@ -14,9 +12,4 @@ export const textArea: SingleEditorComponent = {
         @blur="${(e: any) => update(literal(e.target.value))}"
       ></mwc-textarea>
     `
-  },
-
-  loadDependencies() {
-    return [import('@material/mwc-textarea/mwc-textarea')]
-  },
-}
+  }

@@ -1,80 +1,51 @@
-import { html } from 'lit-element'
-import { dash, rdfs, rdf } from '@tpluscode/rdf-ns-builders'
-import { literal, namedNode } from '@rdf-esm/data-model'
-import { repeat } from 'lit-html/directives/repeat'
-import type{ GraphPointer } from 'clownface'
-import type { SingleEditorComponent } from './index'
-import { getType } from './components/lib/textFieldType'
+import { dash } from '@tpluscode/rdf-ns-builders'
+import type { SingleEditorComponent, Lazy } from './index'
 
-export const textFieldEditor: SingleEditorComponent = {
+export const textFieldEditor: Lazy<SingleEditorComponent> = {
   editor: dash.TextFieldEditor,
-
-  render({ value, property }, { update }) {
-    return html`<input .value="${value.object?.value || ''}"
-                       type="${getType(property.datatype)}"
-                       @blur="${(e: any) => update(e.target.value)}">`
+  async lazyRender() {
+    return (await import('./components')).textField
   },
 }
 
-export const textAreaEditor: SingleEditorComponent = {
+export const textAreaEditor: Lazy<SingleEditorComponent> = {
   editor: dash.TextAreaEditor,
-
-  render({ value }, { update }) {
-    return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object?.value}</textarea>`
+  async lazyRender() {
+    return (await import('./components')).textArea
   },
 }
 
-export const enumSelectEditor: SingleEditorComponent = {
+export const enumSelectEditor: Lazy<SingleEditorComponent> = {
   editor: dash.EnumSelectEditor,
-
-  render({ value, property }, { update }) {
-    const choices = property.shape.inPointers
-
-    function updateHandler(e: any) {
-      const chosen = choices[(e.target).selectedIndex - 1]
-      if (chosen) update(chosen.term)
-    }
-
-    return html`<select @input="${updateHandler}" required>
-        <option value=""></option>
-        ${repeat(choices, choice => html`<option ?selected="${choice.value === value.object?.value}" value="${choice}">
-            ${choice.out(rdfs.label).value || choice}
-        </option>`)}
-    </select>`
+  async lazyRender() {
+    return (await import('./components')).enumSelect
   },
 }
 
-export const datePickerEditor: SingleEditorComponent = {
+export const datePickerEditor: Lazy<SingleEditorComponent> = {
   editor: dash.DatePickerEditor,
-
-  render({ value }, { update }) {
-    return html`<input .value="${value.object}"
-                       type="date"
-                       @blur="${(e: any) => update(e.target.value)}">`
+  async lazyRender() {
+    return (await import('./components')).datePicker('date')
   },
 }
 
-export const instancesSelectEditor: SingleEditorComponent = {
+export const dateTimePickerEditor: Lazy<SingleEditorComponent> = {
+  editor: dash.DateTimePickerEditor,
+  async lazyRender() {
+    return (await import('./components')).datePicker('datetime-local')
+  },
+}
+
+export const instancesSelectEditor: Lazy<SingleEditorComponent> = {
   editor: dash.InstancesSelectEditor,
-  render({ property, value }, { update }) {
-    const choices: GraphPointer[] = property.shape.pointer.any()
-      .has(rdf.type, property.shape.class?.id)
-      .toArray()
-
-    return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
-        <option value=""></option>
-        ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object?.term)}" value="${choice}">
-            ${choice.out(rdfs.label).value || choice.value}
-        </option>`)}
-    </select>`
+  async lazyRender() {
+    return (await import('./components')).instancesSelect
   },
 }
 
-export const uriEditor: SingleEditorComponent = {
+export const uriEditor: Lazy<SingleEditorComponent> = {
   editor: dash.URIEditor,
-  render({ value }, { update }) {
-    return html`<input .value="${value.object?.value || ''}"
-                       type="url"
-                       @blur="${(e: any) => update(namedNode(e.target.value))}">`
+  async lazyRender() {
+    return (await import('./components')).uri
   },
 }

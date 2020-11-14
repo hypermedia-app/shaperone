@@ -1,4 +1,4 @@
-import { Component } from '@hydrofoil/shaperone-wc'
+import type { Component } from '@hydrofoil/shaperone-core'
 import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents'
 import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components'
 import { component, matcher, metadata } from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect'

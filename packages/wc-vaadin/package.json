@@ -32,9 +32,9 @@
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3",
     "@rdfine/shacl": "^0.5.1",
+    "@shaperone/testing": "*",
     "clownface": "^1",
-    "eslint-plugin-lit": "^1.2.0",
-    "sinon": "^9.0.2"
+    "eslint-plugin-lit": "^1.2.0"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

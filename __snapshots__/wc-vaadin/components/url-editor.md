@@ -12,7 +12,7 @@
 >
   <input
     aria-invalid="true"
-    aria-labelledby="vaadin-text-field-input-2"
+    aria-labelledby="vaadin-text-field-input-9"
     invalid=""
     required=""
     slot="input"

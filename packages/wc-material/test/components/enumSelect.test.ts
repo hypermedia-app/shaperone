@@ -2,7 +2,7 @@ import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { editorTestParams } from '../util'
+import { editorTestParams } from '@shaperone/testing'
 import { enumSelect } from '../../components/enumSelect'
 
 describe('wc-material/components/enumSelect', () => {
@@ -15,7 +15,7 @@ describe('wc-material/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect.render(params, actions))
+    const result = await fixture(enumSelect(params, actions))
 
     // then
     expect(result).to.equalSnapshot()
@@ -30,7 +30,7 @@ describe('wc-material/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect.render(params, actions))
+    const result = await fixture(enumSelect(params, actions))
 
     // then
     expect(result).to.equalSnapshot()
