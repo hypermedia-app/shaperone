@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-core
 
+## 0.3.0
+
+### Minor Changes
+
+- d8343b6: Change how lazy components are implemented
+
+### Patch Changes
+
+- 627dd89: Correctly set intital canAdd/canRemove flag values
+- c41966b: Implement complete shape selection based on targets
+- 58d647c: Select root shape from graph pointer
+
 ## 0.2.4
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-wc
 
+## 0.1.6
+
+### Patch Changes
+
+- 43039b8: Added dash:DateTimePickerEditor
+- Updated dependencies [627dd89]
+- Updated dependencies [c41966b]
+- Updated dependencies [58d647c]
+- Updated dependencies [d8343b6]
+  - @hydrofoil/shaperone-core@0.3.0
+
 ## 0.1.5
 
 ### Patch Changes
