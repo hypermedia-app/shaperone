@@ -144,6 +144,13 @@ export const shape = createModel({
       }
     },
     selectRootShape(state, pointer: GraphPointer | undefined) {
+      if (!pointer) {
+        return {
+          ...state,
+          pointer: state.pointer?.any(),
+        }
+      }
+
       return {
         ...state,
         pointer,
