@@ -22,30 +22,42 @@ export interface MultiEditorActions {
   focusOnObjectNode(): void
 }
 
-export interface Component<TRenderResult> {
+export interface Component {
   editor: NamedNode
-  render(...args: unknown[]): TRenderResult
-  loadDependencies?(): Array<Promise<unknown>>
 }
 
-export interface ComponentState<TRenderResult> extends Component<TRenderResult> {
-  loaded: boolean
+export interface RenderFunc<Params, Actions, TRenderResult> {
+  (params: Params, actions: Actions): TRenderResult
+}
+
+export type RenderSingleEditor<TRenderResult> = RenderFunc<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
+export type RenderMultiEditor<TRenderResult> = RenderFunc<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+
+export interface ComponentState<TRenderResult> extends Component {
+  render?: RenderFunc<any, any, TRenderResult>
+  lazyRender?(): Promise<RenderFunc<any, any, TRenderResult>>
   loading: boolean
+  loadingFailed?: {
+    reason: string
+  }
 }
 
-export interface SingleEditorComponent<TRenderResult> extends Component<TRenderResult> {
-  render(params: SingleEditorRenderParams, actions: SingleEditorActions): TRenderResult
+interface ComponentRender<Params, Actions, TRenderResult> {
+  render: RenderFunc<Params, Actions, TRenderResult>
 }
 
-export interface MultiEditorComponent<TRenderResult> extends Component<TRenderResult> {
-  render(params: MultiEditorRenderParams, actions: MultiEditorActions): TRenderResult
+export type SingleEditorComponent<TRenderResult> = Component & ComponentRender<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
+export type MultiEditorComponent<TRenderResult> = Component & ComponentRender<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+
+export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
+  lazyRender() : Promise<T['render']>
 }
 
 export type ComponentsState<TRenderResult = any> = Record<string, ComponentState<TRenderResult>>
 
 export const createComponentsModel = <TRenderResult>() => createModel({
   state: <ComponentsState<TRenderResult>>{},
-  reducers: reducers<TRenderResult>(),
+  reducers: reducers(),
   effects(store) {
     const dispatch = store.getDispatch()
 
@@ -53,15 +65,21 @@ export const createComponentsModel = <TRenderResult>() => createModel({
       async load(editor: NamedNode) {
         const state = store.getState()
 
-        const component = state.components[editor.value]
-        if (component.loading || component.loaded) return
-
-        if (component.loadDependencies) {
-          dispatch.components.loading(editor)
-          await Promise.all(component.loadDependencies())
+        const component: ComponentState<TRenderResult> = state.components[editor.value]
+        if (!component.lazyRender) {
+          dispatch.components.loadFailed({ editor, reason: 'lazyRender not implemented' })
+          return
         }
+        if (component.loading) return
 
-        dispatch.components.loaded(editor)
+        try {
+          dispatch.components.loaded({
+            editor,
+            render: await component.lazyRender(),
+          })
+        } catch (e) {
+          dispatch.components.loadFailed({ editor, reason: e.message })
+        }
       },
     }
   },

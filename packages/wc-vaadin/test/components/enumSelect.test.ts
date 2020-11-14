@@ -16,7 +16,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect.render(params, actions))
+    const result = await fixture(enumSelect(params, actions))
 
     // then
     expect(result).shadowDom.to.equalSnapshot()
@@ -31,7 +31,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect.render(params, actions))
+    const result = await fixture(enumSelect(params, actions))
 
     // then
     expect(result).to.have.property('value', 'bar')

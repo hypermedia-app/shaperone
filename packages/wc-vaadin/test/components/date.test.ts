@@ -16,7 +16,7 @@ describe('wc-vaadin/components/date', () => {
       })
 
       // when
-      const element = await fixture(datePicker.render(params, actions))
+      const element = await fixture(datePicker(params, actions))
 
       // then
       expect(element).to.equalSnapshot()
@@ -33,7 +33,7 @@ describe('wc-vaadin/components/date', () => {
       })
 
       // when
-      const element = await fixture(dateTimePicker.render(params, actions))
+      const element = await fixture(dateTimePicker(params, actions))
 
       // then
       expect(element).to.equalSnapshot()

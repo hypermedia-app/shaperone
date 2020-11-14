@@ -18,7 +18,7 @@ describe('wc-vaadin/components/text-field', () => {
       })
 
       // when
-      const element = await fixture(textField.render(params, actions))
+      const element = await fixture(textField(params, actions))
 
       // then
       expect(element).to.equalSnapshot()

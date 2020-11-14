@@ -15,7 +15,7 @@ describe('wc-vaadin/components/url-editor', () => {
     })
 
     // when
-    const element = await fixture(urlEditor.render(params, actions))
+    const element = await fixture(urlEditor(params, actions))
 
     // then
     expect(element).to.equalSnapshot()
@@ -27,8 +27,7 @@ describe('wc-vaadin/components/url-editor', () => {
     const { params, actions } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
-    await Promise.all(urlEditor.loadDependencies!())
-    const element = await fixture<TextFieldElement>(urlEditor.render(params, actions))
+    const element = await fixture<TextFieldElement>(urlEditor(params, actions))
 
     // when
     element.focus()

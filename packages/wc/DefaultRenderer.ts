@@ -70,9 +70,11 @@ export const DefaultRenderer: Renderer = {
               return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
             }
 
-            if (!component.loaded) {
+            if (!component.render) {
               if (!component.loading) {
                 actions.components.load(editor)
+              } else if (component.loadingFailed) {
+                return html`Failed to load editor: ${component.loadingFailed.reason}`
               }
               return html`Loading editor`
             }
@@ -129,9 +131,11 @@ export const DefaultRenderer: Renderer = {
                 return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
               }
 
-              if (!component.loaded) {
+              if (!component.render) {
                 if (!component.loading) {
                   actions.components.load(editor)
+                } else if (component.loadingFailed) {
+                  return html`Failed to load editor: ${component.loadingFailed.reason}`
                 }
                 return html`Loading editor`
               }
