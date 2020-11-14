@@ -18,10 +18,26 @@ export const component: (theme: 'lumo' | 'material') => MultiEditorComponent = t
     const values = property.objects.map(o => o.object)
     const selected = languages.filter(lang => values.find(object => object?.term.equals(lang.term)))
 
+    function setValues(e: any) {
+      const newSelection = e.target.selectedItems
+
+      if (newSelection.length > selected.length && !property.canAdd) {
+        e.target.selectedItems = selected
+        return
+      }
+
+      if (newSelection.length < selected.length && !property.canRemove) {
+        e.target.selectedItems = selected
+        return
+      }
+
+      update(newSelection.map((lang: any) => lang.term))
+    }
+
     return html`<multiselect-combo-box item-id-path="id" item-label-path="label"
                     .selectedItems="${selected}"
                     .items="${languages}"
-                    @change="${(e: any) => { update(e.target.selectedItems.map((lang: any) => lang.term)) }}"></multiselect-combo-box>`
+                    @change="${setValues}"></multiselect-combo-box>`
   },
   loadDependencies() {
     return [

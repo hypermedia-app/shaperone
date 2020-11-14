@@ -7,6 +7,7 @@ import type { FormState, PropertyObjectState } from '../index'
 import type { FocusNode } from '../../../index'
 import { EditorsState } from '../../editors'
 import { nextid } from '../lib/objectid'
+import { canAddObject, canRemoveObject } from '../lib/property'
 
 export interface UpdateObjectParams extends BaseParams {
   focusNode: FocusNode
@@ -44,6 +45,8 @@ export const setPropertyObjects = formStateReducer((state: FormState, { focusNod
     return
   }
 
+  propertyState.canAdd = canAddObject(property, objects.terms.length)
+  propertyState.canRemove = canRemoveObject(property, objects.terms.length)
   propertyState.objects = objects.map<PropertyObjectState>((object) => {
     const suitableEditors = editors.matchSingleEditors({ shape: property, object })
     return {

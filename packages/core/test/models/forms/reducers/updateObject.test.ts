@@ -5,7 +5,7 @@ import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 import { setObjectValue, setPropertyObjects } from '../../../../models/forms/reducers/updateObject'
-import { RecursivePartial, testFocusNodeState, testObjectState, testState, testStore } from '../util'
+import { RecursivePartial, testObjectState, testStore } from '../util'
 import { propertyShape } from '../../../util'
 import { Store } from '../../../../state'
 import { FormState } from '../../../../models/forms'
@@ -13,8 +13,20 @@ import { FormState } from '../../../../models/forms'
 const ex = ns('http://example.com/')
 
 describe('core/models/forms/reducers/updateObject', () => {
+  let store: Store
+  let form: symbol
+  let formState: {
+    focusNodes: RecursivePartial<FormState['focusNodes']>
+    focusStack: FormState['focusStack']
+  }
+
+  beforeEach(() => {
+    ({ form, store } = testStore())
+    formState = store.getState().forms.get(form)!
+  })
+
   describe('setPropertyObjects', () => {
-    it('removes all current triples and creates new', () => {
+    it('removes all current objects and creates new', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.FocusNode)
@@ -22,30 +34,26 @@ describe('core/models/forms/reducers/updateObject', () => {
       const property = propertyShape(graph.blankNode(), {
         path: ex.prop,
       })
-      const { form, state } = testState({
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [{
-                shape: property,
-                objects: [],
-                name: 'prop',
-                canRemove: true,
-                canAdd: true,
-                editors: [],
-                selectedEditor: undefined,
-              }],
-            }),
-          },
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            objects: [],
+            name: 'prop',
+            canRemove: true,
+            canAdd: true,
+            editors: [],
+            selectedEditor: undefined,
+          }],
         },
-      })
+      }
 
       // when
-      const after = setPropertyObjects(state, {
+      const after = setPropertyObjects(store.getState().forms, {
         focusNode,
         form,
         property,
-        editors: testStore().store.getState().editors,
+        editors: store.getState().editors,
         objects: graph.node([$rdf.literal('bar1'), $rdf.literal('bar2'), $rdf.literal('bar3')]),
       })
 
@@ -55,21 +63,102 @@ describe('core/models/forms/reducers/updateObject', () => {
       expect(values).to.have.length(3)
       expect(values).to.include.members(['bar1', 'bar2', 'bar3'])
     })
+
+    it('flips canAdd flag when max reached', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.FocusNode)
+      const property = propertyShape(graph.blankNode(), {
+        path: ex.prop,
+        maxCount: 2,
+      })
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            canAdd: true,
+          }],
+        },
+      }
+
+      // when
+      const after = setPropertyObjects(store.getState().forms, {
+        focusNode,
+        form,
+        property,
+        editors: testStore().store.getState().editors,
+        objects: graph.node([$rdf.literal('foo'), $rdf.literal('bar')]),
+      })
+
+      // then
+      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canAdd).to.be.false
+    })
+
+    it('sets canRemove flag when min reached', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.FocusNode)
+      const property = propertyShape(graph.blankNode(), {
+        path: ex.prop,
+        minCount: 2,
+      })
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            canRemove: true,
+          }],
+        },
+      }
+
+      // when
+      const after = setPropertyObjects(store.getState().forms, {
+        focusNode,
+        form,
+        property,
+        editors: testStore().store.getState().editors,
+        objects: graph.node([$rdf.literal('foo')]),
+      })
+
+      // then
+      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canRemove).to.be.false
+    })
+
+    it('sets canAdd/canRemove flags to true', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.FocusNode)
+      const property = propertyShape(graph.blankNode(), {
+        path: ex.prop,
+        minCount: 1,
+        maxCount: 4,
+      })
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            canAdd: false,
+            canRemove: false,
+          }],
+        },
+      }
+
+      // when
+      const after = setPropertyObjects(store.getState().forms, {
+        focusNode,
+        form,
+        property,
+        editors: testStore().store.getState().editors,
+        objects: graph.node([$rdf.literal('foo'), $rdf.literal('bar')]),
+      })
+
+      // then
+      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canAdd).to.be.true
+      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canRemove).to.be.true
+    })
   })
 
   describe('setObjectValue', () => {
-    let store: Store
-    let form: symbol
-    let formState: {
-      focusNodes: RecursivePartial<FormState['focusNodes']>
-      focusStack: FormState['focusStack']
-    }
-
-    beforeEach(() => {
-      ({ form, store } = testStore())
-      formState = store.getState().forms.get(form)!
-    })
-
     it('recalculates editors', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })

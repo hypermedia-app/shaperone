@@ -77,8 +77,8 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
   }
 
   const editor = editors[0]
-  const canRemove = !!editor || canRemoveObject(shape, objects.length)
-  const canAdd = !!editor || canAddObject(shape, objects.length)
+  const canRemove = canRemoveObject(shape, objects.length)
+  const canAdd = canAddObject(shape, objects.length)
 
   let selectedEditor: NamedNode | undefined = editor?.term
   if (previous) {
