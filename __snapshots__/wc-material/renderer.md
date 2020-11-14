@@ -6,7 +6,12 @@
 
 ```html
 <mwc-list part="focus-node-header">
-  <mwc-list-item twoline="">
+  <mwc-list-item
+    aria-disabled="false"
+    mwc-list-item=""
+    tabindex="0"
+    twoline=""
+  >
     Foo
     <span slot="secondary">
     </span>
@@ -80,8 +85,11 @@
 ```html
 <mwc-list part="property">
   <mwc-list-item
+    aria-disabled="false"
     hasmeta=""
+    mwc-list-item=""
     part="property-header"
+    tabindex="0"
   >
     <b>
       property
@@ -112,8 +120,11 @@
 ```html
 <mwc-list part="property">
   <mwc-list-item
+    aria-disabled="false"
     hasmeta=""
+    mwc-list-item=""
     part="property-header"
+    tabindex="0"
   >
     <b>
       property
