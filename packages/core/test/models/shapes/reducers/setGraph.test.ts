@@ -86,6 +86,43 @@ describe('models/shapes/reducers/setGraph', () => {
     expect(preferredRootShape?.id).to.deep.eq(ex.Shape2)
   })
 
+  it('does not modify state if it is same dataset and no pointer', () => {
+    // given
+    const { form, store } = testStore()
+    const before = store.getState().shapes.get(form)!
+    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    before.shapesGraph = shapesGraph
+
+    // when
+    const after = setGraph(store.getState().shapes, {
+      form,
+      shapesGraph,
+    })
+
+    // then
+    expect(after.get(form) === before).to.be.true
+  })
+
+  it('does not change shapes array if only pointer changes', () => {
+    // given
+    const { form, store } = testStore()
+    const before = store.getState().shapes.get(form)!
+    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
+    shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
+    before.shapesGraph = shapesGraph
+    before.preferredRootShape = new NodeShapeMixin.Class(shapesGraph.node(ex.Shape1))
+
+    // when
+    const after = setGraph(store.getState().shapes, {
+      form,
+      shapesGraph: shapesGraph.node(ex.Shape2),
+    })
+
+    // then
+    expect(after.get(form)?.shapes === before.shapes).to.be.false
+  })
+
   it('sets preferred root shape is parameter is graph pointer', () => {
     // given
     const { form, store } = testStore()

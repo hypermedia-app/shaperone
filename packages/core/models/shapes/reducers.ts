@@ -11,34 +11,43 @@ export interface SetShapesGraphParams extends BaseParams {
   shapesGraph: DatasetCore | AnyPointer
 }
 
+function findShapes(shapesPointer: AnyPointer) {
+  return shapesPointer
+    .has(rdf.type, [sh.Shape, sh.NodeShape])
+    .map(pointer => RdfResource.factory.createEntity<Shape>(pointer, [ShapeMixin]))
+}
+
+function getPreferredShape(pointer: AnyPointer) {
+  if (!pointer.term) {
+    return undefined
+  }
+
+  return RdfResource.factory.createEntity<Shape>(pointer as any, [ShapeMixin])
+}
+
 export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce(state, (draft) => {
-  if ('dataset' in shapesGraph) {
-    if (state.shapesGraph?.dataset === shapesGraph.dataset) {
-      const samePreferredRootShape = !state.preferredRootShape || (state.preferredRootShape && state.preferredRootShape.equals(shapesGraph.term as any))
-      if (samePreferredRootShape) {
-        return
-      }
-    }
-  } else if (state.shapesGraph?.dataset === shapesGraph) {
+  if ('match' in shapesGraph) {
+    // new dataset
+    const pointer = cf({ dataset: shapesGraph })
+    draft.shapesGraph = pointer
+    draft.shapes = findShapes(pointer)
     return
   }
 
-  let preferredRootShape: Shape | undefined
-  let shapesPointer: AnyPointer
-  if ('match' in shapesGraph) {
-    shapesPointer = cf({ dataset: shapesGraph })
-  } else {
-    shapesPointer = shapesGraph.any()
-    if (shapesGraph.term) {
-      preferredRootShape = RdfResource.factory.createEntity<Shape>(shapesGraph as any, [ShapeMixin])
-    }
+  const newDataset = state.shapesGraph?.dataset !== shapesGraph.dataset
+  const newAnyPointer = shapesGraph !== state.shapesGraph && (!shapesGraph.term || !state.shapesGraph?.term)
+
+  if (newDataset || newAnyPointer) {
+    // pointer to a different dataset
+    draft.shapesGraph = shapesGraph
+    draft.shapes = findShapes(shapesGraph)
+    draft.preferredRootShape = getPreferredShape(shapesGraph)
+    return
   }
 
-  const shapes = shapesPointer
-    .has(rdf.type, [sh.Shape, sh.NodeShape])
-    .map(pointer => RdfResource.factory.createEntity<Shape>(pointer, [ShapeMixin]))
-
-  draft.shapesGraph = shapesPointer
-  draft.shapes = shapes
-  draft.preferredRootShape = preferredRootShape
+  if (shapesGraph.term && !shapesGraph.term.equals(state.shapesGraph?.term)) {
+    // same dataset, changed pointer
+    draft.shapes = findShapes(shapesGraph)
+    draft.preferredRootShape = getPreferredShape(shapesGraph)
+  }
 }))

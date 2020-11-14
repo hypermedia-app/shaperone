@@ -1,11 +1,11 @@
-import { AnyPointer } from 'clownface'
 import type { Store } from '../../../../state'
 import { SetShapesGraphParams } from '../../../shapes/reducers'
 import { matchShapes } from '../../../shapes/lib'
+import { ShapeState } from '../../../shapes'
 
 export default function setGraph(store: Store) {
   const dispatch = store.getDispatch()
-  let previousShapes: AnyPointer | undefined
+  let previousShapes: ShapeState | undefined
 
   return ({ form }: SetShapesGraphParams) => {
     const { editors, forms, shapes } = store.getState()
@@ -16,11 +16,11 @@ export default function setGraph(store: Store) {
       return
     }
 
-    if (previousShapes && previousShapes === shapesState?.shapesGraph) {
+    if (previousShapes === shapesState) {
       return
     }
 
-    previousShapes = shapesState?.shapesGraph
+    previousShapes = shapesState
     formState.focusStack.forEach((focusNode) => {
       dispatch.forms.createFocusNodeState({
         form,
