@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "name": "@shaperone/testing",
+  "dependencies": {
+    "@hydrofoil/shaperone-core": "*",
+    "clownface": "^1.1.0",
+    "sinon": "^9.2.1"
+  }
+}

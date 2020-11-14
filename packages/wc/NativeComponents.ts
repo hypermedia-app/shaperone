@@ -25,7 +25,14 @@ export const enumSelectEditor: Lazy<SingleEditorComponent> = {
 export const datePickerEditor: Lazy<SingleEditorComponent> = {
   editor: dash.DatePickerEditor,
   async lazyRender() {
-    return (await import('./components')).datePicker
+    return (await import('./components')).datePicker('date')
+  },
+}
+
+export const dateTimePickerEditor: Lazy<SingleEditorComponent> = {
+  editor: dash.DateTimePickerEditor,
+  async lazyRender() {
+    return (await import('./components')).datePicker('datetime-local')
   },
 }
 

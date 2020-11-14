@@ -2,10 +2,9 @@ import { fixture, expect } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { TextField } from '@material/mwc-textfield'
-import * as sinon from 'sinon'
 import { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components'
-import { editorTestParams } from '../util'
 
 describe('wc-material/components/urlEditor', () => {
   let render: RenderSingleEditor

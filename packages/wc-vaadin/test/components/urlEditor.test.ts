@@ -1,9 +1,8 @@
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { expect, fixture } from '@open-wc/testing'
-import * as sinon from 'sinon'
 import { TextFieldElement } from '@vaadin/vaadin-text-field'
-import { editorTestParams } from '../util'
+import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components/url-editor'
 
 describe('wc-vaadin/components/url-editor', () => {

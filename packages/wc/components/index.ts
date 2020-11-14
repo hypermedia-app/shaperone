@@ -32,9 +32,9 @@ export const enumSelect: RenderSingleEditor = function ({ value, property }, { u
     </select>`
 }
 
-export const datePicker: RenderSingleEditor = function ({ value }, { update }) {
+export const datePicker = (type: string): RenderSingleEditor => function ({ value }, { update }) {
   return html`<input .value="${value.object}"
-                       type="date"
+                       type="${type}"
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
