@@ -2,6 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import reducers from './reducers'
 import type { PropertyObjectState, PropertyState } from '../forms/index'
+import type { Store } from '../../state'
 
 export interface SingleEditorRenderParams {
   property: PropertyState
@@ -33,9 +34,9 @@ export interface RenderFunc<Params, Actions, TRenderResult> {
 export type RenderSingleEditor<TRenderResult> = RenderFunc<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
 export type RenderMultiEditor<TRenderResult> = RenderFunc<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
 
-export interface ComponentState<TRenderResult> extends Component {
-  render?: RenderFunc<any, any, TRenderResult>
-  lazyRender?(): Promise<RenderFunc<any, any, TRenderResult>>
+export interface ComponentState extends Component {
+  render?: RenderFunc<any, any, any>
+  lazyRender?(): Promise<RenderFunc<any, any, any>>
   loading: boolean
   loadingFailed?: {
     reason: string
@@ -53,24 +54,24 @@ export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> &
   lazyRender() : Promise<T['render']>
 }
 
-export type ComponentsState<TRenderResult = any> = Record<string, ComponentState<TRenderResult>>
+export type ComponentsState = Record<string, ComponentState>
 
-export const createComponentsModel = <TRenderResult>() => createModel({
-  state: <ComponentsState<TRenderResult>>{},
-  reducers: reducers(),
-  effects(store) {
+export const components = createModel({
+  state: <Record<string, ComponentState>>{},
+  reducers,
+  effects(store: Store) {
     const dispatch = store.getDispatch()
 
     return {
       async load(editor: NamedNode) {
         const state = store.getState()
 
-        const component: ComponentState<TRenderResult> = state.components[editor.value]
+        const component = state.components[editor.value]
         if (!component.lazyRender) {
-          dispatch.components.loadFailed({ editor, reason: 'lazyRender not implemented' })
+          dispatch.components.loadingFailed({ editor, reason: 'lazyRender not implemented' })
           return
         }
-        if (component.loading) return
+        if (component.loading || component.loadingFailed) return
 
         try {
           dispatch.components.loaded({
@@ -78,7 +79,7 @@ export const createComponentsModel = <TRenderResult>() => createModel({
             render: await component.lazyRender(),
           })
         } catch (e) {
-          dispatch.components.loadFailed({ editor, reason: e.message })
+          dispatch.components.loadingFailed({ editor, reason: e.message })
         }
       },
     }
