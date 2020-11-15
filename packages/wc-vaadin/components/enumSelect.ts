@@ -1,15 +1,15 @@
 import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
-import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { html } from 'lit-html'
 import { repeat } from 'lit-html/directives/repeat'
 import '@vaadin/vaadin-select/vaadin-select'
 import '@vaadin/vaadin-list-box/vaadin-list-box'
 import '@vaadin/vaadin-item/vaadin-item'
+import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 
-export const enumSelect: RenderSingleEditor = function ({ value, property }, { update }) {
-  const choices = property.shape.inPointers.map(choice => ({
+export const enumSelect: RenderSingleEditor = function (this: EnumSelectEditor, { value, property }, { update }) {
+  const choices = this.choices(property.shape).map(choice => ({
     term: choice.term,
-    label: choice.out(rdfs.label).value || choice.value,
+    label: this.label(choice),
   }))
 
   const selectValue = choices.find(choice => choice.term.equals(value.object?.term))?.label

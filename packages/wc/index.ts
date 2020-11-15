@@ -5,7 +5,7 @@ import './ShaperoneForm'
 export type { ShaperoneForm } from './ShaperoneForm'
 export { html, css } from 'lit-element'
 
-export { Lazy } from '@hydrofoil/shaperone-core'
+export type { Lazy } from '@hydrofoil/shaperone-core'
 export type SingleEditorComponent = Core.SingleEditorComponent<TemplateResult>
 export type MultiEditorComponent = Core.MultiEditorComponent<TemplateResult>
 export type RenderSingleEditor = Core.RenderSingleEditor<TemplateResult>
