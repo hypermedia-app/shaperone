@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc-material",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Rendering forms in Material Design style",
   "main": "index.js",
   "files": [
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hydrofoil/shaperone-core": "0.3.0",
-    "@hydrofoil/shaperone-wc": "0.1.6",
+    "@hydrofoil/shaperone-wc": "0.2.0",
     "@material/mwc-icon": "^0.19.1",
     "@material/mwc-list": "^0.19.1",
     "@material/mwc-menu": "^0.19.1",
