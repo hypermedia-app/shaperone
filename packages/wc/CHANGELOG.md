@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.2.0
+
+### Minor Changes
+
+- 1772fd7: Change how lazy components are implemented
+
 ## 0.1.6
 
 ### Patch Changes
