@@ -1,5 +1,5 @@
 * Getting started
-  * [Intro](README.md)
+  * [Intro](overview.md)
   * [Configuration](configuration.md)
   * [Anatomy of shaperone](anatomy.md)
 * Editors

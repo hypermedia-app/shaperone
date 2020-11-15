@@ -7,6 +7,8 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/solid.min.css" />
 </head>
 <body>
   <div id="app"></div>
@@ -15,12 +17,21 @@
       name: '@hydrofoil/shaperone',
       repo: 'https://github.com/hypermedia-app/shaperone',
       coverpage: true,
+      onlyCover: true,
       loadSidebar: true,
       subMaxLevel: 2,
       search: 'auto',
+      'flexible-alerts': {
+        example: {
+          label: 'Live example',
+          icon: 'fas fa-play-circle',
+          className: 'note'
+        }
+      }
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-turtle.min.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-typescript.min.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-html.min.js"></script>
   <script src="//unpkg.com/docsify-plugin-flexible-alerts"></script>

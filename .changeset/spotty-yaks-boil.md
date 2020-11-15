@@ -2,4 +2,4 @@
 "@hydrofoil/shaperone-wc": minor
 ---
 
-Clean up properites of `shaperone-form` element
+Clean up properties of `shaperone-form` element
