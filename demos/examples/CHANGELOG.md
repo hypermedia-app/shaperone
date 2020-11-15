@@ -1,5 +1,18 @@
 # @hydrofoil/shaperone-playground-examples
 
+## 0.0.10
+
+### Patch Changes
+
+- 627dd89: Horor the canAdd/canRemove flags in language multi select
+- Updated dependencies [627dd89]
+- Updated dependencies [c41966b]
+- Updated dependencies [43039b8]
+- Updated dependencies [58d647c]
+- Updated dependencies [d8343b6]
+  - @hydrofoil/shaperone-core@0.3.0
+  - @hydrofoil/shaperone-wc@0.1.6
+
 ## 0.0.9
 
 ### Patch Changes

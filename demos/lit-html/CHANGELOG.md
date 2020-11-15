@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.3
+
+### Patch Changes
+
+- 58d647c: Select root shape from graph pointer
+- Updated dependencies [627dd89]
+- Updated dependencies [43039b8]
+  - @hydrofoil/shaperone-playground-examples@0.0.10
+  - @hydrofoil/shaperone-wc@0.1.6
+  - @hydrofoil/shaperone-wc-material@0.1.8
+  - @hydrofoil/shaperone-wc-vaadin@0.1.8
+
 ## 0.1.2
 
 ### Patch Changes
