@@ -1,5 +1,29 @@
 # @hydrofoil/shaperone-core
 
+## 0.3.0
+
+### Minor Changes
+
+- d8343b6: Change how lazy components are implemented
+
+### Patch Changes
+
+- 627dd89: Correctly set intital canAdd/canRemove flag values
+- c41966b: Implement complete shape selection based on targets
+- 58d647c: Select root shape from graph pointer
+
+## 0.2.4
+
+### Patch Changes
+
+- 1fdb3ca: Prevent breaking focus stack when resources are new pointers of same data
+- 9702fdd: Added instant change notification event
+- c16e00b: Handle multiple empty object fields
+- 3e34259: Make adding editors and componnets more flexible
+- 6a5b20e: Prevent unnecessary changes when setting same shapes graph
+- 7aad50c: Ensure default values are populated in resource graph
+- aa9a943: Add matchers of `dash:TextFieldWithLangEditor` and `dash:TextAreaWithLangEditor`
+
 ## 0.2.3
 
 ### Patch Changes

@@ -71,6 +71,20 @@ const toolsMenu = (() => {
   }
 })()
 
+const rootShapeMenu = (state: State) => {
+  const shapeChoices = state.shapes.map(shape => ({
+    text: shape.value,
+    checked: shape.term.equals(state.pointer?.term),
+    pointer: shape,
+    type: 'root shape',
+  }))
+
+  return [
+    { text: 'Autoselect', checked: !state.pointer?.term, type: 'root shape' },
+    ...shapeChoices,
+  ]
+}
+
 export function shapeMenu(state: State) {
   return [{
     text: 'Format',
@@ -86,6 +100,9 @@ export function shapeMenu(state: State) {
   }, {
     text: 'Fetch shape',
     children: fetchShapeMenu(state),
+  }, {
+    text: 'Root shape',
+    children: rootShapeMenu(state),
   }, {
     text: 'Tools',
     children: toolsMenu(),

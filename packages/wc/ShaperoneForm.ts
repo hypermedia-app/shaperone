@@ -6,6 +6,7 @@ import { connect } from '@captaincodeman/rdx'
 import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer } from 'clownface'
 import RdfResourceImpl from '@tpluscode/rdfine'
+import { NodeShape } from '@rdfine/shacl'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import type { Renderer } from './renderer'
@@ -15,9 +16,11 @@ import * as NativeComponents from './NativeComponents'
 store().dispatch.components.pushComponents(NativeComponents)
 
 const resourceSymbol: unique symbol = Symbol('resource')
-const shapesSymbol: unique symbol = Symbol('shapes')
+const shapesSymbol: unique symbol = Symbol('shapes dataset')
+const notify: unique symbol = Symbol('notify')
+const shapes: unique symbol = Symbol('shapes')
 
-const id: (form: any) => symbol = (() => {
+export const id: (form: any) => symbol = (() => {
   const map = new WeakMap<any, symbol>()
   let nextId = 1
 
@@ -65,6 +68,7 @@ const id: (form: any) => symbol = (() => {
 export class ShaperoneForm extends connect(store(), LitElement) {
   private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
+  private [notify]: (detail: any) => void
 
   static get styles() {
     return [css`
@@ -77,6 +81,9 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * Gets or sets the renderer implementation
    */
   renderer: Renderer = DefaultRenderer
+
+  @property({ type: Array })
+  private [shapes]: NodeShape[] = []
 
   /**
    * Gets the state of the DASH editors model
@@ -110,12 +117,21 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   @property({ type: Boolean, attribute: 'no-editor-switches' })
   noEditorSwitches = false
 
+  constructor() {
+    super()
+    this[notify] = (detail: any) => {
+      this.dispatchEvent(new CustomEvent('changed', { detail }))
+    }
+  }
+
   async connectedCallback() {
     await ensureEventTarget()
     await loadMixins()
 
     store().dispatch.editors.loadDash()
     store().dispatch.forms.connect(id(this))
+    store().dispatch.resources.connect(id(this))
+    store().dispatch.shapes.connect(id(this))
 
     super.connectedCallback()
 
@@ -152,14 +168,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     if (!rootPointer) return
 
     this[resourceSymbol] = rootPointer
-    store().dispatch.forms.setRootResource({ form: id(this), rootPointer })
-  }
-
-  /**
-   * Gets the resource as graph as [RDF/JS DatasetCore](https://rdf.js.org/dataset-spec/#datasetcorefactory-interface)
-   */
-  get resourceDataset(): DatasetCore | undefined {
-    return this.state.resourceGraph
+    store().dispatch.resources.setRoot({ form: id(this), rootPointer })
   }
 
   /**
@@ -184,7 +193,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     if (!shapesGraph) return
 
     this[shapesSymbol] = shapesGraph
-    store().dispatch.forms.setShapesGraph({
+    store().dispatch.shapes.setGraph({
       form: id(this),
       shapesGraph,
     })
@@ -204,6 +213,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       components: this.components,
       actions: store().dispatch,
       strategy: this.rendererOptions.strategy,
+      shapes: this[shapes],
     })}`
   }
 
@@ -211,8 +221,12 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * @private
    */
   mapState(state: State) {
+    state.resources.get(id(this))?.changeNotifier.onChange(this[notify])
+
     return {
-      state: state.forms.instances.get(id(this)),
+      state: state.forms.get(id(this)),
+      [resourceSymbol]: state.forms.get(id(this))?.focusStack[0],
+      [shapes]: state.shapes.get(id(this))?.shapes || [],
       rendererOptions: state.renderer,
       editors: state.editors,
       components: state.components,

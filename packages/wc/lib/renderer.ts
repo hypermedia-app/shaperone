@@ -41,6 +41,7 @@ interface FocusNodeRenderActions extends FormRenderActions {
 }
 
 interface FocusNodeRenderParams {
+  shapes: NodeShape[]
   focusNode: FocusNodeState
   actions: FocusNodeRenderActions
   renderGroup: (group: PropertyGroupState) => TemplateResult

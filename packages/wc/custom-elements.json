@@ -14,7 +14,7 @@
         {
           "name": "components",
           "description": "Gets the state of the editor components",
-          "type": "Record<string, ComponentState<TemplateResult>>"
+          "type": "Record<string, ComponentState>"
         },
         {
           "name": "rendererOptions",
@@ -50,7 +50,7 @@
           "name": "components",
           "attribute": "components",
           "description": "Gets the state of the editor components",
-          "type": "Record<string, ComponentState<TemplateResult>>"
+          "type": "Record<string, ComponentState>"
         },
         {
           "name": "rendererOptions",
@@ -77,11 +77,6 @@
           "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
         },
         {
-          "name": "resourceDataset",
-          "description": "Gets the resource as graph as [RDF/JS DatasetCore](https://rdf.js.org/dataset-spec/#datasetcorefactory-interface)",
-          "type": "DatasetCore<Quad, Quad> | undefined"
-        },
-        {
           "name": "value",
           "description": "Gets the resource as a [rdfine](https://npm.im/@tpluscode/rdfine) object",
           "type": "RdfResource<DatasetCore<Quad, Quad>> | null"
@@ -90,6 +85,11 @@
           "name": "shapes",
           "description": "Gets or sets the shapes graph",
           "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
+        }
+      ],
+      "events": [
+        {
+          "name": "changed"
         }
       ]
     }

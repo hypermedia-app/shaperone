@@ -18,6 +18,7 @@ export const store = (() => {
           quads: [],
           dataset: undefined,
           options,
+          shapes: [],
         },
         resource: {
           format: resource.format,

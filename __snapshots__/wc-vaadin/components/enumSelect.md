@@ -3,10 +3,7 @@
 #### `renders an vaadin-select`
 
 ```html
-<vaadin-select-text-field
-  has-value=""
-  tabindex="0"
->
+<vaadin-select-text-field tabindex="0">
   <slot
     name="prefix"
     slot="prefix"

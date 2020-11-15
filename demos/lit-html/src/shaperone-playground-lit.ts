@@ -10,7 +10,7 @@ import '@hydrofoil/shaperone-wc/shaperone-form'
 import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
-import { store, State } from './state/store'
+import { store, State, Dispatch } from './state/store'
 import { shapeMenu } from './menu/shape'
 import { resourceMenu } from './menu/resource'
 import { formMenu } from './menu/formMenu'
@@ -142,9 +142,10 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
           <div>
             <vaadin-menu-bar .items="${formMenu(this.components, this.renderer)}" @item-selected="${this.__formMenuSelected}"></vaadin-menu-bar>
             <shaperone-form id="form"
-                           .shapes="${this.shape.dataset}"
+                           .shapes="${this.shape.pointer}"
                            .resource="${this.resource.pointer}"
-                           ?no-editor-switches="${this.noEditorSwitches}"></shaperone-form>
+                           ?no-editor-switches="${this.noEditorSwitches}"
+                           @changed="${this.__saveResource}"></shaperone-form>
           </div>
           <div style="min-width: 50%; max-width: 80%">
             <vaadin-menu-bar .items="${resourceMenu(this.resource)}" @item-selected="${this.__editorMenuSelected(store().dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
@@ -166,7 +167,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   __setShape(e: CustomEvent) {
-    store().dispatch.shape.setShape(e.detail.value)
+    store().dispatch.shape.setShapesGraph(e.detail.value)
     store().dispatch.shape.serialized(this.shapeEditor.codeMirror.value)
   }
 
@@ -198,26 +199,28 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         store().dispatch.rendererSettings.switchNesting(e.detail.value.id)
         break
       default:
-        this.__saveResource()
         break
     }
   }
 
   __saveResource() {
     if (this.form.value) {
-      store().dispatch.resource.replaceGraph({ dataset: this.form.value })
+      store().dispatch.resource.replaceGraph({ dataset: this.form.resource?.dataset, updatePointer: false })
     }
   }
 
-  __editorMenuSelected(dispatch: any, editor: RdfEditor) {
+  __editorMenuSelected(dispatch: Dispatch['shape'], editor: RdfEditor) {
     return (e: CustomEvent) => {
       switch (e.detail.value.type) {
         case 'format':
           dispatch.format(e.detail.value.text)
           break
+        case 'root shape':
+          dispatch.selectRootShape(e.detail.value.pointer)
+          break
         default:
           dispatch.serialized(editor.codeMirror.value)
-          dispatch.setShape(editor.quads)
+          dispatch.setShapesGraph(editor.quads)
           break
       }
     }
@@ -236,8 +239,6 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   __renderSharingDialog(parent: ShaperonePlayground) {
-    const save = () => parent.__saveResource()
-
     return (root: HTMLElement) => {
       let dialogContents: Element
       if (!root.firstElementChild) {
@@ -251,8 +252,6 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                                      readonly autoselect
                                      label="Copy this URL to share playground"
                                     .value="${parent.playground.sharingLink}"></vaadin-text-field>
-                  <br>
-                  Make sure to <a href="javascript:void(0)" @click="${save}">save</a> first
                   <br>
                   <vaadin-checkbox ?checked="${parent.playground.shareFormSettings}"
                                   @change="${() => store().dispatch.playground.shareFormSettings(!parent.playground.shareFormSettings)}">

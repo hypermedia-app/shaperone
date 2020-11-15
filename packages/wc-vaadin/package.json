@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc-vaadin",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "Rendering forms with Vaadin components",
   "main": "index.js",
   "files": [
@@ -15,8 +15,8 @@
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-wc": "0.1.4",
-    "@hydrofoil/shaperone-core": "0.2.3",
+    "@hydrofoil/shaperone-wc": "0.1.6",
+    "@hydrofoil/shaperone-core": "0.3.0",
     "@open-wc/lit-helpers": "^0.3.10",
     "@tpluscode/rdf-ns-builders": "^0.4.0",
     "@rdf-esm/data-model": "^0.5.3",
@@ -36,9 +36,9 @@
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3",
     "@rdfine/shacl": "^0.5.1",
+    "@shaperone/testing": "*",
     "clownface": "^1",
-    "eslint-plugin-lit": "^1.2.0",
-    "sinon": "^9.0.2"
+    "eslint-plugin-lit": "^1.2.0"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

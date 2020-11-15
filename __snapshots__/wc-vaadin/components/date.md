@@ -5,7 +5,7 @@
 ####   `renders a vaadin-date-picker`
 
 ```html
-<vaadin-date-picker>
+<vaadin-date-picker tabindex="0">
 </vaadin-date-picker>
 
 ```

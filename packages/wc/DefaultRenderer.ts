@@ -14,7 +14,7 @@ import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 import type { Renderer, RenderParams } from './renderer/index'
 
 export const DefaultRenderer: Renderer = {
-  render({ form, editors, state, components, actions, strategy }: RenderParams): TemplateResult {
+  render({ form, editors, state, components, actions, strategy, shapes }: RenderParams): TemplateResult {
     if (!form || !editors || !state || !components) {
       return html``
     }
@@ -70,7 +70,10 @@ export const DefaultRenderer: Renderer = {
               return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
             }
 
-            if (!component.loaded) {
+            if (!component.render) {
+              if (component.loadingFailed) {
+                return html`Failed to load editor`
+              }
               if (!component.loading) {
                 actions.components.load(editor)
               }
@@ -90,7 +93,7 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  value: value.object.term,
+                  object: value,
                   editor,
                 })
               },
@@ -109,13 +112,13 @@ export const DefaultRenderer: Renderer = {
                   form,
                   focusNode,
                   property: property.shape,
-                  oldValue: value.object.term,
+                  object: value,
                   newValue,
                 })
               }
 
               function focusOnObjectNode() {
-                if (value.object.term.termType === 'NamedNode' || value.object.term.termType === 'BlankNode') {
+                if (value.object?.term.termType === 'NamedNode' || value.object?.term.termType === 'BlankNode') {
                   actions.forms.pushFocusNode({ form, focusNode: value.object as any, property: property.shape })
                 }
               }
@@ -129,7 +132,10 @@ export const DefaultRenderer: Renderer = {
                 return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
               }
 
-              if (!component.loaded) {
+              if (!component.render) {
+                if (component.loadingFailed) {
+                  return html`Failed to load editor`
+                }
                 if (!component.loading) {
                   actions.components.load(editor)
                 }
@@ -167,6 +173,7 @@ export const DefaultRenderer: Renderer = {
       }
 
       return strategy.focusNode({
+        shapes,
         focusNode: focusNodeState,
         actions: focusNodeActions,
         renderGroup,

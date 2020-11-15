@@ -1,9 +1,8 @@
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { expect, fixture } from '@open-wc/testing'
-import * as sinon from 'sinon'
 import { TextFieldElement } from '@vaadin/vaadin-text-field'
-import { editorTestParams } from '../util'
+import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components/url-editor'
 
 describe('wc-vaadin/components/url-editor', () => {
@@ -15,7 +14,7 @@ describe('wc-vaadin/components/url-editor', () => {
     })
 
     // when
-    const element = await fixture(urlEditor.render(params, actions))
+    const element = await fixture(urlEditor(params, actions))
 
     // then
     expect(element).to.equalSnapshot()
@@ -27,8 +26,7 @@ describe('wc-vaadin/components/url-editor', () => {
     const { params, actions } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
-    await Promise.all(urlEditor.loadDependencies!())
-    const element = await fixture<TextFieldElement>(urlEditor.render(params, actions))
+    const element = await fixture<TextFieldElement>(urlEditor(params, actions))
 
     // when
     element.focus()

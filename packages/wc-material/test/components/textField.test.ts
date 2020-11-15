@@ -2,10 +2,17 @@ import { fixture, expect } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import { textField } from '../../components/textField'
-import { editorTestParams } from '../util'
+import { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import { editorTestParams } from '@shaperone/testing'
+import { textField } from '../../components'
 
 describe('wc-material/components/textField', () => {
+  let render: RenderSingleEditor
+
+  before(async () => {
+    render = await textField.lazyRender()
+  })
+
   describe('when datatype is numeric', () => {
     it('renders number input', async () => {
       // given
@@ -16,7 +23,7 @@ describe('wc-material/components/textField', () => {
       })
 
       // when
-      const element = await fixture(textField.render(params, actions))
+      const element = await fixture(render(params, actions))
 
       // then
       expect(element).to.equalSnapshot()

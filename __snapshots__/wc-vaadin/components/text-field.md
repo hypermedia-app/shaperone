@@ -6,7 +6,9 @@
 <vaadin-number-field
   auto-validate=""
   has-controls=""
-  required="true"
+  required=""
+  step="1"
+  tabindex="0"
 >
 </vaadin-number-field>
 
@@ -18,7 +20,9 @@
 <vaadin-number-field
   auto-validate=""
   has-controls=""
-  required="true"
+  required=""
+  step="1"
+  tabindex="0"
 >
 </vaadin-number-field>
 
@@ -30,7 +34,9 @@
 <vaadin-number-field
   auto-validate=""
   has-controls=""
-  required="true"
+  required=""
+  step="1"
+  tabindex="0"
 >
 </vaadin-number-field>
 
@@ -42,7 +48,9 @@
 <vaadin-integer-field
   auto-validate=""
   has-controls=""
-  required="true"
+  required=""
+  step="1"
+  tabindex="0"
 >
 </vaadin-integer-field>
 

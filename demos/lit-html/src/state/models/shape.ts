@@ -2,10 +2,10 @@ import { createModel } from '@captaincodeman/rdx'
 import $rdf from 'rdf-ext'
 import { sh, schema, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
 import { turtle } from '@tpluscode/rdf-string'
-import { DatasetCore, Quad } from 'rdf-js'
+import { Quad } from 'rdf-js'
 import * as formats from '@rdf-esm/formats-common'
 import rdfFetch from '@rdfjs/fetch-lite'
-import clownface from 'clownface'
+import clownface, { AnyPointer, GraphPointer } from 'clownface'
 import type { Store } from '../store'
 
 const triples = turtle`@prefix ex: <http://example.com/> .
@@ -105,7 +105,8 @@ lexvo:es ${rdfs.label} "Spanish" .`
 export interface State {
   serialized: string
   format: string
-  dataset?: DatasetCore
+  pointer?: AnyPointer
+  shapes: GraphPointer[]
   quads: Quad[]
   options: {
     clearResource: boolean
@@ -118,17 +119,41 @@ export const shape = createModel({
   state: <State>{
     serialized: triples.toString(),
     format: 'text/turtle',
+    shapes: [],
+    quads: [],
     options: {
       clearResource: false,
     },
   },
   reducers: {
-    setShape(state, quads: Quad[]) {
-      const dataset = $rdf.dataset(quads)
+    setShapesGraph(state, quads: Quad[]) {
+      let pointer = clownface({ dataset: $rdf.dataset(quads) })
+      const shapes = pointer.has(rdf.type, [sh.Shape, sh.NodeShape])
+      if (state.pointer?.term) {
+        const previousPointer = pointer.node(state.pointer.term)
+        if (previousPointer.has(rdf.type, [sh.Shape, sh.NodeShape]).terms.length) {
+          pointer = previousPointer
+        }
+      }
+
       return {
         ...state,
-        dataset,
+        pointer,
+        shapes: shapes.toArray(),
         quads,
+      }
+    },
+    selectRootShape(state, pointer: GraphPointer | undefined) {
+      if (!pointer) {
+        return {
+          ...state,
+          pointer: state.pointer?.any(),
+        }
+      }
+
+      return {
+        ...state,
+        pointer,
       }
     },
     serialized(state, serialized: string): State {
@@ -165,7 +190,7 @@ export const shape = createModel({
 
         if (shapes.ok) {
           const dataset = await shapes.dataset()
-          dispatch.shape.setShape([...dataset])
+          dispatch.shape.setShapesGraph([...dataset])
           if (clearResource) {
             dispatch.resource.replaceGraph({
               dataset: [],
@@ -182,10 +207,10 @@ export const shape = createModel({
       },
       async generateInstances() {
         const state = store.getState()
-        if (state.shape.dataset) {
+        if (state.shape.pointer) {
           const { nanoid } = await import('nanoid')
 
-          const dataset = $rdf.dataset([...state.shape.dataset])
+          const dataset = $rdf.dataset([...state.shape.pointer.dataset])
           const graph = clownface({ dataset })
           graph
             .has(sh.class)
@@ -198,7 +223,7 @@ export const shape = createModel({
                 .addOut(rdf.type, clas)
                 .addOut(rdfs.label, `${clasName} ${instanceId}`)
             })
-          dispatch.shape.setShape([...dataset])
+          dispatch.shape.setShapesGraph([...dataset])
         }
       },
     }

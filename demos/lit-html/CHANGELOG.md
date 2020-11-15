@@ -1,5 +1,35 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.3
+
+### Patch Changes
+
+- 58d647c: Select root shape from graph pointer
+- Updated dependencies [627dd89]
+- Updated dependencies [43039b8]
+  - @hydrofoil/shaperone-playground-examples@0.0.10
+  - @hydrofoil/shaperone-wc@0.1.6
+  - @hydrofoil/shaperone-wc-material@0.1.8
+  - @hydrofoil/shaperone-wc-vaadin@0.1.8
+
+## 0.1.2
+
+### Patch Changes
+
+- 1fdb3ca: Prevent breaking focus stack when resources are new pointers of same data
+- 9702fdd: Added instant change notification event
+- 1ec33fd: Language component was not registered
+- c16e00b: Do not sync resource changes in loop between form and rdf editor
+- 6339b95: Include editor settings in sharing link
+- 39fba38: Persist editor configuration between sessions
+- Updated dependencies [025173d]
+- Updated dependencies [9702fdd]
+- Updated dependencies [c16e00b]
+  - @hydrofoil/shaperone-wc-material@0.1.7
+  - @hydrofoil/shaperone-wc@0.1.5
+  - @hydrofoil/shaperone-playground-examples@0.0.9
+  - @hydrofoil/shaperone-wc-vaadin@0.1.7
+
 ## 0.1.1
 
 ### Patch Changes

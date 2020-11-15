@@ -43,7 +43,7 @@ describe('core/models/forms/reducers/editors', () => {
       const after = toggleSwitching(state, { form, switchingEnabled: false })
 
       // then
-      const propertyState = after.instances.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
       expect(propertyState.objects).to.containAll<PropertyObjectState>(o => o.editorSwitchDisabled === true)
     })
 
@@ -70,7 +70,7 @@ describe('core/models/forms/reducers/editors', () => {
       const after = toggleSwitching(state, { form, switchingEnabled: true })
 
       // then
-      const propertyState = after.instances.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
       expect(propertyState.objects).to.containAll<PropertyObjectState>(o => o.editorSwitchDisabled === false)
     })
   })

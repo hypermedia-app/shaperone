@@ -1,13 +1,15 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
-import { PropertyShape } from '@rdfine/shacl'
+import type { PropertyShape } from '@rdfine/shacl'
 import type * as Rdfs from '@rdfine/rdfs'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
-import type { AnyPointer, GraphPointer } from 'clownface'
+import * as $rdf from '@rdf-esm/dataset'
+import type { AnyPointer } from 'clownface'
+import clownface, { GraphPointer } from 'clownface'
+import { dataset } from '@rdf-esm/dataset'
 import type { Dispatch, Store } from '../../state'
 import { addMatchers } from './reducers/addMatchers'
 import { addMetadata } from './reducers/addMetadata'
+import { matchSingleEditors, matchMultiEditors } from './lib/match'
 
 // todo: re-export from main module
 export interface EditorMatcher {
@@ -37,14 +39,18 @@ export interface EditorsState {
   allEditors: EditorMap<Editor<EditorMatcher>>
   singleEditors: EditorMap<Editor<SingleEditor>>
   multiEditors: EditorMap<Editor<MultiEditor>>
+  matchSingleEditors: typeof matchSingleEditors
+  matchMultiEditors: typeof matchMultiEditors
 }
 
 export const editors = createModel(({
   state: <EditorsState>{
+    metadata: clownface({ dataset: dataset() }),
     multiEditors: {},
     singleEditors: {},
     allEditors: {},
-    metadata: cf({ dataset: $rdf.dataset() }),
+    matchSingleEditors,
+    matchMultiEditors,
   },
   reducers: {
     addMetadata,

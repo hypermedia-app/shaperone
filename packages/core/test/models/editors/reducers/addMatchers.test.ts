@@ -18,7 +18,22 @@ describe('core/models/editors/reducers/addMatchers', () => {
     }
 
     // when
-    const after = addMatchers(before, { [ex.Foo.value]: editor })
+    const after = addMatchers(before, { editor })
+
+    // then
+    expect(after.allEditors).to.have.property(ex.Foo.value)
+  })
+
+  it('add any editor to all editors using array', () => {
+    // given
+    const before = testState()
+    const editor = {
+      term: ex.Foo,
+      match: () => 1,
+    }
+
+    // when
+    const after = addMatchers(before, [editor])
 
     // then
     expect(after.allEditors).to.have.property(ex.Foo.value)

@@ -1,4 +1,4 @@
-import { Component } from '@hydrofoil/shaperone-wc'
+import type { Component } from '@hydrofoil/shaperone-core'
 import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents'
 import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components'
 import { component, matcher, metadata } from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect'
@@ -17,10 +17,8 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
   vaadin: { ...nativeComponents, ...vaadinComponents, languages: component('lumo') },
 }
 
-export function setUpLanguageMultiSelect() {
-  editors.addMetadata($rdf.dataset([...metadata()]))
-  editors.addMatchers({ matcher })
-}
+editors.addMetadata($rdf.dataset([...metadata()]))
+editors.addMatchers({ matcher })
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native

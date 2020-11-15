@@ -3,15 +3,24 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
-import { NodeShapeMixin, PropertyShapeMixin } from '@rdfine/shacl'
+import { NodeShapeMixin } from '@rdfine/shacl'
 import { schema, sh, dash } from '@tpluscode/rdf-ns-builders'
 import { initialiseFocusNode, initialiseObjectState } from '../../../../models/forms/lib/stateBuilder'
 import { loadMixins } from '../../../../index'
+import { Store } from '../../../../state'
+import { testStore } from '../util'
+import { propertyShape } from '../../../util'
 
 const ex = ns('http://example.com/')
 
 describe('core/models/forms/lib/stateBuilder', () => {
+  let store: Store
+  const meta = {} as any
+
   before(loadMixins)
+  beforeEach(() => {
+    ({ store } = testStore())
+  })
 
   const shouldEnableEditorChoice = () => true
 
@@ -26,8 +35,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape: nestedShape,
         shapes: [otherShape],
         shouldEnableEditorChoice,
@@ -38,28 +46,25 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.shapes).to.contain.ordered.members([nestedShape, otherShape])
     })
 
-    it('does not reposition selected shape if it already got matched', () => {
+    it('does not reposition selected shape in shapes array', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
       const nestedShape = new NodeShapeMixin.Class(graph.namedNode(ex.nestedNode))
       const otherShape = new NodeShapeMixin.Class(graph.namedNode(ex.otherNode))
-      const getMatcher = () => () => true
 
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape: nestedShape,
         shapes: [otherShape, nestedShape],
         shouldEnableEditorChoice,
-      }, undefined, { getMatcher })
+      }, undefined)
 
       // then
       expect(state.shapes).to.have.length(2)
-      expect(state.matchingShapes).to.have.length(2)
-      expect(state.matchingShapes).to.contain.ordered.members([otherShape, nestedShape])
+      expect(state.shapes.map(s => s.id)).to.contain.ordered.members([otherShape.id, nestedShape.id])
     })
 
     it('does not reset selected editor of same object', () => {
@@ -76,8 +81,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       })
       const before = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [shape],
         shouldEnableEditorChoice,
@@ -87,8 +91,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // when
       const after = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [shape],
         shouldEnableEditorChoice,
@@ -111,8 +114,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       })
       const params = {
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [shape],
         shouldEnableEditorChoice,
@@ -138,14 +140,15 @@ describe('core/models/forms/lib/stateBuilder', () => {
           path: ex.foo,
         }],
       })
+      const { editors } = store.getState()
+      editors.matchMultiEditors = () => [{
+        term: ex.FooMultiEditor,
+        match: () => 10,
+        meta,
+      }]
       const params = {
         focusNode,
-        editors: [],
-        multiEditors: [{
-          term: ex.FooMultiEditor,
-          meta: {},
-          match: () => 10,
-        }],
+        editors,
         shape,
         shapes: [shape],
         shouldEnableEditorChoice,
@@ -176,8 +179,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [],
         shouldEnableEditorChoice,
@@ -203,8 +205,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [],
         shouldEnableEditorChoice,
@@ -229,8 +230,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [],
         shouldEnableEditorChoice,
@@ -251,17 +251,18 @@ describe('core/models/forms/lib/stateBuilder', () => {
           [dash.editor.value]: ex.FooEditor,
         }],
       })
-      const fooEditor = {
+      const { editors } = store.getState()
+      editors.matchSingleEditors = () => [{
         term: ex.FooEditor,
         meta: {},
         match: () => 0,
-      }
+        score: 0,
+      }]
 
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [fooEditor],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [],
         shouldEnableEditorChoice,
@@ -282,22 +283,23 @@ describe('core/models/forms/lib/stateBuilder', () => {
           [dash.editor.value]: ex.FooEditor,
         }],
       })
-      const fooEditor = {
+      const { editors } = store.getState()
+      editors.matchSingleEditors = () => [{
         term: ex.FooEditor,
         meta: {},
         match: () => 5,
-      }
-      const barEditor = {
+        score: 5,
+      }, {
         term: ex.BarEditor,
         meta: {},
         match: () => 10,
-      }
+        score: 10,
+      }]
 
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [fooEditor, barEditor],
-        multiEditors: [],
+        editors,
         shape,
         shapes: [],
         shouldEnableEditorChoice,
@@ -308,7 +310,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
     })
 
-    it('adds a value to property with sh:minCount > 0', () => {
+    it('adds a object states to property with sh:minCount > 0', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
@@ -316,50 +318,21 @@ describe('core/models/forms/lib/stateBuilder', () => {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
-          minCount: 1,
+          minCount: 2,
         }],
       })
 
       // when
       const state = initialiseFocusNode({
         focusNode,
-        editors: [],
-        multiEditors: [],
+        editors: store.getState().editors,
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
       }, undefined)
 
       // then
-      expect(state.properties[0].objects[0]?.object.value).to.eq('')
-    })
-
-    it('when sh:minCount > 0 adds a triple if property has sh:default', () => {
-      // given
-      const graph = cf({ dataset: $rdf.dataset() })
-      const focusNode = graph.node(ex.Foo)
-      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
-        property: [{
-          path: ex.foo,
-          types: [sh.PropertyShape],
-          minCount: 1,
-          defaultValue: $rdf.literal('bar', 'en'),
-        }],
-      })
-
-      // when
-      const state = initialiseFocusNode({
-        focusNode,
-        editors: [],
-        multiEditors: [],
-        shape,
-        shapes: [],
-        shouldEnableEditorChoice: () => true,
-      }, undefined)
-
-      // then
-      expect(state.properties[0].objects[0]?.object.value).to.eq('bar')
-      expect(focusNode.out(ex.foo).term).to.deep.eq($rdf.literal('bar', 'en'))
+      expect(state.properties[0].objects.length).to.eq(2)
     })
   })
 
@@ -368,12 +341,12 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const shapeGraph = cf({ dataset: $rdf.dataset() })
       const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
-      const shape = new PropertyShapeMixin.Class(shapeGraph.blankNode(), {
+      const shape = propertyShape(shapeGraph.blankNode(), {
         path: ex.foo,
       })
       const context = {
         shape,
-        editors: [],
+        editors: store.getState().editors,
         shouldEnableEditorChoice() {
           return false
         },

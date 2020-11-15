@@ -1,7 +1,8 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
-import produce from 'immer'
+import reducers from './reducers'
 import type { PropertyObjectState, PropertyState } from '../forms/index'
+import type { Store } from '../../state'
 
 export interface SingleEditorRenderParams {
   property: PropertyState
@@ -22,64 +23,43 @@ export interface MultiEditorActions {
   focusOnObjectNode(): void
 }
 
-export interface Component<TRenderResult> {
+export interface Component {
   editor: NamedNode
-  render(...args: unknown[]): TRenderResult
-  loadDependencies?(): Array<Promise<unknown>>
 }
 
-export interface ComponentState<TRenderResult> extends Component<TRenderResult> {
-  loaded: boolean
+export interface RenderFunc<Params, Actions, TRenderResult> {
+  (params: Params, actions: Actions): TRenderResult
+}
+
+export type RenderSingleEditor<TRenderResult> = RenderFunc<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
+export type RenderMultiEditor<TRenderResult> = RenderFunc<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+
+export interface ComponentState extends Component {
+  render?: RenderFunc<any, any, any>
+  lazyRender?(): Promise<RenderFunc<any, any, any>>
   loading: boolean
+  loadingFailed?: {
+    reason: string
+  }
 }
 
-export interface SingleEditorComponent<TRenderResult> extends Component<TRenderResult> {
-  render(params: SingleEditorRenderParams, actions: SingleEditorActions): TRenderResult
+interface ComponentRender<Params, Actions, TRenderResult> {
+  render: RenderFunc<Params, Actions, TRenderResult>
 }
 
-export interface MultiEditorComponent<TRenderResult> extends Component<TRenderResult> {
-  render(params: MultiEditorRenderParams, actions: MultiEditorActions): TRenderResult
+export type SingleEditorComponent<TRenderResult> = Component & ComponentRender<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
+export type MultiEditorComponent<TRenderResult> = Component & ComponentRender<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+
+export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
+  lazyRender() : Promise<T['render']>
 }
 
-export type ComponentsState<TRenderResult = any> = Record<string, ComponentState<TRenderResult>>
+export type ComponentsState = Record<string, ComponentState>
 
-export const createComponentsModel = <TRenderResult>() => createModel({
-  state: <ComponentsState<TRenderResult>>{},
-  reducers: {
-    loading(components, editor): ComponentsState {
-      return produce(components, (draft) => {
-        draft[editor.value].loaded = false
-        draft[editor.value].loading = true
-      })
-    },
-    loaded(components, editor): ComponentsState {
-      return produce(components, (draft) => {
-        draft[editor.value].loaded = true
-        draft[editor.value].loading = false
-      })
-    },
-    removeComponents(components, toRemove: NamedNode[]) {
-      return produce(components, (newComponents) => {
-        for (const editor of toRemove) {
-          delete newComponents[editor.value]
-        }
-      })
-    },
-    pushComponents(components, toAdd: Record<string, Component<TRenderResult>>): ComponentsState {
-      return produce(components, (newComponents) => {
-        for (const component of Object.values(toAdd)) {
-          if (!components[component.editor.value] || components[component.editor.value].render !== component.render) {
-            newComponents[component.editor.value] = {
-              ...component,
-              loading: false,
-              loaded: !component.loadDependencies,
-            }
-          }
-        }
-      })
-    },
-  },
-  effects(store) {
+export const components = createModel({
+  state: <Record<string, ComponentState>>{},
+  reducers,
+  effects(store: Store) {
     const dispatch = store.getDispatch()
 
     return {
@@ -87,14 +67,20 @@ export const createComponentsModel = <TRenderResult>() => createModel({
         const state = store.getState()
 
         const component = state.components[editor.value]
-        if (component.loading || component.loaded) return
-
-        if (component.loadDependencies) {
-          dispatch.components.loading(editor)
-          await Promise.all(component.loadDependencies())
+        if (!component.lazyRender) {
+          dispatch.components.loadingFailed({ editor, reason: 'lazyRender not implemented' })
+          return
         }
+        if (component.loading || component.loadingFailed) return
 
-        dispatch.components.loaded(editor)
+        try {
+          dispatch.components.loaded({
+            editor,
+            render: await component.lazyRender(),
+          })
+        } catch (e) {
+          dispatch.components.loadingFailed({ editor, reason: e.message })
+        }
       },
     }
   },

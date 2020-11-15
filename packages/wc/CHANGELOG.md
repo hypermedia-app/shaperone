@@ -1,5 +1,31 @@
 # @hydrofoil/shaperone-wc
 
+## 0.1.6
+
+### Patch Changes
+
+- 43039b8: Added dash:DateTimePickerEditor
+- Updated dependencies [627dd89]
+- Updated dependencies [c41966b]
+- Updated dependencies [58d647c]
+- Updated dependencies [d8343b6]
+  - @hydrofoil/shaperone-core@0.3.0
+
+## 0.1.5
+
+### Patch Changes
+
+- 9702fdd: Added instant change notification event
+- c16e00b: Handle multiple empty object fields
+- Updated dependencies [1fdb3ca]
+- Updated dependencies [9702fdd]
+- Updated dependencies [c16e00b]
+- Updated dependencies [3e34259]
+- Updated dependencies [6a5b20e]
+- Updated dependencies [7aad50c]
+- Updated dependencies [aa9a943]
+  - @hydrofoil/shaperone-core@0.2.4
+
 ## 0.1.4
 
 ### Patch Changes

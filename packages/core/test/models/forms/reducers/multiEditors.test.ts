@@ -1,18 +1,18 @@
 import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { PropertyShapeMixin } from '@rdfine/shacl'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import { selectMultiEditor, selectSingleEditors } from '../../../../models/forms/reducers/multiEditors'
 import { testEditor, testFocusNodeState, testPropertyState, testState } from '../util'
+import { propertyShape } from '../../../util'
 
 describe('core/models/forms/reducers/multiEditors', () => {
   describe('selectMultiEditor', () => {
     it('selects first multi editor', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const shape = propertyShape(focusNode.blankNode())
       const { form, state } = testState({
         form: {
           focusNodes: {
@@ -33,7 +33,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       })
 
       // then
-      const propertyState = after.instances.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.deep.eq(dash.MultiEditor1)
     })
   })
@@ -42,7 +42,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
     it('selects first multi editor', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const shape = propertyShape(focusNode.blankNode())
       const { form, state } = testState({
         form: {
           focusNodes: {
@@ -63,7 +63,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       })
 
       // then
-      const propertyState = after.instances.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.be.undefined
     })
   })

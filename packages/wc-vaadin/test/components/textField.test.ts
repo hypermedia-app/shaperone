@@ -2,8 +2,8 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
+import { editorTestParams } from '@shaperone/testing'
 import { textField } from '../../components/text-field'
-import { editorTestParams } from '../util'
 
 const datatytpes = [xsd.double, xsd.float, xsd.decimal, xsd.integer]
 
@@ -18,7 +18,7 @@ describe('wc-vaadin/components/text-field', () => {
       })
 
       // when
-      const element = await fixture(textField.render(params, actions))
+      const element = await fixture(textField(params, actions))
 
       // then
       expect(element).to.equalSnapshot()
