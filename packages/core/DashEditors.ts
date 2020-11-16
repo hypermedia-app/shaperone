@@ -104,13 +104,9 @@ export const textAreaWithLang: SingleEditor = {
   },
 }
 
-export const shape: SingleEditor = {
+export const detailsEditor: SingleEditor = {
   term: dash.DetailsEditor,
   match(shape: PropertyShape, value) {
-    if (shape.class) {
-      return 20
-    }
-
     if (value.term.termType === 'BlankNode' || value.term.termType === 'NamedNode') {
       return null
     }
