@@ -442,4 +442,42 @@ describe('core/DashEditors', () => {
       expect(result).to.eq(0)
     })
   })
+
+  describe(dash.DetailsEditor.value, () => {
+    it('should have score = null for URI node', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+
+      // when
+      const result = DashEditors.detailsEditor.match(property, graph.namedNode('foo'))
+
+      // then
+      expect(result).to.eq(null)
+    })
+
+    it('should have score = null for blank node', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+
+      // when
+      const result = DashEditors.detailsEditor.match(property, graph.blankNode())
+
+      // then
+      expect(result).to.eq(null)
+    })
+
+    it('should have score = 0 for literal node', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+
+      // when
+      const result = DashEditors.detailsEditor.match(property, graph.literal('foo'))
+
+      // then
+      expect(result).to.eq(0)
+    })
+  })
 })
