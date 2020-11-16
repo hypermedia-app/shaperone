@@ -1,6 +1,8 @@
 import produce from 'immer'
 import { NamedNode } from 'rdf-js'
-import type { Component, ComponentsState, RenderFunc } from './index'
+import type { ComponentsState, ComponentState, RenderFunc } from './index'
+
+type Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 
 export default {
   loading(components: ComponentsState, editor: NamedNode): ComponentsState {
@@ -35,7 +37,13 @@ export default {
       const addedArray = Array.isArray(toAdd) ? toAdd : Object.values(toAdd)
 
       for (const component of addedArray) {
-        if (!components[component.editor.value]) {
+        const previous = components[component.editor.value]
+        const shouldAddComponent = !previous ||
+        (previous.lazyRender && component.lazyRender && previous.lazyRender !== component.lazyRender) ||
+        (previous.render && component.render && previous.render !== component.render) ||
+        ((previous.render && !component.render) || (previous.lazyRender || !component.lazyRender))
+
+        if (shouldAddComponent) {
           newComponents[component.editor.value] = {
             ...component,
             loading: false,
