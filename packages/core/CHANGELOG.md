@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.3.1
+
+### Patch Changes
+
+- 84d7b1e: Components are not getting replaced in the store
+
 ## 0.3.0
 
 ### Minor Changes
