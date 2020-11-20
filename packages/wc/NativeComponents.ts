@@ -21,7 +21,7 @@ export const textAreaEditor: Lazy<SingleEditorComponent> = {
   },
 }
 
-export const enumSelectEditor: Lazy<EnumSelectEditor & SingleEditorComponent> = {
+export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   async lazyRender() {
     return (await import('./components')).enumSelect

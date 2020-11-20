@@ -10,18 +10,22 @@ import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid'
 
 export const sinon = _sinon
 
-interface EditorTestParams {
+interface EditorTestParams<T> {
   object: GraphPointer
   property?: Initializer<PropertyShape>
   datatype?: NamedNode
+  componentState?: T
 }
 
-export function editorTestParams({ object, property, datatype }: EditorTestParams): { params: SingleEditorRenderParams; actions: SingleEditorActions } {
-  const value: PropertyObjectState = {
+export function editorTestParams<T extends Record<string, any> = Record<string, any>>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
+  const { object, property, datatype, componentState } = arg
+
+  const value: PropertyObjectState<T> = {
     key: nextid(),
     editors: [],
     selectedEditor: undefined,
     object,
+    componentState: componentState || {} as T,
   }
 
   return {
@@ -35,12 +39,14 @@ export function editorTestParams({ object, property, datatype }: EditorTestParam
         selectedEditor: undefined,
         shape: propertyShape(object.blankNode(), property),
         datatype,
+        componentState: {},
       },
       value,
     },
     actions: {
       update: sinon.spy(),
       focusOnObjectNode: sinon.spy(),
+      updateComponentState: sinon.spy(),
     },
   }
 }

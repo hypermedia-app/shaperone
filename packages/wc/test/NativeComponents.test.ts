@@ -22,7 +22,7 @@ describe('NativeComponents', () => {
     const component = Object.values(components).find(c => c.editor.equals(editor))
 
     describe(editor.value, () => {
-      let render: RenderSingleEditor
+      let render: any
 
       before(async () => {
         if (component) {

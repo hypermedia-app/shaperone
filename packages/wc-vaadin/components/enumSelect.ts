@@ -4,13 +4,17 @@ import { repeat } from 'lit-html/directives/repeat'
 import '@vaadin/vaadin-select/vaadin-select'
 import '@vaadin/vaadin-list-box/vaadin-list-box'
 import '@vaadin/vaadin-item/vaadin-item'
-import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 
-export const enumSelect: RenderSingleEditor = function (this: EnumSelectEditor, { value, property }, { update }) {
-  const choices = this.choices(property.shape).map(choice => ({
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { value, property }, { update, updateComponentState }) {
+  if (!value.componentState.choices) {
+    this.loadChoices(property.shape, updateComponentState)
+  }
+
+  const choices = value.componentState.choices?.map(choice => ({
     term: choice.term,
     label: this.label(choice),
-  }))
+  })) || []
 
   const selectValue = choices.find(choice => choice.term.equals(value.object?.term))?.label
 

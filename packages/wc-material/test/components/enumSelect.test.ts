@@ -1,13 +1,12 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import { sh } from '@tpluscode/rdf-ns-builders'
 import { editorTestParams } from '@shaperone/testing'
-import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { enumSelectEditor } from '../../components'
 
 describe('wc-material/components/enumSelect', () => {
-  let enumSelect: SingleEditorComponent
+  let enumSelect: EnumSelectEditor
 
   before(async () => {
     enumSelect = {
@@ -21,8 +20,13 @@ describe('wc-material/components/enumSelect', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal(''),
+      componentState: {
+        choices: [
+          graph.literal('foo'),
+          graph.literal('bar'),
+        ],
+      },
     })
-    params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
     const result = await fixture(enumSelect.render(params, actions))
@@ -36,8 +40,13 @@ describe('wc-material/components/enumSelect', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal('bar'),
+      componentState: {
+        choices: [
+          graph.literal('foo'),
+          graph.literal('bar'),
+        ],
+      },
     })
-    params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
     const result = await fixture(enumSelect.render(params, actions))

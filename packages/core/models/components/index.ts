@@ -4,21 +4,24 @@ import reducers from './reducers'
 import type { PropertyObjectState, PropertyState } from '../forms/index'
 import type { Store } from '../../state'
 
-export interface SingleEditorRenderParams {
+export interface SingleEditorRenderParams<T extends Record<string, any> = Record<string, any>> {
   property: PropertyState
-  value: PropertyObjectState
+  value: PropertyObjectState<T>
 }
 
-export interface MultiEditorRenderParams {
+export interface MultiEditorRenderParams<T extends Record<string, any> = Record<string, any>> {
   property: PropertyState
+  componentState: T
 }
 
 export interface SingleEditorActions {
+  updateComponentState(values: Record<string, any>): void
   update(newValue: Term | string): void
   focusOnObjectNode(): void
 }
 
 export interface MultiEditorActions {
+  updateComponentState(values: Record<string, any>): void
   update(newValues: Array<Term | string>): void
   focusOnObjectNode(): void
 }
@@ -31,8 +34,8 @@ export interface RenderFunc<Params, Actions, TRenderResult> {
   (params: Params, actions: Actions): TRenderResult
 }
 
-export type RenderSingleEditor<TRenderResult> = RenderFunc<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
-export type RenderMultiEditor<TRenderResult> = RenderFunc<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+export type RenderSingleEditor<TComponentState, TRenderResult> = RenderFunc<SingleEditorRenderParams<TComponentState>, SingleEditorActions, TRenderResult>
+export type RenderMultiEditor<TComponentState, TRenderResult> = RenderFunc<MultiEditorRenderParams<TComponentState>, MultiEditorActions, TRenderResult>
 
 export interface ComponentState extends Component {
   render?: RenderFunc<any, any, any>
@@ -47,8 +50,8 @@ interface ComponentRender<Params, Actions, TRenderResult> {
   render: RenderFunc<Params, Actions, TRenderResult>
 }
 
-export type SingleEditorComponent<TRenderResult> = Component & ComponentRender<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
-export type MultiEditorComponent<TRenderResult> = Component & ComponentRender<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+export type SingleEditorComponent<TComponentState, TRenderResult> = Component & ComponentRender<SingleEditorRenderParams<TComponentState>, SingleEditorActions, TRenderResult>
+export type MultiEditorComponent<TComponentState, TRenderResult> = Component & ComponentRender<MultiEditorRenderParams<TComponentState>, MultiEditorActions, TRenderResult>
 
 export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
   lazyRender() : Promise<T['render']>

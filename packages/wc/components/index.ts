@@ -1,7 +1,7 @@
 import { html } from 'lit-element'
 import { literal, namedNode } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
-import type { EnumSelectEditor, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import type { EnumSelect, EnumSelectEditor, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { RenderSingleEditor } from '../index'
 import { getType } from './lib/textFieldType'
 
@@ -15,8 +15,12 @@ export const textArea: RenderSingleEditor = function ({ value }, { update }) {
   return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object?.value}</textarea>`
 }
 
-export const enumSelect: RenderSingleEditor = function (this: EnumSelectEditor, { value, property }, { update }) {
-  const choices = this.choices(property.shape)
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { value, property }, { update, updateComponentState }) {
+  if (!value.componentState.choices) {
+    this.loadChoices(property.shape, updateComponentState)
+  }
+
+  const choices = value.componentState.choices || []
 
   function updateHandler(e: any) {
     const chosen = choices[(e.target).selectedIndex - 1]

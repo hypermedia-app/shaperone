@@ -21,12 +21,13 @@ import shapesEffects from './effects/shapes'
 import resourcesEffects from './effects/resources'
 import type { Store } from '../../state'
 
-export interface PropertyObjectState {
+export interface PropertyObjectState<ComponentState extends Record<string, any> = Record<string, any>> {
   key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
+  componentState: ComponentState
 }
 
 export interface ShouldEnableEditorChoice {
@@ -38,6 +39,7 @@ export interface PropertyState {
   name: string
   editors: MultiEditor[]
   selectedEditor: NamedNode | undefined
+  componentState: Record<string, any>
   objects: PropertyObjectState[]
   canAdd: boolean
   canRemove: boolean

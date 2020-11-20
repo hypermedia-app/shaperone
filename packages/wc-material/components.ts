@@ -29,7 +29,7 @@ export const textArea: Lazy<SingleEditorComponent> = {
   },
 }
 
-export const enumSelectEditor: Lazy<EnumSelectEditor & SingleEditorComponent> = {
+export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   editor: dash.EnumSelectEditor,
   lazyRender() {

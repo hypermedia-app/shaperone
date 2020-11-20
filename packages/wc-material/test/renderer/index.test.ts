@@ -62,6 +62,7 @@ describe('wc-material/renderer', () => {
           object: shapesGraph.blankNode(),
           editors: [],
           selectedEditor: undefined,
+          componentState: {},
         },
         property: {
           shape: propertyShape(shapesGraph.blankNode()),
@@ -71,6 +72,7 @@ describe('wc-material/renderer', () => {
           name: '',
           canAdd: false,
           canRemove: false,
+          componentState: {},
         },
         renderEditor: sinon.spy(),
         actions: {
@@ -93,6 +95,7 @@ describe('wc-material/renderer', () => {
           editors: [editor, editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
+          componentState: {},
         },
       })
 
@@ -117,6 +120,7 @@ describe('wc-material/renderer', () => {
           editors: [editor, editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
+          componentState: {},
         },
       })
 
@@ -140,6 +144,7 @@ describe('wc-material/renderer', () => {
           editors: [editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
+          componentState: {},
         },
       })
       params.property.canRemove = true
@@ -164,6 +169,7 @@ describe('wc-material/renderer', () => {
           editors: [editor, editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
+          componentState: {},
         },
       })
       params.property.canRemove = false
@@ -188,6 +194,7 @@ describe('wc-material/renderer', () => {
           editors: [editor],
           object: cf({ dataset: $rdf.dataset() }).blankNode(),
           selectedEditor: undefined,
+          componentState: {},
         },
       })
       params.property.canRemove = false
