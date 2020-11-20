@@ -4,9 +4,19 @@ import $rdf from '@rdf-esm/dataset'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams } from '@shaperone/testing'
-import { enumSelect } from '../../components/enumSelect'
+import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { enumSelectEditor } from '../../components'
 
 describe('wc-vaadin/components/enumSelect', () => {
+  let enumSelect: SingleEditorComponent
+
+  before(async () => {
+    enumSelect = {
+      ...enumSelectEditor,
+      render: await enumSelectEditor.lazyRender(),
+    }
+  })
+
   it('renders an vaadin-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
@@ -16,7 +26,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect(params, actions))
+    const result = await fixture(enumSelect.render(params, actions))
 
     // then
     expect(result).shadowDom.to.equalSnapshot()
@@ -31,7 +41,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect(params, actions))
+    const result = await fixture(enumSelect.render(params, actions))
 
     // then
     expect(result).to.have.property('value', 'bar')

@@ -3,9 +3,19 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { editorTestParams } from '@shaperone/testing'
-import { enumSelect } from '../../components/enumSelect'
+import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { enumSelectEditor } from '../../components'
 
 describe('wc-material/components/enumSelect', () => {
+  let enumSelect: SingleEditorComponent
+
+  before(async () => {
+    enumSelect = {
+      ...enumSelectEditor,
+      render: await enumSelectEditor.lazyRender(),
+    }
+  })
+
   it('renders an mwc-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
@@ -15,7 +25,7 @@ describe('wc-material/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect(params, actions))
+    const result = await fixture(enumSelect.render(params, actions))
 
     // then
     expect(result).to.equalSnapshot()
@@ -30,7 +40,7 @@ describe('wc-material/components/enumSelect', () => {
     params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect(params, actions))
+    const result = await fixture(enumSelect.render(params, actions))
 
     // then
     expect(result).to.equalSnapshot()
