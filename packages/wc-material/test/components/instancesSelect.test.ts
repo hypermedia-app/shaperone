@@ -63,13 +63,17 @@ describe('wc-material/components/instancesSelect', () => {
     const { params, actions } = editorTestParams({
       object: graph.literal('bar'),
     })
-    instancesSelect.loadChoices = sinon.spy()
+    const loadChoices = sinon.spy()
+    instancesSelect.loadChoices = loadChoices
 
     // when
     await fixture(instancesSelect.render(params, actions))
 
     // then
-    expect(instancesSelect.loadChoices).to.have.been.calledWith(params.property.shape, actions.updateComponentState)
+    expect(loadChoices).to.have.been.calledWith(sinon.match({
+      property: params.property.shape,
+      updateComponentState: actions.updateComponentState,
+    }))
   })
 
   it('updates form when value changes', async () => {

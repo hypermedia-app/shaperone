@@ -61,12 +61,16 @@ describe('wc-material/components/enumSelect', () => {
     const { params, actions } = editorTestParams({
       object: graph.literal('bar'),
     })
-    enumSelect.loadChoices = sinon.spy()
+    const loadChoices = sinon.spy()
+    enumSelect.loadChoices = loadChoices
 
     // when
     await fixture(enumSelect.render(params, actions))
 
     // then
-    expect(enumSelect.loadChoices).to.have.been.calledWith(params.property.shape, actions.updateComponentState)
+    expect(loadChoices).to.have.been.calledWith(sinon.match({
+      property: params.property.shape,
+      updateComponentState: actions.updateComponentState,
+    }))
   })
 })

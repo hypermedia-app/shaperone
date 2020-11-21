@@ -78,13 +78,17 @@ describe('wc-vaadin/components/instancesSelect', () => {
     const { params, actions } = editorTestParams({
       object: graph.literal('bar'),
     })
-    component.loadChoices = sinon.spy()
+    const loadChoices = sinon.spy()
+    component.loadChoices = loadChoices
 
     // when
     await fixture(component.render(params, actions))
 
     // then
-    expect(component.loadChoices).to.have.been.calledWith(params.property.shape, actions.updateComponentState)
+    expect(loadChoices).to.have.been.calledWith(sinon.match({
+      property: params.property.shape,
+      updateComponentState: actions.updateComponentState,
+    }))
   })
 
   it('updates form when value changes', async () => {
