@@ -1,8 +1,12 @@
 import { html } from 'lit-element'
 import { literal, namedNode } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
-import { rdf, rdfs } from '@tpluscode/rdf-ns-builders'
-import type { GraphPointer } from 'clownface'
+import type {
+  EnumSelect,
+  EnumSelectEditor,
+  InstancesSelect,
+  InstancesSelectEditor,
+} from '@hydrofoil/shaperone-core/components'
 import { RenderSingleEditor } from '../index'
 import { getType } from './lib/textFieldType'
 
@@ -16,8 +20,12 @@ export const textArea: RenderSingleEditor = function ({ value }, { update }) {
   return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object?.value}</textarea>`
 }
 
-export const enumSelect: RenderSingleEditor = function ({ value, property }, { update }) {
-  const choices = property.shape.inPointers
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { focusNode, value, property }, { update, updateComponentState }) {
+  if (!value.componentState.choices) {
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
+  }
+
+  const choices = value.componentState.choices || []
 
   function updateHandler(e: any) {
     const chosen = choices[(e.target).selectedIndex - 1]
@@ -27,7 +35,7 @@ export const enumSelect: RenderSingleEditor = function ({ value, property }, { u
   return html`<select @input="${updateHandler}" required>
         <option value=""></option>
         ${repeat(choices, choice => html`<option ?selected="${choice.value === value.object?.value}" value="${choice}">
-            ${choice.out(rdfs.label).value || choice}
+            ${this.label(choice)}
         </option>`)}
     </select>`
 }
@@ -38,15 +46,17 @@ export const datePicker = (type: string): RenderSingleEditor => function ({ valu
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: RenderSingleEditor = function ({ property, value }, { update }) {
-  const choices: GraphPointer[] = property.shape.pointer.any()
-    .has(rdf.type, property.shape.class?.id)
-    .toArray()
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { focusNode, property, value }, { update, updateComponentState }) {
+  if (!value.componentState.instances) {
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
+  }
+
+  const choices = value.componentState.instances || []
 
   return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>
         ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object?.term)}" value="${choice}">
-            ${choice.out(rdfs.label).value || choice.value}
+            ${this.label(choice)}
         </option>`)}
     </select>`
 }

@@ -46,11 +46,42 @@ describe('core/models/forms/reducers/selectEditor', () => {
         key: 'test',
         editors: [],
         selectedEditor: undefined,
+        componentState: {},
       },
     })
 
     // then
     expect(afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects[0].selectedEditor)
       .to.deep.eq(dash.TextFieldEditor)
+  })
+
+  it('resets component state', () => {
+    // given
+    const property = propertyShape()
+    formState.focusNodes[focusNode.value] = {
+      properties: [{
+        shape: property,
+        objects: [{
+          key: 'test',
+        }],
+      }],
+    }
+
+    // when
+    const afterState = selectEditor(store.getState().forms, {
+      form,
+      property,
+      editor: dash.TextFieldEditor,
+      focusNode,
+      object: {
+        key: 'test',
+        editors: [],
+        selectedEditor: undefined,
+        componentState: { foo: 'bar' },
+      },
+    })
+
+    // then
+    expect(afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects[0].componentState).to.deep.eq({})
   })
 })

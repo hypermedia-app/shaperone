@@ -61,6 +61,15 @@ export const DefaultRenderer: Renderer = {
               })
             }
 
+            function updateComponentState(newState: Record<string, any>) {
+              actions.forms.updateComponentState({
+                form,
+                focusNode,
+                property: property.shape,
+                newState,
+              })
+            }
+
             const editor = property.selectedEditor
             if (!editor) {
               return html`No editor found for property`
@@ -81,8 +90,8 @@ export const DefaultRenderer: Renderer = {
             }
 
             return component.render(
-              { property },
-              { update },
+              { focusNode, property },
+              { update, updateComponentState },
             )
           }
 
@@ -123,6 +132,16 @@ export const DefaultRenderer: Renderer = {
                 }
               }
 
+              function updateComponentState(newState: Record<string, any>) {
+                actions.forms.updateComponentState({
+                  form,
+                  focusNode,
+                  property: property.shape,
+                  object: value,
+                  newState,
+                })
+              }
+
               const editor = value.selectedEditor
               if (!editor) {
                 return html`No editor found for property`
@@ -143,8 +162,8 @@ export const DefaultRenderer: Renderer = {
               }
 
               return component.render(
-                { property, value },
-                { update, focusOnObjectNode },
+                { focusNode, property, value },
+                { update, focusOnObjectNode, updateComponentState },
               )
             }
 

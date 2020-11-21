@@ -1,4 +1,4 @@
-import { GraphPointer, MultiPointer } from 'clownface'
+import { MultiPointer } from 'clownface'
 import { Constructor } from '@tpluscode/rdfine'
 import type { PropertyShape } from '@rdfine/shacl'
 import { sh } from '@tpluscode/rdf-ns-builders'
@@ -9,7 +9,6 @@ import { getPathProperty } from '../../resources/lib/property'
 interface PropertyShapeEx {
   getValues(focusNode: FocusNode): MultiPointer
   displayName: string
-  inPointers: GraphPointer[]
 }
 
 declare module '@rdfine/shacl' {
@@ -25,10 +24,6 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
 
     get displayName(): string {
       return this.name || shrink(getPathProperty(this)!.id.value)
-    }
-
-    get inPointers(): GraphPointer[] {
-      return this.pointer.node(this.in).toArray()
     }
   }
 }

@@ -1,4 +1,4 @@
-# `wc-vaadin/components/enumSelect`
+# `wc-vaadin/components/instancesSelect`
 
 #### `renders an vaadin-select`
 
@@ -42,19 +42,20 @@
       role="option"
       tabindex="0"
     >
-      foo
+      Foo I
     </vaadin-item>
     <vaadin-item
       aria-selected="false"
       role="option"
       tabindex="-1"
     >
-      bar
+      Bar I
     </vaadin-item>
   </vaadin-list-box>
 </vaadin-select-overlay>
 <iron-media-query style="display: none;">
 </iron-media-query>
+
 ```
 
 #### `renders empty vaadin-select when there are no choices`
