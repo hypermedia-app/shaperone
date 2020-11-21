@@ -3,13 +3,16 @@ import type { NamedNode, Term } from 'rdf-js'
 import reducers from './reducers'
 import type { PropertyObjectState, PropertyState } from '../forms/index'
 import type { Store } from '../../state'
+import { FocusNode } from '../../index'
 
 export interface SingleEditorRenderParams<T extends Record<string, any> = Record<string, any>> {
+  focusNode: FocusNode
   property: PropertyState
   value: PropertyObjectState<T>
 }
 
 export interface MultiEditorRenderParams<T extends Record<string, any> = Record<string, any>> {
+  focusNode: FocusNode
   property: PropertyState
   componentState: T
 }

@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import * as sinon from 'sinon'
 import $rdf from 'rdf-ext'
 import { dash, rdf, owl } from '@tpluscode/rdf-ns-builders'
+import clownface from 'clownface'
 import { enumSelect, instancesSelect } from '../components'
 import { propertyShape } from './util'
 
@@ -14,13 +15,14 @@ describe('components', () => {
 
     it('sets objects of sh:in to component state', () => {
       // given
+      const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
       const updateComponentState = sinon.spy()
       const property = propertyShape({
         in: [$rdf.literal('foo'), $rdf.blankNode('bar'), $rdf.namedNode('baz')],
       })
 
       // when
-      enumSelect.loadChoices(property, updateComponentState)
+      enumSelect.loadChoices({ focusNode, property, updateComponentState })
 
       // then
       expect(updateComponentState.firstCall.lastArg).to.containSubset({
@@ -42,6 +44,7 @@ describe('components', () => {
 
     it('sets instances of sh:class selected from property graph', () => {
       // given
+      const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
       const updateComponentState = sinon.spy()
       const property = propertyShape({
         class: owl.Thing,
@@ -51,7 +54,7 @@ describe('components', () => {
       property.pointer.namedNode('baz').addOut(rdf.type, owl.Thing)
 
       // when
-      instancesSelect.loadChoices(property, updateComponentState)
+      instancesSelect.loadChoices({ focusNode, property, updateComponentState })
 
       // then
       expect(updateComponentState.firstCall.lastArg).to.containSubset({

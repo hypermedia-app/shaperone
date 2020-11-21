@@ -4,6 +4,7 @@
   "name": "@shaperone/testing",
   "dependencies": {
     "@hydrofoil/shaperone-core": "*",
+    "@rdf-esm/dataset": "^0.5.1",
     "clownface": "^1.1.0",
     "sinon": "^9.2.1"
   }

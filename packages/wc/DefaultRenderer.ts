@@ -90,7 +90,7 @@ export const DefaultRenderer: Renderer = {
             }
 
             return component.render(
-              { property },
+              { focusNode, property },
               { update, updateComponentState },
             )
           }
@@ -162,7 +162,7 @@ export const DefaultRenderer: Renderer = {
               }
 
               return component.render(
-                { property, value },
+                { focusNode, property, value },
                 { update, focusOnObjectNode, updateComponentState },
               )
             }

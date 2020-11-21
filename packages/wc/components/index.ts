@@ -20,9 +20,9 @@ export const textArea: RenderSingleEditor = function ({ value }, { update }) {
   return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object?.value}</textarea>`
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { value, property }, { update, updateComponentState }) {
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { focusNode, value, property }, { update, updateComponentState }) {
   if (!value.componentState.choices) {
-    this.loadChoices(property.shape, updateComponentState)
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
   }
 
   const choices = value.componentState.choices || []
@@ -46,9 +46,9 @@ export const datePicker = (type: string): RenderSingleEditor => function ({ valu
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { property, value }, { update, updateComponentState }) {
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { focusNode, property, value }, { update, updateComponentState }) {
   if (!value.componentState.instances) {
-    this.loadChoices(property.shape, updateComponentState)
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
   }
 
   const choices = value.componentState.instances || []
