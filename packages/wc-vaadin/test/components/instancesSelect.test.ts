@@ -3,16 +3,18 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
-import { enumSelectEditor } from '../../components'
+import { InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
+import { SelectElement } from '@vaadin/vaadin-select'
+import { instancesSelectEditor } from '../../components'
 
-describe('wc-vaadin/components/enumSelect', () => {
-  let component: EnumSelectEditor
+describe('wc-vaadin/components/instancesSelect', () => {
+  let component: InstancesSelectEditor
 
   beforeEach(async () => {
     component = {
-      ...enumSelectEditor,
-      render: await enumSelectEditor.lazyRender(),
+      ...instancesSelectEditor,
+      render: await instancesSelectEditor.lazyRender(),
     }
   })
 
@@ -22,9 +24,9 @@ describe('wc-vaadin/components/enumSelect', () => {
     const { params, actions } = editorTestParams({
       object: graph.literal(''),
       componentState: {
-        choices: [
-          graph.literal('foo'),
-          graph.literal('bar'),
+        instances: [
+          graph.namedNode('foo').addOut(rdfs.label, 'Foo I'),
+          graph.namedNode('bar').addOut(rdfs.label, 'Bar I'),
         ],
       },
     })
@@ -54,11 +56,11 @@ describe('wc-vaadin/components/enumSelect', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
-      object: graph.literal('bar'),
+      object: graph.namedNode('bar'),
       componentState: {
-        choices: [
-          graph.literal('foo'),
-          graph.literal('bar'),
+        instances: [
+          graph.namedNode('foo').addOut(rdfs.label, 'Foo I'),
+          graph.namedNode('bar').addOut(rdfs.label, 'Bar I'),
         ],
       },
     })
@@ -67,7 +69,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     const result = await fixture(component.render(params, actions))
 
     // then
-    expect(result).to.have.property('value', 'bar')
+    expect(result).to.have.property('value', 'Bar I')
   })
 
   it('loads choices if not in state', async () => {
@@ -83,5 +85,29 @@ describe('wc-vaadin/components/enumSelect', () => {
 
     // then
     expect(component.loadChoices).to.have.been.calledWith(params.property.shape, actions.updateComponentState)
+  })
+
+  it('updates form when value changes', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const { params, actions } = editorTestParams({
+      object: graph.namedNode(''),
+      componentState: {
+        instances: [
+          graph.namedNode('foo').addOut(rdfs.label, 'Foo'),
+        ],
+      },
+    })
+    const selectElement = await fixture<SelectElement>(component.render(params, actions))
+
+    // when
+    selectElement.value = 'Foo'
+    selectElement.dispatchEvent(new Event('change'))
+
+    // then
+    expect(actions.update).to.have.been.calledWith(sinon.match({
+      value: 'foo',
+      termType: 'NamedNode',
+    }))
   })
 })

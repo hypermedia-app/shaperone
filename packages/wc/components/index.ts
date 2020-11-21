@@ -1,7 +1,12 @@
 import { html } from 'lit-element'
 import { literal, namedNode } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
-import type { EnumSelect, EnumSelectEditor, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import type {
+  EnumSelect,
+  EnumSelectEditor,
+  InstancesSelect,
+  InstancesSelectEditor,
+} from '@hydrofoil/shaperone-core/components'
 import { RenderSingleEditor } from '../index'
 import { getType } from './lib/textFieldType'
 
@@ -41,8 +46,12 @@ export const datePicker = (type: string): RenderSingleEditor => function ({ valu
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: RenderSingleEditor = function (this: InstancesSelectEditor, { property, value }, { update }) {
-  const choices = this.choices(property.shape)
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { property, value }, { update, updateComponentState }) {
+  if (!value.componentState.instances) {
+    this.loadChoices(property.shape, updateComponentState)
+  }
+
+  const choices = value.componentState.instances || []
 
   return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>

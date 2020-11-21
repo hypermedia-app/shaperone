@@ -14,8 +14,12 @@ export interface MultiEditorRenderParams<T extends Record<string, any> = Record<
   componentState: T
 }
 
+export interface UpdateComponentState {
+  (values: Record<string, any>): void
+}
+
 export interface SingleEditorActions {
-  updateComponentState(values: Record<string, any>): void
+  updateComponentState: UpdateComponentState
   update(newValue: Term | string): void
   focusOnObjectNode(): void
 }

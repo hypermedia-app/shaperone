@@ -42,7 +42,7 @@ export const dateTimePickerEditor: Lazy<SingleEditorComponent> = {
   },
 }
 
-export const instancesSelectEditor: Lazy<InstancesSelectEditor & SingleEditorComponent> = {
+export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
   async lazyRender() {
     return (await import('./components')).instancesSelect

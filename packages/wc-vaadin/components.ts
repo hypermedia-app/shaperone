@@ -1,7 +1,12 @@
 import { Lazy } from '@hydrofoil/shaperone-core'
 import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { enumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import {
+  enumSelect,
+  EnumSelectEditor,
+  instancesSelect,
+  InstancesSelectEditor,
+} from '@hydrofoil/shaperone-core/components'
 
 export const textField: Lazy<SingleEditorComponent> = {
   editor: dash.TextFieldEditor,
@@ -20,7 +25,14 @@ export const textArea: Lazy<SingleEditorComponent> = {
 export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   lazyRender() {
-    return import('./components/enumSelect').then(m => m.enumSelect)
+    return import('./components/select').then(m => m.enumSelect)
+  },
+}
+
+export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
+  ...instancesSelect,
+  lazyRender() {
+    return import('./components/select').then(m => m.instancesSelect)
   },
 }
 

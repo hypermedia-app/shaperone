@@ -1,7 +1,7 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import { editorTestParams } from '@shaperone/testing'
+import { editorTestParams, sinon } from '@shaperone/testing'
 import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { enumSelectEditor } from '../../components'
 
@@ -53,5 +53,20 @@ describe('wc-material/components/enumSelect', () => {
 
     // then
     expect(result).to.equalSnapshot()
+  })
+
+  it('loads choices if not in state', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const { params, actions } = editorTestParams({
+      object: graph.literal('bar'),
+    })
+    enumSelect.loadChoices = sinon.spy()
+
+    // when
+    await fixture(enumSelect.render(params, actions))
+
+    // then
+    expect(enumSelect.loadChoices).to.have.been.calledWith(params.property.shape, actions.updateComponentState)
   })
 })
