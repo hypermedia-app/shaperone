@@ -28,26 +28,21 @@ export const textFieldWithLang: SingleEditor = {
   term: dash.TextFieldWithLangEditor,
   match(shape: PropertyShape, value: GraphPointer) {
     const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
-    const propertyDatatype = shape.datatype?.id
     const singleLine = shape.pointer.out(dash.singleLine).term
 
     if (
       valueDatatype?.equals(rdf.langString) ||
       (
-        valueDatatype?.equals(xsd.string) && (
-          propertyDatatype?.equals(rdf.langString) ||
-          propertyDatatype?.equals(xsd.string)
-        )
+        shape.permitsDatatype(rdf.langString) &&
+        shape.permitsDatatype(xsd.string)
       )
     ) {
-      return 10
+      return 11
     }
 
     if (
-      !singleLine?.equals(booleanFalse) && (
-        propertyDatatype?.equals(rdf.langString) ||
-        propertyDatatype?.equals(xsd.string)
-      )
+      !singleLine?.equals(booleanFalse) &&
+      shape.permitsDatatype(rdf.langString)
     ) {
       return 5
     }
@@ -88,7 +83,6 @@ export const textAreaWithLang: SingleEditor = {
   match(shape: PropertyShape, value: GraphPointer) {
     const singleLine = shape.pointer.out(dash.singleLine).term
     const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
-    const propertyDatatype = shape.datatype?.id
 
     if (singleLine?.equals(booleanTrue)) {
       return 0
@@ -100,8 +94,8 @@ export const textAreaWithLang: SingleEditor = {
 
     if (
       valueDatatype?.equals(rdf.langString) ||
-      propertyDatatype?.equals(rdf.langString) ||
-      propertyDatatype?.equals(rdf.string)
+      shape.permitsDatatype(rdf.langString) ||
+      shape.permitsDatatype(rdf.string)
     ) {
       return 5
     }
