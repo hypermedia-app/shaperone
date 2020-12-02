@@ -1,0 +1,15 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@hydrofoil/shaperone-playground-examples": "0.0.12",
+    "@hydrofoil/shaperone-playground": "0.1.5",
+    "@hydrofoil/shaperone-core": "0.3.1",
+    "rdfjs-eds-plugin": "0.1.0",
+    "@shaperone/testing": "0.0.0",
+    "@hydrofoil/shaperone-wc": "0.2.1",
+    "@hydrofoil/shaperone-wc-material": "0.1.10",
+    "@hydrofoil/shaperone-wc-vaadin": "0.1.10"
+  },
+  "changesets": []
+}
