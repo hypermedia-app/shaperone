@@ -11,5 +11,10 @@
     "@hydrofoil/shaperone-wc-material": "0.1.10",
     "@hydrofoil/shaperone-wc-vaadin": "0.1.10"
   },
-  "changesets": []
+  "changesets": [
+    "mighty-humans-rest",
+    "silver-trees-arrive",
+    "strong-keys-thank",
+    "tiny-seas-pay"
+  ]
 }

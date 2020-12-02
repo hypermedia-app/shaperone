@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.1.11-next.0
+
+### Patch Changes
+
+- e9f7d46: Update rdfine to @next
+- e3afb8e: Added components for dash:InstancesSelectEditor
+- Updated dependencies [e9f7d46]
+- Updated dependencies [2b854ea]
+- Updated dependencies [18c76d0]
+  - @hydrofoil/shaperone-core@0.3.2-next.0
+  - @hydrofoil/shaperone-wc@0.2.2-next.0
+
 ## 0.1.10
 
 ### Patch Changes

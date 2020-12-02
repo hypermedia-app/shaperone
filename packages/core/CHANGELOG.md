@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.3.2-next.0
+
+### Patch Changes
+
+- e9f7d46: Update rdfine to @next
+- 2b854ea: Extract common functionality of enum and instance select editors in a simple composition
+- 18c76d0: Favor langString editor over plain text field
+
 ## 0.3.1
 
 ### Patch Changes
