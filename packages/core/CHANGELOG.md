@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-core
 
+## 0.4.0
+
+### Minor Changes
+
+- 62d8742: dash:DetailsEditor should never get a positive score by default
+
+### Patch Changes
+
+- 93965e6: Update rdfine
+- 2b854ea: Extract common functionality of enum and instance select editors in a simple composition
+- 18c76d0: Favor langString editor over plain text field
+
 ## 0.3.1
 
 ### Patch Changes
