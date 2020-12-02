@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc
 
+## 0.2.2
+
+### Patch Changes
+
+- 93965e6: Update rdfine
+- 2b854ea: Extract common functionality of enum and instance select editors in a simple composition
+- Updated dependencies [93965e6]
+- Updated dependencies [2b854ea]
+- Updated dependencies [18c76d0]
+- Updated dependencies [62d8742]
+  - @hydrofoil/shaperone-core@0.4.0
+
 ## 0.2.1
 
 ### Patch Changes
