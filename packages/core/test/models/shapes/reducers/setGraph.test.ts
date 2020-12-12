@@ -4,7 +4,7 @@ import $rdf from 'rdf-ext'
 import cf from 'clownface'
 import ns from '@rdf-esm/namespace'
 import { rdf, rdfs, sh } from '@tpluscode/rdf-ns-builders'
-import { NodeShapeMixin } from '@rdfine/shacl'
+import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import { setGraph } from '../../../../models/shapes/reducers'
 import { testStore } from '../../forms/util'
 
@@ -73,7 +73,7 @@ describe('models/shapes/reducers/setGraph', () => {
     shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
     shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
     before.get(form)!.shapesGraph = shapesGraph
-    before.get(form)!.preferredRootShape = new NodeShapeMixin.Class(shapesGraph.node(ex.Shape1))
+    before.get(form)!.preferredRootShape = fromPointer(shapesGraph.node(ex.Shape1))
 
     // when
     const after = setGraph(before, {
@@ -111,7 +111,7 @@ describe('models/shapes/reducers/setGraph', () => {
     shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
     shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
     before.shapesGraph = shapesGraph
-    before.preferredRootShape = new NodeShapeMixin.Class(shapesGraph.node(ex.Shape1))
+    before.preferredRootShape = fromPointer(shapesGraph.node(ex.Shape1))
 
     // when
     const after = setGraph(store.getState().shapes, {

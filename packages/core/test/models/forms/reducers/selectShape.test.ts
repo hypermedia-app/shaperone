@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { NodeShapeMixin } from '@rdfine/shacl'
+import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import { selectShape } from '../../../../models/forms/reducers/selectShape'
 import { testFocusNodeState, testState } from '../util'
 
@@ -14,7 +14,7 @@ describe('core/models/forms/reducers/selectShape', () => {
     // given
     const { form, state: before } = testState()
     const focusNode = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
-    const shape = new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.Shape))
+    const shape = fromPointer(cf({ dataset: $rdf.dataset() }).node(ex.Shape))
 
     // when
     const after = selectShape(before, {
@@ -34,12 +34,12 @@ describe('core/models/forms/reducers/selectShape', () => {
       form: {
         focusNodes: {
           ...testFocusNodeState(focusNode, {
-            shape: new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.OldShape)),
+            shape: fromPointer(cf({ dataset: $rdf.dataset() }).node(ex.OldShape)),
           }),
         },
       },
     })
-    const shape = new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.NewShape))
+    const shape = fromPointer(cf({ dataset: $rdf.dataset() }).node(ex.NewShape))
 
     // when
     const after = selectShape(before, {
@@ -56,7 +56,7 @@ describe('core/models/forms/reducers/selectShape', () => {
   it('returns same focus node state if shape is equal pointer', () => {
     // given
     const focusNode = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
-    const shape = new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.Shape))
+    const shape = fromPointer(cf({ dataset: $rdf.dataset() }).node(ex.Shape))
     const { form, state: before } = testState({
       form: {
         focusNodes: {
@@ -70,7 +70,7 @@ describe('core/models/forms/reducers/selectShape', () => {
     // when
     const after = selectShape(before, {
       form,
-      shape: new NodeShapeMixin.Class(cf({ dataset: $rdf.dataset() }).node(ex.Shape)),
+      shape: fromPointer(cf({ dataset: $rdf.dataset() }).node(ex.Shape)),
       focusNode,
     })
 

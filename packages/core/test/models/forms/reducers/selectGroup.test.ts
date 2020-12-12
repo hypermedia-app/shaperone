@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
-import { PropertyGroupMixin } from '@rdfine/shacl'
+import { fromPointer } from '@rdfine/shacl/lib/PropertyGroup'
 import $rdf from 'rdf-ext'
 import { selectGroup } from '../../../../models/forms/reducers/selectGroup'
 import { testFocusNodeState, testState } from '../util'
@@ -20,11 +20,11 @@ describe('core/models/forms/reducers/selectGroup', () => {
           ...testFocusNodeState(focusNode, {
             groups: [{
               selected: true,
-              group: new PropertyGroupMixin.Class(graph.node(ex.Group0)),
+              group: fromPointer(graph.node(ex.Group0)),
               order: 0,
             }, {
               selected: true,
-              group: new PropertyGroupMixin.Class(graph.node(ex.Group1)),
+              group: fromPointer(graph.node(ex.Group1)),
               order: 1,
             }],
           }),
@@ -33,7 +33,7 @@ describe('core/models/forms/reducers/selectGroup', () => {
     })
 
     // when
-    const next = selectGroup(state, { form, focusNode, group: new PropertyGroupMixin.Class(graph.node(ex.Group1)) })
+    const next = selectGroup(state, { form, focusNode, group: fromPointer(graph.node(ex.Group1)) })
 
     // then
     const focusNodeState = next.get(form)!.focusNodes[ex.FocusNode.value]
