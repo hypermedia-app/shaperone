@@ -1,5 +1,5 @@
 import { html, fixture, oneEvent, expect } from '@open-wc/testing'
-import { NodeShapeMixin } from '@rdfine/shacl'
+import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import clownface from 'clownface'
 import { dataset, literal, namedNode } from '@rdf-esm/dataset'
 import { schema } from '@tpluscode/rdf-ns-builders'
@@ -8,7 +8,7 @@ import { store } from '../store'
 import { id } from '../ShaperoneForm'
 
 describe('shaperone-form', () => {
-  const shape = new NodeShapeMixin.Class(clownface({ dataset: dataset() }).blankNode())
+  const shape = fromPointer(clownface({ dataset: dataset() }).blankNode())
   shape.property = [propertyShape(shape.pointer.blankNode(), {
     id: namedNode('schema-name'),
     path: schema.name,

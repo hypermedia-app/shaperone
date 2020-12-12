@@ -2,8 +2,7 @@ import { DatasetCore } from 'rdf-js'
 import cf, { AnyPointer } from 'clownface'
 import produce from 'immer'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
-import RdfResource from '@tpluscode/rdfine/RdfResource'
-import { Shape, ShapeMixin } from '@rdfine/shacl'
+import * as NodeShape from '@rdfine/shacl/lib/NodeShape'
 import { BaseParams, formStateReducer } from '../index'
 import type { ShapeState } from '.'
 
@@ -14,7 +13,7 @@ export interface SetShapesGraphParams extends BaseParams {
 function findShapes(shapesPointer: AnyPointer) {
   return shapesPointer
     .has(rdf.type, [sh.Shape, sh.NodeShape])
-    .map(pointer => RdfResource.factory.createEntity<Shape>(pointer, [ShapeMixin]))
+    .map(pointer => NodeShape.fromPointer(pointer))
 }
 
 function getPreferredShape(pointer: AnyPointer) {
@@ -22,7 +21,7 @@ function getPreferredShape(pointer: AnyPointer) {
     return undefined
   }
 
-  return RdfResource.factory.createEntity<Shape>(pointer as any, [ShapeMixin])
+  return NodeShape.fromPointer(pointer as any)
 }
 
 export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce(state, (draft) => {

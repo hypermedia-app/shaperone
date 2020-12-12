@@ -1,6 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
-import type { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
+import type { NodeShape, PropertyGroup, PropertyShape } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
 import effects from './effects'
 import { addFormField } from './reducers/addFormField'
@@ -53,7 +53,7 @@ export interface PropertyGroupState {
 
 export interface FocusNodeState {
   focusNode: FocusNode
-  shape?: Shape
+  shape?: NodeShape
   shapes: NodeShape[]
   properties: PropertyState[]
   groups: PropertyGroupState[]
