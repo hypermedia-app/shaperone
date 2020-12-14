@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.4.1
+
+### Patch Changes
+
+- e831915: Keep hidden sh:equals properties in sync
+
 ## 0.4.0
 
 ### Minor Changes
