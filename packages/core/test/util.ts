@@ -34,7 +34,11 @@ function isTerm(term: any): term is ResourceIdentifier {
   return 'termType' in term
 }
 
-export function nodeShape(idOrInit: ResourceIdentifier | Initializer<NodeShape.NodeShape>, shape?: Initializer<NodeShape.NodeShape>): NodeShape.NodeShape {
+export function nodeShape(idOrInit: GraphPointer<ResourceIdentifier> | ResourceIdentifier | Initializer<NodeShape.NodeShape>, shape?: Initializer<NodeShape.NodeShape>): NodeShape.NodeShape {
+  if (isPointer(idOrInit)) {
+    return NodeShape.fromPointer(idOrInit, shape)
+  }
+
   const graph = clownface({ dataset: $rdf.dataset() })
   if (isTerm(idOrInit)) {
     return NodeShape.fromPointer(graph.node(idOrInit), shape)
