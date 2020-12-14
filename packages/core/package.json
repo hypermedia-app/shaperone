@@ -40,6 +40,7 @@
     "@types/rdfjs__term-map": "^1.0.0",
     "@types/sinon": "^9.0.4",
     "@types/sinon-chai": "^3.2.4",
+    "@shaperone/testing": "*",
     "autoesm": "^1.0.5",
     "chai": "^4.2.0",
     "chai-subset": "^1.6.0",
