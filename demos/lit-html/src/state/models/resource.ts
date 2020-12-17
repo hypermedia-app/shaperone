@@ -71,14 +71,10 @@ export const resource = createModel({
       }
     },
     selectResource(state, { id }: { id: string }) {
-      if (id === state.pointer?.value || !state.graph) {
-        return state
-      }
-
       return {
         ...state,
         selectedResource: id,
-        pointer: state.graph.in().toArray().find(term => term.value === id),
+        pointer: state.graph?.in().toArray().find(term => term.value === id),
       }
     },
     setPrefixes(state, prefixes: string[]) {
