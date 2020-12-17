@@ -17,8 +17,8 @@ export interface MultiEditorRenderParams<T extends Record<string, any> = Record<
   componentState: T
 }
 
-export interface UpdateComponentState {
-  (values: Record<string, any>): void
+export interface UpdateComponentState<T extends Record<string, any> = Record<string, any>> {
+  (values: T): void
 }
 
 export interface SingleEditorActions {
@@ -35,6 +35,11 @@ export interface MultiEditorActions {
 
 export interface Component {
   editor: NamedNode
+}
+
+export interface Decorator<T extends Component = Component> {
+  applicableTo(component: Component): boolean
+  decorate(component: T): T
 }
 
 export interface RenderFunc<Params, Actions, TRenderResult> {

@@ -1,8 +1,8 @@
 import produce from 'immer'
 import { NamedNode } from 'rdf-js'
-import type { ComponentsState, ComponentState, RenderFunc } from './index'
+import type { ComponentsState, ComponentState, RenderFunc, Decorator, Component } from './index'
 
-type Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
+type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 
 export default {
   loading(components: ComponentsState, editor: NamedNode): ComponentsState {
@@ -32,7 +32,7 @@ export default {
       }
     })
   },
-  pushComponents(components: ComponentsState, toAdd: Record<string, Component> | Component[]): ComponentsState {
+  pushComponents(components: ComponentsState, toAdd: Record<string, _Component> | _Component[]): ComponentsState {
     return produce(components, (newComponents) => {
       const addedArray = Array.isArray(toAdd) ? toAdd : Object.values(toAdd)
 
@@ -47,6 +47,18 @@ export default {
           newComponents[component.editor.value] = {
             ...component,
             loading: false,
+          }
+        }
+      }
+    })
+  },
+  decorate<T extends Component = Component>(components: ComponentsState, decorator: Decorator<T>) {
+    return produce(components, (decorated) => {
+      for (const [key, component] of Object.entries(components)) {
+        if (decorator.applicableTo(component)) {
+          decorated[key] = {
+            ...component,
+            ...decorator.decorate(component as unknown as T),
           }
         }
       }
