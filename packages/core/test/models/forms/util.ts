@@ -115,12 +115,15 @@ export function testStore(): { form: symbol; store: Store } {
       singleEditors: {},
       allEditors: {},
       multiEditors: {},
+      decorators: {},
       metadata: clownface({ dataset: dataset() }),
       matchMultiEditors: () => [],
       matchSingleEditors: () => [],
     },
     forms,
     components: {
+      components: {},
+      decorators: [],
     },
   }
 

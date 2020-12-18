@@ -8,8 +8,7 @@ import $rdf from 'rdf-ext'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer/DefaultStrategy'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
-import * as hydraCollection from '@hydrofoil/shaperone-hydra/lib/components/instanceSelector'
-import { Hydra } from 'alcaeus/web'
+import { instanceSelector } from '@hydrofoil/shaperone-hydra/components'
 import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 
@@ -20,10 +19,8 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
 }
 
 editors.addMetadata($rdf.dataset([...metadata()]))
-editors.addMatchers({
-  matcher,
-  collectionMembers: hydraCollection.matcher,
-})
+editors.addMatchers({ matcher })
+editors.decorate(instanceSelector.matcher)
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native
@@ -36,18 +33,7 @@ export const selectComponents = (() => {
     const modules = componentSets[name]
     components.removeComponents(Object.values(currentComponents).map(m => m.editor))
     components.pushComponents(modules)
-    components.decorate(hydraCollection.decorator(Hydra))
-    components.decorate({
-      applicableTo(component) {
-        return 'language' in component
-      },
-      decorate(component: Component) {
-        return {
-          ...component,
-          language: ['en'],
-        }
-      },
-    })
+    components.decorate(instanceSelector.decorator())
     currentComponents = modules
   }
 })()

@@ -48,7 +48,7 @@ function select(this: EnumSelectEditor | InstancesSelectEditor, value: Term | un
 
 export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { focusNode, value, property }, { updateComponentState, ...actions }) {
   if (!value.componentState.choices) {
-    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
 
   return select.call(this, value.object?.term, value.componentState.choices, actions)
@@ -56,7 +56,7 @@ export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSe
 
 export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { focusNode, value, property }, { updateComponentState, ...actions }) {
   if (!value.componentState.instances) {
-    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
 
   return select.call(this, value.object?.term, value.componentState.instances, actions)

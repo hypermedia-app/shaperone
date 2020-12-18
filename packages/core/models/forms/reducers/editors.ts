@@ -31,18 +31,16 @@ export const updateComponentState = formStateReducer((state: FormState, { focusN
   if (!propertyState) return
 
   if (!object) {
-    propertyState.componentState = {
-      ...propertyState.componentState,
-      ...newState,
+    for (const [key, value] of Object.entries(newState)) {
+      propertyState.componentState[key] = value
     }
     return
   }
 
   const objectState = propertyState.objects.find(({ key }) => key === object.key)
   if (objectState) {
-    objectState.componentState = {
-      ...objectState.componentState,
-      ...newState,
+    for (const [key, value] of Object.entries(newState)) {
+      objectState.componentState[key] = value
     }
   }
 }))

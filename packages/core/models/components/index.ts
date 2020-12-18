@@ -18,7 +18,7 @@ export interface MultiEditorRenderParams<T extends Record<string, any> = Record<
 }
 
 export interface UpdateComponentState<T extends Record<string, any> = Record<string, any>> {
-  (values: T): void
+  (values: Partial<T>): void
 }
 
 export interface SingleEditorActions {
@@ -37,7 +37,7 @@ export interface Component {
   editor: NamedNode
 }
 
-export interface Decorator<T extends Component = Component> {
+export interface ComponentDecorator<T extends Component = Component> {
   applicableTo(component: Component): boolean
   decorate(component: T): T
 }
@@ -69,10 +69,16 @@ export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> &
   lazyRender() : Promise<T['render']>
 }
 
-export type ComponentsState = Record<string, ComponentState>
+export interface ComponentsState {
+  components: Record<string, ComponentState>
+  decorators: ComponentDecorator[]
+}
 
 export const components = createModel({
-  state: <Record<string, ComponentState>>{},
+  state: <ComponentsState>{
+    components: {},
+    decorators: [],
+  },
   reducers,
   effects(store: Store) {
     const dispatch = store.getDispatch()
@@ -81,7 +87,7 @@ export const components = createModel({
       async load(editor: NamedNode) {
         const state = store.getState()
 
-        const component = state.components[editor.value]
+        const component = state.components.components[editor.value]
         if (!component.lazyRender) {
           dispatch.components.loadingFailed({ editor, reason: 'lazyRender not implemented' })
           return

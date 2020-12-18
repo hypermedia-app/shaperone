@@ -74,7 +74,7 @@ export const DefaultRenderer: Renderer = {
             if (!editor) {
               return html`No editor found for property`
             }
-            const component = components[editor.value]
+            const component = components.components[editor.value]
             if (!component) {
               return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
             }
@@ -146,7 +146,7 @@ export const DefaultRenderer: Renderer = {
               if (!editor) {
                 return html`No editor found for property`
               }
-              const component = components[editor.value]
+              const component = components.components[editor.value]
               if (!component) {
                 return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
               }

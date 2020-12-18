@@ -22,7 +22,7 @@ describe('components', () => {
       })
 
       // when
-      enumSelect.loadChoices({ focusNode, property, updateComponentState })
+      enumSelect.loadChoices({ focusNode, property, updateComponentState, componentState: {} })
 
       // then
       expect(updateComponentState.firstCall.lastArg).to.containSubset({
@@ -54,7 +54,7 @@ describe('components', () => {
       property.pointer.namedNode('baz').addOut(rdf.type, owl.Thing)
 
       // when
-      instancesSelect.loadChoices({ focusNode, property, updateComponentState })
+      instancesSelect.loadChoices({ focusNode, property, updateComponentState, componentState: {} })
 
       // then
       expect(updateComponentState.firstCall.lastArg).to.containSubset({

@@ -1,34 +1,39 @@
 import produce from 'immer'
 import { NamedNode } from 'rdf-js'
-import type { ComponentsState, ComponentState, RenderFunc, Decorator, Component } from './index'
+import type { ComponentsState, ComponentState, RenderFunc, ComponentDecorator, Component } from './index'
 
 type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
+
+export function decorate(decorators: ComponentsState['decorators'], component: _Component): _Component {
+  const applicable = decorators.filter(({ applicableTo }) => applicableTo(component))
+  return applicable.reduce((component, { decorate }) => decorate(component), component)
+}
 
 export default {
   loading(components: ComponentsState, editor: NamedNode): ComponentsState {
     return produce(components, (draft) => {
-      draft[editor.value].loading = true
+      draft.components[editor.value].loading = true
     })
   },
   loadingFailed(components: ComponentsState, { editor, reason }: { editor: NamedNode; reason: string }): ComponentsState {
     return produce(components, (draft) => {
-      draft[editor.value].loading = false
-      draft[editor.value].loadingFailed = {
+      draft.components[editor.value].loading = false
+      draft.components[editor.value].loadingFailed = {
         reason,
       }
     })
   },
   loaded(components: ComponentsState, { editor, render } : {editor: NamedNode; render: RenderFunc<any, any, any>}): ComponentsState {
     return produce(components, (draft) => {
-      draft[editor.value].loading = false
-      draft[editor.value].render = render
-      draft[editor.value].loadingFailed = undefined
+      draft.components[editor.value].loading = false
+      draft.components[editor.value].render = render
+      draft.components[editor.value].loadingFailed = undefined
     })
   },
   removeComponents(components: ComponentsState, toRemove: NamedNode[]) {
     return produce(components, (newComponents) => {
       for (const editor of toRemove) {
-        delete newComponents[editor.value]
+        delete newComponents.components[editor.value]
       }
     })
   },
@@ -37,28 +42,29 @@ export default {
       const addedArray = Array.isArray(toAdd) ? toAdd : Object.values(toAdd)
 
       for (const component of addedArray) {
-        const previous = components[component.editor.value]
+        const previous = components.components[component.editor.value]
         const shouldAddComponent = !previous ||
         (previous.lazyRender && component.lazyRender && previous.lazyRender !== component.lazyRender) ||
         (previous.render && component.render && previous.render !== component.render) ||
         ((previous.render && !component.render) || (previous.lazyRender || !component.lazyRender))
 
         if (shouldAddComponent) {
-          newComponents[component.editor.value] = {
-            ...component,
+          newComponents.components[component.editor.value] = {
+            ...decorate(components.decorators, component),
             loading: false,
           }
         }
       }
     })
   },
-  decorate<T extends Component = Component>(components: ComponentsState, decorator: Decorator<T>) {
-    return produce(components, (decorated) => {
-      for (const [key, component] of Object.entries(components)) {
+  decorate<T extends Component = Component>(components: ComponentsState, decorator: ComponentDecorator<T>) {
+    return produce(components, (draft) => {
+      draft.decorators.push(decorator)
+      for (const [key, component] of Object.entries(components.components)) {
         if (decorator.applicableTo(component)) {
-          decorated[key] = {
+          draft.components[key] = {
             ...component,
-            ...decorator.decorate(component as unknown as T),
+            ...decorate(draft.decorators, component),
           }
         }
       }

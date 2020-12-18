@@ -22,7 +22,7 @@ export const textArea: RenderSingleEditor = function ({ value }, { update }) {
 
 export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { focusNode, value, property }, { update, updateComponentState }) {
   if (!value.componentState.choices) {
-    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
 
   const choices = value.componentState.choices || []
@@ -48,7 +48,7 @@ export const datePicker = (type: string): RenderSingleEditor => function ({ valu
 
 export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { focusNode, property, value }, { update, updateComponentState }) {
   if (!value.componentState.instances) {
-    this.loadChoices({ focusNode, property: property.shape, updateComponentState })
+    this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
 
   const choices = value.componentState.instances || []
