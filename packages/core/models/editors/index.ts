@@ -25,7 +25,7 @@ export interface SingleEditor<T extends Term = Term> extends EditorMatcher {
   match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
 }
 
-export interface SingleEditorDecorator<T extends Term = Term> extends EditorMatcher {
+export interface MatcherDecorator<T extends Term = Term> extends EditorMatcher {
   decorate<TEditor extends SingleEditor<T> | MultiEditor>(matcher: TEditor): TEditor['match']
 }
 
@@ -46,7 +46,7 @@ export interface EditorsState {
   multiEditors: EditorMap<Editor<MultiEditor>>
   matchSingleEditors: typeof matchSingleEditors
   matchMultiEditors: typeof matchMultiEditors
-  decorators: EditorMap<SingleEditorDecorator[]>
+  decorators: EditorMap<MatcherDecorator[]>
 }
 
 export const editors = createModel(({

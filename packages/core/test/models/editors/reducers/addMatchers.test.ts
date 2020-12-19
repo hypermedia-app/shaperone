@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import ns from '@rdf-esm/namespace'
-import { quad } from '@rdf-esm/data-model'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import { addMatchers } from '../../../../models/editors/reducers/addMatchers'
 import { testState } from '../util'
@@ -41,11 +40,10 @@ describe('core/models/editors/reducers/addMatchers', () => {
 
   it('add editor to single editors if it is not dash:MultiEditor', () => {
     // given
-    const metadata = [
-      quad(ex.Foo, rdf.type, dash.Editor),
-    ]
     const before = testState({
-      metadata,
+      metadata(ptr) {
+        return ptr.node(ex.Foo).addOut(rdf.type, dash.Editor)
+      },
     })
     const editor = {
       term: ex.Foo,
@@ -61,11 +59,10 @@ describe('core/models/editors/reducers/addMatchers', () => {
 
   it('add editor to multi editors if it is type dash:MultiEditor', () => {
     // given
-    const metadata = [
-      quad(ex.Foo, rdf.type, dash.MultiEditor),
-    ]
     const before = testState({
-      metadata,
+      metadata(ptr) {
+        return ptr.node(ex.Foo).addOut(rdf.type, dash.MultiEditor)
+      },
     })
     const editor = {
       term: ex.Foo,
@@ -77,5 +74,50 @@ describe('core/models/editors/reducers/addMatchers', () => {
 
     // then
     expect(after.multiEditors).to.have.property(ex.Foo.value)
+  })
+
+  it('applies decorators for added single editor', () => {
+    // given
+    const decoratedMatch = (m: any) => m
+    const before = testState({
+      decorators: [{
+        term: dash.FooEditor,
+        decorate: () => decoratedMatch,
+      }],
+    })
+    const editor = {
+      term: dash.FooEditor,
+      match: () => 1,
+    }
+
+    // then
+    const after = addMatchers(before, { [ex.Foo.value]: editor })
+
+    // then
+    expect(after.singleEditors[dash.FooEditor.value]).to.have.property('match', decoratedMatch)
+  })
+
+  it('applies decorators for added multi editor', () => {
+    // given
+    const decoratedMatch = (m: any) => m
+    const before = testState({
+      metadata(ptr) {
+        return ptr.node(dash.FooEditor).addOut(rdf.type, dash.MultiEditor)
+      },
+      decorators: [{
+        term: dash.FooEditor,
+        decorate: () => decoratedMatch,
+      }],
+    })
+    const editor = {
+      term: dash.FooEditor,
+      match: () => 1,
+    }
+
+    // then
+    const after = addMatchers(before, { [ex.Foo.value]: editor })
+
+    // then
+    expect(after.multiEditors[dash.FooEditor.value]).to.have.property('match', decoratedMatch)
   })
 })
