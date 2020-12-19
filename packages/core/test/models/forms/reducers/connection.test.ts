@@ -10,11 +10,24 @@ describe('core/models/forms/reducers/connection', () => {
       const form = Symbol('test')
 
       // when
-      const after = connect(before, form)
+      const after = connect(before, { form })
 
       // then
       expect(after.has(form))
       expect(after.get(form)).to.be.a('Object')
+    })
+
+    it('initializes languages', () => {
+      // given
+      const before = new Map()
+      const form = Symbol('test')
+
+      // when
+      const after = connect(before, { form, languages: ['en'] })
+
+      // then
+      expect(after.has(form))
+      expect(after.get(form)?.languages).to.contain('en')
     })
   })
 

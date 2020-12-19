@@ -162,7 +162,7 @@ export const DefaultRenderer: Renderer = {
               }
 
               return component.render(
-                { focusNode, property, value },
+                { form: state, focusNode, property, value },
                 { update, focusOnObjectNode, updateComponentState },
               )
             }

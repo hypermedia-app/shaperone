@@ -60,10 +60,15 @@ export interface FocusNodeState {
   groups: PropertyGroupState[]
 }
 
-export interface FormState {
+export interface FormSettings {
+  shouldEnableEditorChoice: ShouldEnableEditorChoice
+  languages: string[]
+  labelProperties: NamedNode[]
+}
+
+export interface FormState extends FormSettings {
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
-  shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
 export type State = Map<symbol, FormState>

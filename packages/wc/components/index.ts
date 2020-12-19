@@ -20,7 +20,7 @@ export const textArea: RenderSingleEditor = function ({ value }, { update }) {
   return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object?.value}</textarea>`
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { focusNode, value, property }, { update, updateComponentState }) {
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, focusNode, value, property }, { update, updateComponentState }) {
   if (!value.componentState.choices) {
     this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
@@ -35,7 +35,7 @@ export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSe
   return html`<select @input="${updateHandler}" required>
         <option value=""></option>
         ${repeat(choices, choice => html`<option ?selected="${choice.value === value.object?.value}" value="${choice}">
-            ${this.label(choice)}
+            ${this.label(choice, form)}
         </option>`)}
     </select>`
 }
@@ -46,7 +46,7 @@ export const datePicker = (type: string): RenderSingleEditor => function ({ valu
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { focusNode, property, value }, { update, updateComponentState }) {
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, focusNode, property, value }, { update, updateComponentState }) {
   if (!value.componentState.instances) {
     this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
@@ -56,7 +56,7 @@ export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (th
   return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1].term)}" required>
         <option value=""></option>
         ${repeat(choices, choice => html`<option ?selected="${choice.term.equals(value.object?.term)}" value="${choice}">
-            ${this.label(choice)}
+            ${this.label(choice, form)}
         </option>`)}
     </select>`
 }

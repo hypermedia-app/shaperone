@@ -9,6 +9,7 @@ import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import $rdf from '@rdf-esm/dataset'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 
 export const sinon = _sinon
 
@@ -33,6 +34,11 @@ export function editorTestParams<T extends Record<string, any> = Record<string, 
 
   return {
     params: {
+      form: {
+        languages: ['en'],
+        labelProperties: [rdfs.label],
+        shouldEnableEditorChoice: () => true,
+      },
       focusNode: focusNode || clownface({ dataset: $rdf.dataset() }).blankNode(),
       property: {
         canAdd: true,

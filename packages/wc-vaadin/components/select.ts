@@ -7,6 +7,7 @@ import { EnumSelect, EnumSelectEditor, InstancesSelect, InstancesSelectEditor } 
 import { Term } from 'rdf-js'
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
+import { FormSettings } from '@hydrofoil/shaperone-core/models/forms'
 
 interface Choice {
   term: Term
@@ -30,10 +31,10 @@ function renderer(choices: Choice[], value: Term | undefined) {
   }
 }
 
-function select(this: EnumSelectEditor | InstancesSelectEditor, value: Term | undefined, pointers: GraphPointer[] | undefined, actions: Pick<SingleEditorActions, 'update'>) {
+function select(this: EnumSelectEditor | InstancesSelectEditor, form: FormSettings, value: Term | undefined, pointers: GraphPointer[] | undefined, actions: Pick<SingleEditorActions, 'update'>) {
   const choices = pointers?.map(choice => ({
     term: choice.term,
-    label: this.label(choice),
+    label: this.label(choice, form),
   })) || []
 
   const selectValue = choices.find(choice => choice.term.equals(value))?.label
@@ -46,18 +47,18 @@ function select(this: EnumSelectEditor | InstancesSelectEditor, value: Term | un
   return html`<vaadin-select .renderer="${renderer(choices, value)}" .value="${selectValue}" @change="${onChange}"></vaadin-select>`
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { focusNode, value, property }, { updateComponentState, ...actions }) {
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, focusNode, value, property }, { updateComponentState, ...actions }) {
   if (!value.componentState.choices) {
     this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
 
-  return select.call(this, value.object?.term, value.componentState.choices, actions)
+  return select.call(this, form, value.object?.term, value.componentState.choices, actions)
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { focusNode, value, property }, { updateComponentState, ...actions }) {
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, focusNode, value, property }, { updateComponentState, ...actions }) {
   if (!value.componentState.instances) {
     this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
   }
 
-  return select.call(this, value.object?.term, value.componentState.instances, actions)
+  return select.call(this, form, value.object?.term, value.componentState.instances, actions)
 }

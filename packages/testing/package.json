@@ -5,6 +5,7 @@
   "dependencies": {
     "@hydrofoil/shaperone-core": "*",
     "@rdf-esm/dataset": "^0.5.1",
+    "@tpluscode/rdf-ns-builders": "^0.4.0",
     "clownface": "^1.1.0",
     "sinon": "^9.2.1"
   }

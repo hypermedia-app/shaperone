@@ -1,9 +1,9 @@
 import { PropertyShape } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
-import { NamedNode } from 'rdf-js'
-import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
+import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import { SingleEditorComponent, UpdateComponentState } from './models/components'
 import { FocusNode } from './index'
+import { FormSettings } from './models/forms'
 
 type CoreComponents<T> = Omit<T, 'render' | 'lazyRender'>
 
@@ -13,26 +13,22 @@ export interface EnumSelect {
 }
 
 export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect, any> {
-  labelProperties: NamedNode[]
-  language: string[]
   loadChoices(params: {
     focusNode: FocusNode
     property: PropertyShape
     componentState: EnumSelect
     updateComponentState: UpdateComponentState<EnumSelect>
   }): void
-  label(choice: GraphPointer): string
+  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
 }
 
 export const enumSelect: CoreComponents<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
-  language: [],
-  labelProperties: [rdfs.label],
   async loadChoices({ property, updateComponentState }) {
     updateComponentState({ choices: property.pointer.node(property.in).toArray() })
   },
-  label(choice) {
-    return choice.out(this.labelProperties, { language: [...this.language, ''] }).values[0] || choice.value
+  label(choice, { languages, labelProperties }) {
+    return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
   },
 }
 
@@ -42,21 +38,17 @@ export interface InstancesSelect {
 }
 
 export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSelect, any> {
-  labelProperties: NamedNode[]
-  language: string[]
   loadChoices(params: {
     focusNode: FocusNode
     property: PropertyShape
     componentState: InstancesSelect
     updateComponentState: UpdateComponentState<InstancesSelect>
   }): void
-  label(choice: GraphPointer): string
+  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
 }
 
 export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
   editor: dash.InstancesSelectEditor,
-  language: [],
-  labelProperties: [rdfs.label],
   async loadChoices({ property, updateComponentState }) {
     updateComponentState({
       instances: property.pointer.any()
@@ -64,7 +56,7 @@ export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
         .toArray(),
     })
   },
-  label(choice) {
-    return choice.out(this.labelProperties, { language: [...this.language, ''] }).values[0] || choice.value
+  label(choice, { languages, labelProperties }) {
+    return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
   },
 }
