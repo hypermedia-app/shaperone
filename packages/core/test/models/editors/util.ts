@@ -9,7 +9,7 @@ interface Initializer {
   multiEditors?: MultiEditor[]
 }
 
-function mapEditors<T extends SingleEditor | MultiEditor>(editors: Record<string, T>, editor: T) {
+export function mapEditors<T extends SingleEditor | MultiEditor>(editors: Record<string, T>, editor: T) {
   return {
     ...editors,
     [editor.term.value]: editor,
