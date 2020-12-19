@@ -8,7 +8,7 @@ import $rdf from 'rdf-ext'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer/DefaultStrategy'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
-import { instanceSelector } from '@hydrofoil/shaperone-hydra/components'
+import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
 import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 
@@ -20,7 +20,7 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
 
 editors.addMetadata($rdf.dataset([...metadata()]))
 editors.addMatchers({ matcher })
-editors.decorate(instanceSelector.matcher)
+editors.decorate(instancesSelector.matcher)
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native
@@ -33,7 +33,7 @@ export const selectComponents = (() => {
     const modules = componentSets[name]
     components.removeComponents(Object.values(currentComponents).map(m => m.editor))
     components.pushComponents(modules)
-    components.decorate(instanceSelector.decorator())
+    components.decorate(instancesSelector.decorator())
     currentComponents = modules
   }
 })()

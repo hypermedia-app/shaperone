@@ -10,15 +10,18 @@
   "scripts": {
     "prepack": "tsc"
   },
-  "peerDependencies": {
-    "alcaeus": "^1"
-  },
   "dependencies": {
     "@hydrofoil/shaperone-core": "^0.4.1",
-    "@tpluscode/rdf-ns-builders": "^0.4.0"
+    "@tpluscode/rdf-ns-builders": "^0.4.0",
+    "alcaeus": "^1"
   },
   "devDependencies": {
-    "alcaeus": "^1.0.1"
+    "@open-wc/testing": "^2.5.18",
+    "@rdf-esm/dataset": "^0.5.1",
+    "@rdfine/hydra": "^0.6.4",
+    "@shaperone/testing": "0.0.0",
+    "@tpluscode/rdfine": "^0.5.19",
+    "clownface": "^1"
   },
   "repository": {
     "type": "git",

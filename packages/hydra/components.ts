@@ -1,1 +1,1 @@
-export * as instanceSelector from './lib/components/instanceSelector'
+export * as instancesSelector from './lib/components/instancesSelector'

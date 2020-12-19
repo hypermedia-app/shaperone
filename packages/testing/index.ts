@@ -10,8 +10,11 @@ import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import $rdf from '@rdf-esm/dataset'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
+import namespace from '@rdf-esm/namespace'
 
 export const sinon = _sinon
+
+export const ex = namespace('http://example.com/')
 
 interface EditorTestParams<T> {
   focusNode?: FocusNode

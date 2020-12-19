@@ -1,18 +1,18 @@
 import type { InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import type { ComponentDecorator } from '@hydrofoil/shaperone-core/models/components'
-import type { SingleEditorDecorator } from '@hydrofoil/shaperone-core/models/editors'
+import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors'
 import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 import type { HydraClient } from 'alcaeus/alcaeus'
 import type { Collection } from 'alcaeus'
 
-export const matcher: SingleEditorDecorator = {
+export const matcher: MatcherDecorator = {
   term: dash.InstancesSelectEditor,
   decorate({ match }) {
-    return function (shape, property) {
-      if (shape.pointer.has(hydra.collection).terms.length) {
+    return function (shape, value) {
+      if (shape.pointer.out(hydra.collection).term?.termType === 'NamedNode') {
         return 1
       }
-      return match(shape, property)
+      return match(shape, value)
     }
   },
 }
