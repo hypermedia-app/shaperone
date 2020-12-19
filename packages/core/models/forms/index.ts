@@ -17,6 +17,7 @@ import * as multiEditors from './reducers/multiEditors'
 import { FocusNode } from '../../index'
 import type { MultiEditor, SingleEditorMatch } from '../editors/index'
 import { createFocusNodeState } from './reducers/replaceFocusNodes'
+import editorsEffects from './effects/editors'
 import shapesEffects from './effects/shapes'
 import resourcesEffects from './effects/resources'
 import type { Store } from '../../state'
@@ -87,6 +88,7 @@ export const forms = createModel({
   reducers,
   effects(store: Store) {
     return {
+      ...editorsEffects(store),
       ...shapesEffects(store),
       ...resourcesEffects(store),
       ...effects(store),
