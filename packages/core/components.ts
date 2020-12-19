@@ -26,7 +26,7 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect, any>
 
 export const enumSelect: CoreComponents<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
-  language: [...navigator.languages],
+  language: [],
   labelProperties: [rdfs.label],
   async loadChoices({ property, updateComponentState }) {
     updateComponentState({ choices: property.pointer.node(property.in).toArray() })
@@ -55,7 +55,7 @@ export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSe
 
 export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
   editor: dash.InstancesSelectEditor,
-  language: [...navigator.languages],
+  language: [],
   labelProperties: [rdfs.label],
   async loadChoices({ property, updateComponentState }) {
     updateComponentState({

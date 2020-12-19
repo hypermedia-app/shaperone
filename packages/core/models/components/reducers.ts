@@ -4,7 +4,7 @@ import type { ComponentsState, ComponentState, RenderFunc, ComponentDecorator, C
 
 type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 
-export function decorate(decorators: ComponentsState['decorators'], component: _Component): _Component {
+export function decorate<T extends _Component>(decorators: ComponentDecorator<T>[], component: T): T {
   const applicable = decorators.filter(({ applicableTo }) => applicableTo(component))
   return applicable.reduce((component, { decorate }) => decorate(component), component)
 }
