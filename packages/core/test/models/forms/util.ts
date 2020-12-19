@@ -1,17 +1,20 @@
 import deepmerge from 'deepmerge'
 import * as sinon from 'sinon'
-import type { GraphPointer } from 'clownface'
+import $rdf from 'rdf-ext'
+import type { AnyPointer, GraphPointer } from 'clownface'
 import { PropertyShapeMixin } from '@rdfine/shacl'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import clownface from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
 import * as Form from '../../../models/forms/index'
 import { ResourceState } from '../../../models/resources/index'
-import { MultiEditor, SingleEditor } from '../../../models/editors/index'
+import { EditorsState, MultiEditor, SingleEditor } from '../../../models/editors/index'
 import { FocusNode } from '../../../index'
 import { Dispatch, State, Store } from '../../../state'
 import { ChangeNotifier } from '../../../models/resources/lib/notify'
 import { ShapeState } from '../../../models/shapes'
+import { mapEditors } from '../editors/util'
+import { matchMultiEditors, matchSingleEditors } from '../../../models/editors/lib/match'
 
 export type RecursivePartial<T> = {
   [P in keyof T]?:
@@ -28,11 +31,11 @@ interface Initializer {
 
 let num = 0
 
-export function testState(initializer: Initializer = {}) {
+export function testState(initializer: Initializer = {}, addToState?: Form.State) {
   num += 1
   const form = Symbol(num)
 
-  const state = <Form.State> new Map()
+  const state = addToState || <Form.State> new Map()
 
   state.set(form, deepmerge<Form.FormState>({
     focusStack: [],
@@ -57,6 +60,36 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
   return {
     term,
     match: sinon.spy(),
+  }
+}
+
+interface EditorsInitializer {
+  singleEditors?: SingleEditor[]
+  multiEditors?: MultiEditor[]
+  metadata?: (metadata: AnyPointer) => AnyPointer
+  matchSingleEditors?: (...args: Parameters<typeof matchSingleEditors>) => RecursivePartial<ReturnType<typeof matchSingleEditors>>
+  matchMultiEditors?: (...args: Parameters<typeof matchMultiEditors>) => RecursivePartial<ReturnType<typeof matchMultiEditors>>
+}
+
+export function testEditorsState({
+  metadata = p => p,
+  matchSingleEditors = () => [],
+  matchMultiEditors = () => [],
+  ...initialize
+}: EditorsInitializer = {}): EditorsState {
+  const singleEditors = initialize.singleEditors?.reduce(mapEditors, {}) || {}
+  const multiEditors = initialize.multiEditors?.reduce(mapEditors, {}) || {}
+
+  return {
+    singleEditors,
+    multiEditors,
+    allEditors: {
+      ...singleEditors,
+      ...multiEditors,
+    },
+    metadata: metadata(clownface({ dataset: $rdf.dataset() })),
+    matchSingleEditors: sinon.stub().callsFake(matchSingleEditors),
+    matchMultiEditors: sinon.stub().callsFake(matchMultiEditors),
   }
 }
 
