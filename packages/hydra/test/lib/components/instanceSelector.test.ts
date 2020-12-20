@@ -97,28 +97,12 @@ describe('lib/components/instancesSelector.ts', () => {
         loadChoices: sinon.stub(),
         label: sinon.stub(),
         render: sinon.stub(),
+        loadInstance: sinon.stub(),
       }
       decorated = instancesSelector.decorator(client).decorate(component)
     })
 
     describe('loadChoices', () => {
-      it('does not call API when already loading', () => {
-        // given
-        const property = hydraCollectionProperty()
-
-        // when
-        decorated.loadChoices({
-          focusNode,
-          property,
-          componentState: {
-            loading: true,
-          },
-        })
-
-        // then
-        expect(client.loadResource).not.to.have.been.called
-      })
-
       it('sets loading state when calling the API', () => {
         // given
         const property = hydraCollectionProperty()
@@ -127,7 +111,6 @@ describe('lib/components/instancesSelector.ts', () => {
         decorated.loadChoices({
           focusNode,
           property,
-          componentState: {},
         })
 
         // then
@@ -153,7 +136,6 @@ describe('lib/components/instancesSelector.ts', () => {
         await decorated.loadChoices({
           focusNode,
           property,
-          componentState: {},
         })
 
         // then

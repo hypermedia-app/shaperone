@@ -20,6 +20,7 @@ import { createFocusNodeState } from './reducers/replaceFocusNodes'
 import editorsEffects from './effects/editors'
 import shapesEffects from './effects/shapes'
 import resourcesEffects from './effects/resources'
+import componentsEffects from './effects/components'
 import type { Store } from '../../state'
 import type { TComponentState } from '../components'
 
@@ -97,6 +98,7 @@ export const forms = createModel({
       ...editorsEffects(store),
       ...shapesEffects(store),
       ...resourcesEffects(store),
+      ...componentsEffects(store),
       ...effects(store),
     }
   },

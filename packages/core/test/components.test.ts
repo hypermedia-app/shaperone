@@ -85,7 +85,7 @@ describe('components', () => {
       property.pointer.namedNode('baz').addOut(rdf.type, owl.Thing)
 
       // when
-      const choices = await instancesSelect.loadChoices({ focusNode, property, componentState: {} })
+      const choices = await instancesSelect.loadChoices({ focusNode, property })
 
       // then
       expect(choices).to.containSubset([{

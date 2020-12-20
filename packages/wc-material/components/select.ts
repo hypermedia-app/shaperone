@@ -17,7 +17,7 @@ import { FormSettings } from '@hydrofoil/shaperone-core/models/forms'
 function select(this: EnumSelectEditor | InstancesSelectEditor,
   form: FormSettings, value: Term | undefined,
   pointers: [GraphPointer, string][] | undefined,
-  actions: Pick<SingleEditorActions, 'update'>) {
+  actions: Pick<SingleEditorActions<EnumSelect>, 'update'>) {
   const choices = pointers?.map(([c, label]) => ({
     term: c.term,
     label,

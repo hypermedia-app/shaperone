@@ -4170,10 +4170,10 @@
     "@vaadin/vaadin-material-styles" "^1.2.0"
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
-"@vaadin/vaadin-combo-box@^5.0.9", "@vaadin/vaadin-combo-box@^5.2.0", "@vaadin/vaadin-combo-box@^5.4.0":
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-combo-box/-/vaadin-combo-box-5.4.2.tgz#fb359332a99bffd71a3882349ba62062fe116022"
-  integrity sha512-iW0u+vJtWwPxi4L4mSY636X4VL+Jj76RZK8K2T0ngRUQy9fUt+3Gyoiu6ckCDobUldFCjWeIaBL32FRtdhDYkQ==
+"@vaadin/vaadin-combo-box@^5.0.9", "@vaadin/vaadin-combo-box@^5.2.0", "@vaadin/vaadin-combo-box@^5.4.0", "@vaadin/vaadin-combo-box@^5.4.7":
+  version "5.4.7"
+  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-combo-box/-/vaadin-combo-box-5.4.7.tgz#e254b5eeda3c5324cfafe9042739832bfd93d802"
+  integrity sha512-1ETpu5okrc8HFr7zOtQP1i4o1ySYheWhhInic2XdhUfB9Lvj8MS6iY+BLcQupOYHD8OwS8wvpH2hKxUe1ST9jw==
   dependencies:
     "@polymer/iron-a11y-announcer" "^3.0.0"
     "@polymer/iron-a11y-keys-behavior" "^3.0.0"
@@ -4189,20 +4189,20 @@
     "@vaadin/vaadin-text-field" "^2.8.0"
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
-"@vaadin/vaadin-context-menu@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-context-menu/-/vaadin-context-menu-4.4.0.tgz#0653e8f9a65275e8d7715d8ad2b7d3aa01617275"
-  integrity sha512-q6S7UkNkuf5/dEDoV4UHq79j0+R9I79znDqO6gVk4cPv7Iy4cl79AnJHGqS4ippuVv4P7/3VUDz+SGNbXDk36A==
+"@vaadin/vaadin-context-menu@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-context-menu/-/vaadin-context-menu-4.5.0.tgz#c2b62925a0d91a45da7d14a06fa9c2050366648c"
+  integrity sha512-iYQ+xpfWBDV+z7zEXRAoggs+SGNE08KpQ1/LAqRBGvrsVaTCF0CqC845DMQ1mcGd26IqpyABv8JvM4a3XtNR0A==
   dependencies:
     "@polymer/iron-media-query" "^3.0.0"
     "@polymer/polymer" "^3.0.0"
-    "@vaadin/vaadin-element-mixin" "^2.3.1"
-    "@vaadin/vaadin-item" "^2.2.0"
-    "@vaadin/vaadin-list-box" "^1.3.0"
+    "@vaadin/vaadin-element-mixin" "^2.4.1"
+    "@vaadin/vaadin-item" "^2.3.0"
+    "@vaadin/vaadin-list-box" "^1.4.0"
     "@vaadin/vaadin-lumo-styles" "^1.6.0"
     "@vaadin/vaadin-material-styles" "^1.3.2"
-    "@vaadin/vaadin-overlay" "^3.4.0"
-    "@vaadin/vaadin-themable-mixin" "^1.5.2"
+    "@vaadin/vaadin-overlay" "^3.5.0"
+    "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
 "@vaadin/vaadin-control-state-mixin@^2.1.3", "@vaadin/vaadin-control-state-mixin@^2.2.1", "@vaadin/vaadin-control-state-mixin@^2.2.2":
   version "2.2.4"
@@ -4291,7 +4291,7 @@
     "@vaadin/vaadin-overlay" "^3.5.0"
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
-"@vaadin/vaadin-element-mixin@^2.3.0", "@vaadin/vaadin-element-mixin@^2.3.1", "@vaadin/vaadin-element-mixin@^2.4.0", "@vaadin/vaadin-element-mixin@^2.4.1":
+"@vaadin/vaadin-element-mixin@^2.3.0", "@vaadin/vaadin-element-mixin@^2.4.0", "@vaadin/vaadin-element-mixin@^2.4.1":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@vaadin/vaadin-element-mixin/-/vaadin-element-mixin-2.4.1.tgz#af65828a33169cb45ef2889aa7efe62a5bcd0db4"
   integrity sha512-Ie7fwcOmg1C71UFuRwcuo2GKS+HbKvLedfs3hGdICiuwJ56cQvQsbIlxa4utKWWCVlf6yuSvMrny8efPPenfTA==
@@ -4300,7 +4300,7 @@
     "@vaadin/vaadin-development-mode-detector" "^2.0.0"
     "@vaadin/vaadin-usage-statistics" "^2.1.0"
 
-"@vaadin/vaadin-item@^2.2.0", "@vaadin/vaadin-item@^2.3.0":
+"@vaadin/vaadin-item@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@vaadin/vaadin-item/-/vaadin-item-2.3.0.tgz#0323e4cb228c45eb7a786bf25492d2d08cf5aadd"
   integrity sha512-hG1MQ8cLaFlsoqSZFm8bqXrHxMry6vtkJrpiXArxpaZXMwPkJnfrUT3D6Qm/NG/rZHvOzZa5U/1k5+dyledlHA==
@@ -4311,7 +4311,7 @@
     "@vaadin/vaadin-material-styles" "^1.1.0"
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
-"@vaadin/vaadin-list-box@^1.3.0", "@vaadin/vaadin-list-box@^1.4.0":
+"@vaadin/vaadin-list-box@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@vaadin/vaadin-list-box/-/vaadin-list-box-1.4.0.tgz#1d387b9f126f233259baeba5f23a2326d0117c1b"
   integrity sha512-G/BT1CYmZ+8AmQN2koNAxdPmw9iQkYxurN0V5VV/W0/rTfZY54hSpaIOIUpzXvkyS/oayClC3Cpe7bfR8W5Ueg==
@@ -4349,20 +4349,20 @@
     "@polymer/polymer" "^3.0.0"
 
 "@vaadin/vaadin-menu-bar@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-menu-bar/-/vaadin-menu-bar-1.1.0.tgz#12510a4cacf2170f2d00f78a427638f07dd6f7e9"
-  integrity sha512-4CgN12YJdYDsqENa73JaxSw+5hKAeM54b80HYBe5QVa0skIt1pSJZnUhGZ9Gkw/cW2xjtnwXI2lYcOglyUt4WA==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-menu-bar/-/vaadin-menu-bar-1.2.1.tgz#7cb5029d6876944b3f92b360601a8878f9d875f9"
+  integrity sha512-gewSeZrWfCDRp05mpe8GtdZ9ko96QWaTmn9bFQdLe52MiMD9hkLhbcPNOduzxO1DS2cz5XPxN4nZT25WqWxQCg==
   dependencies:
     "@polymer/iron-resizable-behavior" "^3.0.0"
     "@polymer/polymer" "^3.0.0"
-    "@vaadin/vaadin-button" "^2.3.0"
-    "@vaadin/vaadin-context-menu" "^4.4.0"
-    "@vaadin/vaadin-element-mixin" "^2.3.0"
+    "@vaadin/vaadin-button" "^2.4.0"
+    "@vaadin/vaadin-context-menu" "^4.5.0"
+    "@vaadin/vaadin-element-mixin" "^2.4.1"
     "@vaadin/vaadin-lumo-styles" "^1.6.0"
     "@vaadin/vaadin-material-styles" "^1.3.2"
-    "@vaadin/vaadin-themable-mixin" "^1.5.0"
+    "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
-"@vaadin/vaadin-overlay@^3.4.0", "@vaadin/vaadin-overlay@^3.5.0":
+"@vaadin/vaadin-overlay@^3.5.0":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@vaadin/vaadin-overlay/-/vaadin-overlay-3.5.1.tgz#c4391b3c6c1f7a512b0a6f0dd96f11480feed402"
   integrity sha512-0g+poK/BXF92L2lSKrHMY5rcKzUxCBZNzP/NDwgi4a86nbjL7CAKKZdno7Yl+j8UsTR76nOEw4fAYTFi86B0qg==
@@ -4405,9 +4405,9 @@
     "@vaadin/vaadin-themable-mixin" "^1.2.1"
 
 "@vaadin/vaadin-text-field@^2.4.8", "@vaadin/vaadin-text-field@^2.6.2", "@vaadin/vaadin-text-field@^2.8.0", "@vaadin/vaadin-text-field@^2.8.1":
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-text-field/-/vaadin-text-field-2.8.1.tgz#d09db22e84eca09a783ff2abfd6491debd648398"
-  integrity sha512-SD+D9fzkLBdVwCJx451HuGqUTHxQKjl82rPu2wqF5VlDsW2TiCcQHfvQYFVJH65ynFVok1dyJQvQgaY4qtnwuQ==
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-text-field/-/vaadin-text-field-2.8.2.tgz#163c6ba89caafbc3d1fea0c491a26c0ed3045ffb"
+  integrity sha512-Ssgb/oqc1rtnMCD3TK13Hn0zfpiyVbY6Sddov4213HCH0/x3lI1/CG13MlN6Kwn4tPLliwwMJG1qm1w96ANxYQ==
   dependencies:
     "@polymer/polymer" "^3.0.0"
     "@vaadin/vaadin-control-state-mixin" "^2.2.1"
@@ -4416,7 +4416,7 @@
     "@vaadin/vaadin-material-styles" "^1.3.2"
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
-"@vaadin/vaadin-themable-mixin@^1.2.0", "@vaadin/vaadin-themable-mixin@^1.2.1", "@vaadin/vaadin-themable-mixin@^1.4.4", "@vaadin/vaadin-themable-mixin@^1.5.0", "@vaadin/vaadin-themable-mixin@^1.5.2", "@vaadin/vaadin-themable-mixin@^1.6.1":
+"@vaadin/vaadin-themable-mixin@^1.2.0", "@vaadin/vaadin-themable-mixin@^1.2.1", "@vaadin/vaadin-themable-mixin@^1.4.4", "@vaadin/vaadin-themable-mixin@^1.5.2", "@vaadin/vaadin-themable-mixin@^1.6.1":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@vaadin/vaadin-themable-mixin/-/vaadin-themable-mixin-1.6.1.tgz#febaeea211a23e3a9f060345252bfe101284a469"
   integrity sha512-UXjOlEfMEk/QxpBjpiO0QTjPOSiO88bhhtV+0UTfpqk8ILvJYO+6vbwcja33xY5Wi9sTAXtHixAjM0LthyXglQ==

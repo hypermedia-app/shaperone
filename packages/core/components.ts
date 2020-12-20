@@ -35,14 +35,18 @@ export const enumSelect: CoreComponents<EnumSelectEditor> = {
 export interface InstancesSelect {
   ready?: boolean
   instances?: [GraphPointer, string][]
+  selectedInstance?: [GraphPointer, string]
   loading?: boolean
 }
 
 export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSelect, any> {
+  loadInstance(params: {
+    property: PropertyShape
+    value: GraphPointer
+  }): Promise<GraphPointer | null>
   loadChoices(params: {
     focusNode: FocusNode
     property: PropertyShape
-    componentState: InstancesSelect
   }): Promise<GraphPointer[]>
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
 }
@@ -55,7 +59,7 @@ export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
         loading: true,
       })
 
-      const pointers = await this.loadChoices({ focusNode, property: property.shape, componentState })
+      const pointers = await this.loadChoices({ focusNode, property: property.shape })
       const instances = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
         .sort(([, left], [, right]) => left.localeCompare(right))
 
@@ -65,6 +69,9 @@ export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
         loading: false,
       })
     }
+  },
+  async loadInstance({ property, value }) {
+    return property.pointer.node(value)
   },
   async loadChoices({ property }) {
     return property.pointer.any()

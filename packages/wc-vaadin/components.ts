@@ -25,14 +25,32 @@ export const textArea: Lazy<SingleEditorComponent> = {
 export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   lazyRender() {
-    return import('./components/select').then(m => m.enumSelect)
+    return import('./components/enumSelect').then(m => m.enumSelect)
   },
 }
 
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
+  async init({ form, updateComponentState, property, value }) {
+    if (value.object && !value.object.out().terms.length) {
+      try {
+        const instance = await this.loadInstance({ property: property.shape, value: value.object })
+        if (instance) {
+          property.shape.pointer
+            .node(value.object)
+            .addOut(form.labelProperties, instance.out(form.labelProperties))
+        }
+      } catch (e) {
+        // failed to dereference existing value
+      }
+    }
+
+    updateComponentState({
+      ready: true,
+    })
+  },
   lazyRender() {
-    return import('./components/select').then(m => m.instancesSelect)
+    return import('./components/instancesSelect').then(m => m.instancesSelect)
   },
 }
 

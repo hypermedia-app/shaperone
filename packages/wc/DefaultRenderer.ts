@@ -168,6 +168,7 @@ export const DefaultRenderer: Renderer = {
                   property,
                   componentState: value.componentState,
                   updateComponentState,
+                  value,
                 })
                 return html`Initialising component`
               }

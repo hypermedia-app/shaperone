@@ -29,6 +29,15 @@ export const decorator = (alcaeus: Pick<HydraClient, 'loadResource'> = Hydra): C
   decorate(component: InstancesSelectEditor): InstancesSelectEditor {
     return {
       ...component,
+      async loadInstance({ value }) {
+        const { representation } = await alcaeus.loadResource(value.value)
+
+        if (representation?.root) {
+          return representation.root.pointer
+        }
+
+        return null
+      },
       async loadChoices(args) {
         const collectionId = args.property.get(hydra.collection)?.id
         if (!(collectionId && collectionId.termType === 'NamedNode')) {

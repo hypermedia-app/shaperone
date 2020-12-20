@@ -17,6 +17,7 @@
     "@tpluscode/rdf-ns-builders": "^0.4.0",
     "@rdf-esm/data-model": "^0.5.3",
     "@vaadin/vaadin-accordion": "^2.0.0-alpha4",
+    "@vaadin/vaadin-combo-box": "^5.4.7",
     "@vaadin/vaadin-date-picker": "^4.4.1",
     "@vaadin/vaadin-date-time-picker": "^1.4.0",
     "@vaadin/vaadin-select": "^2.4.0",
