@@ -1,4 +1,8 @@
-import { SingleEditorActions, SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
+import {
+  SingleEditorActions,
+  SingleEditorRenderParams,
+  TComponentState,
+} from '@hydrofoil/shaperone-core/models/components'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import type { PropertyShape } from '@rdfine/shacl'
 import * as _sinon from 'sinon'
@@ -24,7 +28,7 @@ interface EditorTestParams<T> {
   componentState?: T
 }
 
-export function editorTestParams<T extends Record<string, any> = Record<string, any>>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
+export function editorTestParams<T extends TComponentState = TComponentState>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
   const { focusNode, object, property, datatype, componentState } = arg
 
   const value: PropertyObjectState<T> = {

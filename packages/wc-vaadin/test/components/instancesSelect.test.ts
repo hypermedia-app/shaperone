@@ -3,8 +3,7 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
-import { rdfs } from '@tpluscode/rdf-ns-builders'
+import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { SelectElement } from '@vaadin/vaadin-select'
 import { instancesSelectEditor } from '../../components'
 
@@ -21,12 +20,12 @@ describe('wc-vaadin/components/instancesSelect', () => {
   it('renders an vaadin-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.literal(''),
       componentState: {
         instances: [
-          graph.namedNode('foo').addOut(rdfs.label, 'Foo I'),
-          graph.namedNode('bar').addOut(rdfs.label, 'Bar I'),
+          [graph.namedNode('foo'), 'Foo I'],
+          [graph.namedNode('bar'), 'Bar I'],
         ],
       },
     })
@@ -55,12 +54,12 @@ describe('wc-vaadin/components/instancesSelect', () => {
   it('sets selection to current object', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode('bar'),
       componentState: {
         instances: [
-          graph.namedNode('foo').addOut(rdfs.label, 'Foo I'),
-          graph.namedNode('bar').addOut(rdfs.label, 'Bar I'),
+          [graph.namedNode('foo'), 'Foo I'],
+          [graph.namedNode('bar'), 'Bar I'],
         ],
       },
     })
@@ -72,33 +71,14 @@ describe('wc-vaadin/components/instancesSelect', () => {
     expect(result).to.have.property('value', 'Bar I')
   })
 
-  it('loads choices if not in state', async () => {
-    // given
-    const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
-      object: graph.literal('bar'),
-    })
-    const loadChoices = sinon.spy()
-    component.loadChoices = loadChoices
-
-    // when
-    await fixture(component.render(params, actions))
-
-    // then
-    expect(loadChoices).to.have.been.calledWith(sinon.match({
-      property: params.property.shape,
-      updateComponentState: actions.updateComponentState,
-    }))
-  })
-
   it('updates form when value changes', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
       componentState: {
         instances: [
-          graph.namedNode('foo').addOut(rdfs.label, 'Foo'),
+          [graph.namedNode('foo'), 'Foo'],
         ],
       },
     })

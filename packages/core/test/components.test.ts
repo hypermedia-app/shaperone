@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import * as sinon from 'sinon'
 import $rdf from 'rdf-ext'
 import { dash, rdf, owl, rdfs } from '@tpluscode/rdf-ns-builders'
 import clownface from 'clownface'
@@ -13,27 +12,24 @@ describe('components', () => {
       expect(enumSelect.editor).to.deep.eq(dash.EnumSelectEditor)
     })
 
-    it('sets objects of sh:in to component state', () => {
+    it('sets objects of sh:in to component state', async () => {
       // given
       const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
-      const updateComponentState = sinon.spy()
       const property = propertyShape({
         in: [$rdf.literal('foo'), $rdf.blankNode('bar'), $rdf.namedNode('baz')],
       })
 
       // when
-      enumSelect.loadChoices({ focusNode, property, updateComponentState, componentState: {} })
+      const choices = await enumSelect.loadChoices({ focusNode, property, componentState: {} })
 
       // then
-      expect(updateComponentState.firstCall.lastArg).to.containSubset({
-        choices: [{
-          term: $rdf.literal('foo'),
-        }, {
-          term: $rdf.blankNode('bar'),
-        }, {
-          term: $rdf.namedNode('baz'),
-        }],
-      })
+      expect(choices).to.containSubset([{
+        term: $rdf.literal('foo'),
+      }, {
+        term: $rdf.blankNode('bar'),
+      }, {
+        term: $rdf.namedNode('baz'),
+      }])
     })
 
     it('displays label in desired language', () => {
@@ -78,10 +74,9 @@ describe('components', () => {
       expect(instancesSelect.editor).to.deep.eq(dash.InstancesSelectEditor)
     })
 
-    it('sets instances of sh:class selected from property graph', () => {
+    it('sets instances of sh:class selected from property graph', async () => {
       // given
       const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
-      const updateComponentState = sinon.spy()
       const property = propertyShape({
         class: owl.Thing,
       })
@@ -90,16 +85,14 @@ describe('components', () => {
       property.pointer.namedNode('baz').addOut(rdf.type, owl.Thing)
 
       // when
-      instancesSelect.loadChoices({ focusNode, property, updateComponentState, componentState: {} })
+      const choices = await instancesSelect.loadChoices({ focusNode, property, componentState: {} })
 
       // then
-      expect(updateComponentState.firstCall.lastArg).to.containSubset({
-        instances: [{
-          term: $rdf.namedNode('foo'),
-        }, {
-          term: $rdf.namedNode('baz'),
-        }],
-      })
+      expect(choices).to.containSubset([{
+        term: $rdf.namedNode('foo'),
+      }, {
+        term: $rdf.namedNode('baz'),
+      }])
     })
 
     it('displays label in desired language', () => {

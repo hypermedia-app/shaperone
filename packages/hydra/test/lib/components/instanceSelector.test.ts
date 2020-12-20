@@ -109,7 +109,6 @@ describe('lib/components/instancesSelector.ts', () => {
         // when
         decorated.loadChoices({
           focusNode,
-          updateComponentState,
           property,
           componentState: {
             loading: true,
@@ -127,7 +126,6 @@ describe('lib/components/instancesSelector.ts', () => {
         // when
         decorated.loadChoices({
           focusNode,
-          updateComponentState,
           property,
           componentState: {},
         })
@@ -154,7 +152,6 @@ describe('lib/components/instancesSelector.ts', () => {
         // when
         await decorated.loadChoices({
           focusNode,
-          updateComponentState,
           property,
           componentState: {},
         })

@@ -8,6 +8,7 @@ import { Term } from 'rdf-js'
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
 import { FormSettings } from '@hydrofoil/shaperone-core/models/forms'
+import { repeat } from 'lit-html/directives/repeat'
 
 interface Choice {
   term: Term
@@ -24,17 +25,21 @@ function renderer(choices: Choice[], value: Term | undefined) {
 
     render(
       html`
-        ${choices.map(({ label, term }) => html`<vaadin-item ?selected="${term.equals(value)}">${label}</vaadin-item>`)}
+        ${repeat(choices, ({ label, term }) => html`<vaadin-item ?selected="${term.equals(value)}">${label}</vaadin-item>`)}
       `,
       listBox!,
     )
   }
 }
 
-function select(this: EnumSelectEditor | InstancesSelectEditor, form: FormSettings, value: Term | undefined, pointers: GraphPointer[] | undefined, actions: Pick<SingleEditorActions, 'update'>) {
-  const choices = pointers?.map(choice => ({
+function select(this: EnumSelectEditor | InstancesSelectEditor,
+  form: FormSettings,
+  value: Term | undefined,
+  pointers: [GraphPointer, string][] | undefined,
+  actions: Pick<SingleEditorActions, 'update'>) {
+  const choices = pointers?.map(([choice, label]) => ({
     term: choice.term,
-    label: this.label(choice, form),
+    label,
   })) || []
 
   const selectValue = choices.find(choice => choice.term.equals(value))?.label
@@ -47,18 +52,10 @@ function select(this: EnumSelectEditor | InstancesSelectEditor, form: FormSettin
   return html`<vaadin-select .renderer="${renderer(choices, value)}" .value="${selectValue}" @change="${onChange}"></vaadin-select>`
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, focusNode, value, property }, { updateComponentState, ...actions }) {
-  if (!value.componentState.choices) {
-    this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
-  }
-
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, value }, actions) {
   return select.call(this, form, value.object?.term, value.componentState.choices, actions)
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, focusNode, value, property }, { updateComponentState, ...actions }) {
-  if (!value.componentState.instances) {
-    this.loadChoices({ focusNode, property: property.shape, updateComponentState, componentState: value.componentState })
-  }
-
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, value }, actions) {
   return select.call(this, form, value.object?.term, value.componentState.instances, actions)
 }

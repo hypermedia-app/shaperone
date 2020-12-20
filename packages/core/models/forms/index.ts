@@ -21,8 +21,9 @@ import editorsEffects from './effects/editors'
 import shapesEffects from './effects/shapes'
 import resourcesEffects from './effects/resources'
 import type { Store } from '../../state'
+import type { TComponentState } from '../components'
 
-export interface PropertyObjectState<ComponentState extends Record<string, any> = Record<string, any>> {
+export interface PropertyObjectState<ComponentState extends TComponentState = TComponentState> {
   key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]

@@ -160,6 +160,17 @@ export const DefaultRenderer: Renderer = {
                 }
                 return html`Loading editor`
               }
+              if (component.init && !value.componentState.ready) {
+                component.init({
+                  form: state,
+                  component,
+                  focusNode,
+                  property,
+                  componentState: value.componentState,
+                  updateComponentState,
+                })
+                return html`Initialising component`
+              }
 
               return component.render(
                 { form: state, focusNode, property, value },

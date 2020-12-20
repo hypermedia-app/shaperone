@@ -3,7 +3,10 @@ import type { ComponentDecorator } from '@hydrofoil/shaperone-core/models/compon
 import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors'
 import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 import type { HydraClient } from 'alcaeus/alcaeus'
-import type { Collection } from 'alcaeus'
+import { Hydra } from 'alcaeus/web'
+import { NamedNode } from 'rdf-js'
+import TermMap from '@rdf-esm/term-map'
+import type { GraphPointer } from 'clownface'
 
 export const matcher: MatcherDecorator = {
   term: dash.InstancesSelectEditor,
@@ -17,7 +20,9 @@ export const matcher: MatcherDecorator = {
   },
 }
 
-export const decorator = (client?: Pick<HydraClient, 'loadResource'>): ComponentDecorator<InstancesSelectEditor> => ({
+const collections = new TermMap<NamedNode, Promise<GraphPointer[]>>()
+
+export const decorator = (alcaeus: Pick<HydraClient, 'loadResource'> = Hydra): ComponentDecorator<InstancesSelectEditor> => ({
   applicableTo(component) {
     return component.editor.equals(dash.InstancesSelectEditor)
   },
@@ -27,28 +32,23 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
       async loadChoices(args) {
         const collectionId = args.property.get(hydra.collection)?.id
         if (!(collectionId && collectionId.termType === 'NamedNode')) {
-          component.loadChoices(args)
-          return
+          return component.loadChoices(args)
         }
 
-        if (args.componentState.loading) {
-          return
+        if (!collections.has(collectionId)) {
+          const promise = alcaeus.loadResource(collectionId)
+            .then((response) => {
+              const [collection] = response.representation?.ofType(hydra.Collection) || []
+              if (collection) {
+                return collection.pointer.out(hydra.member).toArray()
+              }
+              return []
+            })
+
+          collections.set(collectionId, promise)
         }
 
-        args.updateComponentState({
-          loading: true,
-        })
-
-        const alcaeus = client || (await import('alcaeus/web')).Hydra
-
-        const response = await alcaeus.loadResource(collectionId)
-        const [collection] = response.representation?.ofType<Collection>(hydra.Collection) || []
-        if (collection) {
-          args.updateComponentState({
-            instances: collection.member.map(m => m.pointer),
-            loading: false,
-          })
-        }
+        return collections.get(collectionId)!
       },
     }
   },
