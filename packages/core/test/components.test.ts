@@ -20,7 +20,7 @@ describe('components', () => {
       })
 
       // when
-      const choices = await enumSelect.loadChoices({ focusNode, property, componentState: {} })
+      const choices = await enumSelect.loadChoices({ focusNode, property })
 
       // then
       expect(choices).to.containSubset([{
