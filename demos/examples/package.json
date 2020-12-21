@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-playground-examples",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "main": "index.js",
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
@@ -8,8 +8,8 @@
   "private": true,
   "dependencies": {
     "@tpluscode/rdf-ns-builders": "^0.4",
-    "@hydrofoil/shaperone-core": "0.4.2",
-    "@hydrofoil/shaperone-wc": "0.2.4",
+    "@hydrofoil/shaperone-core": "0.4.3",
+    "@hydrofoil/shaperone-wc": "0.2.5",
     "@rdf-esm/data-model": "^0.5.3",
     "multiselect-combo-box": "^2.4.2"
   }
