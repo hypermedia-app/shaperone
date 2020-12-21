@@ -1,5 +1,18 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.8
+
+### Patch Changes
+
+- 5b4e71b: Restore selected resource from sharing link
+- Updated dependencies [8fae858]
+- Updated dependencies [b47bd64]
+  - @hydrofoil/shaperone-wc@0.2.4
+  - @hydrofoil/shaperone-hydra@0.1.0
+  - @hydrofoil/shaperone-playground-examples@0.0.15
+  - @hydrofoil/shaperone-wc-material@0.1.13
+  - @hydrofoil/shaperone-wc-vaadin@0.1.13
+
 ## 0.1.7
 
 ### Patch Changes

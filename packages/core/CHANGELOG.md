@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-core
 
+## 0.4.2
+
+### Patch Changes
+
+- 8fae858: Default languages set from navigator
+- ac3df4e: Added decorators to component matchers
+- f37b75d: Property Shape extensions not available when imported
+- a126971: Update editors any time matchers/metadata is added
+- 6700fa9: Prevent unnecessary layout recalculations when pointers don't really change
+- b47bd64: Decorator feature for components
+
 ## 0.4.1
 
 ### Patch Changes
