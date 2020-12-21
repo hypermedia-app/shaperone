@@ -77,7 +77,10 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     await loadMixins()
 
     store().dispatch.editors.loadDash()
-    store().dispatch.forms.connect(id(this))
+    store().dispatch.forms.connect({
+      form: id(this),
+      languages: this.__languages(),
+    })
     store().dispatch.resources.connect(id(this))
     store().dispatch.shapes.connect(id(this))
 
@@ -158,5 +161,14 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       editors: state.editors,
       components: state.components,
     }
+  }
+
+  __languages() {
+    const languages = this.getAttribute('languages')
+    if (languages) {
+      return languages.split(',')
+    }
+
+    return [...navigator.languages]
   }
 }

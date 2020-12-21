@@ -11,7 +11,7 @@ export interface State {
 }
 
 interface SharingParam {
-  key: 'shapes' | 'shapesFormat' | 'resource' | 'resourceFormat' | 'resourcePrefixes' | keyof ComponentsState | keyof RendererState
+  key: 'shapes' | 'shapesFormat' | 'resource' | 'resourceFormat' | 'resourcePrefixes' | 'selectedResource' | keyof ComponentsState | keyof RendererState
   value: string
 }
 
@@ -73,12 +73,18 @@ export const playground = createModel({
     return {
       'resource/setSerialized': function (value: string) {
         dispatch.playground.updateSharingParams({ key: 'resource', value })
+        const { selectedResource } = store.getState().resource
+        if (selectedResource) dispatch.playground.updateSharingParams({ key: 'selectedResource', value: selectedResource })
       },
       'resource/setPrefixes': function (value: string) {
         dispatch.playground.updateSharingParams({ key: 'resourcePrefixes', value })
       },
       'resource/format': function (value: string) {
         dispatch.playground.updateSharingParams({ key: 'resourceFormat', value })
+      },
+      'resource/selectResource': function () {
+        const { selectedResource: value } = store.getState().resource
+        if (value) dispatch.playground.updateSharingParams({ key: 'selectedResource', value })
       },
       'shape/serialized': function (value: string) {
         dispatch.playground.updateSharingParams({ key: 'shapes', value })
@@ -110,6 +116,7 @@ export const playground = createModel({
         const nesting = sharedState.get('nesting')
         const disableEditorChoice = sharedState.get('disableEditorChoice')
         const components = sharedState.get('components')
+        const selectedResource = sharedState.get('selectedResource')
 
         if (shapesFormat) {
           dispatch.shape.format(shapesFormat)
@@ -122,6 +129,9 @@ export const playground = createModel({
         }
         if (resource) {
           dispatch.resource.setSerialized(resource)
+        }
+        if (selectedResource) {
+          dispatch.resource.selectResource({ id: selectedResource })
         }
         if (resourcePrefixes) {
           dispatch.resource.setPrefixes(resourcePrefixes.split(','))

@@ -1,4 +1,8 @@
-import { SingleEditorActions, SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
+import {
+  SingleEditorActions,
+  SingleEditorRenderParams,
+  TComponentState,
+} from '@hydrofoil/shaperone-core/models/components'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import type { PropertyShape } from '@rdfine/shacl'
 import * as _sinon from 'sinon'
@@ -9,8 +13,12 @@ import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import $rdf from '@rdf-esm/dataset'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
+import namespace from '@rdf-esm/namespace'
 
 export const sinon = _sinon
+
+export const ex = namespace('http://example.com/')
 
 interface EditorTestParams<T> {
   focusNode?: FocusNode
@@ -20,7 +28,7 @@ interface EditorTestParams<T> {
   componentState?: T
 }
 
-export function editorTestParams<T extends Record<string, any> = Record<string, any>>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
+export function editorTestParams<T extends TComponentState = TComponentState>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions<T> } {
   const { focusNode, object, property, datatype, componentState } = arg
 
   const value: PropertyObjectState<T> = {
@@ -33,6 +41,11 @@ export function editorTestParams<T extends Record<string, any> = Record<string, 
 
   return {
     params: {
+      form: {
+        languages: ['en'],
+        labelProperties: [rdfs.label],
+        shouldEnableEditorChoice: () => true,
+      },
       focusNode: focusNode || clownface({ dataset: $rdf.dataset() }).blankNode(),
       property: {
         canAdd: true,

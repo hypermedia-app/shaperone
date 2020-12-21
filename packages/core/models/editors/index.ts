@@ -9,6 +9,7 @@ import { dataset } from '@rdf-esm/dataset'
 import type { Dispatch, Store } from '../../state'
 import { addMatchers } from './reducers/addMatchers'
 import { addMetadata } from './reducers/addMetadata'
+import { decorate } from './reducers/decorate'
 import { matchSingleEditors, matchMultiEditors } from './lib/match'
 
 // todo: re-export from main module
@@ -22,6 +23,10 @@ export interface MultiEditor extends EditorMatcher {
 
 export interface SingleEditor<T extends Term = Term> extends EditorMatcher {
   match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
+}
+
+export interface MatcherDecorator<T extends Term = Term> extends EditorMatcher {
+  decorate<TEditor extends SingleEditor<T> | MultiEditor>(matcher: TEditor): TEditor['match']
 }
 
 export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
@@ -41,6 +46,7 @@ export interface EditorsState {
   multiEditors: EditorMap<Editor<MultiEditor>>
   matchSingleEditors: typeof matchSingleEditors
   matchMultiEditors: typeof matchMultiEditors
+  decorators: EditorMap<MatcherDecorator[]>
 }
 
 export const editors = createModel(({
@@ -49,12 +55,14 @@ export const editors = createModel(({
     multiEditors: {},
     singleEditors: {},
     allEditors: {},
+    decorators: {},
     matchSingleEditors,
     matchMultiEditors,
   },
   reducers: {
     addMetadata,
     addMatchers,
+    decorate,
   },
   effects(store: Store) {
     const dispatch: Dispatch = store.getDispatch()

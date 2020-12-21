@@ -20,9 +20,11 @@ import { createFocusNodeState } from './reducers/replaceFocusNodes'
 import editorsEffects from './effects/editors'
 import shapesEffects from './effects/shapes'
 import resourcesEffects from './effects/resources'
+import componentsEffects from './effects/components'
 import type { Store } from '../../state'
+import type { TComponentState } from '../components'
 
-export interface PropertyObjectState<ComponentState extends Record<string, any> = Record<string, any>> {
+export interface PropertyObjectState<ComponentState extends TComponentState = TComponentState> {
   key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]
@@ -60,10 +62,15 @@ export interface FocusNodeState {
   groups: PropertyGroupState[]
 }
 
-export interface FormState {
+export interface FormSettings {
+  shouldEnableEditorChoice: ShouldEnableEditorChoice
+  languages: string[]
+  labelProperties: NamedNode[]
+}
+
+export interface FormState extends FormSettings {
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
-  shouldEnableEditorChoice: ShouldEnableEditorChoice
 }
 
 export type State = Map<symbol, FormState>
@@ -91,6 +98,7 @@ export const forms = createModel({
       ...editorsEffects(store),
       ...shapesEffects(store),
       ...resourcesEffects(store),
+      ...componentsEffects(store),
       ...effects(store),
     }
   },

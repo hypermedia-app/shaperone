@@ -74,7 +74,7 @@ export const DefaultRenderer: Renderer = {
             if (!editor) {
               return html`No editor found for property`
             }
-            const component = components[editor.value]
+            const component = components.components[editor.value]
             if (!component) {
               return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
             }
@@ -146,7 +146,7 @@ export const DefaultRenderer: Renderer = {
               if (!editor) {
                 return html`No editor found for property`
               }
-              const component = components[editor.value]
+              const component = components.components[editor.value]
               if (!component) {
                 return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
               }
@@ -160,9 +160,20 @@ export const DefaultRenderer: Renderer = {
                 }
                 return html`Loading editor`
               }
+              if (component.init && !value.componentState.ready) {
+                component.init({
+                  form: state,
+                  component,
+                  focusNode,
+                  property,
+                  updateComponentState,
+                  value,
+                })
+                return html`Initialising component`
+              }
 
               return component.render(
-                { focusNode, property, value },
+                { form: state, focusNode, property, value },
                 { update, focusOnObjectNode, updateComponentState },
               )
             }

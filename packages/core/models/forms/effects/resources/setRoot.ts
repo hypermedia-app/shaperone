@@ -1,5 +1,10 @@
+import type{ GraphPointer } from 'clownface'
 import type { Store } from '../../../../state'
 import * as setRoot from '../../../resources/reducers/setRoot'
+
+function samePointers(left: GraphPointer, right?: GraphPointer) {
+  return left.dataset === right?.dataset && left.term.equals(right.term)
+}
 
 export default function (store: Store) {
   const dispatch = store.getDispatch()
@@ -13,7 +18,7 @@ export default function (store: Store) {
       return
     }
 
-    if (rootPointer === formState.focusStack[0]) {
+    if (samePointers(rootPointer, formState.focusStack[0])) {
       return
     }
 

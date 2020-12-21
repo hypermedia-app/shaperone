@@ -14,6 +14,15 @@ describe('shaperone-form', () => {
     path: schema.name,
   })]
 
+  it('sets languages from attribute to form settings', async () => {
+    // given
+    const form = await fixture(html`<shaperone-form .shapes="${shape}" languages="pl,en-GB,de"></shaperone-form>`)
+
+    // then
+    const formState = store().state.forms.get(id(form))
+    expect(formState?.languages.join(',')).to.eq('pl,en-GB,de')
+  })
+
   xit('dispatches event when object values change', async () => {
     // given
     const resource = clownface({ dataset: dataset() }).blankNode()

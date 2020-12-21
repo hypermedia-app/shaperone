@@ -1,8 +1,8 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import { editorTestParams, sinon } from '@shaperone/testing'
-import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { editorTestParams } from '@shaperone/testing'
+import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { enumSelectEditor } from '../../components'
 
 describe('wc-material/components/enumSelect', () => {
@@ -18,12 +18,12 @@ describe('wc-material/components/enumSelect', () => {
   it('renders an mwc-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal(''),
       componentState: {
         choices: [
-          graph.literal('foo'),
-          graph.literal('bar'),
+          [graph.literal('foo'), 'foo'],
+          [graph.literal('bar'), 'bar'],
         ],
       },
     })
@@ -38,12 +38,12 @@ describe('wc-material/components/enumSelect', () => {
   it('sets selection to current object', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal('bar'),
       componentState: {
         choices: [
-          graph.literal('foo'),
-          graph.literal('bar'),
+          [graph.literal('foo'), 'foo'],
+          [graph.literal('bar'), 'bar'],
         ],
       },
     })
@@ -53,24 +53,5 @@ describe('wc-material/components/enumSelect', () => {
 
     // then
     expect(result).to.equalSnapshot()
-  })
-
-  it('loads choices if not in state', async () => {
-    // given
-    const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
-      object: graph.literal('bar'),
-    })
-    const loadChoices = sinon.spy()
-    enumSelect.loadChoices = loadChoices
-
-    // when
-    await fixture(enumSelect.render(params, actions))
-
-    // then
-    expect(loadChoices).to.have.been.calledWith(sinon.match({
-      property: params.property.shape,
-      updateComponentState: actions.updateComponentState,
-    }))
   })
 })

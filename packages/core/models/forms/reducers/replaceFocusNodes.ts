@@ -21,6 +21,7 @@ export const createFocusNodeState = formStateReducer((state: FormState, { focusN
     shapes = matchShapes(shapes).to(focusNode)
   }
 
+  draft.focusStack = draft.focusStack.map(node => (node.term.equals(focusNode.term) ? focusNode : node))
   draft.focusNodes[focusNode.value] = initialiseFocusNode({
     focusNode,
     ...rest,
