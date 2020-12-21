@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.4.3
+
+### Patch Changes
+
+- b91d81a: Enum select would not initilize choices
+
 ## 0.4.2
 
 ### Patch Changes
