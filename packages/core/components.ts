@@ -17,13 +17,29 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect, any>
   loadChoices(params: {
     focusNode: FocusNode
     property: PropertyShape
-    componentState: EnumSelect
   }): Promise<GraphPointer[]>
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
 }
 
 export const enumSelect: CoreComponents<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
+  async init({ focusNode, form, property, value: { componentState }, updateComponentState }) {
+    if (!componentState.choices && !componentState.loading) {
+      updateComponentState({
+        loading: true,
+      })
+
+      const pointers = await this.loadChoices({ focusNode, property: property.shape })
+      const choices = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
+        .sort(([, left], [, right]) => left.localeCompare(right))
+
+      updateComponentState({
+        choices,
+        ready: true,
+        loading: false,
+      })
+    }
+  },
   async loadChoices({ property }) {
     return property.pointer.node(property.in).toArray()
   },
