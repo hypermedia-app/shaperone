@@ -4,7 +4,7 @@ import $rdf from '@rdf-esm/dataset'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
-import { SelectElement } from '@vaadin/vaadin-select'
+import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { instancesSelectEditor } from '../../components'
 
 describe('wc-vaadin/components/instancesSelect', () => {
@@ -22,33 +22,13 @@ describe('wc-vaadin/components/instancesSelect', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.literal(''),
-      componentState: {
-        instances: [
-          [graph.namedNode('foo'), 'Foo I'],
-          [graph.namedNode('bar'), 'Bar I'],
-        ],
-      },
     })
 
     // when
     const result = await fixture(component.render(params, actions))
 
     // then
-    expect(result).shadowDom.to.equalSnapshot()
-  })
-
-  it('renders empty vaadin-select when there are no choices', async () => {
-    // given
-    const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
-      object: graph.literal(''),
-    })
-
-    // when
-    const result = await fixture(component.render(params, actions))
-
-    // then
-    expect(result).shadowDom.to.equalSnapshot()
+    expect(result.tagName).to.eq('VAADIN-COMBO-BOX')
   })
 
   it('sets selection to current object', async () => {
@@ -56,19 +36,13 @@ describe('wc-vaadin/components/instancesSelect', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode('bar'),
-      componentState: {
-        instances: [
-          [graph.namedNode('foo'), 'Foo I'],
-          [graph.namedNode('bar'), 'Bar I'],
-        ],
-      },
     })
 
     // when
-    const result = await fixture(component.render(params, actions))
+    const result = await fixture<ComboBoxElement>(component.render(params, actions))
 
     // then
-    expect(result).to.have.property('value', 'Bar I')
+    expect(result.selectedItem).to.have.property('label', 'bar')
   })
 
   it('updates form when value changes', async () => {
@@ -76,17 +50,13 @@ describe('wc-vaadin/components/instancesSelect', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
-      componentState: {
-        instances: [
-          [graph.namedNode('foo'), 'Foo'],
-        ],
-      },
     })
-    const selectElement = await fixture<SelectElement>(component.render(params, actions))
+    const selectElement = await fixture<ComboBoxElement>(component.render(params, actions))
 
     // when
-    selectElement.value = 'Foo'
-    selectElement.dispatchEvent(new Event('change'))
+    selectElement.selectedItem = {
+      value: graph.namedNode('foo'),
+    }
 
     // then
     expect(actions.update).to.have.been.calledWith(sinon.match({
