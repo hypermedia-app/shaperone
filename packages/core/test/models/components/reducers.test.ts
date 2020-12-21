@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import reducers, { decorate } from '../../../models/components/reducers'
+import reducers from '../../../models/components/reducers'
 import { Component, ComponentDecorator, ComponentsState } from '../../../models/components'
 
 describe('core/models/components/reducers', () => {
@@ -205,15 +205,23 @@ describe('core/models/components/reducers', () => {
           }
         },
       }
-
-      // when
-      const result = decorate([addFoo, addBar], {
+      const component = {
         editor: dash.FooEditor,
         foo: '',
-      })
+        loading: false,
+      }
+      const before = {
+        components: {
+          [dash.FooEditor.value]: component,
+        },
+        decorators: [addFoo],
+      }
+
+      // when
+      const result = reducers.decorate(before, addBar)
 
       // then
-      expect(result).to.have.property('foo', 'foobar')
+      expect(result.components[dash.FooEditor.value]).to.have.property('foo', 'foobar')
     })
 
     it('does not apply non applicable decorator', () => {
@@ -226,13 +234,20 @@ describe('core/models/components/reducers', () => {
       const component = {
         editor: dash.FooEditor,
         foo: '',
+        loading: false,
+      }
+      const before = {
+        components: {
+          [dash.FooEditor.value]: component,
+        },
+        decorators: [],
       }
 
       // when
-      const result = decorate([nope, nope, nope], component)
+      const result = reducers.decorate(before, nope)
 
       // then
-      expect(result).to.eq(component)
+      expect(result.components[dash.FooEditor.value]).to.eq(component)
     })
   })
 })

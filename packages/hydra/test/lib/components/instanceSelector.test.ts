@@ -20,7 +20,7 @@ function hydraCollectionProperty() {
   })
 }
 
-describe('lib/components/instancesSelector.ts', () => {
+describe('hydra/lib/components/instancesSelector', () => {
   describe('matcher', () => {
     let matcher: {
       term: NamedNode
@@ -79,7 +79,6 @@ describe('lib/components/instancesSelector.ts', () => {
 
   describe('decorated', () => {
     let focusNode: GraphPointer<BlankNode>
-    let updateComponentState: sinon.SinonStub
     let decorated: InstancesSelectEditor
     let component: InstancesSelectEditor
     let client: {
@@ -88,7 +87,6 @@ describe('lib/components/instancesSelector.ts', () => {
 
     beforeEach(() => {
       focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-      updateComponentState = sinon.stub()
       client = {
         loadResource: sinon.stub(),
       }
@@ -103,22 +101,6 @@ describe('lib/components/instancesSelector.ts', () => {
     })
 
     describe('loadChoices', () => {
-      it('sets loading state when calling the API', () => {
-        // given
-        const property = hydraCollectionProperty()
-
-        // when
-        decorated.loadChoices({
-          focusNode,
-          property,
-        })
-
-        // then
-        expect(updateComponentState).to.have.been.calledWith({
-          loading: true,
-        })
-      })
-
       it('sets loading state when API has returned collection', async () => {
         // given
         const property = hydraCollectionProperty()
@@ -133,18 +115,14 @@ describe('lib/components/instancesSelector.ts', () => {
         client.loadResource.resolves({ representation })
 
         // when
-        await decorated.loadChoices({
+        const instances = await decorated.loadChoices({
           focusNode,
           property,
         })
 
         // then
-        expect(updateComponentState).to.have.been.calledWith({
-          loading: false,
-          instances: sinon.match.array,
-        })
-        expect(updateComponentState.lastCall.lastArg.instances).to.have.length(3)
-        for (const instance of updateComponentState.lastCall.lastArg.instances) {
+        expect(instances).to.have.length(3)
+        for (const instance of instances) {
           expect(instance.value).to.match(/Item\d$/)
         }
       })

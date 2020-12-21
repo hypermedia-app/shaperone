@@ -53,7 +53,7 @@ export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSe
 
 export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
   editor: dash.InstancesSelectEditor,
-  async init({ form, focusNode, property, componentState, updateComponentState }) {
+  async init({ form, focusNode, property, value: { componentState }, updateComponentState }) {
     if (!componentState.instances && !componentState.loading) {
       updateComponentState({
         loading: true,

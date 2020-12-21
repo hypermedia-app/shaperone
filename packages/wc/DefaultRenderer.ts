@@ -166,7 +166,6 @@ export const DefaultRenderer: Renderer = {
                   component,
                   focusNode,
                   property,
-                  componentState: value.componentState,
                   updateComponentState,
                   value,
                 })

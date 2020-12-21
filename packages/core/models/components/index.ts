@@ -1,7 +1,7 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import reducers from './reducers'
-import type { FormSettings, FormState, PropertyObjectState, PropertyState } from '../forms/index'
+import type { FormSettings, PropertyObjectState, PropertyState } from '../forms/index'
 import type { Store } from '../../state'
 import type { FocusNode } from '../../index'
 
@@ -42,12 +42,11 @@ export interface MultiEditorActions<TState extends TComponentState> {
 export interface Component<TState extends TComponentState = TComponentState> {
   editor: NamedNode
   init?(params: {
-    form: FormState
+    form: FormSettings
     updateComponentState: UpdateComponentState<TState>
     component: Component
     focusNode: FocusNode
     property: PropertyState
-    componentState: TState
     value: PropertyObjectState<TState>
   }): void
 }

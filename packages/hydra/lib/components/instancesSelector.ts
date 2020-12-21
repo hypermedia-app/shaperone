@@ -3,7 +3,6 @@ import type { ComponentDecorator } from '@hydrofoil/shaperone-core/models/compon
 import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors'
 import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 import type { HydraClient } from 'alcaeus/alcaeus'
-import { Hydra } from 'alcaeus/web'
 import { NamedNode } from 'rdf-js'
 import TermMap from '@rdf-esm/term-map'
 import type { GraphPointer } from 'clownface'
@@ -22,7 +21,7 @@ export const matcher: MatcherDecorator = {
 
 const collections = new TermMap<NamedNode, Promise<GraphPointer[]>>()
 
-export const decorator = (alcaeus: Pick<HydraClient, 'loadResource'> = Hydra): ComponentDecorator<InstancesSelectEditor> => ({
+export const decorator = (client?: Pick<HydraClient, 'loadResource'>): ComponentDecorator<InstancesSelectEditor> => ({
   applicableTo(component) {
     return component.editor.equals(dash.InstancesSelectEditor)
   },
@@ -30,6 +29,8 @@ export const decorator = (alcaeus: Pick<HydraClient, 'loadResource'> = Hydra): C
     return {
       ...component,
       async loadInstance({ value }) {
+        const alcaeus = client || (await import('alcaeus/web')).Hydra
+
         const { representation } = await alcaeus.loadResource(value.value)
 
         if (representation?.root) {
@@ -45,6 +46,7 @@ export const decorator = (alcaeus: Pick<HydraClient, 'loadResource'> = Hydra): C
         }
 
         if (!collections.has(collectionId)) {
+          const alcaeus = client || (await import('alcaeus/web')).Hydra
           const promise = alcaeus.loadResource(collectionId)
             .then((response) => {
               const [collection] = response.representation?.ofType(hydra.Collection) || []

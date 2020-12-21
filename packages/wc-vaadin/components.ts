@@ -32,13 +32,14 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
   async init({ form, updateComponentState, property, value }) {
-    if (value.object && !value.object.out().terms.length) {
+    if (value.object && value.object.term.termType === 'NamedNode' && !value.object.out().terms.length) {
       try {
         const instance = await this.loadInstance({ property: property.shape, value: value.object })
         if (instance) {
-          property.shape.pointer
-            .node(value.object)
-            .addOut(form.labelProperties, instance.out(form.labelProperties))
+          const objectNode = property.shape.pointer.node(value.object)
+          for (const labelProperty of form.labelProperties) {
+            objectNode.addOut(labelProperty, instance.out(labelProperty))
+          }
         }
       } catch (e) {
         // failed to dereference existing value
