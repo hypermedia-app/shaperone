@@ -9,6 +9,7 @@ import { DatasetCore } from 'rdf-js'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { IriTemplateBundle } from '@rdfine/hydra/bundles'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import { hasAllRequiredVariables } from '../template'
 
 RdfResourceImpl.factory.addMixin(...IriTemplateBundle)
 
@@ -66,6 +67,10 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
       shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }): boolean {
         const searchTemplate = this.searchTemplate?.({ property })
         if (searchTemplate) {
+          if (!hasAllRequiredVariables(searchTemplate, focusNode)) {
+            return false
+          }
+
           const searchUri = searchTemplate.expand(focusNode)
           updateComponentState({
             searchUri,
