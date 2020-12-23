@@ -1,25 +1,38 @@
 import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
-import { html } from 'lit-html'
+import { directive, html, PropertyPart } from 'lit-html'
 import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
-import { FocusNode } from '@hydrofoil/shaperone-core'
-import type { PropertyShape } from '@rdfine/shacl'
-import { FormSettings } from '@hydrofoil/shaperone-core/models/forms'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
+import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 
-function dataProvider(component: InstancesSelectEditor, form: FormSettings, focusNode: FocusNode, property: PropertyShape): ComboBoxDataProvider {
+function dataProvider(component: InstancesSelectEditor, renderParams: SingleEditorRenderParams): ComboBoxDataProvider {
   return async (params, callback) => {
-    const choices = await component.loadChoices({ focusNode, property })
+    const choices = await component.loadChoices(renderParams)
     const items = choices
-      .map(pointer => ({ value: pointer, label: component.label(pointer, form) }))
+      .map(pointer => ({ value: pointer, label: component.label(pointer, renderParams.form) }))
       .sort((l, r) => l.label.localeCompare(r.label))
 
     callback(items, items.length)
   }
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, focusNode, property, value }, actions) {
+const stateMap = new WeakMap()
+const clearDataProvider = directive((searchUri: string | undefined) => (part: PropertyPart) => {
+  if (!searchUri) return
+
+  const previousUri = stateMap.get(part)
+  if (previousUri && previousUri !== searchUri) {
+    (part.committer.element as ComboBoxElement).clearCache()
+  }
+
+  stateMap.set(part, searchUri)
+  part.setValue(searchUri)
+})
+
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, params, actions) {
+  const { form, focusNode, property, value } = params
   let selectedItem: { label: string; value: GraphPointer } | undefined
   if (value.componentState.selectedInstance) {
     selectedItem = {
@@ -43,7 +56,7 @@ export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (th
   function onChange(e: any) {
     if (e.target.selectedItem && !e.target.selectedItem.value.term.equals(value.object?.term)) {
       actions.update(e.target.selectedItem.value.term)
-      actions.updateComponentState({
+      params.updateComponentState({
         selectedInstance: [
           e.target.selectedItem.value,
           e.target.selectedItem.label,
@@ -52,8 +65,11 @@ export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (th
     }
   }
 
+  const searchUri = this.searchTemplate?.({ property })?.expand(focusNode)
+
   return html`<vaadin-combo-box item-id-path="value.value"
-                .dataProvider="${dataProvider(this, form, focusNode, property.shape)}"
+                .lastSearchUri="${clearDataProvider(searchUri)}"
+                .dataProvider="${dataProvider(this, params)}"
                 .selectedItem="${selectedItem}"
                 @selected-item-changed="${onChange}">
   </vaadin-combo-box>`

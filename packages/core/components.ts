@@ -1,7 +1,7 @@
 import { PropertyShape } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
-import { SingleEditorComponent } from './models/components'
+import { SingleEditorComponent, SingleEditorRenderParams } from './models/components'
 import { FocusNode } from './index'
 import { FormSettings } from './models/forms'
 
@@ -23,22 +23,26 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect, any>
 
 export const enumSelect: CoreComponents<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
-  async init({ focusNode, form, property, value: { componentState }, updateComponentState }) {
+  init({ focusNode, form, property, value: { componentState }, updateComponentState }) {
     if (!componentState.choices && !componentState.loading) {
       updateComponentState({
         loading: true,
-      })
+      });
+      (async () => {
+        const pointers = await this.loadChoices({ focusNode, property: property.shape })
+        const choices = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
+          .sort(([, left], [, right]) => left.localeCompare(right))
 
-      const pointers = await this.loadChoices({ focusNode, property: property.shape })
-      const choices = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
-        .sort(([, left], [, right]) => left.localeCompare(right))
+        updateComponentState({
+          choices,
+          ready: true,
+          loading: false,
+        })
+      })()
 
-      updateComponentState({
-        choices,
-        ready: true,
-        loading: false,
-      })
+      return false
     }
+    return true
   },
   async loadChoices({ property }) {
     return property.pointer.node(property.in).toArray()
@@ -60,39 +64,49 @@ export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSe
     property: PropertyShape
     value: GraphPointer
   }): Promise<GraphPointer | null>
-  loadChoices(params: {
-    focusNode: FocusNode
-    property: PropertyShape
-  }): Promise<GraphPointer[]>
+  loadChoices(params: SingleEditorRenderParams<InstancesSelect>): Promise<GraphPointer[]>
+  shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
 }
 
 export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
   editor: dash.InstancesSelectEditor,
-  async init({ form, focusNode, property, value: { componentState }, updateComponentState }) {
-    if (!componentState.instances && !componentState.loading) {
+  shouldLoad({ value: { componentState } }): boolean {
+    return !componentState.instances
+  },
+  init(params) {
+    const { form, value, updateComponentState } = params
+    if (this.shouldLoad(params) && !value.componentState.loading) {
       updateComponentState({
         loading: true,
-      })
+      });
+      (async () => {
+        const pointers = await this.loadChoices(params)
+        const instances = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
+          .sort(([, left], [, right]) => left.localeCompare(right))
 
-      const pointers = await this.loadChoices({ focusNode, property: property.shape })
-      const instances = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
-        .sort(([, left], [, right]) => left.localeCompare(right))
+        updateComponentState({
+          instances,
+          ready: true,
+          loading: false,
+        })
+      })()
 
-      updateComponentState({
-        instances,
-        ready: true,
-        loading: false,
-      })
+      return false
     }
+    return true
   },
   async loadInstance({ property, value }) {
     return property.pointer.node(value)
   },
   async loadChoices({ property }) {
-    return property.pointer.any()
-      .has(rdf.type, property.class?.id)
-      .toArray()
+    if (property.shape.class) {
+      return property.shape.pointer.any()
+        .has(rdf.type, property.shape.class.id)
+        .toArray()
+    }
+
+    return []
   },
   label(choice, { languages, labelProperties }) {
     return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value

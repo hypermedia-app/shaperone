@@ -17,7 +17,7 @@ import { FormSettings } from '@hydrofoil/shaperone-core/models/forms'
 function select(this: EnumSelectEditor | InstancesSelectEditor,
   form: FormSettings, value: Term | undefined,
   pointers: [GraphPointer, string][] | undefined,
-  actions: Pick<SingleEditorActions<EnumSelect>, 'update'>) {
+  actions: Pick<SingleEditorActions, 'update'>) {
   const choices = pointers?.map(([c, label]) => ({
     term: c.term,
     label,
@@ -30,10 +30,10 @@ function select(this: EnumSelectEditor | InstancesSelectEditor,
 </mwc-select>`
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, focusNode, value, property }, { updateComponentState, ...actions }) {
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, value }, actions) {
   return select.call(this, form, value.object?.term, value.componentState.choices, actions)
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, focusNode, value, property }, { updateComponentState, ...actions }) {
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, value }, actions) {
   return select.call(this, form, value.object?.term, value.componentState.instances, actions)
 }

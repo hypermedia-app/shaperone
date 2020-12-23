@@ -3428,23 +3428,10 @@
     "@tpluscode/rdf-ns-builders" "^0.4"
     "@zazuko/rdf-vocabularies" "^2020.11.2"
 
-"@tpluscode/rdfine@^0.5.10", "@tpluscode/rdfine@^0.5.19":
+"@tpluscode/rdfine@^0.5.10", "@tpluscode/rdfine@^0.5.17", "@tpluscode/rdfine@^0.5.18", "@tpluscode/rdfine@^0.5.19":
   version "0.5.19"
   resolved "https://registry.yarnpkg.com/@tpluscode/rdfine/-/rdfine-0.5.19.tgz#e56f9bbe83d29fb1cad36a84726337a652ae8ee9"
   integrity sha512-AXrvE8yk/ZkbpEOkK1bSrsJO1aVgkDdy47CpIAXuEnC2m5B2j31viPFjX9GiYbQrwoklGb0kLU9dyxCyjQEylQ==
-  dependencies:
-    "@rdf-esm/data-model" "^0.5.3"
-    "@rdf-esm/namespace" "^0.5.2"
-    "@rdf-esm/term-map" "^0.5.0"
-    "@rdf-esm/term-set" "^0.5.0"
-    "@tpluscode/rdf-ns-builders" "^0.4"
-    clownface "^1"
-    once "^1.4.0"
-
-"@tpluscode/rdfine@^0.5.17", "@tpluscode/rdfine@^0.5.18":
-  version "0.5.18"
-  resolved "https://registry.yarnpkg.com/@tpluscode/rdfine/-/rdfine-0.5.18.tgz#0345573e7858287207dac927f5604533305a1eab"
-  integrity sha512-Rbmq7TCFiSWjb04+QwREkFyfwl6uIJGD1QSdRP0y7+J5wAodTUlDF/8O3LJK7JVm8aZQpFmpn0j5YFm8bkWWjQ==
   dependencies:
     "@rdf-esm/data-model" "^0.5.3"
     "@rdf-esm/namespace" "^0.5.2"
@@ -4751,10 +4738,10 @@ ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-alcaeus@^1, alcaeus@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/alcaeus/-/alcaeus-1.0.1.tgz#2c84bf47b3fdd51cb8d89828011e0cb029bcf618"
-  integrity sha512-FGZYR/hB2TfSiBcfwnp37pIYGf0daKLmktnuYHE1fXxRqVz5UBGyJ0uuUsxYiSsx8BU5j2AMeVRQ8iRUbNA7WQ==
+alcaeus@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/alcaeus/-/alcaeus-1.1.1.tgz#a8f46916c731d0262a04689300bdeeb9e4ddf754"
+  integrity sha512-qDfVPMvHjRHtdLkokhGXhiFfIkYjdINeqXFrII/mviwEorwWgfdszoxSUpdc7GP8B4VA5JLiF1A3kFMzxBFuvg==
   dependencies:
     "@rdf-esm/data-model" "^0.5.3"
     "@rdf-esm/formats-common" "^0.5.3"

@@ -90,8 +90,8 @@ export const DefaultRenderer: Renderer = {
             }
 
             return component.render(
-              { focusNode, property },
-              { update, updateComponentState },
+              { focusNode, property, updateComponentState },
+              { update },
             )
           }
 
@@ -160,21 +160,23 @@ export const DefaultRenderer: Renderer = {
                 }
                 return html`Loading editor`
               }
-              if (component.init && !value.componentState.ready) {
-                component.init({
+              if (component.init) {
+                const ready = component.init({
                   form: state,
-                  component,
                   focusNode,
                   property,
                   updateComponentState,
                   value,
                 })
-                return html`Initialising component`
+
+                if (!ready) {
+                  return html`Initialising component`
+                }
               }
 
               return component.render(
-                { form: state, focusNode, property, value },
-                { update, focusOnObjectNode, updateComponentState },
+                { form: state, focusNode, property, value, updateComponentState },
+                { update, focusOnObjectNode },
               )
             }
 
