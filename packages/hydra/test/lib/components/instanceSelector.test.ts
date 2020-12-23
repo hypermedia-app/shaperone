@@ -10,14 +10,19 @@ import { fromPointer } from '@rdfine/hydra/lib/Collection'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import ResourceRepresentation from 'alcaeus/ResourceRepresentation'
 import * as Hydra from '@rdfine/hydra'
+import { testPropertyState } from '@hydrofoil/shaperone-core/test/models/forms/util'
 import * as instancesSelector from '../../../lib/components/instancesSelector'
 
 RdfResourceImpl.factory.addMixin(...Object.values(Hydra))
 
 function hydraCollectionProperty() {
-  return propertyShape({
+  const property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+
+  property.shape = propertyShape({
     [hydra.collection.value]: ex.Collection,
   })
+
+  return property
 }
 
 describe('hydra/lib/components/instancesSelector', () => {
@@ -40,11 +45,11 @@ describe('hydra/lib/components/instancesSelector', () => {
 
     it('returns 1 if property shape has named node hydra:collection', () => {
       // given
-      const shape = hydraCollectionProperty()
+      const property = hydraCollectionProperty()
       const value = clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
-      const result = instancesSelector.matcher.decorate(matcher)(shape, value)
+      const result = instancesSelector.matcher.decorate(matcher)(property.shape, value)
 
       // then
       expect(result).to.eq(1)
@@ -96,6 +101,7 @@ describe('hydra/lib/components/instancesSelector', () => {
         label: sinon.stub(),
         render: sinon.stub(),
         loadInstance: sinon.stub(),
+        shouldLoad: sinon.stub(),
       }
       decorated = instancesSelector.decorator(client).decorate(component)
     })
@@ -118,7 +124,7 @@ describe('hydra/lib/components/instancesSelector', () => {
         const instances = await decorated.loadChoices({
           focusNode,
           property,
-        })
+        } as any)
 
         // then
         expect(instances).to.have.length(3)

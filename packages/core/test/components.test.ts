@@ -5,6 +5,7 @@ import { dash, rdf, owl, rdfs } from '@tpluscode/rdf-ns-builders'
 import clownface from 'clownface'
 import { enumSelect, instancesSelect } from '../components'
 import { propertyShape } from './util'
+import { testPropertyState } from './models/forms/util'
 
 describe('components', () => {
   describe('enumSelect', () => {
@@ -76,16 +77,16 @@ describe('components', () => {
 
     it('sets instances of sh:class selected from property graph', async () => {
       // given
-      const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
-      const property = propertyShape({
+      const property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+      property.shape = propertyShape({
         class: owl.Thing,
       })
-      property.pointer.namedNode('foo').addOut(rdf.type, owl.Thing)
-      property.pointer.namedNode('bar').addOut(rdf.type, owl.Nothing)
-      property.pointer.namedNode('baz').addOut(rdf.type, owl.Thing)
+      property.shape.pointer.namedNode('foo').addOut(rdf.type, owl.Thing)
+      property.shape.pointer.namedNode('bar').addOut(rdf.type, owl.Nothing)
+      property.shape.pointer.namedNode('baz').addOut(rdf.type, owl.Thing)
 
       // when
-      const choices = await instancesSelect.loadChoices({ focusNode, property })
+      const choices = await instancesSelect.loadChoices({ property } as any)
 
       // then
       expect(choices).to.containSubset([{

@@ -3,8 +3,7 @@ import { ex, sinon } from '@shaperone/testing'
 import { testObjectState, testPropertyState } from '@hydrofoil/shaperone-core/test/models/forms/util'
 import clownface from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import { Component } from '@hydrofoil/shaperone-core'
-import { dash, rdfs, schema, dcterms, hydra } from '@tpluscode/rdf-ns-builders'
+import { rdfs, schema, dcterms, hydra } from '@tpluscode/rdf-ns-builders'
 import { FormSettings } from '@hydrofoil/shaperone-core/models/forms'
 import { instancesSelectEditor } from '../components'
 
@@ -15,9 +14,6 @@ describe('wc-vaadin/components', () => {
         labelProperties: [rdfs.label, schema.name, dcterms.title],
         languages: ['en'],
         shouldEnableEditorChoice: () => true,
-      }
-      const component: Component = {
-        editor: dash.InstancesSelectEditor,
       }
 
       it('fetches named resource if it has no triples in data graph and sets its labels', async () => {
@@ -40,7 +36,6 @@ describe('wc-vaadin/components', () => {
         await editor.init?.({
           form,
           value,
-          component,
           focusNode,
           property,
           updateComponentState: sinon.spy(),
@@ -71,7 +66,6 @@ describe('wc-vaadin/components', () => {
         await editor.init?.({
           form,
           value,
-          component,
           focusNode,
           property,
           updateComponentState: sinon.spy(),
@@ -97,7 +91,6 @@ describe('wc-vaadin/components', () => {
         await editor.init?.({
           form,
           value,
-          component,
           focusNode,
           property,
           updateComponentState: sinon.spy(),
