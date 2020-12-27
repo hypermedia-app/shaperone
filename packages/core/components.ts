@@ -42,7 +42,7 @@ export const enumSelect: CoreComponents<EnumSelectEditor> = {
 
       return false
     }
-    return true
+    return !componentState.loading
   },
   async loadChoices({ property }) {
     return property.pointer.node(property.in).toArray()
@@ -94,7 +94,7 @@ export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
 
       return false
     }
-    return true
+    return !value.componentState.loading
   },
   async loadInstance({ property, value }) {
     return property.pointer.node(value)

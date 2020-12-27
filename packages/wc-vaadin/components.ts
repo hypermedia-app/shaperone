@@ -31,10 +31,14 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
 
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
-  init({ form, property, value }) {
+  init({ form, property, value, updateComponentState }) {
     const { object } = value
 
-    if (object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
+    if (!value.componentState.ready && object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
+      updateComponentState({
+        loading: true,
+        ready: false,
+      });
       (async () => {
         try {
           const instance = await this.loadInstance({ property: property.shape, value: object })
@@ -45,12 +49,17 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
             }
           }
         } catch (e) {
-          // failed to dereference existing value
+          updateComponentState({
+            loading: false,
+            ready: true,
+          })
         }
       })()
+
+      return false
     }
 
-    return true
+    return !!value.componentState.ready
   },
   lazyRender() {
     return import('./components/instancesSelect').then(m => m.instancesSelect)

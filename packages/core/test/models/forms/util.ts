@@ -78,6 +78,7 @@ export function testObjectState(object: GraphPointer, init: RecursivePartial<For
     selectedEditor: undefined,
     object,
     editors: [],
+    componentState: {},
   }, init, { clone: false })
 }
 

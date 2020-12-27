@@ -1,17 +1,20 @@
 import { expect } from '@open-wc/testing'
-import { dash, hydra } from '@tpluscode/rdf-ns-builders'
+import { dash, hydra, schema } from '@tpluscode/rdf-ns-builders'
 import { sinon, ex } from '@shaperone/testing'
-import { InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import clownface, { GraphPointer } from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { BlankNode, NamedNode } from 'rdf-js'
 import { fromPointer } from '@rdfine/hydra/lib/Collection'
 import RdfResourceImpl from '@tpluscode/rdfine'
-import ResourceRepresentation from 'alcaeus/ResourceRepresentation'
 import * as Hydra from '@rdfine/hydra'
-import { testPropertyState } from '@hydrofoil/shaperone-core/test/models/forms/util'
+import { testObjectState, testPropertyState } from '@hydrofoil/shaperone-core/test/models/forms/util'
+import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import { Initializer } from '@tpluscode/rdfine/RdfResource'
+import { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
 import * as instancesSelector from '../../../lib/components/instancesSelector'
+import { ResourceRepresentation } from '../../helpers/alcaeus'
 
 RdfResourceImpl.factory.addMixin(...Object.values(Hydra))
 
@@ -20,6 +23,19 @@ function hydraCollectionProperty() {
 
   property.shape = propertyShape({
     [hydra.collection.value]: ex.Collection,
+  })
+
+  return property
+}
+
+function hydraSearchProperty({ search = {} }: { search?: Initializer<IriTemplate> } = {}) {
+  const property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+
+  property.shape = propertyShape({
+    [hydra.search.value]: {
+      types: [hydra.IriTemplate],
+      ...search,
+    },
   })
 
   return property
@@ -46,6 +62,18 @@ describe('hydra/lib/components/instancesSelector', () => {
     it('returns 1 if property shape has named node hydra:collection', () => {
       // given
       const property = hydraCollectionProperty()
+      const value = clownface({ dataset: $rdf.dataset() }).blankNode()
+
+      // when
+      const result = instancesSelector.matcher.decorate(matcher)(property.shape, value)
+
+      // then
+      expect(result).to.eq(1)
+    })
+
+    it('returns 1 if property shape has hydra:search', () => {
+      // given
+      const property = hydraSearchProperty()
       const value = clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
@@ -89,8 +117,12 @@ describe('hydra/lib/components/instancesSelector', () => {
     let client: {
       loadResource: sinon.SinonStub
     }
+    let value: PropertyObjectState<InstancesSelect>
+    let property: PropertyState
 
     beforeEach(() => {
+      value = testObjectState(clownface({ dataset: $rdf.dataset() }).blankNode())
+      property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
       focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
       client = {
         loadResource: sinon.stub(),
@@ -106,6 +138,105 @@ describe('hydra/lib/components/instancesSelector', () => {
       decorated = instancesSelector.decorator(client).decorate(component)
     })
 
+    describe('shouldLoad', () => {
+      it('returns false if instances state is initialized and there is no search template', () => {
+        // given
+        value.componentState.instances = []
+
+        // when
+        const result = decorated.shouldLoad({
+          focusNode,
+          value,
+          property,
+          updateComponentState: sinon.stub(),
+        } as any)
+
+        // then
+        expect(result).to.be.false
+      })
+
+      it('returns true if instances state is not initialized', () => {
+        // when
+        const result = decorated.shouldLoad({
+          focusNode,
+          value,
+          property,
+          updateComponentState: sinon.stub(),
+        } as any)
+
+        // then
+        expect(result).to.be.true
+      })
+
+      it('returns true if expanded search URI has changed', () => {
+        // given
+        value.componentState.searchUri = 'foo'
+
+        // when
+        const result = decorated.shouldLoad({
+          focusNode,
+          value,
+          property,
+          updateComponentState: sinon.stub(),
+        } as any)
+
+        // then
+        expect(result).to.be.true
+      })
+
+      it('returns false if focus node does not provider variables required by hydra:search', () => {
+        // given
+        property = hydraSearchProperty({
+          search: {
+            template: 'people?name={name}',
+            mapping: {
+              variable: 'name',
+              property: schema.name,
+              required: true,
+            },
+          },
+        })
+
+        // when
+        const result = decorated.shouldLoad({
+          focusNode,
+          value,
+          property,
+          updateComponentState: sinon.stub(),
+        } as any)
+
+        // then
+        expect(result).to.be.false
+      })
+
+      it('returns true if hydra:search is different than previous', () => {
+        // given
+        property = hydraSearchProperty({
+          search: {
+            template: 'people?name={name}',
+            mapping: {
+              variable: 'name',
+              property: schema.name,
+              required: true,
+            },
+          },
+        })
+        value.componentState.searchUri = 'people?name=jane'
+        focusNode.addOut(schema.name, 'john')
+
+        // when
+        const result = decorated.shouldLoad({
+          focusNode,
+          value,
+          property,
+          updateComponentState: sinon.stub(),
+        } as any)
+
+        // then
+        expect(result).to.be.true
+      })
+    })
+
     describe('loadChoices', () => {
       it('sets loading state when API has returned collection', async () => {
         // given
@@ -117,7 +248,7 @@ describe('hydra/lib/components/instancesSelector', () => {
             ex.Item3,
           ],
         })
-        const representation = new ResourceRepresentation(collection.pointer, RdfResourceImpl.factory, ex.Collection)
+        const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
         // when
