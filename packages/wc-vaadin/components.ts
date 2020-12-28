@@ -31,24 +31,35 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
 
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
-  async init({ form, updateComponentState, property, value }) {
-    if (value.object && value.object.term.termType === 'NamedNode' && !value.object.out().terms.length) {
-      try {
-        const instance = await this.loadInstance({ property: property.shape, value: value.object })
-        if (instance) {
-          const objectNode = property.shape.pointer.node(value.object)
-          for (const labelProperty of form.labelProperties) {
-            objectNode.addOut(labelProperty, instance.out(labelProperty))
+  init({ form, property, value, updateComponentState }) {
+    const { object } = value
+
+    if (!value.componentState.ready && object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
+      updateComponentState({
+        loading: true,
+        ready: false,
+      });
+      (async () => {
+        try {
+          const instance = await this.loadInstance({ property: property.shape, value: object })
+          if (instance) {
+            const objectNode = property.shape.pointer.node(object)
+            for (const labelProperty of form.labelProperties) {
+              objectNode.addOut(labelProperty, instance.out(labelProperty))
+            }
           }
+        } catch (e) {
+          updateComponentState({
+            loading: false,
+            ready: true,
+          })
         }
-      } catch (e) {
-        // failed to dereference existing value
-      }
+      })()
+
+      return false
     }
 
-    updateComponentState({
-      ready: true,
-    })
+    return !!value.componentState.ready
   },
   lazyRender() {
     return import('./components/instancesSelect').then(m => m.instancesSelect)

@@ -9,11 +9,16 @@ export interface TComponentState extends Record<string, any> {
   ready?: boolean
 }
 
+export interface UpdateComponentState<T extends TComponentState = TComponentState> {
+  (values: Partial<T>): void
+}
+
 export interface SingleEditorRenderParams<T extends TComponentState = TComponentState> {
   form: FormSettings
   focusNode: FocusNode
   property: PropertyState
   value: PropertyObjectState<T>
+  updateComponentState: UpdateComponentState<T>
 }
 
 export interface MultiEditorRenderParams<T extends Record<string, any> = Record<string, any>> {
@@ -21,34 +26,22 @@ export interface MultiEditorRenderParams<T extends Record<string, any> = Record<
   focusNode: FocusNode
   property: PropertyState
   componentState: T
+  updateComponentState: UpdateComponentState<T>
 }
 
-export interface UpdateComponentState<T extends TComponentState = TComponentState> {
-  (values: Partial<T>): void
-}
-
-export interface SingleEditorActions<TState extends TComponentState> {
-  updateComponentState: UpdateComponentState<TState>
+export interface SingleEditorActions {
   update(newValue: Term | string): void
   focusOnObjectNode(): void
 }
 
-export interface MultiEditorActions<TState extends TComponentState> {
-  updateComponentState: UpdateComponentState<TState>
+export interface MultiEditorActions {
   update(newValues: Array<Term | string>): void
   focusOnObjectNode(): void
 }
 
 export interface Component<TState extends TComponentState = TComponentState> {
   editor: NamedNode
-  init?(params: {
-    form: FormSettings
-    updateComponentState: UpdateComponentState<TState>
-    component: Component
-    focusNode: FocusNode
-    property: PropertyState
-    value: PropertyObjectState<TState>
-  }): void
+  init?(params: SingleEditorRenderParams<TState>): boolean
 }
 
 export interface ComponentDecorator<T extends Component = Component> {
@@ -60,8 +53,8 @@ export interface RenderFunc<Params, Actions, TRenderResult> {
   (params: Params, actions: Actions): TRenderResult
 }
 
-export type RenderSingleEditor<TState extends TComponentState, TRenderResult> = RenderFunc<SingleEditorRenderParams<TState>, SingleEditorActions<TState>, TRenderResult>
-export type RenderMultiEditor<TState extends TComponentState, TRenderResult> = RenderFunc<MultiEditorRenderParams<TState>, MultiEditorActions<TState>, TRenderResult>
+export type RenderSingleEditor<TState extends TComponentState, TRenderResult> = RenderFunc<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
+export type RenderMultiEditor<TState extends TComponentState, TRenderResult> = RenderFunc<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
 
 export interface ComponentState extends Component {
   render?: RenderFunc<any, any, any>
@@ -76,8 +69,8 @@ interface ComponentRender<Params, Actions, TRenderResult> {
   render: RenderFunc<Params, Actions, TRenderResult>
 }
 
-export type SingleEditorComponent<TState extends TComponentState, TRenderResult> = Component<TState> & ComponentRender<SingleEditorRenderParams<TState>, SingleEditorActions<TState>, TRenderResult>
-export type MultiEditorComponent<TState extends TComponentState, TRenderResult> = Component<TState> & ComponentRender<MultiEditorRenderParams<TState>, MultiEditorActions<TState>, TRenderResult>
+export type SingleEditorComponent<TState extends TComponentState, TRenderResult> = Component<TState> & ComponentRender<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
+export type MultiEditorComponent<TState extends TComponentState, TRenderResult> = Component<TState> & ComponentRender<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
 
 export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
   lazyRender() : Promise<T['render']>

@@ -28,7 +28,7 @@ interface EditorTestParams<T> {
   componentState?: T
 }
 
-export function editorTestParams<T extends TComponentState = TComponentState>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions<T> } {
+export function editorTestParams<T extends TComponentState = TComponentState>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
   const { focusNode, object, property, datatype, componentState } = arg
 
   const value: PropertyObjectState<T> = {
@@ -59,11 +59,11 @@ export function editorTestParams<T extends TComponentState = TComponentState>(ar
         componentState: {},
       },
       value,
+      updateComponentState: sinon.spy(),
     },
     actions: {
       update: sinon.spy(),
       focusOnObjectNode: sinon.spy(),
-      updateComponentState: sinon.spy(),
     },
   }
 }

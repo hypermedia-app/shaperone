@@ -20,7 +20,7 @@ export const textArea: RenderSingleEditor = function ({ value }, { update }) {
   return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object?.value}</textarea>`
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, focusNode, value, property }, { update, updateComponentState }) {
+export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { value }, { update }) {
   const choices = value.componentState.choices || []
 
   function updateHandler(e: any) {
@@ -42,7 +42,7 @@ export const datePicker = (type: string): RenderSingleEditor => function ({ valu
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, focusNode, property, value }, { update, updateComponentState }) {
+export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { value }, { update }) {
   const choices = value.componentState.instances || []
 
   return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1][0].term)}" required>
