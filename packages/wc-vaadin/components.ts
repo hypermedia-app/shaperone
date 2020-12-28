@@ -34,7 +34,7 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   init({ form, property, value, updateComponentState }) {
     const { object } = value
 
-    if (!value.componentState.ready && object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
+    if (!value.componentState.ready && !value.componentState.loading && object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
       updateComponentState({
         loading: true,
         ready: false,
@@ -57,6 +57,12 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
       })()
 
       return false
+    }
+    if (!value.componentState.ready) {
+      updateComponentState({
+        loading: false,
+        ready: true,
+      })
     }
 
     return !!value.componentState.ready
