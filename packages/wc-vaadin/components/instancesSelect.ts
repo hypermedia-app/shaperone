@@ -9,25 +9,30 @@ import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 
 type CollectionDataProvider = ComboBoxDataProvider & {
   component: InstancesSelectEditor
-  renderParams: SingleEditorRenderParams
+  renderParams: SingleEditorRenderParams<InstancesSelect>
 }
 
-function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEditorRenderParams): CollectionDataProvider {
+function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEditorRenderParams<InstancesSelect>): CollectionDataProvider {
   const provider: CollectionDataProvider = async (params, callback) => {
+    const pattern = new RegExp(params.filter, 'i')
+
     if (!provider.component.shouldLoad(provider.renderParams)) {
-      // eslint-disable-next-line standard/no-callback-literal
-      callback([], 0)
+      const instances = (provider.renderParams.value.componentState.instances || []).filter(([, label]) => pattern.test(label))
+
+      callback(instances, instances.length)
       return
     }
 
-    const pattern = new RegExp(params.filter, 'i')
     const choices = await provider.component.loadChoices(provider.renderParams)
-    const items = choices
-      .map(pointer => ({ value: pointer, label: provider.component.label(pointer, provider.renderParams.form) }))
-      .filter(({ label }) => pattern.test(label))
-      .sort((l, r) => l.label.localeCompare(r.label))
+    const instances = choices.map<[GraphPointer, string]>(pointer => [pointer, provider.component.label(pointer, provider.renderParams.form)])
+    const items = instances
+      .filter(([, label]) => pattern.test(label))
+      .sort(([, l], [, r]) => l.localeCompare(r))
 
     callback(items, items.length)
+    provider.renderParams.updateComponentState({
+      instances,
+    })
   }
 
   provider.renderParams = _renderParams
@@ -60,43 +65,36 @@ const memoizeDataProvider = directive((component: InstancesSelectEditor, renderP
 
 export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, params, actions) {
   const { form, focusNode, property, value } = params
-  let selectedItem: { label: string; value: GraphPointer } | undefined
+  let selectedInstance: [GraphPointer, string] | undefined
   if (value.componentState.selectedInstance) {
-    selectedItem = {
-      label: value.componentState.selectedInstance[1],
-      value: value.componentState.selectedInstance[0],
-    }
+    selectedInstance = value.componentState.selectedInstance
   }
 
-  if (value.object && !selectedItem) {
+  if (value.object && !selectedInstance) {
     let label = this.label(value.object, form)
     if (label === value.object.value) {
       label = this.label(property.shape.pointer.node(value.object), form)
     }
 
-    selectedItem = {
-      value: value.object,
-      label,
-    }
+    selectedInstance = [value.object, label]
   }
 
   function onChange(e: any) {
-    if (e.target.selectedItem && !e.target.selectedItem.value.term.equals(value.object?.term)) {
-      actions.update(e.target.selectedItem.value.term)
+    const selectedInstance = e.target.selectedItem as [GraphPointer, string] | undefined
+
+    if (selectedInstance && !selectedInstance[0].term.equals(value.object?.term)) {
+      actions.update(selectedInstance[0].term)
       params.updateComponentState({
-        selectedInstance: [
-          e.target.selectedItem.value,
-          e.target.selectedItem.label,
-        ],
+        selectedInstance,
       })
     }
   }
 
   const searchUri = this.searchTemplate?.({ property })?.expand(focusNode)
 
-  return html`<vaadin-combo-box item-id-path="value.value"
+  return html`<vaadin-combo-box item-id-path="0.value" item-label-path="1"
                 .dataProvider="${memoizeDataProvider(this, params, searchUri)}"
-                .selectedItem="${selectedItem}"
+                .selectedItem="${selectedInstance}"
                 @selected-item-changed="${onChange}">
   </vaadin-combo-box>`
 }
