@@ -64,4 +64,21 @@ describe('wc-vaadin/components/instancesSelect', () => {
       termType: 'NamedNode',
     }))
   })
+
+  it('does not load when template', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const { params, actions } = editorTestParams<InstancesSelect>({
+      object: graph.namedNode(''),
+    })
+    component.shouldLoad = () => false
+    component.loadChoices = sinon.spy()
+    const selectElement = await fixture<ComboBoxElement>(component.render(params, actions))
+
+    // when
+    selectElement.open()
+
+    // then
+    expect(component.loadChoices).not.to.have.been.called
+  })
 })

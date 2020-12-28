@@ -14,6 +14,12 @@ type CollectionDataProvider = ComboBoxDataProvider & {
 
 function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEditorRenderParams): CollectionDataProvider {
   const provider: CollectionDataProvider = async (params, callback) => {
+    if (!provider.component.shouldLoad(provider.renderParams)) {
+      // eslint-disable-next-line standard/no-callback-literal
+      callback([], 0)
+      return
+    }
+
     const pattern = new RegExp(params.filter, 'i')
     const choices = await provider.component.loadChoices(provider.renderParams)
     const items = choices
