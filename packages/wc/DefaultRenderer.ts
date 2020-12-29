@@ -61,11 +61,20 @@ export const DefaultRenderer: Renderer = {
               })
             }
 
+            function updateComponentState(newState: Record<string, any>) {
+              actions.forms.updateComponentState({
+                form,
+                focusNode,
+                property: property.shape,
+                newState,
+              })
+            }
+
             const editor = property.selectedEditor
             if (!editor) {
               return html`No editor found for property`
             }
-            const component = components[editor.value]
+            const component = components.components[editor.value]
             if (!component) {
               return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
             }
@@ -81,7 +90,7 @@ export const DefaultRenderer: Renderer = {
             }
 
             return component.render(
-              { property },
+              { focusNode, property, updateComponentState },
               { update },
             )
           }
@@ -123,11 +132,21 @@ export const DefaultRenderer: Renderer = {
                 }
               }
 
+              function updateComponentState(newState: Record<string, any>) {
+                actions.forms.updateComponentState({
+                  form,
+                  focusNode,
+                  property: property.shape,
+                  object: value,
+                  newState,
+                })
+              }
+
               const editor = value.selectedEditor
               if (!editor) {
                 return html`No editor found for property`
               }
-              const component = components[editor.value]
+              const component = components.components[editor.value]
               if (!component) {
                 return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
               }
@@ -141,9 +160,22 @@ export const DefaultRenderer: Renderer = {
                 }
                 return html`Loading editor`
               }
+              if (component.init) {
+                const ready = component.init({
+                  form: state,
+                  focusNode,
+                  property,
+                  updateComponentState,
+                  value,
+                })
+
+                if (!ready) {
+                  return html`Initialising component`
+                }
+              }
 
               return component.render(
-                { property, value },
+                { form: state, focusNode, property, value, updateComponentState },
                 { update, focusOnObjectNode },
               )
             }

@@ -1,5 +1,70 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [16a4822]
+  - @hydrofoil/shaperone-hydra@0.1.1
+  - @hydrofoil/shaperone-playground-examples@0.0.16
+  - @hydrofoil/shaperone-wc@0.2.5
+  - @hydrofoil/shaperone-wc-material@0.1.14
+  - @hydrofoil/shaperone-wc-vaadin@0.1.14
+
+## 0.1.8
+
+### Patch Changes
+
+- 5b4e71b: Restore selected resource from sharing link
+- Updated dependencies [8fae858]
+- Updated dependencies [b47bd64]
+  - @hydrofoil/shaperone-wc@0.2.4
+  - @hydrofoil/shaperone-hydra@0.1.0
+  - @hydrofoil/shaperone-playground-examples@0.0.15
+  - @hydrofoil/shaperone-wc-material@0.1.13
+  - @hydrofoil/shaperone-wc-vaadin@0.1.13
+
+## 0.1.7
+
+### Patch Changes
+
+- @hydrofoil/shaperone-playground-examples@0.0.14
+- @hydrofoil/shaperone-wc@0.2.3
+- @hydrofoil/shaperone-wc-material@0.1.12
+- @hydrofoil/shaperone-wc-vaadin@0.1.12
+
+## 0.1.6
+
+### Patch Changes
+
+- 93965e6: Update rdfine
+- Updated dependencies [93965e6]
+- Updated dependencies [e3afb8e]
+- Updated dependencies [2b854ea]
+  - @hydrofoil/shaperone-wc@0.2.2
+  - @hydrofoil/shaperone-wc-material@0.1.11
+  - @hydrofoil/shaperone-wc-vaadin@0.1.11
+  - @hydrofoil/shaperone-playground-examples@0.0.13
+
+## 0.1.5
+
+### Patch Changes
+
+- @hydrofoil/shaperone-playground-examples@0.0.12
+- @hydrofoil/shaperone-wc@0.2.1
+- @hydrofoil/shaperone-wc-material@0.1.10
+- @hydrofoil/shaperone-wc-vaadin@0.1.10
+
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [1772fd7]
+  - @hydrofoil/shaperone-wc@0.2.0
+  - @hydrofoil/shaperone-playground-examples@0.0.11
+  - @hydrofoil/shaperone-wc-material@0.1.9
+  - @hydrofoil/shaperone-wc-vaadin@0.1.9
+
 ## 0.1.3
 
 ### Patch Changes

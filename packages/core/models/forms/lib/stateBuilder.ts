@@ -47,6 +47,7 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
       editors: matchedEditors,
       selectedEditor,
       editorSwitchDisabled: !shouldEnableEditorChoice({ object }),
+      componentState: {},
     }
   }
 }
@@ -94,6 +95,7 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
     canRemove,
     canAdd,
     datatype,
+    componentState: {},
   }
 }
 

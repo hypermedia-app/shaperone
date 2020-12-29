@@ -32,7 +32,6 @@ describe('models/resources/effects/forms/addFormField', () => {
     })
     formState.focusNodes = {
       [focusNode.value]: {
-        shape: property,
       },
     }
 

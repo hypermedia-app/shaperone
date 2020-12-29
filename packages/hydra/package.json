@@ -1,0 +1,38 @@
+{
+  "name": "@hydrofoil/shaperone-hydra",
+  "version": "0.1.1",
+  "description": "Shaperone extensions to integrate with Hydra-driven APIs",
+  "main": "index.js",
+  "files": [
+    "**/*.js",
+    "**/*.d.ts"
+  ],
+  "scripts": {
+    "prepack": "tsc"
+  },
+  "dependencies": {
+    "@hydrofoil/shaperone-core": "^0.4.3",
+    "@rdf-esm/term-map": "^0.5.0",
+    "@rdfine/hydra": "^0.6.4",
+    "@tpluscode/rdf-ns-builders": "^0.4.0",
+    "@tpluscode/rdfine": "^0.5.20",
+    "alcaeus": "^1.1.1"
+  },
+  "devDependencies": {
+    "@open-wc/testing": "^2.5.18",
+    "@rdf-esm/dataset": "^0.5.1",
+    "@shaperone/testing": "0.0.0",
+    "clownface": "^1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hypermedia-app/shaperone",
+    "directory": "packages/hydra"
+  },
+  "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}

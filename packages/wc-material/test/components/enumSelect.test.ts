@@ -1,21 +1,35 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import { sh } from '@tpluscode/rdf-ns-builders'
 import { editorTestParams } from '@shaperone/testing'
-import { enumSelect } from '../../components/enumSelect'
+import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { enumSelectEditor } from '../../components'
 
 describe('wc-material/components/enumSelect', () => {
+  let enumSelect: EnumSelectEditor
+
+  before(async () => {
+    enumSelect = {
+      ...enumSelectEditor,
+      render: await enumSelectEditor.lazyRender(),
+    }
+  })
+
   it('renders an mwc-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal(''),
+      componentState: {
+        choices: [
+          [graph.literal('foo'), 'foo'],
+          [graph.literal('bar'), 'bar'],
+        ],
+      },
     })
-    params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect(params, actions))
+    const result = await fixture(enumSelect.render(params, actions))
 
     // then
     expect(result).to.equalSnapshot()
@@ -24,13 +38,18 @@ describe('wc-material/components/enumSelect', () => {
   it('sets selection to current object', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal('bar'),
+      componentState: {
+        choices: [
+          [graph.literal('foo'), 'foo'],
+          [graph.literal('bar'), 'bar'],
+        ],
+      },
     })
-    params.property.shape.pointer.addList(sh.in, ['foo', 'bar'])
 
     // when
-    const result = await fixture(enumSelect(params, actions))
+    const result = await fixture(enumSelect.render(params, actions))
 
     // then
     expect(result).to.equalSnapshot()

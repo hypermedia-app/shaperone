@@ -1,17 +1,19 @@
-import type { NodeShape, PropertyShape } from '@rdfine/shacl'
-import { NodeShapeMixin, PropertyShapeMixin } from '@rdfine/shacl'
+import * as NodeShape from '@rdfine/shacl/lib/NodeShape'
+import * as PropertyShape from '@rdfine/shacl/lib/PropertyShape'
 import RdfResource, { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/RdfResource'
 import clownface, { GraphPointer } from 'clownface'
 import * as $rdf from '@rdf-esm/dataset'
 import PropertyShapeEx from '../models/shapes/lib/PropertyShape'
 
-function isPointer(arg: GraphPointer<ResourceIdentifier> | Initializer<PropertyShape> | undefined): arg is GraphPointer<ResourceIdentifier> {
+RdfResource.factory.addMixin(PropertyShapeEx)
+
+function isPointer(arg: GraphPointer<ResourceIdentifier> | Initializer<PropertyShape.PropertyShape> | undefined): arg is GraphPointer<ResourceIdentifier> {
   return (arg && '_context' in arg) || false
 }
 
-export function propertyShape(shape?: GraphPointer<ResourceIdentifier> | Initializer<PropertyShape>, init? : Initializer<PropertyShape>): PropertyShape {
+export function propertyShape(shape?: GraphPointer<ResourceIdentifier> | Initializer<PropertyShape.PropertyShape>, init? : Initializer<PropertyShape.PropertyShape>): PropertyShape.PropertyShape {
   let node: GraphPointer<ResourceIdentifier>
-  let initializer: Initializer<PropertyShape> | undefined
+  let initializer: Initializer<PropertyShape.PropertyShape> | undefined
 
   if (isPointer(shape)) {
     node = shape
@@ -25,19 +27,21 @@ export function propertyShape(shape?: GraphPointer<ResourceIdentifier> | Initial
     }
   }
 
-  return RdfResource.factory.createEntity<PropertyShape>(node, [PropertyShapeMixin, PropertyShapeEx], {
-    initializer,
-  })
+  return PropertyShape.fromPointer(node, initializer, { additionalMixins: [PropertyShapeEx] })
 }
 
 function isTerm(term: any): term is ResourceIdentifier {
   return 'termType' in term
 }
 
-export function nodeShape(idOrInit: ResourceIdentifier | Initializer<NodeShape>, shape?: Initializer<NodeShape>): NodeShape {
+export function nodeShape(idOrInit: GraphPointer<ResourceIdentifier> | ResourceIdentifier | Initializer<NodeShape.NodeShape>, shape?: Initializer<NodeShape.NodeShape>): NodeShape.NodeShape {
+  if (isPointer(idOrInit)) {
+    return NodeShape.fromPointer(idOrInit, shape)
+  }
+
   const graph = clownface({ dataset: $rdf.dataset() })
   if (isTerm(idOrInit)) {
-    return new NodeShapeMixin.Class(graph.node(idOrInit), shape)
+    return NodeShape.fromPointer(graph.node(idOrInit), shape)
   }
-  return new NodeShapeMixin.Class(graph.blankNode(), idOrInit)
+  return NodeShape.fromPointer(graph.blankNode(), idOrInit)
 }

@@ -1,4 +1,4 @@
-import { Shape } from '@rdfine/shacl'
+import { NodeShape } from '@rdfine/shacl'
 import { rdf, sh, rdfs } from '@tpluscode/rdf-ns-builders'
 import TermMap from '@rdf-esm/term-map'
 import { FocusNode } from '../../../index'
@@ -11,7 +11,7 @@ const scores = new TermMap([
 ])
 
 function toScoring(focusNode: FocusNode) {
-  return (matched: [Shape, number][], shape: Shape): [Shape, number][] => {
+  return (matched: [NodeShape, number][], shape: NodeShape): [NodeShape, number][] => {
     let score = 0
     const { targetNode, targetClass, targetObjectsOf, targetSubjectsOf } = shape
     if (targetNode.some(targetNode => targetNode.equals(focusNode.term))) {
@@ -41,7 +41,7 @@ function toScoring(focusNode: FocusNode) {
   }
 }
 
-export function matchShapes(shapes: Shape[] = []): { to: (focusNode: FocusNode) => Shape[] } {
+export function matchShapes(shapes: NodeShape[] = []): { to: (focusNode: FocusNode) => NodeShape[] } {
   return {
     to(focusNode: FocusNode) {
       return shapes.reduce(toScoring(focusNode), [])

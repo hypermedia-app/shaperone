@@ -3,7 +3,7 @@ import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
 import { GraphPointer, MultiPointer } from 'clownface'
 import { BaseParams, formStateReducer } from '../../index'
-import type { FormState, PropertyObjectState } from '../index'
+import type { FormState, PropertyObjectState, State } from '../index'
 import type { FocusNode } from '../../../index'
 import { EditorsState } from '../../editors'
 import { nextid } from '../lib/objectid'
@@ -54,6 +54,7 @@ export const setPropertyObjects = formStateReducer((state: FormState, { focusNod
       object,
       editors: suitableEditors,
       selectedEditor: suitableEditors[0]?.term,
+      componentState: {},
     }
   })
 }))
@@ -80,3 +81,20 @@ export const setObjectValue = formStateReducer((state: FormState, { focusNode, p
   objectState.selectedEditor = suitableEditors[0]?.term
   objectState.object = value
 }))
+
+export const resetComponents = (state: State) => {
+  for (const [form, formState] of state.entries()) {
+    const newState = produce(formState, (draft: typeof formState) => {
+      for (const focusNode of Object.values(draft.focusNodes)) {
+        for (const property of focusNode.properties) {
+          for (const object of property.objects) {
+            object.componentState = {}
+          }
+        }
+      }
+    })
+    state.set(form, newState)
+  }
+
+  return state
+}

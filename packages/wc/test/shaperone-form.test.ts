@@ -1,5 +1,5 @@
 import { html, fixture, oneEvent, expect } from '@open-wc/testing'
-import { NodeShapeMixin } from '@rdfine/shacl'
+import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import clownface from 'clownface'
 import { dataset, literal, namedNode } from '@rdf-esm/dataset'
 import { schema } from '@tpluscode/rdf-ns-builders'
@@ -8,11 +8,20 @@ import { store } from '../store'
 import { id } from '../ShaperoneForm'
 
 describe('shaperone-form', () => {
-  const shape = new NodeShapeMixin.Class(clownface({ dataset: dataset() }).blankNode())
+  const shape = fromPointer(clownface({ dataset: dataset() }).blankNode())
   shape.property = [propertyShape(shape.pointer.blankNode(), {
     id: namedNode('schema-name'),
     path: schema.name,
   })]
+
+  it('sets languages from attribute to form settings', async () => {
+    // given
+    const form = await fixture(html`<shaperone-form .shapes="${shape.pointer}" languages="pl,en-GB,de"></shaperone-form>`)
+
+    // then
+    const formState = store().state.forms.get(id(form))
+    expect(formState?.languages.join(',')).to.eq('pl,en-GB,de')
+  })
 
   xit('dispatches event when object values change', async () => {
     // given

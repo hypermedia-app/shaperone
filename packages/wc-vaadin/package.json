@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc-vaadin",
-  "version": "0.1.8",
+  "version": "0.1.14",
   "description": "Rendering forms with Vaadin components",
   "main": "index.js",
   "files": [
@@ -15,12 +15,13 @@
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-wc": "0.1.6",
-    "@hydrofoil/shaperone-core": "0.3.0",
+    "@hydrofoil/shaperone-wc": "0.2.5",
+    "@hydrofoil/shaperone-core": "0.4.3",
     "@open-wc/lit-helpers": "^0.3.10",
     "@tpluscode/rdf-ns-builders": "^0.4.0",
     "@rdf-esm/data-model": "^0.5.3",
     "@vaadin/vaadin-accordion": "^2.0.0-alpha4",
+    "@vaadin/vaadin-combo-box": "^5.4.7",
     "@vaadin/vaadin-date-picker": "^4.4.1",
     "@vaadin/vaadin-date-time-picker": "^1.4.0",
     "@vaadin/vaadin-select": "^2.4.0",
@@ -32,13 +33,15 @@
   "devDependencies": {
     "@open-wc/eslint-config": "^2.0.6",
     "@types/rdf-js": "^4",
+    "@types/promise-the-world": "^1.0.0",
     "@rdf-esm/dataset": "^0.5.0",
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3",
-    "@rdfine/shacl": "^0.5.1",
+    "@rdfine/shacl": "^0.7.3",
     "@shaperone/testing": "*",
     "clownface": "^1",
-    "eslint-plugin-lit": "^1.2.0"
+    "eslint-plugin-lit": "^1.2.0",
+    "promise-the-world": "^1.0.1"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

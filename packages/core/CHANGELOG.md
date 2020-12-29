@@ -1,5 +1,46 @@
 # @hydrofoil/shaperone-core
 
+## 0.4.3
+
+### Patch Changes
+
+- b91d81a: Enum select would not initilize choices
+
+## 0.4.2
+
+### Patch Changes
+
+- 8fae858: Default languages set from navigator
+- ac3df4e: Added decorators to component matchers
+- f37b75d: Property Shape extensions not available when imported
+- a126971: Update editors any time matchers/metadata is added
+- 6700fa9: Prevent unnecessary layout recalculations when pointers don't really change
+- b47bd64: Decorator feature for components
+
+## 0.4.1
+
+### Patch Changes
+
+- e831915: Keep hidden sh:equals properties in sync
+
+## 0.4.0
+
+### Minor Changes
+
+- 62d8742: dash:DetailsEditor should never get a positive score by default
+
+### Patch Changes
+
+- 93965e6: Update rdfine
+- 2b854ea: Extract common functionality of enum and instance select editors in a simple composition
+- 18c76d0: Favor langString editor over plain text field
+
+## 0.3.1
+
+### Patch Changes
+
+- 84d7b1e: Components are not getting replaced in the store
+
 ## 0.3.0
 
 ### Minor Changes

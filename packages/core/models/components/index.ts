@@ -1,16 +1,32 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import reducers from './reducers'
-import type { PropertyObjectState, PropertyState } from '../forms/index'
+import type { FormSettings, PropertyObjectState, PropertyState } from '../forms/index'
 import type { Store } from '../../state'
+import type { FocusNode } from '../../index'
 
-export interface SingleEditorRenderParams {
-  property: PropertyState
-  value: PropertyObjectState
+export interface TComponentState extends Record<string, any> {
+  ready?: boolean
 }
 
-export interface MultiEditorRenderParams {
+export interface UpdateComponentState<T extends TComponentState = TComponentState> {
+  (values: Partial<T>): void
+}
+
+export interface SingleEditorRenderParams<T extends TComponentState = TComponentState> {
+  form: FormSettings
+  focusNode: FocusNode
   property: PropertyState
+  value: PropertyObjectState<T>
+  updateComponentState: UpdateComponentState<T>
+}
+
+export interface MultiEditorRenderParams<T extends Record<string, any> = Record<string, any>> {
+  form: FormSettings
+  focusNode: FocusNode
+  property: PropertyState
+  componentState: T
+  updateComponentState: UpdateComponentState<T>
 }
 
 export interface SingleEditorActions {
@@ -23,16 +39,22 @@ export interface MultiEditorActions {
   focusOnObjectNode(): void
 }
 
-export interface Component {
+export interface Component<TState extends TComponentState = TComponentState> {
   editor: NamedNode
+  init?(params: SingleEditorRenderParams<TState>): boolean
+}
+
+export interface ComponentDecorator<T extends Component = Component> {
+  applicableTo(component: Component): boolean
+  decorate(component: T): T
 }
 
 export interface RenderFunc<Params, Actions, TRenderResult> {
   (params: Params, actions: Actions): TRenderResult
 }
 
-export type RenderSingleEditor<TRenderResult> = RenderFunc<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
-export type RenderMultiEditor<TRenderResult> = RenderFunc<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+export type RenderSingleEditor<TState extends TComponentState, TRenderResult> = RenderFunc<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
+export type RenderMultiEditor<TState extends TComponentState, TRenderResult> = RenderFunc<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
 
 export interface ComponentState extends Component {
   render?: RenderFunc<any, any, any>
@@ -47,17 +69,23 @@ interface ComponentRender<Params, Actions, TRenderResult> {
   render: RenderFunc<Params, Actions, TRenderResult>
 }
 
-export type SingleEditorComponent<TRenderResult> = Component & ComponentRender<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
-export type MultiEditorComponent<TRenderResult> = Component & ComponentRender<MultiEditorRenderParams, MultiEditorActions, TRenderResult>
+export type SingleEditorComponent<TState extends TComponentState, TRenderResult> = Component<TState> & ComponentRender<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
+export type MultiEditorComponent<TState extends TComponentState, TRenderResult> = Component<TState> & ComponentRender<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
 
 export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
   lazyRender() : Promise<T['render']>
 }
 
-export type ComponentsState = Record<string, ComponentState>
+export interface ComponentsState {
+  components: Record<string, ComponentState>
+  decorators: ComponentDecorator[]
+}
 
 export const components = createModel({
-  state: <Record<string, ComponentState>>{},
+  state: <ComponentsState>{
+    components: {},
+    decorators: [],
+  },
   reducers,
   effects(store: Store) {
     const dispatch = store.getDispatch()
@@ -66,7 +94,7 @@ export const components = createModel({
       async load(editor: NamedNode) {
         const state = store.getState()
 
-        const component = state.components[editor.value]
+        const component = state.components.components[editor.value]
         if (!component.lazyRender) {
           dispatch.components.loadingFailed({ editor, reason: 'lazyRender not implemented' })
           return

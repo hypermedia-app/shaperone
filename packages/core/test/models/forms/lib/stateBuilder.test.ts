@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
-import { NodeShapeMixin } from '@rdfine/shacl'
+import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import { schema, sh, dash } from '@tpluscode/rdf-ns-builders'
 import { initialiseFocusNode, initialiseObjectState } from '../../../../models/forms/lib/stateBuilder'
 import { loadMixins } from '../../../../index'
@@ -29,8 +29,8 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
-      const nestedShape = new NodeShapeMixin.Class(graph.namedNode(ex.nestedNode))
-      const otherShape = new NodeShapeMixin.Class(graph.namedNode(ex.otherNode))
+      const nestedShape = fromPointer(graph.namedNode(ex.nestedNode))
+      const otherShape = fromPointer(graph.namedNode(ex.otherNode))
 
       // when
       const state = initialiseFocusNode({
@@ -50,8 +50,8 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
-      const nestedShape = new NodeShapeMixin.Class(graph.namedNode(ex.nestedNode))
-      const otherShape = new NodeShapeMixin.Class(graph.namedNode(ex.otherNode))
+      const nestedShape = fromPointer(graph.namedNode(ex.nestedNode))
+      const otherShape = fromPointer(graph.namedNode(ex.otherNode))
 
       // when
       const state = initialiseFocusNode({
@@ -72,7 +72,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
         .addOut(ex.foo, 'bar')
-      const shape = new NodeShapeMixin.Class(graph.namedNode(ex.shape), {
+      const shape = fromPointer(graph.namedNode(ex.shape), {
         property: [{
           types: [sh.PropertyShape],
           name: 'foo',
@@ -105,7 +105,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
-      const shape = new NodeShapeMixin.Class(graph.namedNode(ex.shape), {
+      const shape = fromPointer(graph.namedNode(ex.shape), {
         property: [{
           types: [sh.PropertyShape],
           name: 'foo',
@@ -133,7 +133,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
-      const shape = new NodeShapeMixin.Class(graph.namedNode(ex.shape), {
+      const shape = fromPointer(graph.namedNode(ex.shape), {
         property: [{
           types: [sh.PropertyShape],
           name: 'foo',
@@ -168,7 +168,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
         .addOut(schema.age, 21)
-      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+      const shape = fromPointer(graph.blankNode(), {
         property: [{
           path: schema.age,
           types: [sh.PropertyShape],
@@ -194,7 +194,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
         .addOut(schema.age, 21)
-      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+      const shape = fromPointer(graph.blankNode(), {
         property: [{
           path: schema.age,
           types: [sh.PropertyShape],
@@ -219,7 +219,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo).addOut(ex.foo, 'bar')
-      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+      const shape = fromPointer(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
@@ -244,7 +244,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo).addOut(ex.foo, 'bar')
-      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+      const shape = fromPointer(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
@@ -276,7 +276,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo).addOut(ex.foo, 'bar')
-      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+      const shape = fromPointer(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
@@ -314,7 +314,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
-      const shape = new NodeShapeMixin.Class(graph.blankNode(), {
+      const shape = fromPointer(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],

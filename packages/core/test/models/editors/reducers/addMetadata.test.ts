@@ -13,9 +13,9 @@ describe('core/models/editors/reducers/addMetadata', () => {
   it('merges datasets', () => {
     // given
     const before = testState({
-      metadata: [
-        quad(ex.Foo, rdf.type, dash.Editor),
-      ],
+      metadata(ptr) {
+        return ptr.node(ex.Foo).addOut(rdf.type, dash.MultiEditor)
+      },
     })
 
     // when

@@ -33,7 +33,7 @@ Check the main documentation page for instructions on customizing the form's ren
 
 | Property           | Attribute            | Modifiers | Type                                             | Default | Description                                      |
 |--------------------|----------------------|-----------|--------------------------------------------------|---------|--------------------------------------------------|
-| `components`       | `components`         | readonly  | `Record<string, ComponentState>`                 |         | Gets the state of the editor components          |
+| `components`       | `components`         | readonly  | `ComponentsState`                                |         | Gets the state of the editor components          |
 | `editors`          | `editors`            | readonly  | `EditorsState`                                   |         | Gets the state of the DASH editors model         |
 | `noEditorSwitches` | `no-editor-switches` |           | `boolean`                                        | false   | Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered |
 | `renderer`         |                      |           | `Renderer`                                       | {}      | Gets or sets the renderer implementation         |

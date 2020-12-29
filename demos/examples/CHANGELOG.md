@@ -1,5 +1,60 @@
 # @hydrofoil/shaperone-playground-examples
 
+## 0.0.16
+
+### Patch Changes
+
+- Updated dependencies [b91d81a]
+  - @hydrofoil/shaperone-core@0.4.3
+  - @hydrofoil/shaperone-wc@0.2.5
+
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies [8fae858]
+- Updated dependencies [ac3df4e]
+- Updated dependencies [f37b75d]
+- Updated dependencies [a126971]
+- Updated dependencies [6700fa9]
+- Updated dependencies [b47bd64]
+  - @hydrofoil/shaperone-core@0.4.2
+  - @hydrofoil/shaperone-wc@0.2.4
+
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies [e831915]
+  - @hydrofoil/shaperone-core@0.4.1
+  - @hydrofoil/shaperone-wc@0.2.3
+
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies [93965e6]
+- Updated dependencies [2b854ea]
+- Updated dependencies [18c76d0]
+- Updated dependencies [62d8742]
+  - @hydrofoil/shaperone-core@0.4.0
+  - @hydrofoil/shaperone-wc@0.2.2
+
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies [84d7b1e]
+  - @hydrofoil/shaperone-core@0.3.1
+  - @hydrofoil/shaperone-wc@0.2.1
+
+## 0.0.11
+
+### Patch Changes
+
+- Updated dependencies [1772fd7]
+  - @hydrofoil/shaperone-wc@0.2.0
+
 ## 0.0.10
 
 ### Patch Changes

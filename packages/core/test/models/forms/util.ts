@@ -28,11 +28,11 @@ interface Initializer {
 
 let num = 0
 
-export function testState(initializer: Initializer = {}) {
+export function testState(initializer: Initializer = {}, addToState?: Form.State) {
   num += 1
   const form = Symbol(num)
 
-  const state = <Form.State> new Map()
+  const state = addToState || <Form.State> new Map()
 
   state.set(form, deepmerge<Form.FormState>({
     focusStack: [],
@@ -78,6 +78,7 @@ export function testObjectState(object: GraphPointer, init: RecursivePartial<For
     selectedEditor: undefined,
     object,
     editors: [],
+    componentState: {},
   }, init, { clone: false })
 }
 
@@ -115,12 +116,15 @@ export function testStore(): { form: symbol; store: Store } {
       singleEditors: {},
       allEditors: {},
       multiEditors: {},
+      decorators: {},
       metadata: clownface({ dataset: dataset() }),
       matchMultiEditors: () => [],
       matchSingleEditors: () => [],
     },
     forms,
     components: {
+      components: {},
+      decorators: [],
     },
   }
 

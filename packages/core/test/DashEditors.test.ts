@@ -62,7 +62,7 @@ describe('core/DashEditors', () => {
   })
 
   describe(dash.TextFieldWithLangEditor.value, () => {
-    it('has score 10 for langString value', () => {
+    it('has score 11 for langString value', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const property = propertyShape()
@@ -72,7 +72,26 @@ describe('core/DashEditors', () => {
       const result = DashEditors.textFieldWithLang.match(property, value)
 
       // then
-      expect(result).to.eq(10)
+      expect(result).to.eq(11)
+    })
+
+    it('has score 11 for string value of sh:or ( rdf:langString xsd:string ) property', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape({
+        or: [{
+          [sh.datatype.value]: rdf.langString,
+        }, {
+          [sh.datatype.value]: xsd.string,
+        }],
+      })
+      const value = graph.literal('test')
+
+      // when
+      const result = DashEditors.textFieldWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(11)
     })
 
     it('has score 5 when datatype is langString', () => {
@@ -90,11 +109,12 @@ describe('core/DashEditors', () => {
       expect(result).to.eq(5)
     })
 
-    it('has score 5 when datatype is string', () => {
+    it('has score 5 when property is single line and permits rdf:langString', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const property = propertyShape({
-        [sh.datatype.value]: xsd.string,
+        [dash.singleLine.value]: true,
+        [sh.datatype.value]: rdf.langString,
       })
       const value = graph.blankNode()
 
@@ -229,6 +249,25 @@ describe('core/DashEditors', () => {
       const graph = cf({ dataset: $rdf.dataset() })
       const property = propertyShape({
         [sh.datatype.value]: rdf.langString,
+      })
+      const value = graph.blankNode()
+
+      // when
+      const result = DashEditors.textAreaWithLang.match(property, value)
+
+      // then
+      expect(result).to.eq(5)
+    })
+
+    it('has score 5 when shape allows langString', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape({
+        or: [{
+          [sh.datatype.value]: rdf.langString,
+        }, {
+          [sh.datatype.value]: xsd.string,
+        }],
       })
       const value = graph.blankNode()
 
@@ -437,6 +476,44 @@ describe('core/DashEditors', () => {
 
       // when
       const result = DashEditors.uriEditor.match(property, graph.blankNode() as any)
+
+      // then
+      expect(result).to.eq(0)
+    })
+  })
+
+  describe(dash.DetailsEditor.value, () => {
+    it('should have score = null for URI node', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+
+      // when
+      const result = DashEditors.detailsEditor.match(property, graph.namedNode('foo'))
+
+      // then
+      expect(result).to.eq(null)
+    })
+
+    it('should have score = null for blank node', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+
+      // when
+      const result = DashEditors.detailsEditor.match(property, graph.blankNode())
+
+      // then
+      expect(result).to.eq(null)
+    })
+
+    it('should have score = 0 for literal node', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+
+      // when
+      const result = DashEditors.detailsEditor.match(property, graph.literal('foo'))
 
       // then
       expect(result).to.eq(0)

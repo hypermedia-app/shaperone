@@ -38,7 +38,6 @@ export const renderer = createModel({
   state: <RendererState>{
     strategy: DefaultStrategy,
     styles: combineStyles(DefaultStrategy),
-    ready: false,
   },
   reducers: {
     ready(state): RendererState {

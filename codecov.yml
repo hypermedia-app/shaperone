@@ -4,4 +4,6 @@ ignore:
   - karma.conf.js
   - types
   - packages/*/test
+  - packages/testing
   - '**/*.js'
+  - web-test-runner.config.mjs

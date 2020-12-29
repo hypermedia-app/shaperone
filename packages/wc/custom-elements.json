@@ -14,7 +14,7 @@
         {
           "name": "components",
           "description": "Gets the state of the editor components",
-          "type": "Record<string, ComponentState>"
+          "type": "ComponentsState"
         },
         {
           "name": "rendererOptions",
@@ -50,7 +50,7 @@
           "name": "components",
           "attribute": "components",
           "description": "Gets the state of the editor components",
-          "type": "Record<string, ComponentState>"
+          "type": "ComponentsState"
         },
         {
           "name": "rendererOptions",

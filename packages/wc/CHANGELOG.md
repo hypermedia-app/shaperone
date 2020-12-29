@@ -1,5 +1,57 @@
 # @hydrofoil/shaperone-wc
 
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [b91d81a]
+  - @hydrofoil/shaperone-core@0.4.3
+
+## 0.2.4
+
+### Patch Changes
+
+- 8fae858: Default languages set from navigator
+- Updated dependencies [8fae858]
+- Updated dependencies [ac3df4e]
+- Updated dependencies [f37b75d]
+- Updated dependencies [a126971]
+- Updated dependencies [6700fa9]
+- Updated dependencies [b47bd64]
+  - @hydrofoil/shaperone-core@0.4.2
+
+## 0.2.3
+
+### Patch Changes
+
+- Updated dependencies [e831915]
+  - @hydrofoil/shaperone-core@0.4.1
+
+## 0.2.2
+
+### Patch Changes
+
+- 93965e6: Update rdfine
+- 2b854ea: Extract common functionality of enum and instance select editors in a simple composition
+- Updated dependencies [93965e6]
+- Updated dependencies [2b854ea]
+- Updated dependencies [18c76d0]
+- Updated dependencies [62d8742]
+  - @hydrofoil/shaperone-core@0.4.0
+
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [84d7b1e]
+  - @hydrofoil/shaperone-core@0.3.1
+
+## 0.2.0
+
+### Minor Changes
+
+- 1772fd7: Change how lazy components are implemented
+
 ## 0.1.6
 
 ### Patch Changes

@@ -3,20 +3,11 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { PropertyShapeMixin } from '@rdfine/shacl'
-import { toggleSwitching } from '../../../../models/forms/reducers/editors'
+import { dash } from '@tpluscode/rdf-ns-builders'
+import { recalculateEditors, toggleSwitching, updateComponentState } from '../../../../models/forms/reducers/editors'
 import { testFocusNodeState, testObjectState, testPropertyState, testState } from '../util'
-import { PropertyObjectState } from '../../../../models/forms'
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Chai {
-    interface Assertion {
-      containAll<T = unknown>(cb: (item: T) => boolean): void
-      containOne<T = unknown>(cb: (item: T) => boolean): void
-      containExactlyOne<T = unknown>(cb: (item: T) => boolean): void
-    }
-  }
-}
+import { testState as testEditorsState } from '../../editors/util'
+import { PropertyObjectState, PropertyState } from '../../../../models/forms'
 
 describe('core/models/forms/reducers/editors', () => {
   describe('toggleSwitching', () => {
@@ -72,6 +63,230 @@ describe('core/models/forms/reducers/editors', () => {
       // then
       const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
       expect(propertyState.objects).to.containAll<PropertyObjectState>(o => o.editorSwitchDisabled === false)
+    })
+  })
+
+  describe('updateComponentState', () => {
+    it('merges current and new state for multi editor', () => {
+      // given
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const property = testPropertyState(shape.pointer, {
+        componentState: {
+          foo: 'bar',
+        },
+      })
+      const { form, state } = testState({
+        form: {
+          focusNodes: {
+            ...testFocusNodeState(focusNode, {
+              properties: [property],
+            }),
+          },
+        },
+      })
+
+      // when
+      const after = updateComponentState(state, {
+        form,
+        focusNode,
+        property: property.shape,
+        newState: {
+          bar: { bar: 'baz' },
+        },
+      })
+
+      // then
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      expect(propertyState.componentState).to.deep.equal({
+        foo: 'bar',
+        bar: { bar: 'baz' },
+      })
+    })
+
+    it('merges current and new state for single editor', () => {
+      // given
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const object = testObjectState(focusNode.literal('foo'), {
+        componentState: {
+          foo: 'bar',
+        },
+      })
+      const property = testPropertyState(shape.pointer, {
+        objects: [object],
+      })
+      const { form, state } = testState({
+        form: {
+          focusNodes: {
+            ...testFocusNodeState(focusNode, {
+              properties: [property],
+            }),
+          },
+        },
+      })
+
+      // when
+      const after = updateComponentState(state, {
+        form,
+        focusNode,
+        property: property.shape,
+        object,
+        newState: {
+          bar: { bar: 'baz' },
+        },
+      })
+
+      // then
+      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      expect(propertyState.objects[0].componentState).to.deep.equal({
+        foo: 'bar',
+        bar: { bar: 'baz' },
+      })
+    })
+  })
+
+  describe('recalculateEditors', () => {
+    it('sets editor to all objects which previously had none', () => {
+      // given
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const property = testPropertyState(shape.pointer, {
+        objects: [testObjectState(focusNode.literal('foo'))],
+      })
+      const { state } = testState({
+        form: {
+          focusNodes: {
+            ...testFocusNodeState(focusNode, {
+              properties: [property],
+            }),
+          },
+        },
+      })
+      testState({
+        form: {
+          focusNodes: {
+            ...testFocusNodeState(focusNode, {
+              properties: [property],
+            }),
+          },
+        },
+      }, state)
+      const editors = testEditorsState({
+        matchSingleEditors: () => [{
+          term: dash.TextFieldEditor,
+        }],
+      })
+
+      // when
+      const after = recalculateEditors(state, { editors })
+
+      // then
+      const objects = [...after.values()]
+        .flatMap(form => Object.values(form.focusNodes))
+        .flatMap(focusNode => focusNode.properties)
+        .flatMap(property => property.objects)
+      expect(objects).to.containAll<PropertyObjectState>(object => dash.TextFieldEditor.equals(object.selectedEditor))
+    })
+
+    it('sets multi editor if matched', () => {
+      // given
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const property = testPropertyState(shape.pointer, {
+        objects: [testObjectState(focusNode.literal('foo'))],
+      })
+      const { state } = testState({
+        form: {
+          focusNodes: {
+            ...testFocusNodeState(focusNode, {
+              properties: [property],
+            }),
+          },
+        },
+      })
+      const editors = testEditorsState({
+        matchMultiEditors: () => [{
+          term: dash.TextFieldEditor,
+        }],
+      })
+
+      // when
+      const after = recalculateEditors(state, { editors })
+
+      // then
+      const properties = [...after.values()]
+        .flatMap(form => Object.values(form.focusNodes))
+        .flatMap(focusNode => focusNode.properties)
+      expect(properties).to.containAll<PropertyState>(prop => dash.TextFieldEditor.equals(prop.selectedEditor))
+    })
+
+    it('does not change multi editor if previously selected', () => {
+      // given
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const property = testPropertyState(shape.pointer, {
+        objects: [testObjectState(focusNode.literal('foo'))],
+        selectedEditor: dash.FooEditor,
+      })
+      const { state } = testState({
+        form: {
+          focusNodes: {
+            ...testFocusNodeState(focusNode, {
+              properties: [property],
+            }),
+          },
+        },
+      })
+      const editors = testEditorsState({
+        matchMultiEditors: () => [{
+          term: dash.BarEditor,
+        }],
+      })
+
+      // when
+      const after = recalculateEditors(state, { editors })
+
+      // then
+      const properties = [...after.values()]
+        .flatMap(form => Object.values(form.focusNodes))
+        .flatMap(focusNode => focusNode.properties)
+      expect(properties).to.containAll<PropertyState>(prop => property.selectedEditor === prop.selectedEditor)
+    })
+
+    it('does not change object editor if previously selected', () => {
+      // given
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const property = testPropertyState(shape.pointer, {
+        objects: [testObjectState(focusNode.literal('foo'), {
+          selectedEditor: dash.TextFieldEditor,
+        })],
+      })
+      const { state } = testState({
+        form: {
+          focusNodes: {
+            ...testFocusNodeState(focusNode, {
+              properties: [property],
+            }),
+          },
+        },
+      })
+      const editors = testEditorsState({
+        matchSingleEditors: () => [{
+          term: dash.TextAreaEditor,
+        }],
+      })
+
+      // when
+      const after = recalculateEditors(state, { editors })
+
+      // then
+      const objects = [...after.values()]
+        .flatMap(form => Object.values(form.focusNodes))
+        .flatMap(focusNode => focusNode.properties)
+        .flatMap(prop => prop.objects)
+      expect(objects).to.containAll<PropertyObjectState>(obj => obj.selectedEditor?.value === dash.TextFieldEditor.value)
     })
   })
 })
