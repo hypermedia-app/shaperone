@@ -1,7 +1,9 @@
 import type { Component } from '@hydrofoil/shaperone-core'
 import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents'
 import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components'
-import { component, matcher, metadata } from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect'
+import * as LanguageSelect from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect'
+import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating'
+import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import { components, editors, renderer } from '@hydrofoil/shaperone-wc/configure'
 import $rdf from 'rdf-ext'
@@ -13,13 +15,16 @@ import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
-  native: { ...nativeComponents },
-  material: { ...nativeComponents, ...mwcComponents, languages: component('material') },
-  vaadin: { ...nativeComponents, ...vaadinComponents, languages: component('lumo') },
+  native: { ...nativeComponents, starRating },
+  material: { ...nativeComponents, ...mwcComponents, languages: LanguageSelect.component('material'), starRating },
+  vaadin: { ...nativeComponents, ...vaadinComponents, languages: LanguageSelect.component('lumo'), starRating },
 }
 
-editors.addMetadata($rdf.dataset([...metadata()]))
-editors.addMatchers({ matcher })
+editors.addMetadata($rdf.dataset([...LanguageSelect.metadata(), ...StarRating.metadata()]))
+editors.addMatchers({
+  languages: LanguageSelect.matcher,
+  starRating: StarRating.matcher,
+})
 editors.decorate(instancesSelector.matcher)
 
 export const selectComponents = (() => {
