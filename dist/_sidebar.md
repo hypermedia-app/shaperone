@@ -9,3 +9,5 @@
   * [Components](editors/components.md)
   * [Metadata](editors/metadata.md "Editor metadata")
 * [Core library](core.md)
+* Extensions
+  * [Hydra](extensions/hydra.md) 

@@ -1,103 +1,88 @@
-import { html, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
-import { customElement, LitElement, property, css } from 'lit-element'
+import type { IconDefinition } from '@fortawesome/fontawesome-common-types'
+import type { IconName } from '@fortawesome/fontawesome-svg-core'
+import { html, SingleEditor, Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import { literal, namedNode, quad } from '@rdf-esm/data-model'
-import { repeat } from 'lit-html/directives/repeat'
-import { SingleEditor } from '@hydrofoil/shaperone-core'
-import { getPathProperty } from '@hydrofoil/shaperone-core/models/resources/lib/property'
 import { dash, rdf, rdfs, schema, xsd } from '@tpluscode/rdf-ns-builders'
-import { icon } from '@fortawesome/fontawesome-svg-core'
-import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons'
+import type { PropertyShape } from '@rdfine/shacl'
 
-@customElement('ex-star-rating')
-export class StarRating extends LitElement {
-  @property({ type: Number })
-  max = 5
+export interface StarRating {
+  icon?: IconDefinition | null
+  loading?: boolean
+}
 
-  @property({ type: Number })
-  value = 0
-
-  static get styles() {
-    return css`
-      :host {
-        display: flex;
-        --star-color: white;
-        --star-score-color: #fc0;
-      }
-
-      .star {
-        flex: 1;
-        color: var(--star-color);
-        cursor: pointer;
-      }
-
-      .star.full, .star.half {
-        color: var(--star-score-color);
-      }
-
-      .star.bg {
-        position: relative;
-        left: -39px;
-        z-index: -1;
-        margin-right: -39px;
-      }`
-  }
-
-  protected render(): unknown {
-    const radios = new Array(Math.floor(this.max)).fill(null)
-
-    return html`
-      ${repeat(radios, (_, idx) => this.__renderStar(idx + 1))}`
-  }
-
-  private __renderStar(rating: number) {
-    const diff = rating - this.value
-
-    if (diff <= 0) {
-      return html`<div class="star full" @click="${this.updateValue(rating)}">${icon(faStar).node}</div>`
-    }
-
-    if (diff <= 0.5) {
-      return html`<div class="star half" @click="${this.updateValue(rating)}">${icon(faStarHalf).node}</div><div class="star bg">${icon(faStar).node}</div>`
-    }
-
-    return html`<div class="star" @click="${this.updateValue(rating)}">${icon(faStar).node}</div>`
-  }
-
-  private updateValue(rating: number) {
-    return (e: any) => {
-      const { x, width } = e.target.getBoundingClientRect()
-      const relativeX = e.clientX - x
-
-      let value = rating
-      if (relativeX < (width / 2)) {
-        value -= 0.5
-      }
-
-      this.value = rating
-      this.dispatchEvent(new CustomEvent('value-changed', {
-        detail: {
-          value,
-        },
-      }))
-    }
-  }
+export interface StarRatingComponent extends SingleEditorComponent<StarRating> {
+  defaultIcon?: IconDefinition
 }
 
 const editor = namedNode('http://example.com/StarRating')
 
-export const component: SingleEditorComponent = {
-  editor,
-  render({ value }, { update }) {
-    const rating = value.object ? Number.parseFloat(value.object.value) : 0
+interface LoadIcon {
+  defaultIcon: IconDefinition | undefined
+  shape: PropertyShape
+  updateComponentState: UpdateComponentState<StarRating>
+}
 
-    return html`<ex-star-rating .value="${rating}" @value-changed="${(e: CustomEvent) => update(literal(e.detail.value.toString(), xsd.float))}"></ex-star-rating>`
+async function loadIcon({ defaultIcon, shape, updateComponentState }: LoadIcon) {
+  let icon: IconDefinition | null = defaultIcon || null
+  const iconName: IconName | undefined = shape.pointer.out(dash.icon).value as IconName
+  if (iconName) {
+    try {
+      ({ definition: icon } = await import(`@fortawesome/free-solid-svg-icons/${iconName}.js`))
+    } catch (e) {
+      icon = null
+    }
+  }
+  updateComponentState({
+    icon,
+    loading: false,
+  })
+}
+
+export const component: Lazy<StarRatingComponent> = {
+  editor,
+  init({ value, updateComponentState, property: { shape } }) {
+    if (typeof value.componentState.icon !== 'undefined') {
+      return true
+    }
+
+    if (value.componentState.loading) {
+      return false
+    }
+
+    loadIcon({
+      updateComponentState,
+      shape,
+      defaultIcon: this.defaultIcon,
+    })
+
+    updateComponentState({
+      loading: true,
+    })
+
+    return false
+  },
+  async lazyRender() {
+    await import('./star-rating')
+
+    return function ({ value }, { update }) {
+      const rating = value.object ? Number.parseFloat(value.object.value) : 0
+
+      function setRating(e: CustomEvent) {
+        update(literal(e.detail.value.toString(), xsd.float))
+      }
+
+      return html`<ex-star-rating .value="${rating}"
+                                  .icon="${value.componentState.icon}"
+                                  @value-changed="${setRating}"></ex-star-rating>`
+    }
   },
 }
 
 export const matcher: SingleEditor = {
   term: editor,
   match(shape) {
-    return getPathProperty(shape)?.equals(schema.ratingValue) ? 50 : 0
+    return shape.getPathProperty()?.equals(schema.ratingValue) ? 50 : 0
   },
 }
 
