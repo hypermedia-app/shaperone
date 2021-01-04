@@ -2,7 +2,7 @@
 
 Form UI elements driven by [SHACL](https://www.w3.org/TR/shacl/) and [DASH](http://datashapes.org/forms.html).
 
-Visit the [Playground](http://${playground}) for a running example presenting the different features of Shaperone.
+Visit the [Playground](${playground}) for a running example presenting the different features of Shaperone.
 
 ## Installation
 

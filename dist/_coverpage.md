@@ -10,4 +10,4 @@
 
 [GitHub](https://github.com/hypermedia-app/shaperone)
 [Get started](overview)
-[Playground](http://${playground})
+[Playground](https://forms.hypermedia.app/playground)
