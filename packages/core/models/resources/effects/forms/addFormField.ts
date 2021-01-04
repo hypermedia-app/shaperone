@@ -1,4 +1,3 @@
-import { getPathProperty } from '../../lib/property'
 import type { Store } from '../../../../state'
 import { notify } from '../../lib/notify'
 import { Params } from '../../../forms/reducers/addFormField'
@@ -14,7 +13,7 @@ export default function (store: Store) {
     }
 
     const pointer = defaultValue(property, focusNode)
-    const predicate = getPathProperty(property)!.id
+    const predicate = property.getPathProperty()!.id
     if (!pointer || focusNode.has(predicate, pointer).terms.length) {
       return
     }

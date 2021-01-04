@@ -2,7 +2,6 @@ import { Term } from 'rdf-js'
 import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import $rdf from '@rdf-esm/data-model'
 import type { PropertyShape } from '@rdfine/shacl/lib/PropertyShape'
-import { getPathProperty } from '../../../resources/lib/property'
 import type { Dispatch } from '../../../../state'
 import type { FocusNode } from '../../../../index'
 import type { State } from '../../index'
@@ -18,7 +17,7 @@ interface Params {
 }
 
 export function syncProperties({ forms, editors, form, focusNode, dispatch, property }: Params) {
-  const path = getPathProperty(property)
+  const path = property.getPathProperty()
   if (!path) {
     return
   }
