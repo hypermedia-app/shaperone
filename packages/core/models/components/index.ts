@@ -43,9 +43,9 @@ export interface Component {
   editor: NamedNode
 }
 
-type ExtractState<T> = T extends SingleEditorComponent<infer TState, any>
+type ExtractState<T> = T extends SingleEditorComponent<infer TState>
   ? TState & T
-  : T extends MultiEditorComponent<infer TState, any>
+  : T extends MultiEditorComponent<infer TState>
     ? TState & T
     : any
 
