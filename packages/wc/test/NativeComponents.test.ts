@@ -4,7 +4,7 @@ import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { RenderSingleEditor } from '../index'
+import { Render } from '../index'
 import * as components from '../NativeComponents'
 
 describe('NativeComponents', () => {
@@ -36,7 +36,7 @@ describe('NativeComponents', () => {
     })
   }
 
-  let render: RenderSingleEditor
+  let render: Render
 
   describe(dash.URIEditor.value, () => {
     before(async () => {

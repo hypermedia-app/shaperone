@@ -22,15 +22,15 @@ import shapesEffects from './effects/shapes'
 import resourcesEffects from './effects/resources'
 import componentsEffects from './effects/components'
 import type { Store } from '../../state'
-import type { TComponentState } from '../components'
+import type { ComponentInstance } from '../components'
 
-export interface PropertyObjectState<ComponentState extends TComponentState = TComponentState> {
+export interface PropertyObjectState<TState extends ComponentInstance = ComponentInstance> {
   key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
-  componentState: ComponentState
+  componentState: TState
 }
 
 export interface ShouldEnableEditorChoice {

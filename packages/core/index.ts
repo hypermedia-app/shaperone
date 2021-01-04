@@ -4,7 +4,7 @@ import { GraphPointer } from 'clownface'
 import '@rdfine/dash/extensions/sh/PropertyShape'
 
 export type FocusNode = GraphPointer<BlankNode | NamedNode>
-export type { Component, SingleEditorComponent, MultiEditorComponent, RenderSingleEditor, RenderMultiEditor, Lazy } from './models/components'
+export type { Component, SingleEditorComponent, MultiEditorComponent, RenderComponent, Lazy } from './models/components'
 export type { SingleEditor, MultiEditor } from './models/editors'
 
 export async function loadMixins(): Promise<void> {

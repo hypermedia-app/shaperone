@@ -1,7 +1,7 @@
 import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes'
 import { html } from 'lit-element'
 import '@material/mwc-textfield/mwc-textfield'
-import { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import { Render } from '@hydrofoil/shaperone-wc'
 import { Term } from 'rdf-js'
 import { TextFieldType } from '@material/mwc-textfield/mwc-textfield-base'
 
@@ -13,7 +13,7 @@ function getType(datatype: ReturnType<typeof numericDatatype> | undefined): Text
   return 'text'
 }
 
-export const createTextField = function ({ type, createTerm }: { type?: TextFieldType; createTerm?: (value: string) => Term } = {}): RenderSingleEditor {
+export const createTextField = function ({ type, createTerm }: { type?: TextFieldType; createTerm?: (value: string) => Term } = {}): Render {
   return function ({ value, property }, { update }) {
     return html`<mwc-textfield
         .value="${value.object?.value || ''}"

@@ -2,12 +2,12 @@ import { fixture, expect } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams } from '@shaperone/testing'
 import { textField } from '../../components'
 
 describe('wc-material/components/textField', () => {
-  let render: RenderSingleEditor
+  let render: Render
 
   before(async () => {
     render = await textField.lazyRender()

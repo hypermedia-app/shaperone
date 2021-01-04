@@ -1,9 +1,9 @@
-import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { html, render } from 'lit-html'
 import '@vaadin/vaadin-select/vaadin-select'
 import '@vaadin/vaadin-list-box/vaadin-list-box'
 import '@vaadin/vaadin-item/vaadin-item'
-import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { Term } from 'rdf-js'
 import { repeat } from 'lit-html/directives/repeat'
 
@@ -29,7 +29,7 @@ function renderer(choices: Choice[], value: Term | undefined) {
   }
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { value }, actions) {
+export const enumSelect: Render<EnumSelectEditor> = function ({ value }, actions) {
   const choices = value.componentState.choices?.map(([choice, label]) => ({
     term: choice.term,
     label,

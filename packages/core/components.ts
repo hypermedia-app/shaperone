@@ -13,7 +13,7 @@ export interface EnumSelect {
   loading?: boolean
 }
 
-export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect, any> {
+export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
   loadChoices(params: {
     focusNode: FocusNode
     property: PropertyShape

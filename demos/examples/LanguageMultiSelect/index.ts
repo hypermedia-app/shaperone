@@ -2,7 +2,6 @@ import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
 import { quad, namedNode, literal } from '@rdf-esm/data-model'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
-import { getPathProperty } from '@hydrofoil/shaperone-core/models/resources/lib/property'
 
 const editor = namedNode('http://example.com/LanguageMultiSelect')
 
@@ -48,7 +47,7 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
 export const matcher: MultiEditor = {
   term: editor,
   match(shape) {
-    return getPathProperty(shape)?.equals(vcard.language) ? 50 : 0
+    return shape.getPathProperty()?.equals(vcard.language) ? 50 : 0
   },
 }
 

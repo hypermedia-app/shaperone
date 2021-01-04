@@ -1,10 +1,10 @@
-import { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import { Render } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { spread } from '@open-wc/lit-helpers'
 import { namedNode } from '@rdf-esm/data-model'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 
-export const urlEditor: RenderSingleEditor = function ({ value }, { update }) {
+export const urlEditor: Render = function ({ value }, { update }) {
   const props = {
     '.value': value.object?.value || '',
     required: true,

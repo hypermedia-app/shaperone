@@ -1,9 +1,9 @@
-import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { literal } from '@rdf-esm/data-model'
 import '@material/mwc-textarea/mwc-textarea'
 
-export const textArea: RenderSingleEditor =
+export const textArea: Render =
   function render({ value }, { update }) {
     return html`
       <mwc-textarea
