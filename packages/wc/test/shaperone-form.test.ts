@@ -6,6 +6,7 @@ import { schema } from '@tpluscode/rdf-ns-builders'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import { store } from '../store'
 import { id } from '../ShaperoneForm'
+import '../shaperone-form'
 
 describe('shaperone-form', () => {
   const shape = fromPointer(clownface({ dataset: dataset() }).blankNode())

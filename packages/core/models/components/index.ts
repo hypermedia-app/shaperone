@@ -93,14 +93,14 @@ export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> &
   lazyRender() : Promise<(this: ExtractState<T> & T, ...args: Parameters<T['render']>) => ReturnType<T['render']>>
 }
 
-export interface ComponentDecorator<T extends AnyComponent = AnyComponent> {
-  applicableTo(component: T | Lazy<T>): boolean
-  decorate(component: T | Lazy<T>): typeof component
+export interface ComponentDecorator<T extends Component = AnyComponent | Lazy<AnyComponent>> {
+  applicableTo(component: Component): boolean
+  decorate(component: T): T
 }
 
 export interface ComponentsState {
   components: Record<string, ComponentState>
-  decorators: ComponentDecorator[]
+  decorators: ComponentDecorator<any>[]
 }
 
 export const components = createModel({
