@@ -124,7 +124,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       </h2>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
       <vaadin-button slot="navbar" @click="${this.__share}"><mwc-icon>share</mwc-icon></vaadin-button>
-      <a href="https://github.com/hypermedia-app/shaperone" target="_blank" slot="navbar"><img alt="GitHub" src="./GitHub-Mark-32px.png"></a>
+      <a href="https://github.com/hypermedia-app/shaperone" target="_blank" slot="navbar"><img alt="GitHub" src="/_media/GitHub-Mark-32px.png"></a>
 
       <div class="content">
       <vaadin-split-layout id="top-splitter">
