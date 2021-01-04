@@ -43,11 +43,6 @@ export interface Component {
   editor: NamedNode
 }
 
-export interface ComponentDecorator<T extends Component = Component> {
-  applicableTo(component: Component): boolean
-  decorate(component: T): T
-}
-
 type ExtractState<T> = T extends SingleEditorComponent<infer TState, any>
   ? TState & T
   : T extends MultiEditorComponent<infer TState, any>
@@ -90,8 +85,17 @@ export type MultiEditorComponent<TState extends ComponentInstance, TRenderResult
 & ComponentRender<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
 & ComponentInit<MultiEditorRenderParams<TState>>
 
+export type AnyComponent<TRenderResult = any> = Component
+& ComponentRender<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>, SingleEditorActions | MultiEditorActions, TRenderResult>
+& ComponentInit<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>>
+
 export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
   lazyRender() : Promise<(this: ExtractState<T> & T, ...args: Parameters<T['render']>) => ReturnType<T['render']>>
+}
+
+export interface ComponentDecorator<T extends AnyComponent = AnyComponent> {
+  applicableTo(component: T | Lazy<T>): boolean
+  decorate(component: T | Lazy<T>): typeof component
 }
 
 export interface ComponentsState {

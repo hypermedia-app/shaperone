@@ -37,7 +37,7 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
     }
 
     const previousObject = previous?.objects?.find(o => o.object?.term.equals(object?.term))
-    if (previousObject?.selectedEditor) {
+    if (previousObject?.selectedEditor && matchedEditors.some(e => e.term.equals(previousObject.selectedEditor))) {
       selectedEditor = previousObject.selectedEditor
     }
 
