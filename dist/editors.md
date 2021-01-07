@@ -68,7 +68,7 @@ Multiple components can be distributed as visually consistent sets, implementing
 
 The [Configuration](configuration.md) page shows how components are set up so that they are available to the form.
 
-More details about creating components to extend the default selection are available on the [Components page](editors/components.md)
+More details about creating components to extend the default selection are available in the Components section
 
 ## Editor metadata
 

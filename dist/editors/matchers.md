@@ -1,6 +1,6 @@
 # Editor matchers
 
-Matcher is at its core a function which returns a number or `null` score.
+Matcher is at its core a function which returns a number or `null` score. The score is used to determine whether a given editor can be used for a particular RDF value. 
 
 ## Implementing a matcher
 

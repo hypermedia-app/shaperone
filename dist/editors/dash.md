@@ -11,7 +11,7 @@ DASH defines two types of editors: `dash:SingleEditor` and `dash:MultiEditor` wh
 
 As the names imply, the former are editors for individual triple object while the latter replaces all values for a given property.
  
-It also provides a set of instances of the `dash:SingleEditor` type. The table below lists them and indicates which are implemented as [matchers](editors/matchers.md) and [components](editors/components.md) by shaperone. Below you will also find some additional information about some of them. 
+It also provides a set of instances of the `dash:SingleEditor` type. The table below lists them and indicates which are implemented as [matchers](editors/matchers.md) and [components](components/implement.md) by shaperone. Below you will also find some additional information about some of them. 
 
 | Editor | Description | Matcher | Component |
 | -- | -- | -- | -- |
@@ -31,7 +31,7 @@ It also provides a set of instances of the `dash:SingleEditor` type. The table b
 | [`dash:URIEditor`](http://datashapes.org/forms.html#URIEditor) | A text box for typing in URIs | :heavy_check_mark: | :heavy_check_mark: |
 
 > [!NOTE]
-> Most of the default behaviour of components can be easily customized in your application. The [components page](editors/components.md) provides information about necessary implementation steps.
+> Most of the default behaviour of components can be easily customized in your application. The [components page](components/implement.md) provides information about necessary implementation steps.
 
 ## dash:EnumSelectEditor
 

@@ -1,4 +1,4 @@
-# Components
+# Implementing components
 
 A component is shaperone's realisation of a DASH editor. At the minimum, a component requires a rendering function (optionally async) and can also be customised with a shared and per-instance functionality.
 
