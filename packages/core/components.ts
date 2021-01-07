@@ -4,6 +4,7 @@ import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import { SingleEditorComponent, SingleEditorRenderParams } from './models/components'
 import { FocusNode } from './index'
 import { FormSettings } from './models/forms'
+import { sort } from './lib/components'
 
 type CoreComponents<T> = Omit<T, 'render' | 'lazyRender'>
 
@@ -19,6 +20,7 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
     property: PropertyShape
   }): Promise<GraphPointer[]>
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
+  sort(left: [GraphPointer, string], right: [GraphPointer, string]): number
 }
 
 export const enumSelect: CoreComponents<EnumSelectEditor> = {
@@ -31,7 +33,7 @@ export const enumSelect: CoreComponents<EnumSelectEditor> = {
       (async () => {
         const pointers = await this.loadChoices({ focusNode, property: property.shape })
         const choices = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
-          .sort(([, left], [, right]) => left.localeCompare(right))
+          .sort(this.sort)
 
         updateComponentState({
           choices,
@@ -50,6 +52,7 @@ export const enumSelect: CoreComponents<EnumSelectEditor> = {
   label(choice, { languages, labelProperties }) {
     return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
   },
+  sort,
 }
 
 export interface InstancesSelect {
@@ -67,6 +70,7 @@ export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSe
   loadChoices(params: SingleEditorRenderParams<InstancesSelect>): Promise<GraphPointer[]>
   shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
+  sort(left: [GraphPointer, string], right: [GraphPointer, string]): number
 }
 
 export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
@@ -111,4 +115,5 @@ export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
   label(choice, { languages, labelProperties }) {
     return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
   },
+  sort,
 }
