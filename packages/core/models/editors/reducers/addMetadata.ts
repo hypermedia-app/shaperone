@@ -1,5 +1,5 @@
-import { DatasetCore } from 'rdf-js'
-import * as RDF from '@rdf-esm/data-model'
+import { DatasetCore, Quad } from 'rdf-js'
+import * as RDF from '@rdf-esm/dataset'
 import cf, { AnyPointer } from 'clownface'
 import type { Editor, EditorMatcher, EditorsState } from '../index'
 import { EditorMeta } from '../lib/EditorMeta'
@@ -24,12 +24,14 @@ function updateMeta<T>(metadata: AnyPointer) {
   }
 }
 
-export function addMetadata(state: EditorsState, moreMeta: DatasetCore): EditorsState {
+export function addMetadata(state: EditorsState, moreMeta: DatasetCore | Iterable<Quad>): EditorsState {
   let dataset = state.metadata?.dataset
   if (state.metadata?.dataset) {
-    [...moreMeta].forEach(({ subject, predicate, object }) => state.metadata?.dataset.add(RDF.quad(subject, predicate, object)))
-  } else {
+    [...moreMeta].forEach(({ subject, predicate, object }) => state.metadata.dataset.add(RDF.quad(subject, predicate, object)))
+  } else if ('add' in moreMeta) {
     dataset = moreMeta
+  } else {
+    dataset = RDF.dataset([...moreMeta])
   }
 
   const metadata = cf({ dataset })

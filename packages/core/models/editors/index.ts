@@ -72,7 +72,7 @@ export const editors = createModel(({
         const dash = (await import('@zazuko/rdf-vocabularies/datasets/dash')).default
         const DashEditors = await import('../../DashEditors')
 
-        dispatch.editors.addMetadata($rdf.dataset(dash($rdf)))
+        dispatch.editors.addMetadata(dash($rdf))
         dispatch.editors.addMatchers(DashEditors)
       },
     }

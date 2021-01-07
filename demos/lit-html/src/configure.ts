@@ -7,7 +7,6 @@ import { component as starRating } from '@hydrofoil/shaperone-playground-example
 import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import { components, editors, renderer } from '@hydrofoil/shaperone-wc/configure'
-import $rdf from 'rdf-ext'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer/DefaultStrategy'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
@@ -21,7 +20,7 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
   vaadin: { ...nativeComponents, ...vaadinComponents, languages: LanguageSelect.component('lumo'), starRating },
 }
 
-editors.addMetadata($rdf.dataset([...LanguageSelect.metadata(), ...StarRating.metadata()]))
+editors.addMetadata([...LanguageSelect.metadata(), ...StarRating.metadata()])
 editors.addMatchers({
   languages: LanguageSelect.matcher,
   starRating: StarRating.matcher,
