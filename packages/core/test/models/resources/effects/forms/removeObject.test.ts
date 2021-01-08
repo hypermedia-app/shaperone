@@ -42,4 +42,28 @@ describe('models/resources/effects/forms/removeObject', () => {
       $rdf.literal('15'),
     ])
   })
+
+  it('does nothing is object state had no value', () => {
+    // given
+    const focusNode = graph.blankNode()
+      .addOut(schema.age, ['5', '15'])
+    const object = {}
+    const property = propertyShape({
+      path: schema.age,
+    })
+
+    // when
+    removeObject(store)({
+      form,
+      focusNode,
+      object,
+      property,
+    })
+
+    // then
+    expect(focusNode.out(schema.age).terms).to.deep.contain.members([
+      $rdf.literal('15'),
+      $rdf.literal('5'),
+    ])
+  })
 })
