@@ -82,6 +82,27 @@ export const setObjectValue = formStateReducer((state: FormState, { focusNode, p
   objectState.object = value
 }))
 
+export interface SetDefaultValueParams extends BaseParams {
+  focusNode: FocusNode
+  property: PropertyShape
+  value: GraphPointer
+  editors: EditorsState
+}
+
+export const setDefaultValue = formStateReducer((state: FormState, { focusNode, property, value, editors }: SetDefaultValueParams) => produce(state, (draft) => {
+  const focusNodeState = draft.focusNodes[focusNode.value]
+  const objects = focusNodeState.properties.find(p => p.shape.equals(property))?.objects || []
+
+  for (const objectState of objects) {
+    if (!objectState.object) {
+      const suitableEditors = editors.matchSingleEditors({ shape: property, object: value })
+
+      objectState.object = value
+      objectState.selectedEditor = suitableEditors[0]?.term
+    }
+  }
+}))
+
 export const resetComponents = (state: State) => {
   for (const [form, formState] of state.entries()) {
     const newState = produce(formState, (draft: typeof formState) => {
