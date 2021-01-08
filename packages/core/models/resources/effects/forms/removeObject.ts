@@ -17,11 +17,12 @@ export default function (store: Store) {
     }
 
     const pathProperty = getPathProperty(property)!
-    const objects = state.graph.node(focusNode).out(pathProperty.id).terms
 
-    state.graph.node(focusNode)
-      .deleteOut(pathProperty.id)
-      .addOut(pathProperty.id, objects.filter(o => !o.equals(removed.object?.term)))
+    if (!removed.object) {
+      return
+    }
+
+    state.graph.node(focusNode).deleteOut(pathProperty.id, removed.object)
 
     notify({
       store,
