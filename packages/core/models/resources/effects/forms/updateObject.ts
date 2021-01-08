@@ -23,14 +23,10 @@ export default function (store: Store) {
       return
     }
 
-    const objects = state.graph.node(focusNode)
-      .out(pathProperty)
-      .terms
-      .filter(term => !term.equals(object.object?.term))
-
-    state.graph.node(focusNode)
-      .deleteOut(pathProperty)
-      .addOut(pathProperty, [...objects, newValue])
+    if (object.object) {
+      state.graph.node(focusNode).deleteOut(pathProperty, object.object)
+    }
+    state.graph.node(focusNode).addOut(pathProperty, newValue)
 
     notify({
       store,
