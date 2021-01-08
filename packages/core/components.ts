@@ -4,13 +4,15 @@ import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import { SingleEditorComponent, SingleEditorRenderParams } from './models/components'
 import { FocusNode } from './index'
 import { FormSettings } from './models/forms'
-import { sort } from './lib/components'
+import { sort, label } from './lib/components'
 
 type CoreComponents<T> = Omit<T, 'render' | 'lazyRender'>
 
+type Item = [GraphPointer, string]
+
 export interface EnumSelect {
   ready?: boolean
-  choices?: [GraphPointer, string][]
+  choices?: Item[]
   loading?: boolean
 }
 
@@ -20,7 +22,7 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
     property: PropertyShape
   }): Promise<GraphPointer[]>
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-  sort(left: [GraphPointer, string], right: [GraphPointer, string]): number
+  sort(left: Item, right: Item): number
 }
 
 export const enumSelect: CoreComponents<EnumSelectEditor> = {
@@ -32,7 +34,7 @@ export const enumSelect: CoreComponents<EnumSelectEditor> = {
       });
       (async () => {
         const pointers = await this.loadChoices({ focusNode, property: property.shape })
-        const choices = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
+        const choices = pointers.map<Item>(ptr => [ptr, this.label(ptr, form)])
           .sort(this.sort)
 
         updateComponentState({
@@ -49,20 +51,22 @@ export const enumSelect: CoreComponents<EnumSelectEditor> = {
   async loadChoices({ property }) {
     return property.pointer.node(property.in).toArray()
   },
-  label(choice, { languages, labelProperties }) {
-    return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
-  },
+  label,
   sort,
 }
 
 export interface InstancesSelect {
   ready?: boolean
-  instances?: [GraphPointer, string][]
-  selectedInstance?: [GraphPointer, string]
+  instances?: Item[]
+  selectedInstance?: Item
   loading?: boolean
 }
 
 export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSelect, any> {
+  /**
+   * Load instance
+   * @param params
+   */
   loadInstance(params: {
     property: PropertyShape
     value: GraphPointer
@@ -70,7 +74,7 @@ export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSe
   loadChoices(params: SingleEditorRenderParams<InstancesSelect>): Promise<GraphPointer[]>
   shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-  sort(left: [GraphPointer, string], right: [GraphPointer, string]): number
+  sort(left: Item, right: Item): number
 }
 
 export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
@@ -86,7 +90,7 @@ export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
       });
       (async () => {
         const pointers = await this.loadChoices(params)
-        const instances = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
+        const instances = pointers.map<Item>(ptr => [ptr, this.label(ptr, form)])
           .sort(([, left], [, right]) => left.localeCompare(right))
 
         updateComponentState({
@@ -112,8 +116,6 @@ export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
 
     return []
   },
-  label(choice, { languages, labelProperties }) {
-    return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
-  },
+  label,
   sort,
 }

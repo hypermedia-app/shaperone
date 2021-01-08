@@ -134,6 +134,7 @@ describe('hydra/lib/components/instancesSelector', () => {
         render: sinon.stub(),
         loadInstance: sinon.stub(),
         shouldLoad: sinon.stub(),
+        sort: sinon.stub(),
       }
       decorated = instancesSelector.decorator(client).decorate(component)
     })
