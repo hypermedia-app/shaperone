@@ -4,7 +4,8 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
-import { setObjectValue, setPropertyObjects } from '../../../../models/forms/reducers/updateObject'
+import { dash } from '@tpluscode/rdf-ns-builders'
+import { setDefaultValue, setObjectValue, setPropertyObjects } from '../../../../models/forms/reducers/updateObject'
 import { RecursivePartial, testObjectState, testStore } from '../util'
 import { propertyShape } from '../../../util'
 import { Store } from '../../../../state'
@@ -223,6 +224,85 @@ describe('core/models/forms/reducers/updateObject', () => {
       // then
       const objectAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects[0]
       expect(objectAfter?.object?.term).to.deep.eq($rdf.literal('bar'))
+    })
+  })
+
+  describe('setDefaultValue', () => {
+    it('sets object pointers to object state without value', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+      const emptyObject = testObjectState()
+      const notEmptyObject = testObjectState(graph.literal('10'))
+      const focusNode = graph.blankNode()
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            objects: [
+              emptyObject,
+              notEmptyObject,
+            ],
+          }],
+        },
+      }
+
+      // when
+      const value = graph.literal('foo', 'bar')
+      const afterState = setDefaultValue(store.getState().forms, {
+        focusNode,
+        property,
+        form,
+        editors: store.getState().editors,
+        value,
+      })
+
+      // then
+      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      expect(objectsAfter?.[1].object?.term).to.deep.equal($rdf.literal('10'))
+      expect(objectsAfter?.[0].object?.term).to.deep.equal($rdf.literal('foo', 'bar'))
+    })
+
+    it('selects appropriate editor to default object', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+      const emptyObject = testObjectState()
+      const notEmptyObject = testObjectState(graph.literal('10'), {
+        selectedEditor: dash.FooEditor,
+      })
+      const focusNode = graph.blankNode()
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            objects: [
+              emptyObject,
+              notEmptyObject,
+            ],
+          }],
+        },
+      }
+      const { editors } = store.getState()
+      editors.matchSingleEditors = sinon.stub().returns([{
+        score: 10,
+        term: dash.BarEditor,
+      }])
+
+      // when
+      const value = graph.literal('foo', 'bar')
+      const afterState = setDefaultValue(store.getState().forms, {
+        focusNode,
+        property,
+        form,
+        editors,
+        value,
+      })
+
+      // then
+      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      expect(objectsAfter?.[1].selectedEditor?.value).to.deep.equal(dash.FooEditor.value)
+      expect(objectsAfter?.[0].selectedEditor).to.deep.equal(dash.BarEditor)
     })
   })
 })
