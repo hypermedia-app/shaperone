@@ -73,7 +73,7 @@ export function testPropertyState(pointer: ResourceNode, init: RecursivePartial<
   }, init, { clone: false })
 }
 
-export function testObjectState(object: GraphPointer, init: RecursivePartial<Form.PropertyObjectState> = {}): Form.PropertyObjectState {
+export function testObjectState(object?: GraphPointer, init: RecursivePartial<Form.PropertyObjectState> = {}): Form.PropertyObjectState {
   return deepmerge({
     selectedEditor: undefined,
     object,

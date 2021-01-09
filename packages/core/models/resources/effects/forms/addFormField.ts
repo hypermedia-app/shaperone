@@ -4,8 +4,10 @@ import { Params } from '../../../forms/reducers/addFormField'
 import { defaultValue } from '../../lib/defaultValue'
 
 export default function (store: Store) {
+  const dispatch = store.getDispatch()
+
   return function ({ form, focusNode, property }: Pick<Params, 'form' | 'focusNode' | 'property'>): void {
-    const { resources } = store.getState()
+    const { resources, editors } = store.getState()
     const state = resources.get(form)
 
     if (!state?.graph) {
@@ -24,6 +26,14 @@ export default function (store: Store) {
       form,
       property,
       focusNode,
+    })
+
+    dispatch.forms.setDefaultValue({
+      form,
+      focusNode,
+      property,
+      value: pointer.toArray()[0],
+      editors,
     })
   }
 }
