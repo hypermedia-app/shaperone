@@ -1,3 +1,10 @@
+/**
+ * Exports configuration objects used to set up shaperone
+ *
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-wc/configure
+ */
+
 import { store } from './store'
 
 export const { components } = store().dispatch

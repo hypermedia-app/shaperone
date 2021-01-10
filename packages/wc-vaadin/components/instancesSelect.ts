@@ -1,11 +1,22 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { directive, html, PropertyPart } from 'lit-html'
-import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { InstancesSelect, InstancesSelectEditor, Item } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
+
+declare module '@hydrofoil/shaperone-core/components' {
+  interface InstancesSelect {
+    /**
+     * The currently selected instance
+     *
+     * @category vaadin
+     */
+    selectedInstance?: Item
+  }
+}
 
 type CollectionDataProvider = ComboBoxDataProvider & {
   component: InstancesSelectEditor

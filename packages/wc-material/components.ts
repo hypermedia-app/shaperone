@@ -1,8 +1,18 @@
+/**
+ * [DASH components](http://datashapes.org/forms.html) implemented using [Material Web Components](https://github.com/material-components/material-components-web-components)
+ *
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-wc-material/components
+ */
+
 import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { namedNode } from '@rdf-esm/data-model'
 import { enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 
+/**
+ * Renders an [mwc-textfield](https://material-components.github.io/material-components-web-components/demos/textfield/)
+ */
 export const textField: Lazy<SingleEditorComponent> = {
   editor: dash.TextFieldEditor,
   async lazyRender() {
@@ -11,6 +21,9 @@ export const textField: Lazy<SingleEditorComponent> = {
   },
 }
 
+/**
+ * Renders an [mwc-textfield](https://material-components.github.io/material-components-web-components/demos/textfield/) with `type=url`
+ */
 export const urlEditor: Lazy<SingleEditorComponent> = {
   editor: dash.URIEditor,
   async lazyRender() {
@@ -22,6 +35,9 @@ export const urlEditor: Lazy<SingleEditorComponent> = {
   },
 }
 
+/**
+ * Renders an [mwc-textarea](https://material-components.github.io/material-components-web-components/demos/textarea/)
+ */
 export const textArea: Lazy<SingleEditorComponent> = {
   editor: dash.TextAreaEditor,
   lazyRender() {
@@ -29,6 +45,9 @@ export const textArea: Lazy<SingleEditorComponent> = {
   },
 }
 
+/**
+ * Renders an [mwc-select](https://material-components.github.io/material-components-web-components/demos/select/)
+ */
 export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   editor: dash.EnumSelectEditor,
@@ -37,6 +56,9 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   },
 }
 
+/**
+ * Renders an [mwc-select](https://material-components.github.io/material-components-web-components/demos/select/)
+ */
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
   editor: dash.InstancesSelectEditor,
@@ -45,6 +67,9 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   },
 }
 
+/**
+ * Renders an [mwc-textfield](https://material-components.github.io/material-components-web-components/demos/textfield/) with `type=date`
+ */
 export const datePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DatePickerEditor,
   async lazyRender() {
@@ -53,6 +78,9 @@ export const datePicker: Lazy<SingleEditorComponent> = {
   },
 }
 
+/**
+ * Renders an [mwc-textfield](https://material-components.github.io/material-components-web-components/demos/textfield/) with `type=datetime-local`
+ */
 export const dateTimePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DateTimePickerEditor,
   async lazyRender() {

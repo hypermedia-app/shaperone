@@ -1,3 +1,10 @@
+/**
+ * Exports base implementation of come components so that they can be easily completed by adding the `render` or `lazyRender` method
+ *
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/components
+ */
+
 import { PropertyShape } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
@@ -8,23 +15,50 @@ import { sort, label } from './lib/components'
 
 type CoreComponents<T> = Omit<T, 'render' | 'lazyRender'>
 
-type Item = [GraphPointer, string]
+export type Item = [GraphPointer, string]
 
+/**
+ * Represents the state of an enum select component
+ */
 export interface EnumSelect {
   ready?: boolean
   choices?: Item[]
   loading?: boolean
 }
 
+/**
+ * An interface for implementing dash:EnumSelectEditor
+ */
 export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
+  /**
+   * Asynchronously load the values for the component
+   * @param params
+   */
   loadChoices(params: {
     focusNode: FocusNode
     property: PropertyShape
   }): Promise<GraphPointer[]>
+
+  /**
+   * Return the displayed label for an enum choice
+   * @param choice
+   * @param form
+   */
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
+
+  /**
+   * Sorting function to order the component elements
+   * @param left
+   * @param right
+   */
   sort(left: Item, right: Item): number
 }
 
+/**
+ * A base implementation of Enum Select component which sets {@link EnumSelect.ready} state flag the choices are first loaded
+ *
+ * The enums data (in case of Named Node values) will be loaded from the shapes graph
+ */
 export const enumSelect: CoreComponents<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
   init({ focusNode, form, property, value: { componentState }, updateComponentState }) {
@@ -55,28 +89,46 @@ export const enumSelect: CoreComponents<EnumSelectEditor> = {
   sort,
 }
 
+/**
+ * Represents the state of an instances select component
+ */
 export interface InstancesSelect {
   ready?: boolean
   instances?: Item[]
-  selectedInstance?: Item
   loading?: boolean
 }
 
 export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSelect, any> {
   /**
-   * Load instance
+   * Asynchronously loads an instance selected in the editor
+   *
+   * Implementors may choose to implement and call it if the local state does not have full representation of the resource
    * @param params
    */
   loadInstance(params: {
     property: PropertyShape
     value: GraphPointer
   }): Promise<GraphPointer | null>
+  /**
+   * Asynchronously load the values for the component
+   * @param params
+   */
   loadChoices(params: SingleEditorRenderParams<InstancesSelect>): Promise<GraphPointer[]>
+
+  /**
+   * Returns a logical value to determine if the component should fetch fresh collection of instances
+   * @param params
+   */
   shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
   sort(left: Item, right: Item): number
 }
 
+/**
+ * A base implementation of Instances Select component which sets {@link InstancesSelect.ready} state flag the instances are first loaded.
+ *
+ * The instance data will be loaded from the shapes graph
+ */
 export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
   editor: dash.InstancesSelectEditor,
   shouldLoad({ value: { componentState } }): boolean {

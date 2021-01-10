@@ -40,6 +40,9 @@ export interface MultiEditorActions {
 }
 
 export interface Component {
+  /**
+   * URI of the implemented DASH editor
+   */
   editor: NamedNode
 }
 
@@ -75,12 +78,19 @@ interface ComponentRender<Params extends RenderParams, Actions, TRenderResult> {
 }
 
 interface ComponentInit<TParams> {
-  init?(params: TParams): boolean
+  init?: (params: TParams) => boolean
 }
 
+/**
+ * Base interface for defining components implementing `dash:SingleEditor`
+ */
 export type SingleEditorComponent<TState extends ComponentInstance, TRenderResult = any> = Component
 & ComponentRender<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
 & ComponentInit<SingleEditorRenderParams<TState>>
+
+/**
+ * Base interface for defining components implementing `dash:MultiEditor`
+ */
 export type MultiEditorComponent<TState extends ComponentInstance, TRenderResult = any> = Component
 & ComponentRender<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
 & ComponentInit<MultiEditorRenderParams<TState>>
@@ -89,6 +99,13 @@ export type AnyComponent<TRenderResult = any> = Component
 & ComponentRender<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>, SingleEditorActions | MultiEditorActions, TRenderResult>
 & ComponentInit<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>>
 
+/**
+ * Use a base interface for components which need to execute asynchronous code before first render
+ *
+ * Typically used for dynamically importing dependencies
+ *
+ * @typeParam T actual component interface
+ */
 export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
   lazyRender() : Promise<(this: ExtractState<T> & T, ...args: Parameters<T['render']>) => ReturnType<T['render']>>
 }

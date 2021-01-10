@@ -1,0 +1,18 @@
+{
+  "name": "Shaperone",
+  "entryPoints": [
+    "packages/core/index.ts",
+    "packages/core/components.ts",
+    "packages/core/DashEditors.ts",
+    "packages/hydra/components.ts",
+    "packages/wc/configure.ts",
+    "packages/wc/index.ts",
+    "packages/wc/NativeComponents.ts",
+    "packages/wc/store.ts",
+    "packages/wc-material/components.ts",
+    "packages/wc-vaadin/components.ts"
+  ],
+  "out": "dist/api",
+  "categorizeByGroup": true,
+  "defaultCategory": "core"
+}

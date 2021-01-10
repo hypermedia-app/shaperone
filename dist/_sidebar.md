@@ -16,3 +16,4 @@
   * [Create your own](components/implement.md "Shaperone | Implementing components")
 * Extensions
   * [Hydra](extensions/hydra.md "Shaperone | Hydra") 
+* [API](/api)

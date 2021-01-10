@@ -1,3 +1,14 @@
+/**
+ * Provides very basic implementation of DASH components rendered as browser-native HTML elements:
+ *
+ * - `<input>`
+ * - `<textarea>`
+ * - `<select>`
+ *
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-wc/NativeComponents
+ */
+
 import { dash } from '@tpluscode/rdf-ns-builders'
 import {
   instancesSelect,
