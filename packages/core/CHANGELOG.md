@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.4.4
+
+### Patch Changes
+
+- cdf8707: Update clownface
+- fcd46be: Package as es modules and not commonjs
+- 9c4e7e3: Ensure default value removed on object update
+
 ## 0.4.3
 
 ### Patch Changes
