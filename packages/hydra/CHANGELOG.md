@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.1.3
+
+### Patch Changes
+
+- cdee1a8: Do not export namespace
+
 ## 0.1.2
 
 ### Patch Changes
