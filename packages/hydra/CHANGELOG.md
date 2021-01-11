@@ -1,5 +1,22 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.1.3
+
+### Patch Changes
+
+- cdee1a8: Do not export namespace
+
+## 0.1.2
+
+### Patch Changes
+
+- fcd46be: Package as es modules and not commonjs
+- 7f93786: Dyncamically load instances using hydra:search
+- Updated dependencies [cdf8707]
+- Updated dependencies [fcd46be]
+- Updated dependencies [9c4e7e3]
+  - @hydrofoil/shaperone-core@0.4.4
+
 ## 0.1.1
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.1.15
+
+### Patch Changes
+
+- fcd46be: Package as es modules and not commonjs
+- Updated dependencies [cdf8707]
+- Updated dependencies [fcd46be]
+- Updated dependencies [9c4e7e3]
+  - @hydrofoil/shaperone-core@0.4.4
+  - @hydrofoil/shaperone-wc@0.2.6
+
 ## 0.1.14
 
 ### Patch Changes
