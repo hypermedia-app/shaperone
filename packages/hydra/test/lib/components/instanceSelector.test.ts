@@ -1,7 +1,7 @@
 import { expect } from '@open-wc/testing'
 import { dash, hydra, schema } from '@tpluscode/rdf-ns-builders'
 import { sinon, ex } from '@shaperone/testing'
-import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import clownface, { GraphPointer } from 'clownface'
 import $rdf from '@rdf-esm/dataset'

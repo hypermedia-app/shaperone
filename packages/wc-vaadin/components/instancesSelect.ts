@@ -1,6 +1,6 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { directive, html, PropertyPart } from 'lit-html'
-import { InstancesSelect, InstancesSelectEditor, Item } from '@hydrofoil/shaperone-core/components'
+import type { InstancesSelect, InstancesSelectEditor, Item } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
