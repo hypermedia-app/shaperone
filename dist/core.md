@@ -6,36 +6,93 @@ While it would not typically be referenced directly, the core library serves a n
 3. Implements matchers for DASH editors
 4. Exports base implementation of some components
 
-## Base components
+The module [`@hydrofoil/shaperone-core/components`](http://localhost:3000/api/modules/_hydrofoil_shaperone_core_components.html) exports interfaces and, in some cases, minimal implementations of [DASH editors](editors/dash.md) which can be used to build actual components for use with Shaperone.
+
+## Implementing a DASH component
+
+At the minimum, a `render` function is required to complete a component. For example, here's a simple `dash:BooleanSelectEditor`, rendered as HTML native elements with lit-html:
+
+```typescript
+import { booleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { html } from 'lit-html'
+import { xsd } from '@tpluscode/rdf-ns-builders'
+import { literal } from '@rdf-esm/data-model'
+
+export const nativeBooleanSelect: BooleanSelectEditor = {
+  ...booleanSelect,
+  render({ value }, { update }) {
+    function changed(e: any) {
+      update(literal(e.target.value, xsd.boolean))
+    }
+
+    return html`<select @change="${changed}">
+      <option></option>
+      <option value="true" ?selected="${value.object?.value === 'true'}">true</option>
+      <option value="false" ?selected="${value.object?.value === 'false'}">false</option>
+    </select>`
+  },
+}
+```
+
+## Extending a DASH component
+
+All DASH components export an interface for their shared and instance state. By using TypeScript's [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation) feature it is possible to add functionality.
+
+The snippets below propose an extension to the `nativeBooleanSelect` which adds an optional label to display on the "empty option"
+
+```typescript
+import { booleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { html } from 'lit-html'
+import { xsd } from '@tpluscode/rdf-ns-builders'
+import { literal } from '@rdf-esm/data-model'
+
+// extend the component interface using module augmentation
+declare module '@hydrofoil/shaperone-core/components' {
+    interface BooleanSelectEditor {
+        emptyOptionLabel: string
+    }
+}
+
+export const nativeBooleanSelect: BooleanSelectEditor = {
+  ...booleanSelect,
+ emptyOptionLabel: '', // set the default value for the label
+  render({ value }, { update }) {
+    function changed(e: any) {
+      update(literal(e.target.value, xsd.boolean))
+    }
+
+    return html`<select @change="${changed}">
+      <option>${this.emptyOptionLabel}</option>
+      <option value="true" ?selected="${value.object?.value === 'true'}">true</option>
+      <option value="false" ?selected="${value.object?.value === 'false'}">false</option>
+    </select>`
+  },
+}
+```
+
+> [!TIP]
+> Check the [Create your own](components/implement.md) page for more examples of component state interface
+
+## Base component implementations
+
+While most of the DASH components are only stubs, some actually provide a core functionality which gives a uniform basis for building components using specific web components libraries.
+
+> [!TIP]
+> See the [Material Design](https://github.com/hypermedia-app/shaperone/tree/master/packages/wc-material) and [Vaadin](https://github.com/hypermedia-app/shaperone/tree/master/packages/wc-vaadin) packages for actual implementations
 
 ### dash:EnumSelectEditor
 
 The core Enum Select Editor is implemented to initialize the choices to display and sort them by their labels.
 
-```typescript
-export interface EnumSelect {
-  ready?: boolean
-  choices?: [GraphPointer, string][]
-  loading?: boolean
-}
-
-export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
-  loadChoices(params: {
-    focusNode: FocusNode
-    property: PropertyShape
-  }): Promise<GraphPointer[]>
-  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-  sort(left: [GraphPointer, string], right: [GraphPointer, string]): number
-}
-```
-
-> [!WARNING]
-> In a future version the `label` is going to be moved to the renderer.
+| Component interface | Instance interface |
+| -- | -- |
+| [EnumSelectEditor](http://localhost:3000/api/interfaces/_hydrofoil_shaperone_core_components.enumselecteditor.html) | [EnumSelect](http://localhost:3000/api/interfaces/_hydrofoil_shaperone_core_components.enumselect.html) |
 
 Implementors wishing to create a custom component only need to provide the actual `render` function.
 
 ```typescript
 import { enumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { html } from '@hydrofoil/shaperone-wc'
 
 export const enumSelectEditor: EnumSelectEditor = {
   ...enumSelect,
@@ -51,24 +108,8 @@ export const enumSelectEditor: EnumSelectEditor = {
 
 Similarly, the Instances Select Editor provides the basic functionality necessary for building a complete component.
 
-```typescript
-export interface InstancesSelect {
-  ready?: boolean
-  instances?: [GraphPointer, string][]
-  selectedInstance?: [GraphPointer, string]
-  loading?: boolean
-}
-
-export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSelect, any> {
-  loadInstance(params: {
-    property: PropertyShape
-    value: GraphPointer
-  }): Promise<GraphPointer | null>
-  loadChoices(params: SingleEditorRenderParams<InstancesSelect>): Promise<GraphPointer[]>
-  shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
-  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-  sort(left: [GraphPointer, string], right: [GraphPointer, string]): number
-}
-```
+| Component interface | Instance interface |
+| -- | -- |
+| [InstancesSelectEditor](http://localhost:3000/api/interfaces/_hydrofoil_shaperone_core_components.instancesselecteditor.html) | [InstancesSelect](http://localhost:3000/api/interfaces/_hydrofoil_shaperone_core_components.instancesselect.html) |
 
 The actual implementation will not be much different either. At the minimum, a `render` method is required with possibility of overriding the other functions or adding your own.

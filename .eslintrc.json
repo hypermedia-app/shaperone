@@ -23,5 +23,10 @@
       "no-unused-expressions": "warn",
       "babel/no-unused-expressions": "off"
     }
+  }, {
+    "files": "packages/core/lib/components/*.ts",
+    "rules": {
+      "@typescript-eslint/no-empty-interface": "off"
+    }
   }]
 }

@@ -9,24 +9,33 @@
  * @module @hydrofoil/shaperone-wc/NativeComponents
  */
 
-import { dash } from '@tpluscode/rdf-ns-builders'
 import {
   instancesSelect,
   enumSelect,
   EnumSelectEditor,
   InstancesSelectEditor,
+  TextFieldEditor,
+  TextAreaEditor,
+  textField,
+  textArea,
+  datePicker,
+  DatePickerEditor,
+  DateTimePickerEditor,
+  dateTimePicker,
+  uri,
+  URIEditor,
 } from '@hydrofoil/shaperone-core/components'
-import type { SingleEditorComponent, Lazy } from './index'
+import type { Lazy } from './index'
 
-export const textFieldEditor: Lazy<SingleEditorComponent> = {
-  editor: dash.TextFieldEditor,
+export const textFieldEditor: Lazy<TextFieldEditor> = {
+  ...textField,
   async lazyRender() {
     return (await import('./components')).textField
   },
 }
 
-export const textAreaEditor: Lazy<SingleEditorComponent> = {
-  editor: dash.TextAreaEditor,
+export const textAreaEditor: Lazy<TextAreaEditor> = {
+  ...textArea,
   async lazyRender() {
     return (await import('./components')).textArea
   },
@@ -39,15 +48,15 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   },
 }
 
-export const datePickerEditor: Lazy<SingleEditorComponent> = {
-  editor: dash.DatePickerEditor,
+export const datePickerEditor: Lazy<DatePickerEditor> = {
+  ...datePicker,
   async lazyRender() {
     return (await import('./components')).datePicker('date')
   },
 }
 
-export const dateTimePickerEditor: Lazy<SingleEditorComponent> = {
-  editor: dash.DateTimePickerEditor,
+export const dateTimePickerEditor: Lazy<DateTimePickerEditor> = {
+  ...dateTimePicker,
   async lazyRender() {
     return (await import('./components')).datePicker('datetime-local')
   },
@@ -60,8 +69,8 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   },
 }
 
-export const uriEditor: Lazy<SingleEditorComponent> = {
-  editor: dash.URIEditor,
+export const uriEditor: Lazy<URIEditor> = {
+  ...uri,
   async lazyRender() {
     return (await import('./components')).uri
   },
