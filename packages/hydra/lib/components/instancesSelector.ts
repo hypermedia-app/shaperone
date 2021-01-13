@@ -15,14 +15,32 @@ RdfResourceImpl.factory.addMixin(...IriTemplateBundle)
 
 declare module '@hydrofoil/shaperone-core/components' {
   interface InstancesSelect {
+    /**
+     * The last dereferenced search URL, constructed from a `hydra:search` template
+     *
+     * @category hydra
+     */
     searchUri?: string
   }
 
   interface InstancesSelectEditor {
-    searchTemplate?({ property }: {property:PropertyState}): IriTemplate | null
+    /**
+     * Gets the Hydra IRI Template resource from Property Shape
+     *
+     * @category hydra
+     * @param property
+     * @returns An [rdfine](https://npm.im/@tpluscode/rdfine) instance or null if property does not have a `hydra:search` template
+     */
+    searchTemplate?: ({ property }: {property:PropertyState}) => IriTemplate | null
   }
 }
 
+/**
+ * Extends `dash:InstancesSelectEditor` to value hydra-backed properties higher
+ *
+ * @returns `1` when `?shape hydra:collection ?any` or `?shape hydra:search ?any`
+ * @returns base matcher otherwise
+ */
 export const matcher: MatcherDecorator = {
   term: dash.InstancesSelectEditor,
   decorate({ match }) {
@@ -50,6 +68,12 @@ function getMembers(response: HydraResponse<DatasetCore, RdfResourceCore>) {
   return []
 }
 
+/**
+ * Creates a component decorator which overrides the base functionality by dereferencing remote Hydra Collection
+ * resources for properties annotated with `hydra:collection` or `hydra:search`
+ *
+ * @param client instance of [Alcaeus Hydra client](https://alcaeus.hydra.how)
+ */
 export const decorator = (client?: Pick<HydraClient, 'loadResource'>): ComponentDecorator<InstancesSelectEditor> => ({
   applicableTo(component) {
     return component.editor.equals(dash.InstancesSelectEditor)

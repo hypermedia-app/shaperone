@@ -7,6 +7,8 @@ coverage/
 !test-setup.js
 *.d.ts
 *.d.ts.map
-playground/
+dist/api/
+dist/playground/
+dist/shaperone-form/
 !types/**/*.d.ts
 *.log

@@ -3,7 +3,7 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { instancesSelectEditor } from '../../components'
 

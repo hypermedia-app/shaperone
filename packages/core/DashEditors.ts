@@ -1,3 +1,11 @@
+/**
+ * Default editor matchers implementing [DASH](http://datashapes.org/forms.html#editors).
+ *
+ * While most editors try to be true to the DASH specification, some may slightly differ
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/DashEditors
+ */
+
 import type { PropertyShape } from '@rdfine/shacl'
 import { NodeKindEnum } from '@rdfine/shacl'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
@@ -7,6 +15,12 @@ import { GraphPointer } from 'clownface'
 import type { SingleEditor } from './models/editors'
 import { isString } from './lib/datatypes'
 
+/**
+ * Matcher for `dash:TextFieldEditor`
+ *
+ * @returns `10` if value has datatype other than `rdf:langString` or `xsd:boolean`
+ * @returns `0` otherwise
+ */
 export const textField: SingleEditor = {
   term: dash.TextFieldEditor,
   match(shape: PropertyShape, value) {
@@ -24,6 +38,13 @@ export const textField: SingleEditor = {
   },
 }
 
+/**
+ * Matcher for `dash:TextFieldWithLangEditor`
+ *
+ * @returns `11` if value is tagged literal or shape permits both `xsd:string` and `rdf:langString`
+ * @returns `5` if shape is not `dash:singleLine` and shape permits `rdf:langString`
+ * @returns `0` otherwise
+ */
 export const textFieldWithLang: SingleEditor = {
   term: dash.TextFieldWithLangEditor,
   match(shape: PropertyShape, value: GraphPointer) {
@@ -54,6 +75,14 @@ export const textFieldWithLang: SingleEditor = {
 const booleanTrue = literal('true', xsd.boolean)
 const booleanFalse = literal('false', xsd.boolean)
 
+/**
+ * Matcher for `dash:TextAreaEditor`
+ *
+ * @returns `20` if value is a string containing new line characters or `?shape dash:singleLine false`
+ * @returns `5` if value is a string
+ * @returns `2` if `?shape sh:datatype xsd:string`
+ * @return `0` otherwise
+ */
 export const textArea: SingleEditor = {
   term: dash.TextAreaEditor,
   match(shape: PropertyShape, value) {
@@ -78,6 +107,14 @@ export const textArea: SingleEditor = {
   },
 }
 
+/**
+ * Matcher for `dash:TextAreaWithLangEditor`
+ *
+ * @returns `15` if `?shape dash:singleLine false` and value is tagged literal
+ * @returns `5` if value is tagged literal, or shape permits `rdf:langString` or shape permits `rdf:string`
+ * @returns `0` if `?shape dash:singleLine false`
+ * @returns `0` otherwise
+ */
 export const textAreaWithLang: SingleEditor = {
   term: dash.TextAreaWithLangEditor,
   match(shape: PropertyShape, value: GraphPointer) {
@@ -104,6 +141,12 @@ export const textAreaWithLang: SingleEditor = {
   },
 }
 
+/**
+ * Matcher for `dash:DetailsEditor`
+ *
+ * @returns `null` if value is Blank Node or IRI
+ * @returns `0` otherwise
+ */
 export const detailsEditor: SingleEditor = {
   term: dash.DetailsEditor,
   match(shape: PropertyShape, value) {
@@ -115,6 +158,13 @@ export const detailsEditor: SingleEditor = {
   },
 }
 
+/**
+ * Matcher for `dash:EnumSelectEditor`
+ *
+ * @returns `0` if shape does not have `sh:in`
+ * @returns `20` if value is empty string or value is one of `sh:in`
+ * @returns `6` otherwise
+ */
 export const enumSelect: SingleEditor = {
   term: dash.EnumSelectEditor,
   match(shape, value) {
@@ -130,6 +180,13 @@ export const enumSelect: SingleEditor = {
   },
 }
 
+/**
+ * Matcher for `dash:DatePickerEditor`
+ *
+ * @returns `15` if value has datatype `xsd:date`
+ * @returns `5` if `?shape sh:datatype xsd:date`
+ * @returns `0` otherwise
+ */
 export const datePicker: SingleEditor<Literal> = {
   term: dash.DatePickerEditor,
   match(shape, value) {
@@ -144,6 +201,13 @@ export const datePicker: SingleEditor<Literal> = {
   },
 }
 
+/**
+ * Matcher for `dash:DateTimePickerEditor`
+ *
+ * @returns `15` if value has datatype `xsd:dateTime`
+ * @returns `5` if `?shape sh:datatype xsd:dateTime`
+ * @returns `0` otherwise
+ */
 export const dateTimePicker: SingleEditor<Literal> = {
   term: dash.DateTimePickerEditor,
   match(shape, value) {
@@ -158,6 +222,12 @@ export const dateTimePicker: SingleEditor<Literal> = {
   },
 }
 
+/**
+ * Matcher for `dash:InstancesSelectEditor`
+ *
+ * @returns `0` if `?shape sh:class ?class`
+ * @returns `null` otherwise
+ */
 export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
   term: dash.InstancesSelectEditor,
   match(shape) {
@@ -165,6 +235,14 @@ export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
   },
 }
 
+/**
+ * Matcher for `dash:UriEditor`
+ *
+ * @returns `0` if value is not Named Node
+ * @returns `0` if shape has `sh:class`
+ * @returns `10` if `?shape sh:nodeKind sh:IRI`
+ * @returns `null` otherwise
+ */
 export const uriEditor: SingleEditor<NamedNode> = {
   term: dash.URIEditor,
   match(shape, object) {

@@ -30,10 +30,10 @@ export interface MatcherDecorator<T extends Term = Term> extends EditorMatcher {
 }
 
 export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
-  meta: Rdfs.Resource
+  meta: Partial<Rdfs.Resource>
 }
 
-export interface SingleEditorMatch extends SingleEditor {
+export interface SingleEditorMatch extends Editor<SingleEditor> {
   score: number | null
 }
 
@@ -72,7 +72,7 @@ export const editors = createModel(({
         const dash = (await import('@zazuko/rdf-vocabularies/datasets/dash')).default
         const DashEditors = await import('../../DashEditors')
 
-        dispatch.editors.addMetadata($rdf.dataset(dash($rdf)))
+        dispatch.editors.addMetadata(dash($rdf))
         dispatch.editors.addMatchers(DashEditors)
       },
     }

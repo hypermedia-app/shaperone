@@ -2,12 +2,12 @@ import { fixture, expect } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { TextField } from '@material/mwc-textfield'
-import { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components'
 
 describe('wc-material/components/urlEditor', () => {
-  let render: RenderSingleEditor
+  let render: Render
 
   before(async () => {
     render = await urlEditor.lazyRender()

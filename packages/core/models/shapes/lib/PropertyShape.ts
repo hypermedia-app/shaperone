@@ -6,10 +6,11 @@ import { shrink } from '@zazuko/rdf-vocabularies/shrink'
 import { NamedNode, Term } from 'rdf-js'
 import TermSet from '@rdf-esm/term-set'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
+import type { Resource } from '@rdfine/rdfs'
 import { FocusNode } from '../../../index'
-import { getPathProperty } from '../../resources/lib/property'
 
 interface PropertyShapeEx {
+  getPathProperty(): Resource | undefined
   getValues(focusNode: FocusNode): MultiPointer
   displayName: string
   permitsDatatype(datatype: NamedNode): boolean
@@ -28,12 +29,16 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
       return this.datatype?.equals(dt) || this.oredTypes.has(dt)
     }
 
+    getPathProperty(): Resource | undefined {
+      return (Array.isArray(this.path) ? this.path[0] : this.path)
+    }
+
     getValues(focusNode: FocusNode): MultiPointer {
-      return focusNode.out(getPathProperty(this)!.id)
+      return focusNode.out(this.getPathProperty()!.id)
     }
 
     get displayName(): string {
-      return this.name || shrink(getPathProperty(this)!.id.value)
+      return this.name || shrink(this.getPathProperty()!.id.value)
     }
 
     get oredTypes(): Set<Term> {

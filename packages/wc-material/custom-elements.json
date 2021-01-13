@@ -1,0 +1,137 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "mwc-editor-toggle",
+      "path": "./elements/mwc-editor-toggle.ts",
+      "attributes": [
+        {
+          "name": "editors",
+          "type": "Editor<SingleEditor<Term>>[]",
+          "default": "[]"
+        },
+        {
+          "name": "selected",
+          "type": "NamedNode<string> | undefined"
+        },
+        {
+          "name": "removeEnabled",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "properties": [
+        {
+          "name": "editors",
+          "attribute": "editors",
+          "type": "Editor<SingleEditor<Term>>[]",
+          "default": "[]"
+        },
+        {
+          "name": "selected",
+          "attribute": "selected",
+          "type": "NamedNode<string> | undefined"
+        },
+        {
+          "name": "removeEnabled",
+          "attribute": "removeEnabled",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "events": [
+        {
+          "name": "editor-selected"
+        },
+        {
+          "name": "object-removed"
+        }
+      ]
+    },
+    {
+      "name": "mwc-item-lite",
+      "path": "./elements/mwc-item-lite.ts",
+      "attributes": [
+        {
+          "name": "no-options",
+          "type": "boolean",
+          "default": "true"
+        }
+      ],
+      "properties": [
+        {
+          "name": "noOptions",
+          "attribute": "no-options",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "optionsSlot",
+          "type": "HTMLSlotElement | undefined"
+        }
+      ]
+    },
+    {
+      "name": "mwc-property-menu",
+      "path": "./elements/mwc-property-menu.ts",
+      "attributes": [
+        {
+          "name": "property",
+          "type": "PropertyState"
+        }
+      ],
+      "properties": [
+        {
+          "name": "property",
+          "attribute": "property",
+          "type": "PropertyState"
+        }
+      ]
+    },
+    {
+      "name": "mwc-shape-selector",
+      "path": "./elements/mwc-shape-selector.ts",
+      "attributes": [
+        {
+          "name": "shapes",
+          "type": "NodeShape<DatasetCore<Quad, Quad>>[] | undefined"
+        },
+        {
+          "name": "selected",
+          "type": "NodeShape<DatasetCore<Quad, Quad>> | undefined"
+        }
+      ],
+      "properties": [
+        {
+          "name": "shapes",
+          "attribute": "shapes",
+          "type": "NodeShape<DatasetCore<Quad, Quad>>[] | undefined"
+        },
+        {
+          "name": "selected",
+          "attribute": "selected",
+          "type": "NodeShape<DatasetCore<Quad, Quad>> | undefined"
+        }
+      ],
+      "events": [
+        {
+          "name": "shape-selected"
+        }
+      ]
+    },
+    {
+      "name": "wc-menu",
+      "path": "./elements/wc-menu.ts",
+      "properties": [
+        {
+          "name": "menu",
+          "type": "Menu"
+        },
+        {
+          "name": "menuButton",
+          "type": "WcMenuButton"
+        }
+      ]
+    }
+  ]
+}

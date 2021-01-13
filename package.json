@@ -4,13 +4,16 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
-    "build": "lerna run build",
+    "build": "run-p build:*",
+    "build:code": "lerna run --parallel build",
+    "build:docs": "lerna run --parallel typedoc",
     "test": "run-p test:*",
     "test:mocha": "BABEL_ENV=test c8 --all -o coverage/mocha --reporter=lcov mocha --recursive 'packages/core/test/**/*.test.ts'",
     "test:open-wc": "karma start --coverage",
     "test:open-wc:watch": "karma start --auto-watch=true --single-run=false",
     "test:web": "web-test-runner",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "docs": "docsify serve ./dist"
   },
   "workspaces": [
     "packages/*",
@@ -22,6 +25,7 @@
     "@babel/preset-typescript": "^7.12.7",
     "@babel/register": "^7.10.1",
     "@changesets/cli": "^2.12.0",
+    "@open-wc/building-webpack": "^2.13.32",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@tpluscode/eslint-config": "^0.1.1",
     "@types/rdf-js": "^4.0.0",
@@ -32,6 +36,7 @@
     "@web/test-runner": "^0.11.0",
     "c8": "^7.1.2",
     "chai-snapshot-matcher": "^1.0.6",
+    "docsify-cli": "^4.4.1",
     "es-dev-commonjs-transformer": "^0.2.0",
     "eslint": "^7.12.0",
     "eslint-config-standard": "^15.0.0",
@@ -43,13 +48,21 @@
     "husky": "^4.2.5",
     "lerna": "^3.22.1",
     "lint-staged": "^10.2.11",
+    "lit-analyzer": "^1.2.1",
     "npm-run-all": "^4.1.5",
     "rdfjs-eds-plugin": "*",
     "readable-stream": "^3.6.0",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "standard": "^14.3.4",
+    "ts-lit-plugin": "^1.2.1",
+    "typedoc": "^0.20",
     "typescript": "^3.9.3",
+    "web-component-analyzer": "^1.1.6",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.2.0",
     "yarn": "^1.22.4"
   },
   "mocha": {
@@ -62,7 +75,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npx lerna run analyze && git add **/custom-elements.json **/README.md"
     }
   },
   "lint-staged": {

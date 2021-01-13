@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-wc/store
+ */
+
 import { createStore, ModelStore, StoreDispatch, StoreState, devtools } from '@captaincodeman/rdx'
 import { editors } from '@hydrofoil/shaperone-core/models/editors'
 import { components } from '@hydrofoil/shaperone-core/models/components'

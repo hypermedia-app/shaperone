@@ -1,114 +1,37 @@
-import { PropertyShape } from '@rdfine/shacl'
-import { GraphPointer } from 'clownface'
-import { dash, rdf } from '@tpluscode/rdf-ns-builders'
-import { SingleEditorComponent, SingleEditorRenderParams } from './models/components'
-import { FocusNode } from './index'
-import { FormSettings } from './models/forms'
+/**
+ * Exports base implementation of come components so that they can be easily completed by adding the `render` or `lazyRender` method
+ *
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/components
+ */
 
-type CoreComponents<T> = Omit<T, 'render' | 'lazyRender'>
+export type { Item } from './lib/components'
 
-export interface EnumSelect {
-  ready?: boolean
-  choices?: [GraphPointer, string][]
-  loading?: boolean
-}
-
-export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect, any> {
-  loadChoices(params: {
-    focusNode: FocusNode
-    property: PropertyShape
-  }): Promise<GraphPointer[]>
-  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-}
-
-export const enumSelect: CoreComponents<EnumSelectEditor> = {
-  editor: dash.EnumSelectEditor,
-  init({ focusNode, form, property, value: { componentState }, updateComponentState }) {
-    if (!componentState.choices && !componentState.loading) {
-      updateComponentState({
-        loading: true,
-      });
-      (async () => {
-        const pointers = await this.loadChoices({ focusNode, property: property.shape })
-        const choices = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
-          .sort(([, left], [, right]) => left.localeCompare(right))
-
-        updateComponentState({
-          choices,
-          ready: true,
-          loading: false,
-        })
-      })()
-
-      return false
-    }
-    return !componentState.loading
-  },
-  async loadChoices({ property }) {
-    return property.pointer.node(property.in).toArray()
-  },
-  label(choice, { languages, labelProperties }) {
-    return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
-  },
-}
-
-export interface InstancesSelect {
-  ready?: boolean
-  instances?: [GraphPointer, string][]
-  selectedInstance?: [GraphPointer, string]
-  loading?: boolean
-}
-
-export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSelect, any> {
-  loadInstance(params: {
-    property: PropertyShape
-    value: GraphPointer
-  }): Promise<GraphPointer | null>
-  loadChoices(params: SingleEditorRenderParams<InstancesSelect>): Promise<GraphPointer[]>
-  shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
-  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-}
-
-export const instancesSelect: CoreComponents<InstancesSelectEditor> = {
-  editor: dash.InstancesSelectEditor,
-  shouldLoad({ value: { componentState } }): boolean {
-    return !componentState.instances
-  },
-  init(params) {
-    const { form, value, updateComponentState } = params
-    if (this.shouldLoad(params) && !value.componentState.loading) {
-      updateComponentState({
-        loading: true,
-      });
-      (async () => {
-        const pointers = await this.loadChoices(params)
-        const instances = pointers.map<[GraphPointer, string]>(ptr => [ptr, this.label(ptr, form)])
-          .sort(([, left], [, right]) => left.localeCompare(right))
-
-        updateComponentState({
-          instances,
-          ready: true,
-          loading: false,
-        })
-      })()
-
-      return false
-    }
-    return !value.componentState.loading
-  },
-  async loadInstance({ property, value }) {
-    return property.pointer.node(value)
-  },
-  async loadChoices({ property }) {
-    if (property.shape.class) {
-      return property.shape.pointer.any()
-        .has(rdf.type, property.shape.class.id)
-        .toArray()
-    }
-
-    return []
-  },
-  label(choice, { languages, labelProperties }) {
-    return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
-  },
-}
+export type { AutoComplete, AutoCompleteEditor } from './lib/components/autoComplete'
+export { autoComplete } from './lib/components/autoComplete'
+export type { BlankNode, BlankNodeEditor } from './lib/components/blankNode'
+export { blankNode } from './lib/components/blankNode'
+export type { BooleanSelectEditor, BooleanSelect } from './lib/components/booleanSelect'
+export { booleanSelect } from './lib/components/booleanSelect'
+export type { DatePickerEditor, DatePicker } from './lib/components/datePicker'
+export { datePicker } from './lib/components/datePicker'
+export type { DateTimePicker, DateTimePickerEditor } from './lib/components/dateTimePicker'
+export { dateTimePicker } from './lib/components/dateTimePicker'
+export type { Details, DetailsEditor } from './lib/components/details'
+export { details } from './lib/components/details'
+export type { EnumSelect, EnumSelectEditor } from './lib/components/enumSelect'
+export { enumSelect } from './lib/components/enumSelect'
+export type { InstancesSelect, InstancesSelectEditor } from './lib/components/instancesSelect'
+export { instancesSelect } from './lib/components/instancesSelect'
+export type { RichTextEditor, RichText } from './lib/components/richText'
+export { richText } from './lib/components/richText'
+export type { TextAreaEditor, TextArea } from './lib/components/textArea'
+export { textArea } from './lib/components/textArea'
+export type { TextAreaWithLang, TextAreaWithLangEditor } from './lib/components/textAreaWithLang'
+export { textAreaWithLang } from './lib/components/textAreaWithLang'
+export type { TextField, TextFieldEditor } from './lib/components/textField'
+export { textField } from './lib/components/textField'
+export type { TextFieldWithLang, TextFieldWithLangEditor } from './lib/components/textFieldWithLang'
+export { textFieldWithLang } from './lib/components/textFieldWithLang'
+export { uri } from './lib/components/uri'
+export type { URIEditor, URI } from './lib/components/uri'

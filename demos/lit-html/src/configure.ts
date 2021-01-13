@@ -1,10 +1,12 @@
 import type { Component } from '@hydrofoil/shaperone-core'
 import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents'
 import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components'
-import { component, matcher, metadata } from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect'
+import * as LanguageSelect from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect'
+import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating'
+import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating'
+import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import { components, editors, renderer } from '@hydrofoil/shaperone-wc/configure'
-import $rdf from 'rdf-ext'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer/DefaultStrategy'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
@@ -13,14 +15,19 @@ import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
-  native: { ...nativeComponents },
-  material: { ...nativeComponents, ...mwcComponents, languages: component('material') },
-  vaadin: { ...nativeComponents, ...vaadinComponents, languages: component('lumo') },
+  native: { ...nativeComponents, starRating },
+  material: { ...nativeComponents, ...mwcComponents, languages: LanguageSelect.component('material'), starRating },
+  vaadin: { ...nativeComponents, ...vaadinComponents, languages: LanguageSelect.component('lumo'), starRating },
 }
 
-editors.addMetadata($rdf.dataset([...metadata()]))
-editors.addMatchers({ matcher })
+editors.addMetadata([...LanguageSelect.metadata(), ...StarRating.metadata()])
+editors.addMatchers({
+  languages: LanguageSelect.matcher,
+  starRating: StarRating.matcher,
+})
 editors.decorate(instancesSelector.matcher)
+components.decorate(instancesSelector.decorator())
+components.decorate(DescriptionTooltip)
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native
@@ -33,7 +40,6 @@ export const selectComponents = (() => {
     const modules = componentSets[name]
     components.removeComponents(Object.values(currentComponents).map(m => m.editor))
     components.pushComponents(modules)
-    components.decorate(instancesSelector.decorator())
     currentComponents = modules
   }
 })()

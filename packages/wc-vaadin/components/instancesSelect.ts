@@ -1,11 +1,22 @@
-import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { directive, html, PropertyPart } from 'lit-html'
-import { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import type { InstancesSelect, InstancesSelectEditor, Item } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
+
+declare module '@hydrofoil/shaperone-core/components' {
+  interface InstancesSelect {
+    /**
+     * The currently selected instance
+     *
+     * @category vaadin
+     */
+    selectedInstance?: Item
+  }
+}
 
 type CollectionDataProvider = ComboBoxDataProvider & {
   component: InstancesSelectEditor
@@ -42,7 +53,7 @@ function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEd
 }
 
 const stateMap = new WeakMap<PropertyPart, { dataProvider: CollectionDataProvider ; searchUri: string | undefined }>()
-const memoizeDataProvider = directive((component: InstancesSelectEditor, renderParams: SingleEditorRenderParams, searchUri: string | undefined) => (part: PropertyPart) => {
+const memoizeDataProvider = directive((component: InstancesSelectEditor, renderParams: SingleEditorRenderParams<InstancesSelect>, searchUri: string | undefined) => (part: PropertyPart) => {
   const previous = stateMap.get(part)
   if (previous) {
     // do not create a new data provider function to prevent duplicate requests from <vaadin-comb-box>
@@ -63,7 +74,7 @@ const memoizeDataProvider = directive((component: InstancesSelectEditor, renderP
   part.setValue(state.dataProvider)
 })
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, params, actions) {
+export const instancesSelect: Render<InstancesSelectEditor> = function (params, actions) {
   const { form, focusNode, property, value } = params
   let selectedInstance: [GraphPointer, string] | undefined
   if (value.componentState.selectedInstance) {

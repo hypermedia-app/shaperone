@@ -6,6 +6,7 @@ import { schema } from '@tpluscode/rdf-ns-builders'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import { store } from '../store'
 import { id } from '../ShaperoneForm'
+import '../shaperone-form'
 
 describe('shaperone-form', () => {
   const shape = fromPointer(clownface({ dataset: dataset() }).blankNode())
@@ -16,7 +17,7 @@ describe('shaperone-form', () => {
 
   it('sets languages from attribute to form settings', async () => {
     // given
-    const form = await fixture(html`<shaperone-form .shapes="${shape}" languages="pl,en-GB,de"></shaperone-form>`)
+    const form = await fixture(html`<shaperone-form .shapes="${shape.pointer}" languages="pl,en-GB,de"></shaperone-form>`)
 
     // then
     const formState = store().state.forms.get(id(form))
@@ -26,7 +27,7 @@ describe('shaperone-form', () => {
   xit('dispatches event when object values change', async () => {
     // given
     const resource = clownface({ dataset: dataset() }).blankNode()
-    const form = await fixture(html`<shaperone-form .shapes="${shape}" .resource="${resource}"></shaperone-form>`)
+    const form = await fixture(html`<shaperone-form .shapes="${shape.pointer}" .resource="${resource}"></shaperone-form>`)
 
     // when
     store().dispatch.forms.updateObject({

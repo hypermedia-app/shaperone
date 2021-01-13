@@ -1,12 +1,10 @@
-import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { repeat } from 'lit-html/directives/repeat'
 import '@material/mwc-select/mwc-select'
 import '@material/mwc-list/mwc-list-item'
 import {
-  EnumSelect,
   EnumSelectEditor,
-  InstancesSelect,
   InstancesSelectEditor,
 } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
@@ -30,10 +28,10 @@ function select(this: EnumSelectEditor | InstancesSelectEditor,
 </mwc-select>`
 }
 
-export const enumSelect: RenderSingleEditor<EnumSelect> = function (this: EnumSelectEditor, { form, value }, actions) {
+export const enumSelect: Render<EnumSelectEditor> = function ({ form, value }, actions) {
   return select.call(this, form, value.object?.term, value.componentState.choices, actions)
 }
 
-export const instancesSelect: RenderSingleEditor<InstancesSelect> = function (this: InstancesSelectEditor, { form, value }, actions) {
+export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, value }, actions) {
   return select.call(this, form, value.object?.term, value.componentState.instances, actions)
 }

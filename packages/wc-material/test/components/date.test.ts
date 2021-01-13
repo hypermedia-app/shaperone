@@ -2,13 +2,13 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
-import { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams } from '@shaperone/testing'
 import { dateTimePicker, datePicker } from '../../components'
 
 describe('wc-material/components/date', () => {
   describe('datePicker', () => {
-    let render: RenderSingleEditor
+    let render: Render
 
     before(async () => {
       render = await datePicker.lazyRender()
@@ -31,7 +31,7 @@ describe('wc-material/components/date', () => {
   })
 
   describe('dateTimePicker', () => {
-    let render: RenderSingleEditor
+    let render: Render
 
     before(async () => {
       render = await dateTimePicker.lazyRender()

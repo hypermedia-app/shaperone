@@ -87,6 +87,7 @@ describe('wc-material/renderer', () => {
       const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        meta: {},
         score: null,
       }
       const params = deepmerge<Params>(nullParams(), {
@@ -111,6 +112,7 @@ describe('wc-material/renderer', () => {
       const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        meta: {},
         score: null,
       }
       const params = deepmerge<Params>(nullParams(), {
@@ -136,6 +138,7 @@ describe('wc-material/renderer', () => {
       const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        meta: {},
         score: 1,
       }
       const params = deepmerge<Params>(nullParams(), {
@@ -161,6 +164,7 @@ describe('wc-material/renderer', () => {
       const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        meta: {},
         score: null,
       }
       const params = deepmerge<Params>(nullParams(), {
@@ -186,6 +190,7 @@ describe('wc-material/renderer', () => {
       const editor: SingleEditorMatch = {
         match: sinon.spy(),
         term: dash.TextAreaEditor,
+        meta: {},
         score: null,
       }
       const params = deepmerge<Params>(nullParams(), {

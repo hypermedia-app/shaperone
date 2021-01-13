@@ -1,7 +1,7 @@
 import {
   SingleEditorActions,
   SingleEditorRenderParams,
-  TComponentState,
+  ComponentInstance,
 } from '@hydrofoil/shaperone-core/models/components'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import type { PropertyShape } from '@rdfine/shacl'
@@ -28,7 +28,7 @@ interface EditorTestParams<T> {
   componentState?: T
 }
 
-export function editorTestParams<T extends TComponentState = TComponentState>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
+export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
   const { focusNode, object, property, datatype, componentState } = arg
 
   const value: PropertyObjectState<T> = {

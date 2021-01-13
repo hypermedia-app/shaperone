@@ -1,4 +1,4 @@
-import type { RenderSingleEditor } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { spread } from '@open-wc/lit-helpers'
 import { xsd } from '@tpluscode/rdf-ns-builders'
@@ -7,7 +7,7 @@ import '@vaadin/vaadin-text-field/vaadin-text-field'
 import '@vaadin/vaadin-text-field/vaadin-number-field'
 import '@vaadin/vaadin-text-field/vaadin-integer-field'
 
-export const textField: RenderSingleEditor = function ({ value, property }, { update }) {
+export const textField: Render = function ({ value, property }, { update }) {
   const props = {
     '.value': value.object?.value || '',
     required: true,

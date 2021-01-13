@@ -1,6 +1,5 @@
 import type { Store } from '../../../../state'
 import * as removeObject from '../../../forms/reducers/removeObject'
-import { getPathProperty } from '../../lib/property'
 import { notify } from '../../lib/notify'
 import { PropertyObjectState } from '../../../forms'
 
@@ -16,7 +15,7 @@ export default function (store: Store) {
       return
     }
 
-    const pathProperty = getPathProperty(property)!
+    const pathProperty = property.getPathProperty()!
 
     if (!removed.object) {
       return

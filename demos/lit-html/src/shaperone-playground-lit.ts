@@ -5,8 +5,8 @@ import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
 import '@vaadin/vaadin-button/vaadin-button.js'
 import '@material/mwc-icon/mwc-icon.js'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
-import '@hydrofoil/shaperone-wc'
 import { html, render } from 'lit-html'
+import '@hydrofoil/shaperone-wc/shaperone-form'
 import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
@@ -124,7 +124,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       </h2>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
       <vaadin-button slot="navbar" @click="${this.__share}"><mwc-icon>share</mwc-icon></vaadin-button>
-      <a href="https://github.com/hypermedia-app/shaperone" target="_blank" slot="navbar"><img alt="GitHub" src="./GitHub-Mark-32px.png"></a>
+      <a href="https://github.com/hypermedia-app/shaperone" target="_blank" slot="navbar"><img alt="GitHub" src="/_media/GitHub-Mark-32px.png"></a>
 
       <div class="content">
       <vaadin-split-layout id="top-splitter">
@@ -205,7 +205,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
   __saveResource() {
     if (this.form.value) {
-      store().dispatch.resource.replaceGraph({ dataset: this.form.value, updatePointer: false })
+      store().dispatch.resource.replaceGraph({ dataset: this.form.resource?.dataset, updatePointer: false })
     }
   }
 

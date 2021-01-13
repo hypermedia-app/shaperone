@@ -18,7 +18,6 @@ module.exports = (config) => {
   config.set(
     merge(createDefaultConfig(config), {
       files: [
-        { pattern: config.grep ? config.grep : 'packages/wc/test/**/*.test.ts', type: 'module' },
         { pattern: config.grep ? config.grep : 'packages/wc-material/test/**/*.test.ts', type: 'module' },
         { pattern: config.grep ? config.grep : 'packages/wc-vaadin/test/**/*.test.ts', type: 'module' },
       ],

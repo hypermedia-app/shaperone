@@ -57,7 +57,7 @@ export default {
       }
     })
   },
-  decorate<T extends Component = Component>(components: ComponentsState, decorator: ComponentDecorator<T>) {
+  decorate<T extends Component>(components: ComponentsState, decorator: ComponentDecorator<T>) {
     return produce(components, (draft) => {
       draft.decorators.push(decorator)
       for (const [key, component] of Object.entries(components.components)) {

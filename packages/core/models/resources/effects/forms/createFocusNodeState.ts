@@ -1,7 +1,6 @@
 /* eslint-disable no-continue */
 import { GraphPointer } from 'clownface'
 import { defaultValue } from '../../lib/defaultValue'
-import { getPathProperty } from '../../lib/property'
 import { notify } from '../../lib/notify'
 import type { Store } from '../../../../state'
 import { Params } from '../../../forms/reducers/replaceFocusNodes'
@@ -26,7 +25,7 @@ export default function createFocusNodeState(store: Store) {
             continue
           }
 
-          const predicate = getPathProperty(property.shape)!.id
+          const predicate = property.shape.getPathProperty()!.id
           if (focusNode.has(predicate, value).terms.length) {
             continue
           }

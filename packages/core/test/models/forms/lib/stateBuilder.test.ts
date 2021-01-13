@@ -8,7 +8,7 @@ import { schema, sh, dash } from '@tpluscode/rdf-ns-builders'
 import { initialiseFocusNode, initialiseObjectState } from '../../../../models/forms/lib/stateBuilder'
 import { loadMixins } from '../../../../index'
 import { Store } from '../../../../state'
-import { testStore } from '../util'
+import { testEditor, testStore } from '../util'
 import { propertyShape } from '../../../util'
 
 const ex = ns('http://example.com/')
@@ -67,7 +67,47 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.shapes.map(s => s.id)).to.contain.ordered.members([otherShape.id, nestedShape.id])
     })
 
-    it('does not reset selected editor of same object', () => {
+    it('does not reset selected editor of same object if it still matches', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+        .addOut(ex.foo, 'bar')
+      const shape = fromPointer(graph.namedNode(ex.shape), {
+        property: [{
+          types: [sh.PropertyShape],
+          name: 'foo',
+          path: ex.foo,
+        }],
+      })
+      const { editors } = store.getState()
+      const before = initialiseFocusNode({
+        focusNode,
+        editors,
+        shape,
+        shapes: [shape],
+        shouldEnableEditorChoice,
+      }, undefined)
+      before.properties[0].objects[0].selectedEditor = ex.FooEditor
+      editors.matchSingleEditors = () => [{
+        ...testEditor(ex.FooEditor),
+        score: 10,
+        meta: <any> {},
+      }]
+
+      // when
+      const after = initialiseFocusNode({
+        focusNode,
+        editors,
+        shape,
+        shapes: [shape],
+        shouldEnableEditorChoice,
+      }, before)
+
+      // then
+      expect(after.properties[0].objects[0].selectedEditor).to.deep.eq(ex.FooEditor)
+    })
+
+    it('resets selected editor if it no longer matches', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.Foo)
@@ -98,7 +138,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       }, before)
 
       // then
-      expect(after.properties[0].objects[0].selectedEditor).to.deep.eq(ex.FooEditor)
+      expect(after.properties[0].objects[0].selectedEditor).to.be.undefined
     })
 
     it('does not reset selected multi editor', () => {
@@ -254,6 +294,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const { editors } = store.getState()
       editors.matchSingleEditors = () => [{
         term: ex.FooEditor,
+        meta: {},
         match: () => 0,
         score: 0,
       }]
@@ -285,10 +326,12 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const { editors } = store.getState()
       editors.matchSingleEditors = () => [{
         term: ex.FooEditor,
+        meta: {},
         match: () => 5,
         score: 5,
       }, {
         term: ex.BarEditor,
+        meta: {},
         match: () => 10,
         score: 10,
       }]

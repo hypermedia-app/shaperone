@@ -15,7 +15,7 @@ const immer = {
 export default {
   files: [
     "packages/hydra/test/**/*.test.ts",
-    // "packages/wc/test/**/*.test.ts",
+    "packages/wc/test/**/*.test.ts",
     // "packages/wc-material/test/**/*.test.ts",
     // "packages/wc-vaadin/test/**/*.test.ts"
   ],
