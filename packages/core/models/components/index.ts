@@ -32,6 +32,7 @@ export interface MultiEditorRenderParams<T extends ComponentInstance = Component
 export interface SingleEditorActions {
   update(newValue: Term | string): void
   focusOnObjectNode(): void
+  clear(): void
 }
 
 export interface MultiEditorActions {

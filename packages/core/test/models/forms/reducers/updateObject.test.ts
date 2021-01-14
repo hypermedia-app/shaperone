@@ -5,7 +5,12 @@ import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { setDefaultValue, setObjectValue, setPropertyObjects } from '../../../../models/forms/reducers/updateObject'
+import {
+  clearValue,
+  setDefaultValue,
+  setObjectValue,
+  setPropertyObjects,
+} from '../../../../models/forms/reducers/updateObject'
 import { RecursivePartial, testObjectState, testStore } from '../util'
 import { propertyShape } from '../../../util'
 import { Store } from '../../../../state'
@@ -303,6 +308,36 @@ describe('core/models/forms/reducers/updateObject', () => {
       const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
       expect(objectsAfter?.[1].selectedEditor?.value).to.deep.equal(dash.FooEditor.value)
       expect(objectsAfter?.[0].selectedEditor).to.deep.equal(dash.BarEditor)
+    })
+  })
+
+  describe('clearValue', () => {
+    it('sets object state value to undefined', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+      const object = testObjectState(graph.literal('foo'))
+      const focusNode = graph.blankNode()
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            objects: [object],
+          }],
+        },
+      }
+
+      // when
+      const afterState = clearValue(store.getState().forms, {
+        focusNode,
+        property,
+        form,
+        object,
+      })
+
+      // then
+      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      expect(objectsAfter?.[0].object).to.be.undefined
     })
   })
 })

@@ -119,3 +119,19 @@ export const resetComponents = (state: State) => {
 
   return state
 }
+
+export interface ClearValueParams extends BaseParams {
+  focusNode: FocusNode
+  property: PropertyShape
+  object: PropertyObjectState
+}
+
+export const clearValue = formStateReducer((state: FormState, { focusNode, property, object }: ClearValueParams) => produce(state, (draft) => {
+  const focusNodeState = draft.focusNodes[focusNode.value]
+  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
+
+  const objectState = propertyState?.objects.find(o => o.key === object.key)
+  if (objectState) {
+    objectState.object = undefined
+  }
+}))
