@@ -6,7 +6,7 @@
 
 | Property        | Attribute       | Type                             | Default |
 |-----------------|-----------------|----------------------------------|---------|
-| `editors`       | `editors`       | `Editor<SingleEditor<Term>>[]`   | []      |
+| `editors`       | `editors`       | `SingleEditorMatch[]`            | []      |
 | `removeEnabled` | `removeEnabled` | `boolean`                        | false   |
 | `selected`      | `selected`      | `NamedNode<string> \| undefined` |         |
 

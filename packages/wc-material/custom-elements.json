@@ -7,7 +7,7 @@
       "attributes": [
         {
           "name": "editors",
-          "type": "Editor<SingleEditor<Term>>[]",
+          "type": "SingleEditorMatch[]",
           "default": "[]"
         },
         {
@@ -24,7 +24,7 @@
         {
           "name": "editors",
           "attribute": "editors",
-          "type": "Editor<SingleEditor<Term>>[]",
+          "type": "SingleEditorMatch[]",
           "default": "[]"
         },
         {

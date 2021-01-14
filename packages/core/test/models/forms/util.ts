@@ -1,7 +1,7 @@
 import deepmerge from 'deepmerge'
 import * as sinon from 'sinon'
 import type { GraphPointer } from 'clownface'
-import { PropertyShapeMixin } from '@rdfine/shacl'
+import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import clownface from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
@@ -37,6 +37,7 @@ export function testState(initializer: Initializer = {}, addToState?: Form.State
   state.set(form, deepmerge<Form.FormState>({
     focusStack: [],
     focusNodes: {},
+    shouldEnableEditorChoice: () => false,
   }, (initializer.form || {}) as any, { clone: false }))
 
   return { form, state }
@@ -63,14 +64,22 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
 export function testPropertyState(pointer: ResourceNode, init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
   return deepmerge({
     editors: [],
-    shape: new PropertyShapeMixin.Class(pointer),
+    shape: fromPointer(pointer),
     name: 'property',
     canAdd: true,
     canRemove: true,
     selectedEditor: undefined,
     datatype: undefined,
     objects: [],
-  }, init, { clone: false })
+  }, init, {
+    clone: false,
+    customMerge(key: string) {
+      if (key === 'shape') {
+        return (_, property) => property
+      }
+      return undefined
+    },
+  })
 }
 
 export function testObjectState(object?: GraphPointer, init: RecursivePartial<Form.PropertyObjectState> = {}): Form.PropertyObjectState {

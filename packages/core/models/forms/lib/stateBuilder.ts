@@ -1,6 +1,5 @@
 import type { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
-import { dash } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
 import type { EditorsState } from '../../editors/index'
@@ -24,7 +23,7 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
     let matchedEditors = editors.matchSingleEditors({ shape, object })
     let selectedEditor
 
-    const preferredEditorId = shape.get(dash.editor)?.id
+    const preferredEditorId = shape.editor?.id
     if (preferredEditorId?.termType === 'NamedNode') {
       const preferredEditor = Object.values(editors.singleEditors).find(e => e?.term.equals(preferredEditorId))
       selectedEditor = preferredEditorId

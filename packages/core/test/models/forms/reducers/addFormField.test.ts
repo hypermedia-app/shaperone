@@ -3,7 +3,8 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
-import { testState } from '../util'
+import { dash } from '@tpluscode/rdf-ns-builders'
+import { testFocusNodeState, testPropertyState, testStore } from '../util'
 import { addFormField } from '../../../../models/forms/reducers/addFormField'
 import { propertyShape } from '../../../util'
 
@@ -18,33 +19,27 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, state: before } = testState({
-      form: {
-        shouldEnableEditorChoice: () => true,
-        focusNodes: {
-          [ex.FocusNode.value]: {
-            focusNode,
-            shapes: [],
-            groups: [],
-            properties: [{
-              canRemove: true,
-              canAdd: true,
-              name: 'prop',
-              shape: property,
-              selectedEditor: undefined,
-              objects: [],
-            }],
-          },
-        },
-      },
+    const { form, store } = testStore()
+    const { editors, forms } = store.getState()
+
+    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      properties: [testPropertyState(focusNode.blankNode(), {
+        canRemove: true,
+        canAdd: true,
+        name: 'prop',
+        shape: property,
+        selectedEditor: undefined,
+        objects: [],
+      })],
     })
 
     // when
-    const after = addFormField(before, {
+    const after = addFormField(forms, {
       form,
       property,
       focusNode,
-      editors: [],
+      matchedEditors: [],
+      editors,
     })
 
     // then
@@ -60,33 +55,27 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, state: before } = testState({
-      form: {
-        shouldEnableEditorChoice: () => true,
-        focusNodes: {
-          [ex.FocusNode.value]: {
-            focusNode,
-            shapes: [],
-            groups: [],
-            properties: [{
-              canRemove: true,
-              canAdd: false,
-              name: 'prop',
-              shape: property,
-              selectedEditor: undefined,
-              objects: [],
-            }],
-          },
-        },
-      },
+    const { form, store } = testStore()
+    const { editors, forms } = store.getState()
+
+    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      properties: [testPropertyState(focusNode.blankNode(), {
+        canRemove: true,
+        canAdd: false,
+        name: 'prop',
+        shape: property,
+        selectedEditor: undefined,
+        objects: [],
+      })],
     })
 
     // when
-    const after = addFormField(before, {
+    const after = addFormField(forms, {
       form,
       property,
       focusNode,
-      editors: [],
+      matchedEditors: [],
+      editors,
     })
 
     // then
@@ -102,33 +91,27 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, state: before } = testState({
-      form: {
-        shouldEnableEditorChoice: () => true,
-        focusNodes: {
-          [ex.FocusNode.value]: {
-            focusNode,
-            shapes: [],
-            groups: [],
-            properties: [{
-              canRemove: true,
-              canAdd: false,
-              name: 'prop',
-              shape: property,
-              selectedEditor: undefined,
-              objects: [],
-            }],
-          },
-        },
-      },
+    const { form, store } = testStore()
+    const { editors, forms } = store.getState()
+
+    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      properties: [testPropertyState(focusNode.blankNode(), {
+        canRemove: true,
+        canAdd: false,
+        name: 'prop',
+        shape: property,
+        selectedEditor: undefined,
+        objects: [],
+      })],
     })
 
     // when
-    const after = addFormField(before, {
+    const after = addFormField(forms, {
       form,
       property,
       focusNode,
-      editors: [],
+      matchedEditors: [],
+      editors,
     })
 
     // then
@@ -143,37 +126,73 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, state: before } = testState({
-      form: {
-        shouldEnableEditorChoice: () => false,
-        focusNodes: {
-          [ex.FocusNode.value]: {
-            focusNode,
-            shapes: [],
-            groups: [],
-            properties: [{
-              canRemove: true,
-              canAdd: true,
-              name: 'prop',
-              shape: property,
-              selectedEditor: undefined,
-              objects: [],
-            }],
-          },
-        },
-      },
+    const { form, store } = testStore()
+    const { editors, forms } = store.getState()
+
+    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      properties: [testPropertyState(focusNode.blankNode(), {
+        canRemove: true,
+        canAdd: true,
+        name: 'prop',
+        shape: property,
+        selectedEditor: undefined,
+        objects: [],
+      })],
     })
 
     // when
-    const after = addFormField(before, {
+    const after = addFormField(forms, {
       form,
       property,
       focusNode,
-      editors: [],
+      matchedEditors: [],
+      editors,
     })
 
     // then
     const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
     expect(fooState.properties[0].objects[0].editorSwitchDisabled).to.be.true
+  })
+
+  it('initializes with state with preferred editor and adds it as first choice', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = propertyShape(graph.blankNode(), {
+      path: ex.prop,
+      editor: dash.FooEditor,
+    })
+    const focusNode = graph.node(ex.FocusNode)
+    const { form, store } = testStore()
+    const { editors, forms } = store.getState()
+
+    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      properties: [testPropertyState(focusNode.blankNode(), {
+        canRemove: true,
+        canAdd: true,
+        name: 'prop',
+        shape: property,
+        selectedEditor: undefined,
+        objects: [],
+      })],
+    })
+
+    // when
+    const after = addFormField(forms, {
+      form,
+      property,
+      focusNode,
+      matchedEditors: [{
+        term: dash.TextFieldEditor,
+        score: 10,
+        meta: {} as any,
+      }],
+      editors,
+    })
+
+    // then
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    expect(fooState.properties[0].objects[0].selectedEditor).to.deep.eq(dash.FooEditor)
+    expect(fooState.properties[0].objects[0].editors[0].term).to.deep.eq(dash.FooEditor)
+    expect(fooState.properties[0].objects[0].editors[1].term).to.deep.eq(dash.TextFieldEditor)
   })
 })
