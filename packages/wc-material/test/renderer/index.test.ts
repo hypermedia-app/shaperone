@@ -85,7 +85,6 @@ describe('wc-material/renderer', () => {
     it('renders a menu when there is more than one editor', async () => {
       // given
       const editor: SingleEditorMatch = {
-        match: sinon.spy(),
         term: dash.TextAreaEditor,
         meta: {},
         score: null,
@@ -110,7 +109,6 @@ describe('wc-material/renderer', () => {
     it('does not render a menu when there is more than one editor but switching is disabled', async () => {
       // given
       const editor: SingleEditorMatch = {
-        match: sinon.spy(),
         term: dash.TextAreaEditor,
         meta: {},
         score: null,
@@ -136,7 +134,6 @@ describe('wc-material/renderer', () => {
     it('renders a delete button when there is one editor', async () => {
       // given
       const editor: SingleEditorMatch = {
-        match: sinon.spy(),
         term: dash.TextAreaEditor,
         meta: {},
         score: 1,
@@ -162,7 +159,6 @@ describe('wc-material/renderer', () => {
     it('disables remove choice when property has multiple editors and minimum required values', async () => {
       // given
       const editor: SingleEditorMatch = {
-        match: sinon.spy(),
         term: dash.TextAreaEditor,
         meta: {},
         score: null,
@@ -188,7 +184,6 @@ describe('wc-material/renderer', () => {
     it('does not render remove button when property has minimum required values', async () => {
       // given
       const editor: SingleEditorMatch = {
-        match: sinon.spy(),
         term: dash.TextAreaEditor,
         meta: {},
         score: null,

@@ -16,7 +16,8 @@ export function addObject(store: Store) {
       form,
       property,
       focusNode,
-      editors: editors.matchSingleEditors({ shape: property }),
+      matchedEditors: editors.matchSingleEditors({ shape: property }),
+      editors,
     })
   }
 }

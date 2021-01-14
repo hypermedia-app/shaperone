@@ -33,7 +33,7 @@ export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
   meta: Partial<Rdfs.Resource>
 }
 
-export interface SingleEditorMatch extends Editor<SingleEditor> {
+export interface SingleEditorMatch extends Omit<Editor<SingleEditor>, 'match'> {
   score: number | null
 }
 
