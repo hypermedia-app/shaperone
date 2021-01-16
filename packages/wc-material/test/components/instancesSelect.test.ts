@@ -1,9 +1,10 @@
-import { expect, fixture } from '@open-wc/testing'
+import { aTimeout, expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { InstancesSelectEditor, InstancesSelect } from '@hydrofoil/shaperone-core/components'
 import { Select } from '@material/mwc-select'
+import { ListItem } from '@material/mwc-list/mwc-list-item'
 import { instancesSelectEditor } from '../../components'
 
 describe('wc-material/components/instancesSelect', () => {
@@ -30,10 +31,10 @@ describe('wc-material/components/instancesSelect', () => {
     })
 
     // when
-    const result = await fixture(instancesSelect.render(params, actions))
+    const result = await fixture<Select>(instancesSelect.render(params, actions))
 
     // then
-    expect(result).to.equalSnapshot()
+    expect(result.items.map(i => i.value)).to.deep.eq(['foo', 'bar'])
   })
 
   it('sets selection to current object', async () => {
@@ -44,16 +45,16 @@ describe('wc-material/components/instancesSelect', () => {
       componentState: {
         instances: [
           [graph.namedNode('foo'), 'Foo I'],
-          [graph.literal('bar'), 'Bar I'],
+          [graph.namedNode('bar'), 'Bar I'],
         ],
       },
     })
 
     // when
-    const result = await fixture(instancesSelect.render(params, actions))
+    const result = await fixture<Select>(instancesSelect.render(params, actions))
 
     // then
-    expect(result).to.equalSnapshot()
+    expect(result.querySelector<ListItem>('mwc-list-item[selected]')?.innerText).to.match(/Bar I/)
   })
 
   it('updates form when value changes', async () => {
@@ -71,6 +72,7 @@ describe('wc-material/components/instancesSelect', () => {
 
     // when
     selectElement.select(0)
+    await aTimeout(100)
 
     // then
     expect(actions.update).to.have.been.calledWith(sinon.match({

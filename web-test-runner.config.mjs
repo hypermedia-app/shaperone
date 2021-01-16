@@ -16,7 +16,7 @@ export default {
   files: [
     "packages/hydra/test/**/*.test.ts",
     "packages/wc/test/**/*.test.ts",
-    // "packages/wc-material/test/**/*.test.ts",
+    "packages/wc-material/test/**/*.test.ts",
     // "packages/wc-vaadin/test/**/*.test.ts"
   ],
   groups: [
@@ -27,6 +27,7 @@ export default {
   ],
   coverage: true,
   nodeResolve: true,
+  concurrency: typeof process.env.CI === 'undefined' ? 1 : undefined,
   plugins: [
     esbuildPlugin({ ts: true, js: true, target: 'auto' }),
     rdfjs,
