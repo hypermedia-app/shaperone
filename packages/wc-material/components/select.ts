@@ -42,16 +42,16 @@ export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, 
 
 export const booleanSelect: Render<BooleanSelectEditor> = function ({ value }, { update, clear }) {
   function onSelected(e: any) {
-    if (e.target.selected.innerText) {
-      update(literal(e.target.selected.innerText, xsd.boolean))
+    if (e.target.selected?.value) {
+      update(literal(e.target.selected.value, xsd.boolean))
     } else {
       clear()
     }
   }
 
-  return html`<mwc-select @selected="${onSelected}">
+  return html`<mwc-select @action="${onSelected}">
     <mwc-list-item></mwc-list-item>
-    <mwc-list-item ?selected="${value.object?.value === 'true'}">true</mwc-list-item>
-    <mwc-list-item ?selected="${value.object?.value === 'false'}">false</mwc-list-item>
+    <mwc-list-item value="true" ?selected="${value.object?.value === 'true'}">true</mwc-list-item>
+    <mwc-list-item value="false" ?selected="${value.object?.value === 'false'}">false</mwc-list-item>
   </mwc-select>`
 }

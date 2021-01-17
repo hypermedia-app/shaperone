@@ -3,7 +3,7 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import { expect, fixture, aTimeout } from '@open-wc/testing'
+import { expect, fixture } from '@open-wc/testing'
 import { Select } from '@material/mwc-select'
 import { ListItem } from '@material/mwc-list/mwc-list-item'
 import { booleanSelectEditor } from '../../components'
@@ -41,10 +41,10 @@ describe('wc-material/components/booleanSelect', () => {
       datatype: xsd.boolean,
     })
     const element = await fixture<Select>(booleanSelect.render(params, actions))
-    await aTimeout(100)
 
     // when
     element.select(0)
+    element.dispatchEvent(new Event('action'))
 
     // then
     expect(actions.clear).to.have.been.calledOnce
@@ -58,10 +58,10 @@ describe('wc-material/components/booleanSelect', () => {
       datatype: xsd.boolean,
     })
     const element = await fixture<Select>(booleanSelect.render(params, actions))
-    await aTimeout(100)
 
     // when
     element.select(1)
+    element.dispatchEvent(new Event('action'))
 
     // then
     expect(actions.update).to.have.been.calledOnceWith(sinon.match({
@@ -71,5 +71,21 @@ describe('wc-material/components/booleanSelect', () => {
         ...xsd.boolean,
       },
     }))
+  })
+
+  it('does not run any action on first render', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const { params, actions } = editorTestParams({
+      object: graph.literal('foobar'),
+      datatype: xsd.boolean,
+    })
+
+    // when
+    await fixture<Select>(booleanSelect.render(params, actions))
+
+    // then
+    expect(actions.clear).not.to.have.been.called
+    expect(actions.update).not.to.have.been.called
   })
 })

@@ -13,12 +13,6 @@ const immer = {
   },
 }
 const config = {
-  files: [
-    "packages/hydra/test/**/*.test.ts",
-    "packages/wc/test/**/*.test.ts",
-    "packages/wc-material/test/**/*.test.ts",
-    // "packages/wc-vaadin/test/**/*.test.ts"
-  ],
   groups: [
     { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
     { name: 'wc', files: 'packages/wc/test/**/*.test.ts' },
