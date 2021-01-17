@@ -1,5 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import clownface, { AnyPointer, GraphPointer } from 'clownface'
+import clownface, { AnyPointer } from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
 import type { Store } from '../../state'
 import { setRoot } from './reducers/setRoot'
