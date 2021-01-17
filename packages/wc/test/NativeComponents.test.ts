@@ -16,6 +16,7 @@ describe('NativeComponents', () => {
     dash.URIEditor,
     dash.DatePickerEditor,
     dash.DateTimePickerEditor,
+    dash.BooleanSelectEditor,
   ])
 
   for (const editor of supportedEditors) {
@@ -36,9 +37,8 @@ describe('NativeComponents', () => {
     })
   }
 
-  let render: Render
-
   describe(dash.URIEditor.value, () => {
+    let render: Render
     before(async () => {
       render = await components.uriEditor.lazyRender()
     })
@@ -53,14 +53,77 @@ describe('NativeComponents', () => {
       const input = await fixture<HTMLInputElement>(render(params, actions))
 
       // when
-      input.focus()
       input.value = 'http://foo.bar/'
-      input.blur()
+      input.dispatchEvent(new Event('blur'))
 
       // then
       expect(actions.update).to.have.been.calledOnceWith(sinon.match({
         value: 'http://foo.bar/',
         termType: 'NamedNode',
+      }))
+    })
+  })
+
+  describe(dash.BooleanSelectEditor.value, () => {
+    let render: Render
+    before(async () => {
+      render = await components.nativeBooleanSelect.lazyRender()
+    })
+
+    function change(input: HTMLSelectElement, index: number) {
+      input.selectedIndex = index
+      input.dispatchEvent(new Event('change'))
+    }
+
+    it('clears when selecting empty <option>', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { params, actions } = editorTestParams({
+        object: graph.literal('true'),
+        datatype: xsd.boolean,
+      })
+      const input = await fixture<HTMLSelectElement>(render(params, actions))
+
+      // when
+      change(input, 0)
+
+      // then
+      expect(actions.clear).to.have.been.calledOnce
+    })
+
+    it('sets correct selection', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { params, actions } = editorTestParams({
+        object: graph.literal('false'),
+        datatype: xsd.boolean,
+      })
+
+      // when
+      const input = await fixture<HTMLSelectElement>(render(params, actions))
+
+      // then
+      expect(input.selectedOptions.item(0)?.selected).to.be.true
+    })
+
+    it('updates when selecting', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { params, actions } = editorTestParams({
+        object: graph.literal(''),
+      })
+      const input = await fixture<HTMLSelectElement>(render(params, actions))
+
+      // when
+      change(input, 1)
+
+      // then
+      expect(actions.update).to.have.been.calledOnceWith(sinon.match({
+        value: 'true',
+        termType: 'Literal',
+        datatype: {
+          ...xsd.boolean,
+        },
       }))
     })
   })

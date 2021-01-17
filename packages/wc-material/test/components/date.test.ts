@@ -4,6 +4,7 @@ import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams } from '@shaperone/testing'
+import { TextField } from '@material/mwc-textfield'
 import { dateTimePicker, datePicker } from '../../components'
 
 describe('wc-material/components/date', () => {
@@ -23,10 +24,10 @@ describe('wc-material/components/date', () => {
       })
 
       // when
-      const element = await fixture(render(params, actions))
+      const element = await fixture<TextField>(render(params, actions))
 
       // then
-      expect(element).to.equalSnapshot()
+      expect(element.type).to.eq('date')
     })
   })
 
@@ -46,10 +47,10 @@ describe('wc-material/components/date', () => {
       })
 
       // when
-      const element = await fixture(render(params, actions))
+      const element = await fixture<TextField>(render(params, actions))
 
       // then
-      expect(element).to.equalSnapshot()
+      expect(element.type).to.eq('datetime-local')
     })
   })
 })

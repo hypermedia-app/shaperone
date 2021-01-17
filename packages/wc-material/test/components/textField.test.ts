@@ -4,6 +4,7 @@ import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams } from '@shaperone/testing'
+import { TextField } from '@material/mwc-textfield'
 import { textField } from '../../components'
 
 describe('wc-material/components/textField', () => {
@@ -23,10 +24,10 @@ describe('wc-material/components/textField', () => {
       })
 
       // when
-      const element = await fixture(render(params, actions))
+      const element = await fixture<TextField>(render(params, actions))
 
       // then
-      expect(element).to.equalSnapshot()
+      expect(element.type).to.equal('number')
     })
   })
 })

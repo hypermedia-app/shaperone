@@ -2,9 +2,11 @@ import { html } from 'lit-element'
 import { literal, namedNode } from '@rdf-esm/data-model'
 import { repeat } from 'lit-html/directives/repeat'
 import type {
+  BooleanSelectEditor,
   EnumSelectEditor,
   InstancesSelectEditor,
 } from '@hydrofoil/shaperone-core/components'
+import { xsd } from '@tpluscode/rdf-ns-builders'
 import { Render } from '../index'
 import { getType } from './lib/textFieldType'
 
@@ -55,4 +57,20 @@ export const uri: Render = function ({ value }, { update }) {
   return html`<input .value="${value.object?.value || ''}"
                        type="url"
                        @blur="${(e: any) => update(namedNode(e.target.value))}">`
+}
+
+export const booleanSelect: Render<BooleanSelectEditor> = function ({ value }, { clear, update }) {
+  function changed(e: any) {
+    if (e.target.value) {
+      update(literal(e.target.value, xsd.boolean))
+    } else {
+      clear()
+    }
+  }
+
+  return html`<select @change="${changed}">
+      <option></option>
+      <option value="true" ?selected="${value.object?.value === 'true'}">true</option>
+      <option value="false" ?selected="${value.object?.value === 'false'}">false</option>
+    </select>`
 }

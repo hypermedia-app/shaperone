@@ -17,7 +17,7 @@ It also provides a set of instances of the `dash:SingleEditor` type. The table b
 | -- | -- | -- | -- |
 | [`dash:AutoCompleteEditor`](http://datashapes.org/forms.html#AutoCompleteEditor) | A dropdown menu where users can type to get suggestions of available choices | :x: | :x: |
 | [`dash:BlankNodeEditor`](http://datashapes.org/forms.html#BlankNodeEditor) | A read-only view allowing to remove the object | :x: | :x: |
-| [`dash:BooleanSelectEditor`](http://datashapes.org/forms.html#BooleanSelectEditor) | A true/false selector | :x: | :x: |
+| [`dash:BooleanSelectEditor`](http://datashapes.org/forms.html#BooleanSelectEditor) | A true/false selector | :heavy_check_mark: | :heavy_check_mark: |
 | [`dash:DatePickerEditor`](http://datashapes.org/forms.html#DatePickerEditor) | A calendar for selecting dates | :heavy_check_mark: |  :heavy_check_mark: | 
 | [`dash:DateTimePickerEditor`](http://datashapes.org/forms.html#DateTimePickerEditor) | A calendar for selecting date and time | :heavy_check_mark: | :heavy_check_mark: | 
 | [`dash:DetailsEditor`](http://datashapes.org/forms.html#DetailsEditor) | A drill-down-style editor for editing child focus nodes | :heavy_check_mark: |  :x: |

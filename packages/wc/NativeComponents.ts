@@ -24,8 +24,17 @@ import {
   dateTimePicker,
   uri,
   URIEditor,
+  BooleanSelectEditor,
+  booleanSelect,
 } from '@hydrofoil/shaperone-core/components'
 import type { Lazy } from './index'
+
+export const nativeBooleanSelect: Lazy<BooleanSelectEditor> = {
+  ...booleanSelect,
+  async lazyRender() {
+    return (await import('./components')).booleanSelect
+  },
+}
 
 export const textFieldEditor: Lazy<TextFieldEditor> = {
   ...textField,

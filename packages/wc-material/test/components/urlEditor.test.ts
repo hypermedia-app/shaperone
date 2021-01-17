@@ -21,10 +21,10 @@ describe('wc-material/components/urlEditor', () => {
     })
 
     // when
-    const element = await fixture(render(params, actions))
+    const element = await fixture<TextField>(render(params, actions))
 
     // then
-    expect(element).to.equalSnapshot()
+    expect(element.type).to.eq('url')
   })
 
   it('renders field[type=url]', async () => {
@@ -36,9 +36,8 @@ describe('wc-material/components/urlEditor', () => {
     const element = await fixture<TextField>(render(params, actions))
 
     // when
-    element.focus()
     element.value = 'http://example.com/'
-    element.blur()
+    element.dispatchEvent(new Event('blur'))
 
     // then
     expect(actions.update).to.have.been.calledOnceWith(sinon.match({

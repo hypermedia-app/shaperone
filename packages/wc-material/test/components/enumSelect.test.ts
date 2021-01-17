@@ -3,6 +3,7 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams } from '@shaperone/testing'
 import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { Select } from '@material/mwc-select'
 import { enumSelectEditor } from '../../components'
 
 describe('wc-material/components/enumSelect', () => {
@@ -29,10 +30,10 @@ describe('wc-material/components/enumSelect', () => {
     })
 
     // when
-    const result = await fixture(enumSelect.render(params, actions))
+    const result = await fixture<Select>(enumSelect.render(params, actions))
 
     // then
-    expect(result).to.equalSnapshot()
+    expect(result.items.map(i => i.value)).to.deep.equal(['foo', 'bar'])
   })
 
   it('sets selection to current object', async () => {
@@ -49,9 +50,9 @@ describe('wc-material/components/enumSelect', () => {
     })
 
     // when
-    const result = await fixture(enumSelect.render(params, actions))
+    const result = await fixture<Select>(enumSelect.render(params, actions))
 
     // then
-    expect(result).to.equalSnapshot()
+    expect(result.selected?.value).to.eq('bar')
   })
 })

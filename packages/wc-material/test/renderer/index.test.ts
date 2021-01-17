@@ -10,6 +10,7 @@ import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
 import { RecursivePartial, testEditor, testPropertyState, testObjectState } from '@hydrofoil/shaperone-core/test/models/forms/util'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
+import { List } from '@material/mwc-list/mwc-list'
 import * as render from '../../renderer/index'
 
 const ex = ns('http://example.com/')
@@ -36,6 +37,10 @@ describe('wc-material/renderer', () => {
       renderGroup: sinon.stub().callsFake(() => html``),
     })
 
+    before(async () => {
+      await Promise.all(render.focusNode(nullRenderer).loadDependencies?.() || [])
+    })
+
     it('does not render shape selector when there is only one shape', async () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() })
@@ -44,10 +49,10 @@ describe('wc-material/renderer', () => {
       const params = nullParams(focusNode)
 
       // when
-      const result = await fixture(render.focusNode(nullRenderer)(params))
+      const result = await fixture<List>(render.focusNode(nullRenderer)(params))
 
       // then
-      expect(result).dom.to.equalSnapshot()
+      expect(result.items[0].hasMeta).to.be.false
     })
   })
 
@@ -103,7 +108,7 @@ describe('wc-material/renderer', () => {
       const result = await fixture(render.object(params))
 
       // then
-      expect(result).dom.to.equalSnapshot()
+      expect(result.querySelector('mwc-editor-toggle')).not.to.be.null
     })
 
     it('does not render a menu when there is more than one editor but switching is disabled', async () => {
@@ -128,7 +133,7 @@ describe('wc-material/renderer', () => {
       const result = await fixture(render.object(params))
 
       // then
-      expect(result).dom.to.equalSnapshot()
+      expect(result.querySelector('mwc-editor-toggle')).to.be.null
     })
 
     it('renders a delete button when there is one editor', async () => {
@@ -153,7 +158,7 @@ describe('wc-material/renderer', () => {
       const result = await fixture(render.object(params))
 
       // then
-      expect(result).dom.to.equalSnapshot()
+      expect(result.querySelector('mwc-icon[title="Remove value"]')).not.to.be.null
     })
 
     it('disables remove choice when property has multiple editors and minimum required values', async () => {
@@ -203,7 +208,7 @@ describe('wc-material/renderer', () => {
       const result = await fixture(render.object(params))
 
       // then
-      expect(result).dom.to.equalSnapshot()
+      expect(result.querySelector('mwc-icon[title="Remove value"]')).to.be.null
     })
   })
 
@@ -234,7 +239,7 @@ describe('wc-material/renderer', () => {
       const result = await fixture(render.property(params))
 
       // then
-      expect(result).dom.to.equalSnapshot()
+      expect(result.querySelector('mwc-property-menu')).not.to.be.null
     })
 
     it('renders multi editor when it is selected', async () => {
@@ -251,7 +256,7 @@ describe('wc-material/renderer', () => {
       expect(params.renderMultiEditor).to.have.been.called
     })
 
-    it('does not render add row when caAdd=false', async () => {
+    it('does not render add row when canAdd=false', async () => {
       // given
       const params = nullParams({
         canAdd: false,
@@ -261,7 +266,7 @@ describe('wc-material/renderer', () => {
       const result = await fixture(render.property(params))
 
       // then
-      expect(result).dom.to.equalSnapshot()
+      expect(result.querySelector('mwc-icon')).to.be.null
     })
 
     it('renders every object', async () => {

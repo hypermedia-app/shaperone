@@ -8,7 +8,7 @@
 import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { namedNode } from '@rdf-esm/data-model'
-import { enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { booleanSelect, BooleanSelectEditor, enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 
 /**
  * Renders an [mwc-textfield](https://material-components.github.io/material-components-web-components/demos/textfield/)
@@ -53,6 +53,16 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
   lazyRender() {
     return import('./components/select').then(m => m.enumSelect)
+  },
+}
+
+/**
+ * Renders an [mwc-select](https://material-components.github.io/material-components-web-components/demos/select/)
+ */
+export const booleanSelectEditor: Lazy<BooleanSelectEditor> = {
+  ...booleanSelect,
+  lazyRender() {
+    return import('./components/select').then(m => m.booleanSelect)
   },
 }
 
