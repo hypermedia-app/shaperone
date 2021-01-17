@@ -12,7 +12,7 @@ const immer = {
     return undefined
   },
 }
-export default {
+const config = {
   files: [
     "packages/hydra/test/**/*.test.ts",
     "packages/wc/test/**/*.test.ts",
@@ -26,6 +26,7 @@ export default {
   ],
   coverage: true,
   nodeResolve: true,
+  concurrency: 1,
   plugins: [
     esbuildPlugin({ ts: true, js: true, target: 'auto' }),
     rdfjs,
@@ -40,3 +41,9 @@ export default {
     }),
   ],
 };
+
+if (process.env.CI) {
+  delete config.concurrency
+}
+
+export default config
