@@ -32,7 +32,9 @@ jobs:
         with:
           node-version: 14
       - run: yarn install --ci
-      - run: yarn test
+      - run: yarn test:mocha
+      - run: yarn test:web
+      - run: yarn test:open-wc
       - name: Codecov
         uses: codecov/codecov-action@v1.0.5
         with:
