@@ -20,10 +20,9 @@ export default {
     // "packages/wc-vaadin/test/**/*.test.ts"
   ],
   groups: [
-    {
-      name: 'hydra',
-      files: 'packages/hydra/test/**/*.test.ts',
-    },
+    { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
+    { name: 'wc', files: 'packages/wc/test/**/*.test.ts' },
+    { name: 'wc-material', files: 'packages/wc-material/test/**/*.test.ts' },
   ],
   coverage: true,
   nodeResolve: true,
