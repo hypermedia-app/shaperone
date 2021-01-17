@@ -6,9 +6,12 @@ import { replaceObjects } from './replaceObjects'
 import { setPropertyObjects } from './setPropertyObjects'
 import { updateObject } from './updateObject'
 import { removeObject } from './removeObject'
+import { connect, disconnect } from './connection'
 
 export default function (store: Store) {
   return {
+    connect: connect(store),
+    disconnect: disconnect(store),
     pushFocusNode: pushFocusNode(store),
     addObject: addObject(store),
     selectShape: selectShape(store),

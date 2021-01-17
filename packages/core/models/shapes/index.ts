@@ -15,10 +15,18 @@ export const shapes = createModel({
   state: new Map() as State,
   reducers: {
     connect(map: State, form: symbol) {
+      if (map.has(form)) {
+        return map
+      }
+
       map.set(form, {
         shapes: [],
       })
 
+      return map
+    },
+    disconnect(map: State, form: symbol) {
+      map.delete(form)
       return map
     },
     setGraph,

@@ -1,12 +1,15 @@
 import { createModel } from '@captaincodeman/rdx'
-import clownface, { AnyPointer } from 'clownface'
+import clownface, { AnyPointer, GraphPointer } from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
 import type { Store } from '../../state'
 import { setRoot } from './reducers/setRoot'
 import formsEffects from './effects/forms'
-import { ChangeDetails, ChangeNotifier } from './lib/notify'
+import type { ChangeDetails } from './lib/notify'
+import { createState } from './lib/state'
+import type { FocusNode } from '../../index'
 
 export interface ResourceState {
+  rootPointer: FocusNode
   graph: AnyPointer
   changeNotifier: {
     notify(detail: ChangeDetails): void
@@ -20,11 +23,16 @@ export const resources = createModel({
   state: new Map() as State,
   reducers: {
     connect(map: State, form: symbol) {
-      map.set(form, {
-        graph: clownface({ dataset: dataset() }).namedNode('').any(),
-        changeNotifier: new ChangeNotifier(),
-      })
+      if (map.has(form)) {
+        return map
+      }
 
+      map.set(form, createState(clownface({ dataset: dataset() }).namedNode('')))
+
+      return map
+    },
+    disconnect(map: State, form: symbol) {
+      map.delete(form)
       return map
     },
     setRoot,

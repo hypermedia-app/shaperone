@@ -111,7 +111,10 @@ export function testStore(): { form: symbol; store: Store } {
     components: new Proxy({}, spyHandler),
   }
   const resourcesState: ResourceState = {
-    graph: clownface({ dataset: dataset() }),
+    rootPointer: clownface({ dataset: dataset() }).blankNode(),
+    get graph() {
+      return this.rootPointer.any()
+    },
     changeNotifier: sinon.createStubInstance(ChangeNotifier),
   }
   const shapesState: ShapeState = {
