@@ -2,15 +2,15 @@ import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
 import type * as Rdfs from '@rdfine/rdfs'
-import * as $rdf from '@rdf-esm/dataset'
 import type { AnyPointer } from 'clownface'
 import clownface, { GraphPointer } from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
-import type { Dispatch, Store } from '../../state'
+import type { Store } from '../../state'
 import { addMatchers } from './reducers/addMatchers'
 import { addMetadata } from './reducers/addMetadata'
 import { decorate } from './reducers/decorate'
 import { matchSingleEditors, matchMultiEditors } from './lib/match'
+import { loadDash } from './effects'
 
 // todo: re-export from main module
 export interface EditorMatcher {
@@ -65,20 +65,8 @@ export const editors = createModel(({
     decorate,
   },
   effects(store: Store) {
-    let dashLoaded = false
-    const dispatch: Dispatch = store.getDispatch()
-
     return {
-      async loadDash() {
-        if (dashLoaded) return
-
-        const dash = (await import('@zazuko/rdf-vocabularies/datasets/dash')).default
-        const DashEditors = await import('../../DashEditors')
-
-        dispatch.editors.addMetadata(dash($rdf))
-        dispatch.editors.addMatchers(DashEditors)
-        dashLoaded = true
-      },
+      loadDash: loadDash(store),
     }
   },
 }))
