@@ -27,7 +27,6 @@ export default {
   ],
   coverage: true,
   nodeResolve: true,
-  concurrency: typeof process.env.CI === 'undefined' ? 1 : undefined,
   plugins: [
     esbuildPlugin({ ts: true, js: true, target: 'auto' }),
     rdfjs,
