@@ -1,5 +1,24 @@
 # @hydrofoil/shaperone-wc
 
+## 0.3.0
+
+### Minor Changes
+
+- f9f99a2: Clean up properties of `shaperone-form` element
+- 65967a5: Clean up core component interfaces
+- dadeff8: Do not register form element in main module
+
+### Patch Changes
+
+- 9d99c0c: Added dash:BooleanSelectEditor
+- Updated dependencies [903ff67]
+- Updated dependencies [5ee02a8]
+- Updated dependencies [10b4345]
+- Updated dependencies [8d401fa]
+- Updated dependencies [65967a5]
+- Updated dependencies [b3d5ca9]
+  - @hydrofoil/shaperone-core@0.5.0
+
 ## 0.2.6
 
 ### Patch Changes

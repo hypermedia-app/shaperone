@@ -1,5 +1,22 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.1.16
+
+### Patch Changes
+
+- 9d99c0c: Added dash:BooleanSelectEditor
+- Updated dependencies [903ff67]
+- Updated dependencies [5ee02a8]
+- Updated dependencies [10b4345]
+- Updated dependencies [8d401fa]
+- Updated dependencies [f9f99a2]
+- Updated dependencies [9d99c0c]
+- Updated dependencies [65967a5]
+- Updated dependencies [b3d5ca9]
+- Updated dependencies [dadeff8]
+  - @hydrofoil/shaperone-core@0.5.0
+  - @hydrofoil/shaperone-wc@0.3.0
+
 ## 0.1.15
 
 ### Patch Changes

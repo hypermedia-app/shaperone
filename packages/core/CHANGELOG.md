@@ -1,5 +1,19 @@
 # @hydrofoil/shaperone-core
 
+## 0.5.0
+
+### Minor Changes
+
+- 65967a5: Clean up core component interfaces
+
+### Patch Changes
+
+- 903ff67: Added action to clear value without removing field
+- 5ee02a8: Export stubs for all DASH components
+- 10b4345: Apply dash:editor to added form field
+- 8d401fa: Improve component decorator for easier use
+- b3d5ca9: Allow quad array to add metadata
+
 ## 0.4.4
 
 ### Patch Changes
