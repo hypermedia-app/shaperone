@@ -133,8 +133,6 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       form: id(this),
       languages: this.__languages(),
     })
-    store().dispatch.resources.connect(id(this))
-    store().dispatch.shapes.connect(id(this))
 
     super.connectedCallback()
 

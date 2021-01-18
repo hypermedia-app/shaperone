@@ -1,6 +1,7 @@
 import type { State } from '../index'
 import { BaseParams } from '../../index'
 import { FocusNode } from '../../../index'
+import { createState } from '../lib/state'
 
 export interface Params extends BaseParams {
   rootPointer: FocusNode
@@ -9,8 +10,9 @@ export interface Params extends BaseParams {
 export function setRoot(map: State, { form, rootPointer }: Params) {
   const instance = map.get(form)
   if (instance) {
-    instance.graph = rootPointer.any()
+    instance.rootPointer = rootPointer
+    return map
   }
 
-  return map
+  return map.set(form, createState(rootPointer))
 }
