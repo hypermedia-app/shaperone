@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [82ee36b]
+- Updated dependencies [a783307]
+- Updated dependencies [82ee36b]
+  - @hydrofoil/shaperone-core@0.5.1
+
 ## 0.3.0
 
 ### Minor Changes
