@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.5.1
+
+### Patch Changes
+
+- 82ee36b: Ensure shapes and resource state cleaned on disconnect
+- a783307: DASH was unnecessarily parsed multiple times
+- 82ee36b: Ensure consistent state when resource is set before connectedCallback
+
 ## 0.5.0
 
 ### Minor Changes
