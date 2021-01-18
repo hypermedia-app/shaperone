@@ -3,6 +3,7 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { dash, rdf, schema, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
+import { NodeKindEnum } from '@rdfine/shacl'
 import * as DashEditors from '../DashEditors'
 import { propertyShape } from './util'
 
@@ -424,6 +425,76 @@ describe('core/DashEditors', () => {
 
       // then
       expect(result).to.eq(null)
+    })
+  })
+
+  describe(dash.BooleanSelectEditor.value, () => {
+    [$rdf.blankNode(), $rdf.namedNode('foo')].forEach((term) => {
+      it(`should have score 0 if value is ${term.termType}`, () => {
+        // given
+        const graph = cf({ dataset: $rdf.dataset() })
+        const property = propertyShape(graph.blankNode())
+
+        // when
+        const result = DashEditors.booleanSelectEditor.match(property, graph.node(term))
+
+        // then
+        expect(result).to.eq(0)
+      })
+    });
+
+    [NodeKindEnum.Literal, NodeKindEnum.IRIOrLiteral, NodeKindEnum.BlankNodeOrLiteral].forEach((nodeKind) => {
+      it(`should have score null if sh:nodeKind = ${nodeKind.value}`, () => {
+        // given
+        const graph = cf({ dataset: $rdf.dataset() })
+        const property = propertyShape(graph.blankNode(), {
+          nodeKind,
+        })
+
+        // when
+        const result = DashEditors.booleanSelectEditor.match(property, graph.literal(''))
+
+        // then
+        expect(result).to.eq(null)
+      })
+    })
+
+    it('should have score 10 if value is boolean literal', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape(graph.blankNode())
+
+      // when
+      const result = DashEditors.booleanSelectEditor.match(property, graph.literal('true', xsd.boolean))
+
+      // then
+      expect(result).to.eq(10)
+    })
+
+    it('should have score 10 if shape has datatype boolean', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape(graph.blankNode(), {
+        datatype: xsd.boolean,
+      })
+
+      // when
+      const result = DashEditors.booleanSelectEditor.match(property, graph.literal(''))
+
+      // then
+      expect(result).to.eq(10)
+    })
+
+    it('should have score 0 if value is non-boolean literal', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape(graph.blankNode())
+
+      // when
+      const result = DashEditors.booleanSelectEditor.match(property, graph.literal('5', xsd.integer))
+
+      // then
+      expect(result).to.eq(0)
     })
   })
 

@@ -236,6 +236,39 @@ export const instancesSelectEditor: SingleEditor<NamedNode | BlankNode> = {
 }
 
 /**
+ * Matcher for `dash:BooleanSelectEditor`
+ *
+ * @returns `10` if value is boolean literal or `?shape sh:datatype xsd:boolean`
+ * @returns `null` if shape accepts literals of unspecified datatype
+ * @returns `0` if value or `sh:datatype` and not `xsd:boolean`
+ */
+export const booleanSelectEditor: SingleEditor = {
+  term: dash.BooleanSelectEditor,
+  match(shape, object) {
+    const { nodeKind, datatype } = shape
+
+    if (object.term.termType !== 'Literal' || (datatype && !datatype.id.equals(xsd.boolean))) {
+      return 0
+    }
+    if (object.term.datatype.equals(xsd.boolean) || datatype?.id.equals(xsd.boolean)) {
+      return 10
+    }
+
+    const acceptsLiterals = nodeKind && (
+      nodeKind.equals(NodeKindEnum.BlankNodeOrLiteral) ||
+      nodeKind.equals(NodeKindEnum.IRIOrLiteral) ||
+      nodeKind.equals(NodeKindEnum.Literal)
+    )
+
+    if (acceptsLiterals && !datatype) {
+      return null
+    }
+
+    return 0
+  },
+}
+
+/**
  * Matcher for `dash:UriEditor`
  *
  * @returns `0` if value is not Named Node
