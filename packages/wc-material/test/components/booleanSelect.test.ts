@@ -44,7 +44,6 @@ describe('wc-material/components/booleanSelect', () => {
 
     // when
     element.select(0)
-    element.dispatchEvent(new Event('action'))
 
     // then
     expect(actions.clear).to.have.been.calledOnce
@@ -61,7 +60,6 @@ describe('wc-material/components/booleanSelect', () => {
 
     // when
     element.select(1)
-    element.dispatchEvent(new Event('action'))
 
     // then
     expect(actions.update).to.have.been.calledOnceWith(sinon.match({
