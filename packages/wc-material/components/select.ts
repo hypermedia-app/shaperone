@@ -49,9 +49,9 @@ export const booleanSelect: Render<BooleanSelectEditor> = function ({ value }, {
     }
   }
 
-  return html`<mwc-select @action="${onSelected}">
+  return html`<mwc-select @selected="${onSelected}" .value="${value.object?.value || ''}">
     <mwc-list-item></mwc-list-item>
-    <mwc-list-item value="true" ?selected="${value.object?.value === 'true'}">true</mwc-list-item>
-    <mwc-list-item value="false" ?selected="${value.object?.value === 'false'}">false</mwc-list-item>
+    <mwc-list-item value="true">true</mwc-list-item>
+    <mwc-list-item value="false">false</mwc-list-item>
   </mwc-select>`
 }
