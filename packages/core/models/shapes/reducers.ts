@@ -5,6 +5,7 @@ import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import * as NodeShape from '@rdfine/shacl/lib/NodeShape'
 import { BaseParams, formStateReducer } from '../index'
 import type { ShapeState } from '.'
+import { emptyState } from './lib/index'
 
 export interface SetShapesGraphParams extends BaseParams {
   shapesGraph: DatasetCore | AnyPointer
@@ -49,4 +50,4 @@ export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: Se
     draft.shapes = findShapes(shapesGraph)
     draft.preferredRootShape = getPreferredShape(shapesGraph)
   }
-}))
+}), emptyState)

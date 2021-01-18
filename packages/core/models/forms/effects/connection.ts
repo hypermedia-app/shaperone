@@ -29,7 +29,7 @@ export function connect(store: Store) {
 
 export function disconnect(store: Store) {
   const dispatch = store.getDispatch()
-  return ({ form }: BaseParams) => {
+  return (form: symbol) => {
     dispatch.resources.disconnect(form)
     dispatch.shapes.disconnect(form)
   }

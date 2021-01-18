@@ -2,6 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import { NodeShape } from '@rdfine/shacl'
 import { AnyPointer } from 'clownface'
 import { setGraph } from './reducers'
+import { emptyState } from './lib'
 
 export interface ShapeState {
   shapesGraph?: AnyPointer
@@ -19,11 +20,7 @@ export const shapes = createModel({
         return map
       }
 
-      map.set(form, {
-        shapes: [],
-      })
-
-      return map
+      return map.set(form, emptyState())
     },
     disconnect(map: State, form: symbol) {
       map.delete(form)
