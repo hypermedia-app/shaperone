@@ -27,9 +27,7 @@ export const resources = createModel({
         return map
       }
 
-      map.set(form, createState(clownface({ dataset: dataset() }).namedNode('')))
-
-      return map
+      return map.set(form, createState(clownface({ dataset: dataset() }).namedNode('')))
     },
     disconnect(map: State, form: symbol) {
       map.delete(form)
