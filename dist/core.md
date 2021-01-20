@@ -8,6 +8,21 @@ While it would not typically be referenced directly, the core library serves a n
 
 The module [`@hydrofoil/shaperone-core/components`](http://localhost:3000/api/modules/_hydrofoil_shaperone_core_components.html) exports interfaces and, in some cases, minimal implementations of [DASH editors](editors/dash.md) which can be used to build actual components for use with Shaperone.
 
+## Editor selection
+
+In addition to the editor selection by virtue of [matchers](editors/matchers.md), Shaperone supports the [`dash:editor` annotation](http://datashapes.org/forms.html#property-shapes) of Property Shapes which lets Shape publishers instruct the form to prefer an arbitrary editor to be used for that property's objects. 
+
+```turtle
+prefix sh: <http://www.w3.org/ns/shacl#>
+prefix dash: <http://datashapes.org/dash#>
+
+<> a sh:PropertyShape ;
+  dash:editor dash:TextFieldWithLangEditor ;
+.
+```
+
+Any editor annotated this way will automatically get a score equal `100` without calling the editor's matcher (if any). This leaves applications room for additional customisation, allowing them to override the `dash:editor` by providing a matcher, or matcher decorator, which would return a higher score still. 
+
 ## Implementing a DASH component
 
 At the minimum, a `render` function is required to complete a component. For example, here's a simple `dash:BooleanSelectEditor`, rendered as HTML native elements with lit-html:
