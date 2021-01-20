@@ -13,7 +13,7 @@ import '@rdfine/dash/extensions/sh/PropertyShape'
  */
 export type FocusNode = GraphPointer<BlankNode | NamedNode>
 export type { Component, SingleEditorComponent, MultiEditorComponent, RenderComponent, Lazy } from './models/components'
-export type { SingleEditor, MultiEditor } from './models/editors'
+export type { Editor, SingleEditor, MultiEditor } from './models/editors'
 
 /**
  * @ignore

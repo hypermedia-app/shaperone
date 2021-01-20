@@ -3,7 +3,7 @@ import $rdf from 'rdf-ext'
 import clownface from 'clownface'
 import * as sinon from 'sinon'
 import { matchMultiEditors, matchSingleEditors } from 'packages/core/models/editors/lib/match'
-import { EditorsState, MultiEditor, SingleEditor, MatcherDecorator, EditorMatcher } from '../../../models/editors/index'
+import { EditorsState, MultiEditor, SingleEditor, MatcherDecorator, Editor } from '../../../models/editors/index'
 import { RecursivePartial } from '../forms/util'
 
 interface Initializer {
@@ -15,7 +15,7 @@ interface Initializer {
   matchMultiEditors?: (...args: Parameters<typeof matchMultiEditors>) => RecursivePartial<ReturnType<typeof matchMultiEditors>>
 }
 
-function mapEditors<T extends EditorMatcher>(editors: Record<string, T>, editor: T) {
+function mapEditors<T extends Editor>(editors: Record<string, T>, editor: T) {
   return {
     ...editors,
     [editor.term.value]: editor,

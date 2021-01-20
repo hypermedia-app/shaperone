@@ -4,7 +4,7 @@ import { dash, schema } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import { expect } from 'chai'
 import { testStore } from '../../forms/util'
-import { Editor, EditorsState, SingleEditor, MultiEditor } from '../../../../models/editors'
+import { Editor, EditorsState, MultiEditor } from '../../../../models/editors'
 import { matchSingleEditors, matchMultiEditors } from '../../../../models/editors/lib/match'
 import { propertyShape } from '../../../util'
 
@@ -18,7 +18,7 @@ describe('models/editors/lib/match', () => {
   })
 
   describe('matchSingleEditors', () => {
-    function singleEditors(...values: [NamedNode, Editor<SingleEditor>['match']][]): void {
+    function singleEditors(...values: [NamedNode, Editor['match']][]): void {
       editors.singleEditors = values.reduce((map, [term, match]) => ({
         ...map,
         [term.value]: {
@@ -96,7 +96,7 @@ describe('models/editors/lib/match', () => {
   })
 
   describe('matchMultiEditors', () => {
-    function multiEditors(...values: [NamedNode, Editor<MultiEditor>['match']][]): void {
+    function multiEditors(...values: [NamedNode, MultiEditor['match']][]): void {
       editors.multiEditors = values.reduce((map, [term, match]) => ({
         ...map,
         [term.value]: {

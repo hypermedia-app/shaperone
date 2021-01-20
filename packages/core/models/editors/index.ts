@@ -12,28 +12,26 @@ import { decorate } from './reducers/decorate'
 import { matchSingleEditors, matchMultiEditors } from './lib/match'
 import { loadDash } from './effects'
 
-// todo: re-export from main module
-export interface EditorMatcher {
+interface EditorBase {
   term: NamedNode
+  meta?: Partial<Rdfs.Resource>
 }
 
-export interface MultiEditor extends EditorMatcher {
+export interface MultiEditor extends EditorBase {
   match: (shape: PropertyShape) => number | null
 }
 
-export interface SingleEditor<T extends Term = Term> extends EditorMatcher {
+export interface SingleEditor<T extends Term = Term> extends EditorBase {
   match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
 }
 
-export interface MatcherDecorator<T extends Term = Term> extends EditorMatcher {
+export interface MatcherDecorator<T extends Term = Term> extends EditorBase {
   decorate<TEditor extends SingleEditor<T> | MultiEditor>(matcher: TEditor): TEditor['match']
 }
 
-export type Editor<T extends EditorMatcher = SingleEditor | MultiEditor> = T & {
-  meta: Partial<Rdfs.Resource>
-}
+export type Editor = SingleEditor | MultiEditor
 
-export interface SingleEditorMatch extends Omit<Editor<SingleEditor>, 'match'> {
+export interface SingleEditorMatch extends Omit<SingleEditor, 'match'> {
   score: number | null
 }
 
@@ -41,9 +39,9 @@ type EditorMap<T> = Record<string, T | undefined>
 
 export interface EditorsState {
   metadata: AnyPointer
-  allEditors: EditorMap<Editor<EditorMatcher>>
-  singleEditors: EditorMap<Editor<SingleEditor>>
-  multiEditors: EditorMap<Editor<MultiEditor>>
+  allEditors: EditorMap<Editor>
+  singleEditors: EditorMap<SingleEditor>
+  multiEditors: EditorMap<MultiEditor>
   matchSingleEditors: typeof matchSingleEditors
   matchMultiEditors: typeof matchMultiEditors
   decorators: EditorMap<MatcherDecorator[]>
