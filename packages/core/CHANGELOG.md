@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.0
+
+### Minor Changes
+
+- 7b79795: Change the model for editors. Make meta optional
+
+### Patch Changes
+
+- b851c1a: Matcher for dash:BooleanSelectEditor
+- 0b2feac: Always prefer dash:editor
+
 ## 0.5.1
 
 ### Patch Changes
