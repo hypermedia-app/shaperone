@@ -76,7 +76,7 @@ export const DefaultRenderer: Renderer = {
             }
             const component = components.components[editor.value]
             if (!component) {
-              return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
+              return html`No component found for ${editors.allEditors[editor.value]?.meta?.label || editor.value}`
             }
 
             if (!component.render) {
@@ -152,7 +152,7 @@ export const DefaultRenderer: Renderer = {
               }
               const component = components.components[editor.value]
               if (!component) {
-                return html`No component found for ${editors.allEditors[editor.value]?.meta.label || editor.value}`
+                return html`No component found for ${editors.allEditors[editor.value]?.meta?.label || editor.value}`
               }
 
               if (!component.render) {

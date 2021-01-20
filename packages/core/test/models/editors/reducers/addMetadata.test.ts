@@ -50,9 +50,9 @@ describe('core/models/editors/reducers/addMetadata', () => {
     const after = addMetadata(before, dataset)
 
     // expect
-    expect(after.allEditors[ex.Foo.value]?.meta.label).to.eq('Foo editor')
-    expect(after.allEditors[ex.Bar.value]?.meta.label).to.eq('Bar editor')
-    expect(after.singleEditors[ex.Foo.value]?.meta.label).to.eq('Foo editor')
-    expect(after.singleEditors[ex.Bar.value]?.meta.label).to.eq('Bar editor')
+    expect(after.allEditors[ex.Foo.value]?.meta?.label).to.eq('Foo editor')
+    expect(after.allEditors[ex.Bar.value]?.meta?.label).to.eq('Bar editor')
+    expect(after.singleEditors[ex.Foo.value]?.meta?.label).to.eq('Foo editor')
+    expect(after.singleEditors[ex.Bar.value]?.meta?.label).to.eq('Bar editor')
   })
 })

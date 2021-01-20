@@ -1,7 +1,7 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import type { EditorsState, SingleEditor, SingleEditorMatch, Editor, MultiEditor } from '../index'
+import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor } from '../index'
 
 function toDefined<T>(arr: T[], next: T | undefined): T[] {
   if (!next) {
@@ -44,7 +44,7 @@ function valuePlaceholder(shape: PropertyShape): GraphPointer {
 }
 
 export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { shape: PropertyShape; object?: GraphPointer }): SingleEditorMatch[] {
-  const singleEditors = Object.values(this.singleEditors).reduce<Editor<SingleEditor>[]>(toDefined, [])
+  const singleEditors = Object.values(this.singleEditors).reduce<SingleEditor[]>(toDefined, [])
 
   const object = rest.object || valuePlaceholder(shape)
 
@@ -53,8 +53,8 @@ export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { sha
     .sort(byScore)
 }
 
-export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): Editor<MultiEditor>[] {
-  const multiEditors = Object.values(this.multiEditors).reduce<Editor<MultiEditor>[]>(toDefined, [])
+export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): MultiEditor[] {
+  const multiEditors = Object.values(this.multiEditors).reduce<MultiEditor[]>(toDefined, [])
 
   return multiEditors
     .map(editor => ({ editor, score: editor.match(shape) }))
