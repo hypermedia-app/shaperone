@@ -20,20 +20,8 @@ interface InitPropertyObjectShapeParams {
 
 export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice }: InitPropertyObjectShapeParams, previous: PropertyState | undefined) {
   return (object?: GraphPointer): PropertyObjectState => {
-    let matchedEditors = editors.matchSingleEditors({ shape, object })
-    let selectedEditor
-
-    const preferredEditorId = shape.editor?.id
-    if (preferredEditorId?.termType === 'NamedNode') {
-      const preferredEditor = Object.values(editors.singleEditors).find(e => e?.term.equals(preferredEditorId)) || {
-        term: preferredEditorId,
-      }
-      selectedEditor = preferredEditorId
-      matchedEditors.splice(matchedEditors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
-      matchedEditors = [{ ...preferredEditor, score: 100 }, ...matchedEditors]
-    } else {
-      selectedEditor = matchedEditors[0]?.term
-    }
+    const matchedEditors = editors.matchSingleEditors({ shape, object })
+    let selectedEditor = matchedEditors[0]?.term
 
     const previousObject = previous?.objects?.find(o => o.object?.term.equals(object?.term))
     if (previousObject?.selectedEditor && matchedEditors.some(e => e.term.equals(previousObject.selectedEditor))) {

@@ -93,6 +93,42 @@ describe('models/editors/lib/match', () => {
       expect(matches).to.have.length(1)
       expect(matches[0].term).to.deep.eq(dash.DetailsEditor)
     })
+
+    it('includes dash:editor with score 100 in the result', () => {
+      // given
+      shape.editor = dash.FooEditor as any
+      singleEditors(
+        [dash.TextFieldEditor, () => 10],
+      )
+
+      // when
+      const matches = matchSingleEditors.call(editors, { shape })
+
+      // expect
+      expect(matches).to.have.length(2)
+      expect(matches[0]).to.deep.contain({
+        term: dash.FooEditor,
+        score: 100,
+      })
+    })
+
+    it('sets preferred editor score to 100 if it is otherwise found by matching', () => {
+      // given
+      shape.editor = dash.TextFieldEditor as any
+      singleEditors(
+        [dash.TextFieldEditor, () => 10],
+      )
+
+      // when
+      const matches = matchSingleEditors.call(editors, { shape })
+
+      // expect
+      expect(matches).to.have.length(1)
+      expect(matches[0]).to.deep.contain({
+        term: dash.TextFieldEditor,
+        score: 100,
+      })
+    })
   })
 
   describe('matchMultiEditors', () => {
