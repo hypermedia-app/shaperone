@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.1
+
+### Patch Changes
+
+- 1a4c2b3: Still, dash:editor would get lost when updating object state
+
 ## 0.6.0
 
 ### Minor Changes
