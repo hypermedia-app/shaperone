@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.1.19
+
+### Patch Changes
+
+- Updated dependencies [1a4c2b3]
+  - @hydrofoil/shaperone-core@0.6.1
+  - @hydrofoil/shaperone-wc@0.3.3
+
 ## 0.1.18
 
 ### Patch Changes
