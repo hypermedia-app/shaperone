@@ -8,6 +8,7 @@
 - Highly customizable
 - Using modern web technologies
 
+[Playground](https://forms.hypermedia.app/playground)
 [GitHub](https://github.com/hypermedia-app/shaperone)
 [Get started](overview)
-[Playground](https://forms.hypermedia.app/playground)
+[JS API](https://forms.hypermedia.app/api)

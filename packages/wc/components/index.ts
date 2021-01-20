@@ -59,7 +59,7 @@ export const uri: Render = function ({ value }, { update }) {
                        @blur="${(e: any) => update(namedNode(e.target.value))}">`
 }
 
-export const booleanSelect: Render<BooleanSelectEditor> = function ({ value }, { clear, update }) {
+export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { clear, update }) {
   function changed(e: any) {
     if (e.target.value) {
       update(literal(e.target.value, xsd.boolean))
