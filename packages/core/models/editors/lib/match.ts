@@ -1,14 +1,12 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor } from '../index'
+import { NamedNode } from 'rdf-js'
+import TermMap from '@rdf-esm/term-map'
+import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor, Editor } from '../index'
 
-function toDefined<T>(arr: T[], next: T | undefined): T[] {
-  if (!next) {
-    return arr
-  }
-
-  return [...arr, next]
+function toDefined<T extends Editor>(arr: Map<NamedNode, T>, next: T | undefined): Map<NamedNode, T> {
+  return !next ? arr : arr.set(next.term, next)
 }
 
 function byScore(left: { score: number | null }, right: { score: number | null }): number {
@@ -44,19 +42,26 @@ function valuePlaceholder(shape: PropertyShape): GraphPointer {
 }
 
 export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { shape: PropertyShape; object?: GraphPointer }): SingleEditorMatch[] {
-  const singleEditors = Object.values(this.singleEditors).reduce<SingleEditor[]>(toDefined, [])
+  const singleEditors = Object.values(this.singleEditors).reduce<Map<NamedNode, SingleEditor>>(toDefined, new TermMap())
 
   const object = rest.object || valuePlaceholder(shape)
+  const preferredEditor = shape.editor?.id
+  if (preferredEditor && preferredEditor.termType === 'NamedNode') {
+    singleEditors.set(preferredEditor, {
+      term: preferredEditor,
+      match: () => 100,
+    })
+  }
 
-  return singleEditors.map(editor => ({ ...editor, score: editor.match(shape, object) }))
+  return [...singleEditors.values()].map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort(byScore)
 }
 
 export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): MultiEditor[] {
-  const multiEditors = Object.values(this.multiEditors).reduce<MultiEditor[]>(toDefined, [])
+  const multiEditors = Object.values(this.multiEditors).reduce<Map<NamedNode, MultiEditor>>(toDefined, new TermMap())
 
-  return multiEditors
+  return [...multiEditors.values()]
     .map(editor => ({ editor, score: editor.match(shape) }))
     .filter(match => match.score === null || match.score > 0)
     .sort(byScore)

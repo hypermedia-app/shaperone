@@ -255,63 +255,6 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.properties[0].canRemove).to.be.false
     })
 
-    it('selects the editor preferred by dash:editor', () => {
-      // given
-      const graph = cf({ dataset: $rdf.dataset() })
-      const focusNode = graph.node(ex.Foo).addOut(ex.foo, 'bar')
-      const shape = fromPointer(graph.blankNode(), {
-        property: [{
-          path: ex.foo,
-          types: [sh.PropertyShape],
-          [dash.editor.value]: ex.FooEditor,
-        }],
-      })
-
-      // when
-      const state = initialiseFocusNode({
-        focusNode,
-        editors: store.getState().editors,
-        shape,
-        shapes: [],
-        shouldEnableEditorChoice,
-      }, undefined)
-
-      // then
-      expect(state.properties[0].objects[0].selectedEditor).to.deep.eq(ex.FooEditor)
-    })
-
-    it('add the editor preferred by sh:editor to possible choices', () => {
-      // given
-      const graph = cf({ dataset: $rdf.dataset() })
-      const focusNode = graph.node(ex.Foo).addOut(ex.foo, 'bar')
-      const shape = fromPointer(graph.blankNode(), {
-        property: [{
-          path: ex.foo,
-          types: [sh.PropertyShape],
-          [dash.editor.value]: ex.FooEditor,
-        }],
-      })
-      const { editors } = store.getState()
-      editors.matchSingleEditors = () => [{
-        term: ex.FooEditor,
-        meta: {},
-        match: () => 0,
-        score: 0,
-      }]
-
-      // when
-      const state = initialiseFocusNode({
-        focusNode,
-        editors: store.getState().editors,
-        shape,
-        shapes: [],
-        shouldEnableEditorChoice,
-      }, undefined)
-
-      // then
-      expect(state.properties[0].objects[0].editors[0].term).to.deep.equal(ex.FooEditor)
-    })
-
     it('does not add the preferred editor second time', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
@@ -397,29 +340,6 @@ describe('core/models/forms/lib/stateBuilder', () => {
 
       // then
       expect(state.editorSwitchDisabled).to.be.true
-    })
-
-    it('set preferred editor first, even if not found in editors model', () => {
-      // given
-      const shapeGraph = cf({ dataset: $rdf.dataset() })
-      const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
-      const shape = propertyShape(shapeGraph.blankNode(), {
-        path: ex.foo,
-        editor: dash.FooEditor,
-      })
-      const context = {
-        shape,
-        editors: store.getState().editors,
-        shouldEnableEditorChoice() {
-          return true
-        },
-      }
-
-      // when
-      const state = initialiseObjectState(context, undefined)(dataGraph.literal(5))
-
-      // then
-      expect(state.editors[0].term).to.deep.eq(dash.FooEditor)
     })
   })
 })
