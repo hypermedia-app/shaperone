@@ -398,5 +398,28 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // then
       expect(state.editorSwitchDisabled).to.be.true
     })
+
+    it('set preferred editor first, even if not found in editors model', () => {
+      // given
+      const shapeGraph = cf({ dataset: $rdf.dataset() })
+      const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
+      const shape = propertyShape(shapeGraph.blankNode(), {
+        path: ex.foo,
+        editor: dash.FooEditor,
+      })
+      const context = {
+        shape,
+        editors: store.getState().editors,
+        shouldEnableEditorChoice() {
+          return true
+        },
+      }
+
+      // when
+      const state = initialiseObjectState(context, undefined)(dataGraph.literal(5))
+
+      // then
+      expect(state.editors[0].term).to.deep.eq(dash.FooEditor)
+    })
   })
 })
