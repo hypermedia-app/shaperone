@@ -25,12 +25,12 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
 
     const preferredEditorId = shape.editor?.id
     if (preferredEditorId?.termType === 'NamedNode') {
-      const preferredEditor = Object.values(editors.singleEditors).find(e => e?.term.equals(preferredEditorId))
-      selectedEditor = preferredEditorId
-      if (preferredEditor) {
-        matchedEditors.splice(matchedEditors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
-        matchedEditors = [{ ...preferredEditor, score: 100 }, ...matchedEditors]
+      const preferredEditor = Object.values(editors.singleEditors).find(e => e?.term.equals(preferredEditorId)) || {
+        term: preferredEditorId,
       }
+      selectedEditor = preferredEditorId
+      matchedEditors.splice(matchedEditors.findIndex(e => e.term.equals(preferredEditor.term)), 1)
+      matchedEditors = [{ ...preferredEditor, score: 100 }, ...matchedEditors]
     } else {
       selectedEditor = matchedEditors[0]?.term
     }
