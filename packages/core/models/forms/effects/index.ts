@@ -10,14 +10,14 @@ import { connect, disconnect } from './connection'
 
 export default function (store: Store) {
   return {
-    connect: connect(store),
-    disconnect: disconnect(store),
+    'forms/connect': connect(store),
+    'forms/disconnect': disconnect(store),
     pushFocusNode: pushFocusNode(store),
     addObject: addObject(store),
-    selectShape: selectShape(store),
+    'forms/selectShape': selectShape(store),
     replaceObjects: replaceObjects(store),
-    setPropertyObjects: setPropertyObjects(store),
-    updateObject: updateObject(store),
-    removeObject: removeObject(store),
+    'forms/setPropertyObjects': setPropertyObjects(store),
+    'forms/updateObject': updateObject(store),
+    'forms/removeObject': removeObject(store),
   }
 }

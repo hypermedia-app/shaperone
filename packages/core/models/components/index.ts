@@ -33,6 +33,7 @@ export interface SingleEditorActions {
   update(newValue: Term | string): void
   focusOnObjectNode(): void
   clear(): void
+  remove(): void
 }
 
 export interface MultiEditorActions {
