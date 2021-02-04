@@ -35,4 +35,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Netlify preview
           conclusion: neutral
-          details_url: https://${env.BRANCH_NAME}shaperone.netlify.app
+          details_url: https://${{ env.BRANCH_NAME }}shaperone.netlify.app
