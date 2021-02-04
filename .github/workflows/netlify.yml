@@ -30,9 +30,9 @@ jobs:
           deploy_alias: ${{ env.BRANCH_NAME }}
       
       - name: Status check
-        uses: LouisBrunner/checks-action@v1.1.1
+        uses: Sibz/github-status-action@v1.1.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Netlify preview
-          conclusion: neutral
-          details_url: https://${{ env.BRANCH_NAME }}--shaperone.netlify.app
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          description: Netlify preview
+          state: success
+          target_url: https://${{ env.BRANCH_NAME }}--shaperone.netlify.app
