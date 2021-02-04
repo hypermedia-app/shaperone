@@ -33,6 +33,6 @@ jobs:
         uses: Sibz/github-status-action@v1.1.1
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
-          description: Netlify preview
+          context: Netlify preview
           state: success
           target_url: https://${{ env.BRANCH_NAME }}--shaperone.netlify.app
