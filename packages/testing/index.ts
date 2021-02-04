@@ -65,6 +65,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
       update: sinon.spy(),
       clear: sinon.spy(),
       focusOnObjectNode: sinon.spy(),
+      remove: sinon.spy(),
     },
   }
 }

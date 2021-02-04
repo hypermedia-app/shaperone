@@ -136,6 +136,10 @@ export const DefaultRenderer: Renderer = {
                 actions.forms.clearValue({ form, focusNode, property: property.shape, object: value })
               }
 
+              function remove() {
+                actions.forms.removeObject({ form, focusNode, property: property.shape, object: value })
+              }
+
               function updateComponentState(newState: Record<string, any>) {
                 actions.forms.updateComponentState({
                   form,
@@ -180,7 +184,7 @@ export const DefaultRenderer: Renderer = {
 
               return component.render(
                 { form: state, focusNode, property, value, updateComponentState },
-                { update, focusOnObjectNode, clear },
+                { update, focusOnObjectNode, clear, remove },
               )
             }
 
