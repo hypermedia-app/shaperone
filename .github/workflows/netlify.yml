@@ -2,11 +2,8 @@ name: Netlify
 
 on:
   push:
-    branches:
-      - '*'
-      - '*/*'
-      - '**'
-      - '!master'
+    branches-ignore: 
+      - master
 
 jobs:
   preview:
