@@ -18,13 +18,13 @@ jobs:
       - run: yarn build
       - uses: nelonoel/branch-name@v1.0.1
       - name: Publish preview
-        if: ${{ BRANCH_NAME != 'master' }}
+        if: ${BRANCH_NAME} != 'master' }}
         uses: jsmrcaga/action-netlify-deploy@1.4.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           build_directory: dist
-          alias: ${{ BRANCH_NAME }}
+          alias: ${BRANCH_NAME}
       - name: Status check
         uses: LouisBrunner/checks-action@v1.1.1
         with:
