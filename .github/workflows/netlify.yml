@@ -19,7 +19,7 @@ jobs:
       - uses: nelonoel/branch-name@v1.0.1
 
       - run: yarn build
-      - run: npx json -I -f dist/variables.json -e \"this.playground='https://$BRANCH_NAME--shaperone.netlify.app/playground'\"
+      - run: npx json -I -f dist/variables.json -e "this.playground='https://$BRANCH_NAME--shaperone.netlify.app/playground'"
       
       - name: Publish preview
         uses: jsmrcaga/action-netlify-deploy@master
