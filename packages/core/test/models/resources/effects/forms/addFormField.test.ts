@@ -45,6 +45,7 @@ describe('models/resources/effects/forms/addFormField', () => {
     // then
     expect(focusNode.out(schema.age).term).to.deep.eq($rdf.literal('10', xsd.int))
   });
+
   [sh.BlankNode, sh.BlankNodeOrIRI].forEach((nodeKind) => {
     it(`adds new blank node to the graph when node kind is ${nodeKind.value}`, () => {
       // given
