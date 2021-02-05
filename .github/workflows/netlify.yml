@@ -18,8 +18,12 @@ jobs:
 
       - uses: nelonoel/branch-name@v1.0.1
 
+      - run: yarn typedoc
+
       - name: Publish preview
         uses: jsmrcaga/action-netlify-deploy@master
+        env:
+          DEPLOY_PRIME_URL: https://${{ env.BRANCH_NAME }}--shaperone.netlify.app
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
