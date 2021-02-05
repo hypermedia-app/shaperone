@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.3
+
+### Patch Changes
+
+- dceb137: Decorator: simplify decorating the render function
+
 ## 0.6.2
 
 ### Patch Changes
