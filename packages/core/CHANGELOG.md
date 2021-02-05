@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.2
+
+### Patch Changes
+
+- 18ffe89: Adding new field should add a blank node object when there is sh:nodeKind
+- 12e03f7: Add component action to remove self
+- bada256: Security: Update immer (resolves vulnerability CVE-2020-28477)
+
 ## 0.6.1
 
 ### Patch Changes
