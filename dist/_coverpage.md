@@ -10,5 +10,5 @@
 
 [Get started](overview)
 [GitHub](https://github.com/hypermedia-app/shaperone)
-[JS API](https://forms.hypermedia.app/api)
-[Playground](https://forms.hypermedia.app/playground)
+[JS API](/api)
+[Playground](/playground)
