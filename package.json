@@ -4,8 +4,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
-    "build": "run-p build:*",
-    "build:code": "lerna run --parallel build",
+    "build": "lerna run --parallel build",
     "test": "run-p test:*",
     "test:mocha": "BABEL_ENV=test c8 --all -o coverage/mocha --reporter=lcov mocha --recursive 'packages/core/test/**/*.test.ts'",
     "test:open-wc": "karma start --coverage",
