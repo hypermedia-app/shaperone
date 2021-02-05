@@ -1,12 +1,19 @@
 import produce from 'immer'
 import { NamedNode } from 'rdf-js'
-import type { ComponentsState, ComponentState, RenderFunc, ComponentDecorator, Component } from './index'
+import type {
+  ComponentsState,
+  ComponentState,
+  RenderFunc,
+  ComponentDecorator,
+  Component,
+} from './index'
+import { decorateComponent } from './lib/decorate'
 
 type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 
 export function decorate<T extends _Component>(decorators: ComponentDecorator<T>[], component: T): T {
   const applicable = decorators.filter(({ applicableTo }) => applicableTo(component))
-  return applicable.reduce((component, { decorate }) => decorate(component), component)
+  return applicable.reduce((component: any, decorator: any) => decorateComponent(component, decorator), component)
 }
 
 export default {
