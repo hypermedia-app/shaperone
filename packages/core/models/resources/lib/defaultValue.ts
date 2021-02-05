@@ -19,5 +19,9 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
     }
   }
 
+  if (nodeKind?.equals(sh.BlankNode) || nodeKind?.equals(sh.BlankNodeOrIRI)) {
+    return focusNode.blankNode()
+  }
+
   return null
 }

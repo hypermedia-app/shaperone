@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import { AnyPointer } from 'clownface'
-import { xsd, schema } from '@tpluscode/rdf-ns-builders'
+import { xsd, schema, sh } from '@tpluscode/rdf-ns-builders'
 import addFormField from '../../../../../models/resources/effects/forms/addFormField'
 import { Store } from '../../../../../state'
 import { RecursivePartial, testStore } from '../../../forms/util'
@@ -44,5 +44,29 @@ describe('models/resources/effects/forms/addFormField', () => {
 
     // then
     expect(focusNode.out(schema.age).term).to.deep.eq($rdf.literal('10', xsd.int))
+  });
+  [sh.BlankNode, sh.BlankNodeOrIRI].forEach((nodeKind) => {
+    it(`adds new blank node to the graph when node kind is ${nodeKind.value}`, () => {
+      // given
+      const focusNode = graph.blankNode()
+      const property = propertyShape({
+        nodeKind,
+        path: schema.vehicleTransmission,
+      })
+      formState.focusNodes = {
+        [focusNode.value]: {
+        },
+      }
+
+      // when
+      addFormField(store)({
+        form,
+        focusNode,
+        property,
+      })
+
+      // then
+      expect(focusNode.out(schema.vehicleTransmission).term?.termType).to.eq('BlankNode')
+    })
   })
 })
