@@ -4,6 +4,7 @@
     "packages/core/index.ts",
     "packages/core/components.ts",
     "packages/core/DashEditors.ts",
+    "packages/core/models/components/index.ts",
     "packages/hydra/components.ts",
     "packages/wc/configure.ts",
     "packages/wc/index.ts",

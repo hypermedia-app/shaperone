@@ -194,35 +194,21 @@ import { html } from '@hydrofoil/shaperone-wc'
 import { ComponentDecorator } from '@hydrofoil/shaperone-core/models/components'
 import type { PropertyShape } from '@rdfine/shacl'
 
-function wrap(shape: PropertyShape, result: TemplateResult) {
-  if (shape.description) {
-    return html`<div title="${shape.description}">${result}</div>`
-  }
-
-  return result
-}
-
 export const DescriptionTooltip: ComponentDecorator = {
   applicableTo() {
     return true
   },
   decorate(component) {
-    if ('lazyRender' in component) {
-      return {
-        ...component,
-        lazyRender: async () => {
-          const render = await component.lazyRender()
-          return function (params, actions) {
-            return wrap(params.property.shape, render.call(this, params, actions))
-          }
-        },
-      }
-    }
-
     return {
       ...component,
-      render(params, actions) {
-        return wrap(params.property.shape, component.render(params, actions))
+      _decorateRender(render) {
+        return (params, actions) => {  
+          if (params.property.shape.description) {
+            return html`<div title="${shape.description}">${render(params, actions)}</div>`
+          }
+
+          return render(params, actions)
+        }
       },
     }
   },
@@ -232,7 +218,7 @@ export const DescriptionTooltip: ComponentDecorator = {
 The `ComponentDecorator` type is generic, allowing typed decorators of specific components, such as `ComponentDecorator<StarRatingComponent>`. Remember though, that it is up to the `applicableTo` method to choose the correct components to process. The type annotation is only a dev-time hint. 
 
 > [!TIP]
-> Pay attention to the conditional logic to wrap a lazy component differently
+> Because a rendered component can be lazy, the decorator does not directly replace either `render` or `lazyRender` but instead includes the special `_decorateRender` which will adapt to both kinds of components.
 
 ## Working example
 

@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/models/components
+ */
+
 /* eslint-disable no-use-before-define */
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
@@ -58,6 +63,9 @@ export interface RenderFunc<Params, Actions, TRenderResult> {
   (this: ExtractState<Params>, params: Params, actions: Actions): TRenderResult
 }
 
+/**
+ * Maps the component type to the type of its {@link RenderFunc}
+ */
 export type RenderComponent<T extends Component, TRenderResult> =
   T extends SingleEditorComponent<infer TState, TRenderResult>
     ? RenderFunc<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
@@ -112,9 +120,25 @@ export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> &
   lazyRender() : Promise<(this: ExtractState<T> & T, ...args: Parameters<T['render']>) => ReturnType<T['render']>>
 }
 
-export interface ComponentDecorator<T extends Component = AnyComponent | Lazy<AnyComponent>> {
+export interface ComponentExtension<TRenderResult, TComponent extends Component = AnyComponent<TRenderResult> | Lazy<AnyComponent<TRenderResult>>> {
+  /**
+   * Implement to customize the render output without differentiating between lazy and standard components
+   *
+   * @param render the actual {@link RenderFunc} of the decorated component
+   */
+  _decorateRender(render: RenderComponent<TComponent, TRenderResult>): RenderComponent<TComponent, TRenderResult>
+}
+
+/**
+ * Returned by {@link ComponentDecorator.decorate}
+ */
+export type DecoratedComponent<TRenderResult, TComponent extends Component = AnyComponent<TRenderResult> | Lazy<AnyComponent<TRenderResult>>> =
+  TComponent &
+  Partial<ComponentExtension<TRenderResult, TComponent>>
+
+export interface ComponentDecorator<T extends Component = AnyComponent | Lazy<AnyComponent>, TRenderResult = any> {
   applicableTo(component: Component): boolean
-  decorate(component: T): T
+  decorate(component: T): DecoratedComponent<TRenderResult, T>
 }
 
 export interface ComponentsState {
