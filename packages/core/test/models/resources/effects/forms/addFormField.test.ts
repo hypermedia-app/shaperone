@@ -44,6 +44,28 @@ describe('models/resources/effects/forms/addFormField', () => {
 
     // then
     expect(focusNode.out(schema.age).term).to.deep.eq($rdf.literal('10', xsd.int))
+  })
+
+  it('does not add any node when there is not nodeKind', () => {
+    // given
+    const focusNode = graph.blankNode()
+    const property = propertyShape({
+      path: schema.vehicleTransmission,
+    })
+    formState.focusNodes = {
+      [focusNode.value]: {
+      },
+    }
+
+    // when
+    addFormField(store)({
+      form,
+      focusNode,
+      property,
+    })
+
+    // then
+    expect(focusNode.out(schema.vehicleTransmission).term?.termType).to.be.undefined
   });
 
   [sh.BlankNode, sh.BlankNodeOrIRI].forEach((nodeKind) => {
