@@ -18,7 +18,7 @@ jobs:
       - run: yarn typedoc
       - name: Docsify variables
         env:
-          DOMAIN: ${{ env.BRANCH_NAME == 'master' && 'forms.hypermedia.app' || format('{0}--shaperone.netlify.app', env.$BRANCH_NAME) }}
+          DOMAIN: ${{ env.BRANCH_NAME == 'master' && 'forms.hypermedia.app' || format('{0}--shaperone.netlify.app', env.BRANCH_NAME) }}
         run: npx json -I -f dist/variables.json -e "this.playground='https://$DOMAIN/playground'"
 
       - name: Publish preview
