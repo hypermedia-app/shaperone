@@ -1,9 +1,6 @@
 name: Netlify
 
-on:
-  push:
-    branches-ignore:
-      - master
+on: push
 
 jobs:
   Deploy:
@@ -19,7 +16,10 @@ jobs:
       - uses: nelonoel/branch-name@v1.0.1
 
       - run: yarn typedoc
-      - run: npx json -I -f dist/variables.json -e "this.playground='https://$BRANCH_NAME--shaperone.netlify.app/playground'"
+      - name: Docsify variables
+        env:
+          DOMAIN: ${{ env.BRANCH_NAME == 'master' && 'forms.hypermedia.app' || format('{0}--shaperone.netlify.app', env.$BRANCH_NAME) }}
+        run: npx json -I -f dist/variables.json -e "this.playground='https://$DOMAIN/playground'"
 
       - name: Publish preview
         uses: jsmrcaga/action-netlify-deploy@master
@@ -29,11 +29,12 @@ jobs:
           NETLIFY_DEPLOY_MESSAGE: Preview ${{ env.BRANCH_NAME }}
           build_directory: dist
           deploy_alias: ${{ env.BRANCH_NAME }}
+          NETLIFY_DEPLOY_TO_PROD: ${{ env.BRANCH_NAME == 'master' }}
 
       - name: Status check
         uses: Sibz/github-status-action@v1.1.1
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
-          context: Netlify preview
+          context: Netlify Site
           state: success
           target_url: https://${{ env.BRANCH_NAME }}--shaperone.netlify.app
