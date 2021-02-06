@@ -1,3 +1,3 @@
 [build]
   publish = "dist"
-  command = "npx json -I -f dist/variables.json -e \"this.playground='https://forms.hypermedia.app/playground'\"; yarn build"
+  command = "npx json -I -f dist/variables.json -e \"this.playground='https://forms.hypermedia.app/playground'\"; yarn typedoc; yarn build"
