@@ -1,19 +1,11 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { CSSResult, CSSResultArray } from 'lit-element'
 import { css } from 'lit-element'
-import { DefaultStrategy } from './DefaultStrategy'
-import * as strategy from '../lib/renderer'
+import { templates, RenderTemplates } from '../templates'
 import type { State } from '../store'
 
 export interface RendererState {
-  strategy: {
-    form: strategy.FormRenderStrategy
-    focusNode: strategy.FocusNodeRenderStrategy
-    group: strategy.GroupRenderStrategy
-    property: strategy.PropertyRenderStrategy
-    object: strategy.ObjectRenderStrategy
-    initialising: strategy.InitialisationStrategy
-  }
+  templates: RenderTemplates
   styles: CSSResult
   ready: boolean
 }
@@ -28,7 +20,7 @@ function styleReducer(reduced: CSSResult, styles: CSSResult | CSSResultArray | u
   return css`${reduced}${styles}`
 }
 
-function combineStyles(strategy: RendererState['strategy']) {
+function combineStyles(strategy: RenderTemplates) {
   return Object.values(strategy)
     .map(strat => strat.styles)
     .reduce(styleReducer, css``)
@@ -36,8 +28,8 @@ function combineStyles(strategy: RendererState['strategy']) {
 
 export const renderer = createModel({
   state: <RendererState>{
-    strategy: DefaultStrategy,
-    styles: combineStyles(DefaultStrategy),
+    templates,
+    styles: combineStyles(templates),
   },
   reducers: {
     ready(state): RendererState {
@@ -46,14 +38,14 @@ export const renderer = createModel({
         ready: true,
       }
     },
-    setStrategy(state, newStrategy: Partial<RendererState['strategy']>): RendererState {
-      const strategy = { ...state.strategy, ...newStrategy }
+    setStrategy(state, newTemplates: Partial<RenderTemplates>): RendererState {
+      const templates = { ...state.templates, ...newTemplates }
 
       return {
         ...state,
-        strategy,
+        templates,
         ready: false,
-        styles: combineStyles(strategy),
+        styles: combineStyles(templates),
       }
     },
   },
@@ -65,7 +57,7 @@ export const renderer = createModel({
         const state: State = store.getState()
 
         await Promise.all(
-          Object.values(state.renderer.strategy)
+          Object.values(state.renderer.templates)
             .reduce<Promise<unknown>[]>((promises, strat) => {
             if (!strat.loadDependencies) {
               return promises

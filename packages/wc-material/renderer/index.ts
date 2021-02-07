@@ -1,29 +1,25 @@
 import { css, html } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
-import {
-  PropertyRenderStrategy,
-  ObjectRenderStrategy,
-  FocusNodeRenderStrategy,
-} from '@hydrofoil/shaperone-wc/lib/renderer'
+import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 
-export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRenderStrategy => {
-  const renderer: FocusNodeRenderStrategy = (params) => {
-    const { focusNode, actions } = params
+export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {
+  const renderer: FocusNodeTemplate = function (params) {
+    const { focusNodeState, actions } = this
 
-    const shapes = focusNode.shapes.length ? focusNode.shapes : params.shapes
+    const shapes = focusNodeState.shapes.length ? focusNodeState.shapes : this.context.shapes
 
     return html`<mwc-list part="focus-node-header">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>
-          ${focusNode.focusNode.out(rdfs.label).value || 'Resource'}
-          <span slot="secondary">${focusNode.shape?.label}</span>
+          ${focusNodeState.focusNode.out(rdfs.label).value || 'Resource'}
+          <span slot="secondary">${focusNodeState.shape?.label}</span>
           <mwc-shape-selector slot="meta" .shapes="${shapes}" title="Select shape"
-                             .selected="${focusNode.shape}"
+                             .selected="${focusNodeState.shape}"
                              @shape-selected="${(e: CustomEvent) => actions.selectShape(e.detail.value)}"></mwc-shape-selector>
       </mwc-list-item>
   </mwc-list>
 
-  ${currentStrategy(params)}`
+  ${currentStrategy.call(this, params)}`
   }
 
   renderer.loadDependencies = () => {
@@ -38,20 +34,22 @@ export const focusNode = (currentStrategy: FocusNodeRenderStrategy): FocusNodeRe
   return renderer
 }
 
-export const property: PropertyRenderStrategy = ({ property, actions, renderObject, renderMultiEditor }) => {
-  const menuElement = property.editors.length
+export const property: PropertyTemplate = function () {
+  const { actions, propertyState } = this
+
+  const menuElement = propertyState.editors.length
     ? html`<mwc-property-menu slot="meta"
-                         .property="${property}" part="property-options"
+                         .property="${propertyState}" part="property-options"
                          @multi-editor-selected="${actions.selectMultiEditor}"
                          @single-editors-selected="${actions.selectSingleEditors}"></mwc-property-menu>`
     : html``
 
   const editors = () => {
-    if (property.selectedEditor) {
-      return html`<mwc-item-lite part="editor">${renderMultiEditor()}</mwc-item-lite>`
+    if (propertyState.selectedEditor) {
+      return html`<mwc-item-lite part="editor">${this.multiEditor()}</mwc-item-lite>`
     }
 
-    const addRow = !property.selectedEditor && property.canAdd
+    const addRow = !propertyState.selectedEditor && propertyState.canAdd
       ? html`<mwc-item-lite part="property-options">
               <i @click="${actions.addObject}">Click to add value</i>
               <mwc-icon slot="options" @click="${actions.addObject}" title="Add value">add_circle</mwc-icon>
@@ -59,13 +57,13 @@ export const property: PropertyRenderStrategy = ({ property, actions, renderObje
       : html``
 
     return html`
-          ${repeat(property.objects, renderObject)}
+          ${repeat(propertyState.objects, value => this.object({ value }))}
           ${addRow}
         `
   }
 
   return html`<mwc-list part="property">
-    <mwc-list-item hasmeta part="property-header"><b>${property.name}</b> ${menuElement}</mwc-list-item>
+    <mwc-list-item hasmeta part="property-header"><b>${propertyState.name}</b> ${menuElement}</mwc-list-item>
     ${editors()}
   </mwc-list>`
 }
@@ -84,7 +82,9 @@ property.styles = css`
     overflow: visible;
   }`
 
-export const object: ObjectRenderStrategy = ({ object, actions, renderEditor, property }) => {
+export const object: ObjectTemplate = function ({ value: object }) {
+  const { actions, propertyState } = this
+
   function onEditorSelected(e: CustomEvent) {
     actions.selectEditor(e.detail.editor)
   }
@@ -95,18 +95,18 @@ export const object: ObjectRenderStrategy = ({ object, actions, renderEditor, pr
     hasOptions = true
     metaSlot = html`<mwc-editor-toggle .editors="${object.editors}" slot="options"
                                        @editor-selected="${onEditorSelected}"
-                                       .removeEnabled="${property.canRemove}"
+                                       .removeEnabled="${propertyState.canRemove}"
                                        @object-removed="${actions.remove}"
                                        .selected="${object.selectedEditor}"
                                        part="editor-options"
                                        title="Select editor"></mwc-editor-toggle>`
-  } else if (property.canRemove) {
+  } else if (propertyState.canRemove) {
     hasOptions = true
     metaSlot = html`<mwc-icon slot="options" part="editor-options" @click="${actions.remove}" title="Remove value">remove_circle</mwc-icon>`
   }
 
   return html`<mwc-item-lite part="editor" ?has-options="${hasOptions}">
-    ${renderEditor()}
+    ${this.editor()}
     ${metaSlot}
   </mwc-item-lite>`
 }

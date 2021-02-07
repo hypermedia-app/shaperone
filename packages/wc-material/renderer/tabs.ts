@@ -1,10 +1,12 @@
-import type { FocusNodeRenderStrategy, GroupRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
+import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit-html/directives/repeat'
 import { styleMap } from 'lit-html/directives/style-map'
 import { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
 
-export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, actions, renderGroup }) => {
+export const TabsFocusNodeRenderer: FocusNodeTemplate = function ({ focusNodeState: focusNode }) {
+  const { actions } = this
+
   function renderTab(group: PropertyGroupState) {
     const header = group.group?.label || 'Ungrouped properties'
 
@@ -15,7 +17,7 @@ export const TabsFocusNodeRenderer: FocusNodeRenderStrategy = ({ focusNode, acti
     <mwc-tab-bar .activeIndex="${focusNode.groups.findIndex(g => g.selected)}">
         ${repeat(focusNode.groups, renderTab)}
     </mwc-tab-bar>
-    ${repeat(focusNode.groups, renderGroup)}`
+    ${repeat(focusNode.groups, groupState => this.group({ groupState }))}`
 }
 
 TabsFocusNodeRenderer.loadDependencies = () => [
@@ -23,14 +25,16 @@ TabsFocusNodeRenderer.loadDependencies = () => [
   import('@material/mwc-tab/mwc-tab'),
 ]
 
-export const TabsGroupRenderer: GroupRenderStrategy = ({ group, properties, renderProperty }) => {
+export const TabsGroupRenderer: GroupTemplate = function ({ properties }) {
+  const { groupState } = this
+
   const styles = {
-    display: group.selected ? 'block' : 'none',
+    display: groupState.selected ? 'block' : 'none',
   }
 
   return html`<div style="${styleMap(styles)}">
     <div part="property-group">
-      ${repeat(properties, renderProperty)}
+      ${repeat(properties, property => this.property({ property }))}
     </div>
   </div>`
 }
