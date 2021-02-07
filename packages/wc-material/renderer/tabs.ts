@@ -4,7 +4,7 @@ import { repeat } from 'lit-html/directives/repeat'
 import { styleMap } from 'lit-html/directives/style-map'
 import { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
 
-export const TabsFocusNodeRenderer: FocusNodeTemplate = function ({ focusNodeState: focusNode }) {
+export const TabsFocusNodeRenderer: FocusNodeTemplate = function ({ focusNode }) {
   const { actions } = this
 
   function renderTab(group: PropertyGroupState) {
@@ -17,7 +17,7 @@ export const TabsFocusNodeRenderer: FocusNodeTemplate = function ({ focusNodeSta
     <mwc-tab-bar .activeIndex="${focusNode.groups.findIndex(g => g.selected)}">
         ${repeat(focusNode.groups, renderTab)}
     </mwc-tab-bar>
-    ${repeat(focusNode.groups, groupState => this.group({ groupState }))}`
+    ${repeat(focusNode.groups, group => this.renderGroup({ group }))}`
 }
 
 TabsFocusNodeRenderer.loadDependencies = () => [
@@ -26,15 +26,15 @@ TabsFocusNodeRenderer.loadDependencies = () => [
 ]
 
 export const TabsGroupRenderer: GroupTemplate = function ({ properties }) {
-  const { groupState } = this
+  const { group } = this
 
   const styles = {
-    display: groupState.selected ? 'block' : 'none',
+    display: group.selected ? 'block' : 'none',
   }
 
   return html`<div style="${styleMap(styles)}">
     <div part="property-group">
-      ${repeat(properties, property => this.property({ property }))}
+      ${repeat(properties, property => this.renderProperty({ property }))}
     </div>
   </div>`
 }

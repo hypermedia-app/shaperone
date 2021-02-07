@@ -7,20 +7,19 @@ import { literal } from '@rdf-esm/data-model'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 import * as Render from './renderer'
 
-const multiEditor: Render.PropertyRenderer['multiEditor'] = function () {
+const renderMultiEditor: Render.PropertyRenderer['renderMultiEditor'] = function () {
   const { dispatch, form, components, editors } = this.context
-  const { propertyState, focusNodeState } = this
-  const { focusNode } = focusNodeState
+  const { property, focusNode } = this
 
   function update(termsOrStrings : Array<Term | string>) {
     const terms = termsOrStrings.map(termOrString => (typeof termOrString === 'string'
-      ? literal(termOrString, propertyState.datatype)
+      ? literal(termOrString, property.datatype)
       : termOrString))
 
     dispatch.forms.replaceObjects({
       form,
-      focusNode,
-      property: propertyState.shape,
+      focusNode: focusNode.focusNode,
+      property: property.shape,
       terms,
     })
   }
@@ -28,13 +27,13 @@ const multiEditor: Render.PropertyRenderer['multiEditor'] = function () {
   function updateComponentState(newState: Record<string, any>) {
     dispatch.forms.updateComponentState({
       form,
-      focusNode,
-      property: propertyState.shape,
+      focusNode: focusNode.focusNode,
+      property: property.shape,
       newState,
     })
   }
 
-  const editor = propertyState.selectedEditor
+  const editor = property.selectedEditor
   if (!editor) {
     return html`No editor found for property`
   }
@@ -54,55 +53,64 @@ const multiEditor: Render.PropertyRenderer['multiEditor'] = function () {
   }
 
   return component.render(
-    { focusNode, property: propertyState, updateComponentState },
+    { focusNode, property, updateComponentState },
     { update },
   )
 }
 
-const editor: Render.ObjectRenderer['editor'] = function () {
+const renderEditor: Render.ObjectRenderer['renderEditor'] = function () {
   const { dispatch, form, state, components, editors } = this.context
-  const { propertyState, focusNodeState, objectState: value } = this
-  const { focusNode } = focusNodeState
+  const { property, focusNode, object } = this
 
   function update(termOrString: Term | string) {
     const newValue = typeof termOrString === 'string'
-      ? createTerm(propertyState, termOrString)
+      ? createTerm(property, termOrString)
       : termOrString
 
     dispatch.forms.updateObject({
       form,
-      focusNode,
-      property: propertyState.shape,
-      object: value,
+      focusNode: focusNode.focusNode,
+      property: property.shape,
+      object,
       newValue,
     })
   }
 
   function focusOnObjectNode() {
-    if (value.object?.term.termType === 'NamedNode' || value.object?.term.termType === 'BlankNode') {
-      dispatch.forms.pushFocusNode({ form, focusNode: value.object as any, property: propertyState.shape })
+    if (object.object?.term.termType === 'NamedNode' || object.object?.term.termType === 'BlankNode') {
+      dispatch.forms.pushFocusNode({ form, focusNode: object.object as any, property: property.shape })
     }
   }
 
   function clear() {
-    dispatch.forms.clearValue({ form, focusNode, property: propertyState.shape, object: value })
+    dispatch.forms.clearValue({
+      form,
+      focusNode: focusNode.focusNode,
+      property: property.shape,
+      object,
+    })
   }
 
   function remove() {
-    dispatch.forms.removeObject({ form, focusNode, property: propertyState.shape, object: value })
+    dispatch.forms.removeObject({
+      form,
+      focusNode: focusNode.focusNode,
+      property: property.shape,
+      object,
+    })
   }
 
   function updateComponentState(newState: Record<string, any>) {
     dispatch.forms.updateComponentState({
       form,
-      focusNode,
-      property: propertyState.shape,
-      object: value,
+      focusNode: focusNode.focusNode,
+      property: property.shape,
+      object,
       newState,
     })
   }
 
-  const editor = value.selectedEditor
+  const editor = object.selectedEditor
   if (!editor) {
     return html`No editor found for property`
   }
@@ -126,7 +134,7 @@ const editor: Render.ObjectRenderer['editor'] = function () {
       focusNode,
       property,
       updateComponentState,
-      value,
+      value: object,
     })
 
     if (!ready) {
@@ -135,83 +143,80 @@ const editor: Render.ObjectRenderer['editor'] = function () {
   }
 
   return component.render(
-    { form: state, focusNode, property: propertyState, value, updateComponentState },
+    { form: state, focusNode, property, value: object, updateComponentState },
     { update, focusOnObjectNode, clear, remove },
   )
 }
 
-const object: Render.PropertyRenderer['object'] = function ({ value }) {
+const renderObject: Render.PropertyRenderer['renderObject'] = function ({ object }) {
   const { dispatch, form, templates } = this.context
-  const { focusNodeState, propertyState } = this
-  const { focusNode } = focusNodeState
+  const { focusNode, property } = this
 
   const actions = {
     ...this.actions,
     selectEditor(editor: NamedNode): void {
       dispatch.forms.selectEditor({
         form,
-        focusNode,
-        property: propertyState.shape,
-        object: value,
+        focusNode: focusNode.focusNode,
+        property: property.shape,
+        object,
         editor,
       })
     },
     remove(): void {
-      dispatch.forms.removeObject({ form, focusNode, property: propertyState.shape, object: value })
+      dispatch.forms.removeObject({ form, focusNode: focusNode.focusNode, property: property.shape, object })
     },
   }
 
   const context: Render.ObjectRenderer = {
     ...this,
     actions,
-    objectState: value,
-    editor,
+    object,
+    renderEditor,
   }
 
-  return templates.object.call(context, { value })
+  return templates.object.call(context, { object })
 }
 
-const property: Render.GroupRenderer['property'] = function ({ property }) {
+const renderProperty: Render.GroupRenderer['renderProperty'] = function ({ property }) {
   const { dispatch, form, templates } = this.context
-  const { focusNodeState } = this
-  const { focusNode } = focusNodeState
+  const { focusNode } = this
 
   const actions = {
     ...this.actions,
-    addObject: () => dispatch.forms.addObject({ form, focusNode, property: property.shape }),
-    selectMultiEditor: () => dispatch.forms.selectMultiEditor({ form, focusNode, property: property.shape }),
-    selectSingleEditors: () => dispatch.forms.selectSingleEditors({ form, focusNode, property: property.shape }),
+    addObject: () => dispatch.forms.addObject({ form, focusNode: focusNode.focusNode, property: property.shape }),
+    selectMultiEditor: () => dispatch.forms.selectMultiEditor({ form, focusNode: focusNode.focusNode, property: property.shape }),
+    selectSingleEditors: () => dispatch.forms.selectSingleEditors({ form, focusNode: focusNode.focusNode, property: property.shape }),
   }
 
   const context: Render.PropertyRenderer = {
     ...this,
     actions,
-    propertyState: property,
-    multiEditor,
-    object,
+    property,
+    renderMultiEditor,
+    renderObject,
   }
 
   return templates.property.call(context, { property })
 }
 
-const group: Render.FocusNodeRenderer['group'] = function ({ groupState }) {
+const renderGroup: Render.FocusNodeRenderer['renderGroup'] = function ({ group }) {
   const { dispatch, form, templates } = this.context
-  const { focusNodeState } = this
-  const { focusNode } = focusNodeState
+  const { focusNode } = this
 
-  const properties = focusNodeState.properties
-    .filter(byGroup(groupState?.group))
+  const properties = focusNode.properties
+    .filter(byGroup(group?.group))
     .filter(onlySingleProperty)
   const actions = {
     ...this.actions,
-    selectGroup: () => dispatch.forms.selectGroup({ form, focusNode, group: groupState?.group }),
+    selectGroup: () => dispatch.forms.selectGroup({ form, focusNode: focusNode.focusNode, group: group?.group }),
   }
 
-  const context = {
+  const context: Render.GroupRenderer = {
     ...this,
     actions,
-    groupState,
-    property,
+    group,
+    renderProperty,
   }
 
   return templates.group.call(context, {
@@ -219,24 +224,23 @@ const group: Render.FocusNodeRenderer['group'] = function ({ groupState }) {
   })
 }
 
-const focusNode: Render.FormRenderer['focusNode'] = function ({ focusNodeState }): TemplateResult {
-  const { focusNode } = focusNodeState
+const renderFocusNode: Render.FormRenderer['renderFocusNode'] = function ({ focusNode }): TemplateResult {
   const { dispatch, form, templates } = this.context
 
   const actions = {
     ...this.actions,
-    selectGroup: (group: PropertyGroup | undefined) => dispatch.forms.selectGroup({ form, focusNode, group }),
-    selectShape: (shape: NodeShape) => dispatch.forms.selectShape({ form, focusNode, shape }),
+    selectGroup: (group: PropertyGroup | undefined) => dispatch.forms.selectGroup({ form, focusNode: focusNode.focusNode, group }),
+    selectShape: (shape: NodeShape) => dispatch.forms.selectShape({ form, focusNode: focusNode.focusNode, shape }),
   }
 
   const context: Render.FocusNodeRenderer = {
     ...this,
     actions,
-    group,
-    focusNodeState,
+    renderGroup,
+    focusNode,
   }
 
-  return templates.focusNode.call(context, { focusNodeState })
+  return templates.focusNode.call(context, { focusNode })
 }
 
 export const DefaultRenderer: Render.Renderer = {
@@ -255,7 +259,7 @@ export const DefaultRenderer: Render.Renderer = {
     const renderer: Render.FormRenderer = {
       context,
       actions,
-      focusNode,
+      renderFocusNode,
     }
 
     return templates.form.call(renderer)

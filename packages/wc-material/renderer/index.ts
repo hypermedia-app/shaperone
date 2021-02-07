@@ -5,16 +5,17 @@ import { rdfs } from '@tpluscode/rdf-ns-builders'
 
 export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {
   const renderer: FocusNodeTemplate = function (params) {
-    const { focusNodeState, actions } = this
+    const { actions } = this
+    const { focusNode } = params
 
-    const shapes = focusNodeState.shapes.length ? focusNodeState.shapes : this.context.shapes
+    const shapes = focusNode.shapes.length ? focusNode.shapes : this.context.shapes
 
     return html`<mwc-list part="focus-node-header">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>
-          ${focusNodeState.focusNode.out(rdfs.label).value || 'Resource'}
-          <span slot="secondary">${focusNodeState.shape?.label}</span>
+          ${focusNode.focusNode.out(rdfs.label).value || 'Resource'}
+          <span slot="secondary">${focusNode.shape?.label}</span>
           <mwc-shape-selector slot="meta" .shapes="${shapes}" title="Select shape"
-                             .selected="${focusNodeState.shape}"
+                             .selected="${focusNode.shape}"
                              @shape-selected="${(e: CustomEvent) => actions.selectShape(e.detail.value)}"></mwc-shape-selector>
       </mwc-list-item>
   </mwc-list>
@@ -34,22 +35,23 @@ export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate
   return renderer
 }
 
-export const property: PropertyTemplate = function () {
-  const { actions, propertyState } = this
+export const property: PropertyTemplate = function (param) {
+  const { actions } = this
+  const { property } = param
 
-  const menuElement = propertyState.editors.length
+  const menuElement = property.editors.length
     ? html`<mwc-property-menu slot="meta"
-                         .property="${propertyState}" part="property-options"
+                         .property="${property}" part="property-options"
                          @multi-editor-selected="${actions.selectMultiEditor}"
                          @single-editors-selected="${actions.selectSingleEditors}"></mwc-property-menu>`
     : html``
 
   const editors = () => {
-    if (propertyState.selectedEditor) {
-      return html`<mwc-item-lite part="editor">${this.multiEditor()}</mwc-item-lite>`
+    if (property.selectedEditor) {
+      return html`<mwc-item-lite part="editor">${this.renderMultiEditor()}</mwc-item-lite>`
     }
 
-    const addRow = !propertyState.selectedEditor && propertyState.canAdd
+    const addRow = !property.selectedEditor && property.canAdd
       ? html`<mwc-item-lite part="property-options">
               <i @click="${actions.addObject}">Click to add value</i>
               <mwc-icon slot="options" @click="${actions.addObject}" title="Add value">add_circle</mwc-icon>
@@ -57,13 +59,13 @@ export const property: PropertyTemplate = function () {
       : html``
 
     return html`
-          ${repeat(propertyState.objects, value => this.object({ value }))}
+          ${repeat(property.objects, object => this.renderObject({ object }))}
           ${addRow}
         `
   }
 
   return html`<mwc-list part="property">
-    <mwc-list-item hasmeta part="property-header"><b>${propertyState.name}</b> ${menuElement}</mwc-list-item>
+    <mwc-list-item hasmeta part="property-header"><b>${property.name}</b> ${menuElement}</mwc-list-item>
     ${editors()}
   </mwc-list>`
 }
@@ -82,8 +84,9 @@ property.styles = css`
     overflow: visible;
   }`
 
-export const object: ObjectTemplate = function ({ value: object }) {
-  const { actions, propertyState } = this
+export const object: ObjectTemplate = function (param) {
+  const { object } = param
+  const { actions, property } = this
 
   function onEditorSelected(e: CustomEvent) {
     actions.selectEditor(e.detail.editor)
@@ -95,18 +98,18 @@ export const object: ObjectTemplate = function ({ value: object }) {
     hasOptions = true
     metaSlot = html`<mwc-editor-toggle .editors="${object.editors}" slot="options"
                                        @editor-selected="${onEditorSelected}"
-                                       .removeEnabled="${propertyState.canRemove}"
+                                       .removeEnabled="${property.canRemove}"
                                        @object-removed="${actions.remove}"
                                        .selected="${object.selectedEditor}"
                                        part="editor-options"
                                        title="Select editor"></mwc-editor-toggle>`
-  } else if (propertyState.canRemove) {
+  } else if (property.canRemove) {
     hasOptions = true
     metaSlot = html`<mwc-icon slot="options" part="editor-options" @click="${actions.remove}" title="Remove value">remove_circle</mwc-icon>`
   }
 
   return html`<mwc-item-lite part="editor" ?has-options="${hasOptions}">
-    ${this.editor()}
+    ${this.renderEditor()}
     ${metaSlot}
   </mwc-item-lite>`
 }

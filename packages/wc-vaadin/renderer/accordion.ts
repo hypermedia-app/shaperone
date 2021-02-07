@@ -2,31 +2,31 @@ import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templa
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit-html/directives/repeat'
 
-export const AccordionFocusNodeRenderer: FocusNodeTemplate = function ({ focusNodeState }) {
+export const AccordionFocusNodeRenderer: FocusNodeTemplate = function ({ focusNode }) {
   const { actions } = this
 
   function selectGroup(e: CustomEvent) {
-    actions.selectGroup(focusNodeState.groups[e.detail.value]?.group)
+    actions.selectGroup(focusNode.groups[e.detail.value]?.group)
   }
 
   return html`
-    <vaadin-accordion .opened="${focusNodeState.groups.findIndex(g => g.selected)}"
+    <vaadin-accordion .opened="${focusNode.groups.findIndex(g => g.selected)}"
                       @opened-changed="${selectGroup}">
-      ${repeat(focusNodeState.groups, groupState => this.group({ groupState }))}
+      ${repeat(focusNode.groups, group => this.renderGroup({ group }))}
     </vaadin-accordion>`
 }
 
 AccordionFocusNodeRenderer.loadDependencies = () => [import('@vaadin/vaadin-accordion/vaadin-accordion')]
 
 export const AccordionGroupingRenderer: GroupTemplate = function ({ properties }) {
-  const { groupState } = this
+  const { group } = this
 
-  const header = groupState.group?.label || 'Ungrouped properties'
+  const header = group.group?.label || 'Ungrouped properties'
 
-  return html`<vaadin-accordion-panel .opened="${groupState.selected}">
+  return html`<vaadin-accordion-panel .opened="${group.selected}">
     <div slot="summary">${header}</div>
     <div part="property-group">
-      ${repeat(properties, property => this.property({ property }))}
+      ${repeat(properties, property => this.renderProperty({ property }))}
     </div>
   </vaadin-accordion-panel>`
 }

@@ -13,7 +13,7 @@ export interface FormTemplate extends RenderTemplate {
 }
 
 export interface FocusNodeTemplate extends RenderTemplate {
-  (this: FocusNodeRenderer, args: {focusNodeState: FocusNodeState}): TemplateResult
+  (this: FocusNodeRenderer, args: {focusNode: FocusNodeState}): TemplateResult
 }
 
 export interface GroupTemplate extends RenderTemplate {
@@ -25,7 +25,7 @@ export interface PropertyTemplate extends RenderTemplate {
 }
 
 export interface ObjectTemplate extends RenderTemplate {
-  (this: ObjectRenderer, arg: { value: PropertyObjectState }): TemplateResult
+  (this: ObjectRenderer, arg: { object: PropertyObjectState }): TemplateResult
 }
 
 export interface RenderTemplates {
@@ -40,35 +40,35 @@ export interface RenderTemplates {
 export const templates: RenderTemplates = {
   form() {
     const { focusStack, focusNodes } = this.context.state
-    const focusNode = focusStack[focusStack.length - 1]
+    const focusNodeTerm = focusStack[focusStack.length - 1]
+    if (!focusNodeTerm) {
+      return html``
+    }
+
+    const focusNode = focusNodes[focusNodeTerm.value]
     if (!focusNode) {
       return html``
     }
 
-    const focusNodeState = focusNodes[focusNode.value]
-    if (!focusNodeState) {
-      return html``
-    }
-
-    return this.focusNode({ focusNodeState })
+    return this.renderFocusNode({ focusNode })
   },
-  focusNode({ focusNodeState }): TemplateResult {
+  focusNode({ focusNode }): TemplateResult {
     return html`<form>
     <div class="fieldset" part="focus-node">
-        ${repeat(focusNodeState.groups, groupState => this.group({ groupState }))}
+        ${repeat(focusNode.groups, group => this.renderGroup({ group }))}
     </div>
 </form>`
   },
   group({ properties }): TemplateResult {
-    return html`${repeat(properties, property => this.property({ property }))}`
+    return html`${repeat(properties, property => this.renderProperty({ property }))}`
   },
   property({ property }): TemplateResult {
     return html`${repeat(property.objects, object => html`<div class="field">
     <label for="${property.shape.id.value}">${property.name}</label>
-    ${this.object({ value: object })}</div>`)}`
+    ${this.renderObject({ object })}</div>`)}`
   },
   object(): TemplateResult {
-    return this.editor()
+    return this.renderEditor()
   },
   initialising: () => html`Initialising form`,
 }

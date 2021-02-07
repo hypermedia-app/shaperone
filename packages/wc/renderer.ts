@@ -32,7 +32,7 @@ export interface FormRenderActions {
 export interface FormRenderer {
   context: RenderContext
   actions: FormRenderActions
-  focusNode(this: FormRenderer, args: { focusNodeState: FocusNodeState }): TemplateResult
+  renderFocusNode(this: FormRenderer, args: { focusNode: FocusNodeState }): TemplateResult
 }
 
 export interface FocusNodeActions {
@@ -42,8 +42,8 @@ export interface FocusNodeActions {
 
 export interface FocusNodeRenderer extends FormRenderer {
   actions: FormRenderer['actions'] & FocusNodeActions
-  focusNodeState: FocusNodeState
-  group(this: FocusNodeRenderer, arg: { groupState: PropertyGroupState }): TemplateResult
+  focusNode: FocusNodeState
+  renderGroup(this: FocusNodeRenderer, arg: { group: PropertyGroupState }): TemplateResult
 }
 
 export interface GroupActions {
@@ -52,8 +52,8 @@ export interface GroupActions {
 
 export interface GroupRenderer extends FocusNodeRenderer {
   actions: FocusNodeRenderer['actions'] & GroupActions
-  groupState: PropertyGroupState
-  property(this: GroupRenderer, arg: { property: PropertyState }): TemplateResult
+  group: PropertyGroupState
+  renderProperty(this: GroupRenderer, arg: { property: PropertyState }): TemplateResult
 }
 
 export interface PropertyActions {
@@ -64,9 +64,9 @@ export interface PropertyActions {
 
 export interface PropertyRenderer extends GroupRenderer {
   actions: GroupRenderer['actions'] & PropertyActions
-  propertyState: PropertyState
-  multiEditor(this: PropertyRenderer): TemplateResult
-  object(this: PropertyRenderer, arg: { value: PropertyObjectState }): TemplateResult
+  property: PropertyState
+  renderMultiEditor(this: PropertyRenderer): TemplateResult
+  renderObject(this: PropertyRenderer, arg: { object: PropertyObjectState }): TemplateResult
 }
 
 export interface ObjectActions {
@@ -76,8 +76,8 @@ export interface ObjectActions {
 
 export interface ObjectRenderer extends PropertyRenderer {
   actions: PropertyRenderer['actions'] & ObjectActions
-  objectState: PropertyObjectState
-  editor(this: ObjectRenderer): TemplateResult
+  object: PropertyObjectState
+  renderEditor(this: ObjectRenderer): TemplateResult
 }
 
 export interface Renderer {
