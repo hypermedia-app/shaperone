@@ -69,6 +69,9 @@ export const configureRenderer = (() => {
           form: topmostFocusNodeFormRenderer(initialStrategy.form),
         })
         components.pushComponents(nestingComponents)
+      } else if (nesting === 'inline') {
+        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/InlineNestedShapes')
+        components.pushComponents(nestingComponents)
       } else {
         renderer.setStrategy({ form: initialStrategy.form })
         components.removeComponents([dash.DetailsEditor])

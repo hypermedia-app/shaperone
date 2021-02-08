@@ -1,7 +1,7 @@
 import { CSSResult, CSSResultArray, html, TemplateResult } from 'lit-element'
 import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { repeat } from 'lit-html/directives/repeat'
-import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from './renderer'
+import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 
 export interface RenderTemplate {
   styles?: CSSResult | CSSResultArray
@@ -39,13 +39,8 @@ export interface RenderTemplates {
 
 export const templates: RenderTemplates = {
   form() {
-    const { focusStack, focusNodes } = this.context.state
-    const focusNodeTerm = focusStack[focusStack.length - 1]
-    if (!focusNodeTerm) {
-      return html``
-    }
-
-    const focusNode = focusNodes[focusNodeTerm.value]
+    const { focusStack } = this.context.state
+    const focusNode = focusStack[focusStack.length - 1]
     if (!focusNode) {
       return html``
     }

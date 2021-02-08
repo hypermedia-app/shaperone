@@ -2,7 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 
 export interface RendererState {
   grouping: 'none' | 'material tabs' | 'vaadin accordion'
-  nesting: 'none' | 'always one'
+  nesting: 'none' | 'always one' | 'inline'
 }
 
 export const rendererSettings = createModel({
@@ -12,28 +12,15 @@ export const rendererSettings = createModel({
   },
   reducers: {
     switchNesting(state, nesting: RendererState['nesting']) {
-      switch (nesting) {
-        case 'none':
-        case 'always one':
-          return {
-            ...state,
-            nesting,
-          }
-        default:
-          return state
+      return {
+        ...state,
+        nesting,
       }
     },
     switchLayout(state, grouping: RendererState['grouping']) {
-      switch (grouping) {
-        case 'material tabs':
-        case 'none':
-        case 'vaadin accordion':
-          return {
-            ...state,
-            grouping,
-          }
-        default:
-          return state
+      return {
+        ...state,
+        grouping,
       }
     },
   },

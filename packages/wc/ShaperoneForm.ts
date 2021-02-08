@@ -7,9 +7,11 @@ import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer } from 'clownface'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
+import { TemplateResult } from 'lit-html'
+import { Renderer } from '@hydrofoil/shaperone-core/renderer'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
-import { DefaultRenderer } from './NewRenderer'
+import DefaultRenderer from './renderer'
 import * as NativeComponents from './NativeComponents'
 
 store().dispatch.components.pushComponents(NativeComponents)
@@ -79,7 +81,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   /**
    * Gets or sets the renderer implementation
    */
-  renderer = DefaultRenderer
+  renderer: Renderer<TemplateResult> = DefaultRenderer
 
   @property({ type: Array })
   private [shapes]: NodeShape[] = []
