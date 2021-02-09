@@ -21,5 +21,5 @@ export const renderProperty: GroupRenderer['renderProperty'] = function ({ prope
     renderObject,
   }
 
-  return templates.property.call(context, { property })
+  return templates.property(context, { property })
 }

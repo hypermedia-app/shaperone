@@ -21,7 +21,7 @@ export const renderGroup: FocusNodeRenderer['renderGroup'] = function ({ group }
     renderProperty,
   }
 
-  return templates.group.call(context, {
+  return templates.group(context, {
     properties,
   })
 }

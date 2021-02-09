@@ -29,5 +29,5 @@ export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focu
     focusNode: focusNodeState,
   }
 
-  return templates.focusNode.call(context, { focusNode: focusNodeState })
+  return templates.focusNode(context, { focusNode: focusNodeState })
 }

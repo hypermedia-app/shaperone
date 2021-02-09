@@ -29,5 +29,5 @@ export const renderObject: PropertyRenderer['renderObject'] = function ({ object
     renderEditor,
   }
 
-  return templates.object.call(context, { object })
+  return templates.object(context, { object })
 }

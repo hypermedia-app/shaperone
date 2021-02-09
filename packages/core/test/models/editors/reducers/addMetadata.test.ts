@@ -25,7 +25,7 @@ describe('core/models/editors/reducers/addMetadata', () => {
     const after = addMetadata(before, dataset)
 
     // then
-    expect(after.metadata.dataset).to.have.length(2)
+    expect(after.metadata.dataset).to.have.property('size', 2)
   })
 
   it('updates existing editors', () => {

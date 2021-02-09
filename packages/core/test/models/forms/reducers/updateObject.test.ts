@@ -5,13 +5,14 @@ import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 import { dash } from '@tpluscode/rdf-ns-builders'
+import { RecursivePartial } from '@shaperone/testing'
 import {
   clearValue,
   setDefaultValue,
   setObjectValue,
   setPropertyObjects,
 } from '../../../../models/forms/reducers/updateObject'
-import { RecursivePartial, testObjectState, testStore } from '../util'
+import { testObjectState, testStore } from '../util'
 import { propertyShape } from '../../../util'
 import { Store } from '../../../../state'
 import { FormState } from '../../../../models/forms'

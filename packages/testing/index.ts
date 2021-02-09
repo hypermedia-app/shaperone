@@ -3,9 +3,8 @@ import {
   SingleEditorRenderParams,
   ComponentInstance,
 } from '@hydrofoil/shaperone-core/models/components'
-import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
+import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import type { PropertyShape } from '@rdfine/shacl'
-import * as _sinon from 'sinon'
 import clownface, { GraphPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import { NamedNode } from 'rdf-js'
@@ -15,10 +14,20 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import $rdf from '@rdf-esm/dataset'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import namespace from '@rdf-esm/namespace'
+import { sinon } from './sinon'
+import { objectRenderer } from './renderer'
 
-export const sinon = _sinon
+export { sinon } from './sinon'
 
 export const ex = namespace('http://example.com/')
+
+export type RecursivePartial<T> = {
+  [P in keyof T]?:
+  T[P] extends (infer U)[] ? RecursivePartial<U>[] :
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    T[P] extends object ? RecursivePartial<T[P]> :
+      T[P];
+}
 
 interface EditorTestParams<T> {
   focusNode?: FocusNode
@@ -29,7 +38,9 @@ interface EditorTestParams<T> {
 }
 
 export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
-  const { focusNode, object, property, datatype, componentState } = arg
+  const { object, datatype, componentState } = arg
+
+  const focusNode = arg.focusNode || clownface({ dataset: $rdf.dataset() }).blankNode()
 
   const value: PropertyObjectState<T> = {
     key: nextid(),
@@ -39,6 +50,24 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
     componentState: componentState || {} as T,
   }
 
+  const property: PropertyState = {
+    canAdd: true,
+    canRemove: true,
+    name: 'foo',
+    objects: [value],
+    editors: [],
+    selectedEditor: undefined,
+    shape: propertyShape(object.blankNode(), arg.property),
+    datatype,
+    componentState: {},
+  }
+
+  const renderer = objectRenderer({
+    object: value,
+    property,
+    focusNode,
+  })
+
   return {
     params: {
       form: {
@@ -46,20 +75,11 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
         labelProperties: [rdfs.label],
         shouldEnableEditorChoice: () => true,
       },
-      focusNode: focusNode || clownface({ dataset: $rdf.dataset() }).blankNode(),
-      property: {
-        canAdd: true,
-        canRemove: true,
-        name: 'foo',
-        objects: [value],
-        editors: [],
-        selectedEditor: undefined,
-        shape: propertyShape(object.blankNode(), property),
-        datatype,
-        componentState: {},
-      },
+      focusNode,
+      property,
       value,
       updateComponentState: sinon.spy(),
+      renderer,
     },
     actions: {
       update: sinon.spy(),

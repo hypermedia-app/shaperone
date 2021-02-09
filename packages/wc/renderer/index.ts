@@ -29,6 +29,6 @@ export default <Renderer<TemplateResult>>{
       renderFocusNode,
     }
 
-    return templates.form.call(renderer)
+    return templates.form(renderer)
   },
 }

@@ -4,11 +4,11 @@ import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate } from '@hydrofoil/
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 
 export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {
-  const renderer: FocusNodeTemplate = function (params) {
-    const { actions } = this
+  const renderer: FocusNodeTemplate = function (renderer, params) {
+    const { actions } = renderer
     const { focusNode } = params
 
-    const shapes = focusNode.shapes.length ? focusNode.shapes : this.context.shapes
+    const shapes = focusNode.shapes.length ? focusNode.shapes : renderer.context.shapes
 
     return html`<mwc-list part="focus-node-header">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>
@@ -20,7 +20,7 @@ export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate
       </mwc-list-item>
   </mwc-list>
 
-  ${currentStrategy.call(this, params)}`
+  ${currentStrategy(renderer, params)}`
   }
 
   renderer.loadDependencies = () => {
@@ -35,8 +35,8 @@ export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate
   return renderer
 }
 
-export const property: PropertyTemplate = function (param) {
-  const { actions } = this
+export const property: PropertyTemplate = function (renderer, param) {
+  const { actions } = renderer
   const { property } = param
 
   const menuElement = property.editors.length
@@ -48,7 +48,7 @@ export const property: PropertyTemplate = function (param) {
 
   const editors = () => {
     if (property.selectedEditor) {
-      return html`<mwc-item-lite part="editor">${this.renderMultiEditor()}</mwc-item-lite>`
+      return html`<mwc-item-lite part="editor">${renderer.renderMultiEditor()}</mwc-item-lite>`
     }
 
     const addRow = !property.selectedEditor && property.canAdd
@@ -59,7 +59,7 @@ export const property: PropertyTemplate = function (param) {
       : html``
 
     return html`
-          ${repeat(property.objects, object => this.renderObject({ object }))}
+          ${repeat(property.objects, object => renderer.renderObject({ object }))}
           ${addRow}
         `
   }
@@ -84,9 +84,9 @@ property.styles = css`
     overflow: visible;
   }`
 
-export const object: ObjectTemplate = function (param) {
+export const object: ObjectTemplate = function (renderer, param) {
   const { object } = param
-  const { actions, property } = this
+  const { actions, property } = renderer
 
   function onEditorSelected(e: CustomEvent) {
     actions.selectEditor(e.detail.editor)
@@ -109,7 +109,7 @@ export const object: ObjectTemplate = function (param) {
   }
 
   return html`<mwc-item-lite part="editor" ?has-options="${hasOptions}">
-    ${this.renderEditor()}
+    ${renderer.renderEditor()}
     ${metaSlot}
   </mwc-item-lite>`
 }

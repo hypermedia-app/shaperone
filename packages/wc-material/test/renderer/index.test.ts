@@ -1,41 +1,23 @@
 import { expect, fixture, html } from '@open-wc/testing'
-import { sinon } from '@shaperone/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import ns from '@rdf-esm/namespace'
-import deepmerge from 'deepmerge'
-import { FocusNode } from '@hydrofoil/shaperone-core'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
-import { RecursivePartial, testEditor, testPropertyState, testObjectState } from '@hydrofoil/shaperone-core/test/models/forms/util'
-import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
+import { testEditor, testPropertyState, testObjectState } from '@hydrofoil/shaperone-core/test/models/forms/util'
+import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { List } from '@material/mwc-list/mwc-list'
+import { focusNodeRenderer, objectRenderer, propertyRenderer } from '@shaperone/testing/renderer'
+import { emptyGroupState, testFocusNode } from '@shaperone/testing/models/form'
+import { ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { blankNode } from '@shaperone/testing/nodeFactory'
 import * as render from '../../renderer/index'
 
 const ex = ns('http://example.com/')
 
 describe('wc-material/renderer', () => {
-  type Params = Parameters<ReturnType<typeof render.focusNode>>[0]
-
   describe('focusNode', () => {
     const nullRenderer = () => html``
-    const nullParams = (focusNode: FocusNode): Params => ({
-      shapes: [],
-      focusNode: {
-        properties: [],
-        focusNode,
-        shapes: [],
-        groups: [],
-      },
-      actions: {
-        popFocusNode: sinon.spy(),
-        selectGroup: sinon.spy(),
-        selectShape: sinon.spy(),
-        truncateFocusNodes: sinon.spy(),
-      },
-      renderGroup: sinon.stub().callsFake(() => html``),
-    })
 
     before(async () => {
       await Promise.all(render.focusNode(nullRenderer).loadDependencies?.() || [])
@@ -46,10 +28,12 @@ describe('wc-material/renderer', () => {
       const focusNode = cf({ dataset: $rdf.dataset() })
         .node(ex.Foo)
         .addOut(rdfs.label, 'Foo')
-      const params = nullParams(focusNode)
+      const renderer = focusNodeRenderer({ focusNode })
 
       // when
-      const result = await fixture<List>(render.focusNode(nullRenderer)(params))
+      const result = await fixture<List>(render.focusNode(nullRenderer)(renderer, {
+        focusNode: testFocusNode(focusNode),
+      }))
 
       // then
       expect(result.items[0].hasMeta).to.be.false
@@ -57,35 +41,26 @@ describe('wc-material/renderer', () => {
   })
 
   describe('object', () => {
-    type Params = Parameters<typeof render.object>[0]
-    const nullParams: () => Params = () => {
-      const shapesGraph = cf({ dataset: $rdf.dataset() })
+    let renderer: ObjectRenderer
+    let object: PropertyObjectState
 
-      return ({
-        object: {
-          key: '',
-          object: shapesGraph.blankNode(),
-          editors: [],
-          selectedEditor: undefined,
-          componentState: {},
-        },
-        property: {
-          shape: propertyShape(shapesGraph.blankNode()),
-          editors: [],
-          selectedEditor: undefined,
-          objects: [],
-          name: '',
-          canAdd: false,
-          canRemove: false,
-          componentState: {},
-        },
-        renderEditor: sinon.spy(),
-        actions: {
-          remove: sinon.spy(),
-          selectEditor: sinon.spy(),
-        },
+    beforeEach(() => {
+      const property = testPropertyState(blankNode())
+      const focusNode = testFocusNode(blankNode())
+      object = {
+        key: 'foo',
+        editors: [],
+        object: blankNode(),
+        selectedEditor: undefined,
+        componentState: {},
+      }
+      renderer = objectRenderer({
+        property,
+        focusNode,
+        group: emptyGroupState,
+        object,
       })
-    }
+    })
 
     it('renders a menu when there is more than one editor', async () => {
       // given
@@ -94,18 +69,12 @@ describe('wc-material/renderer', () => {
         meta: {},
         score: null,
       }
-      const params = deepmerge<Params>(nullParams(), {
-        object: {
-          key: 'foo',
-          editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
-          selectedEditor: undefined,
-          componentState: {},
-        },
-      })
+      object.editors = [editor, editor]
 
       // when
-      const result = await fixture(render.object(params))
+      const result = await fixture(render.object(renderer, {
+        object,
+      }))
 
       // then
       expect(result.querySelector('mwc-editor-toggle')).not.to.be.null
@@ -118,19 +87,13 @@ describe('wc-material/renderer', () => {
         meta: {},
         score: null,
       }
-      const params = deepmerge<Params>(nullParams(), {
-        object: {
-          key: 'foo',
-          editorSwitchDisabled: true,
-          editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
-          selectedEditor: undefined,
-          componentState: {},
-        },
-      })
+      object.editorSwitchDisabled = true
+      object.editors = [editor, editor]
 
       // when
-      const result = await fixture(render.object(params))
+      const result = await fixture(render.object(renderer, {
+        object,
+      }))
 
       // then
       expect(result.querySelector('mwc-editor-toggle')).to.be.null
@@ -143,19 +106,11 @@ describe('wc-material/renderer', () => {
         meta: {},
         score: 1,
       }
-      const params = deepmerge<Params>(nullParams(), {
-        object: {
-          key: 'foo',
-          editors: [editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
-          selectedEditor: undefined,
-          componentState: {},
-        },
-      })
-      params.property.canRemove = true
+      object.editors = [editor]
+      renderer.property.canRemove = true
 
       // when
-      const result = await fixture(render.object(params))
+      const result = await fixture(render.object(renderer, { object }))
 
       // then
       expect(result.querySelector('mwc-icon[title="Remove value"]')).not.to.be.null
@@ -168,19 +123,11 @@ describe('wc-material/renderer', () => {
         meta: {},
         score: null,
       }
-      const params = deepmerge<Params>(nullParams(), {
-        object: {
-          key: 'foo',
-          editors: [editor, editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
-          selectedEditor: undefined,
-          componentState: {},
-        },
-      })
-      params.property.canRemove = false
+      object.editors = [editor, editor]
+      renderer.property.canRemove = false
 
       // when
-      const result = await fixture(render.object(params))
+      const result = await fixture(render.object(renderer, { object }))
 
       // then
       expect(result.querySelector('mwc-editor-toggle')).to.have.property('removeEnabled', false)
@@ -193,19 +140,11 @@ describe('wc-material/renderer', () => {
         meta: {},
         score: null,
       }
-      const params = deepmerge<Params>(nullParams(), {
-        object: {
-          key: 'foo',
-          editors: [editor],
-          object: cf({ dataset: $rdf.dataset() }).blankNode(),
-          selectedEditor: undefined,
-          componentState: {},
-        },
-      })
-      params.property.canRemove = false
+      object.editors = [editor]
+      renderer.property.canRemove = false
 
       // when
-      const result = await fixture(render.object(params))
+      const result = await fixture(render.object(renderer, { object }))
 
       // then
       expect(result.querySelector('mwc-icon[title="Remove value"]')).to.be.null
@@ -213,30 +152,24 @@ describe('wc-material/renderer', () => {
   })
 
   describe('property', () => {
-    type Params = Parameters<typeof render.property>[0]
-    const nullParams: (init?: RecursivePartial<PropertyState>) => Params = (init?: RecursivePartial<PropertyState>) => {
-      const pointer = cf({ dataset: $rdf.dataset() }).blankNode()
+    let renderer: PropertyRenderer
+    let property: PropertyState
 
-      return ({
-        property: testPropertyState(pointer, init),
-        renderObject: sinon.spy(),
-        renderMultiEditor: sinon.spy(),
-        actions: {
-          addObject: sinon.spy(),
-          selectMultiEditor: sinon.spy(),
-          selectSingleEditors: sinon.spy(),
-        },
+    beforeEach(() => {
+      property = testPropertyState(blankNode())
+      const focusNode = testFocusNode(blankNode())
+      renderer = propertyRenderer({
+        focusNode,
+        property,
       })
-    }
+    })
 
     it('renders a selection menu when multi editor is available but not selected', async () => {
       // given
-      const params = nullParams({
-        editors: [testEditor(dash.TestEditor1)],
-      })
+      property.editors = [testEditor(dash.TestEditor1)]
 
       // when
-      const result = await fixture(render.property(params))
+      const result = await fixture(render.property(renderer, { property }))
 
       // then
       expect(result.querySelector('mwc-property-menu')).not.to.be.null
@@ -244,26 +177,22 @@ describe('wc-material/renderer', () => {
 
     it('renders multi editor when it is selected', async () => {
       // given
-      const params = nullParams({
-        editors: [testEditor(dash.TestEditor1)],
-        selectedEditor: dash.TestEditor1,
-      })
+      property.editors = [testEditor(dash.TestEditor1)]
+      property.selectedEditor = dash.TestEditor1
 
       // when
-      await fixture(render.property(params))
+      await fixture(render.property(renderer, { property }))
 
       // then
-      expect(params.renderMultiEditor).to.have.been.called
+      expect(renderer.renderMultiEditor).to.have.been.called
     })
 
     it('does not render add row when canAdd=false', async () => {
       // given
-      const params = nullParams({
-        canAdd: false,
-      })
+      property.canAdd = false
 
       // when
-      const result = await fixture(render.property(params))
+      const result = await fixture(render.property(renderer, { property }))
 
       // then
       expect(result.querySelector('mwc-icon')).to.be.null
@@ -272,19 +201,17 @@ describe('wc-material/renderer', () => {
     it('renders every object', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const params = nullParams({
-        objects: [
-          testObjectState(graph.literal('foo')),
-          testObjectState(graph.literal('bar')),
-          testObjectState(graph.literal('baz')),
-        ],
-      })
+      property.objects = [
+        testObjectState(graph.literal('foo')),
+        testObjectState(graph.literal('bar')),
+        testObjectState(graph.literal('baz')),
+      ]
 
       // when
-      await fixture(render.property(params))
+      await fixture(render.property(renderer, { property }))
 
       // then
-      expect(params.renderObject).to.have.been.calledThrice
+      expect(renderer.renderObject).to.have.been.calledThrice
     })
   })
 })

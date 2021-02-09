@@ -8,6 +8,8 @@ import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/sha
 import { BlankNode } from 'rdf-js'
 import { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import promise from 'promise-the-world'
+import { ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { objectRenderer } from '@shaperone/testing/renderer'
 import { instancesSelectEditor } from '../components'
 
 describe('wc-vaadin/components', () => {
@@ -19,22 +21,28 @@ describe('wc-vaadin/components', () => {
         shouldEnableEditorChoice: () => true,
       }
 
-      describe('.init', () => {
-        let focusNode: GraphPointer<BlankNode>
-        let fetchedInstance: GraphPointer
-        let property: PropertyState
-        let value: PropertyObjectState
-        let updateComponentState: UpdateComponentState
+      let renderer: ObjectRenderer
+      let focusNode: GraphPointer<BlankNode>
+      let fetchedInstance: GraphPointer
+      let property: PropertyState
+      let value: PropertyObjectState
+      let updateComponentState: UpdateComponentState
 
-        beforeEach(() => {
-          focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-          property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
-          fetchedInstance = clownface({ dataset: $rdf.dataset() }).node(ex.Foo)
-          value = testObjectState(focusNode.blankNode())
-          value.object = focusNode.node(ex.Foo)
-          updateComponentState = sinon.spy()
+      beforeEach(() => {
+        focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
+        property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+        fetchedInstance = clownface({ dataset: $rdf.dataset() }).node(ex.Foo)
+        value = testObjectState(focusNode.blankNode())
+        value.object = focusNode.node(ex.Foo)
+        updateComponentState = sinon.spy()
+        renderer = objectRenderer({
+          focusNode,
+          property,
+          object: value,
         })
+      })
 
+      describe('.init', () => {
         it('sets loading state', () => {
           // given
           const editor = {
@@ -49,6 +57,7 @@ describe('wc-vaadin/components', () => {
             focusNode,
             property,
             updateComponentState,
+            renderer,
           })
 
           // then
@@ -72,6 +81,7 @@ describe('wc-vaadin/components', () => {
             focusNode,
             property,
             updateComponentState,
+            renderer,
           })
 
           // then
@@ -97,6 +107,7 @@ describe('wc-vaadin/components', () => {
             focusNode,
             property,
             updateComponentState,
+            renderer,
           })
           await deferred
 
@@ -124,6 +135,7 @@ describe('wc-vaadin/components', () => {
             focusNode,
             property,
             updateComponentState: sinon.spy(),
+            renderer,
           })
 
           // then
@@ -155,6 +167,7 @@ describe('wc-vaadin/components', () => {
           focusNode,
           property,
           updateComponentState: sinon.spy(),
+          renderer,
         })
 
         // then
@@ -180,6 +193,7 @@ describe('wc-vaadin/components', () => {
           focusNode,
           property,
           updateComponentState: sinon.spy(),
+          renderer,
         })
 
         // then
