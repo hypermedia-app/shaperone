@@ -1,6 +1,29 @@
 import { FocusNodeRenderer, GroupRenderer } from '@hydrofoil/shaperone-core/renderer'
-import { byGroup, onlySingleProperty } from '@hydrofoil/shaperone-core/lib/filter'
+import { PropertyGroup } from '@rdfine/shacl'
+import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { renderProperty } from './property'
+
+function byGroup(group: PropertyGroup | undefined) {
+  return (property: PropertyState) => {
+    if (!group && !property.shape.group) {
+      return true
+    }
+
+    if (group && property.shape.group) {
+      return group.id.equals(property.shape.group.id)
+    }
+
+    return false
+  }
+}
+
+function onlySingleProperty(property: PropertyState) {
+  if (Array.isArray(property.shape.path)) {
+    return property.shape.path.length === 1
+  }
+
+  return true
+}
 
 export const renderGroup: FocusNodeRenderer['renderGroup'] = function ({ group }) {
   const { dispatch, form, templates } = this.context

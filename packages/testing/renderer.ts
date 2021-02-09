@@ -62,7 +62,7 @@ export const focusNodeRenderer = (arg: TestFocusNode): sinon.SinonStubbedInstanc
 
 type TestGroup = TestFocusNode & Partial<Pick<Renderer.GroupRenderer, 'group'>>
 
-export const groupRenderer = ({ group = emptyGroupState, ...arg }: TestGroup): sinon.SinonStubbedInstance<Renderer.GroupRenderer> => {
+export const groupRenderer = ({ group = emptyGroupState(), ...arg }: TestGroup): sinon.SinonStubbedInstance<Renderer.GroupRenderer> => {
   const focusNode = focusNodeRenderer(arg)
 
   return {

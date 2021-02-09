@@ -22,11 +22,11 @@ interface Initializer {
 
 let num = 0
 
-export const emptyGroupState = {
+export const emptyGroupState = () => ({
   group: undefined,
   order: 1,
   selected: true,
-}
+})
 
 export function testFormState(initializer: Initializer = {}, addToState?: Form.State) {
   num += 1

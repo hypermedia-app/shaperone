@@ -56,7 +56,7 @@ describe('wc-material/renderer', () => {
       renderer = objectRenderer({
         property,
         focusNode,
-        group: emptyGroupState,
+        group: emptyGroupState(),
         object,
       })
     })

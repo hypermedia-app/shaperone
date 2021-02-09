@@ -22,7 +22,7 @@ describe('wc/renderer/editor', () => {
       renderer = propertyRenderer({
         focusNode,
         property,
-        group: emptyGroupState,
+        group: emptyGroupState(),
       })
     })
 
@@ -203,7 +203,7 @@ describe('wc/renderer/editor', () => {
         focusNode,
         property,
         object,
-        group: emptyGroupState,
+        group: emptyGroupState(),
       })
     })
 
