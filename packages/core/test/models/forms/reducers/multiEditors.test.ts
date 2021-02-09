@@ -3,8 +3,8 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
+import { testEditor, testFocusNodeState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form'
 import { selectMultiEditor, selectSingleEditors } from '../../../../models/forms/reducers/multiEditors'
-import { testEditor, testFocusNodeState, testPropertyState, testState } from '../util'
 import { propertyShape } from '../../../util'
 
 describe('core/models/forms/reducers/multiEditors', () => {

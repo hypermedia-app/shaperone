@@ -1,6 +1,6 @@
 import { expect } from '@open-wc/testing'
 import { ex, sinon } from '@shaperone/testing'
-import { testObjectState, testPropertyState } from '@hydrofoil/shaperone-core/test/models/forms/util'
+import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import clownface, { GraphPointer } from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { rdfs, schema, dcterms, hydra } from '@tpluscode/rdf-ns-builders'

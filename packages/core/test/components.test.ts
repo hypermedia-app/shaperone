@@ -7,9 +7,9 @@ import promise from 'promise-the-world'
 import { sinon } from '@shaperone/testing'
 import { BlankNode } from 'rdf-js'
 import { objectRenderer } from '@shaperone/testing/renderer'
+import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import { enumSelect, InstancesSelect, instancesSelect, EnumSelect } from '../components'
 import { propertyShape } from './util'
-import { testObjectState, testPropertyState } from './models/forms/util'
 import { FormSettings, PropertyObjectState, PropertyState } from '../models/forms'
 
 describe('components', () => {

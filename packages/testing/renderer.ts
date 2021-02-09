@@ -3,11 +3,14 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import { RenderContext } from '@hydrofoil/shaperone-core/renderer'
 import { FocusNodeState } from '@hydrofoil/shaperone-core/models/forms'
 import tsSinon from 'ts-sinon'
+import type * as TsSinon from 'ts-sinon'
 import { sinon } from './sinon'
 import { testEditorsState } from './models/editors'
 import { testFocusNodeState, testFormState, emptyGroupState } from './models/form'
 
-const { stubInterface } = tsSinon
+const { stubInterface } = tsSinon as any as {
+  stubInterface: typeof TsSinon.stubInterface
+}
 
 export const formRenderer = (): sinon.SinonStubbedInstance<Renderer.FormRenderer> => {
   const { form, state } = testFormState()

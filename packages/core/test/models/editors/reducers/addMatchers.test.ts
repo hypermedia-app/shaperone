@@ -2,8 +2,8 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import ns from '@rdf-esm/namespace'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
+import { testEditorsState as testState } from '@shaperone/testing/models/editors'
 import { addMatchers } from '../../../../models/editors/reducers/addMatchers'
-import { testState } from '../util'
 
 const ex = ns('http://example.com/')
 

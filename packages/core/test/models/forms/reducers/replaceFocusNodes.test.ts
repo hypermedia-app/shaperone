@@ -3,11 +3,11 @@ import clownface from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import { RecursivePartial } from '@shaperone/testing'
+import { testStore } from '@shaperone/testing/models/form'
 import { createFocusNodeState } from '../../../../models/forms/reducers/replaceFocusNodes'
 import { FormState } from '../../../../models/forms'
 import { Store } from '../../../../state'
 import { FocusNode } from '../../../../index'
-import { testStore } from '../util'
 import { initialiseFocusNode } from '../../../../models/forms/lib/stateBuilder'
 
 describe('models/forms/reducers/replaceFocusNodes', () => {

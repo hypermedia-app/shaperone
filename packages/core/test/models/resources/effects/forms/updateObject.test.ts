@@ -3,9 +3,9 @@ import { AnyPointer } from 'clownface'
 import $rdf from 'rdf-ext'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
+import { testStore } from '@shaperone/testing/models/form'
 import updateObject from '../../../../../models/resources/effects/forms/updateObject'
 import { Store } from '../../../../../state'
-import { testStore } from '../../../forms/util'
 import { propertyShape } from '../../../../util'
 
 describe('models/resources/effects/forms/updateObject', () => {

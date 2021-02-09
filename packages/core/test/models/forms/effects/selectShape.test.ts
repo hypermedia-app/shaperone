@@ -2,11 +2,11 @@ import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'
-import * as sinon from 'sinon'
+import { sinon } from '@shaperone/testing'
 import { NodeShape } from '@rdfine/shacl'
+import { testStore } from '@shaperone/testing/models/form'
 import { selectShape } from '../../../../models/forms/effects/selectShape'
 import { Store } from '../../../../state'
-import { testStore } from '../util'
 
 describe('models/forms/effects/selectShape', () => {
   let store: Store

@@ -4,7 +4,7 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { testFocusNodeState, testPropertyState, testStore } from '../util'
+import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form'
 import { addFormField } from '../../../../models/forms/reducers/addFormField'
 import { propertyShape } from '../../../util'
 

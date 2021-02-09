@@ -5,7 +5,7 @@ import cf from 'clownface'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import ns from '@rdf-esm/namespace'
 import { sinon } from '@shaperone/testing'
-import { testStore } from '../../util'
+import { testStore } from '@shaperone/testing/models/form'
 import setGraph from '../../../../../models/forms/effects/shapes/setGraph'
 import { Store } from '../../../../../state'
 

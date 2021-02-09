@@ -1,10 +1,10 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders'
+import { testEditor } from '@shaperone/testing/models/form'
+import { testEditorsState as testState } from '@shaperone/testing/models/editors'
 import { decorate } from '../../../../models/editors/reducers/decorate'
-import { testEditor } from '../../forms/util'
 import { MatcherDecorator, SingleEditor } from '../../../../models/editors'
-import { testState } from '../util'
 
 describe('core/models/editors/reducers/decorate', () => {
   it('creates decorator array for editor', () => {

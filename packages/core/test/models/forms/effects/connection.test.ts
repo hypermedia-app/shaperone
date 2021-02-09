@@ -2,9 +2,9 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import clownface from 'clownface'
 import * as $rdf from '@rdf-esm/dataset'
+import { testStore } from '@shaperone/testing/models/form'
 import { connect } from '../../../../models/forms/effects/connection'
 import { Store } from '../../../../state'
-import { testStore } from '../util'
 
 describe('models/forms/effects/connect', () => {
   let store: Store
