@@ -13,6 +13,7 @@ import { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
 import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify'
 import { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
 import type { RecursivePartial } from '..'
+import { blankNode } from '../nodeFactory'
 
 interface Initializer {
   singleEditors?: SingleEditor[]
@@ -53,7 +54,7 @@ export function testFocusNodeState(focusNode: FocusNode, initializer: Partial<Fo
   }
 }
 
-export function testFocusNode(focusNode: FocusNode, initializer: Partial<Form.FocusNodeState> = {}) {
+export function testFocusNode(focusNode: FocusNode = blankNode(), initializer: Partial<Form.FocusNodeState> = {}) {
   return testFocusNodeState(focusNode, initializer)[focusNode.value]
 }
 
@@ -64,7 +65,7 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
   }
 }
 
-export function testPropertyState(pointer: ResourceNode, init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
+export function testPropertyState(pointer: ResourceNode = blankNode(), init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
   return deepmerge({
     editors: [],
     shape: fromPointer(pointer),

@@ -1,11 +1,10 @@
 import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { Term } from 'rdf-js'
 import { literal } from '@rdf-esm/data-model'
-import { html } from 'lit-element'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 
 export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function () {
-  const { dispatch, form, components, editors } = this.context
+  const { dispatch, form, components, templates } = this.context
   const { property, focusNode } = this
 
   function update(termsOrStrings : Array<Term | string>) {
@@ -32,21 +31,21 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
 
   const editor = property.selectedEditor
   if (!editor) {
-    return html`No editor found for property`
+    return templates.editor.notFound()
   }
   const component = components.components[editor.value]
   if (!component) {
-    return html`No component found for ${editors.allEditors[editor.value]?.meta?.label || editor.value}`
+    return templates.component.notFound.call(this, editor)
   }
 
   if (!component.render) {
     if (component.loadingFailed) {
-      return html`Failed to load editor`
+      return templates.component.loadingFailed(component.loadingFailed.reason)
     }
     if (!component.loading) {
       dispatch.components.load(editor)
     }
-    return html`Loading editor`
+    return templates.component.loading()
   }
 
   return component.render(
@@ -56,7 +55,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
 }
 
 export const renderEditor: ObjectRenderer['renderEditor'] = function () {
-  const { dispatch, form, state, components, editors } = this.context
+  const { dispatch, form, state, components, templates } = this.context
   const { property, focusNode, object } = this
 
   function update(termOrString: Term | string) {
@@ -109,21 +108,21 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
 
   const editor = object.selectedEditor
   if (!editor) {
-    return html`No editor found for property`
+    return templates.editor.notFound()
   }
   const component = components.components[editor.value]
   if (!component) {
-    return html`No component found for ${editors.allEditors[editor.value]?.meta?.label || editor.value}`
+    return templates.component.notFound.call(this, editor)
   }
 
   if (!component.render) {
     if (component.loadingFailed) {
-      return html`Failed to load editor`
+      return templates.component.loadingFailed(component.loadingFailed.reason)
     }
     if (!component.loading) {
       dispatch.components.load(editor)
     }
-    return html`Loading editor`
+    return templates.component.loading()
   }
   if (component.init) {
     const ready = component.init({
@@ -135,7 +134,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
     })
 
     if (!ready) {
-      return html`Initialising component`
+      return templates.component.initializing()
     }
   }
 

@@ -37,8 +37,8 @@
         {
           "name": "renderer",
           "description": "Gets or sets the renderer implementation",
-          "type": "Renderer",
-          "default": "{}"
+          "type": "Renderer<TemplateResult>",
+          "default": "\"DefaultRenderer\""
         },
         {
           "name": "editors",
