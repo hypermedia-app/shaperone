@@ -4,7 +4,10 @@ import { fixture, expect, html } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
 import { emptyGroupState, testFocusNode, testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash, xsd, sh } from '@tpluscode/rdf-ns-builders'
+import { MultiEditorActions, SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
+import { blankNode, defaultGraph, literal, namedNode } from '@rdf-esm/data-model'
+import { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { renderMultiEditor, renderEditor } from '../../renderer/editor'
 
 describe('wc/renderer/editor', () => {
@@ -20,6 +23,67 @@ describe('wc/renderer/editor', () => {
         focusNode,
         property,
         group: emptyGroupState,
+      })
+    })
+
+    describe('action', () => {
+      let actions: MultiEditorActions
+      let dispatch: sinon.SinonStubbedInstance<Dispatch['forms']>
+
+      beforeEach(async () => {
+        property.selectedEditor = editor
+        const render = sinon.stub().returns(html`Multi editor`)
+        renderer.context.components.components[editor.value] = {
+          editor,
+          loading: false,
+          render,
+        }
+
+        await fixture(html`<div>${renderMultiEditor.call(renderer)}</div>`)
+        actions = render.firstCall.lastArg
+        dispatch = renderer.context.dispatch.forms as any
+      })
+
+      describe('update', () => {
+        it('sets strings as literals typed with property datatype', () => {
+          // given
+          property.datatype = xsd.int
+
+          // when
+          actions.update([
+            'foo',
+            'bar',
+            literal('baz'),
+          ])
+
+          // then
+          const { terms } = dispatch.replaceObjects.firstCall.firstArg
+          expect(terms).to.have.deep.members([
+            literal('foo', xsd.int),
+            literal('bar', xsd.int),
+            literal('baz'),
+          ])
+        })
+
+        it('sets strings as named node when property has nodeKind sh:IRI', () => {
+          // given
+          property.shape.nodeKind = sh.IRI
+
+          // when
+          actions.update([
+            'foo',
+            'bar',
+            literal('baz'),
+          ])
+
+          // then
+          const { terms } = dispatch.replaceObjects.firstCall.firstArg
+          expect(terms).to.have.deep.members([
+            namedNode('foo'),
+            namedNode('bar'),
+            literal('baz'),
+          ])
+        })
       })
     })
 
@@ -140,6 +204,100 @@ describe('wc/renderer/editor', () => {
         property,
         object,
         group: emptyGroupState,
+      })
+    })
+
+    describe('action', () => {
+      let actions: SingleEditorActions
+      let dispatch: sinon.SinonStubbedInstance<Dispatch['forms']>
+
+      beforeEach(async () => {
+        object.selectedEditor = editor
+        const render = sinon.stub().returns(html`Single editor`)
+        renderer.context.components.components[editor.value] = {
+          editor,
+          loading: false,
+          render,
+        }
+
+        await fixture(html`<div>${renderEditor.call(renderer)}</div>`)
+        actions = render.firstCall.lastArg
+        dispatch = renderer.context.dispatch.forms as any
+      })
+
+      describe('update', () => {
+        it('sets string as literal typed with property datatype', () => {
+          // given
+          property.datatype = xsd.int
+
+          // when
+          actions.update('foo')
+
+          // then
+          const { newValue } = dispatch.updateObject.firstCall.firstArg
+          expect(newValue).to.have.deep.eq(literal('foo', xsd.int))
+        })
+
+        it('sets strings as named node when property has nodeKind sh:IRI', () => {
+          // given
+          property.shape.nodeKind = sh.IRI
+
+          // when
+          actions.update('foo')
+
+          // then
+          const { newValue } = dispatch.updateObject.firstCall.firstArg
+          expect(newValue).to.have.deep.eq(namedNode('foo'))
+        })
+      })
+
+      describe('focusOnObjectNode', () => {
+        [namedNode('foo'), blankNode()].forEach((node) => {
+          it(`calls dispatch when object is ${node.termType}`, () => {
+            // given
+            object.object = renderer.focusNode.focusNode.node(node)
+
+            // when
+            actions.focusOnObjectNode()
+
+            // then
+            expect(dispatch.pushFocusNode).to.have.been.called
+            expect(dispatch.pushFocusNode.firstCall.firstArg.focusNode.term).to.deep.eq(object.object.term)
+          })
+        });
+
+        [literal('foo'), defaultGraph()].forEach((node) => {
+          it(`does not call dispatch when object is ${node.termType}`, () => {
+            // given
+            object.object = renderer.focusNode.focusNode.node(node)
+
+            // when
+            actions.focusOnObjectNode()
+
+            // then
+            expect(dispatch.pushFocusNode).not.to.have.been.called
+          })
+        })
+      })
+
+      describe('remove', () => {
+        it('calls dispatch', () => {
+          // when
+          actions.remove()
+
+          // then
+          expect(dispatch.removeObject).to.have.been.called
+        })
+      })
+
+      describe('clear', () => {
+        it('calls dispatch', () => {
+          // when
+          actions.clear()
+
+          // then
+          expect(dispatch.clearValue).to.have.been.called
+        })
       })
     })
 

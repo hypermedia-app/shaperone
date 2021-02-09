@@ -1,6 +1,5 @@
 import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { Term } from 'rdf-js'
-import { literal } from '@rdf-esm/data-model'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 
 export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function () {
@@ -9,7 +8,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
 
   function update(termsOrStrings : Array<Term | string>) {
     const terms = termsOrStrings.map(termOrString => (typeof termOrString === 'string'
-      ? literal(termOrString, property.datatype)
+      ? createTerm(property, termOrString)
       : termOrString))
 
     dispatch.forms.replaceObjects({
