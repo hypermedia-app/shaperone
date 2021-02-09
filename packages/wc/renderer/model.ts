@@ -1,13 +1,15 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { CSSResult, CSSResultArray } from 'lit-element'
 import { css } from 'lit-element'
+import deepmerge from 'concat-merge'
+import type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial'
 import { templates, RenderTemplates } from '../templates'
 import type { State } from '../store'
 
 export interface RendererState {
   templates: RenderTemplates
   styles: CSSResult
-  ready: boolean
+  ready?: boolean
 }
 
 function styleReducer(reduced: CSSResult, styles: CSSResult | CSSResultArray | undefined): CSSResult {
@@ -38,8 +40,8 @@ export const renderer = createModel({
         ready: true,
       }
     },
-    setStrategy(state, newTemplates: Partial<RenderTemplates>): RendererState {
-      const templates = { ...state.templates, ...newTemplates }
+    setTemplates(state, newTemplates: RecursivePartial<RenderTemplates>): RendererState {
+      const templates = deepmerge(state.templates, newTemplates)
 
       return {
         ...state,

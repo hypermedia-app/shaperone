@@ -51,7 +51,7 @@ export const configureRenderer = (() => {
     focusNode: MaterialRenderStrategy.focusNode(templates.focusNode),
   }
 
-  renderer.setStrategy(initialStrategy)
+  renderer.setTemplates(initialStrategy)
 
   let previousNesting: RendererState['nesting']
   let previousGrouping: RendererState['grouping']
@@ -65,7 +65,7 @@ export const configureRenderer = (() => {
         const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer')
         const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components')
 
-        renderer.setStrategy({
+        renderer.setTemplates({
           form: topmostFocusNodeFormRenderer(initialStrategy.form),
         })
         components.pushComponents(nestingComponents)
@@ -73,7 +73,7 @@ export const configureRenderer = (() => {
         const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/InlineNestedShapes')
         components.pushComponents(nestingComponents)
       } else {
-        renderer.setStrategy({ form: initialStrategy.form })
+        renderer.setTemplates({ form: initialStrategy.form })
         components.removeComponents([dash.DetailsEditor])
       }
     },
@@ -105,7 +105,7 @@ export const configureRenderer = (() => {
         strategy.focusNode = MaterialRenderStrategy.focusNode(TabsFocusNodeRenderer)
       }
 
-      renderer.setStrategy(strategy)
+      renderer.setTemplates(strategy)
     },
   }
 })()

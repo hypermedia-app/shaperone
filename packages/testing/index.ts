@@ -18,16 +18,9 @@ import { sinon } from './sinon'
 import { objectRenderer } from './renderer'
 
 export { sinon } from './sinon'
+export type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial'
 
 export const ex = namespace('http://example.com/')
-
-export type RecursivePartial<T> = {
-  [P in keyof T]?:
-  T[P] extends (infer U)[] ? RecursivePartial<U>[] :
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    T[P] extends object ? RecursivePartial<T[P]> :
-      T[P];
-}
 
 interface EditorTestParams<T> {
   focusNode?: FocusNode
