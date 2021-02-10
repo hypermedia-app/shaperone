@@ -126,7 +126,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   if (component.init) {
     const ready = component.init({
       form: state,
-      focusNode,
+      focusNode: focusNode.focusNode,
       property,
       updateComponentState,
       value: object,
