@@ -68,6 +68,21 @@ function getMembers(response: HydraResponse<DatasetCore, RdfResourceCore>) {
   return []
 }
 
+const pendingRequests = new Map<string, Promise<any>>()
+function load(client: Pick<HydraClient, 'loadResource'>, uri: string) {
+  let request = pendingRequests.get(uri)
+  if (request) {
+    return request
+  }
+
+  request = client.loadResource(uri).then((response) => {
+    pendingRequests.delete(uri)
+    return response
+  })
+  pendingRequests.set(uri, request)
+  return request
+}
+
 /**
  * Creates a component decorator which overrides the base functionality by dereferencing remote Hydra Collection
  * resources for properties annotated with `hydra:collection` or `hydra:search`
@@ -120,7 +135,7 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
         const collectionId = args.property.shape.get(hydra.collection)?.id
         if (collectionId && collectionId.termType === 'NamedNode') {
           const alcaeus = await getClient(client)
-          const response = await alcaeus.loadResource(collectionId)
+          const response = await load(alcaeus, collectionId.value)
           return getMembers(response)
         }
 
@@ -128,7 +143,7 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
         if (searchTemplate) {
           const alcaeus = await getClient(client)
           const searchUri = searchTemplate.expand(args.focusNode)
-          const response = await alcaeus.loadResource(searchUri)
+          const response = await load(alcaeus, searchUri)
           args.updateComponentState({
             searchUri,
           })
