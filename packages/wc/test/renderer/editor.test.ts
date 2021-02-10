@@ -404,6 +404,9 @@ describe('wc/renderer/editor', () => {
       expect(render).not.to.have.been.called
       expect(init).to.have.been.calledWith(sinon.match({
         renderer,
+        focusNode: sinon.match({
+          term: sinon.match.object,
+        }),
       }))
       expect(result.textContent).to.equal('Preparing')
     })

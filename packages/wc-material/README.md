@@ -49,10 +49,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Type                                             |
-|------------|------------|--------------------------------------------------|
-| `selected` | `selected` | `NodeShape<DatasetCore<Quad, Quad>> \| undefined` |
-| `shapes`   | `shapes`   | `NodeShape<DatasetCore<Quad, Quad>>[] \| undefined` |
+| Property   | Attribute  | Type                                            |
+|------------|------------|-------------------------------------------------|
+| `selected` | `selected` | `Shape<DatasetCore<Quad, Quad>> \| undefined`   |
+| `shapes`   | `shapes`   | `Shape<DatasetCore<Quad, Quad>>[] \| undefined` |
 
 ## Methods
 
@@ -64,7 +64,7 @@
 
 | Event            | Type                                             |
 |------------------|--------------------------------------------------|
-| `shape-selected` | `CustomEvent<{ value: NodeShape<DatasetCore<Quad, Quad>>; }>` |
+| `shape-selected` | `CustomEvent<{ value: Shape<DatasetCore<Quad, Quad>>; }>` |
 
 
 # wc-menu
