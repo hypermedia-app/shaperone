@@ -3,10 +3,10 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { dash, schema, sh } from '@tpluscode/rdf-ns-builders'
-import { Store } from '../../../../state'
-import { testStore, testFocusNodeState, testPropertyState } from '../util'
-import { updateObject } from '../../../../models/forms/effects/updateObject'
+import { testStore, testFocusNodeState, testPropertyState } from '@shaperone/testing/models/form'
 import { nodeShape, propertyShape } from '../../../util'
+import { Store } from '../../../../state'
+import { updateObject } from '../../../../models/forms/effects/updateObject'
 
 describe('models/forms/effects/updateObject', () => {
   let store: Store

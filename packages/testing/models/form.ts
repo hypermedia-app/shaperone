@@ -5,21 +5,15 @@ import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import clownface from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
-import * as Form from '../../../models/forms/index'
-import { ResourceState } from '../../../models/resources/index'
-import { MultiEditor, SingleEditor } from '../../../models/editors/index'
-import { FocusNode } from '../../../index'
-import { Dispatch, State, Store } from '../../../state'
-import { ChangeNotifier } from '../../../models/resources/lib/notify'
-import { ShapeState } from '../../../models/shapes'
-
-export type RecursivePartial<T> = {
-  [P in keyof T]?:
-  T[P] extends (infer U)[] ? RecursivePartial<U>[] :
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    T[P] extends object ? RecursivePartial<T[P]> :
-      T[P];
-};
+import * as Form from '@hydrofoil/shaperone-core/models/forms'
+import { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
+import { MultiEditor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
+import { FocusNode } from '@hydrofoil/shaperone-core'
+import { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
+import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify'
+import { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
+import type { RecursivePartial } from '..'
+import { blankNode } from '../nodeFactory'
 
 interface Initializer {
   singleEditors?: SingleEditor[]
@@ -28,7 +22,13 @@ interface Initializer {
 
 let num = 0
 
-export function testState(initializer: Initializer = {}, addToState?: Form.State) {
+export const emptyGroupState = () => ({
+  group: undefined,
+  order: 1,
+  selected: true,
+})
+
+export function testFormState(initializer: Initializer = {}, addToState?: Form.State) {
   num += 1
   const form = Symbol(num)
 
@@ -54,6 +54,10 @@ export function testFocusNodeState(focusNode: FocusNode, initializer: Partial<Fo
   }
 }
 
+export function testFocusNode(focusNode: FocusNode = blankNode(), initializer: Partial<Form.FocusNodeState> = {}) {
+  return testFocusNodeState(focusNode, initializer)[focusNode.value]
+}
+
 export function testEditor(term: MultiEditor['term']): MultiEditor {
   return {
     term,
@@ -61,7 +65,7 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
   }
 }
 
-export function testPropertyState(pointer: ResourceNode, init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
+export function testPropertyState(pointer: ResourceNode = blankNode(), init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
   return deepmerge({
     editors: [],
     shape: fromPointer(pointer),
@@ -102,7 +106,7 @@ const spyHandler: ProxyHandler<any> = {
 }
 
 export function testStore(): { form: symbol; store: Store } {
-  const { form, state: forms } = testState()
+  const { form, state: forms } = testFormState()
   const dispatch = {
     forms: new Proxy({}, spyHandler),
     shapes: new Proxy({}, spyHandler),

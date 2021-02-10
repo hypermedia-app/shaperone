@@ -1,10 +1,10 @@
 import type { AnyPointer } from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@rdf-esm/dataset'
 import clownface from 'clownface'
 import * as sinon from 'sinon'
-import { matchMultiEditors, matchSingleEditors } from 'packages/core/models/editors/lib/match'
-import { EditorsState, MultiEditor, SingleEditor, MatcherDecorator, Editor } from '../../../models/editors/index'
-import { RecursivePartial } from '../forms/util'
+import { matchMultiEditors, matchSingleEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match'
+import { EditorsState, MultiEditor, SingleEditor, MatcherDecorator, Editor } from '@hydrofoil/shaperone-core/models/editors'
+import type { RecursivePartial } from '..'
 
 interface Initializer {
   metadata?: (metadata: AnyPointer) => AnyPointer
@@ -31,7 +31,7 @@ function mapDecorators(decorators: Record<string, MatcherDecorator[]>, decorator
   return decorators
 }
 
-export function testState({
+export function testEditorsState({
   metadata = p => p,
   matchSingleEditors = () => [],
   matchMultiEditors = () => [],

@@ -6,9 +6,10 @@ import clownface, { GraphPointer } from 'clownface'
 import promise from 'promise-the-world'
 import { sinon } from '@shaperone/testing'
 import { BlankNode } from 'rdf-js'
+import { objectRenderer } from '@shaperone/testing/renderer'
+import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import { enumSelect, InstancesSelect, instancesSelect, EnumSelect } from '../components'
 import { propertyShape } from './util'
-import { testObjectState, testPropertyState } from './models/forms/util'
 import { FormSettings, PropertyObjectState, PropertyState } from '../models/forms'
 
 describe('components', () => {
@@ -85,6 +86,11 @@ describe('components', () => {
             instances.node(schema.Organization).addOut(rdfs.label, 'Org'),
           ]
         }
+        const renderer = objectRenderer({
+          focusNode,
+          property,
+          object: value,
+        })
 
         // when
         enumSelect.init?.({
@@ -93,6 +99,7 @@ describe('components', () => {
           updateComponentState,
           focusNode,
           property,
+          renderer,
         })
         await deferred
 
@@ -235,6 +242,11 @@ describe('components', () => {
             instances.node(schema.Organization).addOut(rdfs.label, 'Org'),
           ]
         }
+        const renderer = objectRenderer({
+          focusNode,
+          property,
+          object: value,
+        })
 
         // when
         instancesSelect.init?.({
@@ -243,6 +255,7 @@ describe('components', () => {
           updateComponentState,
           focusNode,
           property,
+          renderer,
         })
         await deferred
 

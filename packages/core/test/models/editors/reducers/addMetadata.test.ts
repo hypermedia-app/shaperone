@@ -4,8 +4,8 @@ import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
 import { quad, literal } from '@rdf-esm/data-model'
 import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
+import { testEditorsState as testState } from '@shaperone/testing/models/editors'
 import { addMetadata } from '../../../../models/editors/reducers/addMetadata'
-import { testState } from '../util'
 
 const ex = ns('http://example.com/')
 
@@ -25,7 +25,7 @@ describe('core/models/editors/reducers/addMetadata', () => {
     const after = addMetadata(before, dataset)
 
     // then
-    expect(after.metadata.dataset).to.have.length(2)
+    expect(after.metadata.dataset).to.have.property('size', 2)
   })
 
   it('updates existing editors', () => {

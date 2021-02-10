@@ -7,10 +7,11 @@ import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer } from 'clownface'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
+import { TemplateResult } from 'lit-html'
+import { Renderer } from '@hydrofoil/shaperone-core/renderer'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
-import type { Renderer } from './renderer'
-import { DefaultRenderer } from './DefaultRenderer'
+import DefaultRenderer from './renderer'
 import * as NativeComponents from './NativeComponents'
 
 store().dispatch.components.pushComponents(NativeComponents)
@@ -80,7 +81,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   /**
    * Gets or sets the renderer implementation
    */
-  renderer: Renderer = DefaultRenderer
+  renderer: Renderer<TemplateResult> = DefaultRenderer
 
   @property({ type: Array })
   private [shapes]: NodeShape[] = []
@@ -204,7 +205,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     if (!this.rendererOptions.ready) {
       store().dispatch.renderer.loadDependencies()
 
-      return this.rendererOptions.strategy.initialising()
+      return this.rendererOptions.templates.initialising()
     }
 
     return html`<style>${this.rendererOptions.styles}</style> ${this.renderer.render({
@@ -212,8 +213,8 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       editors: this.editors,
       state: this.state,
       components: this.components,
-      actions: store().dispatch,
-      strategy: this.rendererOptions.strategy,
+      dispatch: store().dispatch,
+      templates: this.rendererOptions.templates,
       shapes: this[shapes],
     })}`
   }

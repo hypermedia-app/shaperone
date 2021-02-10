@@ -8,7 +8,7 @@ import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/Des
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import { components, editors, renderer } from '@hydrofoil/shaperone-wc/configure'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer/DefaultStrategy'
+import { templates } from '@hydrofoil/shaperone-wc/templates'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
 import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
 import { ComponentsState } from './state/models/components'
@@ -46,12 +46,12 @@ export const selectComponents = (() => {
 
 export const configureRenderer = (() => {
   const initialStrategy = {
-    ...DefaultStrategy,
+    ...templates,
     ...MaterialRenderStrategy,
-    focusNode: MaterialRenderStrategy.focusNode(DefaultStrategy.focusNode),
+    focusNode: MaterialRenderStrategy.focusNode(templates.focusNode),
   }
 
-  renderer.setStrategy(initialStrategy)
+  renderer.setTemplates(initialStrategy)
 
   let previousNesting: RendererState['nesting']
   let previousGrouping: RendererState['grouping']
@@ -65,12 +65,15 @@ export const configureRenderer = (() => {
         const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer')
         const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components')
 
-        renderer.setStrategy({
-          form: topmostFocusNodeFormRenderer,
+        renderer.setTemplates({
+          form: topmostFocusNodeFormRenderer(initialStrategy.form),
         })
         components.pushComponents(nestingComponents)
+      } else if (nesting === 'inline') {
+        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/InlineNestedShapes')
+        components.pushComponents(nestingComponents)
       } else {
-        renderer.setStrategy({ form: initialStrategy.form })
+        renderer.setTemplates({ form: initialStrategy.form })
         components.removeComponents([dash.DetailsEditor])
       }
     },
@@ -102,7 +105,7 @@ export const configureRenderer = (() => {
         strategy.focusNode = MaterialRenderStrategy.focusNode(TabsFocusNodeRenderer)
       }
 
-      renderer.setStrategy(strategy)
+      renderer.setTemplates(strategy)
     },
   }
 })()

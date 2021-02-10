@@ -3,9 +3,9 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
-import * as sinon from 'sinon'
+import { sinon } from '@shaperone/testing'
+import { testStore } from '@shaperone/testing/models/form'
 import setRoot from '../../../../../models/forms/effects/resources/setRoot'
-import { testStore } from '../../util'
 import type { Store } from '../../../../../state'
 
 const ex = ns('http://example.com/')

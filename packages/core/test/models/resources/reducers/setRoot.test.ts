@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import cf from 'clownface'
 import ns from '@rdf-esm/namespace'
-import { testStore } from '../../forms/util'
+import { testStore } from '@shaperone/testing/models/form'
 import { setRoot } from '../../../../models/resources/reducers/setRoot'
 
 const ex = ns('http://example.com/')

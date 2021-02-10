@@ -10,6 +10,7 @@ import reducers from './reducers'
 import type { FormSettings, PropertyObjectState, PropertyState } from '../forms/index'
 import type { Store } from '../../state'
 import type { FocusNode } from '../../index'
+import type { ObjectRenderer, PropertyRenderer } from '../../renderer'
 
 export interface ComponentInstance extends Record<string, any> {
   ready?: boolean
@@ -28,10 +29,12 @@ export interface RenderParams<T extends ComponentInstance = ComponentInstance> {
 
 export interface SingleEditorRenderParams<T extends ComponentInstance = ComponentInstance> extends RenderParams<T> {
   value: PropertyObjectState<T>
+  renderer: ObjectRenderer
 }
 
 export interface MultiEditorRenderParams<T extends ComponentInstance = ComponentInstance> extends RenderParams<T> {
   componentState: T
+  renderer: PropertyRenderer
 }
 
 export interface SingleEditorActions {

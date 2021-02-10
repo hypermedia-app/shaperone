@@ -3,8 +3,8 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
+import { testFormState as testState, testFocusNodeState } from '@shaperone/testing/models/form'
 import { popFocusNode } from '../../../../models/forms/reducers/popFocusNode'
-import { testState, testFocusNodeState } from '../util'
 
 const ex = ns('http://example.com/')
 

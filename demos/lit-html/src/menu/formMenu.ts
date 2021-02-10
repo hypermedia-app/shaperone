@@ -45,12 +45,17 @@ function rendererMenu(renderer: RendererState): Menu[] {
       children: [{
         text: 'Disabled',
         checked: renderer.nesting === 'none',
-        id: 'none' as RendererState['nesting'],
+        id: 'none',
         type: 'renderer',
       }, {
         text: 'Always one',
         checked: renderer.nesting === 'always one',
-        id: 'always one' as RendererState['nesting'],
+        id: 'always one',
+        type: 'renderer',
+      }, {
+        text: 'Nested',
+        checked: renderer.nesting === 'inline',
+        id: 'inline',
         type: 'renderer',
       }],
     }]

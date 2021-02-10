@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
+import { testStore } from '@shaperone/testing/models/form'
 import { Store } from '../../../../state'
-import { testStore } from '../../forms/util'
 import { loadDash } from '../../../../models/editors/effects'
 
 describe('models/editors/effects/loadDash', () => {

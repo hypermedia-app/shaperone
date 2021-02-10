@@ -1,18 +1,17 @@
-import { FormRenderStrategy, defaultFormRenderer } from '@hydrofoil/shaperone-wc/lib/renderer'
+import { FormTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html, css } from '@hydrofoil/shaperone-wc'
 
-export const topmostFocusNodeFormRenderer: FormRenderStrategy = (params) => {
-  const { focusStack } = params.form
+export const topmostFocusNodeFormRenderer = (form: FormTemplate): FormTemplate => {
+  const formTemplate: FormTemplate = function (renderer) {
+    let backButton = html``
+    if (renderer.context.state.focusStack.length > 1) {
+      backButton = html`<a class="form-back-button" href="javascript:void(0)" @click="${renderer.actions.popFocusNode}">back</a>`
+    }
 
-  let backButton = html``
-  if (focusStack.length > 1) {
-    backButton = html`<a class="form-back-button" href="javascript:void(0)" @click="${params.actions.popFocusNode}">back</a>`
+    return html`${backButton}${form(renderer)}`
   }
 
-  return html`${backButton}${defaultFormRenderer(params)}`
-}
-
-topmostFocusNodeFormRenderer.styles = css`.form-back-button {
+  formTemplate.styles = css`.form-back-button {
     display: block;
     width: 115px;
     height: 25px;
@@ -24,3 +23,6 @@ topmostFocusNodeFormRenderer.styles = css`.form-back-button {
     font-weight: bold;
     line-height: 25px;
 }`
+
+  return formTemplate
+}

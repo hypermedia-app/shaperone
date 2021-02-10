@@ -4,8 +4,8 @@ import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
 import { fromPointer } from '@rdfine/shacl/lib/PropertyGroup'
 import $rdf from 'rdf-ext'
+import { testFocusNodeState, testFormState as testState } from '@shaperone/testing/models/form'
 import { selectGroup } from '../../../../models/forms/reducers/selectGroup'
-import { testFocusNodeState, testState } from '../util'
 
 const ex = ns('http://example.com/')
 

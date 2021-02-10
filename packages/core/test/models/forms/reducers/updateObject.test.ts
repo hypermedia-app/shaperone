@@ -3,15 +3,15 @@ import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'
-import * as sinon from 'sinon'
 import { dash } from '@tpluscode/rdf-ns-builders'
+import { RecursivePartial, sinon } from '@shaperone/testing'
+import { testObjectState, testStore } from '@shaperone/testing/models/form'
 import {
   clearValue,
   setDefaultValue,
   setObjectValue,
   setPropertyObjects,
 } from '../../../../models/forms/reducers/updateObject'
-import { RecursivePartial, testObjectState, testStore } from '../util'
 import { propertyShape } from '../../../util'
 import { Store } from '../../../../state'
 import { FormState } from '../../../../models/forms'

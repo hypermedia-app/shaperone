@@ -31,17 +31,17 @@ Check the main documentation page for instructions on customizing the form's ren
 
 ## Properties
 
-| Property           | Attribute            | Modifiers | Type                                             | Default | Description                                      |
-|--------------------|----------------------|-----------|--------------------------------------------------|---------|--------------------------------------------------|
-| `components`       | `components`         | readonly  | `ComponentsState`                                |         | Gets the state of the editor components          |
-| `editors`          | `editors`            | readonly  | `EditorsState`                                   |         | Gets the state of the DASH editors model         |
-| `noEditorSwitches` | `no-editor-switches` |           | `boolean`                                        | false   | Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered |
-| `renderer`         |                      |           | `Renderer`                                       | {}      | Gets or sets the renderer implementation         |
-| `rendererOptions`  | `rendererOptions`    | readonly  | `RendererState`                                  |         | Gets the state of the renderer                   |
-| `resource`         |                      |           | `GraphPointer<BlankNode \| NamedNode<string>, DatasetCore<Quad, Quad>> \| undefined` |         | Gets or sets the resource graph as graph pointer |
-| `shapes`           |                      |           | `DatasetCore<Quad, Quad> \| AnyPointer<AnyContext, DatasetCore<Quad, Quad>> \| undefined` |         | Gets or sets the shapes graph                    |
-| `state`            | `state`              |           | `FormState`                                      |         | Gets the internal state of the form element      |
-| `value`            |                      | readonly  | `RdfResource<DatasetCore<Quad, Quad>> \| null`   |         | Gets the resource as a [rdfine](https://npm.im/@tpluscode/rdfine) object |
+| Property           | Attribute            | Modifiers | Type                                             | Default           | Description                                      |
+|--------------------|----------------------|-----------|--------------------------------------------------|-------------------|--------------------------------------------------|
+| `components`       | `components`         | readonly  | `ComponentsState`                                |                   | Gets the state of the editor components          |
+| `editors`          | `editors`            | readonly  | `EditorsState`                                   |                   | Gets the state of the DASH editors model         |
+| `noEditorSwitches` | `no-editor-switches` |           | `boolean`                                        | false             | Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered |
+| `renderer`         |                      |           | `Renderer<TemplateResult>`                       | "DefaultRenderer" | Gets or sets the renderer implementation         |
+| `rendererOptions`  | `rendererOptions`    | readonly  | `RendererState`                                  |                   | Gets the state of the renderer                   |
+| `resource`         |                      |           | `GraphPointer<BlankNode \| NamedNode<string>, DatasetCore<Quad, Quad>> \| undefined` |                   | Gets or sets the resource graph as graph pointer |
+| `shapes`           |                      |           | `DatasetCore<Quad, Quad> \| AnyPointer<AnyContext, DatasetCore<Quad, Quad>> \| undefined` |                   | Gets or sets the shapes graph                    |
+| `state`            | `state`              |           | `FormState`                                      |                   | Gets the internal state of the form element      |
+| `value`            |                      | readonly  | `RdfResource<DatasetCore<Quad, Quad>> \| null`   |                   | Gets the resource as a [rdfine](https://npm.im/@tpluscode/rdfine) object |
 
 ## Methods
 
