@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.5
+
+### Patch Changes
+
+- 1a02b63: Allow selecting shape when rendering focus node
+
 ## 0.6.4
 
 ### Patch Changes

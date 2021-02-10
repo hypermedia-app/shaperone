@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc
 
+## 0.4.1
+
+### Patch Changes
+
+- 1a02b63: Allow selecting shape when rendering focus node
+- a66d4d6: Pass correct focusNode object to component init
+- Updated dependencies [1a02b63]
+  - @hydrofoil/shaperone-core@0.6.5
+
 ## 0.4.0
 
 ### Minor Changes
