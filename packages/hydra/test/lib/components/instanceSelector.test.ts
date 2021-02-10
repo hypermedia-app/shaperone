@@ -264,6 +264,48 @@ describe('hydra/lib/components/instancesSelector', () => {
           expect(instance.value).to.match(/Item\d$/)
         }
       })
+
+      it('dedupes simultaneous loading of same resource', async () => {
+        // given
+        const property = hydraCollectionProperty()
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        decorated.loadChoices({
+          focusNode,
+          property,
+        } as any)
+        await decorated.loadChoices({
+          focusNode,
+          property,
+        } as any)
+
+        // then
+        expect(client.loadResource).to.have.been.calledOnce
+      })
+
+      it('repeats resource call when previous load finished', async () => {
+        // given
+        const property = hydraCollectionProperty()
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+        } as any)
+        await decorated.loadChoices({
+          focusNode,
+          property,
+        } as any)
+
+        // then
+        expect(client.loadResource).to.have.been.calledTwice
+      })
     })
   })
 })
