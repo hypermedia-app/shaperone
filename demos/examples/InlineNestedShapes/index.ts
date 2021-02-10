@@ -10,11 +10,11 @@ function isFocusNode(value?: GraphPointer): value is FocusNode {
 export const nestedForm: SingleEditorComponent = {
   editor: dash.DetailsEditor,
 
-  render({ value, renderer }) {
+  render({ value, renderer, property: { shape: { node } } }) {
     const focusNode = value.object
 
     if (isFocusNode(focusNode)) {
-      return renderer.renderFocusNode({ focusNode })
+      return renderer.renderFocusNode({ focusNode, shape: node })
     }
 
     return html``

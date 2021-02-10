@@ -94,23 +94,23 @@
       "attributes": [
         {
           "name": "shapes",
-          "type": "Shape<DatasetCore<Quad, Quad>>[] | undefined"
+          "type": "NodeShape<DatasetCore<Quad, Quad>>[] | undefined"
         },
         {
           "name": "selected",
-          "type": "Shape<DatasetCore<Quad, Quad>> | undefined"
+          "type": "NodeShape<DatasetCore<Quad, Quad>> | undefined"
         }
       ],
       "properties": [
         {
           "name": "shapes",
           "attribute": "shapes",
-          "type": "Shape<DatasetCore<Quad, Quad>>[] | undefined"
+          "type": "NodeShape<DatasetCore<Quad, Quad>>[] | undefined"
         },
         {
           "name": "selected",
           "attribute": "selected",
-          "type": "Shape<DatasetCore<Quad, Quad>> | undefined"
+          "type": "NodeShape<DatasetCore<Quad, Quad>> | undefined"
         }
       ],
       "events": [

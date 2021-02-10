@@ -3,7 +3,7 @@ import { TemplateResult } from 'lit-element'
 import { NodeShape, PropertyGroup } from '@rdfine/shacl'
 import { renderGroup } from './group'
 
-export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focusNode }): TemplateResult {
+export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focusNode, shape }): TemplateResult {
   const { dispatch, form, templates, state } = this.context
 
   const focusNodeState = state.focusNodes[focusNode.value]
@@ -12,6 +12,7 @@ export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focu
       ...this.context,
       ...this.context.state,
       focusNode,
+      shape,
     })
     return templates.initialising()
   }
