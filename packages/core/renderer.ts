@@ -25,7 +25,7 @@ export interface FormRenderActions {
 export interface FormRenderer<TemplateResult = any> {
   context: RenderContext
   actions: FormRenderActions
-  renderFocusNode(this: FormRenderer<TemplateResult>, args: { focusNode: FocusNode }): TemplateResult
+  renderFocusNode(this: FormRenderer<TemplateResult>, args: { focusNode: FocusNode; shape?: NodeShape }): TemplateResult
 }
 
 export interface FocusNodeActions {
