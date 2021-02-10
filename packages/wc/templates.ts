@@ -3,6 +3,7 @@ import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/s
 import { repeat } from 'lit-html/directives/repeat'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { NamedNode } from 'rdf-js'
+import type { GraphPointer } from 'clownface'
 
 export interface RenderTemplate {
   styles?: CSSResult | CSSResultArray
@@ -31,6 +32,7 @@ export interface ObjectTemplate extends RenderTemplate {
 
 export interface EditorTemplates {
   notFound(): TemplateResult
+  label(this: FormRenderer, editor: NamedNode): string
 }
 
 export interface ComponentTemplates {
@@ -38,6 +40,10 @@ export interface ComponentTemplates {
   loading(): TemplateResult
   loadingFailed(reason: string): TemplateResult
   initializing(): TemplateResult
+}
+
+interface MetaTemplates {
+  label(this: FormRenderer, term: GraphPointer | undefined, fallback?: string): string
 }
 
 export interface RenderTemplates {
@@ -49,17 +55,29 @@ export interface RenderTemplates {
   object: ObjectTemplate
   editor: EditorTemplates
   component: ComponentTemplates
+  meta: MetaTemplates
 }
 
 export const templates: RenderTemplates = {
+  meta: {
+    label(this: FormRenderer, term: GraphPointer | undefined): string {
+      const { labelProperties, languages } = this.context.state
+
+      return term?.out(labelProperties, { language: [...languages, ''] }).values[0] || term?.value || 'no label'
+    },
+  },
   editor: {
     notFound: () => html`No editor found for property`,
+    label(this: FormRenderer, editor: NamedNode) {
+      const ptr = this.context.editors.metadata.node(editor)
+      return this.context.templates.meta.label.call(this, ptr)
+    },
   },
   component: {
     notFound(this: PropertyRenderer, editor: NamedNode) {
-      const { editors } = this.context
+      const { templates, editors: { metadata } } = this.context
 
-      return html`No component found for ${editors.allEditors[editor.value]?.meta?.label || editor.value}`
+      return html`No component found for ${templates.meta.label.call(this, metadata.node(editor)) || editor.value}`
     },
     loading() {
       return html`Loading editor`
@@ -91,8 +109,10 @@ export const templates: RenderTemplates = {
     return html`${repeat(properties, property => renderer.renderProperty({ property }))}`
   },
   property(renderer, { property }): TemplateResult {
+    const label = this.meta.label.call(renderer, property.shape.pointer)
+
     return html`${repeat(property.objects, object => html`<div class="field">
-    <label for="${property.shape.id.value}">${property.name}</label>
+    <label for="${property.shape.id.value}">${label}</label>
     ${renderer.renderObject({ object })}</div>`)}`
   },
   object(renderer): TemplateResult {

@@ -184,7 +184,6 @@ describe('core/models/forms/reducers/addObject', () => {
       matchedEditors: [{
         term: dash.TextFieldEditor,
         score: 10,
-        meta: {} as any,
       }],
       editors,
     })

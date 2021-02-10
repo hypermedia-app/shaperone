@@ -24,6 +24,8 @@ type CollectionDataProvider = ComboBoxDataProvider & {
 }
 
 function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEditorRenderParams<InstancesSelect>): CollectionDataProvider {
+  const { renderer, renderer: { context: { templates } } } = _renderParams
+
   const provider: CollectionDataProvider = async (params, callback) => {
     const pattern = new RegExp(params.filter, 'i')
 
@@ -35,7 +37,7 @@ function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEd
     }
 
     const choices = await provider.component.loadChoices(provider.renderParams)
-    const instances = choices.map<[GraphPointer, string]>(pointer => [pointer, provider.component.label(pointer, provider.renderParams.form)])
+    const instances = choices.map<[GraphPointer, string]>(pointer => [pointer, templates.meta.label.call(renderer, pointer)])
     const items = instances
       .filter(([, label]) => pattern.test(label))
       .sort(([, l], [, r]) => l.localeCompare(r))

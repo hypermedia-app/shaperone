@@ -7,7 +7,6 @@ import { formStateReducer, BaseParams } from '../../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
 import type { EditorsState, SingleEditorMatch } from '../../editors'
 import { nextid } from '../lib/objectid'
-import { EditorMeta } from '../../editors/lib/EditorMeta'
 
 export interface Params extends BaseParams {
   focusNode: FocusNode
@@ -29,7 +28,7 @@ export const addFormField = formStateReducer((state: FormState, { focusNode, pro
   if (property.editor?.id.termType === 'NamedNode') {
     selectedEditor = property.editor.id
     editors = [
-      { term: selectedEditor, score: null, meta: new EditorMeta(metadata.node(selectedEditor)) },
+      { term: selectedEditor, score: null },
       ...matchedEditors,
     ]
   } else {

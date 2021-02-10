@@ -45,7 +45,6 @@ describe('core/models/forms/reducers/updateObject', () => {
           properties: [{
             shape: property,
             objects: [],
-            name: 'prop',
             canRemove: true,
             canAdd: true,
             editors: [],

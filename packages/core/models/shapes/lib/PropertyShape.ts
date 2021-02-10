@@ -2,7 +2,6 @@ import { MultiPointer } from 'clownface'
 import { Constructor } from '@tpluscode/rdfine'
 import type { PropertyShape } from '@rdfine/shacl'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { shrink } from '@zazuko/rdf-vocabularies/shrink'
 import { NamedNode, Term } from 'rdf-js'
 import TermSet from '@rdf-esm/term-set'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
@@ -12,7 +11,6 @@ import { FocusNode } from '../../../index'
 interface PropertyShapeEx {
   getPathProperty(): Resource | undefined
   getValues(focusNode: FocusNode): MultiPointer
-  displayName: string
   permitsDatatype(datatype: NamedNode): boolean
 }
 
@@ -35,10 +33,6 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
 
     getValues(focusNode: FocusNode): MultiPointer {
       return focusNode.out(this.getPathProperty()!.id)
-    }
-
-    get displayName(): string {
-      return this.name || shrink(this.getPathProperty()!.id.value)
     }
 
     get oredTypes(): Set<Term> {

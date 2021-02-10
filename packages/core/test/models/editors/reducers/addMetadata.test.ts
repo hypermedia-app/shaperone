@@ -5,6 +5,7 @@ import ns from '@rdf-esm/namespace'
 import { quad, literal } from '@rdf-esm/data-model'
 import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors'
+import { blankNode } from '@shaperone/testing/nodeFactory'
 import { addMetadata } from '../../../../models/editors/reducers/addMetadata'
 
 const ex = ns('http://example.com/')
@@ -33,10 +34,12 @@ describe('core/models/editors/reducers/addMetadata', () => {
     const fooEditor = {
       term: ex.Foo,
       match: () => 1,
+      meta: blankNode(),
     }
     const barEditor = {
       term: ex.Bar,
       match: () => 1,
+      meta: blankNode(),
     }
     const before = testState({
       singleEditors: [fooEditor, barEditor],
@@ -50,9 +53,9 @@ describe('core/models/editors/reducers/addMetadata', () => {
     const after = addMetadata(before, dataset)
 
     // expect
-    expect(after.allEditors[ex.Foo.value]?.meta?.label).to.eq('Foo editor')
-    expect(after.allEditors[ex.Bar.value]?.meta?.label).to.eq('Bar editor')
-    expect(after.singleEditors[ex.Foo.value]?.meta?.label).to.eq('Foo editor')
-    expect(after.singleEditors[ex.Bar.value]?.meta?.label).to.eq('Bar editor')
+    expect(after.allEditors[ex.Foo.value]?.meta?.out(rdfs.label)).to.deep.eq(literal('Foo editor'))
+    expect(after.allEditors[ex.Bar.value]?.meta?.out(rdfs.label)).to.deep.eq(literal('Bar editor'))
+    expect(after.singleEditors[ex.Foo.value]?.meta?.out(rdfs.label)).to.deep.eq(literal('Foo editor'))
+    expect(after.singleEditors[ex.Bar.value]?.meta?.out(rdfs.label)).to.deep.eq(literal('Bar editor'))
   })
 })

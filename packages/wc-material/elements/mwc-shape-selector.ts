@@ -9,7 +9,7 @@ import '@material/mwc-list/mwc-list-item'
 @customElement('mwc-shape-selector')
 export class MwcShapeSelector extends SelectableMenuMixin(LitElement) {
   @property({ type: Array })
-  shapes?: NodeShape[]
+  shapes?: [NodeShape, string][]
 
   @property({ type: Object })
   selected?: NodeShape
@@ -18,9 +18,9 @@ export class MwcShapeSelector extends SelectableMenuMixin(LitElement) {
     return html`<wc-menu>${repeat(this.shapes || [], this.__renderShapeMenuItem.bind(this))}</wc-menu>`
   }
 
-  private __renderShapeMenuItem(shape: NodeShape) {
+  private __renderShapeMenuItem([shape, text]: [NodeShape, string]) {
     return this.createItem({
-      text: shape.label || shape.id.value,
+      text,
       selected: shape.equals(this.selected),
       '@click': this.__dispatchShapeSelected(shape),
     })

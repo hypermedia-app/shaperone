@@ -25,7 +25,6 @@ describe('models/forms/effects/addObject', () => {
     const matchedEditors: SingleEditorMatch[] = [{
       term: dash.TextFieldEditor,
       score: 5,
-      meta: <any> {},
     }]
     store.getState().editors.matchSingleEditors = () => matchedEditors
 

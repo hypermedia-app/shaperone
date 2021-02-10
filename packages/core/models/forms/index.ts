@@ -39,7 +39,6 @@ export interface ShouldEnableEditorChoice {
 
 export interface PropertyState {
   shape: PropertyShape
-  name: string
   editors: MultiEditor[]
   selectedEditor: NamedNode | undefined
   componentState: Record<string, any>

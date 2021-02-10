@@ -3,8 +3,7 @@ import type { GraphPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { ComponentInstance, SingleEditorComponent } from '../../models/components'
 import { FocusNode } from '../../index'
-import { FormSettings } from '../../models/forms'
-import { CoreComponent, Item, label, sort } from '../components'
+import { CoreComponent, Item, sort } from '../components'
 
 /**
  * Represents the state of an enum select component
@@ -28,13 +27,6 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
   }): Promise<GraphPointer[]>
 
   /**
-   * Return the displayed label for an enum choice
-   * @param choice
-   * @param form
-   */
-  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-
-  /**
    * Sorting function to order the component elements
    * @param left
    * @param right
@@ -49,14 +41,14 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
  */
 export const enumSelect: CoreComponent<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
-  init({ focusNode, form, property, value: { componentState }, updateComponentState }) {
+  init({ focusNode, property, value: { componentState }, updateComponentState, renderer }) {
     if (!componentState.choices && !componentState.loading) {
       updateComponentState({
         loading: true,
       });
       (async () => {
         const pointers = await this.loadChoices({ focusNode, property: property.shape })
-        const choices = pointers.map<Item>(ptr => [ptr, this.label(ptr, form)])
+        const choices = pointers.map<Item>(ptr => [ptr, renderer.context.templates.meta.label.call(renderer, ptr) || ptr.value])
           .sort(this.sort)
 
         updateComponentState({
@@ -73,6 +65,5 @@ export const enumSelect: CoreComponent<EnumSelectEditor> = {
   async loadChoices({ property }) {
     return property.pointer.node(property.in).toArray()
   },
-  label,
   sort,
 }

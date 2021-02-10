@@ -19,9 +19,9 @@ export const AccordionFocusNodeRenderer: FocusNodeTemplate = function (renderer,
 AccordionFocusNodeRenderer.loadDependencies = () => [import('@vaadin/vaadin-accordion/vaadin-accordion')]
 
 export const AccordionGroupingRenderer: GroupTemplate = function (renderer, { properties }) {
-  const { group } = renderer
+  const { group, context: { templates } } = renderer
 
-  const header = group.group?.label || 'Ungrouped properties'
+  const header = templates.meta.label.call(renderer, group.group?.pointer) || 'Ungrouped properties'
 
   return html`<vaadin-accordion-panel .opened="${group.selected}">
     <div slot="summary">${header}</div>

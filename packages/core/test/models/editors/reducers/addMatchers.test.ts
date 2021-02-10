@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import ns from '@rdf-esm/namespace'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors'
+import { blankNode } from '@shaperone/testing/nodeFactory'
 import { addMatchers } from '../../../../models/editors/reducers/addMatchers'
 
 const ex = ns('http://example.com/')
@@ -14,6 +15,7 @@ describe('core/models/editors/reducers/addMatchers', () => {
     const editor = {
       term: ex.Foo,
       match: () => 1,
+      meta: blankNode(),
     }
 
     // when
@@ -29,6 +31,7 @@ describe('core/models/editors/reducers/addMatchers', () => {
     const editor = {
       term: ex.Foo,
       match: () => 1,
+      meta: blankNode(),
     }
 
     // when
@@ -48,6 +51,7 @@ describe('core/models/editors/reducers/addMatchers', () => {
     const editor = {
       term: ex.Foo,
       match: () => 1,
+      meta: blankNode(),
     }
 
     // when
@@ -67,6 +71,7 @@ describe('core/models/editors/reducers/addMatchers', () => {
     const editor = {
       term: ex.Foo,
       match: () => 1,
+      meta: blankNode(),
     }
 
     // when
@@ -88,6 +93,7 @@ describe('core/models/editors/reducers/addMatchers', () => {
     const editor = {
       term: dash.FooEditor,
       match: () => 1,
+      meta: blankNode(),
     }
 
     // then
@@ -112,6 +118,7 @@ describe('core/models/editors/reducers/addMatchers', () => {
     const editor = {
       term: dash.FooEditor,
       match: () => 1,
+      meta: blankNode(),
     }
 
     // then

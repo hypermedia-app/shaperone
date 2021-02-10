@@ -46,7 +46,6 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
   const property: PropertyState = {
     canAdd: true,
     canRemove: true,
-    name: 'foo',
     objects: [value],
     editors: [],
     selectedEditor: undefined,

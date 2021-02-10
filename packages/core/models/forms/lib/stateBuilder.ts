@@ -75,7 +75,6 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
 
   return {
     shape,
-    name: shape.displayName,
     editors,
     selectedEditor,
     objects,

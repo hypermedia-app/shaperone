@@ -2,8 +2,7 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import { ComponentInstance, SingleEditorComponent, SingleEditorRenderParams } from '../../models/components'
-import { FormSettings } from '../../models/forms'
-import { CoreComponent, label, sort, Item } from '../components'
+import { CoreComponent, sort, Item } from '../components'
 
 /**
  * Represents the state of an instances select component
@@ -35,7 +34,6 @@ export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSe
    * @param params
    */
   shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
-  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
   sort(left: Item, right: Item): number
 }
 
@@ -50,14 +48,14 @@ export const instancesSelect: CoreComponent<InstancesSelectEditor> = {
     return !componentState.instances
   },
   init(params) {
-    const { form, value, updateComponentState } = params
+    const { value, updateComponentState, renderer, renderer: { context: { templates } } } = params
     if (this.shouldLoad(params) && !value.componentState.loading) {
       updateComponentState({
         loading: true,
       });
       (async () => {
         const pointers = await this.loadChoices(params)
-        const instances = pointers.map<Item>(ptr => [ptr, this.label(ptr, form)])
+        const instances = pointers.map<Item>(ptr => [ptr, templates.meta.label.call(renderer, ptr)])
           .sort(([, left], [, right]) => left.localeCompare(right))
 
         updateComponentState({
@@ -83,6 +81,5 @@ export const instancesSelect: CoreComponent<InstancesSelectEditor> = {
 
     return []
   },
-  label,
   sort,
 }

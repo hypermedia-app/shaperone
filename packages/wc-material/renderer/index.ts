@@ -1,20 +1,22 @@
 import { css, html } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
 import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate } from '@hydrofoil/shaperone-wc/templates'
-import { rdfs } from '@tpluscode/rdf-ns-builders'
+import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
+import type { NodeShape } from '@rdfine/shacl'
 
 export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {
   const renderer: FocusNodeTemplate = function (renderer, params) {
-    const { actions } = renderer
+    const { actions, context: { templates } } = renderer
     const { focusNode } = params
 
     const shapes = focusNode.shapes.length ? focusNode.shapes : renderer.context.shapes
+    const shapesLabels = shapes.map<[NodeShape, string]>(shape => [shape, templates.meta.label.call(renderer, shape.pointer) || shape.pointer.value])
 
     return html`<mwc-list part="focus-node-header">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>
-          ${focusNode.focusNode.out(rdfs.label).value || 'Resource'}
-          <span slot="secondary">${focusNode.shape?.label}</span>
-          <mwc-shape-selector slot="meta" .shapes="${shapes}" title="Select shape"
+          ${templates.meta.label.call(renderer, focusNode.focusNode) || 'Resource'}
+          <span slot="secondary">${templates.meta.label.call(renderer, focusNode.shape?.pointer)}</span>
+          <mwc-shape-selector slot="meta" .shapes="${shapesLabels}" title="Select shape"
                              .selected="${focusNode.shape}"
                              @shape-selected="${(e: CustomEvent) => actions.selectShape(e.detail.value)}"></mwc-shape-selector>
       </mwc-list-item>
@@ -36,7 +38,7 @@ export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate
 }
 
 export const property: PropertyTemplate = function (renderer, param) {
-  const { actions } = renderer
+  const { actions, context: { templates } } = renderer
   const { property } = param
 
   const menuElement = property.editors.length
@@ -65,7 +67,7 @@ export const property: PropertyTemplate = function (renderer, param) {
   }
 
   return html`<mwc-list part="property">
-    <mwc-list-item hasmeta part="property-header"><b>${property.name}</b> ${menuElement}</mwc-list-item>
+    <mwc-list-item hasmeta part="property-header"><b>${templates.meta.label.call(renderer, property.shape.pointer)}</b> ${menuElement}</mwc-list-item>
     ${editors()}
   </mwc-list>`
 }
@@ -86,7 +88,7 @@ property.styles = css`
 
 export const object: ObjectTemplate = function (renderer, param) {
   const { object } = param
-  const { actions, property } = renderer
+  const { actions, property, context: { templates } } = renderer
 
   function onEditorSelected(e: CustomEvent) {
     actions.selectEditor(e.detail.editor)
@@ -96,7 +98,8 @@ export const object: ObjectTemplate = function (renderer, param) {
   let hasOptions = false
   if (object.editors.length > 1 && !object.editorSwitchDisabled) {
     hasOptions = true
-    metaSlot = html`<mwc-editor-toggle .editors="${object.editors}" slot="options"
+    const editors = object.editors.map<[SingleEditorMatch, string]>(editor => [editor, templates.editor.label.call(renderer, editor.term) || editor.term.value])
+    metaSlot = html`<mwc-editor-toggle .editors="${editors}" slot="options"
                                        @editor-selected="${onEditorSelected}"
                                        .removeEnabled="${property.canRemove}"
                                        @object-removed="${actions.remove}"

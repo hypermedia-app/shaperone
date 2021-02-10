@@ -137,42 +137,6 @@ describe('components', () => {
         term: $rdf.namedNode('baz'),
       }])
     })
-
-    it('displays label in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = enumSelect.label(choice, {
-        languages: ['fr'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('le foo')
-    })
-
-    it('displays plain label if not found in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = enumSelect.label(choice, {
-        languages: ['en'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('foo')
-    })
   })
 
   describe('instancesSelect', () => {
@@ -304,42 +268,6 @@ describe('components', () => {
       }, {
         term: $rdf.namedNode('baz'),
       }])
-    })
-
-    it('displays label in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = instancesSelect.label(choice, {
-        languages: ['fr'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('le foo')
-    })
-
-    it('displays plain label if not found in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = instancesSelect.label(choice, {
-        languages: ['en'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('foo')
     })
   })
 })

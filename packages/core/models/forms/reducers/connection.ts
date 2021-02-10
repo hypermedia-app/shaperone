@@ -1,4 +1,4 @@
-import { rdfs, schema } from '@tpluscode/rdf-ns-builders'
+import { rdfs, schema, sh } from '@tpluscode/rdf-ns-builders'
 import type { FormSettings, State } from '../index'
 
 export type Params = { form: symbol } & Partial<FormSettings>
@@ -9,7 +9,7 @@ export function connect(map: State, { form, ...settings }: Params): State {
     focusStack: [],
     shouldEnableEditorChoice: () => true,
     languages: settings.languages || [],
-    labelProperties: [rdfs.label, schema.name],
+    labelProperties: [rdfs.label, schema.name, sh.name],
   })
   return map
 }
