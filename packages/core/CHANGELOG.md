@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.4
+
+### Patch Changes
+
+- 6172891: Pass a renderer to components' render function (moved renderer interfaces to core library)
+
 ## 0.6.3
 
 ### Patch Changes

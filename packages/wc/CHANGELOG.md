@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc
 
+## 0.4.0
+
+### Minor Changes
+
+- 6172891: Complete rewrite of the WC renderer
+
+### Patch Changes
+
+- afd820c: Use templates to render editor/component partials
+- Updated dependencies [6172891]
+  - @hydrofoil/shaperone-core@0.6.4
+
 ## 0.3.5
 
 ### Patch Changes

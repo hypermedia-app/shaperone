@@ -1,5 +1,19 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.2.0
+
+### Minor Changes
+
+- 6172891: Complete rewrite of the WC renderer
+
+### Patch Changes
+
+- Updated dependencies [6172891]
+- Updated dependencies [afd820c]
+- Updated dependencies [6172891]
+  - @hydrofoil/shaperone-wc@0.4.0
+  - @hydrofoil/shaperone-core@0.6.4
+
 ## 0.1.21
 
 ### Patch Changes
