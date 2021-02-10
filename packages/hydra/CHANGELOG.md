@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.1.6
+
+### Patch Changes
+
+- ebf533a: Same collection used by multiple fields would fire the exact same request in parallel
+- Updated dependencies [6172891]
+  - @hydrofoil/shaperone-core@0.6.4
+
 ## 0.1.5
 
 ### Patch Changes
