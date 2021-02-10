@@ -402,7 +402,9 @@ describe('wc/renderer/editor', () => {
 
       // then
       expect(render).not.to.have.been.called
-      expect(init).to.have.been.called
+      expect(init).to.have.been.calledWith(sinon.match({
+        renderer,
+      }))
       expect(result.textContent).to.equal('Preparing')
     })
 

@@ -130,6 +130,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
       property,
       updateComponentState,
       value: object,
+      renderer: this,
     })
 
     if (!ready) {
