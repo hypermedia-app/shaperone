@@ -7,8 +7,8 @@
     "build": "lerna run --parallel build",
     "test": "run-p test:*",
     "test:mocha": "BABEL_ENV=test c8 --all -o coverage/mocha --reporter=lcov mocha --recursive 'packages/core/test/**/*.test.ts'",
-    "test:open-wc": "karma start --coverage",
-    "test:open-wc:watch": "karma start --auto-watch=true --single-run=false",
+    "test:open-wc": "karma start karma.conf.cjs --coverage",
+    "test:open-wc:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false",
     "test:web": "web-test-runner",
     "release": "changeset publish",
     "docs": "docsify serve ./dist"
