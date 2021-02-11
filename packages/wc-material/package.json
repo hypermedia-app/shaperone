@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc-material",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Rendering forms in Material Design style",
   "main": "index.js",
   "type": "module",
@@ -16,8 +16,8 @@
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-core": "0.6.5",
-    "@hydrofoil/shaperone-wc": "0.4.1",
+    "@hydrofoil/shaperone-core": "0.6.6",
+    "@hydrofoil/shaperone-wc": "0.4.2",
     "@material/mwc-icon": "^0.20.0",
     "@material/mwc-list": "^0.20.0",
     "@material/mwc-menu": "^0.20.0",

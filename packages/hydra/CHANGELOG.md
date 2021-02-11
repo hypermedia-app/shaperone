@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.1.7
+
+### Patch Changes
+
+- a184985: Use sh:path to point to another focus node for search template variables
+- da63f75: Mark packages ES module
+- Updated dependencies [da63f75]
+  - @hydrofoil/shaperone-core@0.6.6
+
 ## 0.1.6
 
 ### Patch Changes

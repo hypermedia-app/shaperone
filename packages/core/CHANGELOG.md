@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.6
+
+### Patch Changes
+
+- da63f75: Mark packages ES module
+
 ## 0.6.5
 
 ### Patch Changes
