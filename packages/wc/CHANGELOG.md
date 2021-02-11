@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc
 
+## 0.4.2
+
+### Patch Changes
+
+- da63f75: Mark packages ES module
+- 90f84d7: Ensure that rendered focus nodes are recreated when dataset changes
+- Updated dependencies [da63f75]
+  - @hydrofoil/shaperone-core@0.6.6
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-hydra",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Shaperone extensions to integrate with Hydra-driven APIs",
   "main": "index.js",
   "type": "module",
@@ -12,7 +12,7 @@
     "prepack": "tsc"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-core": "^0.6.4",
+    "@hydrofoil/shaperone-core": "^0.6.6",
     "@rdf-esm/term-map": "^0.5.0",
     "@rdfine/hydra": "^0.6.4",
     "@tpluscode/rdf-ns-builders": "^0.4.0",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@open-wc/testing": "^2.5.18",
     "@rdf-esm/dataset": "^0.5.1",
-    "@shaperone/testing": "0.0.0",
+    "@shaperone/testing": "0.0.1",
     "clownface": "^1"
   },
   "repository": {
