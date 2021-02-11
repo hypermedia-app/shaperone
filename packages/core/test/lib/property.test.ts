@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
+import cf, { GraphPointer } from 'clownface'
 import $rdf from 'rdf-ext'
 import { sh, xsd, schema, skos } from '@tpluscode/rdf-ns-builders'
 import { any, blankNode, namedNode } from '@shaperone/testing/nodeFactory'
@@ -184,6 +184,21 @@ describe('core/lib/property', () => {
 
       // then
       expect(nodes.terms).to.deep.contain.members([tbbt.Sheldon, tbbt.Leonard])
+    })
+
+    describe('throws when path is not supported', () => {
+      const unsupportedPaths: [string, GraphPointer][] = [
+        ['sh:alternativePath not a list', blankNode().addOut(sh.alternativePath)],
+        ['path is sh:zeroOrMorePath', blankNode().addOut(sh.zeroOrMorePath)],
+        ['path is sh:oneOrMorePath', blankNode().addOut(sh.oneOrMorePath)],
+        ['path is not any SHACL Property Path', blankNode()],
+      ]
+
+      for (const [title, path] of unsupportedPaths) {
+        it(title, () => {
+          expect(() => findNodes(blankNode(), path)).to.throw(Error)
+        })
+      }
     })
   })
 })

@@ -33,7 +33,8 @@ function traverse(node: MultiPointer, path: GraphPointer): MultiPointer {
 
         return node.node(results)
       }
-      return node.out([])
+
+      throw new Error('Object of sh:alternativePath must be an RDF List')
     }
 
     if (path.out([sh.zeroOrMorePath, sh.oneOrMorePath]).term) {
