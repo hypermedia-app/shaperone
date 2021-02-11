@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "description": "Rendering forms in Material Design style",
   "main": "index.js",
+  "type": "module",
   "files": [
     "**/*.js",
     "**/*.d.ts"
