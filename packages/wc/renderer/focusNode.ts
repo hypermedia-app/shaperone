@@ -7,7 +7,7 @@ export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focu
   const { dispatch, form, templates, state } = this.context
 
   const focusNodeState = state.focusNodes[focusNode.value]
-  if (!focusNodeState) {
+  if (!focusNodeState || focusNodeState.focusNode.dataset !== focusNode.dataset) {
     dispatch.forms.createFocusNodeState({
       ...this.context,
       ...this.context.state,
