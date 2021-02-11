@@ -1,7 +1,7 @@
 import type { InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import type { ComponentDecorator } from '@hydrofoil/shaperone-core/models/components'
 import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors'
-import { dash, hydra } from '@tpluscode/rdf-ns-builders'
+import { dash, hydra, sh } from '@tpluscode/rdf-ns-builders'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
 import type { HydraClient, HydraResponse } from 'alcaeus/alcaeus'
 import { fromPointer, IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
@@ -9,6 +9,9 @@ import { DatasetCore } from 'rdf-js'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { IriTemplateBundle } from '@rdfine/hydra/bundles'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import { FocusNode } from '@hydrofoil/shaperone-core'
+import type { GraphPointer } from 'clownface'
+import { findNodes } from '@hydrofoil/shaperone-core/lib/property'
 import { hasAllRequiredVariables } from '../template'
 
 RdfResourceImpl.factory.addMixin(...IriTemplateBundle)
@@ -16,11 +19,17 @@ RdfResourceImpl.factory.addMixin(...IriTemplateBundle)
 declare module '@hydrofoil/shaperone-core/components' {
   interface InstancesSelect {
     /**
-     * The last dereferenced search URL, constructed from a `hydra:search` template
+     * The search URL to dereference, constructed from a `hydra:search` template
      *
      * @category hydra
      */
     searchUri?: string
+    /**
+     * The previous dereferenced search URL
+     *
+     * @category hydra
+     */
+    lastLoaded?: string
   }
 
   interface InstancesSelectEditor {
@@ -83,6 +92,13 @@ function load(client: Pick<HydraClient, 'loadResource'>, uri: string) {
   return request
 }
 
+function getVariablesNode(focusNode: FocusNode, template: IriTemplate): GraphPointer | undefined {
+  const [path] = template.pointer.out(sh.path).toArray()
+
+  const candidates = path ? findNodes(focusNode, path).toArray() : [focusNode]
+  return candidates.find(node => hasAllRequiredVariables(template, node))
+}
+
 /**
  * Creates a component decorator which overrides the base functionality by dereferencing remote Hydra Collection
  * resources for properties annotated with `hydra:collection` or `hydra:search`
@@ -106,16 +122,17 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
       shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }): boolean {
         const searchTemplate = this.searchTemplate?.({ property })
         if (searchTemplate) {
-          if (!hasAllRequiredVariables(searchTemplate, focusNode)) {
+          const variablesNode = getVariablesNode(focusNode, searchTemplate)
+          if (!variablesNode) {
             return false
           }
 
-          const searchUri = searchTemplate.expand(focusNode)
+          const searchUri = searchTemplate.expand(variablesNode)
           updateComponentState({
             searchUri,
           })
 
-          return componentState.searchUri !== searchUri
+          return componentState.lastLoaded !== searchUri
         }
 
         return !componentState.instances
@@ -139,13 +156,12 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
           return getMembers(response)
         }
 
-        const searchTemplate = this.searchTemplate?.(args)
-        if (searchTemplate) {
+        const { searchUri, lastLoaded } = args.value.componentState
+        if (searchUri && searchUri !== lastLoaded) {
           const alcaeus = await getClient(client)
-          const searchUri = searchTemplate.expand(args.focusNode)
           const response = await load(alcaeus, searchUri)
           args.updateComponentState({
-            searchUri,
+            lastLoaded: searchUri,
           })
           return getMembers(response)
         }

@@ -4,6 +4,7 @@ import { FormRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { fixture, html, expect } from '@open-wc/testing'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
+import { any } from '@shaperone/testing/nodeFactory'
 import { renderFocusNode } from '../../renderer/focusNode'
 import { formRenderer } from '../../../testing/renderer'
 
@@ -18,7 +19,7 @@ describe('wc/renderer/focusNode', () => {
     dispatch = renderer.context.dispatch.forms as any
   })
 
-  it('dispatches to create node when necessary', async () => {
+  it('dispatches to create node when there is none', async () => {
     // given
     renderer.context.templates.initialising = () => html`Loading`
 
@@ -34,9 +35,25 @@ describe('wc/renderer/focusNode', () => {
     }))
   })
 
+  it('dispatches to create node when previous node was from different dataset', async () => {
+    // given
+    renderer.context.templates.initialising = () => html`Loading`
+    renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node(focusNode))
+
+    // when
+    await fixture(html`<div>${renderFocusNode.call(renderer, { focusNode })}</div>`)
+
+    // then
+    expect(dispatch.createFocusNodeState).to.have.been.calledWith(sinon.match({
+      focusNode: sinon.match({
+        term: focusNode.term,
+      }),
+    }))
+  })
+
   it('calls render template', async () => {
     // given
-    const childState = testFocusNode()
+    const childState = testFocusNode(focusNode.blankNode())
     renderer.context.state.focusNodes[focusNode.value] = childState
     renderer.context.templates.focusNode = sinon.stub().returns(html`Focus node`)
 

@@ -13,6 +13,7 @@ import { testObjectState, testPropertyState } from '@shaperone/testing/models/fo
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { Initializer } from '@tpluscode/rdfine/RdfResource'
 import { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
+import { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import * as instancesSelector from '../../../lib/components/instancesSelector'
 import { ResourceRepresentation } from '../../helpers/alcaeus'
 
@@ -119,6 +120,7 @@ describe('hydra/lib/components/instancesSelector', () => {
     }
     let value: PropertyObjectState<InstancesSelect>
     let property: PropertyState
+    let updateComponentState: UpdateComponentState
 
     beforeEach(() => {
       value = testObjectState(clownface({ dataset: $rdf.dataset() }).blankNode())
@@ -137,6 +139,7 @@ describe('hydra/lib/components/instancesSelector', () => {
         sort: sinon.stub(),
       }
       decorated = instancesSelector.decorator(client).decorate(component)
+      updateComponentState = sinon.spy()
     })
 
     describe('shouldLoad', () => {
@@ -305,6 +308,57 @@ describe('hydra/lib/components/instancesSelector', () => {
 
         // then
         expect(client.loadResource).to.have.been.calledTwice
+      })
+
+      it('loads searchable collection when search template has been constructed', async () => {
+        // given
+        const componentState = {
+          searchUri: 'foo-bar',
+        }
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+          value: {
+            componentState,
+          },
+          updateComponentState,
+        } as any)
+
+        // then
+        expect(client.loadResource).to.have.been.calledWith('foo-bar')
+        expect(updateComponentState).to.have.been.calledWith({
+          lastLoaded: 'foo-bar',
+        })
+      })
+
+      it('does not load if previous search was the same URI', async () => {
+        // given
+        const componentState = {
+          searchUri: 'foo-bar',
+          lastLoaded: 'foo-bar',
+        }
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+          value: {
+            componentState,
+          },
+          updateComponentState,
+        } as any)
+
+        // then
+        expect(client.loadResource).not.to.have.been.called
+        expect(updateComponentState).not.to.have.been.called
       })
     })
   })
