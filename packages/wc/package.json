@@ -3,6 +3,7 @@
   "version": "0.4.1",
   "description": "Web Component rendering SHACL forms",
   "main": "index.js",
+  "type": "module",
   "files": [
     "**/*.js",
     "**/*.d.ts"

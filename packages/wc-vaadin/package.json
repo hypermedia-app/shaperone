@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "description": "Rendering forms with Vaadin components",
   "main": "index.js",
+  "type": "module",
   "files": [
     "**/*.js",
     "**/*.d.ts"

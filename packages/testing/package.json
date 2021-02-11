@@ -2,6 +2,7 @@
   "private": true,
   "version": "0.0.0",
   "name": "@shaperone/testing",
+  "type": "module",
   "dependencies": {
     "@hydrofoil/shaperone-core": "*",
     "@rdf-esm/dataset": "^0.5.1",

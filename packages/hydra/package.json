@@ -3,6 +3,7 @@
   "version": "0.1.6",
   "description": "Shaperone extensions to integrate with Hydra-driven APIs",
   "main": "index.js",
+  "type": "module",
   "files": [
     "**/*.js",
     "**/*.d.ts"
