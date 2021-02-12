@@ -21,13 +21,13 @@ describe('wc-material/components/booleanSelect', () => {
   it('renders a mwc-select with selected value', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal('true'),
       datatype: xsd.boolean,
     })
 
     // when
-    const element = await fixture<Select>(booleanSelect.render(params, actions))
+    const element = await fixture<Select>(booleanSelect.render(params))
 
     // then
     expect(element.querySelector<ListItem>('mwc-list-item[selected]')?.innerText).to.equal('true')
@@ -36,33 +36,33 @@ describe('wc-material/components/booleanSelect', () => {
   it('clears when selecting empty', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal('true'),
       datatype: xsd.boolean,
     })
-    const element = await fixture<Select>(booleanSelect.render(params, actions))
+    const element = await fixture<Select>(booleanSelect.render(params))
 
     // when
     element.select(0)
 
     // then
-    expect(actions.clear).to.have.been.calledOnce
+    expect(params.actions.clear).to.have.been.calledOnce
   })
 
   it('update when selection changes', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal(''),
       datatype: xsd.boolean,
     })
-    const element = await fixture<Select>(booleanSelect.render(params, actions))
+    const element = await fixture<Select>(booleanSelect.render(params))
 
     // when
     element.select(1)
 
     // then
-    expect(actions.update).to.have.been.calledOnceWith(sinon.match({
+    expect(params.actions.update).to.have.been.calledOnceWith(sinon.match({
       value: 'true',
       termType: 'Literal',
       datatype: {
@@ -74,16 +74,16 @@ describe('wc-material/components/booleanSelect', () => {
   it('does not run any action on first render', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal('foobar'),
       datatype: xsd.boolean,
     })
 
     // when
-    await fixture<Select>(booleanSelect.render(params, actions))
+    await fixture<Select>(booleanSelect.render(params))
 
     // then
-    expect(actions.clear).not.to.have.been.called
-    expect(actions.update).not.to.have.been.called
+    expect(params.actions.clear).not.to.have.been.called
+    expect(params.actions.update).not.to.have.been.called
   })
 })

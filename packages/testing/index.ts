@@ -1,5 +1,4 @@
 import {
-  SingleEditorActions,
   SingleEditorRenderParams,
   ComponentInstance,
 } from '@hydrofoil/shaperone-core/models/components'
@@ -30,7 +29,7 @@ interface EditorTestParams<T> {
   componentState?: T
 }
 
-export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T>; actions: SingleEditorActions } {
+export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg: EditorTestParams<T>): { params: SingleEditorRenderParams<T> } {
   const { object, datatype, componentState } = arg
 
   const focusNode = arg.focusNode || clownface({ dataset: $rdf.dataset() }).blankNode()
@@ -73,12 +72,12 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
       value,
       updateComponentState: sinon.spy(),
       renderer,
-    },
-    actions: {
-      update: sinon.spy(),
-      clear: sinon.spy(),
-      focusOnObjectNode: sinon.spy(),
-      remove: sinon.spy(),
+      actions: {
+        update: sinon.spy(),
+        clear: sinon.spy(),
+        focusOnObjectNode: sinon.spy(),
+        remove: sinon.spy(),
+      },
     },
   }
 }

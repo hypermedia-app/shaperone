@@ -10,13 +10,13 @@ describe('wc-vaadin/components/date', () => {
     it('renders a vaadin-date-picker', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
       })
 
       // when
-      const element = await fixture(datePicker(params, actions))
+      const element = await fixture(datePicker(params))
 
       // then
       expect(element).to.equalSnapshot()
@@ -27,13 +27,13 @@ describe('wc-vaadin/components/date', () => {
     it('renders a vaadin-date-time-picker', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
       })
 
       // when
-      const element = await fixture(dateTimePicker(params, actions))
+      const element = await fixture(dateTimePicker(params))
 
       // then
       expect(element).to.equalSnapshot()

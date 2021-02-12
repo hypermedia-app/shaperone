@@ -14,7 +14,7 @@ function getType(datatype: ReturnType<typeof numericDatatype> | undefined): Text
 }
 
 export const createTextField = function ({ type, createTerm }: { type?: TextFieldType; createTerm?: (value: string) => Term } = {}): Render {
-  return function ({ value, property }, { update }) {
+  return function ({ value, property, actions: { update } }) {
     return html`<mwc-textfield
         .value="${value.object?.value || ''}"
         type="${type || getType(property.datatype)}"

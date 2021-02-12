@@ -10,13 +10,13 @@ describe('wc-vaadin/components/booleanSelect', () => {
   it('renders a vaadin-select with selected value', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal('true'),
       datatype: xsd.boolean,
     })
 
     // when
-    const element = await fixture<SelectElement>(booleanSelect(params, actions))
+    const element = await fixture<SelectElement>(booleanSelect(params))
 
     // then
     expect(element.value).to.equal('true')
@@ -25,35 +25,35 @@ describe('wc-vaadin/components/booleanSelect', () => {
   it('clears when selecting empty', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal('true'),
       datatype: xsd.boolean,
     })
-    const element = await fixture<SelectElement>(booleanSelect(params, actions))
+    const element = await fixture<SelectElement>(booleanSelect(params))
 
     // when
     element.value = ''
     element.dispatchEvent(new Event('change'))
 
     // then
-    expect(actions.clear).to.have.been.calledOnce
+    expect(params.actions.clear).to.have.been.calledOnce
   })
 
   it('update when selection changes', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal(''),
       datatype: xsd.boolean,
     })
-    const element = await fixture<SelectElement>(booleanSelect(params, actions))
+    const element = await fixture<SelectElement>(booleanSelect(params))
 
     // when
     element.value = 'true'
     element.dispatchEvent(new Event('change'))
 
     // then
-    expect(actions.update).to.have.been.calledOnceWith(sinon.match({
+    expect(params.actions.update).to.have.been.calledOnceWith(sinon.match({
       value: 'true',
       termType: 'Literal',
       datatype: {

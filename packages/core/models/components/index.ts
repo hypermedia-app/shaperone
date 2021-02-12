@@ -27,16 +27,6 @@ export interface RenderParams<T extends ComponentInstance = ComponentInstance> {
   updateComponentState: UpdateComponentState<T>
 }
 
-export interface SingleEditorRenderParams<T extends ComponentInstance = ComponentInstance> extends RenderParams<T> {
-  value: PropertyObjectState<T>
-  renderer: ObjectRenderer
-}
-
-export interface MultiEditorRenderParams<T extends ComponentInstance = ComponentInstance> extends RenderParams<T> {
-  componentState: T
-  renderer: PropertyRenderer
-}
-
 export interface SingleEditorActions {
   update(newValue: Term | string): void
   focusOnObjectNode(): void
@@ -44,9 +34,21 @@ export interface SingleEditorActions {
   remove(): void
 }
 
+export interface SingleEditorRenderParams<T extends ComponentInstance = ComponentInstance> extends RenderParams<T> {
+  value: PropertyObjectState<T>
+  renderer: ObjectRenderer
+  actions: SingleEditorActions
+}
+
 export interface MultiEditorActions {
   update(newValues: Array<Term | string>): void
   focusOnObjectNode(): void
+}
+
+export interface MultiEditorRenderParams<T extends ComponentInstance = ComponentInstance> extends RenderParams<T> {
+  componentState: T
+  renderer: PropertyRenderer
+  actions: MultiEditorActions
 }
 
 export interface Component {
@@ -62,8 +64,8 @@ type ExtractState<T> = T extends SingleEditorComponent<infer TState>
     ? TState & T
     : any
 
-export interface RenderFunc<Params, Actions, TRenderResult> {
-  (this: ExtractState<Params>, params: Params, actions: Actions): TRenderResult
+export interface RenderFunc<Params, TRenderResult> {
+  (this: ExtractState<Params>, params: Params): TRenderResult
 }
 
 /**
@@ -71,23 +73,23 @@ export interface RenderFunc<Params, Actions, TRenderResult> {
  */
 export type RenderComponent<T extends Component, TRenderResult> =
   T extends SingleEditorComponent<infer TState, TRenderResult>
-    ? RenderFunc<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
+    ? RenderFunc<SingleEditorRenderParams<TState>, TRenderResult>
     : T extends MultiEditorComponent<infer TState, TRenderResult>
-      ? RenderFunc<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
-      : RenderFunc<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
+      ? RenderFunc<MultiEditorRenderParams<TState>, TRenderResult>
+      : RenderFunc<SingleEditorRenderParams, TRenderResult>
 
 export interface ComponentState extends Component {
   init?(params: any): boolean
-  render?: RenderFunc<any, any, any>
-  lazyRender?(): Promise<RenderFunc<any, any, any>>
+  render?: RenderFunc<any, any>
+  lazyRender?(): Promise<RenderFunc<any, any>>
   loading: boolean
   loadingFailed?: {
     reason: string
   }
 }
 
-interface ComponentRender<Params extends RenderParams, Actions, TRenderResult> {
-  render: RenderFunc<Params, Actions, TRenderResult>
+interface ComponentRender<Params extends RenderParams, TRenderResult> {
+  render: RenderFunc<Params, TRenderResult>
 }
 
 interface ComponentInit<TParams> {
@@ -98,18 +100,18 @@ interface ComponentInit<TParams> {
  * Base interface for defining components implementing `dash:SingleEditor`
  */
 export type SingleEditorComponent<TState extends ComponentInstance, TRenderResult = any> = Component
-& ComponentRender<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
+& ComponentRender<SingleEditorRenderParams<TState>, TRenderResult>
 & ComponentInit<SingleEditorRenderParams<TState>>
 
 /**
  * Base interface for defining components implementing `dash:MultiEditor`
  */
 export type MultiEditorComponent<TState extends ComponentInstance, TRenderResult = any> = Component
-& ComponentRender<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
+& ComponentRender<MultiEditorRenderParams<TState>, TRenderResult>
 & ComponentInit<MultiEditorRenderParams<TState>>
 
 export type AnyComponent<TRenderResult = any> = Component
-& ComponentRender<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>, SingleEditorActions | MultiEditorActions, TRenderResult>
+& ComponentRender<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>, TRenderResult>
 & ComponentInit<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>>
 
 /**
@@ -119,7 +121,7 @@ export type AnyComponent<TRenderResult = any> = Component
  *
  * @typeParam T actual component interface
  */
-export type Lazy<T extends ComponentRender<any, any, any>> = Omit<T, 'render'> & {
+export type Lazy<T extends ComponentRender<any, any>> = Omit<T, 'render'> & {
   lazyRender() : Promise<(this: ExtractState<T> & T, ...args: Parameters<T['render']>) => ReturnType<T['render']>>
 }
 

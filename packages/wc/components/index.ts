@@ -10,17 +10,17 @@ import { xsd } from '@tpluscode/rdf-ns-builders'
 import { Render } from '../index'
 import { getType } from './lib/textFieldType'
 
-export const textField: Render = function ({ property, value }, { update }) {
+export const textField: Render = function ({ property, value, actions: { update } }) {
   return html`<input .value="${value.object?.value || ''}"
                      type="${getType(property.datatype)}"
                      @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const textArea: Render = function ({ value }, { update }) {
+export const textArea: Render = function ({ value, actions: { update } }) {
   return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}">${value.object?.value}</textarea>`
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ value }, { update }) {
+export const enumSelect: Render<EnumSelectEditor> = function ({ value, actions: { update } }) {
   const choices = value.componentState.choices || []
 
   function updateHandler(e: any) {
@@ -36,13 +36,13 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ value }, { updat
     </select>`
 }
 
-export const datePicker = (type: 'date' | 'datetime-local'): Render => function ({ value }, { update }) {
+export const datePicker = (type: 'date' | 'datetime-local'): Render => function ({ value, actions: { update } }) {
   return html`<input .value="${value.object?.value || ''}"
                        type="${type}"
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: Render<InstancesSelectEditor> = function ({ value }, { update }) {
+export const instancesSelect: Render<InstancesSelectEditor> = function ({ value, actions: { update } }) {
   const choices = value.componentState.instances || []
 
   return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1][0].term)}" required>
@@ -53,13 +53,13 @@ export const instancesSelect: Render<InstancesSelectEditor> = function ({ value 
     </select>`
 }
 
-export const uri: Render = function ({ value }, { update }) {
+export const uri: Render = function ({ value, actions: { update } }) {
   return html`<input .value="${value.object?.value || ''}"
                        type="url"
                        @blur="${(e: any) => update(namedNode(e.target.value))}">`
 }
 
-export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { clear, update }) {
+export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property, actions: { clear, update } }) {
   function changed(e: any) {
     if (e.target.value) {
       update(literal(e.target.value, xsd.boolean))

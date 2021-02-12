@@ -19,7 +19,7 @@ describe('wc-vaadin/components/enumSelect', () => {
   it('renders an vaadin-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<EnumSelect>({
+    const { params } = editorTestParams<EnumSelect>({
       object: graph.literal(''),
       componentState: {
         choices: [
@@ -30,7 +30,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     })
 
     // when
-    const result = await fixture(component.render(params, actions))
+    const result = await fixture(component.render(params))
 
     // then
     expect(result).shadowDom.to.equalSnapshot()
@@ -39,12 +39,12 @@ describe('wc-vaadin/components/enumSelect', () => {
   it('renders empty vaadin-select when there are no choices', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.literal(''),
     })
 
     // when
-    const result = await fixture(component.render(params, actions))
+    const result = await fixture(component.render(params))
 
     // then
     expect(result).shadowDom.to.equalSnapshot()
@@ -53,7 +53,7 @@ describe('wc-vaadin/components/enumSelect', () => {
   it('sets selection to current object', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<EnumSelect>({
+    const { params } = editorTestParams<EnumSelect>({
       object: graph.literal('bar'),
       componentState: {
         choices: [
@@ -64,7 +64,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     })
 
     // when
-    const result = await fixture(component.render(params, actions))
+    const result = await fixture(component.render(params))
 
     // then
     expect(result).to.have.property('value', 'bar')

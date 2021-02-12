@@ -29,7 +29,7 @@ function renderer(choices: Choice[], value: Term | undefined) {
   }
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ value }, actions) {
+export const enumSelect: Render<EnumSelectEditor> = function ({ value, actions }) {
   const choices = value.componentState.choices?.map(([choice, label]) => ({
     term: choice.term,
     label,

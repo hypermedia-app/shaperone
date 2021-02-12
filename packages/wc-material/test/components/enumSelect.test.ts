@@ -19,7 +19,7 @@ describe('wc-material/components/enumSelect', () => {
   it('renders an mwc-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<EnumSelect>({
+    const { params } = editorTestParams<EnumSelect>({
       object: graph.literal(''),
       componentState: {
         choices: [
@@ -30,7 +30,7 @@ describe('wc-material/components/enumSelect', () => {
     })
 
     // when
-    const result = await fixture<Select>(enumSelect.render(params, actions))
+    const result = await fixture<Select>(enumSelect.render(params))
 
     // then
     expect(result.items.map(i => i.value)).to.deep.equal(['foo', 'bar'])
@@ -39,7 +39,7 @@ describe('wc-material/components/enumSelect', () => {
   it('sets selection to current object', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<EnumSelect>({
+    const { params } = editorTestParams<EnumSelect>({
       object: graph.literal('bar'),
       componentState: {
         choices: [
@@ -50,7 +50,7 @@ describe('wc-material/components/enumSelect', () => {
     })
 
     // when
-    const result = await fixture<Select>(enumSelect.render(params, actions))
+    const result = await fixture<Select>(enumSelect.render(params))
 
     // then
     expect(result.selected?.value).to.eq('bar')

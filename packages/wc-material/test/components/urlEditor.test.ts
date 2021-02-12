@@ -16,12 +16,12 @@ describe('wc-material/components/urlEditor', () => {
   it('renders field[type=url]', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
 
     // when
-    const element = await fixture<TextField>(render(params, actions))
+    const element = await fixture<TextField>(render(params))
 
     // then
     expect(element.type).to.eq('url')
@@ -30,17 +30,17 @@ describe('wc-material/components/urlEditor', () => {
   it('renders field[type=url]', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
-    const element = await fixture<TextField>(render(params, actions))
+    const element = await fixture<TextField>(render(params))
 
     // when
     element.value = 'http://example.com/'
     element.dispatchEvent(new Event('blur'))
 
     // then
-    expect(actions.update).to.have.been.calledOnceWith(sinon.match({
+    expect(params.actions.update).to.have.been.calledOnceWith(sinon.match({
       value: 'http://example.com/',
       termType: 'NamedNode',
     }))

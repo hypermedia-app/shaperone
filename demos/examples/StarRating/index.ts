@@ -65,7 +65,7 @@ export const component: Lazy<StarRatingComponent> = {
   async lazyRender() {
     await import('./star-rating')
 
-    return function ({ value }, { update }) {
+    return function ({ value, actions: { update } }) {
       const rating = value.object ? Number.parseFloat(value.object.value) : 0
 
       function setRating(e: CustomEvent) {

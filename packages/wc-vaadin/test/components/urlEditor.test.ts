@@ -9,12 +9,12 @@ describe('wc-vaadin/components/url-editor', () => {
   it('renders text field', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
 
     // when
-    const element = await fixture(urlEditor(params, actions))
+    const element = await fixture(urlEditor(params))
 
     // then
     expect(element).to.equalSnapshot({
@@ -25,10 +25,10 @@ describe('wc-vaadin/components/url-editor', () => {
   it('renders field[type=url]', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams({
+    const { params } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
-    const element = await fixture<TextFieldElement>(urlEditor(params, actions))
+    const element = await fixture<TextFieldElement>(urlEditor(params))
 
     // when
     element.focus()
@@ -36,7 +36,7 @@ describe('wc-vaadin/components/url-editor', () => {
     element.blur()
 
     // then
-    expect(actions.update).to.have.been.calledOnceWith(sinon.match({
+    expect(params.actions.update).to.have.been.calledOnceWith(sinon.match({
       value: 'http://example.com/',
       termType: 'NamedNode',
     }))

@@ -18,13 +18,13 @@ describe('wc-material/components/textField', () => {
     it('renders number input', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal('1', xsd.int),
         datatype: xsd.int,
       })
 
       // when
-      const element = await fixture<TextField>(render(params, actions))
+      const element = await fixture<TextField>(render(params))
 
       // then
       expect(element.type).to.equal('number')

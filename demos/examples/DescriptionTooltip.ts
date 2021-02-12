@@ -21,8 +21,8 @@ export const DescriptionTooltip: ComponentDecorator = {
         ...component,
         lazyRender: async () => {
           const render = await component.lazyRender()
-          return function (params, actions) {
-            return wrap(params.property.shape, render.call(this, params, actions))
+          return function (params) {
+            return wrap(params.property.shape, render.call(this, params))
           }
         },
       }
@@ -30,8 +30,8 @@ export const DescriptionTooltip: ComponentDecorator = {
 
     return {
       ...component,
-      render(params, actions) {
-        return wrap(params.property.shape, component.render(params, actions))
+      render(params) {
+        return wrap(params.property.shape, component.render(params))
       },
     }
   },

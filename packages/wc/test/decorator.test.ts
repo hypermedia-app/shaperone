@@ -1,6 +1,5 @@
 import {
   ComponentDecorator,
-  SingleEditorActions,
   SingleEditorRenderParams,
   Lazy,
 } from '@hydrofoil/shaperone-core/models/components'
@@ -14,7 +13,6 @@ import { SingleEditorComponent } from '../index'
 
 describe('core/models/components/lib/decorate', () => {
   describe('decorateComponent', () => {
-    let actions: SingleEditorActions
     let params: SingleEditorRenderParams
 
     interface TestComponent extends SingleEditorComponent {
@@ -28,8 +26,8 @@ describe('core/models/components/lib/decorate', () => {
           ...component,
           class: 'decor',
           _decorateRender(render) {
-            return function (params, actions) {
-              return html`<div class="${this.class}">${render(params, actions)}</div>`
+            return function (params) {
+              return html`<div class="${this.class}">${render(params)}</div>`
             }
           },
         }
@@ -37,7 +35,7 @@ describe('core/models/components/lib/decorate', () => {
     }
 
     beforeEach(() => {
-      ({ actions, params } = editorTestParams({
+      ({ params } = editorTestParams({
         object: clownface({ dataset: dataset() }).blankNode(),
       }))
     })
@@ -53,7 +51,7 @@ describe('core/models/components/lib/decorate', () => {
         }
         // when
         const decorated = decorateComponent(component, decorator)
-        const result = await fixture(decorated.render(params, actions))
+        const result = await fixture(decorated.render(params))
 
         // then
         expect(result.classList.contains('decor')).to.be.true
@@ -71,7 +69,7 @@ describe('core/models/components/lib/decorate', () => {
         }
         // when
         const decorated = decorateComponent(component, decorator)
-        const result = await fixture(decorated.render(params, actions))
+        const result = await fixture(decorated.render(params))
 
         // then
         expect(result.classList.contains('decor')).to.be.true
@@ -94,7 +92,7 @@ describe('core/models/components/lib/decorate', () => {
           ...decorated,
           render: await decorated.lazyRender(),
         }
-        const result = await fixture(initialized.render(params, actions))
+        const result = await fixture(initialized.render(params))
 
         // then
         expect(result.classList.contains('decor')).to.be.true
@@ -118,7 +116,7 @@ describe('core/models/components/lib/decorate', () => {
           ...decorated,
           render: await decorated.lazyRender(),
         }
-        const result = await fixture(initialized.render(params, actions))
+        const result = await fixture(initialized.render(params))
 
         // then
         expect(result.classList.contains('decor')).to.be.true

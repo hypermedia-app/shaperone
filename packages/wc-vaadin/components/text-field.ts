@@ -7,7 +7,7 @@ import '@vaadin/vaadin-text-field/vaadin-text-field'
 import '@vaadin/vaadin-text-field/vaadin-number-field'
 import '@vaadin/vaadin-text-field/vaadin-integer-field'
 
-export const textField: Render = function ({ value, property }, { update }) {
+export const textField: Render = function ({ value, property, actions: { update } }) {
   const props = {
     '.value': value.object?.value || '',
     required: true,

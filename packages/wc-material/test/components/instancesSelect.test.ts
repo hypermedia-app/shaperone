@@ -20,7 +20,7 @@ describe('wc-material/components/instancesSelect', () => {
   it('renders an mwc-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const { params } = editorTestParams<InstancesSelect>({
       object: graph.literal(''),
       componentState: {
         instances: [
@@ -31,7 +31,7 @@ describe('wc-material/components/instancesSelect', () => {
     })
 
     // when
-    const result = await fixture<Select>(instancesSelect.render(params, actions))
+    const result = await fixture<Select>(instancesSelect.render(params))
 
     // then
     expect(result.items.map(i => i.value)).to.deep.eq(['foo', 'bar'])
@@ -40,7 +40,7 @@ describe('wc-material/components/instancesSelect', () => {
   it('sets selection to current object', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const { params } = editorTestParams<InstancesSelect>({
       object: graph.namedNode('bar'),
       componentState: {
         instances: [
@@ -51,7 +51,7 @@ describe('wc-material/components/instancesSelect', () => {
     })
 
     // when
-    const result = await fixture<Select>(instancesSelect.render(params, actions))
+    const result = await fixture<Select>(instancesSelect.render(params))
 
     // then
     expect(result.querySelector<ListItem>('mwc-list-item[selected]')?.innerText).to.match(/Bar I/)
@@ -60,7 +60,7 @@ describe('wc-material/components/instancesSelect', () => {
   it('updates form when value changes', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const { params } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
       componentState: {
         instances: [
@@ -68,14 +68,14 @@ describe('wc-material/components/instancesSelect', () => {
         ],
       },
     })
-    const selectElement = await fixture<Select>(instancesSelect.render(params, actions))
+    const selectElement = await fixture<Select>(instancesSelect.render(params))
 
     // when
     selectElement.select(0)
     await aTimeout(100)
 
     // then
-    expect(actions.update).to.have.been.calledWith(sinon.match({
+    expect(params.actions.update).to.have.been.calledWith(sinon.match({
       value: 'foo',
       termType: 'NamedNode',
     }))

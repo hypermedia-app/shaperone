@@ -5,7 +5,7 @@ import { literal } from '@rdf-esm/data-model'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import '@vaadin/vaadin-select'
 
-export const booleanSelect: Render<BooleanSelectEditor> = ({ value }, { update, clear }) => {
+export const booleanSelect: Render<BooleanSelectEditor> = ({ value, actions: { update, clear } }) => {
   function onChange(e: any) {
     if (e.target.value) {
       update(literal(e.target.value, xsd.boolean))

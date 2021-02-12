@@ -30,7 +30,7 @@ export default {
       }
     })
   },
-  loaded(components: ComponentsState, { editor, render } : {editor: NamedNode; render: RenderFunc<any, any, any>}): ComponentsState {
+  loaded(components: ComponentsState, { editor, render } : {editor: NamedNode; render: RenderFunc<any, any>}): ComponentsState {
     return produce(components, (draft) => {
       draft.components[editor.value].loading = false
       draft.components[editor.value].render = render

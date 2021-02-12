@@ -12,13 +12,13 @@ describe('wc-vaadin/components/text-field', () => {
     it(`renders correct input for datatype ${datatype.value}`, async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal(''),
         datatype,
       })
 
       // when
-      const element = await fixture(textField(params, actions))
+      const element = await fixture(textField(params))
 
       // then
       expect(element).to.equalSnapshot()

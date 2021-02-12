@@ -18,13 +18,13 @@ describe('wc-material/components/date', () => {
     it('renders a mwc-textfield[type=date]', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
       })
 
       // when
-      const element = await fixture<TextField>(render(params, actions))
+      const element = await fixture<TextField>(render(params))
 
       // then
       expect(element.type).to.eq('date')
@@ -41,13 +41,13 @@ describe('wc-material/components/date', () => {
     it('renders a mwc-textfield[type=datetime-local]', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
       })
 
       // when
-      const element = await fixture<TextField>(render(params, actions))
+      const element = await fixture<TextField>(render(params))
 
       // then
       expect(element.type).to.eq('datetime-local')

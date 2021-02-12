@@ -32,15 +32,15 @@ function select(
 </mwc-select>`
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ form, value }, actions) {
+export const enumSelect: Render<EnumSelectEditor> = function ({ form, value, actions }) {
   return select(form, value.object?.term, value.componentState.choices, actions)
 }
 
-export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, value }, actions) {
+export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, value, actions }) {
   return select(form, value.object?.term, value.componentState.instances, actions)
 }
 
-export const booleanSelect: Render<BooleanSelectEditor> = function ({ value }, { update, clear }) {
+export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, actions: { update, clear } }) {
   function onSelected(e: any) {
     if (e.target.selected?.value) {
       update(literal(e.target.selected.value, xsd.boolean))

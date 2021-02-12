@@ -46,18 +46,18 @@ describe('NativeComponents', () => {
     it('updates with NamedNode', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
       })
-      const input = await fixture<HTMLInputElement>(render(params, actions))
+      const input = await fixture<HTMLInputElement>(render(params))
 
       // when
       input.value = 'http://foo.bar/'
       input.dispatchEvent(new Event('blur'))
 
       // then
-      expect(actions.update).to.have.been.calledOnceWith(sinon.match({
+      expect(params.actions.update).to.have.been.calledOnceWith(sinon.match({
         value: 'http://foo.bar/',
         termType: 'NamedNode',
       }))
@@ -78,29 +78,29 @@ describe('NativeComponents', () => {
     it('clears when selecting empty <option>', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal('true'),
         datatype: xsd.boolean,
       })
-      const input = await fixture<HTMLSelectElement>(render(params, actions))
+      const input = await fixture<HTMLSelectElement>(render(params))
 
       // when
       change(input, 0)
 
       // then
-      expect(actions.clear).to.have.been.calledOnce
+      expect(params.actions.clear).to.have.been.calledOnce
     })
 
     it('sets correct selection', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal('false'),
         datatype: xsd.boolean,
       })
 
       // when
-      const input = await fixture<HTMLSelectElement>(render(params, actions))
+      const input = await fixture<HTMLSelectElement>(render(params))
 
       // then
       expect(input.selectedOptions.item(0)?.selected).to.be.true
@@ -109,16 +109,16 @@ describe('NativeComponents', () => {
     it('updates when selecting', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams({
+      const { params } = editorTestParams({
         object: graph.literal(''),
       })
-      const input = await fixture<HTMLSelectElement>(render(params, actions))
+      const input = await fixture<HTMLSelectElement>(render(params))
 
       // when
       change(input, 1)
 
       // then
-      expect(actions.update).to.have.been.calledOnceWith(sinon.match({
+      expect(params.actions.update).to.have.been.calledOnceWith(sinon.match({
         value: 'true',
         termType: 'Literal',
         datatype: {

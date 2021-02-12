@@ -4,7 +4,7 @@ import { spread } from '@open-wc/lit-helpers'
 import { namedNode } from '@rdf-esm/data-model'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 
-export const urlEditor: Render = function ({ value }, { update }) {
+export const urlEditor: Render = function ({ value, actions: { update } }) {
   const props = {
     '.value': value.object?.value || '',
     required: true,

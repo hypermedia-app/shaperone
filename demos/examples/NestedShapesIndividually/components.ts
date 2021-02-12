@@ -9,7 +9,7 @@ function label(object?: GraphPointer) {
 export const shapeLink: SingleEditorComponent = {
   editor: dash.DetailsEditor,
 
-  render({ value }, { focusOnObjectNode }) {
+  render({ value, actions: { focusOnObjectNode } }) {
     return html`<a href="javascript:void(0)" @click="${focusOnObjectNode}">Edit ${label(value.object)}</a>`
   },
 }

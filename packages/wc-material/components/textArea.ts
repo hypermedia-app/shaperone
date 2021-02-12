@@ -4,7 +4,7 @@ import { literal } from '@rdf-esm/data-model'
 import '@material/mwc-textarea/mwc-textarea'
 
 export const textArea: Render =
-  function render({ value }, { update }) {
+  function render({ value, actions: { update } }) {
     return html`
       <mwc-textarea
         .value="${value.object?.value || ''}"

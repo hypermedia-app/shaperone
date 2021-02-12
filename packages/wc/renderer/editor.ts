@@ -48,8 +48,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
   }
 
   return component.render(
-    { focusNode, property, updateComponentState, renderer: this },
-    { update },
+    { focusNode, property, updateComponentState, renderer: this, actions: { update } },
   )
 }
 
@@ -123,23 +122,24 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
     }
     return templates.component.loading()
   }
+
+  const renderParams = {
+    form: state,
+    focusNode: focusNode.focusNode,
+    property,
+    updateComponentState,
+    value: object,
+    renderer: this,
+    actions: { update, focusOnObjectNode, clear, remove },
+  }
+
   if (component.init) {
-    const ready = component.init({
-      form: state,
-      focusNode: focusNode.focusNode,
-      property,
-      updateComponentState,
-      value: object,
-      renderer: this,
-    })
+    const ready = component.init(renderParams)
 
     if (!ready) {
       return templates.component.initializing()
     }
   }
 
-  return component.render(
-    { form: state, focusNode, property, value: object, updateComponentState, renderer: this },
-    { update, focusOnObjectNode, clear, remove },
-  )
+  return component.render(renderParams)
 }

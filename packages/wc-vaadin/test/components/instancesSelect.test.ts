@@ -20,12 +20,12 @@ describe('wc-vaadin/components/instancesSelect', () => {
   it('renders an vaadin-select', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const { params } = editorTestParams<InstancesSelect>({
       object: graph.literal(''),
     })
 
     // when
-    const result = await fixture(component.render(params, actions))
+    const result = await fixture(component.render(params))
 
     // then
     expect(result.tagName).to.eq('VAADIN-COMBO-BOX')
@@ -34,12 +34,12 @@ describe('wc-vaadin/components/instancesSelect', () => {
   it('sets selection to current object', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const { params } = editorTestParams<InstancesSelect>({
       object: graph.namedNode('bar'),
     })
 
     // when
-    const result = await fixture<ComboBoxElement>(component.render(params, actions)) as any
+    const result = await fixture<ComboBoxElement>(component.render(params)) as any
 
     // then
     expect(result.selectedItem[1]).to.eq('bar')
@@ -48,16 +48,16 @@ describe('wc-vaadin/components/instancesSelect', () => {
   it('updates form when value changes', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const { params } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
     })
-    const selectElement = await fixture<ComboBoxElement>(component.render(params, actions))
+    const selectElement = await fixture<ComboBoxElement>(component.render(params))
 
     // when
     selectElement.selectedItem = [graph.namedNode('foo'), 'foo']
 
     // then
-    expect(actions.update).to.have.been.calledWith(sinon.match({
+    expect(params.actions.update).to.have.been.calledWith(sinon.match({
       value: 'foo',
       termType: 'NamedNode',
     }))
@@ -66,12 +66,12 @@ describe('wc-vaadin/components/instancesSelect', () => {
   it('does not load when template', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const { params } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
     })
     component.shouldLoad = () => false
     component.loadChoices = sinon.spy()
-    const selectElement = await fixture<ComboBoxElement>(component.render(params, actions))
+    const selectElement = await fixture<ComboBoxElement>(component.render(params))
 
     // when
     selectElement.open()

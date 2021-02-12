@@ -74,8 +74,8 @@ const memoizeDataProvider = directive((component: InstancesSelectEditor, renderP
   part.setValue(state.dataProvider)
 })
 
-export const instancesSelect: Render<InstancesSelectEditor> = function (params, actions) {
-  const { form, focusNode, property, value } = params
+export const instancesSelect: Render<InstancesSelectEditor> = function (params) {
+  const { form, focusNode, property, value, actions } = params
   let selectedInstance: [GraphPointer, string] | undefined
   if (value.componentState.selectedInstance) {
     selectedInstance = value.componentState.selectedInstance
