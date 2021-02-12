@@ -1,4 +1,4 @@
-import { GroupRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { GroupRenderer, PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { renderObject } from './object'
 import { renderMultiEditor } from './editor'
 
@@ -6,16 +6,31 @@ export const renderProperty: GroupRenderer['renderProperty'] = function ({ prope
   const { dispatch, form, templates } = this.context
   const { focusNode } = this
 
-  const actions = {
-    ...this.actions,
-    addObject: () => dispatch.forms.addObject({ form, focusNode: focusNode.focusNode, property: property.shape }),
-    selectMultiEditor: () => dispatch.forms.selectMultiEditor({ form, focusNode: focusNode.focusNode, property: property.shape }),
-    selectSingleEditors: () => dispatch.forms.selectSingleEditors({ form, focusNode: focusNode.focusNode, property: property.shape }),
+  const actionParams = { form, focusNode: focusNode.focusNode, property: property.shape }
+
+  const propertyActions: PropertyActions = {
+    addObject: () => dispatch.forms.addObject(actionParams),
+    removeObject: (termOrPointer) => {
+      const term = 'termType' in termOrPointer ? termOrPointer : termOrPointer.term
+      const object = property.objects.find(pos => pos.object?.term.equals(term))
+
+      if (object) {
+        dispatch.forms.removeObject({
+          ...actionParams,
+          object,
+        })
+      }
+    },
+    selectMultiEditor: () => dispatch.forms.selectMultiEditor(actionParams),
+    selectSingleEditors: () => dispatch.forms.selectSingleEditors(actionParams),
   }
 
   const context: PropertyRenderer = {
     ...this,
-    actions,
+    actions: {
+      ...this.actions,
+      ...propertyActions,
+    },
     property,
     renderMultiEditor,
     renderObject,
