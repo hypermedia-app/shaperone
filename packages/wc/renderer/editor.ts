@@ -28,7 +28,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
     })
   }
 
-  const editor = property.selectedEditor
+  const { componentState, selectedEditor: editor } = property
   if (!editor) {
     return templates.editor.notFound()
   }
@@ -48,7 +48,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
   }
 
   return component.render(
-    { focusNode, property, updateComponentState, renderer: this },
+    { focusNode, property, updateComponentState, renderer: this, componentState },
     { update },
   )
 }

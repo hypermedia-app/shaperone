@@ -184,7 +184,9 @@ describe('wc/renderer/editor', () => {
       const result = await fixture(html`<div>${renderMultiEditor.call(renderer)}</div>`)
 
       // then
-      expect(render).to.have.been.called
+      expect(render).to.have.been.calledWith(sinon.match({
+        componentState: property.componentState,
+      }))
       expect(result.textContent).to.equal('Multi editor')
     })
   })
