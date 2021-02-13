@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-wc
 
+## 0.4.3
+
+### Patch Changes
+
+- 5cf78cd: Add property renderer action to remove arbitrary object
+- 7ecccb0: Component state was not passed to multi editor
+
 ## 0.4.2
 
 ### Patch Changes
