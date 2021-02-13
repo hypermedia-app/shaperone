@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.22
+
+### Patch Changes
+
+- @hydrofoil/shaperone-playground-examples@0.2.4
+- @hydrofoil/shaperone-wc@0.4.4
+- @hydrofoil/shaperone-wc-material@0.2.4
+- @hydrofoil/shaperone-wc-vaadin@0.2.4
+
 ## 0.1.21
 
 ### Patch Changes

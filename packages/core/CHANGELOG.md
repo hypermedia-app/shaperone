@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.7
+
+### Patch Changes
+
+- 0c57318: Add property renderer action to remove object
+
 ## 0.6.6
 
 ### Patch Changes
