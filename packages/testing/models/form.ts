@@ -86,8 +86,11 @@ export function testPropertyState(pointer: ResourceNode = blankNode(), init: Rec
   })
 }
 
+let i = 0
 export function testObjectState(object?: GraphPointer, init: RecursivePartial<Form.PropertyObjectState> = {}): Form.PropertyObjectState {
   return deepmerge({
+    // eslint-disable-next-line no-plusplus
+    key: `${++i}`,
     selectedEditor: undefined,
     object,
     editors: [],
