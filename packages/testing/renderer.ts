@@ -91,6 +91,7 @@ export const propertyRenderer = ({ property, ...arg }: TestProperty): sinon.Sino
       addObject: sinon.spy(),
       selectMultiEditor: sinon.spy(),
       selectSingleEditors: sinon.spy(),
+      removeObject: sinon.spy(),
     },
   }
 }
