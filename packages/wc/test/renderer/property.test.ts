@@ -79,6 +79,16 @@ describe('wc/renderer/property', () => {
         }))
       })
 
+      it('dispatches action when called with state object', () => {
+        // when
+        actions.removeObject(fooObject)
+
+        // then
+        expect(dispatch.removeObject).to.have.been.calledWith(sinon.match({
+          object: fooObject,
+        }))
+      })
+
       it('does not dispatch action when object is not found', () => {
         // given
         const object = namedNode(ex.baz)

@@ -1,4 +1,5 @@
 import { GroupRenderer, PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import { renderObject } from './object'
 import { renderMultiEditor } from './editor'
 
@@ -10,9 +11,14 @@ export const renderProperty: GroupRenderer['renderProperty'] = function ({ prope
 
   const propertyActions: PropertyActions = {
     addObject: () => dispatch.forms.addObject(actionParams),
-    removeObject: (termOrPointer) => {
-      const term = 'termType' in termOrPointer ? termOrPointer : termOrPointer.term
-      const object = property.objects.find(pos => pos.object?.term.equals(term))
+    removeObject: (arg) => {
+      let object: PropertyObjectState | undefined
+      if ('key' in arg) {
+        object = arg
+      } else {
+        const term = 'termType' in arg ? arg : arg.term
+        object = property.objects.find(pos => pos.object?.term.equals(term))
+      }
 
       if (object) {
         dispatch.forms.removeObject({

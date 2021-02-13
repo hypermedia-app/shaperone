@@ -52,7 +52,7 @@ export interface GroupRenderer<TemplateResult = any> extends FocusNodeRenderer<T
 
 export interface PropertyActions {
   addObject(): void
-  removeObject(object: Term | GraphPointer): void
+  removeObject(object: Term | GraphPointer | PropertyObjectState): void
   selectMultiEditor(): void
   selectSingleEditors(): void
 }

@@ -1,13 +1,12 @@
-import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { PropertyRenderer, ObjectRenderer, ObjectActions } from '@hydrofoil/shaperone-core/renderer'
 import { NamedNode } from 'rdf-js'
 import { renderEditor } from './editor'
 
 export const renderObject: PropertyRenderer['renderObject'] = function ({ object }) {
   const { dispatch, form, templates } = this.context
-  const { focusNode, property } = this
+  const { focusNode, property, actions } = this
 
-  const actions = {
-    ...this.actions,
+  const objectActions: ObjectActions = {
     selectEditor(editor: NamedNode): void {
       dispatch.forms.selectEditor({
         form,
@@ -18,13 +17,16 @@ export const renderObject: PropertyRenderer['renderObject'] = function ({ object
       })
     },
     remove(): void {
-      dispatch.forms.removeObject({ form, focusNode: focusNode.focusNode, property: property.shape, object })
+      actions.removeObject(object)
     },
   }
 
   const context: ObjectRenderer = {
     ...this,
-    actions,
+    actions: {
+      ...actions,
+      ...objectActions,
+    },
     object,
     renderEditor,
   }
