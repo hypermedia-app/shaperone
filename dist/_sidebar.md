@@ -8,6 +8,9 @@
   * [Matchers](editors/matchers.md "Shaperone | Editor matchers")
   * [Metadata](editors/metadata.md "Shaperone | Editor metadata")
 * [Core library](core.md "Shaperone | Core")
+* Renderer
+  * [Overview](renderer/core.md)
+  * [Web Components](renderer/web-components.md)
 * Web Components
   * [DASH](components/dash.md "Shaperone | Component | DASH")
   * [Design systems](components/design-systems/ "Shaperone | Components | Design system")

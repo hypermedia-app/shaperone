@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-wc/renderer
+ */
+
 import { html, TemplateResult } from 'lit-element'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { FormRenderer, Renderer } from '@hydrofoil/shaperone-core/renderer'
@@ -6,6 +11,12 @@ import { renderFocusNode } from './focusNode'
 
 declare module '@hydrofoil/shaperone-core/renderer' {
   interface RenderContext {
+    /**
+     * `@hydrofoil/shaperone-wc` extension which simplifies implementation of partial templates
+     * for the base form elements as well any additional UI elements
+     *
+     * @category wc
+     */
     templates: RenderTemplates
   }
 }

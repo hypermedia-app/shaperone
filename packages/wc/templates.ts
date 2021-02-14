@@ -1,38 +1,74 @@
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-wc/templates
+ */
+
 import { CSSResult, CSSResultArray, html, TemplateResult } from 'lit-element'
 import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { repeat } from 'lit-html/directives/repeat'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { NamedNode } from 'rdf-js'
 
+/**
+ * Base template. Extend to create templates which can dynamically load dependencies or inject CSS styles
+ */
 export interface RenderTemplate {
+  /**
+   * All styles get combined and inserted into the form
+   */
   styles?: CSSResult | CSSResultArray
+
+  /**
+   * Gets called by the renderer when the form is initialised
+   */
   loadDependencies?(): Array<Promise<unknown>>
 }
 
+/**
+ * Renders the form
+ */
 export interface FormTemplate extends RenderTemplate {
   (context: FormRenderer): TemplateResult
 }
 
+/**
+ * Renders a focus node
+ */
 export interface FocusNodeTemplate extends RenderTemplate {
   (context: FocusNodeRenderer, args: {focusNode: FocusNodeState}): TemplateResult
 }
 
+/**
+ * Renders an object of a group of properties
+ */
 export interface GroupTemplate extends RenderTemplate {
   (context: GroupRenderer, args: {properties: PropertyState[]}): TemplateResult
 }
 
+/**
+ * Renders an object of a property
+ */
 export interface PropertyTemplate extends RenderTemplate {
   (context: PropertyRenderer, args: { property: PropertyState }): TemplateResult
 }
 
+/**
+ * Renders an object of a property
+ */
 export interface ObjectTemplate extends RenderTemplate {
   (context: ObjectRenderer, arg: { object: PropertyObjectState }): TemplateResult
 }
 
+/**
+ * Templates related to editors
+ */
 export interface EditorTemplates {
   notFound(): TemplateResult
 }
 
+/**
+ * Templates related to rendering components
+ */
 export interface ComponentTemplates {
   notFound(this: PropertyRenderer, editor: NamedNode): TemplateResult
   loading(): TemplateResult
@@ -40,7 +76,14 @@ export interface ComponentTemplates {
   initializing(): TemplateResult
 }
 
+/**
+ * Default set of templates which can be called from the renderer to
+ * build the final HTML output from reusable parts
+ */
 export interface RenderTemplates {
+  /**
+   * Rendered when the form is preparing
+   */
   initialising(): TemplateResult
   form: FormTemplate
   focusNode: FocusNodeTemplate
@@ -51,6 +94,9 @@ export interface RenderTemplates {
   component: ComponentTemplates
 }
 
+/**
+ * Default implementation of {@link RenderTemplates} which outputs native HTML elements
+ */
 export const templates: RenderTemplates = {
   editor: {
     notFound: () => html`No editor found for property`,

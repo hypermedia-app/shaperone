@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/lib/property
+ */
+
 import { NamedNode, Term } from 'rdf-js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { literal, namedNode } from '@rdf-esm/data-model'
@@ -16,7 +21,7 @@ export function createTerm(property: Pick<PropertyState, 'shape' | 'datatype'>, 
 function traverse(node: MultiPointer, path: GraphPointer): MultiPointer {
   const list = path.list()
   if (list) {
-    return [...list].reduce((current, nextPath) => traverse(current, nextPath), node)
+    return [...list].reduce(traverse, node)
   }
 
   if (path.term.termType === 'BlankNode') {
