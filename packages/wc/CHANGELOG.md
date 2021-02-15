@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc
 
+## 0.4.5
+
+### Patch Changes
+
+- 975accf: Wrong focus node state instead of pointer passed to component render
+- 07e7ac2: Also allow object state passed to remove from property renderer
+- Updated dependencies [07e7ac2]
+  - @hydrofoil/shaperone-core@0.6.8
+
 ## 0.4.4
 
 ### Patch Changes
