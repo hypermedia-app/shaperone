@@ -32,6 +32,7 @@
     "karma.conf.js",
     "test-setup.js",
     "test-karma-setup.js",
-    "types/global.d.ts"
+    "types/global.d.ts",
+    "stories"
   ]
 }

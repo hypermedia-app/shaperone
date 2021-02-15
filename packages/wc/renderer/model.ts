@@ -12,14 +12,14 @@ export interface RendererState {
   ready?: boolean
 }
 
-function styleReducer(reduced: CSSResult, styles: CSSResult | CSSResultArray | undefined): CSSResult {
+function styleReducer(reduced: CSSResultArray, styles: CSSResult | CSSResultArray | CSSStyleSheet | undefined): CSSResultArray {
   if (!styles) return reduced
 
   if (Array.isArray(styles)) {
     return styles.reduce(styleReducer, reduced)
   }
 
-  return css`${reduced}${styles}`
+  return [...reduced, styles]
 }
 
 function combineStyles(strategy: RenderTemplates) {

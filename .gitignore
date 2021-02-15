@@ -3,6 +3,7 @@ node_modules
 *.js.map
 !*.config.js
 !*.conf.js
+!.storybook/*.js
 coverage/
 !test-setup.js
 *.d.ts
