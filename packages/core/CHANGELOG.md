@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.6.8
+
+### Patch Changes
+
+- 07e7ac2: Also allow object state passed to remove from property renderer
+
 ## 0.6.7
 
 ### Patch Changes
