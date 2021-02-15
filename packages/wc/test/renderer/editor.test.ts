@@ -186,6 +186,12 @@ describe('wc/renderer/editor', () => {
       // then
       expect(render).to.have.been.calledWith(sinon.match({
         componentState: property.componentState,
+        focusNode: sinon.match({
+          term: sinon.match({
+            value: sinon.match.string,
+            termType: sinon.match.string,
+          }),
+        }),
       }))
       expect(result.textContent).to.equal('Multi editor')
     })
@@ -428,7 +434,14 @@ describe('wc/renderer/editor', () => {
       const result = await fixture(html`<div>${renderEditor.call(renderer)}</div>`)
 
       // then
-      expect(render).to.have.been.called
+      expect(render).to.have.been.calledWith(sinon.match({
+        focusNode: sinon.match({
+          term: sinon.match({
+            value: sinon.match.string,
+            termType: sinon.match.string,
+          }),
+        }),
+      }))
       expect(result.textContent).to.equal('Multi editor')
     })
 

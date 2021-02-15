@@ -48,7 +48,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
   }
 
   return component.render(
-    { focusNode, property, updateComponentState, renderer: this, componentState },
+    { focusNode: focusNode.focusNode, property, updateComponentState, renderer: this, componentState },
     { update },
   )
 }
@@ -139,7 +139,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   }
 
   return component.render(
-    { form: state, focusNode, property, value: object, updateComponentState, renderer: this },
+    { form: state, focusNode: focusNode.focusNode, property, value: object, updateComponentState, renderer: this },
     { update, focusOnObjectNode, clear, remove },
   )
 }
