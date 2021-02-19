@@ -11,7 +11,7 @@ import { IriTemplateBundle } from '@rdfine/hydra/bundles'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import type { GraphPointer } from 'clownface'
-import { findNodes } from '@hydrofoil/shaperone-core/lib/property'
+import { findNodes } from 'clownface-shacl-path'
 import { hasAllRequiredVariables } from '../template'
 
 RdfResourceImpl.factory.addMixin(...IriTemplateBundle)
