@@ -1,4 +1,3 @@
-import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { schema, sh, skos } from '@tpluscode/rdf-ns-builders'
 import { NamedNode, BlankNode } from 'rdf-js'
