@@ -15,7 +15,7 @@ export default function (store: Store) {
       return
     }
 
-    const pathProperty = property.getPathProperty()!
+    const pathProperty = property.getPathProperty(true)
 
     if (!removed.object) {
       return

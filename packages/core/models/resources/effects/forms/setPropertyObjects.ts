@@ -8,7 +8,7 @@ export default function (store: Store) {
   return function ({ form, focusNode, property, objects }: Params) {
     const { resources } = store.getState()
     const state = resources.get(form)
-    const pathProperty = property.getPathProperty()!.id
+    const pathProperty = property.getPathProperty(true).id
 
     state?.graph?.node(focusNode)
       .deleteOut(pathProperty)

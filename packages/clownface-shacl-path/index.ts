@@ -1,9 +1,13 @@
-import type { GraphPointer, MultiPointer } from 'clownface'
+import type { MultiPointer } from 'clownface'
 import { NamedNode } from 'rdf-js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import TermSet from '@rdf-esm/term-set'
 
-function traverse(node: MultiPointer, path: GraphPointer): MultiPointer {
+function traverse(node: MultiPointer, path: MultiPointer): MultiPointer {
+  if (!path.term) {
+    throw new Error('SHACL Path must be single node')
+  }
+
   const list = path.list()
   if (list) {
     return [...list].reduce(traverse, node)
@@ -43,7 +47,7 @@ function traverse(node: MultiPointer, path: GraphPointer): MultiPointer {
  * @param node starting node
  * @param shPath SHACL Property Path
  */
-export function findNodes(node: MultiPointer, shPath: GraphPointer | NamedNode): MultiPointer {
+export function findNodes(node: MultiPointer, shPath: MultiPointer | NamedNode): MultiPointer {
   const path = 'termType' in shPath ? node.node(shPath) : shPath
   return traverse(node, path)
 }

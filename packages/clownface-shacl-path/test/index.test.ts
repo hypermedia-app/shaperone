@@ -150,6 +150,22 @@ describe('clownface-shacl-path', () => {
       expect(nodes.terms).to.deep.contain.members([tbbt.Sheldon, tbbt.Leonard])
     })
 
+    it('throws when there are multiple paths in pointer', () => {
+      // given
+      const path = graph.addOut(sh.path).addOut(sh.path).has(sh.path)
+
+      // then
+      expect(() => findNodes(blankNode(), path)).to.throw(Error)
+    })
+
+    it('throws when there are no paths in pointer', () => {
+      // given
+      const path = graph.has(sh.path)
+
+      // then
+      expect(() => findNodes(blankNode(), path)).to.throw(Error)
+    })
+
     describe('throws when path is not supported', () => {
       const unsupportedPaths: [string, GraphPointer][] = [
         ['sh:alternativePath not a list', blankNode().addOut(sh.alternativePath)],

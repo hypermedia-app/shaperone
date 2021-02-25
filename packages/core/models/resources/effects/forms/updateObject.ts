@@ -13,7 +13,7 @@ export default function (store: Store) {
   return function ({ form, focusNode, property, object, newValue }: Params) {
     const { resources } = store.getState()
     const state = resources.get(form)
-    const pathProperty = property.getPathProperty()!.id
+    const pathProperty = property.getPathProperty(true).id
     if (!state?.graph) {
       return
     }
