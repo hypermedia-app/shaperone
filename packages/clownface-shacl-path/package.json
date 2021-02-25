@@ -32,5 +32,8 @@
     "directory": "package/clownface-shacl-path"
   },
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
