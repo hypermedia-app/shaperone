@@ -47,7 +47,7 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
 export const matcher: MultiEditor = {
   term: editor,
   match(shape) {
-    return shape.getPathProperty()?.equals(vcard.language) ? 50 : 0
+    return shape.pathEquals(vcard.language) ? 50 : 0
   },
 }
 

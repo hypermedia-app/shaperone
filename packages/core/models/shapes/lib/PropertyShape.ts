@@ -1,4 +1,4 @@
-import { MultiPointer } from 'clownface'
+import { GraphPointer, MultiPointer } from 'clownface'
 import { Constructor } from '@tpluscode/rdfine'
 import type { PropertyShape } from '@rdfine/shacl'
 import { sh } from '@tpluscode/rdf-ns-builders'
@@ -7,10 +7,12 @@ import { NamedNode, Term } from 'rdf-js'
 import TermSet from '@rdf-esm/term-set'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
 import type { Resource } from '@rdfine/rdfs'
+import { findNodes } from 'clownface-shacl-path'
 import { FocusNode } from '../../../index'
 
 interface PropertyShapeEx {
-  getPathProperty(): Resource | undefined
+  getPathProperty<T extends boolean = false>(throwIfNotPredicatePath?: T): T extends true ? Resource : (Resource | undefined)
+  pathEquals(other: NamedNode | GraphPointer): boolean
   getValues(focusNode: FocusNode): MultiPointer
   displayName: string
   permitsDatatype(datatype: NamedNode): boolean
@@ -25,20 +27,50 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
   return class extends Resource implements PropertyShapeEx {
     private __orderTypes: Set<Term> | undefined
 
+    private get __predicatePath() {
+      const { path } = this
+
+      if (!path || Array.isArray(path)) {
+        return undefined
+      }
+
+      return path
+    }
+
     permitsDatatype(dt: NamedNode): boolean {
       return this.datatype?.equals(dt) || this.oredTypes.has(dt)
     }
 
-    getPathProperty(): Resource | undefined {
-      return (Array.isArray(this.path) ? this.path[0] : this.path)
+    getPathProperty<T extends boolean = false>(throwIfNotPredicatePath?: T): any {
+      const { __predicatePath } = this
+
+      if (!__predicatePath && throwIfNotPredicatePath) {
+        throw new Error(`Property Shape ${this.id.value} is not a predicate path`)
+      }
+
+      return __predicatePath
+    }
+
+    pathEquals(other: NamedNode | GraphPointer): boolean {
+      return !this.__predicatePath ? false : this.__predicatePath.equals(other)
     }
 
     getValues(focusNode: FocusNode): MultiPointer {
-      return focusNode.out(this.getPathProperty()!.id)
+      return findNodes(focusNode, this.pointer.out(sh.path))
     }
 
     get displayName(): string {
-      return this.name || shrink(this.getPathProperty()!.id.value)
+      const { name, path } = this
+
+      if (!name) {
+        if (Array.isArray(path)) {
+          return 'Complex path'
+        }
+
+        return shrink(path!.id.value)
+      }
+
+      return name
     }
 
     get oredTypes(): Set<Term> {

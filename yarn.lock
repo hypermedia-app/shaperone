@@ -3489,26 +3489,13 @@
     "@tpluscode/rdf-ns-builders" "^0.4"
     "@zazuko/rdf-vocabularies" "^2020.11.2"
 
-"@tpluscode/rdfine@^0.5.10", "@tpluscode/rdfine@^0.5.17", "@tpluscode/rdfine@^0.5.18", "@tpluscode/rdfine@^0.5.20":
-  version "0.5.20"
-  resolved "https://registry.yarnpkg.com/@tpluscode/rdfine/-/rdfine-0.5.20.tgz#399196b91b1ed1d1f6d9ecdc8278cc6f3bf8e0c6"
-  integrity sha512-TbacpyaKouAE4Oh8J5ij0HyJqvZA8rsTQkXy9P5Ovji+0kyURyfgmQUjWdUeZE5POkGdIwbts/ShZyzyERwDyg==
+"@tpluscode/rdfine@^0.5.10", "@tpluscode/rdfine@^0.5.17", "@tpluscode/rdfine@^0.5.20", "@tpluscode/rdfine@^0.5.13", "@tpluscode/rdfine@^0.5.24":
+  version "0.5.24"
+  resolved "https://registry.yarnpkg.com/@tpluscode/rdfine/-/rdfine-0.5.24.tgz#53ccc659ad3f8028c82b02a514450191fc8bec0f"
+  integrity sha512-u0ol9xQEi/zJORm/d2CbZIgJKVDY0b7NDFhAB2GmQ1BprWjGx+4YDgGVZlvlN8jSfpjtiXBdmnrz7boZrWyP9g==
   dependencies:
     "@rdf-esm/data-model" "^0.5.3"
     "@rdf-esm/namespace" "^0.5.2"
-    "@rdf-esm/term-map" "^0.5.0"
-    "@rdf-esm/term-set" "^0.5.0"
-    "@tpluscode/rdf-ns-builders" "^0.4"
-    clownface "^1"
-    once "^1.4.0"
-
-"@tpluscode/rdfine@^0.5.13":
-  version "0.5.15"
-  resolved "https://registry.yarnpkg.com/@tpluscode/rdfine/-/rdfine-0.5.15.tgz#f7a89931c2ee8429b999a6d0a46c83473fe51545"
-  integrity sha512-QzMRdZZcHHjnKDa0GWC/E1DQ+Z2wugNJF3PVpf5XA2P3oCd15/reBUUMj9YcutXzU48x+Jhu2A4xZyIQkYZiXQ==
-  dependencies:
-    "@rdf-esm/data-model" "^0.5.3"
-    "@rdf-esm/namespace" "^0.5.1"
     "@rdf-esm/term-map" "^0.5.0"
     "@rdf-esm/term-set" "^0.5.0"
     "@tpluscode/rdf-ns-builders" "^0.4"

@@ -22,7 +22,7 @@
     "@rdfine/rdfs": "^0.6.3",
     "@rdfine/shacl": "^0.7.3",
     "@tpluscode/rdf-ns-builders": "^0.4.0",
-    "@tpluscode/rdfine": "^0.5.18",
+    "@tpluscode/rdfine": "^0.5.24",
     "@zazuko/rdf-vocabularies": "^2020.11.2",
     "clownface": "^1.2.0",
     "clownface-shacl-path": "^1.0.0",

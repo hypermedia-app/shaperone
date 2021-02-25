@@ -25,7 +25,7 @@ export default function createFocusNodeState(store: Store) {
             continue
           }
 
-          const predicate = property.shape.getPathProperty()!.id
+          const predicate = property.shape.getPathProperty(true).id
           if (focusNode.has(predicate, value).terms.length) {
             continue
           }

@@ -82,7 +82,7 @@ export const component: Lazy<StarRatingComponent> = {
 export const matcher: SingleEditor = {
   term: editor,
   match(shape) {
-    return shape.getPathProperty()?.equals(schema.ratingValue) ? 50 : 0
+    return shape.pathEquals(schema.ratingValue) ? 50 : 0
   },
 }
 

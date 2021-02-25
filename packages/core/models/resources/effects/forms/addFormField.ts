@@ -15,7 +15,7 @@ export default function (store: Store) {
     }
 
     const pointer = defaultValue(property, focusNode)
-    const predicate = property.getPathProperty()!.id
+    const predicate = property.getPathProperty(true).id
     if (!pointer || focusNode.has(predicate, pointer).terms.length) {
       return
     }
