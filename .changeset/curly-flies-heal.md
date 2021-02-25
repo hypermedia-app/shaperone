@@ -1,5 +1,5 @@
 ---
-"clownface-shacl-path": minor
+"clownface-shacl-path": major
 ---
 
 Extract path traversal package
