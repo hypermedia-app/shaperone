@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.4.6
+
+### Patch Changes
+
+- @hydrofoil/shaperone-core@0.6.9
+
 ## 0.4.5
 
 ### Patch Changes
