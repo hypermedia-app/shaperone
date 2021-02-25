@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Web Component rendering SHACL forms",
   "main": "index.js",
   "type": "module",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
-    "@hydrofoil/shaperone-core": "0.6.8",
+    "@hydrofoil/shaperone-core": "0.6.9",
     "@rdf-esm/data-model": "^0.5.4",
     "@rdfine/shacl": "^0.7.3",
     "@rdf-esm/term-map": "^0.5.0",
