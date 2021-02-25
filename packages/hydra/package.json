@@ -17,7 +17,8 @@
     "@rdfine/hydra": "^0.6.4",
     "@tpluscode/rdf-ns-builders": "^0.4.0",
     "@tpluscode/rdfine": "^0.5.20",
-    "alcaeus": "^1.1.1"
+    "alcaeus": "^1.1.1",
+    "clownface-shacl-path": "0.0.0"
   },
   "devDependencies": {
     "@open-wc/testing": "^2.5.18",
