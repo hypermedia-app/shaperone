@@ -4,7 +4,7 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
 import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
-import { schema, sh, dash } from '@tpluscode/rdf-ns-builders'
+import { schema, sh, dash, dcterms } from '@tpluscode/rdf-ns-builders'
 import { testEditor, testStore } from '@shaperone/testing/models/form'
 import { initialiseFocusNode, initialiseObjectState } from '../../../../models/forms/lib/stateBuilder'
 import { loadMixins } from '../../../../index'
@@ -316,6 +316,63 @@ describe('core/models/forms/lib/stateBuilder', () => {
 
       // then
       expect(state.properties[0].objects.length).to.eq(2)
+    })
+
+    it('combines all property shapes from logical constraints', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Person)
+      const shape = fromPointer(graph.blankNode(), {
+        property: [{
+          path: dcterms.identifier,
+          types: [sh.PropertyShape],
+        }],
+        or: [{
+          types: [sh.NodeShape],
+          property: {
+            path: ex.firstName,
+            types: [sh.PropertyShape],
+          },
+        }, {
+          types: [sh.NodeShape],
+          property: {
+            path: ex.givenName,
+            types: [sh.PropertyShape],
+          },
+        }],
+        and: [{
+          types: [sh.NodeShape],
+          property: {
+            path: ex.firstName,
+            types: [sh.PropertyShape],
+          },
+        }],
+        xone: [{
+          types: [sh.NodeShape],
+          property: {
+            path: ex.lastName,
+            types: [sh.PropertyShape],
+          },
+        }, {
+          types: [sh.NodeShape],
+          property: {
+            path: ex.familyName,
+            types: [sh.PropertyShape],
+          },
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: store.getState().editors,
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      expect(state.properties).to.have.length(6)
     })
   })
 
