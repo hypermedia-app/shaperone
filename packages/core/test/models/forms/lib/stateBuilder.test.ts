@@ -416,6 +416,55 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // then
       expect(state.properties).to.have.length(6)
     })
+
+    it('sets hidden state to false by default', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+      const shape = fromPointer(graph.blankNode(), {
+        property: [{
+          path: ex.foo,
+          types: [sh.PropertyShape],
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: store.getState().editors,
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      expect(state.properties[0].hidden).to.be.false
+    })
+
+    it('sets hidden state when property is dash:hidden', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Foo)
+      const shape = fromPointer(graph.blankNode(), {
+        property: [{
+          path: ex.foo,
+          types: [sh.PropertyShape],
+          hidden: true,
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: store.getState().editors,
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      expect(state.properties[0].hidden).to.be.true
+    })
   })
 
   describe('initialiseObjectState', () => {

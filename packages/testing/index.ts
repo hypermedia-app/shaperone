@@ -53,6 +53,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
     shape: propertyShape(object.blankNode(), arg.property),
     datatype,
     componentState: {},
+    hidden: false,
   }
 
   const renderer = objectRenderer({

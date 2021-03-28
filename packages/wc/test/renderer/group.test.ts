@@ -72,4 +72,20 @@ describe('wc/renderer/group', () => {
       properties: sinon.match.array.deepEquals([noGroup]),
     })
   })
+
+  it('does not render hidden properties', () => {
+    // given
+    renderer.focusNode.properties = [
+      testPropertyState(blankNode(), { hidden: true }),
+      testPropertyState(blankNode(), { hidden: true }),
+    ]
+
+    // when
+    renderGroup.call(renderer, { group })
+
+    // then
+    expect(renderer.context.templates.group).to.have.been.calledWith(sinon.match.object, {
+      properties: sinon.match.array.deepEquals([]),
+    })
+  })
 })
