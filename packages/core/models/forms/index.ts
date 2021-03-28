@@ -47,6 +47,7 @@ export interface PropertyState {
   canAdd: boolean
   canRemove: boolean
   datatype?: NamedNode
+  hidden: boolean
 }
 export interface PropertyGroupState {
   group: PropertyGroup | undefined

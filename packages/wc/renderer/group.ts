@@ -30,6 +30,7 @@ export const renderGroup: FocusNodeRenderer['renderGroup'] = function ({ group }
   const { focusNode } = this
 
   const properties = focusNode.properties
+    .filter(({ hidden }) => !hidden)
     .filter(byGroup(group?.group))
     .filter(onlySingleProperty)
   const actions = {

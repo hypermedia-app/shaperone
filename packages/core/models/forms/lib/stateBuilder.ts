@@ -83,6 +83,7 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
     canAdd,
     datatype,
     componentState: {},
+    hidden: shape.hidden || false,
   }
 }
 
