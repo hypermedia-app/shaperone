@@ -13,6 +13,7 @@ export interface State {
   prefixes: string[]
   resourcesToSelect: string[]
   selectedResource: string | undefined
+  error?: Error
 }
 
 const graph = cf({ dataset: $rdf.dataset() })
@@ -39,6 +40,9 @@ export const resource = createModel({
     selectedResource: pointer.value,
   },
   reducers: {
+    error(state, error: Error | undefined) {
+      return { ...state, error }
+    },
     setResourceQuads(state, dataset: DatasetCore) {
       return {
         ...state,

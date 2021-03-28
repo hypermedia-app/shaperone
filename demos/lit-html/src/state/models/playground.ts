@@ -8,6 +8,7 @@ export interface State {
   sharingLink: string
   linkWithAllParams: string
   shareFormSettings: boolean
+  hasError: boolean
 }
 
 interface SharingParam {
@@ -35,6 +36,7 @@ export const playground = createModel({
     sharingLink: document.location.href,
     linkWithAllParams: document.location.href,
     shareFormSettings: false,
+    hasError: false,
   },
   reducers: {
     hideSharingDialog(state, hide: boolean) {
@@ -65,6 +67,9 @@ export const playground = createModel({
         shareFormSettings,
         sharingLink: removeFormParams(state.linkWithAllParams, shareFormSettings),
       }
+    },
+    error(state, hasError: boolean) {
+      return { ...state, hasError }
     },
   },
   effects(store: Store) {
@@ -103,6 +108,12 @@ export const playground = createModel({
       },
       'rendererSettings/switchLayout': function (value: string) {
         dispatch.playground.updateSharingParams({ key: 'grouping', value })
+      },
+      'shape/error': function (error: Error | undefined) {
+        dispatch.playground.error(typeof error !== 'undefined')
+      },
+      'resource/error': function (error: Error | undefined) {
+        dispatch.playground.error(typeof error !== 'undefined')
       },
       restoreState() {
         const url = new URL(document.location.toString())

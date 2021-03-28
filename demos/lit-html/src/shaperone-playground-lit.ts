@@ -4,6 +4,7 @@ import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
 import '@vaadin/vaadin-button/vaadin-button.js'
 import '@material/mwc-icon/mwc-icon.js'
+import '@vaadin-component-factory/vcf-tooltip'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import { html, render } from 'lit-html'
 import '@hydrofoil/shaperone-wc/shaperone-form'
@@ -30,6 +31,10 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     return css`:host {
       height: 100vh;
       display: block;
+    }
+
+    [hidden] {
+      display: none;
     }
 
     .content {
@@ -123,7 +128,12 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         <span>@hydrofoil/shaperone playground</span>
       </h2>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
-      <vaadin-button slot="navbar" @click="${this.__share}"><mwc-icon>share</mwc-icon></vaadin-button>
+      <vaadin-button slot="navbar" @click="${this.__share}" id="share-button">
+        <mwc-icon>share</mwc-icon>
+      </vaadin-button>
+      <vcf-tooltip for="share-button" position="bottom" ?manual="${!this.playground.hasError}">
+        Please fix syntax errors before sharing
+      </vcf-tooltip>
       <a href="https://github.com/hypermedia-app/shaperone" target="_blank" slot="navbar"><img alt="GitHub" src="/_media/GitHub-Mark-32px.png"></a>
 
       <div class="content">
@@ -134,6 +144,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                      .serialized="${this.shape.serialized}"
                      .format="${this.shape.format}"
                      .quads="${this.shape.quads}"
+                     @parsing-failed="${this.__setShapeError}"
                      @quads-changed="${this.__setShape}"
                      @serialized="${this.__setSerializedShape}"></rdf-editor>
         </div>
@@ -153,6 +164,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                        .serialized="${this.resource.serialized}"
                        .format="${this.resource.format}"
                        .quads="${this.resource.quads}"
+                       @parsing-failed="${this.__setDataError}"
                        @quads-changed="${this.__setResource}"
                        @serialized="${this.__setSerializedResource}"></rdf-editor>
           </div>
@@ -169,6 +181,14 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   __setShape(e: CustomEvent) {
     store().dispatch.shape.setShapesGraph(e.detail.value)
     store().dispatch.shape.serialized(this.shapeEditor.codeMirror.value)
+  }
+
+  __setShapeError(e: CustomEvent) {
+    store().dispatch.shape.error(e.detail.error)
+  }
+
+  __setDataError(e: CustomEvent) {
+    store().dispatch.resource.error(e.detail.error)
   }
 
   __setSerializedShape(e: any) {
