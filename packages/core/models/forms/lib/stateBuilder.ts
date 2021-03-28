@@ -6,7 +6,7 @@ import type { EditorsState } from '../../editors/index'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
-import { canAddObject, canRemoveObject } from './property'
+import { canAddObject, canRemoveObject, combineProperties } from './property'
 import PropertyShapeEx from '../../shapes/lib/PropertyShape'
 import { nextid } from './objectid'
 
@@ -96,7 +96,7 @@ interface InitializePropertyShapesParams {
 export function initialisePropertyShapes(shape: NodeShape, { selectedGroup, ...params }: InitializePropertyShapesParams, previous: FocusNodeState | undefined) {
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
-  const properties = shape.property
+  const properties = [...combineProperties(shape)]
     .sort(byShOrder)
     .reduce<Array<PropertyState>>((map, prop) => {
     groupMap.set(prop.group?.id?.value, {
