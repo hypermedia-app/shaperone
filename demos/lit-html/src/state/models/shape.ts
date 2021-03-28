@@ -108,6 +108,7 @@ export interface State {
   pointer?: AnyPointer
   shapes: GraphPointer[]
   quads: Quad[]
+  error?: Error
   options: {
     clearResource: boolean
     loadedShapeUri?: string
@@ -126,6 +127,9 @@ export const shape = createModel({
     },
   },
   reducers: {
+    error(state, error: Error | undefined) {
+      return { ...state, error }
+    },
     setShapesGraph(state, quads: Quad[]) {
       let pointer = clownface({ dataset: $rdf.dataset(quads) })
       const shapes = pointer.has(rdf.type, [sh.Shape, sh.NodeShape])
