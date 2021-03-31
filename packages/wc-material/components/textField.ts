@@ -4,6 +4,7 @@ import '@material/mwc-textfield/mwc-textfield'
 import { Render } from '@hydrofoil/shaperone-wc'
 import { Term } from 'rdf-js'
 import { TextFieldType } from '@material/mwc-textfield/mwc-textfield-base'
+import { validity } from '../directives/validity'
 
 function getType(datatype: ReturnType<typeof numericDatatype> | undefined): TextFieldType {
   if (numericDatatype(datatype)) {
@@ -19,6 +20,7 @@ export const createTextField = function ({ type, createTerm }: { type?: TextFiel
         .value="${value.object?.value || ''}"
         type="${type || getType(property.datatype)}"
         required
+        part="${validity(value)}"
         @blur="${(e: any) => update(createTerm ? createTerm(e.target.value) : e.target.value)}"></mwc-textfield>`
   }
 }

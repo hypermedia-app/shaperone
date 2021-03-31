@@ -55,6 +55,8 @@ export const setPropertyObjects = formStateReducer((state: FormState, { focusNod
       editors: suitableEditors,
       selectedEditor: suitableEditors[0]?.term,
       componentState: {},
+      validationResults: [],
+      hasErrors: false,
     }
   })
 }))

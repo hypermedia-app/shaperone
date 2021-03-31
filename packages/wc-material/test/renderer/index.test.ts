@@ -52,6 +52,8 @@ describe('wc-material/renderer', () => {
         object: blankNode(),
         selectedEditor: undefined,
         componentState: {},
+        validationResults: [],
+        hasErrors: false,
       }
       renderer = objectRenderer({
         property,

@@ -82,6 +82,14 @@
           "type": "RdfResource<DatasetCore<Quad, Quad>> | null"
         },
         {
+          "name": "isValid",
+          "type": "boolean"
+        },
+        {
+          "name": "validationResults",
+          "type": "ValidationResultState[]"
+        },
+        {
           "name": "shapes",
           "description": "Gets or sets the shapes graph",
           "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"

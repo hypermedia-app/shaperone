@@ -74,6 +74,14 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       margin: 4px;
     }
 
+    shaperone-form::part(property invalid) {
+      border-color: red;
+    }
+
+    shaperone-form::part(focus-node-header invalid) {
+      --mdc-theme-text-primary-on-background: red;
+    }
+
     shaperone-form::part(property):nth-child(0) {
       flex-basis: 100%;
     }

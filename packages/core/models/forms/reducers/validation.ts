@@ -1,0 +1,72 @@
+import type { GraphPointer } from 'clownface'
+import { ValidationReport } from '@rdfine/shacl'
+import produce from 'immer'
+import { fromPointer } from '@rdfine/shacl/lib/ValidationReport'
+import { sh } from '@tpluscode/rdf-ns-builders'
+import { BaseParams, formStateReducer } from '../../index'
+import type { FormState, ValidationResultState } from '../index'
+
+export interface ValidationReportParams extends BaseParams {
+  report: GraphPointer<any> | ValidationReport
+}
+
+export const validationReport = formStateReducer((state: FormState, { report }: ValidationReportParams) => produce(state, (draft) => {
+  const reportObj = '_context' in report ? fromPointer(report) : report
+
+  draft.hasErrors = false
+  draft.validationResults = []
+
+  for (const focusNode of Object.values(draft.focusNodes)) {
+    focusNode.hasErrors = false
+    focusNode.validationResults = []
+
+    for (const property of focusNode.properties) {
+      property.hasErrors = false
+      property.validationResults = []
+
+      for (const object of property.objects) {
+        object.hasErrors = false
+        object.validationResults = []
+      }
+    }
+  }
+
+  if (reportObj.conforms || !reportObj.result.length) {
+    return
+  }
+
+  for (const result of reportObj.result) {
+    const isViolation = result.resultSeverity?.equals(sh.Violation) === true
+
+    const resultState: ValidationResultState = { result, matchedTo: null }
+
+    if (result.focusNode) {
+      resultState.matchedTo = 'focusNode'
+
+      const focusNode = draft.focusNodes[result.focusNode.value]
+      if (focusNode) {
+        const property = focusNode.properties.find(prop => prop.shape.pathEquals(result.resultPath?.pointer))
+
+        if (property) {
+          resultState.matchedTo = 'property'
+
+          const object = property.objects.find(o => o.object?.term.equals(result.value))
+          if (object) {
+            resultState.matchedTo = 'object'
+            object.validationResults.push(resultState)
+            object.hasErrors = object.hasErrors || isViolation
+          }
+
+          property.validationResults.push(resultState)
+          property.hasErrors = property.hasErrors || isViolation
+        }
+
+        focusNode.validationResults.push(resultState)
+        focusNode.hasErrors = focusNode.hasErrors || isViolation
+      }
+    }
+
+    draft.validationResults.push(resultState)
+    draft.hasErrors = draft.hasErrors || isViolation
+  }
+}))

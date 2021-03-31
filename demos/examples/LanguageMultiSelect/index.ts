@@ -39,6 +39,8 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
       return html`<multiselect-combo-box item-id-path="id" item-label-path="label"
                       .selectedItems="${selected}"
                       .items="${languages}"
+                      .invalid="${property.hasErrors}"
+                      .errorMessage="${property.validationResults.map(({ result }) => result.resultMessage).join('; ')}"
                       @change="${setValues}"></multiselect-combo-box>`
     }
   },

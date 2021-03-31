@@ -16,5 +16,7 @@ export function updateObject(store: Store) {
       focusNode,
       property,
     })
+
+    dispatch.forms.validate({ form })
   }
 }

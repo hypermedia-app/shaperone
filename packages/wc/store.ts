@@ -9,6 +9,7 @@ import { components } from '@hydrofoil/shaperone-core/models/components'
 import { forms } from '@hydrofoil/shaperone-core/models/forms'
 import { resources } from '@hydrofoil/shaperone-core/models/resources'
 import { shapes } from '@hydrofoil/shaperone-core/models/shapes'
+import { validation } from '@hydrofoil/shaperone-core/models/validation'
 import { renderer } from './renderer/model'
 
 declare global {
@@ -29,6 +30,7 @@ const config = {
     resources,
     shapes,
     components,
+    validation,
   },
 }
 

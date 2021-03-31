@@ -7,6 +7,8 @@ import { setPropertyObjects } from './setPropertyObjects'
 import { updateObject } from './updateObject'
 import { removeObject } from './removeObject'
 import { connect, disconnect } from './connection'
+import { validate } from './validate'
+import { createFocusNodeState } from './createFocusNodeState'
 
 export default function (store: Store) {
   return {
@@ -19,5 +21,7 @@ export default function (store: Store) {
     'forms/setPropertyObjects': setPropertyObjects(store),
     'forms/updateObject': updateObject(store),
     'forms/removeObject': removeObject(store),
+    validate: validate(store),
+    'forms/createFocusNodeState': createFocusNodeState(store),
   }
 }

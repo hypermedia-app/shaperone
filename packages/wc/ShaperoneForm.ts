@@ -184,6 +184,14 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     return null
   }
 
+  get isValid() {
+    return !this.state.hasErrors
+  }
+
+  get validationResults() {
+    return this.state.validationResults
+  }
+
   /**
    * Gets or sets the shapes graph
    */
@@ -217,6 +225,12 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       templates: this.rendererOptions.templates,
       shapes: this[shapes],
     })}`
+  }
+
+  validate() {
+    store().dispatch.forms.validate({
+      form: id(this),
+    })
   }
 
   /**

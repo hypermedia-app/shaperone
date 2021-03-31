@@ -1,6 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
-import type { NodeShape, PropertyGroup, PropertyShape } from '@rdfine/shacl'
+import type { NodeShape, PropertyGroup, PropertyShape, ValidationResult } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
 import effects from './effects'
 import { addFormField } from './reducers/addFormField'
@@ -14,6 +14,7 @@ import * as objects from './reducers/updateObject'
 import * as connection from './reducers/connection'
 import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
+import * as validation from './reducers/validation'
 import { FocusNode } from '../../index'
 import type { MultiEditor, SingleEditorMatch } from '../editors'
 import { createFocusNodeState } from './reducers/replaceFocusNodes'
@@ -24,7 +25,17 @@ import componentsEffects from './effects/components'
 import type { Store } from '../../state'
 import type { ComponentInstance } from '../components'
 
-export interface PropertyObjectState<TState extends ComponentInstance = ComponentInstance> {
+export interface ValidationResultState {
+  result: ValidationResult
+  matchedTo: 'focusNode' | 'property' | 'object' | null
+}
+
+interface ValidationState {
+  validationResults: ValidationResultState[]
+  hasErrors: boolean
+}
+
+export interface PropertyObjectState<TState extends ComponentInstance = ComponentInstance> extends ValidationState {
   key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]
@@ -37,7 +48,7 @@ export interface ShouldEnableEditorChoice {
   (params?: { object?: GraphPointer }): boolean
 }
 
-export interface PropertyState {
+export interface PropertyState extends ValidationState {
   shape: PropertyShape
   name: string
   editors: MultiEditor[]
@@ -55,7 +66,7 @@ export interface PropertyGroupState {
   selected: boolean
 }
 
-export interface FocusNodeState {
+export interface FocusNodeState extends ValidationState {
   focusNode: FocusNode
   shape?: NodeShape
   shapes: NodeShape[]
@@ -69,7 +80,7 @@ export interface FormSettings {
   labelProperties: NamedNode[]
 }
 
-export interface FormState extends FormSettings {
+export interface FormState extends FormSettings, ValidationState {
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
 }
@@ -89,6 +100,7 @@ const reducers = {
   ...editors,
   ...multiEditors,
   createFocusNodeState,
+  ...validation,
 }
 
 export const forms = createModel({

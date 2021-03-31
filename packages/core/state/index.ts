@@ -4,6 +4,7 @@ import { editors } from '../models/editors'
 import { components } from '../models/components'
 import { resources } from '../models/resources'
 import { shapes } from '../models/shapes'
+import { validation } from '../models/validation'
 
 interface Config {
   models: {
@@ -12,6 +13,7 @@ interface Config {
     resources: typeof resources
     shapes: typeof shapes
     components: typeof components
+    validation: typeof validation
   }
 }
 

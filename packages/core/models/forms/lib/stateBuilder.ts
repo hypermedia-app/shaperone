@@ -35,6 +35,8 @@ export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice
       selectedEditor,
       editorSwitchDisabled: !shouldEnableEditorChoice({ object }),
       componentState: {},
+      validationResults: [],
+      hasErrors: false,
     }
   }
 }
@@ -84,6 +86,8 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
     datatype,
     componentState: {},
     hidden: shape.hidden || false,
+    validationResults: [],
+    hasErrors: false,
   }
 }
 
@@ -139,6 +143,8 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
       focusNode,
       groups: [],
       properties: [],
+      validationResults: [],
+      hasErrors: false,
     }
   }
 
@@ -157,5 +163,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     focusNode,
     groups,
     properties,
+    validationResults: [],
+    hasErrors: false,
   }
 }

@@ -10,6 +10,8 @@ export function connect(map: State, { form, ...settings }: Params): State {
     shouldEnableEditorChoice: () => true,
     languages: settings.languages || [],
     labelProperties: [rdfs.label, schema.name],
+    validationResults: [],
+    hasErrors: false,
   })
   return map
 }

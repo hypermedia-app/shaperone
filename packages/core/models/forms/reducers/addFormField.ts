@@ -43,6 +43,8 @@ export const addFormField = formStateReducer((state: FormState, { focusNode, pro
     selectedEditor,
     editorSwitchDisabled: !state.shouldEnableEditorChoice(),
     componentState: {},
+    validationResults: [],
+    hasErrors: false,
   })
   currentProperty.canRemove = !!currentProperty.selectedEditor || canRemoveObject(property, currentProperty.objects.length)
   currentProperty.canAdd = !!currentProperty.selectedEditor || canAddObject(property, currentProperty.objects.length)

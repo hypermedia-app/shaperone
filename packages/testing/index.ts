@@ -41,6 +41,8 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
     selectedEditor: undefined,
     object,
     componentState: componentState || {} as T,
+    validationResults: [],
+    hasErrors: false,
   }
 
   const property: PropertyState = {
@@ -54,6 +56,8 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
     datatype,
     componentState: {},
     hidden: false,
+    validationResults: [],
+    hasErrors: false,
   }
 
   const renderer = objectRenderer({
