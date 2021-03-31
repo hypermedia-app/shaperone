@@ -96,7 +96,8 @@ interface InitializePropertyShapesParams {
 export function initialisePropertyShapes(shape: NodeShape, { selectedGroup, ...params }: InitializePropertyShapesParams, previous: FocusNodeState | undefined) {
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
-  const properties = [...combineProperties(shape)]
+  const foo = combineProperties(shape)
+  const properties = foo
     .sort(byShOrder)
     .reduce<Array<PropertyState>>((map, prop) => {
     groupMap.set(prop.group?.id?.value, {

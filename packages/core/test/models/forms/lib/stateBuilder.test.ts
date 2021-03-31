@@ -374,6 +374,48 @@ describe('core/models/forms/lib/stateBuilder', () => {
       // then
       expect(state.properties).to.have.length(6)
     })
+
+    it('combines all property shapes from logical constraints, defined without wrapping node shape', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Person)
+      const shape = fromPointer(graph.blankNode(), {
+        property: [{
+          path: dcterms.identifier,
+          types: [sh.PropertyShape],
+        }],
+        or: [{
+          path: ex.firstName,
+          types: [sh.PropertyShape],
+        }, {
+          path: ex.givenName,
+          types: [sh.PropertyShape],
+        }],
+        and: [{
+          path: ex.firstName,
+          types: [sh.PropertyShape],
+        }],
+        xone: [{
+          path: ex.lastName,
+          types: [sh.PropertyShape],
+        }, {
+          path: ex.familyName,
+          types: [sh.PropertyShape],
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: store.getState().editors,
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      expect(state.properties).to.have.length(6)
+    })
   })
 
   describe('initialiseObjectState', () => {
