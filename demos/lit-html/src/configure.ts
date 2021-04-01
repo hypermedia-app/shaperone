@@ -13,6 +13,7 @@ import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/render
 import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
 import $rdf from 'rdf-ext'
+import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer'
 import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 
@@ -52,7 +53,7 @@ export const configureRenderer = (() => {
   const initialStrategy = {
     ...templates,
     ...MaterialRenderStrategy,
-    focusNode: MaterialRenderStrategy.focusNode(templates.focusNode),
+    focusNode: MaterialRenderStrategy.focusNode(xone.focusNode(templates.focusNode)),
   }
 
   renderer.setTemplates(initialStrategy)
@@ -98,7 +99,7 @@ export const configureRenderer = (() => {
         } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion')
 
         strategy.group = AccordionGroupingRenderer
-        strategy.focusNode = MaterialRenderStrategy.focusNode(AccordionFocusNodeRenderer)
+        strategy.focusNode = MaterialRenderStrategy.focusNode(xone.focusNode(AccordionFocusNodeRenderer))
       } else if (grouping === 'material tabs') {
         const {
           TabsGroupRenderer,
@@ -106,7 +107,7 @@ export const configureRenderer = (() => {
         } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs')
 
         strategy.group = TabsGroupRenderer
-        strategy.focusNode = MaterialRenderStrategy.focusNode(TabsFocusNodeRenderer)
+        strategy.focusNode = MaterialRenderStrategy.focusNode(xone.focusNode(TabsFocusNodeRenderer))
       }
 
       renderer.setTemplates(strategy)
