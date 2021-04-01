@@ -2,4 +2,4 @@
 "@hydrofoil/shaperone-core": patch
 ---
 
-Adds links from property state to originting logical constraints
+Add logical constraints state to focus node state
