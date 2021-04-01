@@ -3,7 +3,7 @@
  * @module @hydrofoil/shaperone-core/renderer
  */
 
-import type { NodeShape } from '@rdfine/shacl'
+import type { NodeShape, Shape } from '@rdfine/shacl'
 import { PropertyGroup } from '@rdfine/shacl'
 import { NamedNode, Term } from 'rdf-js'
 import type { GraphPointer } from 'clownface'
@@ -84,6 +84,9 @@ export interface FocusNodeActions {
    * @param shape
    */
   selectShape (shape: NodeShape): void
+
+  hideProperty (shape: Shape): void
+  showProperty (shape: Shape): void
 }
 
 /**

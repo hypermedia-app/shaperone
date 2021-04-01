@@ -1,6 +1,6 @@
 import { FormRenderer, FocusNodeRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { TemplateResult } from 'lit-element'
-import { NodeShape, PropertyGroup } from '@rdfine/shacl'
+import { NodeShape, PropertyGroup, Shape } from '@rdfine/shacl'
 import { renderGroup } from './group'
 
 export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focusNode, shape }): TemplateResult {
@@ -21,6 +21,8 @@ export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focu
     ...this.actions,
     selectGroup: (group: PropertyGroup | undefined) => dispatch.forms.selectGroup({ form, focusNode, group }),
     selectShape: (shape: NodeShape) => dispatch.forms.selectShape({ form, focusNode, shape }),
+    hideProperty: (shape: Shape) => dispatch.forms.hideProperty({ form, focusNode, shape }),
+    showProperty: (shape: Shape) => dispatch.forms.showProperty({ form, focusNode, shape }),
   }
 
   const context: FocusNodeRenderer = {
