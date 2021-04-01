@@ -2,7 +2,7 @@ import type { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { NamedNode } from 'rdf-js'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
-import type { EditorsState } from '../../editors/index'
+import type { EditorsState } from '../../editors'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
@@ -73,6 +73,10 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
     selectedEditor = previous.selectedEditor
   }
 
+  const hidden = typeof previous?.hidden !== 'undefined'
+    ? previous.hidden
+    : shape.hidden || false
+
   return {
     shape,
     name: shape.displayName,
@@ -83,7 +87,7 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
     canAdd,
     datatype,
     componentState: {},
-    hidden: shape.hidden || false,
+    hidden,
   }
 }
 
@@ -97,8 +101,9 @@ interface InitializePropertyShapesParams {
 export function initialisePropertyShapes(shape: NodeShape, { selectedGroup, ...params }: InitializePropertyShapesParams, previous: FocusNodeState | undefined) {
   const groupMap = new Map<string | undefined, PropertyGroupState>()
 
-  const foo = combineProperties(shape)
-  const properties = foo
+  const { logicalConstraints, ...result } = combineProperties(shape)
+
+  const properties = result.properties
     .sort(byShOrder)
     .reduce<Array<PropertyState>>((map, prop) => {
     groupMap.set(prop.group?.id?.value, {
@@ -118,7 +123,7 @@ export function initialisePropertyShapes(shape: NodeShape, { selectedGroup, ...p
     groups[0].selected = true
   }
 
-  return { groups, properties }
+  return { groups, properties, logicalConstraints }
 }
 
 export interface InitializeParams {
@@ -139,6 +144,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
       focusNode,
       groups: [],
       properties: [],
+      logicalConstraints: { and: [], or: [], xone: [] },
     }
   }
 
@@ -149,7 +155,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     shapes.unshift(shape)
   }
 
-  const { properties, groups } = initialisePropertyShapes(shape, params, previous)
+  const { properties, groups, logicalConstraints } = initialisePropertyShapes(shape, params, previous)
 
   return {
     shape,
@@ -157,5 +163,6 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     focusNode,
     groups,
     properties,
+    logicalConstraints,
   }
 }

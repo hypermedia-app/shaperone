@@ -1,7 +1,8 @@
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
-import type { NodeShape, PropertyGroup, PropertyShape } from '@rdfine/shacl'
+import type { NodeShape, PropertyGroup, PropertyShape, Shape } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
+import type { sh } from '@tpluscode/rdf-ns-builders'
 import effects from './effects'
 import { addFormField } from './reducers/addFormField'
 import { popFocusNode } from './reducers/popFocusNode'
@@ -14,6 +15,7 @@ import * as objects from './reducers/updateObject'
 import * as connection from './reducers/connection'
 import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
+import * as properties from './reducers/properties'
 import { FocusNode } from '../../index'
 import type { MultiEditor, SingleEditorMatch } from '../editors'
 import { createFocusNodeState } from './reducers/replaceFocusNodes'
@@ -37,6 +39,18 @@ export interface ShouldEnableEditorChoice {
   (params?: { object?: GraphPointer }): boolean
 }
 
+export interface LogicalConstraint<Type extends NamedNode = typeof sh.AndConstraintComponent | typeof sh.OrConstraintComponent | typeof sh.XoneConstraintComponent> {
+  term: GraphPointer
+  shapes: Shape[]
+  component: Type
+}
+
+export interface LogicalConstraints {
+  and: LogicalConstraint<typeof sh.AndConstraintComponent>[]
+  or: LogicalConstraint<typeof sh.OrConstraintComponent>[]
+  xone: LogicalConstraint<typeof sh.XoneConstraintComponent>[]
+}
+
 export interface PropertyState {
   shape: PropertyShape
   name: string
@@ -49,6 +63,7 @@ export interface PropertyState {
   datatype?: NamedNode
   hidden: boolean
 }
+
 export interface PropertyGroupState {
   group: PropertyGroup | undefined
   order: number
@@ -61,6 +76,7 @@ export interface FocusNodeState {
   shapes: NodeShape[]
   properties: PropertyState[]
   groups: PropertyGroupState[]
+  logicalConstraints: LogicalConstraints
 }
 
 export interface FormSettings {
@@ -89,6 +105,7 @@ const reducers = {
   ...editors,
   ...multiEditors,
   createFocusNodeState,
+  ...properties,
 }
 
 export const forms = createModel({
