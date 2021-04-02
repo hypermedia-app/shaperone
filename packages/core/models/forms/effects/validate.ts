@@ -1,3 +1,4 @@
+import clownface from 'clownface'
 import type { Store } from '../../../state'
 import { BaseParams } from '../../index'
 
@@ -12,7 +13,7 @@ export function validate(store: Store) {
       return
     }
 
-    const report = await validation.validator(shapesGraph, data)
+    const report = clownface(await validation.validator(shapesGraph, data))
 
     dispatch.forms.validationReport({
       form,

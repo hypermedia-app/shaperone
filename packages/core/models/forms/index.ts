@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/models/forms
+ */
+
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
 import type { NodeShape, PropertyGroup, PropertyShape, ValidationResult } from '@rdfine/shacl'
@@ -26,12 +31,34 @@ import type { Store } from '../../state'
 import type { ComponentInstance } from '../components'
 
 export interface ValidationResultState {
+  /**
+   * Gets an rdfine OO representation of the underlying `sh:ValidationResult`
+   */
   result: ValidationResult
+
+  /**
+   * Gets a value indicating whether the given validation result was correlated with a more specific point
+   * in the [Data Graph](https://www.w3.org/TR/shacl/#data-graph). It will be null if a result could not
+   * have been associated even with a Focus Node
+   */
   matchedTo: 'focusNode' | 'property' | 'object' | null
 }
 
-interface ValidationState {
+/**
+ * Represents validation results associated with a given location
+ * in the form graph.
+ *
+ * Derived by other state models, narrows down the set of results
+ */
+export interface ValidationState {
+  /**
+   * Gets a collection of result objects which directly map to SHACL `sh:ValidationResult` nodes in the
+   * validation result graph
+   */
   validationResults: ValidationResultState[]
+  /**
+   * Gets a value indicating if any of the validation results has `sh:severity sh:Violation`
+   */
   hasErrors: boolean
 }
 
@@ -60,6 +87,7 @@ export interface PropertyState extends ValidationState {
   datatype?: NamedNode
   hidden: boolean
 }
+
 export interface PropertyGroupState {
   group: PropertyGroup | undefined
   order: number
@@ -83,6 +111,10 @@ export interface FormSettings {
 export interface FormState extends FormSettings, ValidationState {
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
+  /**
+   * Gets a pointer to the `sh:ValidationReport` instance
+   */
+  validationReport?: GraphPointer
 }
 
 export type State = Map<symbol, FormState>

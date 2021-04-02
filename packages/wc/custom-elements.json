@@ -83,11 +83,18 @@
         },
         {
           "name": "isValid",
+          "description": "Gets a value indicating if there are any `sh:Violation` violation results",
           "type": "boolean"
         },
         {
           "name": "validationResults",
+          "description": "Get all validation results found in the {@see validationReport} graph",
           "type": "ValidationResultState[]"
+        },
+        {
+          "name": "validationReport",
+          "description": "Gets a graph pointer to the latest [SHACL Validation Report](https://www.w3.org/TR/shacl/#validation-report)",
+          "type": "GraphPointer<Term, DatasetCore<Quad, Quad>> | undefined"
         },
         {
           "name": "shapes",

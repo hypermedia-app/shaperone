@@ -31,7 +31,7 @@ editors.decorate(instancesSelector.matcher)
 components.decorate(instancesSelector.decorator())
 components.decorate(DescriptionTooltip)
 
-validation.setValidator(validate.with($rdf))
+validation.setValidator(validate.with({ factory: $rdf }))
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native

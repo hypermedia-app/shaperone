@@ -1,9 +1,18 @@
-import { createModel } from '@captaincodeman/rdx'
-import { GraphPointer } from 'clownface'
-import { DatasetCore } from 'rdf-js'
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/models/validation
+ */
 
+import { createModel } from '@captaincodeman/rdx'
+import { DatasetCore, Term } from 'rdf-js'
+
+/**
+ * Interface for validation functions
+ *
+ * @returns lazily, graph pointer to the `sh:ValidationReport` instance
+ */
 export interface Validator {
-  (shapes: DatasetCore, data: DatasetCore): Promise<GraphPointer>
+  (shapes: DatasetCore, data: DatasetCore): Promise<{ term: Term; dataset: DatasetCore }>
 }
 
 export interface ValidatorState {
