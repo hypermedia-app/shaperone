@@ -13,6 +13,7 @@ export interface ValidationReportParams extends BaseParams {
 export const validationReport = formStateReducer((state: FormState, { report }: ValidationReportParams) => produce(state, (draft) => {
   const reportObj = '_context' in report ? fromPointer(report) : report
 
+  draft.validationReport = reportObj.pointer
   draft.hasErrors = false
   draft.validationResults = []
 
@@ -36,7 +37,7 @@ export const validationReport = formStateReducer((state: FormState, { report }: 
   }
 
   for (const result of reportObj.result) {
-    const isViolation = result.resultSeverity?.equals(sh.Violation) === true
+    const isViolation = !result.resultSeverity || result.resultSeverity.equals(sh.Violation)
 
     const resultState: ValidationResultState = { result, matchedTo: null }
 

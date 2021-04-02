@@ -5,6 +5,7 @@
 
 import { createModel } from '@captaincodeman/rdx'
 import { DatasetCore, Term } from 'rdf-js'
+import { setValidator } from './reducers/setValidator'
 
 /**
  * Interface for validation functions
@@ -24,11 +25,6 @@ export type State = Map<symbol, ValidatorState>
 export const validation = createModel({
   state: <ValidatorState>{},
   reducers: {
-    setValidator(state, validator: Validator) {
-      return {
-        ...state,
-        validator,
-      }
-    },
+    setValidator,
   },
 })
