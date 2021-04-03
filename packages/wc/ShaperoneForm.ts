@@ -1,10 +1,10 @@
 import { LitElement, property, css, html, PropertyValues } from 'lit-element'
 import { DatasetCore } from 'rdf-js'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import type { FormState, ValidationResultState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
 import { connect } from '@captaincodeman/rdx'
 import type { RdfResource } from '@tpluscode/rdfine'
-import type { AnyPointer } from 'clownface'
+import type { AnyPointer, GraphPointer } from 'clownface'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
 import { TemplateResult } from 'lit-html'
@@ -185,6 +185,27 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   }
 
   /**
+   * Gets a value indicating if there are any `sh:Violation` violation results
+   */
+  get isValid(): boolean {
+    return !this.state.hasErrors
+  }
+
+  /**
+   * Get all validation results found in the {@see validationReport} graph
+   */
+  get validationResults(): ValidationResultState[] {
+    return this.state.validationResults
+  }
+
+  /**
+   * Gets a graph pointer to the latest [SHACL Validation Report](https://www.w3.org/TR/shacl/#validation-report)
+   */
+  get validationReport(): GraphPointer | undefined {
+    return this.state.validationReport
+  }
+
+  /**
    * Gets or sets the shapes graph
    */
   get shapes(): AnyPointer | DatasetCore | undefined {
@@ -217,6 +238,15 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       templates: this.rendererOptions.templates,
       shapes: this[shapes],
     })}`
+  }
+
+  /**
+   * Triggers validation of the current resource against the shapes graph
+   */
+  validate(): void {
+    store().dispatch.forms.validate({
+      form: id(this),
+    })
   }
 
   /**

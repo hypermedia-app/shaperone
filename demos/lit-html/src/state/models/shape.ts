@@ -54,6 +54,7 @@ ex:AgeProperty
   ${sh.maxCount} 1 ;
   ${sh.defaultValue} 21 ;
   ${sh.order} 2 ;
+  ${sh.minInclusive} 18 ;
 .
 
 ex:GenderProperty
@@ -64,6 +65,7 @@ ex:GenderProperty
   ) ;
   ${sh.maxCount} 1 ;
   ${sh.order} 3 ;
+  ${sh.message} "Please select a valid gender" ;
 .
 
 ex:DateOfBirthProperty
@@ -82,6 +84,8 @@ ex:SpokenLanguagesProperty
     lexvo:en lexvo:de lexvo:fr lexvo:pl lexvo:es
   ) ;
   ${sh.order} 5 ;
+  ${sh.minCount} 1 ;
+  ${sh.maxCount} 2 ;
 .
 
 ex:HomePageProperty

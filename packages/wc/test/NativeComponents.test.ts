@@ -4,8 +4,11 @@ import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { Render } from '../index'
+import { RenderFunc } from '@hydrofoil/shaperone-core/models/components'
+import { fromPointer } from '@rdfine/shacl/lib/ValidationResult'
+import { blankNode } from '@shaperone/testing/nodeFactory'
 import * as components from '../NativeComponents'
+import { Render } from '../index'
 
 describe('NativeComponents', () => {
   const supportedEditors = new TermSet([
@@ -23,7 +26,7 @@ describe('NativeComponents', () => {
     const component = Object.values(components).find(c => c.editor.equals(editor))
 
     describe(editor.value, () => {
-      let render: any
+      let render: RenderFunc<any, any, any>
 
       before(async () => {
         if (component) {
@@ -33,6 +36,27 @@ describe('NativeComponents', () => {
 
       it('is implemented', () => {
         expect(render).to.be.ok
+      })
+
+      it('sets native validity', async () => {
+        // given
+        const graph = cf({ dataset: $rdf.dataset() })
+        const { params, actions } = editorTestParams({
+          object: graph.literal(''),
+        })
+        params.value.hasErrors = true
+        params.value.validationResults = [{
+          matchedTo: 'object',
+          result: fromPointer(blankNode(), {
+            resultMessage: 'invalid',
+          }),
+        }]
+
+        // when
+        const element = await fixture(render(params, actions))
+
+        // then
+        expect(element.getAttribute('part')).to.contain('component invalid')
       })
     })
   }

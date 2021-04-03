@@ -6,11 +6,13 @@ import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating
 import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating'
 import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
-import { components, editors, renderer } from '@hydrofoil/shaperone-wc/configure'
+import { components, editors, renderer, validation } from '@hydrofoil/shaperone-wc/configure'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { templates } from '@hydrofoil/shaperone-wc/templates'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
 import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
+import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
+import $rdf from 'rdf-ext'
 import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 
@@ -28,6 +30,8 @@ editors.addMatchers({
 editors.decorate(instancesSelector.matcher)
 components.decorate(instancesSelector.decorator())
 components.decorate(DescriptionTooltip)
+
+validation.setValidator(validate.with({ factory: $rdf }))
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native

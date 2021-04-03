@@ -6,6 +6,8 @@ import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
+import { spread } from '@open-wc/lit-helpers'
+import { validity } from './validation'
 
 declare module '@hydrofoil/shaperone-core/components' {
   interface InstancesSelect {
@@ -104,6 +106,7 @@ export const instancesSelect: Render<InstancesSelectEditor> = function (params, 
   const searchUri = this.searchTemplate?.({ property })?.expand(focusNode)
 
   return html`<vaadin-combo-box item-id-path="0.value" item-label-path="1"
+                                ...="${spread(validity(value))}"
                 .dataProvider="${memoizeDataProvider(this, params, searchUri)}"
                 .selectedItem="${selectedInstance}"
                 @selected-item-changed="${onChange}">

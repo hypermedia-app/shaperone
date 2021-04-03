@@ -1,4 +1,4 @@
-import type { Render } from '@hydrofoil/shaperone-wc'
+import type { Render, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit-html'
 import { spread } from '@open-wc/lit-helpers'
 import { xsd } from '@tpluscode/rdf-ns-builders'
@@ -6,13 +6,15 @@ import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 import '@vaadin/vaadin-text-field/vaadin-number-field'
 import '@vaadin/vaadin-text-field/vaadin-integer-field'
+import { validity } from './validation'
 
-export const textField: Render = function ({ value, property }, { update }) {
+export const textField: Render<SingleEditorComponent> = function ({ value, property }, { update }) {
   const props = {
     '.value': value.object?.value || '',
     required: true,
     '?auto-validate': true,
     '@blur': (e: any) => update(e.target.value),
+    ...validity(value),
   }
 
   const datatype = numericDatatype(property.datatype)

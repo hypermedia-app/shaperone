@@ -12,7 +12,7 @@ import { FocusNode } from '../../../index'
 
 interface PropertyShapeEx {
   getPathProperty<T extends boolean = false>(throwIfNotPredicatePath?: T): T extends true ? Resource : (Resource | undefined)
-  pathEquals(other: NamedNode | GraphPointer): boolean
+  pathEquals(other: NamedNode | GraphPointer | undefined): boolean
   getValues(focusNode: FocusNode): MultiPointer
   displayName: string
   permitsDatatype(datatype: NamedNode): boolean
@@ -51,7 +51,7 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
       return __predicatePath
     }
 
-    pathEquals(other: NamedNode | GraphPointer): boolean {
+    pathEquals(other: NamedNode | GraphPointer | undefined): boolean {
       return !this.__predicatePath ? false : this.__predicatePath.equals(other)
     }
 

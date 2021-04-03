@@ -48,6 +48,8 @@ describe('core/models/forms/reducers/selectEditor', () => {
         editors: [],
         selectedEditor: undefined,
         componentState: {},
+        validationResults: [],
+        hasErrors: false,
       },
     })
 
@@ -79,6 +81,8 @@ describe('core/models/forms/reducers/selectEditor', () => {
         editors: [],
         selectedEditor: undefined,
         componentState: { foo: 'bar' },
+        validationResults: [],
+        hasErrors: false,
       },
     })
 

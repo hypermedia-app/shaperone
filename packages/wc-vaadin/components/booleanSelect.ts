@@ -4,6 +4,8 @@ import { html } from 'lit-html'
 import { literal } from '@rdf-esm/data-model'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import '@vaadin/vaadin-select'
+import { spread } from '@open-wc/lit-helpers'
+import { validity } from './validation'
 
 export const booleanSelect: Render<BooleanSelectEditor> = ({ value }, { update, clear }) => {
   function onChange(e: any) {
@@ -14,7 +16,7 @@ export const booleanSelect: Render<BooleanSelectEditor> = ({ value }, { update, 
     }
   }
 
-  return html`<vaadin-select .value="${value.object?.value || ''}" @change="${onChange}">
+  return html`<vaadin-select .value="${value.object?.value || ''}" @change="${onChange}" ...="${spread(validity(value))}">
     <template>
       <vaadin-list-box>
         <vaadin-item></vaadin-item>

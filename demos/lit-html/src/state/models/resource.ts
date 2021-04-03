@@ -21,7 +21,8 @@ const pointer = graph
   .namedNode('http://example.com/John_Doe')
   .addOut(rdf.type, schema.Person)
   .addOut(schema.name, 'John Doe')
-  .addOut(foaf.gender, 'Male')
+  .addOut(foaf.gender, 'Malee')
+  .addOut(schema.age, 17)
   .addOut(schema.knows, $rdf.namedNode('http://example.com/Jane_Doe'), (jane) => {
     jane.addOut(schema.name, 'Janet')
       .addOut(rdf.type, schema.Person)

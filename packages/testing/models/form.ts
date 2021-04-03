@@ -116,6 +116,7 @@ export function testStore(): { form: symbol; store: Store } {
     editors: new Proxy({}, spyHandler),
     resources: new Proxy({}, spyHandler),
     components: new Proxy({}, spyHandler),
+    validation: new Proxy({}, spyHandler),
   }
   const resourcesState: ResourceState = {
     rootPointer: clownface({ dataset: dataset() }).blankNode(),
@@ -145,6 +146,7 @@ export function testStore(): { form: symbol; store: Store } {
       components: {},
       decorators: [],
     },
+    validation: {},
   }
 
   return {

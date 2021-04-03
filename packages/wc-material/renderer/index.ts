@@ -10,7 +10,7 @@ export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate
 
     const shapes = focusNode.shapes.length ? focusNode.shapes : renderer.context.shapes
 
-    return html`<mwc-list part="focus-node-header">
+    return html`<mwc-list part="focus-node-header ${focusNode.hasErrors ? 'invalid' : ''}">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>
           ${focusNode.focusNode.out(rdfs.label).value || 'Resource'}
           <span slot="secondary">${focusNode.shape?.label}</span>
@@ -64,7 +64,7 @@ export const property: PropertyTemplate = function (renderer, param) {
         `
   }
 
-  return html`<mwc-list part="property">
+  return html`<mwc-list part="property ${property.hasErrors ? 'invalid' : ''}">
     <mwc-list-item hasmeta part="property-header"><b>${property.name}</b> ${menuElement}</mwc-list-item>
     ${editors()}
   </mwc-list>`
@@ -108,7 +108,7 @@ export const object: ObjectTemplate = function (renderer, param) {
     metaSlot = html`<mwc-icon slot="options" part="editor-options" @click="${actions.remove}" title="Remove value">remove_circle</mwc-icon>`
   }
 
-  return html`<mwc-item-lite part="editor" ?has-options="${hasOptions}">
+  return html`<mwc-item-lite part="editor ${object.hasErrors ? 'invalid' : ''}" ?has-options="${hasOptions}">
     ${renderer.renderEditor()}
     ${metaSlot}
   </mwc-item-lite>`

@@ -16,5 +16,7 @@ export function setPropertyObjects(store: Store) {
       focusNode,
       property,
     })
+
+    dispatch.forms.validate({ form })
   }
 }

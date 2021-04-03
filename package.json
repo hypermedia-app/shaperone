@@ -12,7 +12,8 @@
     "test:open-wc:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false",
     "test:web": "web-test-runner",
     "release": "changeset publish",
-    "docs": "docsify serve ./dist"
+    "docs": "docsify serve ./dist",
+    "typedoc": "typedoc --watch"
   },
   "workspaces": [
     "packages/*",
@@ -55,7 +56,7 @@
     "sinon-chai": "^3.5.0",
     "standard": "^14.3.4",
     "ts-lit-plugin": "^1.2.1",
-    "typedoc": "^0.20",
+    "typedoc": "^0.20.34",
     "typescript": "^3.9.3",
     "web-component-analyzer": "^1.1.6",
     "webpack": "^4.43.0",

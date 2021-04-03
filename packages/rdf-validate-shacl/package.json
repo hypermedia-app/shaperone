@@ -1,0 +1,30 @@
+{
+  "name": "@hydrofoil/shaperone-rdf-validate-shacl",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "**/*.js",
+    "**/*.d.ts"
+  ],
+  "scripts": {
+    "prepack": "tsc"
+  },
+  "dependencies": {
+    "rdf-validate-shacl": "zazuko/rdf-validate-shacl#bnodes-clash"
+  },
+  "devDependencies": {
+    "@types/rdf-validate-shacl": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "directory": "packages/rdf-validation-shacl",
+    "url": "https://github.com/hypermedia-app/shaperone"
+  },
+  "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}

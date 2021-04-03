@@ -5,6 +5,8 @@
     "packages/core/components.ts",
     "packages/core/DashEditors.ts",
     "packages/core/models/components/index.ts",
+    "packages/core/models/forms/index.ts",
+    "packages/core/models/validation/index.ts",
     "packages/core/lib/property.ts",
     "packages/core/renderer.ts",
     "packages/hydra/components.ts",

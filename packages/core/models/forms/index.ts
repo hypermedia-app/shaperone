@@ -1,6 +1,11 @@
+/**
+ * @packageDocumentation
+ * @module @hydrofoil/shaperone-core/models/forms
+ */
+
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
-import type { NodeShape, PropertyGroup, PropertyShape } from '@rdfine/shacl'
+import type { NodeShape, PropertyGroup, PropertyShape, ValidationResult } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
 import effects from './effects'
 import { addFormField } from './reducers/addFormField'
@@ -14,6 +19,7 @@ import * as objects from './reducers/updateObject'
 import * as connection from './reducers/connection'
 import * as editors from './reducers/editors'
 import * as multiEditors from './reducers/multiEditors'
+import * as validation from './reducers/validation'
 import { FocusNode } from '../../index'
 import type { MultiEditor, SingleEditorMatch } from '../editors'
 import { createFocusNodeState } from './reducers/replaceFocusNodes'
@@ -24,7 +30,39 @@ import componentsEffects from './effects/components'
 import type { Store } from '../../state'
 import type { ComponentInstance } from '../components'
 
-export interface PropertyObjectState<TState extends ComponentInstance = ComponentInstance> {
+export interface ValidationResultState {
+  /**
+   * Gets an rdfine OO representation of the underlying `sh:ValidationResult`
+   */
+  result: ValidationResult
+
+  /**
+   * Gets a value indicating whether the given validation result was correlated with a more specific point
+   * in the [Data Graph](https://www.w3.org/TR/shacl/#data-graph). It will be null if a result could not
+   * have been associated even with a Focus Node
+   */
+  matchedTo: 'focusNode' | 'property' | 'object' | null
+}
+
+/**
+ * Represents validation results associated with a given location
+ * in the form graph.
+ *
+ * Derived by other state models, narrows down the set of results
+ */
+export interface ValidationState {
+  /**
+   * Gets a collection of result objects which directly map to SHACL `sh:ValidationResult` nodes in the
+   * validation result graph
+   */
+  validationResults: ValidationResultState[]
+  /**
+   * Gets a value indicating if any of the validation results has `sh:severity sh:Violation`
+   */
+  hasErrors: boolean
+}
+
+export interface PropertyObjectState<TState extends ComponentInstance = ComponentInstance> extends ValidationState {
   key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]
@@ -37,7 +75,7 @@ export interface ShouldEnableEditorChoice {
   (params?: { object?: GraphPointer }): boolean
 }
 
-export interface PropertyState {
+export interface PropertyState extends ValidationState {
   shape: PropertyShape
   name: string
   editors: MultiEditor[]
@@ -49,13 +87,14 @@ export interface PropertyState {
   datatype?: NamedNode
   hidden: boolean
 }
+
 export interface PropertyGroupState {
   group: PropertyGroup | undefined
   order: number
   selected: boolean
 }
 
-export interface FocusNodeState {
+export interface FocusNodeState extends ValidationState {
   focusNode: FocusNode
   shape?: NodeShape
   shapes: NodeShape[]
@@ -69,9 +108,13 @@ export interface FormSettings {
   labelProperties: NamedNode[]
 }
 
-export interface FormState extends FormSettings {
+export interface FormState extends FormSettings, ValidationState {
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
+  /**
+   * Gets a pointer to the `sh:ValidationReport` instance
+   */
+  validationReport?: GraphPointer
 }
 
 export type State = Map<symbol, FormState>
@@ -89,6 +132,7 @@ const reducers = {
   ...editors,
   ...multiEditors,
   createFocusNodeState,
+  ...validation,
 }
 
 export const forms = createModel({

@@ -6,6 +6,8 @@ import '@vaadin/vaadin-item/vaadin-item'
 import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { Term } from 'rdf-js'
 import { repeat } from 'lit-html/directives/repeat'
+import { spread } from '@open-wc/lit-helpers'
+import { validity } from './validation'
 
 interface Choice {
   term: Term
@@ -42,5 +44,5 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ value }, actions
     if (pointer) actions.update(pointer.term)
   }
 
-  return html`<vaadin-select .renderer="${renderer(choices, value.object?.term)}" .value="${selectValue || ''}" @change="${onChange}"></vaadin-select>`
+  return html`<vaadin-select  ...="${spread(validity(value))}" .renderer="${renderer(choices, value.object?.term)}" .value="${selectValue || ''}" @change="${onChange}"></vaadin-select>`
 }

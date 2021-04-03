@@ -26,5 +26,7 @@ export function replaceObjects(store: Store) {
       property,
       objects,
     })
+
+    dispatch.forms.validate({ form })
   }
 }

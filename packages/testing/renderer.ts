@@ -35,6 +35,7 @@ export const formRenderer = (): sinon.SinonStubbedInstance<Renderer.FormRenderer
         forms: stubInterface<RenderContext['dispatch']['forms']>(),
         resources: stubInterface<RenderContext['dispatch']['resources']>(),
         shapes: stubInterface<RenderContext['dispatch']['shapes']>(),
+        validation: stubInterface<RenderContext['dispatch']['validation']>(),
       },
       templates: stubInterface<RenderContext['templates']>(),
     },

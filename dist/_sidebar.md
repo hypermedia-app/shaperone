@@ -9,6 +9,7 @@
   * [Metadata](editors/metadata.md "Shaperone | Editor metadata")
 * [Core library](core.md "Shaperone | Core")
 * [Advanced shapes](advanced.md "Shaperone | Advanced")
+* [Validation](validation.md "Shaperone | Validation")
 * Renderer
   * [Overview](renderer/core.md)
   * [Web Components](renderer/web-components.md)

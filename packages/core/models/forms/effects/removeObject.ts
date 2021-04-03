@@ -16,5 +16,7 @@ export function removeObject(store: Store) {
       focusNode,
       property,
     })
+
+    dispatch.forms.validate({ form })
   }
 }
