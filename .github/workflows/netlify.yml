@@ -15,7 +15,7 @@ jobs:
 
       - uses: nelonoel/branch-name@v1.0.1
 
-      - run: yarn typedoc
+      - run: npx typedoc
       - name: Docsify variables
         env:
           DOMAIN: ${{ env.BRANCH_NAME == 'master' && 'forms.hypermedia.app' || format('{0}--shaperone.netlify.app', env.BRANCH_NAME) }}
