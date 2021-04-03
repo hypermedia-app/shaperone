@@ -1,7 +1,7 @@
 ---
-"@hydrofoil/shaperone-wc": patch
-"@hydrofoil/shaperone-wc-material": patch
-"@hydrofoil/shaperone-wc-vaadin": patch
+"@hydrofoil/shaperone-wc": minor
+"@hydrofoil/shaperone-wc-material": minor
+"@hydrofoil/shaperone-wc-vaadin": minor
 ---
 
 Validation: display errors inline as supported by components
