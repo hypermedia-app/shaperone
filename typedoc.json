@@ -10,6 +10,7 @@
     "packages/core/lib/property.ts",
     "packages/core/renderer.ts",
     "packages/hydra/components.ts",
+    "packages/wc/renderer/decorator.ts",
     "packages/wc/configure.ts",
     "packages/wc/index.ts",
     "packages/wc/NativeComponents.ts",

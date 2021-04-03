@@ -1,8 +1,8 @@
-import { FormTemplate } from '@hydrofoil/shaperone-wc/templates'
+import { decorate, FormTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html, css } from '@hydrofoil/shaperone-wc'
 
-export const topmostFocusNodeFormRenderer = (form: FormTemplate): FormTemplate => {
-  const formTemplate: FormTemplate = function (renderer) {
+export const topmostFocusNodeFormRenderer = decorate((form: FormTemplate): FormTemplate => {
+  const formTemplate: FormTemplate = (renderer) => {
     let backButton = html``
     if (renderer.context.state.focusStack.length > 1) {
       backButton = html`<a class="form-back-button" href="javascript:void(0)" @click="${renderer.actions.popFocusNode}">back</a>`
@@ -25,4 +25,4 @@ export const topmostFocusNodeFormRenderer = (form: FormTemplate): FormTemplate =
 }`
 
   return formTemplate
-}
+})

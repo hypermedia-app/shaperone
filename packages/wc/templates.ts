@@ -9,6 +9,8 @@ import { repeat } from 'lit-html/directives/repeat'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { NamedNode } from 'rdf-js'
 
+export * from './renderer/decorator'
+
 /**
  * Base template. Extend to create templates which can dynamically load dependencies or inject CSS styles
  */
