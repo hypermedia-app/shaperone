@@ -10,9 +10,10 @@ export const validity = directive(({ object, validationResults }: PropertyObject
 
   const tb = part.committer.element as HTMLInputElement
 
-  tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage).join('; '))
+  tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage || 'Value is not valid').join('; '))
   if (stateMap.get(part) !== object?.value) {
     stateMap.set(part, object?.value)
-    tb.reportValidity()
+    part.setValue(tb.reportValidity() ? 'component' : 'component invalid')
+    part.commit()
   }
 })
