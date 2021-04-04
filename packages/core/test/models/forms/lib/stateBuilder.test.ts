@@ -375,6 +375,78 @@ describe('core/models/forms/lib/stateBuilder', () => {
       expect(state.properties).to.have.length(6)
     })
 
+    it('adds logical constraint groups to focus node state', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Person)
+      const shape = fromPointer(graph.blankNode(), {
+        or: [{
+          types: [sh.NodeShape],
+          property: {
+            path: ex.firstName,
+            types: [sh.PropertyShape],
+          },
+        }],
+        and: [{
+          types: [sh.NodeShape],
+          property: {
+            path: ex.firstName,
+            types: [sh.PropertyShape],
+          },
+        }],
+        xone: [{
+          types: [sh.NodeShape],
+          property: {
+            path: ex.firstName,
+            types: [sh.PropertyShape],
+          },
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: store.getState().editors,
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      expect(state.logicalConstraints.or).to.have.length(1)
+      expect(state.logicalConstraints.and).to.have.length(1)
+      expect(state.logicalConstraints.xone).to.have.length(1)
+    })
+
+    it('provides pointers to logical constraints a property may be part of', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const focusNode = graph.node(ex.Person)
+      const shape = fromPointer(graph.blankNode(), {
+        or: [{
+          types: [sh.NodeShape],
+          property: {
+            path: ex.firstName,
+            types: [sh.PropertyShape],
+          },
+        }],
+      })
+
+      // when
+      const state = initialiseFocusNode({
+        focusNode,
+        editors: store.getState().editors,
+        shape,
+        shapes: [],
+        shouldEnableEditorChoice: () => true,
+      }, undefined)
+
+      // then
+      const logicalConstraint = state.logicalConstraints.or[0]
+      expect(logicalConstraint.term.term).to.deep.equal(shape.pointer.out(sh.or).term)
+      expect(logicalConstraint.component).to.deep.equal(sh.OrConstraintComponent)
+    })
+
     it('combines all property shapes from logical constraints, defined without wrapping node shape', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })

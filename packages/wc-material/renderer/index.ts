@@ -1,10 +1,10 @@
 import { css, html } from 'lit-element'
 import { repeat } from 'lit-html/directives/repeat'
-import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate } from '@hydrofoil/shaperone-wc/templates'
+import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate, decorate } from '@hydrofoil/shaperone-wc/templates'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 
-export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {
-  const renderer: FocusNodeTemplate = function (renderer, params) {
+export const focusNode = decorate((currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {
+  const renderer: FocusNodeTemplate = (renderer, params) => {
     const { actions } = renderer
     const { focusNode } = params
 
@@ -23,17 +23,12 @@ export const focusNode = (currentStrategy: FocusNodeTemplate): FocusNodeTemplate
   ${currentStrategy(renderer, params)}`
   }
 
-  renderer.loadDependencies = () => {
-    const inheritedDependencies = currentStrategy.loadDependencies?.() || []
-
-    return [
-      import('../elements/mwc-shape-selector'),
-      ...inheritedDependencies,
-    ]
-  }
+  renderer.loadDependencies = () => [
+    import('../elements/mwc-shape-selector'),
+  ]
 
   return renderer
-}
+})
 
 export const property: PropertyTemplate = function (renderer, param) {
   const { actions } = renderer

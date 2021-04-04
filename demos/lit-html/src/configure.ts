@@ -8,13 +8,15 @@ import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/Des
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import { components, editors, renderer, validation } from '@hydrofoil/shaperone-wc/configure'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { templates } from '@hydrofoil/shaperone-wc/templates'
+import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
 import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
 import $rdf from 'rdf-ext'
+import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer'
 import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
+import { errorSummary } from '../../examples/ErrorSummary'
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },
@@ -48,11 +50,27 @@ export const selectComponents = (() => {
   }
 })()
 
+function combineDecorators<Template extends RenderTemplate>(combined: Template, next: Decorate<Template>) {
+  return next(combined)
+}
+
 export const configureRenderer = (() => {
+  function * focusNodeDecorators(labs: RendererState['labs']) {
+    if (labs?.xone) {
+      yield xone.focusNode
+    }
+    if (labs?.errorSummary) {
+      yield errorSummary
+    }
+    yield MaterialRenderStrategy.focusNode
+  }
+
+  let focusNodeTemplate = templates.focusNode
+
   const initialStrategy = {
     ...templates,
     ...MaterialRenderStrategy,
-    focusNode: MaterialRenderStrategy.focusNode(templates.focusNode),
+    focusNode: [...focusNodeDecorators({})].reduce(combineDecorators, focusNodeTemplate),
   }
 
   renderer.setTemplates(initialStrategy)
@@ -82,7 +100,7 @@ export const configureRenderer = (() => {
       }
     },
 
-    async switchLayout({ grouping }: RendererState) {
+    async switchLayout({ grouping, labs }: RendererState) {
       if (previousGrouping === grouping) return
       previousGrouping = grouping
 
@@ -98,7 +116,7 @@ export const configureRenderer = (() => {
         } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion')
 
         strategy.group = AccordionGroupingRenderer
-        strategy.focusNode = MaterialRenderStrategy.focusNode(AccordionFocusNodeRenderer)
+        focusNodeTemplate = AccordionFocusNodeRenderer
       } else if (grouping === 'material tabs') {
         const {
           TabsGroupRenderer,
@@ -106,10 +124,17 @@ export const configureRenderer = (() => {
         } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs')
 
         strategy.group = TabsGroupRenderer
-        strategy.focusNode = MaterialRenderStrategy.focusNode(TabsFocusNodeRenderer)
+        focusNodeTemplate = TabsFocusNodeRenderer
       }
 
+      strategy.focusNode = [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate)
       renderer.setTemplates(strategy)
+    },
+
+    async setLabs({ labs }: RendererState) {
+      renderer.setTemplates({
+        focusNode: [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate),
+      })
     },
   }
 })()

@@ -226,6 +226,9 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       case 'renderer':
         store().dispatch.rendererSettings.switchNesting(e.detail.value.id)
         break
+      case 'labs':
+        store().dispatch.rendererSettings.toggleLab({ lab: e.detail.value.id })
+        break
       default:
         break
     }
@@ -294,6 +297,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     selectComponents(state.componentsSettings.components)
     configureRenderer.switchLayout(state.rendererSettings)
     configureRenderer.switchNesting(state.rendererSettings)
+    configureRenderer.setLabs(state.rendererSettings)
 
     return {
       components: state.componentsSettings,

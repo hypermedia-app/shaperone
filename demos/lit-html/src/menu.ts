@@ -1,6 +1,6 @@
 export interface Menu {
   id?: string
-  type?: 'layout' | 'renderer' | 'format' | 'components' | 'editorChoice'
+  type?: 'layout' | 'renderer' | 'format' | 'components' | 'editorChoice' | 'labs'
   text?: string
   checked?: boolean
   children?: Menu[]
