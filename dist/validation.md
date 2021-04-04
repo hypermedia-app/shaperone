@@ -69,7 +69,7 @@ export function property(decorated: PropertyTemplate) {
         let summary = html``
         
         // Find and render list of errors not specific to any object 
-        const errors = context.property.validationResults.filter(({ matchedTo }) => matchedTo === 'property')
+        const errors = context.property.validationResults.filter(({ matchedTo }) => matchedTo !== 'object')
         if (errors.length) {
             summary = html`<ul class="error-summary">
                 ${errors.map(({ result }) => html`<li>${result.resultMessage}</li>`)}
