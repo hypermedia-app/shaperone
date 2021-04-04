@@ -1,5 +1,24 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.25
+
+### Patch Changes
+
+- 0c5cb27: Highlight RDF errors
+- 4f5d6e2: Example sh:xone support in rendering
+- 39568ce: Added "labs" menu to toggle custom functionality
+- Updated dependencies [3da25a3]
+- Updated dependencies [e18978c]
+- Updated dependencies [e18978c]
+- Updated dependencies [4f5d6e2]
+- Updated dependencies [e2a3f31]
+  - @hydrofoil/shaperone-wc@0.5.0
+  - @hydrofoil/shaperone-wc-material@0.3.0
+  - @hydrofoil/shaperone-wc-vaadin@0.3.0
+  - @hydrofoil/shaperone-rdf-validate-shacl@1.0.0
+  - @hydrofoil/shaperone-playground-examples@0.2.7
+  - @hydrofoil/shaperone-hydra@0.1.9
+
 ## 0.1.24
 
 ### Patch Changes

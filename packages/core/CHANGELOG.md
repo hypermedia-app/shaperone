@@ -1,5 +1,21 @@
 # @hydrofoil/shaperone-core
 
+## 0.7.0
+
+### Minor Changes
+
+- 0a4164b: Improved sh:path handling
+
+### Patch Changes
+
+- 2b80867: State actions to show and hide properties
+- 7d86a50: Basic support for NodeShape logical constraints
+- e18978c: Validation: combine validation report with form state
+- e2a3f31: Do not render `dash:hidden` properties
+- e9b2b01: Add logical constraints state to focus node state
+- Updated dependencies [0a4164b]
+  - clownface-shacl-path@1.0.1
+
 ## 0.6.9
 
 ### Patch Changes

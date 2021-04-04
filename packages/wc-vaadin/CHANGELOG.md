@@ -1,5 +1,24 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.3.0
+
+### Minor Changes
+
+- e18978c: Validation: display errors inline as supported by components
+
+### Patch Changes
+
+- Updated dependencies [3da25a3]
+- Updated dependencies [e18978c]
+- Updated dependencies [2b80867]
+- Updated dependencies [7d86a50]
+- Updated dependencies [0a4164b]
+- Updated dependencies [e18978c]
+- Updated dependencies [e2a3f31]
+- Updated dependencies [e9b2b01]
+  - @hydrofoil/shaperone-wc@0.5.0
+  - @hydrofoil/shaperone-core@0.7.0
+
 ## 0.2.6
 
 ### Patch Changes
