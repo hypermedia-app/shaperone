@@ -1,5 +1,21 @@
 # @hydrofoil/shaperone-playground-examples
 
+## 0.2.7
+
+### Patch Changes
+
+- 4f5d6e2: Example sh:xone support in rendering
+- Updated dependencies [3da25a3]
+- Updated dependencies [e18978c]
+- Updated dependencies [2b80867]
+- Updated dependencies [7d86a50]
+- Updated dependencies [0a4164b]
+- Updated dependencies [e18978c]
+- Updated dependencies [e2a3f31]
+- Updated dependencies [e9b2b01]
+  - @hydrofoil/shaperone-wc@0.5.0
+  - @hydrofoil/shaperone-core@0.7.0
+
 ## 0.2.6
 
 ### Patch Changes
