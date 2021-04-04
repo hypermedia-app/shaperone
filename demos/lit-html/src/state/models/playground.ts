@@ -109,6 +109,10 @@ export const playground = createModel({
       'rendererSettings/switchLayout': function (value: string) {
         dispatch.playground.updateSharingParams({ key: 'grouping', value })
       },
+      'rendererSettings/toggleLab': function () {
+        const { labs } = store.getState().rendererSettings
+        dispatch.playground.updateSharingParams({ key: 'labs', value: JSON.stringify(labs) })
+      },
       'shape/error': function (error: Error | undefined) {
         dispatch.playground.error(typeof error !== 'undefined')
       },
@@ -128,6 +132,7 @@ export const playground = createModel({
         const disableEditorChoice = sharedState.get('disableEditorChoice')
         const components = sharedState.get('components')
         const selectedResource = sharedState.get('selectedResource')
+        const labs = sharedState.get('labs')
 
         if (shapesFormat) {
           dispatch.shape.format(shapesFormat)
@@ -158,6 +163,11 @@ export const playground = createModel({
         }
         if (components) {
           dispatch.componentsSettings.switchComponents(components as any)
+        }
+        if (labs) {
+          for (const [lab, value] of Object.entries(JSON.parse(labs)) as any) {
+            dispatch.rendererSettings.toggleLab({ lab, value })
+          }
         }
 
         [...url.searchParams.keys()].forEach(key => url.searchParams.delete(key))

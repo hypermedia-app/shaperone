@@ -1,3 +1,5 @@
+import { html } from 'lit-element'
+import { render } from 'lit-html'
 import { ComponentsState } from '../state/models/components'
 import { RendererState } from '../state/models/renderer'
 import { componentSets } from '../configure'
@@ -20,7 +22,32 @@ function componentsMenu(components: ComponentsState): Menu {
   }
 }
 
+const menuItem = (() => {
+  const items = new Map<string, HTMLElement>()
+
+  return function menuItem(title: string, subtext: string, checked: boolean) {
+    let item = items.get(title)
+    if (!item) {
+      item = document.createElement('vaadin-context-menu-item')
+      items.set(title, item)
+    }
+
+    if (checked) {
+      item.setAttribute('menu-item-checked', '')
+    } else {
+      item.removeAttribute('menu-item-checked')
+    }
+
+    render(html`<div>${title}</div><div><small>${subtext}</small></div>`, item)
+
+    return item
+  }
+})()
+
 function rendererMenu(renderer: RendererState): Menu[] {
+  const labCount = Object.values(renderer.labs || {}).filter(lab => lab).length
+  const labBadgeCode = labCount === 0 ? 0x24ff : 0x2775 + labCount
+
   return [
     {
       text: 'Layout',
@@ -28,17 +55,17 @@ function rendererMenu(renderer: RendererState): Menu[] {
         text: 'No grouping',
         checked: renderer.grouping === 'none',
         type: 'layout',
-        id: 'none' as RendererState['grouping'],
+        id: 'none',
       }, {
         text: 'Material tabs',
         checked: renderer.grouping === 'material tabs',
         type: 'layout',
-        id: 'material tabs' as RendererState['grouping'],
+        id: 'material tabs',
       }, {
         text: 'Vaadin accordion',
         checked: renderer.grouping === 'vaadin accordion',
         type: 'layout',
-        id: 'vaadin accordion' as RendererState['grouping'],
+        id: 'vaadin accordion',
       }],
     }, {
       text: 'Nested shapes',
@@ -57,6 +84,25 @@ function rendererMenu(renderer: RendererState): Menu[] {
         checked: renderer.nesting === 'inline',
         id: 'inline',
         type: 'renderer',
+      }],
+    }, {
+      text: `Labs (${String.fromCharCode(labBadgeCode)})`,
+      children: [{
+        component: menuItem(
+          'Error summary',
+          'Display additional errors on top',
+          renderer.labs?.errorSummary === true,
+        ),
+        id: 'errorSummary',
+        type: 'labs',
+      }, {
+        component: menuItem(
+          'sh:xone selector menus',
+          'May require reload when disabled',
+          renderer.labs?.xone === true,
+        ),
+        id: 'xone',
+        type: 'labs',
       }],
     }]
 }
