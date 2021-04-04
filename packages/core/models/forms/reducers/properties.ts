@@ -9,20 +9,17 @@ export interface ToggleParams extends BaseParams {
   shape: Shape
 }
 
-export const showProperty = formStateReducer((state: FormState, { focusNode, shape }: ToggleParams) => produce(state, (state) => {
-  const focusNodeState = state.focusNodes[focusNode.value]
-  const propertyStates = focusNodeState.properties.filter(p => p.shape.equals(shape) || shape.property.some(property => p.shape.equals(property)))
+function setHidden(hidden: boolean) {
+  return (state: FormState, { focusNode, shape }: ToggleParams) => produce(state, (state) => {
+    const focusNodeState = state.focusNodes[focusNode.value]
+    const propertyStates = focusNodeState.properties.filter(p => p.shape.equals(shape) || shape.property.some(property => p.shape.equals(property)))
 
-  for (const propertyState of propertyStates) {
-    propertyState.hidden = false
-  }
-}))
+    for (const propertyState of propertyStates) {
+      propertyState.hidden = hidden
+    }
+  })
+}
 
-export const hideProperty = formStateReducer((state: FormState, { focusNode, shape }: ToggleParams) => produce(state, (state) => {
-  const focusNodeState = state.focusNodes[focusNode.value]
-  const propertyStates = focusNodeState.properties.filter(p => p.shape.equals(shape) || shape.property.some(property => p.shape.equals(property)))
+export const showProperty = formStateReducer(setHidden(false))
 
-  for (const propertyState of propertyStates) {
-    propertyState.hidden = true
-  }
-}))
+export const hideProperty = formStateReducer(setHidden(true))
