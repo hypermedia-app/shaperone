@@ -13,6 +13,7 @@
     "@hydrofoil/shaperone-core": "0.6.9",
     "@hydrofoil/shaperone-wc": "0.4.6",
     "@rdf-esm/data-model": "^0.5.3",
+    "@rdf-esm/term-map": "^0.5.0",
     "@zazuko/rdf-vocabularies": "*",
     "lit-element": "^2.3.1",
     "lit-html": "^1.2.1",
