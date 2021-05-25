@@ -23,7 +23,7 @@
     "@rdf-esm/formats-common": "^0.5.5",
     "@rdf-esm/term-set": "^0.5.0",
     "@rdfine/shacl": "^0.8",
-    "@rdfjs-elements/rdf-editor": "^0.3.7",
+    "@rdfjs-elements/rdf-editor": "^0.4.3",
     "@rdfjs/fetch-lite": "^2.1.0",
     "@tpluscode/rdf-ns-builders": "^0.4",
     "@tpluscode/rdf-string": "^0.2.22",

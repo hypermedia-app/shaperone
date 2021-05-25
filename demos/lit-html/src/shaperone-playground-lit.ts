@@ -149,7 +149,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         <div style="width: 33%">
           <vaadin-menu-bar .items="${shapeMenu(this.shape)}" @item-selected="${this.__editorMenuSelected(store().dispatch.shape, this.shapeEditor)}"></vaadin-menu-bar>
           <rdf-editor id="shapeEditor" prefixes="sh,dash"
-                     .serialized="${this.shape.serialized}"
+                     .value="${this.shape.serialized}"
                      .format="${this.shape.format}"
                      .quads="${this.shape.quads}"
                      @parsing-failed="${this.__setShapeError}"
@@ -169,7 +169,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
           <div style="min-width: 50%; max-width: 80%">
             <vaadin-menu-bar .items="${resourceMenu(this.resource)}" @item-selected="${this.__editorMenuSelected(store().dispatch.resource, this.resourceEditor)}"></vaadin-menu-bar>
             <rdf-editor id="resourceEditor" prefixes="${this.resource.prefixes.join(',')}"
-                       .serialized="${this.resource.serialized}"
+                       .value="${this.resource.serialized}"
                        .format="${this.resource.format}"
                        .quads="${this.resource.quads}"
                        @parsing-failed="${this.__setDataError}"
