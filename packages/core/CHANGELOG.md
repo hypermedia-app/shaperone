@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.7.1
+
+### Patch Changes
+
+- 23a2b1a: Apply `sh:class` to blank node children of given Property Shape
+
 ## 0.7.0
 
 ### Minor Changes

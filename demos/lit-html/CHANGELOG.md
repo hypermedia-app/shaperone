@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.26
+
+### Patch Changes
+
+- 2f2ee1b: Improve turtle serialization
+  - @hydrofoil/shaperone-playground-examples@0.2.8
+
 ## 0.1.25
 
 ### Patch Changes
