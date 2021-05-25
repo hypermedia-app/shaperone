@@ -2,10 +2,11 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import { AnyPointer } from 'clownface'
-import { schema } from '@tpluscode/rdf-ns-builders'
+import { rdf, schema } from '@tpluscode/rdf-ns-builders'
 import { RecursivePartial } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form'
-import addFormField from '../../../../../models/resources/effects/forms/createFocusNodeState'
+import { Term } from 'rdf-js'
+import createFocusNodeState from '../../../../../models/resources/effects/forms/createFocusNodeState'
 import { Store } from '../../../../../state'
 import { propertyShape } from '../../../../util'
 import { FormState } from '../../../../../models/forms'
@@ -42,7 +43,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
     }
 
     // when
-    addFormField(store)({
+    createFocusNodeState(store)({
       form,
       focusNode,
     })
@@ -69,7 +70,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
     }
 
     // when
-    addFormField(store)({
+    createFocusNodeState(store)({
       form,
       focusNode,
     })
@@ -95,12 +96,74 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
     }
 
     // when
-    addFormField(store)({
+    createFocusNodeState(store)({
       form,
       focusNode,
     })
 
     // then
     expect(store.getDispatch().forms.setObjectValue).not.to.have.been.called
+  })
+
+  describe('when property has sh:class', () => {
+    it('adds rdf:type to blank node children', () => {
+      // given
+      const focusNode = graph.blankNode()
+        .addOut(schema.knows, null)
+        .addOut(schema.knows, null)
+      const property = propertyShape({
+        path: schema.knows,
+        class: schema.Person,
+      })
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            objects: focusNode.out(schema.knows).map(object => ({
+              object,
+            })),
+          }],
+        },
+      }
+
+      // when
+      createFocusNodeState(store)({
+        form,
+        focusNode,
+      })
+
+      // then
+      expect(focusNode.out(schema.knows).out(rdf.type).terms)
+        .containAll<Term>(type => type.equals(schema.Person))
+    })
+    it('does not add rdf:type to named node children', () => {
+      // given
+      const focusNode = graph.blankNode()
+        .addOut(schema.knows, graph.namedNode('foo'))
+        .addOut(schema.knows, graph.namedNode('bar'))
+      const property = propertyShape({
+        path: schema.knows,
+        class: schema.Person,
+      })
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            objects: focusNode.out(schema.knows).map(object => ({
+              object,
+            })),
+          }],
+        },
+      }
+
+      // when
+      createFocusNodeState(store)({
+        form,
+        focusNode,
+      })
+
+      // then
+      expect(focusNode.out(schema.knows).out(rdf.type).terms).to.have.length(0)
+    })
   })
 })
