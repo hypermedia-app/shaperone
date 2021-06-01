@@ -77,6 +77,7 @@ export const configureRenderer = (() => {
 
   let previousNesting: RendererState['nesting']
   let previousGrouping: RendererState['grouping']
+  let previousLabs: RendererState['labs']
 
   return {
     async switchNesting({ nesting }: RendererState) {
@@ -132,6 +133,8 @@ export const configureRenderer = (() => {
     },
 
     async setLabs({ labs }: RendererState) {
+      if (JSON.stringify(previousLabs) === JSON.stringify(labs)) return
+
       renderer.setTemplates({
         focusNode: [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate),
       })
