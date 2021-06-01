@@ -41,6 +41,8 @@ declare module '@hydrofoil/shaperone-core/components' {
      * @returns An [rdfine](https://npm.im/@tpluscode/rdfine) instance or null if property does not have a `hydra:search` template
      */
     searchTemplate?: ({ property }: {property:PropertyState}) => IriTemplate | null
+
+    searchUri?(focusNode: FocusNode, prop: PropertyState): string | undefined
   }
 }
 
@@ -119,19 +121,26 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
         }
         return null
       },
-      shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }): boolean {
+      searchUri(focusNode: FocusNode, property: PropertyState) {
         const searchTemplate = this.searchTemplate?.({ property })
-        if (searchTemplate) {
-          const variablesNode = getVariablesNode(focusNode, searchTemplate)
-          if (!variablesNode) {
-            return false
-          }
+        if (!searchTemplate) {
+          return undefined
+        }
 
-          const searchUri = searchTemplate.expand(variablesNode)
-          updateComponentState({
-            searchUri,
-          })
+        const variablesNode = getVariablesNode(focusNode, searchTemplate)
+        if (!variablesNode) {
+          return undefined
+        }
 
+        return searchTemplate.expand(variablesNode)
+      },
+      shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }): boolean {
+        const searchUri = this.searchUri?.(focusNode, property)
+        updateComponentState({
+          searchUri,
+        })
+
+        if (searchUri) {
           return componentState.lastLoaded !== searchUri
         }
 
@@ -156,7 +165,8 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
           return getMembers(response)
         }
 
-        const { searchUri, lastLoaded } = args.value.componentState
+        const { lastLoaded } = args.value.componentState
+        const searchUri = this.searchUri?.(args.focusNode, args.property)
         if (searchUri && searchUri !== lastLoaded) {
           const alcaeus = await getClient(client)
           const response = await load(alcaeus, searchUri)
