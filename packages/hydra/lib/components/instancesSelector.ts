@@ -106,10 +106,10 @@ function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusN
     return undefined
   }
 
-  const freetextQueryMinLength = searchTemplate.mapping
+  const freetextQueryVariable = searchTemplate.mapping
     .find(({ property }) => property?.equals(hydra.freetextQuery))
-    ?.pointer.out(sh.minLength).value
-  if (freetextQueryMinLength) {
+  if (freetextQueryVariable) {
+    const freetextQueryMinLength = freetextQueryVariable.pointer.out(sh.minLength).value || '1'
     if (parseInt(freetextQueryMinLength || '1', 10) > (freetextQuery?.length || 0)) {
       return undefined
     }
