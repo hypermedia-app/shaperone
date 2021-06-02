@@ -219,12 +219,14 @@ import { html } from '@hydrofoil/shaperone-wc'
 export const instancesSelectEditorWithFreeText: InstancesSelectEditor = {
   ...instancesSelect,
   render(params) {
-    const loadFiltered = async () => {
+    const loadFiltered = async (e: CustomEvent) => {
+      const filterText = e.detail.value  
+        
       // only search if the conditions are met  
-      if (!this.shouldLoad(params)) { return }
+      if (!this.shouldLoad(params, filterText)) { return }
       
       // have collection loaded
-      const pointers = await this.loadChoices(params)
+      const pointers = await this.loadChoices(params, filterText)
       
       // build key/value pairs to display 
       const instances = pointers
