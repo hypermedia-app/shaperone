@@ -12,7 +12,7 @@ import * as Hydra from '@rdfine/hydra'
 import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { Initializer } from '@tpluscode/rdfine/RdfResource'
-import { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
+import { IriTemplate, fromPointer as initTemplate } from '@rdfine/hydra/lib/IriTemplate'
 import { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import * as instancesSelector from '../../../lib/components/instancesSelector'
 import { ResourceRepresentation } from '../../helpers/alcaeus'
@@ -312,9 +312,16 @@ describe('hydra/lib/components/instancesSelector', () => {
 
       it('loads searchable collection when search template has been constructed', async () => {
         // given
-        const componentState = {
-          searchUri: 'foo-bar',
-        }
+        property.shape.pointer.addOut(hydra.search, (template) => {
+          initTemplate(template, {
+            template: 'http://example.com/foo{?bar}',
+            mapping: [{
+              variable: 'bar',
+              property: ex.foo,
+            }],
+          })
+        })
+        focusNode.addOut(ex.foo, 'bar')
         const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
@@ -324,15 +331,15 @@ describe('hydra/lib/components/instancesSelector', () => {
           focusNode,
           property,
           value: {
-            componentState,
+            componentState: {},
           },
           updateComponentState,
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledWith('foo-bar')
+        expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar')
         expect(updateComponentState).to.have.been.calledWith({
-          lastLoaded: 'foo-bar',
+          lastLoaded: 'http://example.com/foo?bar=bar',
         })
       })
 
