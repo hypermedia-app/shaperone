@@ -119,6 +119,9 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   @property({ type: Boolean })
   noEditorSwitches!: boolean
 
+  shapesGraphInitialized = false
+  resourceGraphInitialized = false
+
   async connectedCallback() {
     document.addEventListener('resource-selected', (e: any) => store().dispatch.resource.selectResource({ id: e.detail.value }))
     document.addEventListener('prefixes-changed', (e: any) => store().dispatch.resource.setPrefixes(e.detail.value))
@@ -187,6 +190,11 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   __setShape(e: CustomEvent) {
+    if (this.shapesGraphInitialized && this.shape.serialized === this.shapeEditor.codeMirror.value) {
+      return
+    }
+
+    this.shapesGraphInitialized = true
     store().dispatch.shape.setShapesGraph(e.detail.value)
     store().dispatch.shape.serialized(this.shapeEditor.codeMirror.value)
   }
@@ -208,6 +216,11 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   __setResource(e: CustomEvent) {
+    if (this.resourceGraphInitialized && this.resource.serialized === this.resourceEditor.codeMirror.value) {
+      return
+    }
+
+    this.resourceGraphInitialized = true
     store().dispatch.resource.replaceGraph({ dataset: e.detail.value })
     store().dispatch.resource.setSerialized(this.resourceEditor.codeMirror.value)
   }

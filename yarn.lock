@@ -2168,15 +2168,7 @@
     lit-html "^1.1.2"
     tslib "^2.0.1"
 
-"@material/mwc-icon@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/@material/mwc-icon/-/mwc-icon-0.19.1.tgz#4dddf27a9f24262b02ea9cddc39800fec8b42920"
-  integrity sha512-MM3Qz3Inkyo4gU5bHDp/o9TEk9K53Y+glbJGiAUj1dAisrRSwptd7xagROzzmVKlcxN+OHqBOGLFx49ztFP/7Q==
-  dependencies:
-    lit-element "^2.3.0"
-    tslib "^1.10.0"
-
-"@material/mwc-icon@^0.20.0":
+"@material/mwc-icon@^0.20", "@material/mwc-icon@^0.20.0":
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/@material/mwc-icon/-/mwc-icon-0.20.0.tgz#c2c42bca9145d4a75f63b4ce1567270b41986b47"
   integrity sha512-YCtzWbJVSZGcvWKVHwIhwfGMLEqAmRSVGcXTCAH/rOzGU7RkOxQkfNDkLAuTRAX9a7HYQStIJ39ENVcysElljg==
@@ -3069,14 +3061,14 @@
     "@tpluscode/rdf-ns-builders" "^0.4"
     "@tpluscode/rdfine" "^0.5.17"
 
-"@rdfjs-elements/editor-base@^0.2.0":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/editor-base/-/editor-base-0.2.1.tgz#71806fecdc2171ca363d9e888b553b7e1097ace2"
-  integrity sha512-R8bBJtqcVE2GrHX0Mx9tL4JCGhvrBOYDFRM9pN8Bgp00HwGz7tRjko0jUaAcW38xivTdqNe6Bt7f3NQdll5HfQ==
+"@rdfjs-elements/editor-base@^0.3.0":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/editor-base/-/editor-base-0.3.1.tgz#fb91eaf1cbefb64be875d61dccec70c4503e8c50"
+  integrity sha512-NDl0Xhqw9sICXNlVJU8pQUJxOSiwN+96jybKVSBOQC3nn7rsGHPQeYYVRZYhem6/OoP6ZOxg0ANG4/LiD8DVXA==
   dependencies:
     "@tpluscode/rdf-ns-builders" "^0.4.0"
-    "@vanillawc/wc-codemirror" "^1.9.1"
-    codemirror "^5.56.0"
+    "@vanillawc/wc-codemirror" "^1.9.7"
+    codemirror "^5.61.1"
     lit-element "^2.2.1"
     throttle-debounce "^3.0.1"
 
@@ -3098,13 +3090,13 @@
     "@tpluscode/rdf-ns-builders" "^0.4.2"
     readable-stream "^3.6.0"
 
-"@rdfjs-elements/rdf-editor@^0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.4.3.tgz#361817cdcc7e4767d2c90dbd811e5bf2bb2badd4"
-  integrity sha512-HLb4ljiDYQC0QVwmUNXEGJUoH0vZwIKxMOC0tQSB6YGZtm6LwtL2HsclLdHFLxkVnjwTLF8MOsAskx4pAb61Iw==
+"@rdfjs-elements/rdf-editor@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.4.4.tgz#34c9372c1fa0e469e1f8035bb2feb772b6573d47"
+  integrity sha512-OFKoilLVC1oy+qFIZWSff7XIggCJ5NTwlvfFC6Zqo6zDU27XHzsme9WTxLkxt70FFrbgdIs8kLdfGU54uPQibg==
   dependencies:
     "@rdf-esm/data-model" "^0.5.4"
-    "@rdfjs-elements/editor-base" "^0.2.0"
+    "@rdfjs-elements/editor-base" "^0.3.0"
     "@rdfjs-elements/formats-pretty" "^0.3.1"
     readable-stream "^3"
     string-to-stream "^3.0.1"
@@ -4429,10 +4421,10 @@
   dependencies:
     "@vaadin/vaadin-development-mode-detector" "^2.0.0"
 
-"@vanillawc/wc-codemirror@^1.9.1":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@vanillawc/wc-codemirror/-/wc-codemirror-1.9.1.tgz#ec2c747f29b6160ed9fc179412c106efc8c4fa15"
-  integrity sha512-6Np09pPSZ9dVHo6P8JprlG9mdU33KYbkN0Rkdu1juSm0Kht4/RUtj3q76Lp1BiQ48IUMkH+rrjT+OoGIsM6XFA==
+"@vanillawc/wc-codemirror@^1.9.7":
+  version "1.9.7"
+  resolved "https://registry.yarnpkg.com/@vanillawc/wc-codemirror/-/wc-codemirror-1.9.7.tgz#2d0e1a925fa7f3281c244210acf4dc92d6a6e28b"
+  integrity sha512-GD84ziBwszPs1PGPHMFIxm5OTHRwpCrkKmXm/fJvYO6AcD0A3x37SxrPYb/P+ddgbujNZb5S8/3ufGvBngFwBg==
 
 "@web/browser-logs@^0.2.0":
   version "0.2.0"
@@ -6367,10 +6359,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codemirror@^5.56.0:
-  version "5.57.0"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.57.0.tgz#d26365b72f909f5d2dbb6b1209349ca1daeb2d50"
-  integrity sha512-WGc6UL7Hqt+8a6ZAsj/f1ApQl3NPvHY/UQSzG6fB6l4BjExgVdhFaxd7mRTw1UCiYe/6q86zHP+kfvBQcZGvUg==
+codemirror@^5.61.1:
+  version "5.61.1"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.61.1.tgz#ccfc8a43b8fcfb8b12e8e75b5ffde48d541406e0"
+  integrity sha512-+D1NZjAucuzE93vJGbAaXzvoBHwp9nJZWWWF9utjv25+5AZUiah6CIlfb4ikG4MoDsFsCG8niiJH5++OO2LgIQ==
 
 collapse-white-space@^1.0.2:
   version "1.0.6"
