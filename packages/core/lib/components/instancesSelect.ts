@@ -53,14 +53,14 @@ export const instancesSelect: CoreComponent<InstancesSelectEditor> = {
   },
   init(params) {
     const { form, value, updateComponentState } = params
-    if (this.shouldLoad(params, undefined) && !value.componentState.loading) {
+    if (this.shouldLoad(params) && !value.componentState.loading) {
       updateComponentState({
         loading: true,
       });
       (async () => {
         const pointers = await this.loadChoices(params)
         const instances = pointers.map<Item>(ptr => [ptr, this.label(ptr, form)])
-          .sort(([, left], [, right]) => left.localeCompare(right))
+          .sort(this.sort)
 
         updateComponentState({
           instances,

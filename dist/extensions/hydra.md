@@ -227,7 +227,9 @@ export const instancesSelectEditorWithFreeText: InstancesSelectEditor = {
       const pointers = await this.loadChoices(params)
       
       // build key/value pairs to display 
-      const instances = pointers.map<Item>(p => [p, this.label(p, params.form)])
+      const instances = pointers
+        .map<Item>(p => [p, this.label(p, params.form)])
+        .sort(this.sort)
       
       // update the component
       params.updateComponentState({ instances })  
