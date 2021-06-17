@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.7.2
+
+### Patch Changes
+
+- 4ddb56a: Add parameter to support server-side text search of instances
+
 ## 0.7.1
 
 ### Patch Changes
