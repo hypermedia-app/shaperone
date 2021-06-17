@@ -1,5 +1,15 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.27
+
+### Patch Changes
+
+- 50397ff: Prevent unnecessary form reload
+- Updated dependencies [7de8900]
+- Updated dependencies [4ddb56a]
+  - @hydrofoil/shaperone-hydra@0.2.0
+  - @hydrofoil/shaperone-playground-examples@0.2.9
+
 ## 0.1.26
 
 ### Patch Changes

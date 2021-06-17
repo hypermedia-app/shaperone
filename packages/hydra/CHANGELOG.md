@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.2.0
+
+### Minor Changes
+
+- 4ddb56a: Collection filtering using `hydra:freetextQuery`
+
+### Patch Changes
+
+- 7de8900: `dash:InstancesSelectEditor`: Instances could be loaded from incorrect constructed URI
+- Updated dependencies [4ddb56a]
+  - @hydrofoil/shaperone-core@0.7.2
+
 ## 0.1.9
 
 ### Patch Changes
