@@ -12,6 +12,8 @@ import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import type { GraphPointer } from 'clownface'
 import { findNodes } from 'clownface-shacl-path'
+import clownface from 'clownface'
+import { dataset } from '@rdf-esm/dataset'
 import { hasAllRequiredVariables } from '../template'
 
 RdfResourceImpl.factory.addMixin(...IriTemplateBundle)
@@ -40,7 +42,7 @@ declare module '@hydrofoil/shaperone-core/components' {
      * @param property
      * @returns An [rdfine](https://npm.im/@tpluscode/rdfine) instance or null if property does not have a `hydra:search` template
      */
-    searchTemplate?: ({ property }: {property:PropertyState}) => IriTemplate | null
+    searchTemplate?: ({ property }: {property:PropertyState}) => IriTemplate | undefined
   }
 }
 
@@ -99,6 +101,33 @@ function getVariablesNode(focusNode: FocusNode, template: IriTemplate): GraphPoi
   return candidates.find(node => hasAllRequiredVariables(template, node))
 }
 
+function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusNode, prop: PropertyState, freetextQuery: string | undefined): string | undefined {
+  if (!searchTemplate) {
+    return undefined
+  }
+
+  const freetextQueryVariable = searchTemplate.mapping
+    .find(({ property }) => property?.equals(hydra.freetextQuery))
+  if (freetextQueryVariable) {
+    const freetextQueryMinLength = freetextQueryVariable.pointer.out(sh.minLength).value || '1'
+    if (parseInt(freetextQueryMinLength || '1', 10) > (freetextQuery?.length || 0)) {
+      return undefined
+    }
+  }
+
+  const variablesNode = getVariablesNode(focusNode, searchTemplate)
+  if (!variablesNode) {
+    return undefined
+  }
+
+  const freetextModel = clownface({ dataset: dataset() }).blankNode()
+  if (freetextQuery) {
+    freetextModel.addOut(hydra.freetextQuery, freetextQuery)
+  }
+
+  return searchTemplate.expand(variablesNode, freetextModel)
+}
+
 /**
  * Creates a component decorator which overrides the base functionality by dereferencing remote Hydra Collection
  * resources for properties annotated with `hydra:collection` or `hydra:search`
@@ -117,17 +146,16 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
         if (searchTemplatePtr.term) {
           return fromPointer(searchTemplatePtr as any)
         }
-        return null
+        return undefined
       },
-      shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }): boolean {
+      shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }, freetextQuery): boolean {
         const searchTemplate = this.searchTemplate?.({ property })
+        const searchUri = getSearchUri(searchTemplate, focusNode, property, freetextQuery)
         if (searchTemplate) {
-          const variablesNode = getVariablesNode(focusNode, searchTemplate)
-          if (!variablesNode) {
+          if (!searchUri) {
             return false
           }
 
-          const searchUri = searchTemplate.expand(variablesNode)
           updateComponentState({
             searchUri,
           })
@@ -148,7 +176,7 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
 
         return null
       },
-      async loadChoices(args) {
+      async loadChoices(args, freetextQuery) {
         const collectionId = args.property.shape.get(hydra.collection)?.id
         if (collectionId && collectionId.termType === 'NamedNode') {
           const alcaeus = await getClient(client)
@@ -156,7 +184,9 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
           return getMembers(response)
         }
 
-        const { searchUri, lastLoaded } = args.value.componentState
+        const { lastLoaded } = args.value.componentState
+        const searchTemplate = this.searchTemplate?.(args)
+        const searchUri = getSearchUri(searchTemplate, args.focusNode, args.property, freetextQuery)
         if (searchUri && searchUri !== lastLoaded) {
           const alcaeus = await getClient(client)
           const response = await load(alcaeus, searchUri)
@@ -166,7 +196,7 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
           return getMembers(response)
         }
 
-        return component.loadChoices(args)
+        return component.loadChoices(args, freetextQuery)
       },
     }
   },

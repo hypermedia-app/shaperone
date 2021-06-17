@@ -29,14 +29,14 @@ function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEd
   const provider: CollectionDataProvider = async (params, callback) => {
     const pattern = new RegExp(params.filter, 'i')
 
-    if (!provider.component.shouldLoad(provider.renderParams)) {
+    if (!provider.component.shouldLoad(provider.renderParams, params.filter)) {
       const instances = (provider.renderParams.value.componentState.instances || []).filter(([, label]) => pattern.test(label))
 
       callback(instances, instances.length)
       return
     }
 
-    const choices = await provider.component.loadChoices(provider.renderParams)
+    const choices = await provider.component.loadChoices(provider.renderParams, params.filter)
     const instances = choices.map<[GraphPointer, string]>(pointer => [pointer, provider.component.label(pointer, provider.renderParams.form)])
     const items = instances
       .filter(([, label]) => pattern.test(label))

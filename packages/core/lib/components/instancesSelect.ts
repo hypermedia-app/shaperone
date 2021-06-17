@@ -27,14 +27,16 @@ export interface InstancesSelectEditor extends SingleEditorComponent<InstancesSe
   /**
    * Asynchronously load the values for the component
    * @param params
+   * @param freetextQuery user input mapped to `hydra:freetextQuery` template property
    */
-  loadChoices(params: SingleEditorRenderParams<InstancesSelect>): Promise<GraphPointer[]>
+  loadChoices(params: SingleEditorRenderParams<InstancesSelect>, freetextQuery?: string): Promise<GraphPointer[]>
 
   /**
    * Returns a logical value to determine if the component should fetch fresh collection of instances
    * @param params
+   * @param freetextQuery user input mapped to `hydra:freetextQuery` template property
    */
-  shouldLoad(params: SingleEditorRenderParams<InstancesSelect>): boolean
+  shouldLoad(params: SingleEditorRenderParams<InstancesSelect>, freetextQuery?: string): boolean
   label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
   sort(left: Item, right: Item): number
 }
@@ -58,7 +60,7 @@ export const instancesSelect: CoreComponent<InstancesSelectEditor> = {
       (async () => {
         const pointers = await this.loadChoices(params)
         const instances = pointers.map<Item>(ptr => [ptr, this.label(ptr, form)])
-          .sort(([, left], [, right]) => left.localeCompare(right))
+          .sort(this.sort)
 
         updateComponentState({
           instances,

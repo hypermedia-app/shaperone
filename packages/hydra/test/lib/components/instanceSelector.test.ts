@@ -1,5 +1,5 @@
 import { expect } from '@open-wc/testing'
-import { dash, hydra, schema } from '@tpluscode/rdf-ns-builders'
+import { dash, hydra, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { sinon, ex } from '@shaperone/testing'
 import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
@@ -12,7 +12,7 @@ import * as Hydra from '@rdfine/hydra'
 import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { Initializer } from '@tpluscode/rdfine/RdfResource'
-import { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
+import { IriTemplate, fromPointer as initTemplate } from '@rdfine/hydra/lib/IriTemplate'
 import { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import * as instancesSelector from '../../../lib/components/instancesSelector'
 import { ResourceRepresentation } from '../../helpers/alcaeus'
@@ -312,9 +312,16 @@ describe('hydra/lib/components/instancesSelector', () => {
 
       it('loads searchable collection when search template has been constructed', async () => {
         // given
-        const componentState = {
-          searchUri: 'foo-bar',
-        }
+        property.shape.pointer.addOut(hydra.search, (template) => {
+          initTemplate(template, {
+            template: 'http://example.com/foo{?bar}',
+            mapping: [{
+              variable: 'bar',
+              property: ex.foo,
+            }],
+          })
+        })
+        focusNode.addOut(ex.foo, 'bar')
         const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
@@ -324,16 +331,105 @@ describe('hydra/lib/components/instancesSelector', () => {
           focusNode,
           property,
           value: {
-            componentState,
+            componentState: {},
           },
           updateComponentState,
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledWith('foo-bar')
+        expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar')
         expect(updateComponentState).to.have.been.calledWith({
-          lastLoaded: 'foo-bar',
+          lastLoaded: 'http://example.com/foo?bar=bar',
         })
+      })
+
+      it('does not load searchable collection when freetextQuery is empty string', async () => {
+        // given
+        property.shape.pointer.addOut(hydra.search, (template) => {
+          initTemplate(template, {
+            template: 'http://example.com/foo{?q}',
+            mapping: [{
+              variable: 'q',
+              property: hydra.freetextQuery,
+            }],
+          })
+        })
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+          value: {
+            componentState: {},
+          },
+          updateComponentState,
+        } as any, '')
+
+        // then
+        expect(client.loadResource).not.to.have.been.called
+      })
+
+      it('does not load searchable collection when freetextQuery is too short', async () => {
+        // given
+        property.shape.pointer.addOut(hydra.search, (template) => {
+          initTemplate(template, {
+            template: 'http://example.com/foo{?q}',
+            mapping: [{
+              variable: 'q',
+              property: hydra.freetextQuery,
+              [sh.minLength.value]: 5,
+            }],
+          })
+        })
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+          value: {
+            componentState: {},
+          },
+          updateComponentState,
+        } as any, '1234')
+
+        // then
+        expect(client.loadResource).not.to.have.been.called
+      })
+
+      it('loads searchable collection when freetextQuery has exactly min length', async () => {
+        // given
+        property.shape.pointer.addOut(hydra.search, (template) => {
+          initTemplate(template, {
+            template: 'http://example.com/foo{?q}',
+            mapping: [{
+              variable: 'q',
+              property: hydra.freetextQuery,
+              [sh.minLength.value]: 3,
+            }],
+          })
+        })
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+          value: {
+            componentState: {},
+          },
+          updateComponentState,
+        } as any, 'abc')
+
+        // then
+        expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?q=abc')
       })
 
       it('does not load if previous search was the same URI', async () => {
