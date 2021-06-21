@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.28
+
+### Patch Changes
+
+- e20edd5: Update RDF/JS types, rdfine and @tpluscode/rdf-ns-builders
+- Updated dependencies [e20edd5]
+  - @hydrofoil/shaperone-playground-examples@0.2.10
+  - @hydrofoil/shaperone-hydra@0.2.1
+  - @hydrofoil/shaperone-wc@0.5.1
+  - @hydrofoil/shaperone-wc-material@0.3.1
+  - @hydrofoil/shaperone-wc-vaadin@0.3.1
+
 ## 0.1.27
 
 ### Patch Changes

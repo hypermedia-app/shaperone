@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.3.1
+
+### Patch Changes
+
+- e20edd5: Update RDF/JS types, rdfine and @tpluscode/rdf-ns-builders
+- Updated dependencies [e20edd5]
+  - @hydrofoil/shaperone-core@0.7.3
+  - @hydrofoil/shaperone-wc@0.5.1
+
 ## 0.3.0
 
 ### Minor Changes
