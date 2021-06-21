@@ -28,7 +28,7 @@
     "@material/mwc-textfield": "^0.20.0",
     "@open-wc/lit-helpers": "^0.3.10",
     "@rdf-esm/data-model": "^0.5.3",
-    "@tpluscode/rdf-ns-builders": "^0.4.0",
+    "@tpluscode/rdf-ns-builders": "^1.0.0",
     "lit-element": "^2.3.1",
     "lit-html": "^1.2.1",
     "wc-menu-button": "^3.1"
@@ -41,7 +41,7 @@
     "@open-wc/eslint-config": "^2.0.6",
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3",
-    "@rdfine/shacl": "^0.8",
+    "@rdfine/shacl": "^0.8.1",
     "@rdf-esm/dataset": "^0.5.0",
     "@rdf-esm/namespace": "^0.5.1",
     "@shaperone/testing": "*",
