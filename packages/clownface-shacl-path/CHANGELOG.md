@@ -1,5 +1,11 @@
 # clownface-shacl-path
 
+## 1.0.2
+
+### Patch Changes
+
+- e20edd5: Update RDF/JS types, rdfine and @tpluscode/rdf-ns-builders
+
 ## 1.0.1
 
 ### Patch Changes

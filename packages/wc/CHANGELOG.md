@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc
 
+## 0.5.1
+
+### Patch Changes
+
+- e20edd5: Update RDF/JS types, rdfine and @tpluscode/rdf-ns-builders
+- Updated dependencies [e20edd5]
+  - @hydrofoil/shaperone-core@0.7.3
+
 ## 0.5.0
 
 ### Minor Changes

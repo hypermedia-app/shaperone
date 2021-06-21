@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.7.3
+
+### Patch Changes
+
+- e20edd5: Update RDF/JS types, rdfine and @tpluscode/rdf-ns-builders
+- Updated dependencies [e20edd5]
+  - clownface-shacl-path@1.0.2
+
 ## 0.7.2
 
 ### Patch Changes
