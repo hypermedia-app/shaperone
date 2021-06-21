@@ -28,7 +28,6 @@
     "@open-wc/building-webpack": "^2.13.32",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@tpluscode/eslint-config": "^0.1.1",
-    "@types/rdf-js": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "@web/dev-server-esbuild": "^0.2.11",

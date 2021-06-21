@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@tpluscode/rdf-ns-builders": "^0.4",
+    "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@hydrofoil/shaperone-core": "0.7.2",
