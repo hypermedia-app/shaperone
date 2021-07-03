@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@tpluscode/rdf-ns-builders": "^1.0.0",
+    "@tpluscode/rdf-string": "^0.2.24",
     "@rdf-esm/term-set": "^0.5.0"
   },
   "peerDependencies": {

@@ -1,6 +1,6 @@
 # clownface-shacl-path
 
-Find nodes in RDF/JS graphs by following [SHACL Property Paths](https://www.w3.org/TR/shacl/#property-paths) using [clownface](https://npm.im/clownface) graph traversal library.
+Provides functions to work with [SHACL Property Paths](https://www.w3.org/TR/shacl/#property-paths)
 
 ## Install
 
@@ -9,6 +9,10 @@ yarn add clownface-shacl-path
 ```
 
 ## Usage
+
+### `findNodes`
+
+Find nodes in RDF/JS graphs by following [SHACL Property Paths](https://www.w3.org/TR/shacl/#property-paths) using [clownface](https://npm.im/clownface) graph traversal library.
 
 The exported function takes two parameters:
 
@@ -47,6 +51,42 @@ path.addList(sh.alternativePath, [
 findNodes(amy, path)
 ```
 
-## Implementation
+#### Remarks
 
 The package does not implement the `*OrMore` paths
+
+
+### `toSparql`
+
+Converts a [SHACL Property Path](https://www.w3.org/TR/shacl/#property-paths) to SPARQL Property Path string template object. Use the property path with [@tpluscode/sparql-builder](https://npm.im/@tpluscode/sparql-builder)
+
+```typescript
+import type {GraphPointer} from 'clownface'
+import { toSparql } from 'clownface-shacl-path'
+import { SELECT } from '@tpluscode/sparql-builder'
+
+/*
+ [ sh:path 
+   [
+     sh:alternativePath (
+       ( schema:knows schema:name )
+       ( foaf:knows foaf:name )
+     )
+   ]
+ ]
+ */
+let path: GraphPointer
+
+/*
+  SELECT ?friendName
+  WHERE {
+    ?person a <http://schema.org/Person> .
+    ?person (schema:knows|schema:name)|(foaf:knows|foaf:name) ?friendName
+  }
+ */
+SELECT`?friendName`
+  .WHERE`
+    ?person a <http://schema.org/Person> .
+    ?person ${toSparql(path)} ?friendName .
+  `.build()
+```
