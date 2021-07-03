@@ -81,6 +81,43 @@ describe('clownface-shacl-path', () => {
       expect(nodes.term).to.deep.eq(tbbt.Penny)
     })
 
+    it('follows a zero-or-one path', () => {
+      // given
+      /*
+       sh:path [
+         sh:zeroOrOnePath schema:knows
+       ]
+       */
+      const path = blankNode()
+      path.addOut(sh.zeroOrOnePath, schema.spouse)
+
+      // when
+      const nodes = findNodes(sheldon, path)
+
+      // then
+      expect(nodes.terms).to.deep.contain.members([
+        tbbt.Sheldon,
+        tbbt.Amy,
+      ])
+    })
+
+    it('returns self if zero-or-one path has no matched', () => {
+      // given
+      /*
+       sh:path [
+         sh:zeroOrOnePath schema:knows
+       ]
+       */
+      const path = blankNode()
+      path.addOut(sh.zeroOrOnePath, foaf.nows)
+
+      // when
+      const nodes = findNodes(sheldon, path)
+
+      // then
+      expect(nodes.term).to.deep.eq(tbbt.Sheldon)
+    })
+
     it('follows sequence path of two inverse paths', () => {
       // given
       /*

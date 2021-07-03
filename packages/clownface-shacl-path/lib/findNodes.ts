@@ -31,6 +31,11 @@ function traverse(node: MultiPointer, path: MultiPointer): MultiPointer {
       throw new Error('Object of sh:alternativePath must be an RDF List')
     }
 
+    if (path.out(sh.zeroOrOnePath).term) {
+      const outNodes = node.out(path.out(sh.zeroOrOnePath).term)
+      return node.node([...node.terms, ...outNodes.terms])
+    }
+
     if (path.out([sh.zeroOrMorePath, sh.oneOrMorePath]).term) {
       throw new Error('sh:zeroOrMorePath and sh:oneOrMorePath are not supported')
     }
