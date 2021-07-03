@@ -411,6 +411,23 @@ describe('clownface-shacl-path', () => {
       expect(sparql).to.eq('schema:knows?')
     })
 
+    it('converts a zero-or-one sequence path', () => {
+      // given
+      /*
+       sh:path [
+         sh:zeroOrOnePath ( schema:knows schema:name )
+       ]
+       */
+      const path = blankNode()
+      path.addList(sh.zeroOrOnePath, [schema.knows, schema.name])
+
+      // when
+      const sparql = toSparql(path).toString({ prologue: false })
+
+      // then
+      expect(sparql).to.eq('(schema:knows/schema:name)?')
+    })
+
     it('converts a zero-or-more sequence path', () => {
       // given
       /*
@@ -530,6 +547,26 @@ describe('clownface-shacl-path', () => {
     it('throws when sh:alternativePath not a list', () => {
       // given
       const path = blankNode().addOut(sh.alternativePath)
+
+      // then
+      expect(() => toSparql(path)).to.throw(Error)
+    })
+
+    it('throws when sh:alternativePath has one element', () => {
+      // given
+      const path = blankNode().addList(sh.alternativePath, [schema.knows])
+
+      // then
+      expect(() => toSparql(path)).to.throw(Error)
+    })
+
+    it('throws when path has one element', () => {
+      // given
+      const root = blankNode()
+      root.addList(sh.path, [
+        schema.spouse,
+      ])
+      const [path] = root.out(sh.path).toArray()
 
       // then
       expect(() => toSparql(path)).to.throw(Error)

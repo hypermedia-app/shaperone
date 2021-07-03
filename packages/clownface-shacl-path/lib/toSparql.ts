@@ -34,7 +34,12 @@ function traverse(propertyPath: PartialPath, path: MultiPointer, index = 0): Par
 
   const list = path.list()
   if (list) {
-    return [...list].reduce(traverse, propertyPath)
+    const segments = [...list]
+    if (segments.length === 1) {
+      throw new Error('SHACL Property Path list must have at least 2 elements')
+    }
+
+    return segments.reduce(traverse, propertyPath)
   }
 
   const next = sequence(propertyPath, '/', index)
@@ -80,7 +85,7 @@ function traverse(propertyPath: PartialPath, path: MultiPointer, index = 0): Par
         })
       }
 
-      return next({ path: sparql`${first.path}`, length: 1 })
+      throw new Error('sh:alternativePath must have at least two elements')
     }
 
     if (path.out(sh.zeroOrMorePath).term) {
