@@ -26,7 +26,7 @@
     "@tpluscode/rdfine": "^0.5.27",
     "@zazuko/rdf-vocabularies": "*",
     "clownface": "^1.2.0",
-    "clownface-shacl-path": "^1.0.2",
+    "clownface-shacl-path": "^1.2.2",
     "immer": "^8.0.1"
   },
   "devDependencies": {

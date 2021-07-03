@@ -20,7 +20,7 @@
     "@tpluscode/rdfine": "^0.5.27",
     "alcaeus": "^1.1.4",
     "clownface": "^1.2.0",
-    "clownface-shacl-path": "1.1.0"
+    "clownface-shacl-path": "^1.2.2"
   },
   "devDependencies": {
     "@open-wc/testing": "^2.5.18",

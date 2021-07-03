@@ -7,7 +7,6 @@
     "build": "lerna run --parallel build",
     "test": "run-p test:*",
     "test:core": "BABEL_ENV=test c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core/test/**/*.test.ts'",
-    "test:shacl-path": "BABEL_ENV=test c8 --all -o coverage/shacl --reporter=lcov mocha --recursive 'packages/clownface-shacl-path/test/**/*.test.ts'",
     "test:open-wc": "karma start karma.conf.cjs --coverage",
     "test:open-wc:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false",
     "test:web": "web-test-runner",
