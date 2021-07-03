@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-hydra",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Shaperone extensions to integrate with Hydra-driven APIs",
   "main": "index.js",
   "type": "module",
@@ -20,7 +20,7 @@
     "@tpluscode/rdfine": "^0.5.27",
     "alcaeus": "^1.1.4",
     "clownface": "^1.2.0",
-    "clownface-shacl-path": "1.0.2"
+    "clownface-shacl-path": "1.1.0"
   },
   "devDependencies": {
     "@open-wc/testing": "^2.5.18",

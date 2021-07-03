@@ -1,5 +1,15 @@
 # clownface-shacl-path
 
+## 1.1.0
+
+### Minor Changes
+
+- 3adb204: Added `toSparql` function converting to SPARQL Query template string
+
+### Patch Changes
+
+- c00a12a: findNodes: support `sh:zeroOrOnePath`
+
 ## 1.0.2
 
 ### Patch Changes

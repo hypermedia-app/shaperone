@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [c00a12a]
+- Updated dependencies [3adb204]
+  - clownface-shacl-path@1.1.0
+
 ## 0.2.1
 
 ### Patch Changes
