@@ -76,7 +76,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npx lerna run analyze && git add **/custom-elements.json **/README.md"
+      "pre-commit": "lint-staged && yarn lerna run analyze && git add **/custom-elements.json **/README.md"
     }
   },
   "lint-staged": {
