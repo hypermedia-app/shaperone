@@ -22,7 +22,7 @@
     "@captaincodeman/rdx": "^1.0.0-rc.8",
     "@hydrofoil/shaperone-core": "^0.7.3",
     "@rdf-esm/data-model": "^0.5.4",
-    "@rdfine/shacl": "^0.8.1",
+    "@rdfine/shacl": "^0.8.2",
     "@rdf-esm/term-map": "^0.5.0",
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@tpluscode/rdfine": "^0.5.27",
