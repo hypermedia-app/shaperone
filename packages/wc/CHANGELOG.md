@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc
 
+## 0.5.2
+
+### Patch Changes
+
+- 096d202: Update rdfine packages
+- Updated dependencies [096d202]
+  - @hydrofoil/shaperone-core@0.7.4
+
 ## 0.5.1
 
 ### Patch Changes

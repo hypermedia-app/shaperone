@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.30
+
+### Patch Changes
+
+- 096d202: Update rdfine packages
+- Updated dependencies [096d202]
+  - @hydrofoil/shaperone-hydra@0.2.3
+  - @hydrofoil/shaperone-wc@0.5.2
+  - @hydrofoil/shaperone-wc-material@0.3.2
+  - @hydrofoil/shaperone-wc-vaadin@0.3.2
+  - @hydrofoil/shaperone-playground-examples@0.2.11
+
 ## 0.1.29
 
 ### Patch Changes
