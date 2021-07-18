@@ -3,7 +3,7 @@
  * @module @hydrofoil/shaperone-wc/templates
  */
 
-import { CSSResult, CSSResultArray, html, TemplateResult, CSSResultGroup } from 'lit'
+import { CSSResult, html, TemplateResult, CSSResultGroup } from 'lit'
 import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { repeat } from 'lit/directives/repeat.js'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
@@ -18,7 +18,7 @@ export interface RenderTemplate {
   /**
    * All styles get combined and inserted into the form
    */
-  styles?: CSSResult | CSSResultArray | CSSResultGroup
+  styles?: CSSResult | CSSResultGroup
 
   /**
    * Gets called by the renderer when the form is initialised

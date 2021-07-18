@@ -5,6 +5,7 @@
  * @module @hydrofoil/shaperone-wc/components/decorator
  */
 
+import { css } from 'lit'
 import type { RenderTemplate } from '../templates'
 
 export interface Decorate<Template extends RenderTemplate> {
@@ -35,7 +36,7 @@ function combineStyles(base: RenderTemplate, decorated: RenderTemplate) {
   }
 
   if (base.styles) {
-    decorated.styles = [base.styles, decorated.styles]
+    decorated.styles = css`${base.styles} ${decorated.styles}`
   }
 }
 
