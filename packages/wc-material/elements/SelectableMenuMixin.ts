@@ -1,5 +1,5 @@
 import { LitElement, css, html, TemplateResult } from 'lit'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 
 type Constructor = new (...args: any[]) => LitElement
 

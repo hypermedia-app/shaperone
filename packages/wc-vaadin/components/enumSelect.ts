@@ -6,7 +6,7 @@ import '@vaadin/vaadin-item/vaadin-item'
 import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { Term } from 'rdf-js'
 import { repeat } from 'lit/directives/repeat.js'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
 interface Choice {

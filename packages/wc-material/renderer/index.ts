@@ -1,5 +1,5 @@
 import { css, html } from 'lit'
-import { repeat } from 'lit/directives/repeat'
+import { repeat } from 'lit/directives/repeat.js'
 import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate, decorate } from '@hydrofoil/shaperone-wc/templates'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 

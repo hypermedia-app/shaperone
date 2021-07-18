@@ -1,6 +1,6 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit'
-import { repeat } from 'lit/directives/repeat'
+import { repeat } from 'lit/directives/repeat.js'
 import '@material/mwc-select/mwc-select'
 import '@material/mwc-list/mwc-list-item'
 import {

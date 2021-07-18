@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import { repeat } from 'lit/directives/repeat'
+import { repeat } from 'lit/directives/repeat.js'
 import type { NodeShape } from '@rdfine/shacl'
 import { SelectableMenuMixin } from './SelectableMenuMixin'
 

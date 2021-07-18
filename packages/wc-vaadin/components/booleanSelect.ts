@@ -3,7 +3,7 @@ import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/bo
 import { literal } from '@rdf-esm/data-model'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import '@vaadin/vaadin-select'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
 export const booleanSelect: Render<BooleanSelectEditor> = ({ value }, { update, clear }) => {

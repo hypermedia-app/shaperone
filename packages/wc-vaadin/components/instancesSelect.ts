@@ -7,7 +7,7 @@ import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
 declare module '@hydrofoil/shaperone-core/components' {
