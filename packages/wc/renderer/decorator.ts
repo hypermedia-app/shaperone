@@ -36,7 +36,7 @@ function combineStyles(base: RenderTemplate, decorated: RenderTemplate) {
   }
 
   if (base.styles) {
-    decorated.styles = css`${base.styles} ${decorated.styles}`
+    decorated.styles = css`${base.styles}\n${decorated.styles}`
   }
 }
 

@@ -10,7 +10,7 @@ describe('wc/renderer/model', () => {
         // given
         const before = {
           templates,
-          styles: css``,
+          styles: [css``],
         }
 
         // when
