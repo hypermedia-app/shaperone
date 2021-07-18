@@ -9,7 +9,7 @@
     "test:core": "BABEL_ENV=test c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core/test/**/*.test.ts'",
     "test:open-wc": "karma start karma.conf.cjs --coverage",
     "test:open-wc:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false",
-    "test:web": "web-test-runner",
+    "test:web": "yarn tsc; web-test-runner",
     "release": "changeset publish",
     "docs": "docsify serve ./dist",
     "typedoc": "typedoc --watch"
