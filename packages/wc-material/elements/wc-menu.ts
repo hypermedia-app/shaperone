@@ -1,4 +1,5 @@
-import { css, customElement, html, LitElement, query } from 'lit-element'
+import { css, html, LitElement } from 'lit'
+import { customElement, query } from 'lit/decorators.js'
 import type { Menu } from '@material/mwc-menu/mwc-menu'
 import type { WcMenuButton } from 'wc-menu-button'
 

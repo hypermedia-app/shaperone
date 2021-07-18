@@ -1,5 +1,6 @@
-import { customElement, html, LitElement, property } from 'lit-element'
-import { repeat } from 'lit-html/directives/repeat'
+import { html, LitElement } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
+import { repeat } from 'lit/directives/repeat'
 import type { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
 
 import './wc-menu'

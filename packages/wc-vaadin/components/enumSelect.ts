@@ -1,12 +1,12 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
-import { html, render } from 'lit-html'
+import { html, render } from 'lit'
 import '@vaadin/vaadin-select/vaadin-select'
 import '@vaadin/vaadin-list-box/vaadin-list-box'
 import '@vaadin/vaadin-item/vaadin-item'
 import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { Term } from 'rdf-js'
-import { repeat } from 'lit-html/directives/repeat'
-import { spread } from '@open-wc/lit-helpers'
+import { repeat } from 'lit/directives/repeat.js'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
 import { validity } from './validation'
 
 interface Choice {
@@ -16,10 +16,10 @@ interface Choice {
 
 function renderer(choices: Choice[], value: Term | undefined) {
   return function (root: HTMLElement) {
-    let listBox = root.firstElementChild
+    let listBox = root.firstElementChild as HTMLElement
     if (!listBox) {
       root.appendChild(document.createElement('vaadin-list-box'))
-      listBox = root.firstElementChild
+      listBox = root.firstElementChild as HTMLElement
     }
 
     render(
@@ -44,5 +44,5 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ value }, actions
     if (pointer) actions.update(pointer.term)
   }
 
-  return html`<vaadin-select  ...="${spread(validity(value))}" .renderer="${renderer(choices, value.object?.term)}" .value="${selectValue || ''}" @change="${onChange}"></vaadin-select>`
+  return html`<vaadin-select ${spread(validity(value))} .renderer="${renderer(choices, value.object?.term)}" .value="${selectValue || ''}" @change="${onChange}"></vaadin-select>`
 }

@@ -1,5 +1,5 @@
 import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
-import { html } from 'lit-html'
+import { html } from '@hydrofoil/shaperone-wc'
 import type { ValidationResult } from '@rdfine/shacl'
 import { shrink } from '@zazuko/rdf-vocabularies/shrink'
 import TermMap from '@rdf-esm/term-map'

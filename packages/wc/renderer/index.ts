@@ -3,7 +3,7 @@
  * @module @hydrofoil/shaperone-wc/renderer
  */
 
-import { html, TemplateResult } from 'lit-element'
+import { html, TemplateResult } from 'lit'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { FormRenderer, Renderer } from '@hydrofoil/shaperone-core/renderer'
 import { RenderTemplates } from '../templates'

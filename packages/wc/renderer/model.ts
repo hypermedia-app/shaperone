@@ -1,6 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import type { CSSResult, CSSResultArray } from 'lit-element'
-import { css } from 'lit-element'
+import { css, CSSResult, CSSResultArray, CSSResultGroup } from 'lit'
 import deepmerge from 'concat-merge'
 import type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial'
 import { templates, RenderTemplates } from '../templates'
@@ -8,24 +7,24 @@ import type { State } from '../store'
 
 export interface RendererState {
   templates: RenderTemplates
-  styles: CSSResult
+  styles: CSSResult|CSSResultArray|CSSResultGroup
   ready?: boolean
 }
 
-function styleReducer(reduced: CSSResult, styles: CSSResult | CSSResultArray | undefined): CSSResult {
+function styleReducer(reduced: CSSResultArray, styles: CSSResult | CSSResultArray | undefined): CSSResultArray {
   if (!styles) return reduced
 
   if (Array.isArray(styles)) {
-    return styles.reduce(styleReducer, reduced)
+    return [...reduced, ...styles]
   }
 
-  return css`${reduced}${styles}`
+  return [...reduced, styles]
 }
 
 function combineStyles(strategy: RenderTemplates) {
   return Object.values(strategy)
     .map(strat => strat.styles)
-    .reduce(styleReducer, css``)
+    .reduce(styleReducer, [css``])
 }
 
 export const renderer = createModel({

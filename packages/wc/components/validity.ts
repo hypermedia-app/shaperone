@@ -1,19 +1,32 @@
-import { AttributePart, directive, Part } from 'lit-html'
+import { noChange, ElementPart } from 'lit'
+import { Directive, directive, PartInfo, PartType } from 'lit/directive.js'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 
-const stateMap = new WeakMap()
+class ValidityDirective extends Directive {
+  value?: string
 
-export const validity = directive(({ object, validationResults }: PropertyObjectState) => async (part: Part) => {
-  if (!(part instanceof AttributePart)) {
-    throw new Error('validity directive can only be used in attribute bindings')
+  constructor(partInfo: PartInfo) {
+    super(partInfo)
+    if (partInfo.type !== PartType.ELEMENT) {
+      throw new Error('validity directive can only be used in element bindings')
+    }
   }
 
-  const tb = part.committer.element as HTMLInputElement
-
-  tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage || 'Value is not valid').join('; '))
-  if (stateMap.get(part) !== object?.value) {
-    stateMap.set(part, object?.value)
-    part.setValue(tb.reportValidity() ? 'component' : 'component invalid')
-    part.commit()
+  render(arg: PropertyObjectState) {
+    return noChange
   }
-})
+
+  update(part: ElementPart, [{ object, validationResults }]: Parameters<ValidityDirective['render']>) {
+    const tb = part.element as HTMLInputElement
+
+    if (object?.value !== this.value) {
+      this.value = object?.value
+
+      tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage || 'Value is not valid').join('; '))
+      tb.setAttribute('part', tb.reportValidity() ? 'component' : 'component invalid')
+    }
+    return noChange
+  }
+}
+
+export const validity = directive(ValidityDirective)

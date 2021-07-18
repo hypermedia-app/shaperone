@@ -1,6 +1,6 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
-import { html } from 'lit-html'
-import { repeat } from 'lit-html/directives/repeat'
+import { html } from 'lit'
+import { repeat } from 'lit/directives/repeat'
 import '@material/mwc-select/mwc-select'
 import '@material/mwc-list/mwc-list-item'
 import {
@@ -26,7 +26,7 @@ function select(
     label,
   })) || []
 
-  return html`<mwc-select @selected="${(e: CustomEvent) => actions.update(choices[e.detail.index].term)}" part="${validity(value)}">
+  return html`<mwc-select @selected="${(e: CustomEvent) => actions.update(choices[e.detail.index].term)}" ${validity(value)}>
     ${repeat(choices, choice => html`<mwc-list-item ?selected="${choice.term.equals(value.object?.term)}" value="${choice.term.value}">
         ${choice.label}
     </mwc-list-item>`)}
@@ -50,7 +50,7 @@ export const booleanSelect: Render<BooleanSelectEditor> = function ({ value }, {
     }
   }
 
-  return html`<mwc-select @selected="${onSelected}" .value="${value.object?.value || ''}" part="${validity(value)}">
+  return html`<mwc-select @selected="${onSelected}" .value="${value.object?.value || ''}" ${validity(value)}>
     <mwc-list-item></mwc-list-item>
     <mwc-list-item value="true">true</mwc-list-item>
     <mwc-list-item value="false">false</mwc-list-item>

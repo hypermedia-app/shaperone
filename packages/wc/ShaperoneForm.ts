@@ -1,4 +1,5 @@
-import { LitElement, property, css, html, PropertyValues } from 'lit-element'
+import { LitElement, css, html, PropertyValues, TemplateResult } from 'lit'
+import { property } from 'lit/decorators.js'
 import { DatasetCore } from 'rdf-js'
 import type { FormState, ValidationResultState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
@@ -7,7 +8,6 @@ import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
-import { TemplateResult } from 'lit-html'
 import { Renderer } from '@hydrofoil/shaperone-core/renderer'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
@@ -44,7 +44,7 @@ export const id: (form: any) => symbol = (() => {
  *
  * ## Usage
  *
- * This example shows the element used with the default lit-html renderer
+ * This example shows the element used with the default lit renderer
  *
  * ```typescript
  * import '@hypermedia-app/shaperone-form/shaperone-form.js'

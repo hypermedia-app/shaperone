@@ -1,5 +1,5 @@
-import { css } from 'lit-element'
-import { expect, html } from '@open-wc/testing'
+import { css, html } from 'lit'
+import { expect } from '@open-wc/testing'
 import { renderer } from '../../renderer/model'
 import { templates } from '../../templates'
 

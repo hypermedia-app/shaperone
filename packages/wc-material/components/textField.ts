@@ -1,5 +1,5 @@
 import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes'
-import { html } from 'lit-element'
+import { html } from 'lit'
 import '@material/mwc-textfield/mwc-textfield'
 import { Render } from '@hydrofoil/shaperone-wc'
 import { Term } from 'rdf-js'
@@ -20,7 +20,7 @@ export const createTextField = function ({ type, createTerm }: { type?: TextFiel
         .value="${value.object?.value || ''}"
         type="${type || getType(property.datatype)}"
         required
-        part="${validity(value)}"
+        ${validity(value)}
         @blur="${(e: any) => update(createTerm ? createTerm(e.target.value) : e.target.value)}"></mwc-textfield>`
   }
 }

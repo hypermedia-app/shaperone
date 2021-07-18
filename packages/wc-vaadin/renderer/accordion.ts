@@ -1,6 +1,6 @@
 import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html } from '@hydrofoil/shaperone-wc'
-import { repeat } from 'lit-html/directives/repeat'
+import { repeat } from 'lit/directives/repeat.js'
 
 export const AccordionFocusNodeRenderer: FocusNodeTemplate = function (renderer, { focusNode }) {
   const { actions } = renderer
