@@ -44,7 +44,6 @@ function renderSummary({ errors, focusNodes }: Errors) {
 
 export const errorSummary = decorate((focusNode: FocusNodeTemplate) => (context, args) => {
   const summary = context.focusNode.validationResults
-    .filter(({ matchedTo }) => matchedTo !== 'object')
     .reduce(({ focusNodes, errors }, { result }) => {
       if (result.focusNode) {
         const focusNodeErrors = focusNodes.get(result.focusNode) || { properties: new TermMap(), errors: [] }
