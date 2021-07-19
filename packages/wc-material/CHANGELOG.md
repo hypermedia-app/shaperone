@@ -1,5 +1,19 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.4.0
+
+### Minor Changes
+
+- 0f1e31c: Update to `lit@2`
+
+### Patch Changes
+
+- Updated dependencies [0ce3e61]
+- Updated dependencies [0f1e31c]
+- Updated dependencies [ca8803c]
+  - @hydrofoil/shaperone-core@0.8.0
+  - @hydrofoil/shaperone-wc@0.6.0
+
 ## 0.3.2
 
 ### Patch Changes

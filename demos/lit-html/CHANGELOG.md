@@ -1,5 +1,19 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.31
+
+### Patch Changes
+
+- 8bad609: Reducce unnecessary re-renders
+- Updated dependencies [518a4eb]
+- Updated dependencies [0f1e31c]
+- Updated dependencies [ca8803c]
+  - @hydrofoil/shaperone-playground-examples@0.2.12
+  - @hydrofoil/shaperone-hydra@0.3.0
+  - @hydrofoil/shaperone-wc@0.6.0
+  - @hydrofoil/shaperone-wc-material@0.4.0
+  - @hydrofoil/shaperone-wc-vaadin@0.4.0
+
 ## 0.1.30
 
 ### Patch Changes

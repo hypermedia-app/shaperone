@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.0
+
+### Minor Changes
+
+- 0f1e31c: Update to `lit@2`
+
+### Patch Changes
+
+- Updated dependencies [0ce3e61]
+  - @hydrofoil/shaperone-core@0.8.0
+
 ## 0.2.3
 
 ### Patch Changes

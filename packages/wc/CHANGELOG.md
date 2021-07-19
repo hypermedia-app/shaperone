@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.0
+
+### Minor Changes
+
+- 0f1e31c: Update to `lit@2`
+
+### Patch Changes
+
+- ca8803c: Improve displaying errors on native inputs
+- Updated dependencies [0ce3e61]
+  - @hydrofoil/shaperone-core@0.8.0
+
 ## 0.5.2
 
 ### Patch Changes

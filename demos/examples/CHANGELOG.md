@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-playground-examples
 
+## 0.2.12
+
+### Patch Changes
+
+- 518a4eb: Not all errors were displayed in summary
+- Updated dependencies [0ce3e61]
+- Updated dependencies [0f1e31c]
+- Updated dependencies [ca8803c]
+  - @hydrofoil/shaperone-core@0.8.0
+  - @hydrofoil/shaperone-wc@0.6.0
+
 ## 0.2.11
 
 ### Patch Changes
