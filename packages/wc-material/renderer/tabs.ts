@@ -1,7 +1,7 @@
 import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html } from '@hydrofoil/shaperone-wc'
-import { repeat } from 'lit-html/directives/repeat'
-import { styleMap } from 'lit-html/directives/style-map'
+import { repeat } from 'lit/directives/repeat.js'
+import { styleMap } from 'lit/directives/style-map.js'
 import { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
 
 export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { focusNode }) {

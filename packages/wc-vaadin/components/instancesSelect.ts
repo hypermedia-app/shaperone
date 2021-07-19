@@ -1,12 +1,13 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
-import { directive, html, PropertyPart } from 'lit-html'
+import { html, PropertyPart, noChange } from 'lit'
+import { directive, Directive } from 'lit/directive.js'
 import type { InstancesSelect, InstancesSelectEditor, Item } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
-import { spread } from '@open-wc/lit-helpers'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
 declare module '@hydrofoil/shaperone-core/components' {
@@ -25,7 +26,7 @@ type CollectionDataProvider = ComboBoxDataProvider & {
   renderParams: SingleEditorRenderParams<InstancesSelect>
 }
 
-function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEditorRenderParams<InstancesSelect>): CollectionDataProvider {
+function createDataProvider(_component: InstancesSelectEditor, _renderParams: SingleEditorRenderParams<InstancesSelect>): CollectionDataProvider {
   const provider: CollectionDataProvider = async (params, callback) => {
     const pattern = new RegExp(params.filter, 'i')
 
@@ -54,27 +55,32 @@ function dataProvider(_component: InstancesSelectEditor, _renderParams: SingleEd
   return provider
 }
 
-const stateMap = new WeakMap<PropertyPart, { dataProvider: CollectionDataProvider ; searchUri: string | undefined }>()
-const memoizeDataProvider = directive((component: InstancesSelectEditor, renderParams: SingleEditorRenderParams<InstancesSelect>, searchUri: string | undefined) => (part: PropertyPart) => {
-  const previous = stateMap.get(part)
-  if (previous) {
-    // do not create a new data provider function to prevent duplicate requests from <vaadin-comb-box>
-    if (previous.searchUri && previous.searchUri !== searchUri) {
-      (part.committer.element as ComboBoxElement).clearCache()
-    }
-    previous.dataProvider.renderParams = renderParams
-    previous.dataProvider.component = component
-    previous.searchUri = searchUri
-    return
+class DataProviderDirective extends Directive {
+  dataProvider?: CollectionDataProvider
+  searchUri?: string
+
+  render(component: InstancesSelectEditor, renderParams: SingleEditorRenderParams<InstancesSelect>, searchUri: string | undefined) {
+    return noChange
   }
 
-  const state = {
-    dataProvider: dataProvider(component, renderParams),
-    searchUri,
+  update(part: PropertyPart, [component, renderParams, searchUri]: Parameters<DataProviderDirective['render']>) {
+    if (!this.dataProvider) {
+      this.dataProvider = createDataProvider(component, renderParams)
+      return this.dataProvider
+    }
+
+    if (this.searchUri && this.searchUri !== searchUri) {
+      (part.element as ComboBoxElement).clearCache()
+    }
+
+    this.dataProvider.renderParams = renderParams
+    this.dataProvider.component = component
+    this.searchUri = searchUri
+    return noChange
   }
-  stateMap.set(part, state)
-  part.setValue(state.dataProvider)
-})
+}
+
+const dataProvider = directive(DataProviderDirective)
 
 export const instancesSelect: Render<InstancesSelectEditor> = function (params, actions) {
   const { form, focusNode, property, value } = params
@@ -106,8 +112,8 @@ export const instancesSelect: Render<InstancesSelectEditor> = function (params, 
   const searchUri = this.searchTemplate?.({ property })?.expand(focusNode)
 
   return html`<vaadin-combo-box item-id-path="0.value" item-label-path="1"
-                                ...="${spread(validity(value))}"
-                .dataProvider="${memoizeDataProvider(this, params, searchUri)}"
+                                ${spread(validity(value))}
+                .dataProvider="${dataProvider(this, params, searchUri) as any}"
                 .selectedItem="${selectedInstance}"
                 @selected-item-changed="${onChange}">
   </vaadin-combo-box>`

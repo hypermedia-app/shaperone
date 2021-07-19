@@ -14,15 +14,15 @@ const immer = {
 }
 const config = {
   groups: [
-    { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
-    { name: 'wc', files: 'packages/wc/test/**/*.test.ts' },
-    { name: 'wc-material', files: 'packages/wc-material/test/**/*.test.ts' },
+    { name: 'hydra', files: 'packages/hydra/test/**/*.test.js' },
+    { name: 'wc', files: 'packages/wc/test/**/*.test.js' },
+    { name: 'wc-material', files: 'packages/wc-material/test/**/*.test.js' },
   ],
   coverage: true,
   nodeResolve: true,
   concurrency: 1,
   plugins: [
-    esbuildPlugin({ ts: true, js: true, target: 'auto' }),
+    esbuildPlugin({ ts: false, js: true, target: 'auto' }),
     rdfjs,
     immer,
     fromRollup(commonjs)({

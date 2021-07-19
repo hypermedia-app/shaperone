@@ -1,5 +1,5 @@
 import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
-import { html } from 'lit-html'
+import { html } from '@hydrofoil/shaperone-wc'
 import { LogicalConstraint } from '@hydrofoil/shaperone-core/models/forms'
 import type { Shape } from '@rdfine/shacl'
 import { Term } from 'rdf-js'

@@ -1,5 +1,5 @@
 import { FormRenderer, FocusNodeRenderer } from '@hydrofoil/shaperone-core/renderer'
-import { TemplateResult } from 'lit-element'
+import { TemplateResult } from 'lit'
 import { NodeShape, PropertyGroup, Shape } from '@rdfine/shacl'
 import { renderGroup } from './group'
 

@@ -15,8 +15,7 @@
     "@rdf-esm/data-model": "^0.5.3",
     "@rdf-esm/term-map": "^0.5.0",
     "@zazuko/rdf-vocabularies": "*",
-    "lit-element": "^2.3.1",
-    "lit-html": "^1.2.1",
+    "lit": "^2.0.0-rc.2",
     "multiselect-combo-box": "^2.4.2"
   }
 }

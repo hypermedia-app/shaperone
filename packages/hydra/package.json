@@ -23,7 +23,7 @@
     "clownface-shacl-path": "^1.2.2"
   },
   "devDependencies": {
-    "@open-wc/testing": "^2.5.18",
+    "@open-wc/testing": "^3.0.0-next.2",
     "@rdf-esm/dataset": "^0.5.1",
     "@shaperone/testing": "0.0.3",
     "clownface": "^1"

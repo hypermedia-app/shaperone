@@ -135,6 +135,8 @@ export const configureRenderer = (() => {
     async setLabs({ labs }: RendererState) {
       if (JSON.stringify(previousLabs) === JSON.stringify(labs)) return
 
+      previousLabs = labs
+
       renderer.setTemplates({
         focusNode: [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate),
       })

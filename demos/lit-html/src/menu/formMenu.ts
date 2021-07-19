@@ -1,5 +1,4 @@
-import { html } from 'lit-element'
-import { render } from 'lit-html'
+import { html, render } from 'lit'
 import { ComponentsState } from '../state/models/components'
 import { RendererState } from '../state/models/renderer'
 import { componentSets } from '../configure'

@@ -1,8 +1,7 @@
-import type { Render } from '@hydrofoil/shaperone-wc'
-import { html } from 'lit-html'
+import { html, Render } from '@hydrofoil/shaperone-wc'
 import { literal } from '@rdf-esm/data-model'
 import '@vaadin/vaadin-text-field/vaadin-text-area'
-import { spread } from '@open-wc/lit-helpers'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
 export const textArea: Render = function ({ value }, { update }) {
@@ -12,7 +11,7 @@ export const textArea: Render = function ({ value }, { update }) {
         required
         auto-validate
         @blur="${(e: any) => update(literal(e.target.value))}"
-        ...="${spread(validity(value))}"
+        ${spread(validity(value))}
       ></vaadin-text-area>
     `
 }

@@ -1,5 +1,5 @@
-import { LitElement, css, html, TemplateResult } from 'lit-element'
-import { spread } from '@open-wc/lit-helpers'
+import { LitElement, css, html, TemplateResult } from 'lit'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 
 type Constructor = new (...args: any[]) => LitElement
 
@@ -18,7 +18,7 @@ export function SelectableMenuMixin<Base extends Constructor>(base: Base): Retur
     }
 
     createItem({ text, icon, selected, ...rest }: {text: string; selected: boolean; icon: string} & Record<string, unknown>) {
-      return html`<mwc-list-item selectable graphic="icon" ?selected="${selected}" ...=${spread(rest)}>
+      return html`<mwc-list-item selectable graphic="icon" ?selected="${selected}" ${spread(rest)}>
         <mwc-icon slot="graphic">${icon || 'check'}</mwc-icon>
         ${text}
     </mwc-list-item>`

@@ -1,6 +1,5 @@
-import { Render } from '@hydrofoil/shaperone-wc'
-import { html } from 'lit-html'
-import { spread } from '@open-wc/lit-helpers'
+import { html, Render } from '@hydrofoil/shaperone-wc'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { namedNode } from '@rdf-esm/data-model'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 import { validity } from './validation'
@@ -13,7 +12,7 @@ export const urlEditor: Render = function ({ value }, { update }) {
     ...validity(value),
   }
 
-  return html`<vaadin-text-field ...="${spread(props)}">
+  return html`<vaadin-text-field ${spread(props)}>
                 <input type="url" slot="input" @blur="${(e: any) => update(namedNode(e.target.value))}">
               </vaadin-text-field>`
 }

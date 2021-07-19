@@ -4,7 +4,7 @@
     {
       "name": "shaperone-form",
       "path": "./shaperone-form.ts",
-      "description": "A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).\nThe underlying value is a graph represented using the [RDF/JS data model specification](https://rdf.js.org/data-model-spec/)\n\n## Usage\n\nThis example shows the element used with the default lit-html renderer\n\n```typescript\nimport '@hypermedia-app/shaperone-form/shaperone-form.js'\nimport { html } from '@hypermedia-app/shaperone-form'\nimport { Hydra } from 'alcaeus/web'\nimport { dataset, blankNode } from '@rdf-esm/dataset'\n\nconst shapes = await Hydra.loadResource('http://example.com/api/shape')\nconst resource = clownface({\n   dataset: dataset(),\n}).blankNode()\n\nconst formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`\n```\n\nThe above snippet assumes that shapes get loaded from a remote resource and the form value is initialized with a\nblank node without any properties.\n\nSuch setup will render a very basic and unstyled form using native browser input elements and no specific layout.\nCheck the main documentation page for instructions on customizing the form's rendering.",
+      "description": "A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).\nThe underlying value is a graph represented using the [RDF/JS data model specification](https://rdf.js.org/data-model-spec/)\n\n## Usage\n\nThis example shows the element used with the default lit renderer\n\n```typescript\nimport '@hypermedia-app/shaperone-form/shaperone-form.js'\nimport { html } from '@hypermedia-app/shaperone-form'\nimport { Hydra } from 'alcaeus/web'\nimport { dataset, blankNode } from '@rdf-esm/dataset'\n\nconst shapes = await Hydra.loadResource('http://example.com/api/shape')\nconst resource = clownface({\n   dataset: dataset(),\n}).blankNode()\n\nconst formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`\n```\n\nThe above snippet assumes that shapes get loaded from a remote resource and the form value is initialized with a\nblank node without any properties.\n\nSuch setup will render a very basic and unstyled form using native browser input elements and no specific layout.\nCheck the main documentation page for instructions on customizing the form's rendering.",
       "attributes": [
         {
           "name": "editors",
@@ -37,7 +37,7 @@
         {
           "name": "renderer",
           "description": "Gets or sets the renderer implementation",
-          "type": "Renderer<TemplateResult>",
+          "type": "Renderer<TemplateResult<ResultType>>",
           "default": "\"DefaultRenderer\""
         },
         {

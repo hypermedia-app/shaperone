@@ -1,4 +1,5 @@
-import { customElement, LitElement, css, property, query } from 'lit-element'
+import { LitElement, css, html, render } from 'lit'
+import { customElement, property, query } from 'lit/decorators.js'
 import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
@@ -6,7 +7,6 @@ import '@vaadin/vaadin-button/vaadin-button.js'
 import '@material/mwc-icon/mwc-icon.js'
 import '@vaadin-component-factory/vcf-tooltip'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
-import { html, render } from 'lit-html'
 import '@hydrofoil/shaperone-wc/shaperone-form'
 import '@rdfjs-elements/rdf-editor'
 import { connect } from '@captaincodeman/rdx'
@@ -284,12 +284,12 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
   __renderSharingDialog(parent: ShaperonePlayground) {
     return (root: HTMLElement) => {
-      let dialogContents: Element
+      let dialogContents: HTMLElement
       if (!root.firstElementChild) {
         dialogContents = document.createElement('div')
         root.appendChild(dialogContents)
       } else {
-        dialogContents = root.firstElementChild
+        dialogContents = root.firstElementChild as HTMLElement
       }
 
       render(html`<vaadin-text-field style="width:500px"

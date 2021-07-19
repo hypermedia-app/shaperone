@@ -1,7 +1,6 @@
-import { html } from 'lit-html'
+import { html, css } from 'lit'
 import { expect } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
-import { css } from 'lit-element'
 import { decorate } from '../../renderer/decorator'
 import { FocusNodeTemplate } from '../../templates'
 

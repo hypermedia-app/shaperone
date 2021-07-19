@@ -1,4 +1,4 @@
-import { TemplateResult } from 'lit-element'
+import { TemplateResult } from 'lit'
 import { html } from '@hydrofoil/shaperone-wc'
 import { ComponentDecorator } from '@hydrofoil/shaperone-core/models/components'
 import type { PropertyShape } from '@rdfine/shacl'

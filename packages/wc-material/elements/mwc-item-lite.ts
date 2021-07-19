@@ -1,4 +1,5 @@
-import { LitElement, html, css, customElement, PropertyValues, query, property } from 'lit-element'
+import { LitElement, html, css, PropertyValues } from 'lit'
+import { customElement, query, property } from 'lit/decorators.js'
 
 @customElement('mwc-item-lite')
 export class MwcItemLite extends LitElement {
