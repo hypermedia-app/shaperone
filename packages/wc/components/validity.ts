@@ -4,6 +4,7 @@ import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 
 class ValidityDirective extends Directive {
   value?: string
+  isValid = true
 
   constructor(partInfo: PartInfo) {
     super(partInfo)
@@ -19,12 +20,19 @@ class ValidityDirective extends Directive {
   update(part: ElementPart, [{ object, validationResults }]: Parameters<ValidityDirective['render']>) {
     const tb = part.element as HTMLInputElement
 
-    if (object?.value !== this.value) {
+    tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage || 'Value is not valid').join('; '))
+    const isValid = validationResults.length === 0
+
+    if (object?.value !== this.value || this.isValid !== isValid) {
       this.value = object?.value
 
-      tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage || 'Value is not valid').join('; '))
-      tb.setAttribute('part', tb.reportValidity() ? 'component' : 'component invalid')
+      tb.reportValidity()
+      if (this.isValid !== isValid) {
+        this.isValid = isValid
+        tb.setAttribute('part', this.isValid ? 'component' : 'component invalid')
+      }
     }
+
     return noChange
   }
 }
