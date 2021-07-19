@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.0
+
+### Minor Changes
+
+- 0ce3e61: Pre-select available editor, even if scored lower (fixes #85)
+
+  Potentially breaking: changed state object for multi editors
+
 ## 0.7.4
 
 ### Patch Changes
