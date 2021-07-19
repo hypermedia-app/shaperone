@@ -4,7 +4,7 @@ import { BaseParams } from '../../index'
 export function connect(store: Store) {
   const dispatch = store.getDispatch()
   return ({ form }: BaseParams) => {
-    const { forms, editors, shapes, resources } = store.getState()
+    const { forms, editors, shapes, resources, components } = store.getState()
     const shapesState = shapes.get(form)
     const formState = forms.get(form)
 
@@ -15,6 +15,7 @@ export function connect(store: Store) {
         form,
         focusNode: rootPointer,
         editors,
+        components,
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
         shapes: shapesState?.shapes || [],
         shape: shapesState?.preferredRootShape,

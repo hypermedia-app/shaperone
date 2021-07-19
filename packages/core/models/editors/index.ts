@@ -35,6 +35,10 @@ export interface SingleEditorMatch extends Omit<SingleEditor, 'match'> {
   score: number | null
 }
 
+export interface MultiEditorMatch extends Omit<MultiEditor, 'match'> {
+  score: number | null
+}
+
 type EditorMap<T> = Record<string, T | undefined>
 
 export interface EditorsState {

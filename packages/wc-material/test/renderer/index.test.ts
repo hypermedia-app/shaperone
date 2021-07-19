@@ -4,7 +4,7 @@ import $rdf from '@rdf-esm/dataset'
 import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import ns from '@rdf-esm/namespace'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
-import { testEditor, testPropertyState, testObjectState, emptyGroupState, testFocusNode } from '@shaperone/testing/models/form'
+import { testPropertyState, testObjectState, emptyGroupState, testFocusNode } from '@shaperone/testing/models/form'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { List } from '@material/mwc-list/mwc-list'
 import { focusNodeRenderer, objectRenderer, propertyRenderer } from '@shaperone/testing/renderer'
@@ -167,7 +167,10 @@ describe('wc-material/renderer', () => {
 
     it('renders a selection menu when multi editor is available but not selected', async () => {
       // given
-      property.editors = [testEditor(dash.TestEditor1)]
+      property.editors = [{
+        term: dash.TestEditor1,
+        score: null,
+      }]
 
       // when
       const result = await fixture(render.property(renderer, { property }))
@@ -178,7 +181,10 @@ describe('wc-material/renderer', () => {
 
     it('renders multi editor when it is selected', async () => {
       // given
-      property.editors = [testEditor(dash.TestEditor1)]
+      property.editors = [{
+        term: dash.TestEditor1,
+        score: null,
+      }]
       property.selectedEditor = dash.TestEditor1
 
       // when
