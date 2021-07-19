@@ -3,6 +3,7 @@ import type { GraphPointer } from 'clownface'
 import { NamedNode } from 'rdf-js'
 import RdfResource from '@tpluscode/rdfine/RdfResource'
 import type { EditorsState } from '../../editors'
+import type { ComponentsState } from '../../components'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
 import { byShOrder } from '../../../lib/order'
@@ -16,12 +17,13 @@ interface InitPropertyObjectShapeParams {
   shape: PropertyShape
   shouldEnableEditorChoice: ShouldEnableEditorChoice
   editors: EditorsState
+  components: ComponentsState
 }
 
-export function initialiseObjectState({ shape, editors, shouldEnableEditorChoice }: InitPropertyObjectShapeParams, previous: PropertyState | undefined) {
+export function initialiseObjectState({ shape, editors, components, shouldEnableEditorChoice }: InitPropertyObjectShapeParams, previous: PropertyState | undefined) {
   return (object?: GraphPointer): PropertyObjectState => {
     const matchedEditors = editors.matchSingleEditors({ shape, object })
-    let selectedEditor = matchedEditors[0]?.term
+    let selectedEditor = matchedEditors.filter(editor => components.components[editor.term.value])[0]?.term
 
     const previousObject = previous?.objects?.find(o => o.object?.term.equals(object?.term))
     if (previousObject?.selectedEditor && matchedEditors.some(e => e.term.equals(previousObject.selectedEditor))) {
@@ -46,10 +48,11 @@ interface InitPropertyShapeParams {
   shape: PropertyShape
   shouldEnableEditorChoice: ShouldEnableEditorChoice
   editors: EditorsState
+  components: ComponentsState
 }
 
-function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
-  const { shape } = params
+export function initialisePropertyShape(params: InitPropertyShapeParams, previous: PropertyState | undefined): PropertyState {
+  const { shape, components } = params
 
   const values = shape.getValues(params.focusNode)
 
@@ -66,7 +69,7 @@ function initialisePropertyShape(params: InitPropertyShapeParams, previous: Prop
     datatype = shapeDatatype.id
   }
 
-  const editor = editors[0]
+  const editor = editors.filter(({ term }) => term.value in components.components)[0]
   const canRemove = canRemoveObject(shape, objects.length)
   const canAdd = canAddObject(shape, objects.length)
 
@@ -100,6 +103,7 @@ interface InitializePropertyShapesParams {
   focusNode: FocusNode
   selectedGroup?: string
   shouldEnableEditorChoice: ShouldEnableEditorChoice
+  components: ComponentsState
 }
 
 export function initialisePropertyShapes(shape: NodeShape, { selectedGroup, ...params }: InitializePropertyShapesParams, previous: FocusNodeState | undefined) {
@@ -137,6 +141,7 @@ export interface InitializeParams {
   focusNode: FocusNode
   selectedGroup?: string
   shouldEnableEditorChoice: ShouldEnableEditorChoice
+  components: ComponentsState
 }
 
 export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined): FocusNodeState {

@@ -8,7 +8,7 @@ export default function setGraph(store: Store) {
   let previousShapes: ShapeState | undefined
 
   return ({ form }: SetShapesGraphParams) => {
-    const { editors, forms, shapes } = store.getState()
+    const { editors, forms, shapes, components } = store.getState()
     const formState = forms.get(form)
     const shapesState = shapes.get(form)
     const graph = store.getState().resources.get(form)?.graph
@@ -26,6 +26,7 @@ export default function setGraph(store: Store) {
         form,
         focusNode,
         editors,
+        components,
         shape: shapesState?.preferredRootShape,
         shapes: matchShapes(shapes.get(form)?.shapes).to(focusNode),
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,

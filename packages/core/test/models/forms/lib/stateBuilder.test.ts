@@ -6,16 +6,19 @@ import ns from '@rdf-esm/namespace'
 import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import { schema, sh, dash, dcterms } from '@tpluscode/rdf-ns-builders'
 import { testEditor, testStore } from '@shaperone/testing/models/form'
-import { initialiseFocusNode, initialiseObjectState } from '../../../../models/forms/lib/stateBuilder'
+import {
+  initialiseFocusNode,
+  initialiseObjectState,
+  initialisePropertyShape,
+} from '../../../../models/forms/lib/stateBuilder'
 import { loadMixins } from '../../../../index'
 import { Store } from '../../../../state'
 import { propertyShape } from '../../../util'
 
 const ex = ns('http://example.com/')
 
-describe('core/models/forms/lib/stateBuilder', () => {
+describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
   let store: Store
-  const meta = {} as any
 
   before(loadMixins)
   beforeEach(() => {
@@ -36,6 +39,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape: nestedShape,
         shapes: [otherShape],
         shouldEnableEditorChoice,
@@ -57,6 +61,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape: nestedShape,
         shapes: [otherShape, nestedShape],
         shouldEnableEditorChoice,
@@ -84,6 +89,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         focusNode,
         editors,
         shape,
+        components: store.getState().components,
         shapes: [shape],
         shouldEnableEditorChoice,
       }, undefined)
@@ -100,6 +106,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         editors,
         shape,
         shapes: [shape],
+        components: store.getState().components,
         shouldEnableEditorChoice,
       }, before)
 
@@ -124,6 +131,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         editors: store.getState().editors,
         shape,
         shapes: [shape],
+        components: store.getState().components,
         shouldEnableEditorChoice,
       }, undefined)
       before.properties[0].objects[0].selectedEditor = ex.FooEditor
@@ -134,6 +142,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         editors: store.getState().editors,
         shape,
         shapes: [shape],
+        components: store.getState().components,
         shouldEnableEditorChoice,
       }, before)
 
@@ -155,6 +164,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const params = {
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [shape],
         shouldEnableEditorChoice,
@@ -183,12 +193,12 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const { editors } = store.getState()
       editors.matchMultiEditors = () => [{
         term: ex.FooMultiEditor,
-        match: () => 10,
-        meta,
+        score: 10,
       }]
       const params = {
         focusNode,
         editors,
+        components: store.getState().components,
         shape,
         shapes: [shape],
         shouldEnableEditorChoice,
@@ -220,6 +230,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice,
@@ -246,6 +257,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice,
@@ -286,6 +298,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         shape,
         shapes: [],
         shouldEnableEditorChoice,
+        components: store.getState().components,
       }, undefined)
 
       // then
@@ -312,6 +325,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
+        components: store.getState().components,
       }, undefined)
 
       // then
@@ -366,6 +380,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
@@ -407,6 +422,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
@@ -436,6 +452,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
@@ -480,6 +497,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
@@ -504,6 +522,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
@@ -529,6 +548,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const state = initialiseFocusNode({
         focusNode,
         editors: store.getState().editors,
+        components: store.getState().components,
         shape,
         shapes: [],
         shouldEnableEditorChoice: () => true,
@@ -536,6 +556,39 @@ describe('core/models/forms/lib/stateBuilder', () => {
 
       // then
       expect(state.properties[0].hidden).to.be.true
+    })
+  })
+
+  describe('initialisePropertyShape', () => {
+    it('selects lower-score multi-editor if it is the best match with available component', () => {
+      // given
+      const shapeGraph = cf({ dataset: $rdf.dataset() })
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shape = propertyShape(shapeGraph.blankNode(), {
+        path: ex.foo,
+      })
+      const { components, editors } = store.getState()
+      components.components[ex.lowerMatch.value] = {
+        editor: ex.lowerMatch,
+        loading: false,
+      }
+      editors.matchMultiEditors = () => [
+        { term: ex.higherMatch, score: 20 },
+        { term: ex.lowerMatch, score: 4 },
+      ]
+      const context = {
+        focusNode,
+        shape,
+        editors,
+        components,
+        shouldEnableEditorChoice: () => true,
+      }
+
+      // when
+      const state = initialisePropertyShape(context, undefined)
+
+      // then
+      expect(state.selectedEditor).to.deep.eq(ex.lowerMatch)
     })
   })
 
@@ -550,6 +603,7 @@ describe('core/models/forms/lib/stateBuilder', () => {
       const context = {
         shape,
         editors: store.getState().editors,
+        components: store.getState().components,
         shouldEnableEditorChoice() {
           return false
         },
@@ -560,6 +614,36 @@ describe('core/models/forms/lib/stateBuilder', () => {
 
       // then
       expect(state.editorSwitchDisabled).to.be.true
+    })
+
+    it('selects lower-score editor if it is the best match with available component', () => {
+      // given
+      const shapeGraph = cf({ dataset: $rdf.dataset() })
+      const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
+      const shape = propertyShape(shapeGraph.blankNode(), {
+        path: ex.foo,
+      })
+      const { components, editors } = store.getState()
+      components.components[ex.lowerMatch.value] = {
+        editor: ex.lowerMatch,
+        loading: false,
+      }
+      editors.matchSingleEditors = () => [
+        { term: ex.higherMatch, score: 10 },
+        { term: ex.lowerMatch, score: 5 },
+      ]
+      const context = {
+        shape,
+        editors,
+        components,
+        shouldEnableEditorChoice: () => true,
+      }
+
+      // when
+      const state = initialiseObjectState(context, undefined)(dataGraph.literal(5))
+
+      // then
+      expect(state.selectedEditor).to.deep.eq(ex.lowerMatch)
     })
   })
 })

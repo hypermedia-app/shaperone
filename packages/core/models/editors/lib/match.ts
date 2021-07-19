@@ -3,7 +3,7 @@ import type { GraphPointer } from 'clownface'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import TermMap from '@rdf-esm/term-map'
-import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor, Editor } from '../index'
+import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor, Editor, MultiEditorMatch } from '../index'
 
 function toDefined<T extends Editor>(arr: Map<NamedNode, T>, next: T | undefined): Map<NamedNode, T> {
   return !next ? arr : arr.set(next.term, next)
@@ -58,12 +58,11 @@ export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { sha
     .sort(byScore)
 }
 
-export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): MultiEditor[] {
+export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): MultiEditorMatch[] {
   const multiEditors = Object.values(this.multiEditors).reduce<Map<NamedNode, MultiEditor>>(toDefined, new TermMap())
 
   return [...multiEditors.values()]
-    .map(editor => ({ editor, score: editor.match(shape) }))
+    .map(editor => ({ term: editor.term, score: editor.match(shape) }))
     .filter(match => match.score === null || match.score > 0)
     .sort(byScore)
-    .map(e => e.editor)
 }

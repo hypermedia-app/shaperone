@@ -10,7 +10,7 @@ export default function (store: Store) {
   const dispatch = store.getDispatch()
 
   return ({ form, rootPointer }: setRoot.Params) => {
-    const { forms, editors, shapes, resources } = store.getState()
+    const { forms, editors, shapes, resources, components } = store.getState()
     const formState = forms.get(form)
     const graph = resources.get(form)?.graph
     const shapesState = shapes.get(form)
@@ -28,6 +28,7 @@ export default function (store: Store) {
         form,
         focusNode: rootPointer,
         editors,
+        components,
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
         shapes: shapesState?.shapes || [],
         shape: shapesState?.preferredRootShape,
@@ -44,6 +45,7 @@ export default function (store: Store) {
         form,
         focusNode,
         editors,
+        components,
         shapes: shapesState?.shapes || [],
         shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
       })

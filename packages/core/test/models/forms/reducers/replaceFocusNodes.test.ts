@@ -29,6 +29,7 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
     return {
       focusNode,
       shapes: [],
+      components: store.getState().components,
       editors: store.getState().editors,
       shouldEnableEditorChoice: () => true,
     }

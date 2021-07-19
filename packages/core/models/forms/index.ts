@@ -23,7 +23,7 @@ import * as multiEditors from './reducers/multiEditors'
 import * as validation from './reducers/validation'
 import * as properties from './reducers/properties'
 import { FocusNode } from '../../index'
-import type { MultiEditor, SingleEditorMatch } from '../editors'
+import type { SingleEditorMatch, MultiEditorMatch } from '../editors'
 import { createFocusNodeState } from './reducers/replaceFocusNodes'
 import editorsEffects from './effects/editors'
 import shapesEffects from './effects/shapes'
@@ -92,7 +92,7 @@ export interface LogicalConstraints {
 export interface PropertyState extends ValidationState {
   shape: PropertyShape
   name: string
-  editors: MultiEditor[]
+  editors: MultiEditorMatch[]
   selectedEditor: NamedNode | undefined
   componentState: Record<string, any>
   objects: PropertyObjectState[]
