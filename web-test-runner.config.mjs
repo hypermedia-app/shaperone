@@ -2,6 +2,7 @@ import { esbuildPlugin } from '@web/dev-server-esbuild';
 import rdfjs from 'rdfjs-eds-plugin'
 import { fromRollup } from '@web/dev-server-rollup'
 import commonjs from '@rollup/plugin-commonjs'
+import fs from 'fs'
 
 const immer = {
   resolveImport({ source }) {
@@ -12,17 +13,29 @@ const immer = {
     return undefined
   },
 }
+
+const nodeResolveFix = {
+  serve(context) {
+    if (context.path.includes('node_modules') && context.path.endsWith('.ts')) {
+      const path = `.${context.request.url}`.replace(/\.ts$/,'.js')
+      const body = fs.readFileSync(path)
+      return { body, type: 'js' };
+    }
+  }
+}
+
 const config = {
   groups: [
-    { name: 'hydra', files: 'packages/hydra/test/**/*.test.js' },
-    { name: 'wc', files: 'packages/wc/test/**/*.test.js' },
-    { name: 'wc-material', files: 'packages/wc-material/test/**/*.test.js' },
+    { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
+    { name: 'wc', files: 'packages/wc/test/**/*.test.ts' },
+    { name: 'wc-material', files: 'packages/wc-material/test/**/*.test.ts' },
   ],
   coverage: true,
   nodeResolve: true,
   concurrency: 1,
   plugins: [
-    esbuildPlugin({ ts: false, js: true, target: 'auto' }),
+    esbuildPlugin({ ts: true, js: true, target: 'auto' }),
+    nodeResolveFix,
     rdfjs,
     immer,
     fromRollup(commonjs)({
