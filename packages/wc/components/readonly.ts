@@ -1,4 +1,4 @@
-import { Directive, PartInfo, PartType, directive } from 'lit/directive'
+import { Directive, PartInfo, PartType, directive } from 'lit/directive.js'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { ElementPart, noChange } from 'lit'
 
