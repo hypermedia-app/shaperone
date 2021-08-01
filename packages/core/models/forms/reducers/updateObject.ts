@@ -3,11 +3,12 @@ import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
 import { GraphPointer, MultiPointer } from 'clownface'
 import { BaseParams, formStateReducer } from '../../index'
-import type { FormState, PropertyObjectState, State } from '../index'
+import type { PropertyObjectState, State } from '../index'
 import type { FocusNode } from '../../../index'
 import { EditorsState } from '../../editors'
 import { nextid } from '../lib/objectid'
 import { canAddObject, canRemoveObject } from '../lib/property'
+import { objectStateProducer } from '../objectStateProducer'
 
 export interface UpdateObjectParams extends BaseParams {
   focusNode: FocusNode
@@ -23,13 +24,8 @@ export interface ReplaceObjectsParams extends BaseParams {
   editors: EditorsState
 }
 
-export const updateObject = formStateReducer((state: FormState, { focusNode, property, object, newValue }: UpdateObjectParams) => produce(state, (draft) => {
+export const updateObject = formStateReducer(objectStateProducer<UpdateObjectParams>((draft, { focusNode, object, newValue }, propertyState) => {
   const focusNodeState = draft.focusNodes[focusNode.value]
-
-  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
-  if (!propertyState) {
-    return
-  }
 
   const objectState = propertyState.objects.find(o => o.key === object.key)
   if (objectState) {
@@ -37,14 +33,7 @@ export const updateObject = formStateReducer((state: FormState, { focusNode, pro
   }
 }))
 
-export const setPropertyObjects = formStateReducer((state: FormState, { focusNode, property, objects, editors }: ReplaceObjectsParams) => produce(state, (state) => {
-  const focusNodeState = state.focusNodes[focusNode.value]
-  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
-
-  if (!propertyState) {
-    return
-  }
-
+export const setPropertyObjects = formStateReducer(objectStateProducer<ReplaceObjectsParams>((draft, { property, objects, editors }, propertyState) => {
   propertyState.canAdd = canAddObject(property, objects.terms.length)
   propertyState.canRemove = canRemoveObject(property, objects.terms.length)
   propertyState.objects = objects.map<PropertyObjectState>((object) => {
@@ -69,10 +58,7 @@ export interface SetObjectValueParams extends BaseParams {
   editors: EditorsState
 }
 
-export const setObjectValue = formStateReducer((state: FormState, { focusNode, property, object, value, editors }: SetObjectValueParams) => produce(state, (draft) => {
-  const focusNodeState = draft.focusNodes[focusNode.value]
-  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
-
+export const setObjectValue = formStateReducer(objectStateProducer<SetObjectValueParams>((draft, { property, object, value, editors }, propertyState) => {
   const objectState = propertyState?.objects.find(o => o.key === object.key)
   if (!objectState) {
     return
@@ -91,7 +77,7 @@ export interface SetDefaultValueParams extends BaseParams {
   editors: EditorsState
 }
 
-export const setDefaultValue = formStateReducer((state: FormState, { focusNode, property, value, editors }: SetDefaultValueParams) => produce(state, (draft) => {
+export const setDefaultValue = formStateReducer(objectStateProducer<SetDefaultValueParams>((draft, { focusNode, property, value, editors }) => {
   const focusNodeState = draft.focusNodes[focusNode.value]
   const objects = focusNodeState.properties.find(p => p.shape.equals(property))?.objects || []
 
@@ -128,10 +114,7 @@ export interface ClearValueParams extends BaseParams {
   object: PropertyObjectState
 }
 
-export const clearValue = formStateReducer((state: FormState, { focusNode, property, object }: ClearValueParams) => produce(state, (draft) => {
-  const focusNodeState = draft.focusNodes[focusNode.value]
-  const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
-
+export const clearValue = formStateReducer(objectStateProducer<ClearValueParams>((draft, { object }, propertyState) => {
   const objectState = propertyState?.objects.find(o => o.key === object.key)
   if (objectState) {
     objectState.object = undefined
