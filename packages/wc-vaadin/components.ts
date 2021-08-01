@@ -70,8 +70,11 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
             for (const labelProperty of form.labelProperties) {
               objectNode.addOut(labelProperty, instance.out(labelProperty))
             }
+            updateComponentState({
+              selectedInstance: undefined,
+            })
           }
-        } catch (e) {
+        } finally {
           updateComponentState({
             loading: false,
             ready: true,
