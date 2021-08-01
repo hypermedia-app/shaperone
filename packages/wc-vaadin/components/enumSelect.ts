@@ -31,7 +31,7 @@ function renderer(choices: Choice[], value: Term | undefined) {
   }
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ value }, actions) {
+export const enumSelect: Render<EnumSelectEditor> = function ({ value, property }, actions) {
   const choices = value.componentState.choices?.map(([choice, label]) => ({
     term: choice.term,
     label,
@@ -44,5 +44,9 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ value }, actions
     if (pointer) actions.update(pointer.term)
   }
 
-  return html`<vaadin-select ${spread(validity(value))} .renderer="${renderer(choices, value.object?.term)}" .value="${selectValue || ''}" @change="${onChange}"></vaadin-select>`
+  return html`<vaadin-select ${spread(validity(value))}
+                             .readonly="${!!property.shape.readOnly}"
+                             .renderer="${renderer(choices, value.object?.term)}"
+                             .value="${selectValue || ''}"
+                             @change="${onChange}"></vaadin-select>`
 }

@@ -113,6 +113,7 @@ export const instancesSelect: Render<InstancesSelectEditor> = function (params, 
 
   return html`<vaadin-combo-box item-id-path="0.value" item-label-path="1"
                                 ${spread(validity(value))}
+                                .readonly="${!!property.shape.readOnly}"
                 .dataProvider="${dataProvider(this, params, searchUri) as any}"
                 .selectedItem="${selectedInstance}"
                 @selected-item-changed="${onChange}">

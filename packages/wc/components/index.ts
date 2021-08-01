@@ -10,19 +10,21 @@ import { xsd } from '@tpluscode/rdf-ns-builders'
 import { Render } from '../index'
 import { getType } from './lib/textFieldType'
 import { validity } from './validity'
+import { readOnly } from './readonly'
 
 export const textField: Render = function ({ property, value }, { update }) {
   return html`<input .value="${value.object?.value || ''}"
                      type="${getType(property.datatype)}"
                      ${validity(value)}
+                     ${readOnly(property)}
                      @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const textArea: Render = function ({ value }, { update }) {
-  return html`<textarea @blur="${(e: any) => update(literal(e.target.value))}" ${validity(value)}>${value.object?.value}</textarea>`
+export const textArea: Render = function ({ property, value }, { update }) {
+  return html`<textarea ${readOnly(property)} @blur="${(e: any) => update(literal(e.target.value))}" ${validity(value)}>${value.object?.value}</textarea>`
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ value }, { update }) {
+export const enumSelect: Render<EnumSelectEditor> = function ({ property, value }, { update }) {
   const choices = value.componentState.choices || []
 
   function updateHandler(e: any) {
@@ -30,7 +32,7 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ value }, { updat
     if (chosen) update(chosen[0].term)
   }
 
-  return html`<select @input="${updateHandler}" required ${validity(value)}>
+  return html`<select ${readOnly(property)} @input="${updateHandler}" required ${validity(value)}>
         <option value=""></option>
         ${repeat(choices, ([choice, label]) => html`<option ?selected="${choice.value === value.object?.value}" value="${choice.value}">
             ${label}
@@ -38,17 +40,18 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ value }, { updat
     </select>`
 }
 
-export const datePicker = (type: 'date' | 'datetime-local'): Render => function ({ value }, { update }) {
+export const datePicker = (type: 'date' | 'datetime-local'): Render => function ({ property, value }, { update }) {
   return html`<input .value="${value.object?.value || ''}"
                        type="${type}"
                        ${validity(value)}
+                       ${readOnly(property)}
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: Render<InstancesSelectEditor> = function ({ value }, { update }) {
+export const instancesSelect: Render<InstancesSelectEditor> = function ({ property, value }, { update }) {
   const choices = value.componentState.instances || []
 
-  return html`<select @input="${(e: any) => update(choices[(e.target).selectedIndex - 1][0].term)}" required ${validity(value)}>
+  return html`<select ${readOnly(property)} @input="${(e: any) => update(choices[(e.target).selectedIndex - 1][0].term)}" required ${validity(value)}>
         <option value=""></option>
         ${repeat(choices, ([choice, label]) => html`<option ?selected="${choice.term.equals(value.object?.term)}" value="${choice.value}">
             ${label}
@@ -56,10 +59,11 @@ export const instancesSelect: Render<InstancesSelectEditor> = function ({ value 
     </select>`
 }
 
-export const uri: Render = function ({ value }, { update }) {
+export const uri: Render = function ({ property, value }, { update }) {
   return html`<input .value="${value.object?.value || ''}"
                        type="url"
                        ${validity(value)}
+                       ${readOnly(property)}
                        @blur="${(e: any) => update(namedNode(e.target.value))}">`
 }
 
@@ -72,7 +76,7 @@ export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, pro
     }
   }
 
-  return html`<select @change="${changed}" ${validity(value)}>
+  return html`<select ${readOnly(property)} @change="${changed}" ${validity(value)}>
       <option></option>
       <option value="true" ?selected="${value.object?.value === 'true'}">true</option>
       <option value="false" ?selected="${value.object?.value === 'false'}">false</option>
