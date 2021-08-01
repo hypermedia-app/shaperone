@@ -4,12 +4,13 @@ import { namedNode } from '@rdf-esm/data-model'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 import { validity } from './validation'
 
-export const urlEditor: Render = function ({ value }, { update }) {
+export const urlEditor: Render = function ({ value, property }, { update }) {
   const props = {
     '.value': value.object?.value || '',
     required: true,
     '?auto-validate': true,
     ...validity(value),
+    '.readonly': !!property.shape.readOnly,
   }
 
   return html`<vaadin-text-field ${spread(props)}>

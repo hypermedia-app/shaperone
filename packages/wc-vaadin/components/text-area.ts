@@ -4,7 +4,7 @@ import '@vaadin/vaadin-text-field/vaadin-text-area'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
-export const textArea: Render = function ({ value }, { update }) {
+export const textArea: Render = function ({ value, property }, { update }) {
   return html`
       <vaadin-text-area
         .value="${value.object?.value || ''}"
@@ -12,6 +12,7 @@ export const textArea: Render = function ({ value }, { update }) {
         auto-validate
         @blur="${(e: any) => update(literal(e.target.value))}"
         ${spread(validity(value))}
+        .readonly="${!!property.shape.readOnly}"
       ></vaadin-text-area>
     `
 }

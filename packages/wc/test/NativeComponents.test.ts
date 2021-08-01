@@ -58,6 +58,39 @@ describe('NativeComponents', () => {
         // then
         expect(element.getAttribute('part')).to.contain('component invalid')
       })
+
+      it('is not disabled by default', async () => {
+        // given
+        const graph = cf({ dataset: $rdf.dataset() })
+        const { params, actions } = editorTestParams({
+          object: graph.literal(''),
+        })
+
+        // when
+        const element = await fixture(render(params, actions))
+
+        // then
+        expect(element.getAttribute('readonly')).to.be.null
+        expect(element.getAttribute('disabled')).to.be.null
+      })
+
+      it('sets disabled when it is dash:readOnly', async () => {
+        // given
+        const graph = cf({ dataset: $rdf.dataset() })
+        const { params, actions } = editorTestParams({
+          object: graph.literal(''),
+          property: {
+            readOnly: true,
+          },
+        })
+
+        // when
+        const element = await fixture(render(params, actions))
+
+        // then
+        expect(element.getAttribute('readonly')).not.to.be.null
+        expect(element.getAttribute('disabled')).not.to.be.null
+      })
     })
   }
 

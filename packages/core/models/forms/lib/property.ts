@@ -7,10 +7,14 @@ import type { GraphPointer } from 'clownface'
 import type { LogicalConstraints } from '../index'
 
 export function canAddObject(property: PropertyShape, length: number): boolean {
+  if (property.readOnly) return false
+
   return length < (property.maxCount || Number.POSITIVE_INFINITY)
 }
 
 export function canRemoveObject(property: PropertyShape, length: number): boolean {
+  if (property.readOnly) return false
+
   return length > (property.minCount || 0)
 }
 

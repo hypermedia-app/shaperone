@@ -6,7 +6,7 @@ import '@vaadin/vaadin-select'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
-export const booleanSelect: Render<BooleanSelectEditor> = ({ value }, { update, clear }) => {
+export const booleanSelect: Render<BooleanSelectEditor> = ({ value, property }, { update, clear }) => {
   function onChange(e: any) {
     if (e.target.value) {
       update(literal(e.target.value, xsd.boolean))
@@ -15,7 +15,7 @@ export const booleanSelect: Render<BooleanSelectEditor> = ({ value }, { update, 
     }
   }
 
-  return html`<vaadin-select .value="${value.object?.value || ''}" @change="${onChange}" ${spread(validity(value))}>
+  return html`<vaadin-select .value="${value.object?.value || ''}" @change="${onChange}" ${spread(validity(value))} .readonly="${!!property.shape.readOnly}">
     <template>
       <vaadin-list-box>
         <vaadin-item></vaadin-item>

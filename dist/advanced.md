@@ -57,6 +57,21 @@ Shaperone will mark properties annotated with `dash:hidden`. The default Web Com
 
 Additionally, a hidden property can be automatically kept in sync with another ([see below](#synchronize-properties))
 
+## Disabled properties
+
+When a property shape has `dash:readOnly true`, the form will prevent any changes to said property. It will not be possible to add or remove values, and modify existing objects.
+
+> [!TIP]
+> Component implementors much also take `dash:readOnly` into consideration to actually prevent user input. This can be done by inspecting the property shape object
+> 
+> ```ts
+> import { html, Render } from '@hydrofoil/shaperone-wc'
+>
+> export const myEditor: Renderer = ({ property }) => {
+  return html`<my-component .readonly=${!!property.shape.readOnly}"></my-component>
+}
+> ```
+
 ## Synchronize properties
 
 `sh:equals` can be used combined with `dash:hidden` to synchronize two predicates using the same value. In such a scenario, only one form input will be rendered. That feature exists to prevent validation errors, which obviously would cannot be solved by the person operating a form, since the hidden field would not be possible to edit.

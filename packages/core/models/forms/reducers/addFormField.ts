@@ -1,8 +1,7 @@
 import type { PropertyShape } from '@rdfine/shacl'
-import produce from 'immer'
 import { NamedNode } from 'rdf-js'
 import type { FocusNode } from '../../..'
-import type { FormState } from '../index'
+import { objectStateProducer } from '../objectStateProducer'
 import { formStateReducer, BaseParams } from '../../index'
 import { canAddObject, canRemoveObject } from '../lib/property'
 import type { EditorsState, SingleEditorMatch } from '../../editors'
@@ -16,14 +15,7 @@ export interface Params extends BaseParams {
   editors: EditorsState
 }
 
-export const addFormField = formStateReducer((state: FormState, { focusNode, property, matchedEditors, editors: { metadata } }: Params) => produce(state, (draft) => {
-  const focusNodeState = draft.focusNodes[focusNode.value]
-  const currentProperty = focusNodeState.properties.find(p => p.shape.equals(property))
-
-  if (!currentProperty) {
-    return
-  }
-
+export const addFormField = formStateReducer(objectStateProducer<Params>((state, { property, editors: { metadata }, matchedEditors }, currentProperty) => {
   let editors: SingleEditorMatch[]
   let selectedEditor: NamedNode | undefined
   if (property.editor?.id.termType === 'NamedNode') {
