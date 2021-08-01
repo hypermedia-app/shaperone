@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.4.1
+
+### Patch Changes
+
+- 6bae15c: When initial selection of `dash:InstancesSelectEditor` is dereferenced, its label would not be shown
+- 63e36f4: Make fields readonly/disabled when `dash:readOnly` is set
+- Updated dependencies [a5581fd]
+- Updated dependencies [63e36f4]
+  - @hydrofoil/shaperone-core@0.8.1
+  - @hydrofoil/shaperone-wc@0.6.1
+
 ## 0.4.0
 
 ### Minor Changes

@@ -1,5 +1,12 @@
 # @shaperone/testing
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [a5581fd]
+  - @hydrofoil/shaperone-core@0.8.1
+
 ## 0.0.4
 
 ### Patch Changes

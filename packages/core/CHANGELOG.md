@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.1
+
+### Patch Changes
+
+- a5581fd: `dash:readOnly` - disable controls and prevent callbacks from changing data
+
 ## 0.8.0
 
 ### Minor Changes
