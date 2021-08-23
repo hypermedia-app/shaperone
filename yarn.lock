@@ -1208,6 +1208,11 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.32"
 
+"@github/clipboard-copy-element@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@github/clipboard-copy-element/-/clipboard-copy-element-1.1.2.tgz#7a6e8042749471504d4e7cfcc47097a781db2bdb"
+  integrity sha512-L6CMrcA5we0udafvoSuRCE/Ci/3xrLWKYRGup2IlhxF771bQYsQ2EB1of182pI8ZWM4oxgwzu37+igMeoZjN/A==
+
 "@graphy/content.nq.read@^4.3.3":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@graphy/content.nq.read/-/content.nq.read-4.3.3.tgz#c7cfa3e5d57c1d7e247e69057c44c118f262bcac"

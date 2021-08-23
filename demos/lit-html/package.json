@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
+    "@github/clipboard-copy-element": "^1.1.2",
     "@hydrofoil/shaperone-playground-examples": "0.2.13",
     "@hydrofoil/shaperone-wc": "0.6.1",
     "@hydrofoil/shaperone-wc-material": "0.4.1",
