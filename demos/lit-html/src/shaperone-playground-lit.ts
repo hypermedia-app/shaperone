@@ -9,6 +9,7 @@ import '@vaadin-component-factory/vcf-tooltip'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
 import '@hydrofoil/shaperone-wc/shaperone-form'
 import '@rdfjs-elements/rdf-editor'
+import '@github/clipboard-copy-element'
 import { connect } from '@captaincodeman/rdx'
 import { Quad } from 'rdf-js'
 import { store, State, Dispatch } from './state/store'
@@ -296,6 +297,8 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
                                      readonly autoselect
                                      label="Copy this URL to share playground"
                                     .value="${parent.playground.sharingLink}"></vaadin-text-field>
+                  <pre id="sharing-link" style="display: none">${parent.playground.sharingLink}</pre>
+                  <clipboard-copy for="sharing-link" style="cursor: pointer" @click="${(e: any) => { e.target.textContent = 'Copied' }}">Copy</clipboard-copy>
                   <br>
                   <vaadin-checkbox ?checked="${parent.playground.shareFormSettings}"
                                   @change="${() => store().dispatch.playground.shareFormSettings(!parent.playground.shareFormSettings)}">
