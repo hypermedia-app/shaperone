@@ -3,7 +3,7 @@ import { createModel } from '@captaincodeman/rdx'
 export interface RendererState {
   grouping: 'none' | 'material tabs' | 'vaadin accordion'
   nesting: 'none' | 'always one' | 'inline'
-  labs?: {
+  labs: {
     xone?: boolean
     errorSummary?: boolean
   }
@@ -13,6 +13,7 @@ export const rendererSettings = createModel({
   state: <RendererState>{
     grouping: 'none',
     nesting: 'none',
+    labs: {},
   },
   reducers: {
     switchNesting(state, nesting: RendererState['nesting']) {

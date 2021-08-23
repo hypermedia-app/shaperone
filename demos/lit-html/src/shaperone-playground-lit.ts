@@ -130,7 +130,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
 
     super.connectedCallback()
 
-    store().dispatch.playground.restoreState()
+    store().dispatch.playground.restoreOrInitSharing()
   }
 
   render() {

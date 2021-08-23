@@ -6,7 +6,7 @@ import { RendererState } from './renderer'
 export interface State {
   sharePopup: boolean
   sharingLink: string
-  linkWithAllParams: string
+  sharingParams: string
   shareFormSettings: boolean
   hasError: boolean
 }
@@ -16,25 +16,11 @@ interface SharingParam {
   value: string
 }
 
-function removeFormParams(fullLink: string, shareFormSettings: boolean): string {
-  if (shareFormSettings) {
-    return fullLink
-  }
-
-  const sharingLink = new URL(fullLink)
-  sharingLink.searchParams.delete('components')
-  sharingLink.searchParams.delete('disableEditorChoice')
-  sharingLink.searchParams.delete('grouping')
-  sharingLink.searchParams.delete('nesting')
-
-  return sharingLink.toString()
-}
-
 export const playground = createModel({
   state: <State>{
     sharePopup: false,
     sharingLink: document.location.href,
-    linkWithAllParams: document.location.href,
+    sharingParams: '',
     shareFormSettings: false,
     hasError: false,
   },
@@ -52,20 +38,24 @@ export const playground = createModel({
       }
     },
     updateSharingParams(state, { key, value }: SharingParam) {
-      const linkWithAllParams = new URL(state.linkWithAllParams)
-      linkWithAllParams.searchParams.set(key, value)
+      const sharingParams = new URLSearchParams(state.sharingParams)
+      sharingParams.set(key, value)
 
       return {
         ...state,
-        linkWithAllParams: linkWithAllParams.toString(),
-        sharingLink: removeFormParams(linkWithAllParams.toString(), state.shareFormSettings),
+        sharingParams: sharingParams.toString(),
       }
     },
     shareFormSettings(state, shareFormSettings: boolean) {
       return {
         ...state,
         shareFormSettings,
-        sharingLink: removeFormParams(state.linkWithAllParams, shareFormSettings),
+      }
+    },
+    setSharingLink(state, sharingLink: string) {
+      return {
+        ...state,
+        sharingLink,
       }
     },
     error(state, hasError: boolean) {
@@ -74,6 +64,23 @@ export const playground = createModel({
   },
   effects(store: Store) {
     const dispatch = store.getDispatch()
+
+    function updateSharingLink() {
+      const { playground } = store.getState()
+      const searchParams = new URLSearchParams(playground.sharingParams)
+
+      if (!playground.shareFormSettings) {
+        searchParams.delete('components')
+        searchParams.delete('disableEditorChoice')
+        searchParams.delete('grouping')
+        searchParams.delete('nesting')
+      }
+
+      const sharingLink = new URL(document.location.href)
+      sharingLink.hash = searchParams.toString()
+
+      dispatch.playground.setSharingLink(sharingLink.toString())
+    }
 
     return {
       'resource/setSerialized': function (value: string) {
@@ -119,9 +126,26 @@ export const playground = createModel({
       'resource/error': function (error: Error | undefined) {
         dispatch.playground.error(typeof error !== 'undefined')
       },
-      restoreState() {
+      shareFormSettings: updateSharingLink,
+      updateSharingParams: updateSharingLink,
+      restoreOrInitSharing() {
         const url = new URL(document.location.toString())
-        const sharedState: Map<SharingParam['key'], string> = url.searchParams as any
+        const sharedState = url.hash ? new URLSearchParams(url.hash.substr(1)) : url.searchParams
+        if (![...sharedState.keys()].length) {
+          const state = store.getState()
+          dispatch.playground.updateSharingParams({ key: 'shapes', value: state.shape.serialized })
+          dispatch.playground.updateSharingParams({ key: 'shapesFormat', value: state.shape.format })
+          dispatch.playground.updateSharingParams({ key: 'resource', value: state.resource.serialized || '' })
+          dispatch.playground.updateSharingParams({ key: 'resourceFormat', value: state.resource.format })
+          dispatch.playground.updateSharingParams({ key: 'resourcePrefixes', value: state.resource.prefixes.join(',') })
+          dispatch.playground.updateSharingParams({ key: 'selectedResource', value: state.resource.selectedResource || '' })
+          dispatch.playground.updateSharingParams({ key: 'components', value: state.componentsSettings.components })
+          dispatch.playground.updateSharingParams({ key: 'disableEditorChoice', value: state.componentsSettings.disableEditorChoice.toString() })
+          dispatch.playground.updateSharingParams({ key: 'nesting', value: state.rendererSettings.nesting })
+          dispatch.playground.updateSharingParams({ key: 'grouping', value: state.rendererSettings.grouping })
+          dispatch.playground.updateSharingParams({ key: 'labs', value: JSON.stringify(state.rendererSettings.labs) })
+        }
+
         const shapes = sharedState.get('shapes')
         const shapesFormat = sharedState.get('shapesFormat')
         const resource = sharedState.get('resource')
@@ -170,7 +194,8 @@ export const playground = createModel({
           }
         }
 
-        [...url.searchParams.keys()].forEach(key => url.searchParams.delete(key))
+        url.search = ''
+        url.hash = ''
         window.history.replaceState(null, '', url.toString())
       },
     }
