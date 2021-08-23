@@ -84,20 +84,8 @@ const formatMenuItem = (() => {
   }
 })()
 
-export const resourceMenu = (() => {
-  let menu: Menu[] | undefined
-
-  return (state: State) => {
-    const newMenu = [
-      resourceMenuItem(state),
-      formatMenuItem(state),
-      prefixesMenuItem(state),
-    ]
-
-    if (!menu) {
-      menu = newMenu
-    }
-
-    return menu
-  }
-})()
+export const resourceMenu = (state: State) => [
+  resourceMenuItem(state),
+  formatMenuItem(state),
+  prefixesMenuItem(state),
+]
