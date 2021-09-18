@@ -1,5 +1,15 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.33
+
+### Patch Changes
+
+- ebca918: Added copy to clipboard component link
+- ece691e: Resource menu not behaving correctly
+- 7833898: Initial state should be immediately shareable
+- 7833898: Use hash fragment to allow sharing large shapes/resources
+  - @hydrofoil/shaperone-playground-examples@0.2.14
+
 ## 0.1.32
 
 ### Patch Changes
