@@ -27,7 +27,7 @@
     "@zazuko/rdf-vocabularies": "*",
     "clownface": "^1.2.0",
     "clownface-shacl-path": "^1.2.2",
-    "immer": "^8.0.1"
+    "immer": "^9.0.6"
   },
   "devDependencies": {
     "@rdf-esm/data-model": "^0.5.3",
