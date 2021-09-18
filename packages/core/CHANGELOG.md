@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.2
+
+### Patch Changes
+
+- 0dbce33: Updated immer (vulnerabilities CVE-2021-23436 and CVE-2021-3757)
+
 ## 0.8.1
 
 ### Patch Changes
