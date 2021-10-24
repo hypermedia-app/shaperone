@@ -9,6 +9,8 @@ import type { AnyPointer, GraphPointer } from 'clownface'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
 import { Renderer } from '@hydrofoil/shaperone-core/renderer'
+import clownface from 'clownface'
+import { dataset } from '@rdf-esm/dataset'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import DefaultRenderer from './renderer'
@@ -67,7 +69,7 @@ export const id: (form: any) => symbol = (() => {
  * Check the main documentation page for instructions on customizing the form's rendering.
  */
 export class ShaperoneForm extends connect(store(), LitElement) {
-  private [resourceSymbol]?: FocusNode
+  private [resourceSymbol]: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
   private [notify]: (detail: any) => void
 
@@ -123,6 +125,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     this[notify] = (detail: any) => {
       this.dispatchEvent(new CustomEvent('changed', { detail }))
     }
+    this.resource = clownface({ dataset: dataset() }).namedNode('')
   }
 
   async connectedCallback() {
@@ -162,12 +165,14 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   /**
    * Gets or sets the resource graph as graph pointer
    */
-  get resource(): FocusNode | undefined {
+  get resource(): FocusNode {
     return this[resourceSymbol]
   }
 
-  set resource(rootPointer: FocusNode | undefined) {
-    if (!rootPointer) return
+  set resource(rootPointer: FocusNode) {
+    if (!rootPointer) {
+      return
+    }
 
     this[resourceSymbol] = rootPointer
     store().dispatch.resources.setRoot({ form: id(this), rootPointer })
