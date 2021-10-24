@@ -1,11 +1,12 @@
-import { html, fixture, oneEvent, expect } from '@open-wc/testing'
+import { html } from 'lit'
+import { fixture, oneEvent, expect } from '@open-wc/testing'
 import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import clownface from 'clownface'
 import { dataset, literal, namedNode } from '@rdf-esm/dataset'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { propertyShape } from '@hydrofoil/shaperone-core/test/util'
 import { store } from '../store'
-import { id } from '../ShaperoneForm'
+import { id, ShaperoneForm } from '../ShaperoneForm'
 import '../shaperone-form'
 
 describe('shaperone-form', () => {
@@ -22,6 +23,14 @@ describe('shaperone-form', () => {
     // then
     const formState = store().state.forms.get(id(form))
     expect(formState?.languages.join(',')).to.eq('pl,en-GB,de')
+  })
+
+  it('sets a default resource pointer', async () => {
+    // given
+    const form = await fixture<ShaperoneForm>(html`<shaperone-form></shaperone-form>`)
+
+    // then
+    expect(form.resource.term.equals(namedNode(''))).to.be.true
   })
 
   xit('dispatches event when object values change', async () => {

@@ -72,11 +72,6 @@
           "type": "FormState"
         },
         {
-          "name": "resource",
-          "description": "Gets or sets the resource graph as graph pointer",
-          "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
-        },
-        {
           "name": "value",
           "description": "Gets the resource as a [rdfine](https://npm.im/@tpluscode/rdfine) object",
           "type": "RdfResource<DatasetCore<Quad, Quad>> | null"
@@ -100,6 +95,11 @@
           "name": "shapes",
           "description": "Gets or sets the shapes graph",
           "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "resource",
+          "description": "Gets or sets the resource graph as graph pointer",
+          "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>>"
         }
       ],
       "events": [
