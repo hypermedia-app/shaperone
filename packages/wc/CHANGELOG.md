@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.2
+
+### Patch Changes
+
+- 00c7661: Set a empty string named node and default resource for `shaperone-form`
+
 ## 0.6.1
 
 ### Patch Changes
