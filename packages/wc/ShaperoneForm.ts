@@ -234,15 +234,23 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       return this.rendererOptions.templates.initialising()
     }
 
-    return html`<style>${this.rendererOptions.styles}</style> ${this.renderer.render({
-      form: id(this),
-      editors: this.editors,
-      state: this.state,
-      components: this.components,
-      dispatch: store().dispatch,
-      templates: this.rendererOptions.templates,
-      shapes: this[shapes],
-    })}`
+    return html`
+      <style>${this.rendererOptions.styles}</style>
+      <section part="form">
+      ${this.renderer.render({
+    form: id(this),
+    editors: this.editors,
+    state: this.state,
+    components: this.components,
+    dispatch: store().dispatch,
+    templates: this.rendererOptions.templates,
+    shapes: this[shapes],
+  })}
+      </section>
+      <section part="buttons">
+        <slot name="buttons"></slot>
+      </section>
+    `
   }
 
   /**
