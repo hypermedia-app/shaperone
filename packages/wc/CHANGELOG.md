@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.3
+
+### Patch Changes
+
+- c39d829: Add slot[name=buttons] after the main form
+
 ## 0.6.2
 
 ### Patch Changes
