@@ -3085,21 +3085,21 @@
     "@tpluscode/rdf-ns-builders" "^1.0.0"
     "@tpluscode/rdfine" "^0.5.27"
 
-"@rdfjs-elements/editor-base@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/editor-base/-/editor-base-0.3.3.tgz#5b401aaa83cc776ecfca288183bfe65bb3cb1a12"
-  integrity sha512-ILU8LHHrKLFD4PHDBFuQry24+GQH3TVN3EX39iHIJnsR2hLaWduiOBT4gg6OtfYK1IwSGYbUkPEzpkXQiI21sw==
+"@rdfjs-elements/editor-base@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/editor-base/-/editor-base-0.4.0.tgz#cc33970fa9bb35c61c5f7611d18b6a13d12b47d2"
+  integrity sha512-kK0nt9fAjvUaoBVhz+os+boN4pYHgFOJ8cQbUUeW/q4+U/smxoox4kXpA1qKipBPt2YfIzwu+aHpX4VahAacrA==
   dependencies:
     "@tpluscode/rdf-ns-builders" "^1.0.0"
     "@vanillawc/wc-codemirror" "^1.9.7"
     codemirror "^5.61.1"
-    lit-element "^2.2.1"
+    lit "^2"
     throttle-debounce "^3.0.1"
 
-"@rdfjs-elements/formats-pretty@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/formats-pretty/-/formats-pretty-0.3.2.tgz#150abe9d55c8ecb619a205082d40ce6c4d046a23"
-  integrity sha512-BAdvoGKnYUnoT59sCYsip+RWyBP7nh3w7Ghmyl77DtjJHzkFSiCmpj+6LiOZgYvXi24JenUJBEcyMjptYEqu1A==
+"@rdfjs-elements/formats-pretty@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/formats-pretty/-/formats-pretty-0.3.4.tgz#3886b018e498e85bffaeda000cf54f2a47754501"
+  integrity sha512-HZbKmoiZlLvpFjgl/Vb1rdAJUj0mQs9tkfo66wvq5yS3TmRcPqTroOPTn0s3kLKJGqzTyAu+qj6LfJfb12E5Xg==
   dependencies:
     "@graphy/content.nq.read" "^4.3.3"
     "@graphy/content.trig.read" "^4.3.3"
@@ -3114,14 +3114,15 @@
     "@tpluscode/rdf-ns-builders" "^1.0.0"
     readable-stream "^3.6.0"
 
-"@rdfjs-elements/rdf-editor@^0.4.6":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.4.6.tgz#f34db044362f655c27bdb5554c11f6c2a5bf5366"
-  integrity sha512-XDTKf9X2ryjva21Hwb6+882eRp1UtmTxo+/iTR9bfKQznFLPRNl/mbFGYsZidEGHqYIgw4KCrLLvSml95E2ivQ==
+"@rdfjs-elements/rdf-editor@^0.5":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.5.0.tgz#a4afe6fe4f5508c60b81adcd18906095240eb6ef"
+  integrity sha512-QXgd9D4A5Ettb8aj2kmUaa4aAnpN05hU/0Q8gk9AIw/9zroKHBCgGynGEv2F7G29LjoUNa9e5IteHcPvjZo1SQ==
   dependencies:
     "@rdf-esm/data-model" "^0.5.4"
-    "@rdfjs-elements/editor-base" "^0.3.3"
-    "@rdfjs-elements/formats-pretty" "^0.3.2"
+    "@rdfjs-elements/editor-base" "^0.4.0"
+    "@rdfjs-elements/formats-pretty" "^0.3.4"
+    "@tpluscode/rdf-ns-builders" "^1.0.0"
     readable-stream "^3"
     string-to-stream "^3.0.1"
 
@@ -10924,7 +10925,7 @@ lit-analyzer@1.2.1, lit-analyzer@^1.2.1:
     vscode-html-languageservice "3.1.0"
     web-component-analyzer "~1.1.1"
 
-lit-element@^2.0.0, lit-element@^2.2.1, lit-element@^2.3.0:
+lit-element@^2.0.0, lit-element@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.3.1.tgz#73343b978fa1e73d60526c6bb6ad60f53a16c343"
   integrity sha512-tOcUAmeO3BzwiQ7FGWdsshNvC0HVHcTFYw/TLIImmKwXYoV0E7zCBASa8IJ7DiP4cen/Yoj454gS0qqTnIGsFA==
@@ -10951,7 +10952,7 @@ lit-html@^2.0.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@^2.0.0, lit@^2.0.0-rc.1:
+lit@^2, lit@^2.0.0, lit@^2.0.0-rc.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/lit/-/lit-2.0.2.tgz#5e6f422924e0732258629fb379556b6d23f7179c"
   integrity sha512-hKA/1YaSB+P+DvKWuR2q1Xzy/iayhNrJ3aveD0OQ9CKn6wUjsdnF/7LavDOJsKP/K5jzW/kXsuduPgRvTFrFJw==
