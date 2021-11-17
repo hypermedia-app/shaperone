@@ -29,7 +29,7 @@
     "@tpluscode/rdfine": "^0.5.27",
     "clownface": "^1.1.0",
     "concat-merge": "^1.0.3",
-    "lit": "^2.0.0-rc.2"
+    "lit": "^2.0.0"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.0.0-next.2",

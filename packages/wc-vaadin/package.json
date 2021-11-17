@@ -28,7 +28,7 @@
     "@vaadin/vaadin-item": "^2.3.0",
     "@vaadin/vaadin-list-box": "^1.4.0",
     "@vaadin/vaadin-text-field": "^2.8.1",
-    "lit": "^2.0.0-rc.2"
+    "lit": "^2.0.0"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^2.0.6",
