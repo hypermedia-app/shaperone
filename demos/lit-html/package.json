@@ -20,7 +20,7 @@
     "@hydrofoil/shaperone-wc-vaadin": "0.4.1",
     "@hydrofoil/shaperone-hydra": "0.3.1",
     "@hydrofoil/shaperone-rdf-validate-shacl": "1.0.0",
-    "@material/mwc-icon": "^0.20",
+    "@material/mwc-icon": "^0.25",
     "@rdf-esm/formats-common": "^0.5.5",
     "@rdf-esm/term-set": "^0.5.0",
     "@rdfine/shacl": "^0.8.2",
