@@ -12,13 +12,14 @@
     "test:web": "web-test-runner",
     "release": "changeset publish",
     "docs": "docsify serve ./dist",
-    "typedoc": "typedoc --watch"
+    "typedoc": "typedoc --watch",
+    "postinstall": "yarn-deduplicate"
   },
   "workspaces": [
     "packages/*",
     "demos/*"
   ],
-  "dependencies": {
+  "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-proposal-decorators": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
@@ -61,7 +62,8 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.2.0",
-    "yarn": "^1.22.4"
+    "yarn": "^1.22.4",
+    "yarn-deduplicate": "^3.1.0"
   },
   "resolutions": {
     "@polymer/polymer": "3.4.1"
