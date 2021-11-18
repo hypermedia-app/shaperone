@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.5
+
+### Patch Changes
+
+- e05b7f8: Re-export `render` from lit
+
 ## 0.6.4
 
 ### Patch Changes
