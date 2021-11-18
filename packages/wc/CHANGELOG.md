@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.4
+
+### Patch Changes
+
+- 45c440c: Update lit to a non-RC version
+
 ## 0.6.3
 
 ### Patch Changes

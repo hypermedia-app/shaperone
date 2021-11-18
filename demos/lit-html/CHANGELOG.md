@@ -1,5 +1,19 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.36
+
+### Patch Changes
+
+- 2ed959f: Update rdf-editor component
+- 86a9ed1: Update material web components to a lit@2 version
+- 45c440c: Update lit to a non-RC version
+- Updated dependencies [86a9ed1]
+- Updated dependencies [45c440c]
+  - @hydrofoil/shaperone-wc-material@0.5.0
+  - @hydrofoil/shaperone-playground-examples@0.2.17
+  - @hydrofoil/shaperone-wc@0.6.4
+  - @hydrofoil/shaperone-wc-vaadin@0.4.2
+
 ## 0.1.35
 
 ### Patch Changes
