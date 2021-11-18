@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.5.0
+
+### Minor Changes
+
+- 86a9ed1: Update material web components to a lit@2 version
+
+### Patch Changes
+
+- 45c440c: Update lit to a non-RC version
+- Updated dependencies [45c440c]
+  - @hydrofoil/shaperone-wc@0.6.4
+
 ## 0.4.1
 
 ### Patch Changes

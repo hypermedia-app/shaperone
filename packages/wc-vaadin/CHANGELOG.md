@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.4.2
+
+### Patch Changes
+
+- 45c440c: Update lit to a non-RC version
+- Updated dependencies [45c440c]
+  - @hydrofoil/shaperone-wc@0.6.4
+
 ## 0.4.1
 
 ### Patch Changes
