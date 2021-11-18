@@ -9,7 +9,7 @@ import type { Component, ComponentInstance } from '@hydrofoil/shaperone-core/mod
 import './ShaperoneForm'
 
 export type { ShaperoneForm } from './ShaperoneForm'
-export { html, css } from 'lit'
+export { html, css, render } from 'lit'
 
 export type { SingleEditor, MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 
