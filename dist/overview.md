@@ -38,7 +38,3 @@ yarn add @hydrofoil/shaperone-wc-vaadin
 ``` 
 
 Check the [Editors](editors) page for more information on customizing the selection and appearance of editor elements as well as creating your own editors for nonstandard properties.
-
-## Adding the form to a page
-
-TBD

@@ -1,5 +1,6 @@
 * Getting started
   * [Intro](overview.md "Shaperone | Intro")
+  * [Getting Started](getting-started.md "Shaperone | Getting Started")
   * [Configuration](configuration.md "Shaperone | Configuration")
   * [Anatomy of shaperone](anatomy.md "Shaperone | Anatomy")
 * Editors
