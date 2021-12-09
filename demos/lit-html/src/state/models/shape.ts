@@ -12,7 +12,7 @@ const triples = turtle`@prefix ex: <http://example.com/> .
 @prefix lexvo: <http://lexvo.org/id/iso639-1/> .
 
 ex:PersonShape
-  a ${sh.Shape} ;
+  a ${sh.NodeShape} ;
   ${sh.targetClass} ${schema.Person} ;
   ${rdfs.label} "Person" ;
   ${sh.property} ex:NameProperty ,
@@ -25,7 +25,7 @@ ex:PersonShape
 .
 
 ex:SimplifiedPersonShape
-  a ${sh.Shape} ;
+  a ${sh.NodeShape} ;
   ${sh.targetNode} ex:Jane_Doe ;
   ${rdfs.label} "Person (name-only)" ;
   ${sh.property} ex:NameProperty ;
