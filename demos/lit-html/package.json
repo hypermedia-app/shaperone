@@ -25,7 +25,7 @@
     "@rdf-esm/term-set": "^0.5.0",
     "@rdfine/shacl": "^0.8.2",
     "@rdfjs-elements/rdf-editor": "^0.5",
-    "@rdfjs/fetch-lite": "^2.1.0",
+    "@rdfjs/fetch-lite": "^3.1.0",
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@tpluscode/rdf-string": "^0.2.24",
     "@vaadin/vaadin-app-layout": "^2.1.0",
