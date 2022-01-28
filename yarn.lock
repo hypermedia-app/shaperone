@@ -2519,9 +2519,9 @@
     "@zazuko/rdf-vocabularies" "*"
 
 "@tpluscode/rdfine@^0.5.27", "@tpluscode/rdfine@^0.5.29", "@tpluscode/rdfine@^0.5.33", "@tpluscode/rdfine@^0.5.34", "@tpluscode/rdfine@^0.5.35":
-  version "0.5.36"
-  resolved "https://registry.yarnpkg.com/@tpluscode/rdfine/-/rdfine-0.5.36.tgz#3e469b958cd239935a3034cfd791f3510b22be9f"
-  integrity sha512-K5ARDRDAwbCg3bwKpOyqDH31vpHdHB48ePFOSOQf1a0eoeta/pw39xtpeq0vrdu8y/s5FJr9lI/s0XzfHaxsvQ==
+  version "0.5.37"
+  resolved "https://registry.yarnpkg.com/@tpluscode/rdfine/-/rdfine-0.5.37.tgz#9dff6bee906b609a8763e0c932cc10bc24a3dd8c"
+  integrity sha512-7h1AYPHyqqpoWTRqmVkT77xOJq8tM2GQwcC1F6KYYT/2bpFa6IoHUry8d91JPnMryithftG4nAFKkiF3XSb9sg==
   dependencies:
     "@rdf-esm/data-model" "^0.5.3"
     "@rdf-esm/namespace" "^0.5.2"
