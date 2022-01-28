@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
-    "build": "lerna run --parallel build",
+    "build": "wsrun -m build",
     "test": "run-p test:*",
-    "test:core": "BABEL_ENV=test c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core/test/**/*.test.ts'",
+    "test:core": "BABEL_ENV=test c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core-tests/**/*.test.ts'",
     "test:open-wc": "karma start karma.conf.cjs --coverage",
     "test:open-wc:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false",
     "test:web": "web-test-runner",
@@ -45,7 +45,6 @@
     "eslint-plugin-standard": "^4.0.2",
     "eslint-plugin-wc": "^1.2.0",
     "husky": "^4.2.5",
-    "lerna": "^3.22.1",
     "lint-staged": "^10.2.11",
     "lit-analyzer": "^1.2.1",
     "npm-run-all": "^4.1.5",
@@ -62,6 +61,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.2.0",
+    "wsrun": "^5.2.4",
     "yarn": "^1.22.4",
     "yarn-deduplicate": "^3.1.0"
   },
@@ -78,7 +78,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn lerna run analyze && git add **/custom-elements.json **/README.md"
+      "pre-commit": "lint-staged && wsrun -m analyze && git add **/custom-elements.json **/README.md"
     }
   },
   "lint-staged": {
