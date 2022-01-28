@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.2
+
+### Patch Changes
+
+- f3ccf37: Update alcaeus
+
 ## 0.3.1
 
 ### Patch Changes
