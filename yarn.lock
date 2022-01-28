@@ -2925,6 +2925,11 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/parse-link-header@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/parse-link-header/-/parse-link-header-1.0.1.tgz#6eade790736a050b9242c7c6b2fceda9b3dc394a"
+  integrity sha512-E2+Go9rQgPbmpkeA2iFXTWSTxX38KXlXwcdiIbt71Oorqr+G5QtH4AhpuDdxwRVyiTzdUrHnaaIumW/LhiZwVg==
+
 "@types/parse5@^5.0.3":
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
@@ -4081,10 +4086,10 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.12.4, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-alcaeus@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/alcaeus/-/alcaeus-2.0.0.tgz#0352ab473ced0e8c3c231866d3a8a6fb7802587a"
-  integrity sha512-+oygDinIZQI7FwcAD+AcEVUomQGY2o8gw9Is7+5U4+M2os67gGlz06usFrsKbgQstWUd7uahSvdJ4Ogc8/eCvw==
+alcaeus@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/alcaeus/-/alcaeus-2.1.3.tgz#921e2d2aa490b8138ff9fdf43d99759f584c6f51"
+  integrity sha512-tCgPD0iPrTdWRLIL54se9HWsj6pwZ9+7Djl6XrzkUsRLtFVTz8MfeBImd0VxzGyjZfUaHE1u8JUh8+HvfaIGGg==
   dependencies:
     "@rdf-esm/data-model" "^0.5.3"
     "@rdf-esm/formats-common" "^0.5.3"
@@ -4097,10 +4102,11 @@ alcaeus@^2.0.0:
     "@rdfjs/types" "*"
     "@tpluscode/rdf-ns-builders" "^1.0.0"
     "@tpluscode/rdfine" "^0.5.29"
-    clownface "^1"
+    "@types/parse-link-header" "^1.0.0"
+    clownface "^1.1.0"
     isomorphic-fetch "^3.0.0"
     isomorphic-form-data "^2.0.0"
-    parse-link-header "^1.0.1"
+    parse-link-header "^2.0.0"
     rdf-dataset-indexed "^0.4.0"
     rdf-literal "^1.3.0"
     rdf-transform-triple-to-quad "^1.0.2"
@@ -10889,10 +10895,10 @@ parse-json@^5.0.0:
     json-parse-better-errors "^1.0.1"
     lines-and-columns "^1.1.6"
 
-parse-link-header@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/parse-link-header/-/parse-link-header-1.0.1.tgz#bedfe0d2118aeb84be75e7b025419ec8a61140a7"
-  integrity sha1-vt/g0hGK64S+deewJUGeyKYRQKc=
+parse-link-header@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/parse-link-header/-/parse-link-header-2.0.0.tgz#949353e284f8aa01f2ac857a98f692b57733f6b7"
+  integrity sha512-xjU87V0VyHZybn2RrCX5TIFGxTVZE6zqqZWMPlIKiSKuWh/X5WZdt+w1Ki1nXB+8L/KtL+nZ4iq+sfI6MrhhMw==
   dependencies:
     xtend "~4.0.1"
 
