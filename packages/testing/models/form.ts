@@ -66,9 +66,11 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
 }
 
 export function testPropertyState(pointer: ResourceNode = blankNode(), init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
+  const shape = fromPointer(pointer)
+
   return deepmerge({
     editors: [],
-    shape: fromPointer(pointer),
+    shape,
     name: 'property',
     canAdd: true,
     canRemove: true,

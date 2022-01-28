@@ -10,7 +10,11 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/test/**", "**/demo/**"]}],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": [
+      "**/test/**",
+      "**/demo/**",
+      "packages/core-tests/**"
+    ]}],
     "no-shadow": "off",
     "max-len": ["error", 200],
     "wc/guard-super-call": "off",
@@ -19,6 +23,12 @@
   },
   "overrides": [{
     "files": "**/test/**/*.ts",
+    "rules": {
+      "no-unused-expressions": "warn",
+      "babel/no-unused-expressions": "off"
+    }
+  },{
+    "files": "packages/core-tests/**/*.ts",
     "rules": {
       "no-unused-expressions": "warn",
       "babel/no-unused-expressions": "off"
