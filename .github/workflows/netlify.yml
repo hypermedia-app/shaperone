@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NETLIFY_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-    if: env.NETLIFY_TOKEN != null
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2.1.2
@@ -26,6 +25,7 @@ jobs:
 
       - name: Publish preview
         uses: tpluscode/action-netlify-deploy@nvm
+        if: env.NETLIFY_TOKEN
         with:
           NETLIFY_AUTH_TOKEN: ${{ env.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
