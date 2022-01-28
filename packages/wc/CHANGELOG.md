@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.6
+
+### Patch Changes
+
+- 8551639: Uncaught exception when selecting empty option in native `InstancesSelector`
+
 ## 0.6.5
 
 ### Patch Changes
