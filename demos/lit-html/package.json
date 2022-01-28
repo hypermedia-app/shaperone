@@ -41,7 +41,7 @@
     "clownface": "^1",
     "lit": "^2.0.0",
     "multiselect-combo-box": "^2.4.2",
-    "nanoid": "^3.1.16",
+    "nanoid": "^3.1.31",
     "rdf-ext": "^1.3.0"
   },
   "devDependencies": {
