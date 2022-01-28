@@ -48,10 +48,17 @@ export const datePicker = (type: 'date' | 'datetime-local'): Render => function 
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: Render<InstancesSelectEditor> = function ({ property, value }, { update }) {
+export const instancesSelect: Render<InstancesSelectEditor> = function ({ property, value }, { update, clear }) {
   const choices = value.componentState.instances || []
 
-  return html`<select ${readOnly(property)} @input="${(e: any) => update(choices[(e.target).selectedIndex - 1][0].term)}" required ${validity(value)}>
+  function onInput(e: any) {
+    const { selectedIndex } = e.target
+    return selectedIndex === 0
+      ? clear()
+      : update(choices[(e.target).selectedIndex - 1]?.[0].term)
+  }
+
+  return html`<select ${readOnly(property)} @input="${onInput}" ${validity(value)}>
         <option value=""></option>
         ${repeat(choices, ([choice, label]) => html`<option ?selected="${choice.term.equals(value.object?.term)}" value="${choice.value}">
             ${label}
