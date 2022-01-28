@@ -3,6 +3,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "prepare": "husky install",
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "wsrun -m build",
     "test": "run-p test:*",
@@ -44,7 +45,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-standard": "^4.0.2",
     "eslint-plugin-wc": "^1.2.0",
-    "husky": "^4.2.5",
+    "husky": "^7.0.4",
     "lint-staged": "^10.2.11",
     "lit-analyzer": "^1.2.1",
     "npm-run-all": "^4.1.5",
@@ -75,11 +76,6 @@
     "require": [
       "test-setup.js"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && wsrun -m analyze && git add **/custom-elements.json **/README.md"
-    }
   },
   "lint-staged": {
     "*.{js,ts}": [

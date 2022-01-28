@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx lint-staged
+npx wsrun -m analyze
+git add **/custom-elements.json **/README.md
