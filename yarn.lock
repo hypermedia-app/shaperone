@@ -5327,9 +5327,9 @@ clone@^2.1.2:
   integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
 
 clownface-shacl-path@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/clownface-shacl-path/-/clownface-shacl-path-1.2.2.tgz#0a3b8d29b52402e5ed42521fbd8cbae4329e4ea4"
-  integrity sha512-vXrmPf5sM1M84k2r1O1ud14Zx/5yLBCWWqpam0y34r77tejEK5FwYjq5qXqrwSqosLEr53KbptbqHZvHKeFYjA==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/clownface-shacl-path/-/clownface-shacl-path-1.3.0.tgz#ffb12fc6c7a4eb5d6bc0406dcee77c487d02dbf9"
+  integrity sha512-mm3Lj0eZeTkZ3SyE8YB90Le5I94kt0PJ4LXgAwmVUhhXqTxP+kw1eq+kVBm0du2u0Ltgyia4BJiw4MIXcMkQjw==
   dependencies:
     "@rdf-esm/term-set" "^0.5.0"
     "@tpluscode/rdf-ns-builders" "^1.0.0"
