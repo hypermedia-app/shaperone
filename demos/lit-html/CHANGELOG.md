@@ -1,5 +1,15 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.39
+
+### Patch Changes
+
+- 0570819: update clownface-shacl-path (support greedy paths)
+- 9e67f21: Bump rdf-ext to 1.3.5
+- 60a61d0: Update rdf-editor to v0.5
+- Updated dependencies [fa62a3e]
+  - @hydrofoil/shaperone-hydra@0.3.3
+
 ## 0.1.38
 
 ### Patch Changes
