@@ -14,7 +14,7 @@ export interface UpdateObjectParams extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
   object: PropertyObjectState
-  newValue: Term
+  newValue: Term | GraphPointer
 }
 
 export interface ReplaceObjectsParams extends BaseParams {

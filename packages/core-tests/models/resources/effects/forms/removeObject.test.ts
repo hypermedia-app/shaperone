@@ -7,6 +7,7 @@ import { testStore } from '@shaperone/testing/models/form'
 import removeObject from '@hydrofoil/shaperone-core/models/resources/effects/forms/removeObject'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util'
+import { unit } from '@tpluscode/rdf-ns-builders/strict'
 
 describe('models/resources/effects/forms/removeObject', () => {
   let store: Store
@@ -41,6 +42,32 @@ describe('models/resources/effects/forms/removeObject', () => {
     expect(focusNode.out(schema.age).terms).to.deep.contain.members([
       $rdf.literal('15'),
     ])
+  })
+
+  it("removes object's value from dataset, including subgraph", () => {
+    // given
+    const focusNode = graph.blankNode()
+      .addOut(schema.weight, (weight) => {
+        weight.addOut(schema.value, 2000)
+        weight.addOut(schema.unitCode, unit.KiloGM)
+      })
+    const object = {
+      object: focusNode.out(schema.weight).toArray().shift(),
+    }
+    const property = propertyShape({
+      path: schema.weight,
+    })
+
+    // when
+    removeObject(store)({
+      form,
+      focusNode,
+      object,
+      property,
+    })
+
+    // then
+    expect(focusNode.dataset.size).to.eq(0)
   })
 
   it('does nothing is object state had no value', () => {
