@@ -4,7 +4,8 @@ import type { GraphPointer } from 'clownface'
 import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import clownface from 'clownface'
-import $rdf from 'rdf-ext'
+import type { DatasetCoreFactory } from '@rdfjs/types'
+import * as datasetFactory from '@rdf-esm/dataset'
 import * as Form from '@hydrofoil/shaperone-core/models/forms'
 import { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
 import { MultiEditor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
@@ -110,7 +111,7 @@ const spyHandler: ProxyHandler<any> = {
   },
 }
 
-export function testStore(): { form: symbol; store: Store } {
+export function testStore({ dataset }: DatasetCoreFactory = datasetFactory): { form: symbol; store: Store } {
   const { form, state: forms } = testFormState()
   const dispatch = {
     forms: new Proxy({}, spyHandler),
@@ -121,7 +122,7 @@ export function testStore(): { form: symbol; store: Store } {
     validation: new Proxy({}, spyHandler),
   }
   const resourcesState: ResourceState = {
-    rootPointer: clownface({ dataset: $rdf.dataset() }).blankNode(),
+    rootPointer: clownface({ dataset: dataset() }).blankNode(),
     get graph() {
       return this.rootPointer.any()
     },
@@ -129,7 +130,7 @@ export function testStore(): { form: symbol; store: Store } {
   }
   const shapesState: ShapeState = {
     shapes: [],
-    shapesGraph: clownface({ dataset: $rdf.dataset() }),
+    shapesGraph: clownface({ dataset: dataset() }),
   }
   const state: State = {
     shapes: new Map([[form, shapesState]]),
@@ -139,7 +140,7 @@ export function testStore(): { form: symbol; store: Store } {
       allEditors: {},
       multiEditors: {},
       decorators: {},
-      metadata: clownface({ dataset: $rdf.dataset() }),
+      metadata: clownface({ dataset: dataset() }),
       matchMultiEditors: () => [],
       matchSingleEditors: () => [],
     },

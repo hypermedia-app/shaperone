@@ -15,7 +15,7 @@ describe('models/resources/effects/forms/setPropertyObjects', () => {
   let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore());
+    ({ form, store } = testStore($rdf));
     ({ graph } = store.getState().resources.get(form) as any)
   })
 

@@ -12,7 +12,6 @@
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "clownface": "^1.1.0",
     "deepmerge": "^4.2.2",
-    "rdf-ext": "^1",
     "sinon": "^9.2.1",
     "ts-sinon": "^2.0.1"
   },
