@@ -16,8 +16,8 @@
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-wc": "^0.6.4",
-    "@hydrofoil/shaperone-core": "^0.8.2",
+    "@hydrofoil/shaperone-wc": "^0.6.7",
+    "@hydrofoil/shaperone-core": "^0.8.3",
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@rdf-esm/data-model": "^0.5.3",
     "@vaadin/vaadin-accordion": "^2.0.0-alpha4",
