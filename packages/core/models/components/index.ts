@@ -6,6 +6,7 @@
 /* eslint-disable no-use-before-define */
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
+import type { GraphPointer } from 'clownface'
 import reducers from './reducers'
 import type { FormSettings, PropertyObjectState, PropertyState } from '../forms/index'
 import type { Store } from '../../state'
@@ -38,7 +39,7 @@ export interface MultiEditorRenderParams<T extends ComponentInstance = Component
 }
 
 export interface SingleEditorActions {
-  update(newValue: Term | string): void
+  update(newValue: GraphPointer | Term | string): void
   focusOnObjectNode(): void
   clear(): void
   remove(): void

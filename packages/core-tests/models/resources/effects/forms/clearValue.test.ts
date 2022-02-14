@@ -42,4 +42,30 @@ describe('models/resources/effects/forms/clearValue', () => {
       $rdf.literal('15'),
     ])
   })
+
+  it('removes unique subgraph from graph', () => {
+    // given
+    const location = graph.blankNode().addOut(schema.streetAddress, 'Wisteria Lane')
+    const focusNode = graph.blankNode()
+      .addOut(schema.employmentUnit, (empl) => {
+        empl.addOut(schema.location, location)
+      })
+    const object = {
+      object: focusNode.out(schema.employmentUnit).toArray().shift(),
+    }
+    const property = propertyShape({
+      path: schema.employmentUnit,
+    })
+
+    // when
+    clearValue(store)({
+      form,
+      focusNode,
+      object,
+      property,
+    })
+
+    // then
+    expect(focusNode.dataset.size).to.eq(0)
+  })
 })

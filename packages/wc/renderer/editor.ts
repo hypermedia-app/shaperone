@@ -1,6 +1,7 @@
 import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { Term } from 'rdf-js'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
+import { GraphPointer } from 'clownface'
 
 export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function () {
   const { dispatch, form, components, templates } = this.context
@@ -57,7 +58,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   const { dispatch, form, state, components, templates } = this.context
   const { property, focusNode, object } = this
 
-  function update(termOrString: Term | string) {
+  function update(termOrString: GraphPointer | Term | string) {
     const newValue = typeof termOrString === 'string'
       ? createTerm(property, termOrString)
       : termOrString

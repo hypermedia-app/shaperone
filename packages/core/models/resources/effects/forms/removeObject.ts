@@ -2,6 +2,7 @@ import type { Store } from '../../../../state'
 import * as removeObject from '../../../forms/reducers/removeObject'
 import { notify } from '../../lib/notify'
 import { PropertyObjectState } from '../../../forms'
+import { deleteOrphanedSubgraphs } from '../../../../lib/graph'
 
 type Params = Omit<removeObject.RemoveObjectParams, 'object'> & {
   object: Pick<PropertyObjectState, 'object'>
@@ -22,6 +23,7 @@ export default function (store: Store) {
     }
 
     state.graph.node(focusNode).deleteOut(pathProperty.id, removed.object)
+    deleteOrphanedSubgraphs(removed.object.toArray())
 
     notify({
       store,

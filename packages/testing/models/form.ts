@@ -4,7 +4,7 @@ import type { GraphPointer } from 'clownface'
 import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import clownface from 'clownface'
-import { dataset } from '@rdf-esm/dataset'
+import $rdf from 'rdf-ext'
 import * as Form from '@hydrofoil/shaperone-core/models/forms'
 import { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
 import { MultiEditor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
@@ -121,7 +121,7 @@ export function testStore(): { form: symbol; store: Store } {
     validation: new Proxy({}, spyHandler),
   }
   const resourcesState: ResourceState = {
-    rootPointer: clownface({ dataset: dataset() }).blankNode(),
+    rootPointer: clownface({ dataset: $rdf.dataset() }).blankNode(),
     get graph() {
       return this.rootPointer.any()
     },
@@ -129,7 +129,7 @@ export function testStore(): { form: symbol; store: Store } {
   }
   const shapesState: ShapeState = {
     shapes: [],
-    shapesGraph: clownface({ dataset: dataset() }),
+    shapesGraph: clownface({ dataset: $rdf.dataset() }),
   }
   const state: State = {
     shapes: new Map([[form, shapesState]]),
@@ -139,7 +139,7 @@ export function testStore(): { form: symbol; store: Store } {
       allEditors: {},
       multiEditors: {},
       decorators: {},
-      metadata: clownface({ dataset: dataset() }),
+      metadata: clownface({ dataset: $rdf.dataset() }),
       matchMultiEditors: () => [],
       matchSingleEditors: () => [],
     },
