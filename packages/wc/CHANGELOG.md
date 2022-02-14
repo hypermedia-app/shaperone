@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.7
+
+### Patch Changes
+
+- 130b191: The ability to update focus node values using graphs and not just individual terms
+- Updated dependencies [130b191]
+- Updated dependencies [130b191]
+  - @hydrofoil/shaperone-core@0.8.3
+
 ## 0.6.6
 
 ### Patch Changes

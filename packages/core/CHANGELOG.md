@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.3
+
+### Patch Changes
+
+- 130b191: Ensure that there are no dangling blank nodes left over when removing values from graph
+- 130b191: The ability to update focus node values using graphs and not just individual terms
+
 ## 0.8.2
 
 ### Patch Changes
