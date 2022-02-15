@@ -16,7 +16,7 @@
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-core": "^0.8.3",
+    "@hydrofoil/shaperone-core": "^0.8.4",
     "@hydrofoil/shaperone-wc": "^0.6.7",
     "@material/mwc-icon": "^0.25",
     "@material/mwc-list": "^0.25",
