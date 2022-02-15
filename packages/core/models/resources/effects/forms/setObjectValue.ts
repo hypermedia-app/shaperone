@@ -2,9 +2,9 @@ import { GraphPointer } from 'clownface'
 import type { Store } from '../../../../state'
 import * as updateObject from '../../../forms/reducers/updateObject'
 import { notify } from '../../lib/notify'
-import { deleteOrphanedSubgraphs, merge } from '../../../../lib/graph'
+import { deleteOrphanedSubgraphs } from '../../../../lib/graph'
 
-type Params = Omit<updateObject.UpdateObjectParams, 'object'> & {
+type Params = Omit<updateObject.SetObjectParams, 'object'> & {
   object: {
     object?: GraphPointer
   }
@@ -32,11 +32,12 @@ export default function (store: Store) {
       deleteOrphanedSubgraphs(children)
     }
     if ('dataset' in newValue) {
-      const rootValue = merge(focusNodePointer, newValue)
-      focusNodePointer.addOut(pathProperty, rootValue)
-    } else {
-      focusNodePointer.addOut(pathProperty, newValue)
+      for (const quad of newValue.dataset) {
+        focusNodePointer.dataset.add(quad)
+      }
     }
+
+    focusNodePointer.addOut(pathProperty, newValue)
 
     notify({
       store,

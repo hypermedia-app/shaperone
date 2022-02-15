@@ -50,7 +50,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
     // then
     expect(focusNode.out(schema.name).term).to.deep.eq($rdf.literal('default name'))
-    expect(store.getDispatch().forms.setObjectValue).to.have.been.called
+    expect(store.getDispatch().forms.initObjectValue).to.have.been.called
   })
 
   it('only populates first object state without value if it is the same dafault', () => {
@@ -76,7 +76,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
     })
 
     // then
-    expect(store.getDispatch().forms.setObjectValue).to.have.been.calledOnce
+    expect(store.getDispatch().forms.initObjectValue).to.have.been.calledOnce
   })
 
   it('does nothing if default value is already amongst objects', () => {
@@ -102,7 +102,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
     })
 
     // then
-    expect(store.getDispatch().forms.setObjectValue).not.to.have.been.called
+    expect(store.getDispatch().forms.initObjectValue).not.to.have.been.called
   })
 
   describe('when property has sh:class', () => {

@@ -10,7 +10,7 @@ import { nextid } from '../lib/objectid'
 import { canAddObject, canRemoveObject } from '../lib/property'
 import { objectStateProducer } from '../objectStateProducer'
 
-export interface UpdateObjectParams extends BaseParams {
+export interface SetObjectParams extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
   object: PropertyObjectState
@@ -24,7 +24,7 @@ export interface ReplaceObjectsParams extends BaseParams {
   editors: EditorsState
 }
 
-export const updateObject = formStateReducer(objectStateProducer<UpdateObjectParams>((draft, { focusNode, object, newValue }, propertyState) => {
+export const setObjectValue = formStateReducer(objectStateProducer<SetObjectParams>((draft, { focusNode, object, newValue }, propertyState) => {
   const focusNodeState = draft.focusNodes[focusNode.value]
 
   const objectState = propertyState.objects.find(o => o.key === object.key)
@@ -50,7 +50,7 @@ export const setPropertyObjects = formStateReducer(objectStateProducer<ReplaceOb
   })
 }))
 
-export interface SetObjectValueParams extends BaseParams {
+export interface InitObjectValueParams extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
   object: PropertyObjectState
@@ -58,7 +58,7 @@ export interface SetObjectValueParams extends BaseParams {
   editors: EditorsState
 }
 
-export const setObjectValue = formStateReducer(objectStateProducer<SetObjectValueParams>((draft, { property, object, value, editors }, propertyState) => {
+export const initObjectValue = formStateReducer(objectStateProducer<InitObjectValueParams>((draft, { property, object, value, editors }, propertyState) => {
   const objectState = propertyState?.objects.find(o => o.key === object.key)
   if (!objectState) {
     return

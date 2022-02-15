@@ -46,7 +46,7 @@ export default function createFocusNodeState(store: Store) {
     }
 
     focusNode.addOut(predicate, value)
-    dispatch.forms.setObjectValue({
+    dispatch.forms.initObjectValue({
       form,
       focusNode,
       property: property.shape,
