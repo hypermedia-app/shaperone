@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.4
+
+### Patch Changes
+
+- a7dc6b9: Setting pointer would still leave unconnected blanks sometimes
+- a7dc6b9: Rewrite all blank nodes when setting a pointer to a property
+
 ## 0.8.3
 
 ### Patch Changes

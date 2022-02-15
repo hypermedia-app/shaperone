@@ -12,7 +12,7 @@
     "prepack": "tsc"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-core": "^0.8.3",
+    "@hydrofoil/shaperone-core": "^0.8.4",
     "@rdf-esm/dataset": "^0.5.0",
     "@rdf-esm/term-map": "^0.5.0",
     "@rdfine/hydra": "^0.8.1",
@@ -25,7 +25,7 @@
   "devDependencies": {
     "@open-wc/testing": "^3.0.0-next.2",
     "@rdf-esm/dataset": "^0.5.1",
-    "@shaperone/testing": "0.0.7",
+    "@shaperone/testing": "0.0.8",
     "clownface": "^1"
   },
   "repository": {
