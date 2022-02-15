@@ -1,16 +1,15 @@
 import { describe, it } from 'mocha'
-import cf, { AnyContext, AnyPointer } from 'clownface'
+import clownface, { AnyContext, AnyPointer } from 'clownface'
 import $rdf from 'rdf-ext'
 import type DatasetExt from 'rdf-ext/lib/Dataset'
 import { schema, sh } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form'
-import updateObject from '@hydrofoil/shaperone-core/models/resources/effects/forms/updateObject'
+import setObjectValue from '@hydrofoil/shaperone-core/models/resources/effects/forms/setObjectValue'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util'
-import clownface from 'clownface'
 
-describe('models/resources/effects/forms/updateObject', () => {
+describe('models/resources/effects/forms/setObject', () => {
   let store: Store
   let graph: AnyPointer<AnyContext, DatasetExt>
   let form: symbol
@@ -33,7 +32,7 @@ describe('models/resources/effects/forms/updateObject', () => {
     })
 
     // when
-    updateObject(store)({
+    setObjectValue(store)({
       form,
       focusNode,
       object,
@@ -61,7 +60,7 @@ describe('models/resources/effects/forms/updateObject', () => {
     })
 
     // when
-    updateObject(store)({
+    setObjectValue(store)({
       form,
       focusNode,
       newValue,
@@ -89,14 +88,14 @@ describe('models/resources/effects/forms/updateObject', () => {
     const object = {
       object: focusNode.out(sh.path).toArray().shift(),
     }
-    const shapesGraph = cf({ dataset: $rdf.dataset() })
+    const shapesGraph = clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(shapesGraph.blankNode(), {
       path: sh.path,
     })
     const newValue = schema.name
 
     // when
-    updateObject(store)({
+    setObjectValue(store)({
       form,
       focusNode,
       newValue,
@@ -105,7 +104,7 @@ describe('models/resources/effects/forms/updateObject', () => {
     })
 
     // then
-    const expected = cf({ dataset: $rdf.dataset() }).namedNode('propertyShape')
+    const expected = clownface({ dataset: $rdf.dataset() }).namedNode('propertyShape')
     expected.addOut(sh.path, schema.name)
     expect(focusNode.dataset.toCanonical()).to.eq(expected.dataset.toCanonical())
   })
@@ -122,7 +121,7 @@ describe('models/resources/effects/forms/updateObject', () => {
     const object = {
       object: focusNode.out(sh.path).toArray().shift(),
     }
-    const shapesGraph = cf({ dataset: $rdf.dataset() })
+    const shapesGraph = clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(shapesGraph.blankNode(), {
       path: sh.path,
     })
@@ -131,7 +130,7 @@ describe('models/resources/effects/forms/updateObject', () => {
       .addList(sh.alternativePath, [schema.knows, schema.name])
 
     // when
-    updateObject(store)({
+    setObjectValue(store)({
       form,
       focusNode,
       newValue,
@@ -140,7 +139,7 @@ describe('models/resources/effects/forms/updateObject', () => {
     })
 
     // then
-    const expected = cf({ dataset: $rdf.dataset() }).namedNode('propertyShape')
+    const expected = clownface({ dataset: $rdf.dataset() }).namedNode('propertyShape')
     expected.addOut(sh.path, path => path.addList(sh.alternativePath, [schema.knows, schema.name]))
     expect(focusNode.dataset.toCanonical()).to.eq(expected.dataset.toCanonical())
   })
@@ -157,14 +156,14 @@ describe('models/resources/effects/forms/updateObject', () => {
     const object = {
       object: focusNode.out(schema.employmentUnit).toArray().shift(),
     }
-    const shapesGraph = cf({ dataset: $rdf.dataset() })
+    const shapesGraph = clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(shapesGraph.blankNode(), {
       path: schema.employmentUnit,
     })
     const newValue = $rdf.namedNode('external-id')
 
     // when
-    updateObject(store)({
+    setObjectValue(store)({
       form,
       focusNode,
       newValue,
@@ -173,7 +172,7 @@ describe('models/resources/effects/forms/updateObject', () => {
     })
 
     // then
-    const expected = cf({ dataset: $rdf.dataset() }).namedNode('fn')
+    const expected = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
       .addOut(schema.address, (location) => {
         location.addOut(schema.streetAddress, 'Wisteria Lane')
       })

@@ -9,7 +9,7 @@ import { testObjectState, testStore } from '@shaperone/testing/models/form'
 import {
   clearValue,
   setDefaultValue,
-  setObjectValue,
+  initObjectValue,
   setPropertyObjects,
 } from '@hydrofoil/shaperone-core/models/forms/reducers/updateObject'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -164,7 +164,7 @@ describe('core/models/forms/reducers/updateObject', () => {
     })
   })
 
-  describe('setObjectValue', () => {
+  describe('initObjectValue', () => {
     it('recalculates editors', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
@@ -184,7 +184,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
       // when
       const value = graph.literal('bar')
-      setObjectValue(store.getState().forms, {
+      initObjectValue(store.getState().forms, {
         form,
         focusNode,
         editors,
@@ -217,7 +217,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
       // when
       const value = graph.literal('bar')
-      const afterState = setObjectValue(store.getState().forms, {
+      const afterState = initObjectValue(store.getState().forms, {
         form,
         focusNode,
         editors: store.getState().editors,

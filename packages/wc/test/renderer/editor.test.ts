@@ -242,7 +242,7 @@ describe('wc/renderer/editor', () => {
           actions.update('foo')
 
           // then
-          const { newValue } = dispatch.updateObject.firstCall.firstArg
+          const { newValue } = dispatch.setObjectValue.firstCall.firstArg
           expect(newValue).to.have.deep.eq(literal('foo', xsd.int))
         })
 
@@ -254,7 +254,7 @@ describe('wc/renderer/editor', () => {
           actions.update('foo')
 
           // then
-          const { newValue } = dispatch.updateObject.firstCall.firstArg
+          const { newValue } = dispatch.setObjectValue.firstCall.firstArg
           expect(newValue).to.have.deep.eq(namedNode('foo'))
         })
       })

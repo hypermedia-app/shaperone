@@ -39,7 +39,7 @@ describe('shaperone-form', () => {
     const form = await fixture(html`<shaperone-form .shapes="${shape.pointer}" .resource="${resource}"></shaperone-form>`)
 
     // when
-    store().dispatch.forms.updateObject({
+    store().dispatch.forms.setObjectValue({
       form: id(form),
       focusNode: resource,
       newValue: literal('new'),
