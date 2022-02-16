@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.5
+
+### Patch Changes
+
+- e403709: Setting pointer as property value would always add quads to default graph even when focus node was in a named graph
+
 ## 0.8.4
 
 ### Patch Changes

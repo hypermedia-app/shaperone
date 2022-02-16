@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@hydrofoil/shaperone-wc": "^0.6.7",
-    "@hydrofoil/shaperone-core": "^0.8.4",
+    "@hydrofoil/shaperone-core": "^0.8.5",
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@rdf-esm/data-model": "^0.5.3",
     "@vaadin/vaadin-accordion": "^2.0.0-alpha4",
