@@ -32,8 +32,8 @@ export default function (store: Store) {
       deleteOrphanedSubgraphs(children)
     }
     if ('dataset' in newValue) {
-      for (const quad of newValue.dataset) {
-        focusNodePointer.dataset.add(quad)
+      for (const { subject, predicate, object } of newValue.dataset) {
+        focusNodePointer.node(subject).addOut(predicate, object)
       }
     }
 

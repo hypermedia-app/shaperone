@@ -4,7 +4,7 @@ import type { GraphPointer } from 'clownface'
 import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import clownface from 'clownface'
-import type { DatasetCoreFactory } from 'rdf-js'
+import type { DatasetCoreFactory, NamedNode, DefaultGraph } from 'rdf-js'
 import * as datasetFactory from '@rdf-esm/dataset'
 import * as Form from '@hydrofoil/shaperone-core/models/forms'
 import { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
@@ -111,7 +111,12 @@ const spyHandler: ProxyHandler<any> = {
   },
 }
 
-export function testStore({ dataset }: DatasetCoreFactory = datasetFactory): { form: symbol; store: Store } {
+interface TestStore {
+  factory?: DatasetCoreFactory
+  graph?: NamedNode | DefaultGraph
+}
+
+export function testStore({ graph = datasetFactory.defaultGraph(), factory: { dataset } = datasetFactory }: TestStore = {}): { form: symbol; store: Store } {
   const { form, state: forms } = testFormState()
   const dispatch = {
     forms: new Proxy({}, spyHandler),
@@ -122,7 +127,7 @@ export function testStore({ dataset }: DatasetCoreFactory = datasetFactory): { f
     validation: new Proxy({}, spyHandler),
   }
   const resourcesState: ResourceState = {
-    rootPointer: clownface({ dataset: dataset() }).blankNode(),
+    rootPointer: clownface({ dataset: dataset(), graph }).blankNode(),
     get graph() {
       return this.rootPointer.any()
     },
