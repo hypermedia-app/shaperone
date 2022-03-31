@@ -4124,9 +4124,9 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.12.4, ajv@^6.5.5:
     uri-js "^4.2.2"
 
 alcaeus@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/alcaeus/-/alcaeus-2.2.0.tgz#577688f173d6f9ac85517f620d327cd06947cbbd"
-  integrity sha512-TWSS0kZQ61HZROW4K3ganoyKKcp3Hl6vnYAbNCJtPaBzkUr2h6/UOZOaEFJEdYleAGyx7Ja2sWefPWQ2TsxExg==
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/alcaeus/-/alcaeus-2.2.1.tgz#c23b69355fd399ca0f2339ec9a5db64cf0a71bcf"
+  integrity sha512-41mYgOKy943xyurR5Ux08QB7n+aWrBTlcaMM0VYhMjLFbnV9Prr0eFscJbmG8EkxkQDzdB4Fvkck6dD0tu+TQA==
   dependencies:
     "@rdf-esm/data-model" "^0.5.3"
     "@rdf-esm/formats-common" "^0.5.6"
@@ -11398,14 +11398,6 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-rdf-canonize@^1.0.3:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/rdf-canonize/-/rdf-canonize-1.2.0.tgz#9872b2cc6ed92a9969e834f9f042addaf0d4f7f9"
-  integrity sha512-MQdcRDz4+82nUrEb3hNQangBDpmep15uMmnWclGi/1KS0bNVc8oHpoNI0PFLHZsvwgwRzH31bO1JAScqUAstvw==
-  dependencies:
-    node-forge "^0.10.0"
-    semver "^6.3.0"
-
 rdf-canonize@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/rdf-canonize/-/rdf-canonize-3.0.0.tgz#f5bade563e5e58f5cc5881afcba3c43839e8c747"
@@ -11421,11 +11413,11 @@ rdf-data-factory@^1.1.0:
     "@rdfjs/types" "*"
 
 rdf-dataset-ext@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rdf-dataset-ext/-/rdf-dataset-ext-1.0.0.tgz#efddc7242baeec8e37a4a41a40b777c09b1ae873"
-  integrity sha512-TrcHIoNyLVUQAi5oqcpcqDNyM/S6JB4d7cu8CqoY+d5xKVioHOHW3VtPpaedHWY8bVB+pEu5u5lIfSnc/C8nLQ==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/rdf-dataset-ext/-/rdf-dataset-ext-1.0.1.tgz#9df48566e57748f321e19c9ec713811badbd7ca5"
+  integrity sha512-I08/j+w0zqNRmFXbFhqxexmKsdS9nGDno/cG/OaF5sLxkDNrhyP82OxWx35ZPrjd4FG8T+TsGaxZFZkVIS85eA==
   dependencies:
-    rdf-canonize "^1.0.3"
+    rdf-canonize "^3.0.0"
     readable-stream "^3.4.0"
 
 rdf-ext@^1.3.0, rdf-ext@^1.3.1:
