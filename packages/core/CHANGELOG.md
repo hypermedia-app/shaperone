@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.6
+
+### Patch Changes
+
+- 4f5fbd7: Add `actions` argument to component's `init()` method. This allows easier handling of async tasks which require to modify the component's underlying model
+
 ## 0.8.5
 
 ### Patch Changes
