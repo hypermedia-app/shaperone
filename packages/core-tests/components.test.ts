@@ -11,6 +11,8 @@ import { testObjectState, testPropertyState } from '@shaperone/testing/models/fo
 import { enumSelect, InstancesSelect, instancesSelect, EnumSelect } from '@hydrofoil/shaperone-core/components'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { propertyShape } from '@shaperone/testing/util'
+import type { SinonStubbedInstance } from 'sinon'
+import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 
 describe('components', () => {
   describe('enumSelect', () => {
@@ -19,6 +21,7 @@ describe('components', () => {
     let value: PropertyObjectState<EnumSelect>
     let updateComponentState: sinon.SinonSpy
     let focusNode: GraphPointer<BlankNode>
+    let actions: SinonStubbedInstance<SingleEditorActions>
 
     beforeEach(() => {
       form = {
@@ -53,7 +56,7 @@ describe('components', () => {
               ],
             },
           },
-        })
+        }, actions)
 
         // then
         expect(result).to.be.true
@@ -67,7 +70,7 @@ describe('components', () => {
               loading: true,
             },
           },
-        })
+        }, actions)
 
         // then
         expect(result).to.be.false
@@ -100,7 +103,7 @@ describe('components', () => {
           focusNode,
           property,
           renderer,
-        })
+        }, actions)
         await deferred
 
         // then
@@ -181,6 +184,7 @@ describe('components', () => {
     let value: PropertyObjectState<InstancesSelect>
     let updateComponentState: sinon.SinonSpy
     let focusNode: GraphPointer<BlankNode>
+    let actions: SinonStubbedInstance<SingleEditorActions>
 
     beforeEach(() => {
       form = {
@@ -210,7 +214,7 @@ describe('components', () => {
         ]
 
         // when
-        const result = instancesSelect.init?.(<any>{ value })
+        const result = instancesSelect.init?.(<any>{ value }, actions)
 
         // then
         expect(result).to.be.true
@@ -223,7 +227,7 @@ describe('components', () => {
         // when
         const result = instancesSelect.init?.(<any>{
           value,
-        })
+        }, actions)
 
         // then
         expect(result).to.be.false
@@ -256,7 +260,7 @@ describe('components', () => {
           focusNode,
           property,
           renderer,
-        })
+        }, actions)
         await deferred
 
         // then
