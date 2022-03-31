@@ -78,7 +78,7 @@ export type RenderComponent<T extends Component, TRenderResult> =
       : RenderFunc<SingleEditorRenderParams, SingleEditorActions, TRenderResult>
 
 export interface ComponentState extends Component {
-  init?(params: any): boolean
+  init?(params: any, actions: any): boolean
   render?: RenderFunc<any, any, any>
   lazyRender?(): Promise<RenderFunc<any, any, any>>
   loading: boolean
@@ -91,8 +91,8 @@ interface ComponentRender<Params extends RenderParams, Actions, TRenderResult> {
   render: RenderFunc<Params, Actions, TRenderResult>
 }
 
-interface ComponentInit<TParams> {
-  init?: (params: TParams) => boolean
+interface ComponentInit<TParams, TActions> {
+  init?: (params: TParams, actions: TActions) => boolean
 }
 
 /**
@@ -100,23 +100,23 @@ interface ComponentInit<TParams> {
  */
 export type SingleEditorComponent<TState extends ComponentInstance, TRenderResult = any> = Component
 & ComponentRender<SingleEditorRenderParams<TState>, SingleEditorActions, TRenderResult>
-& ComponentInit<SingleEditorRenderParams<TState>>
+& ComponentInit<SingleEditorRenderParams<TState>, SingleEditorActions>
 
 /**
  * Base interface for defining components implementing `dash:MultiEditor`
  */
 export type MultiEditorComponent<TState extends ComponentInstance, TRenderResult = any> = Component
 & ComponentRender<MultiEditorRenderParams<TState>, MultiEditorActions, TRenderResult>
-& ComponentInit<MultiEditorRenderParams<TState>>
+& ComponentInit<MultiEditorRenderParams<TState>, MultiEditorActions>
 
 export type AnyComponent<TRenderResult = any> = Component
 & ComponentRender<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>, SingleEditorActions | MultiEditorActions, TRenderResult>
-& ComponentInit<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>>
+& ComponentInit<SingleEditorRenderParams<any> | MultiEditorRenderParams<any>, SingleEditorActions | MultiEditorActions>
 
 /**
  * Use a base interface for components which need to execute asynchronous code before first render
  *
- * Typically used for dynamically importing dependencies
+ * Typically, used for dynamically importing dependencies
  *
  * @typeParam T actual component interface
  */

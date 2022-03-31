@@ -132,7 +132,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
       updateComponentState,
       value: object,
       renderer: this,
-    })
+    }, { update, focusOnObjectNode, clear, remove })
 
     if (!ready) {
       return templates.component.initializing()

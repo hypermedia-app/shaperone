@@ -6,10 +6,11 @@ import $rdf from '@rdf-esm/dataset'
 import { rdfs, schema, dcterms, hydra } from '@tpluscode/rdf-ns-builders'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { BlankNode } from 'rdf-js'
-import { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
+import { SingleEditorActions, UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import promise from 'promise-the-world'
 import { ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { objectRenderer } from '@shaperone/testing/renderer'
+import type { SinonStubbedInstance } from 'sinon'
 import { instancesSelectEditor } from '../components'
 
 describe('wc-vaadin/components', () => {
@@ -27,6 +28,7 @@ describe('wc-vaadin/components', () => {
       let property: PropertyState
       let value: PropertyObjectState
       let updateComponentState: UpdateComponentState
+      let actions: SinonStubbedInstance<SingleEditorActions>
 
       beforeEach(() => {
         focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
@@ -58,7 +60,7 @@ describe('wc-vaadin/components', () => {
             property,
             updateComponentState,
             renderer,
-          })
+          }, actions)
 
           // then
           expect(updateComponentState).to.have.been.calledWith(sinon.match({
@@ -82,7 +84,7 @@ describe('wc-vaadin/components', () => {
             property,
             updateComponentState,
             renderer,
-          })
+          }, actions)
 
           // then
           expect(result).to.be.true
@@ -108,7 +110,7 @@ describe('wc-vaadin/components', () => {
             property,
             updateComponentState,
             renderer,
-          })
+          }, actions)
           await deferred
 
           // then
@@ -136,7 +138,7 @@ describe('wc-vaadin/components', () => {
             property,
             updateComponentState: sinon.spy(),
             renderer,
-          })
+          }, actions)
 
           // then
           const fooPointer = property.shape.pointer.node(ex.Foo)
@@ -168,7 +170,7 @@ describe('wc-vaadin/components', () => {
           property,
           updateComponentState: sinon.spy(),
           renderer,
-        })
+        }, actions)
 
         // then
         const fooPointer = property.shape.pointer.node(ex.Foo)
@@ -194,7 +196,7 @@ describe('wc-vaadin/components', () => {
           property,
           updateComponentState: sinon.spy(),
           renderer,
-        })
+        }, actions)
 
         // then
         expect(editor.loadInstance).not.to.have.been.called
