@@ -91,6 +91,9 @@ export interface LogicalConstraints {
 
 export interface PropertyState extends ValidationState {
   shape: PropertyShape
+  /**
+   * @deprecated Property will be removed in future version. Use taggedLiteral directive to display property name
+   */
   name: string
   editors: MultiEditorMatch[]
   selectedEditor: NamedNode | undefined

@@ -14,6 +14,10 @@ interface PropertyShapeEx {
   getPathProperty<T extends boolean = false>(throwIfNotPredicatePath?: T): T extends true ? Resource : (Resource | undefined)
   pathEquals(other: NamedNode | GraphPointer | undefined): boolean
   getValues(focusNode: FocusNode): MultiPointer
+
+  /**
+   * @deprecated
+   */
   displayName: string
   permitsDatatype(datatype: NamedNode): boolean
 }
@@ -60,9 +64,10 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
     }
 
     get displayName(): string {
-      const { name, path } = this
+      const [name] = this.pointer.out(sh.name).values
 
       if (!name) {
+        const { path } = this
         if (Array.isArray(path)) {
           return 'Complex path'
         }

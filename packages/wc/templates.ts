@@ -8,6 +8,8 @@ import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/s
 import { repeat } from 'lit/directives/repeat.js'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { NamedNode } from 'rdf-js'
+import { sh } from '@tpluscode/rdf-ns-builders/strict'
+import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
 
 export * from './renderer/decorator'
 
@@ -140,7 +142,7 @@ export const templates: RenderTemplates = {
   },
   property(renderer, { property }): TemplateResult {
     return html`${repeat(property.objects, object => html`<div class="field">
-    <label for="${property.shape.id.value}">${property.name}</label>
+    <label for="${property.shape.id.value}">${taggedLiteral(property.shape, { property: sh.name })}</label>
     ${renderer.renderObject({ object })}</div>`)}`
   },
   object(renderer): TemplateResult {

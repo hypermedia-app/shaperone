@@ -14,7 +14,7 @@ const triples = turtle`@prefix ex: <http://example.com/> .
 ex:PersonShape
   a ${sh.NodeShape} ;
   ${sh.targetClass} ${schema.Person} ;
-  ${rdfs.label} "Person" ;
+  ${rdfs.label} "Person", "Osoba"@pl ;
   ${sh.property} ex:NameProperty ,
                  ex:KnowsProperty ,
                  ex:AgeProperty ,
@@ -27,13 +27,13 @@ ex:PersonShape
 ex:SimplifiedPersonShape
   a ${sh.NodeShape} ;
   ${sh.targetNode} ex:Jane_Doe ;
-  ${rdfs.label} "Person (name-only)" ;
+  ${rdfs.label} "Person (name-only)", "Osoba (tylko imię)"@pl ;
   ${sh.property} ex:NameProperty ;
 .
 
 ex:NameProperty
   ${sh.path} ${schema.name} ;
-  ${sh.name} "Name" ;
+  ${sh.name} "Name", "Imię"@pl ;
   ${sh.datatype} ${xsd.string} ;
   ${dash.singleLine} true ;
   ${sh.maxCount} 1 ;
@@ -49,7 +49,7 @@ ex:KnowsProperty
 
 ex:AgeProperty
   ${sh.path} ${schema.age} ;
-  ${sh.name} "Age" ;
+  ${sh.name} "Age", "Wiek"@pl ;
   ${sh.datatype} ${xsd.integer} ;
   ${sh.maxCount} 1 ;
   ${sh.defaultValue} 21 ;
@@ -59,7 +59,7 @@ ex:AgeProperty
 
 ex:GenderProperty
   ${sh.path} ${foaf.gender} ;
-  ${sh.name} "Gender" ;
+  ${sh.name} "Gender", "Płeć"@pl ;
   ${sh.in} (
     "Male" "Female" "Other" "Prefer not to tell"
   ) ;
@@ -70,7 +70,7 @@ ex:GenderProperty
 
 ex:DateOfBirthProperty
   ${sh.path} ${schema.birthDate} ;
-  ${sh.name} "Date of birth" ;
+  ${sh.name} "Date of birth", "Data urodzenia"@pl ;
   ${sh.maxCount} 1 ;
   ${sh.order} 4 ;
   ${sh.datatype} ${xsd.date} ;
@@ -78,7 +78,7 @@ ex:DateOfBirthProperty
 
 ex:SpokenLanguagesProperty
   ${sh.path} ${vcard.language} ;
-  ${sh.name} "Spoken languages" ;
+  ${sh.name} "Spoken languages", "Języki"@pl ;
   ${sh.nodeKind} ${sh.IRI} ;
   ${sh.in} (
     lexvo:en lexvo:de lexvo:fr lexvo:pl lexvo:es
@@ -90,21 +90,21 @@ ex:SpokenLanguagesProperty
 
 ex:HomePageProperty
   ${sh.path} ${foaf.homepage} ;
-  ${sh.name} "Homepage URL" ;
+  ${sh.name} "Homepage URL", "Strona internetowa"@pl ;
   ${sh.nodeKind} ${sh.IRI} ;
   ${sh.order} 6 ;
 .
 
 ex:FriendGroup
   a ${sh.PropertyGroup} ;
-  ${rdfs.label} "Acquaintances"
+  ${rdfs.label} "Acquaintances", "Znajomi"@pl
 .
 
-lexvo:en ${rdfs.label} "English" .
-lexvo:de ${rdfs.label} "German" .
-lexvo:fr ${rdfs.label} "French" .
-lexvo:pl ${rdfs.label} "Polish" .
-lexvo:es ${rdfs.label} "Spanish" .`
+lexvo:en ${rdfs.label} "English", "angielski"@pl .
+lexvo:de ${rdfs.label} "German", "niemiecki"@de .
+lexvo:fr ${rdfs.label} "French", "francuski"@pl .
+lexvo:pl ${rdfs.label} "Polish", "polski"@pl .
+lexvo:es ${rdfs.label} "Spanish", "hiszpański"@pl .`
 
 export interface State {
   serialized: string

@@ -3,14 +3,14 @@ import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit/directives/repeat.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
+import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
 
 export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { focusNode }) {
   const { actions } = renderer
 
   function renderTab(group: PropertyGroupState) {
-    const header = group.group?.label || 'Ungrouped properties'
-
-    return html`<mwc-tab label="${header}" @MDCTab:interacted="${() => actions.selectGroup(group.group)}"></mwc-tab>`
+    return html`<mwc-tab label="${taggedLiteral(group.group, { fallback: 'Ungrouped properties' })}"
+                         @MDCTab:interacted="${() => actions.selectGroup(group.group)}"></mwc-tab>`
   }
 
   return html`
