@@ -27,7 +27,7 @@
     "@material/mwc-textarea": "^0.25",
     "@material/mwc-textfield": "^0.25",
     "@rdf-esm/data-model": "^0.5.3",
-    "@rdfjs-elements/lit-helpers": "^0.2.0",
+    "@rdfjs-elements/lit-helpers": "^0.2.1",
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "lit": "^2.0.0",
     "wc-menu-button": "^3.1"

@@ -2259,10 +2259,10 @@
     "@tpluscode/rdf-ns-builders" "^1.0.0"
     readable-stream "^3.6.0"
 
-"@rdfjs-elements/lit-helpers@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/lit-helpers/-/lit-helpers-0.2.0.tgz#62b7420e132bfb225956a01a7ab9dc826967fe8b"
-  integrity sha512-GGTWIwRP6QbYbOyFljIZyO+7Jyqe5iliH7OXbUGdnzs+7iSE1iDcx/eEmsHC6fmxso/y8sYvR+JZC3XMpUZnKQ==
+"@rdfjs-elements/lit-helpers@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/lit-helpers/-/lit-helpers-0.2.1.tgz#ded96998fdd8d6460904c0d933d97c580c4e8da6"
+  integrity sha512-x9nnocdknPGQ/Vq5GAKJ9OPPt7whHfkZkX3yW4Oq9x6psUNBig0XgpHQtyCNFNhFpzk/+JsBNDoVICplvKFuBg==
   dependencies:
     "@tpluscode/rdf-ns-builders" "^1"
     lit "^2"
