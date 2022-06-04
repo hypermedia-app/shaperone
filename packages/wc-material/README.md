@@ -14,7 +14,7 @@
 
 | Method       | Type                                             |
 |--------------|--------------------------------------------------|
-| `createItem` | `({ shape, icon, selected, ...rest }: Item & Record<string, unknown>): TemplateResult<1>` |
+| `createItem` | `({ pointer, icon, selected, ...rest }: Item & Record<string, unknown>): TemplateResult<1>` |
 
 ## Events
 
@@ -58,7 +58,7 @@
 
 | Method       | Type                                             |
 |--------------|--------------------------------------------------|
-| `createItem` | `({ shape, icon, selected, ...rest }: Item & Record<string, unknown>): TemplateResult<1>` |
+| `createItem` | `({ pointer, icon, selected, ...rest }: Item & Record<string, unknown>): TemplateResult<1>` |
 
 ## Events
 

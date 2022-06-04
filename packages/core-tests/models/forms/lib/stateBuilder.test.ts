@@ -14,6 +14,7 @@ import {
 import { loadMixins } from '@hydrofoil/shaperone-core'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util'
+import { blankNode } from '@shaperone/testing/nodeFactory'
 
 const ex = ns('http://example.com/')
 
@@ -281,12 +282,12 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
       const { editors } = store.getState()
       editors.matchSingleEditors = () => [{
         term: ex.FooEditor,
-        meta: {},
+        meta: blankNode(),
         match: () => 5,
         score: 5,
       }, {
         term: ex.BarEditor,
-        meta: {},
+        meta: blankNode(),
         match: () => 10,
         score: 10,
       }]

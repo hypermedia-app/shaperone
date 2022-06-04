@@ -1,7 +1,7 @@
 import produce from 'immer'
 import { dash } from '@tpluscode/rdf-ns-builders'
+import { rdf } from '@tpluscode/rdf-ns-builders/strict'
 import type { Editor, EditorsState, MultiEditor, SingleEditor } from '../index'
-import { EditorMeta } from '../lib/EditorMeta'
 
 type AnyEditor = SingleEditor<any> | MultiEditor
 
@@ -19,7 +19,7 @@ export function addMatchers(state: EditorsState, editors: Record<string, AnyEdit
     for (const editor of editorsArray) {
       const { term } = editor
       const key = editor.term.value
-      const meta = new EditorMeta(state.metadata.node(term))
+      const meta = state.metadata.node(term)
       const entry = {
         ...editor as any,
         meta,
@@ -27,7 +27,7 @@ export function addMatchers(state: EditorsState, editors: Record<string, AnyEdit
 
       draft.allEditors[key] = entry
 
-      if (meta.types.has(dash.MultiEditor)) {
+      if (meta.has(rdf.type, dash.MultiEditor).terms.length) {
         draft.multiEditors[key] = decorate(state.decorators, entry)
       } else {
         draft.singleEditors[key] = decorate(state.decorators, entry)

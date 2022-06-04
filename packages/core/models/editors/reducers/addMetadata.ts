@@ -2,7 +2,6 @@ import { DatasetCore, Quad } from 'rdf-js'
 import * as RDF from '@rdf-esm/dataset'
 import cf, { AnyPointer } from 'clownface'
 import type { Editor, EditorsState } from '../index'
-import { EditorMeta } from '../lib/EditorMeta'
 
 type AllEditors = EditorsState['allEditors']
 type MultiEditors = EditorsState['multiEditors']
@@ -18,7 +17,7 @@ function updateMeta<T>(metadata: AnyPointer) {
       ...previousValue,
       [key]: {
         ...editor,
-        meta: new EditorMeta(metadata.node(editor.term)),
+        meta: metadata.node(editor.term),
       },
     }
   }

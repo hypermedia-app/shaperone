@@ -1,12 +1,12 @@
 import { LitElement, css, html, TemplateResult } from 'lit'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
-import type { NodeShape } from '@rdfine/shacl'
 import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
+import type{ GraphPointer } from 'clownface'
 
 type Constructor = new (...args: any[]) => LitElement
 
 interface Item {
-  shape: NodeShape
+  pointer?: GraphPointer
   selected: boolean
   icon?: string
 }
@@ -25,10 +25,10 @@ export function SelectableMenuMixin<Base extends Constructor>(base: Base): Retur
       }`
     }
 
-    createItem({ shape, icon, selected, ...rest }: Item & Record<string, unknown>) {
+    createItem({ pointer, icon, selected, ...rest }: Item & Record<string, unknown>) {
       return html`<mwc-list-item selectable graphic="icon" ?selected="${selected}" ${spread(rest)}>
         <mwc-icon slot="graphic">${icon || 'check'}</mwc-icon>
-        ${taggedLiteral(shape, { fallback: shape?.id.value })}
+        ${taggedLiteral(pointer, { fallback: pointer?.value })}
     </mwc-list-item>`
     }
   }

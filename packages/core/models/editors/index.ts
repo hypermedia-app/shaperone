@@ -1,7 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
-import type * as Rdfs from '@rdfine/rdfs'
 import type { AnyPointer } from 'clownface'
 import clownface, { GraphPointer } from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
@@ -14,7 +13,7 @@ import { loadDash } from './effects'
 
 interface EditorBase {
   term: NamedNode
-  meta?: Partial<Rdfs.Resource>
+  meta?: GraphPointer
 }
 
 export interface MultiEditor extends EditorBase {

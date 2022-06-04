@@ -109,7 +109,7 @@ export const templates: RenderTemplates = {
     notFound(this: PropertyRenderer, editor: NamedNode) {
       const { editors } = this.context
 
-      return html`No component found for ${editors.allEditors[editor.value]?.meta?.label || editor.value}`
+      return html`No component found for ${taggedLiteral(editors.allEditors[editor.value]?.meta, { fallback: editor.value })}`
     },
     loading() {
       return html`Loading editor`
