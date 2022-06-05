@@ -1,4 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
+import { setLanguages } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
 import type { Store } from '../store'
 import { ComponentsState } from './components'
 import { RendererState } from './renderer'
@@ -9,6 +10,7 @@ export interface State {
   sharingParams: string
   shareFormSettings: boolean
   hasError: boolean
+  language: string
 }
 
 interface SharingParam {
@@ -23,6 +25,7 @@ export const playground = createModel({
     sharingParams: '',
     shareFormSettings: false,
     hasError: false,
+    language: 'en',
   },
   reducers: {
     hideSharingDialog(state, hide: boolean) {
@@ -57,6 +60,9 @@ export const playground = createModel({
         ...state,
         sharingLink,
       }
+    },
+    switchLanguage(state, language: string) {
+      return { ...state, language }
     },
     error(state, hasError: boolean) {
       return { ...state, hasError }
@@ -197,6 +203,9 @@ export const playground = createModel({
         url.search = ''
         url.hash = ''
         window.history.replaceState(null, '', url.toString())
+      },
+      switchLanguage(value) {
+        setLanguages(value)
       },
     }
   },
