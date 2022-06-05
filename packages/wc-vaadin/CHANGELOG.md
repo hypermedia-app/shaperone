@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.4.3
+
+### Patch Changes
+
+- 09c9057: Support multi-lingual shape labels
+- Updated dependencies [09c9057]
+  - @hydrofoil/shaperone-core@0.8.7
+  - @hydrofoil/shaperone-wc@0.6.9
+
 ## 0.4.2
 
 ### Patch Changes
