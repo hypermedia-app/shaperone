@@ -4,6 +4,8 @@ import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
 import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
 import '@vaadin/vaadin-button/vaadin-button.js'
+import '@vaadin/vaadin-select/vaadin-select.js'
+import '@vaadin/vaadin-item/vaadin-item.js'
 import '@material/mwc-icon/mwc-icon.js'
 import '@vaadin-component-factory/vcf-tooltip'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
@@ -90,6 +92,10 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     shaperone-form::part(focus-node), shaperone-form::part(property-group) {
       display: flex;
       flex-wrap: wrap;
+    }
+
+    #lang {
+      width: 70px
     }`
   }
 
@@ -139,6 +145,19 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       <h2 id="title" slot="navbar">
         <span>@hydrofoil/shaperone playground</span>
       </h2>
+      <vaadin-select id="lang" slot="navbar"
+                     value="${this.playground.language}"
+                     @value-changed="${(e: any) => store().dispatch.playground.switchLanguage(e.detail.value)}">
+        <template>
+          <vaadin-list-box>
+            <vaadin-item value="en">🇬🇧</vaadin-item>
+            <vaadin-item value="de">🇩🇪</vaadin-item>
+            <vaadin-item value="es">🇪🇸</vaadin-item>
+            <vaadin-item value="fr">🇫🇷</vaadin-item>
+            <vaadin-item value="pl">🇵🇱</vaadin-item>
+          </vaadin-list-box>
+        </template>
+      </vaadin-select>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
       <vaadin-button slot="navbar" @click="${this.__share}" id="share-button">
         <mwc-icon>share</mwc-icon>

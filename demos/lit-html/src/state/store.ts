@@ -36,6 +36,9 @@ export const store = (() => {
         componentsSettings: {
           ...state.componentsSettings,
         },
+        playground: {
+          ...state.playground,
+        },
       }
     },
   })

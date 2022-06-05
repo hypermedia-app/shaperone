@@ -67,7 +67,7 @@ describe('wc-material/renderer', () => {
       // given
       const editor: SingleEditorMatch = {
         term: dash.TextAreaEditor,
-        meta: {},
+        meta: blankNode(),
         score: null,
       }
       object.editors = [editor, editor]
@@ -85,7 +85,7 @@ describe('wc-material/renderer', () => {
       // given
       const editor: SingleEditorMatch = {
         term: dash.TextAreaEditor,
-        meta: {},
+        meta: blankNode(),
         score: null,
       }
       object.editorSwitchDisabled = true
@@ -104,7 +104,7 @@ describe('wc-material/renderer', () => {
       // given
       const editor: SingleEditorMatch = {
         term: dash.TextAreaEditor,
-        meta: {},
+        meta: blankNode(),
         score: 1,
       }
       object.editors = [editor]
@@ -121,7 +121,7 @@ describe('wc-material/renderer', () => {
       // given
       const editor: SingleEditorMatch = {
         term: dash.TextAreaEditor,
-        meta: {},
+        meta: blankNode(),
         score: null,
       }
       object.editors = [editor, editor]
@@ -138,7 +138,7 @@ describe('wc-material/renderer', () => {
       // given
       const editor: SingleEditorMatch = {
         term: dash.TextAreaEditor,
-        meta: {},
+        meta: blankNode(),
         score: null,
       }
       object.editors = [editor]

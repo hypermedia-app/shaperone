@@ -21,7 +21,7 @@ export class MwcShapeSelector extends SelectableMenuMixin(LitElement) {
 
   private __renderShapeMenuItem(shape: NodeShape) {
     return this.createItem({
-      text: shape.label || shape.id.value,
+      pointer: shape.pointer,
       selected: shape.equals(this.selected),
       '@click': this.__dispatchShapeSelected(shape),
     })

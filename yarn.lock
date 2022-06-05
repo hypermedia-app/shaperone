@@ -2259,6 +2259,14 @@
     "@tpluscode/rdf-ns-builders" "^1.0.0"
     readable-stream "^3.6.0"
 
+"@rdfjs-elements/lit-helpers@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/lit-helpers/-/lit-helpers-0.2.1.tgz#ded96998fdd8d6460904c0d933d97c580c4e8da6"
+  integrity sha512-x9nnocdknPGQ/Vq5GAKJ9OPPt7whHfkZkX3yW4Oq9x6psUNBig0XgpHQtyCNFNhFpzk/+JsBNDoVICplvKFuBg==
+  dependencies:
+    "@tpluscode/rdf-ns-builders" "^1"
+    lit "^2"
+
 "@rdfjs-elements/rdf-editor@^0.5":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@rdfjs-elements/rdf-editor/-/rdf-editor-0.5.2.tgz#2d0bf4127d6864cd25856a74cf7d230dafaf8ea4"
@@ -3429,9 +3437,9 @@
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
 "@vaadin/vaadin-control-state-mixin@^2.1.3", "@vaadin/vaadin-control-state-mixin@^2.2.1", "@vaadin/vaadin-control-state-mixin@^2.2.2":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-control-state-mixin/-/vaadin-control-state-mixin-2.2.4.tgz#9c3779228ada8a9062ad18356e6a9a4317b8a162"
-  integrity sha512-oGsNaWbM6RisY1LkyWYtwnw+DtSRSpkFDbemEOtkYezj+Hhsd9+07LqILaUU4pB0zPaRq+uq+2tKba/TL3t23g==
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-control-state-mixin/-/vaadin-control-state-mixin-2.2.6.tgz#b568b63096211f132d4ba47d2ab045ee43f4f48d"
+  integrity sha512-3edQSooBoHVC3RexL6hi3/26HMGvG1jlxLq6ffH9c+GapuZ9zh6E2KyZa/Sz1jmLZwfZII7exgwkHhEYUZZrJA==
   dependencies:
     "@polymer/polymer" "^3.0.0"
 
@@ -3516,9 +3524,9 @@
     "@vaadin/vaadin-themable-mixin" "^1.6.1"
 
 "@vaadin/vaadin-element-mixin@^2.1.3", "@vaadin/vaadin-element-mixin@^2.3.0", "@vaadin/vaadin-element-mixin@^2.4.0", "@vaadin/vaadin-element-mixin@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-element-mixin/-/vaadin-element-mixin-2.4.1.tgz#af65828a33169cb45ef2889aa7efe62a5bcd0db4"
-  integrity sha512-Ie7fwcOmg1C71UFuRwcuo2GKS+HbKvLedfs3hGdICiuwJ56cQvQsbIlxa4utKWWCVlf6yuSvMrny8efPPenfTA==
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@vaadin/vaadin-element-mixin/-/vaadin-element-mixin-2.4.2.tgz#3c8040a8e756bc274b7777723b1fba2b9895cd41"
+  integrity sha512-VSDVK0XUsFe/RohpwSzQwgqb2Pwpok6sDNhIDS4CARr3HPhq2voMzT/FowFbkEy0J1hFtN/ZfC7tkv3kdEKKIQ==
   dependencies:
     "@polymer/polymer" "^3.0.0"
     "@vaadin/vaadin-development-mode-detector" "^2.0.0"
