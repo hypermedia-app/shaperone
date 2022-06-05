@@ -2,9 +2,9 @@ import { html, Render, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes'
-import '@vaadin/vaadin-text-field/vaadin-text-field'
-import '@vaadin/vaadin-text-field/vaadin-number-field'
-import '@vaadin/vaadin-text-field/vaadin-integer-field'
+import '@vaadin/text-field/vaadin-text-field'
+import '@vaadin/number-field/vaadin-number-field'
+import '@vaadin/integer-field/vaadin-integer-field'
 import { validity } from './validation'
 
 export const textField: Render<SingleEditorComponent> = function ({ value, property }, { update }) {

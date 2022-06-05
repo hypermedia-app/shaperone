@@ -17,7 +17,7 @@ export const AccordionFocusNodeRenderer: FocusNodeTemplate = function (renderer,
     </vaadin-accordion>`
 }
 
-AccordionFocusNodeRenderer.loadDependencies = () => [import('@vaadin/vaadin-accordion/vaadin-accordion')]
+AccordionFocusNodeRenderer.loadDependencies = () => [import('@vaadin/accordion/vaadin-accordion')]
 
 export const AccordionGroupingRenderer: GroupTemplate = function (renderer, { properties }) {
   const { group } = renderer

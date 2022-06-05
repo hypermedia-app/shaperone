@@ -1,11 +1,11 @@
 import { LitElement, css, html, render } from 'lit'
 import { customElement, property, query } from 'lit/decorators.js'
-import '@vaadin/vaadin-app-layout/vaadin-app-layout.js'
-import '@vaadin/vaadin-menu-bar/vaadin-menu-bar.js'
-import '@vaadin/vaadin-split-layout/vaadin-split-layout.js'
-import '@vaadin/vaadin-button/vaadin-button.js'
-import '@vaadin/vaadin-select/vaadin-select.js'
-import '@vaadin/vaadin-item/vaadin-item.js'
+import '@vaadin/app-layout/vaadin-app-layout.js'
+import '@vaadin/menu-bar/vaadin-menu-bar.js'
+import '@vaadin/split-layout/vaadin-split-layout.js'
+import '@vaadin/button/vaadin-button.js'
+import '@vaadin/select/vaadin-select.js'
+import '@vaadin/item/vaadin-item.js'
 import '@material/mwc-icon/mwc-icon.js'
 import '@vaadin-component-factory/vcf-tooltip'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
@@ -27,6 +27,23 @@ interface RdfEditor {
     value: string
   }
 }
+
+const languages = [{
+  label: '🇬🇧',
+  value: 'en',
+}, {
+  label: '🇩🇪',
+  value: 'de',
+}, {
+  label: '🇪🇸',
+  value: 'es',
+}, {
+  label: '🇫🇷',
+  value: 'fr',
+}, {
+  label: '🇵🇱',
+  value: 'pl',
+}]
 
 @customElement('shaperone-playground-lit')
 export class ShaperonePlayground extends connect(store(), LitElement) {
@@ -146,17 +163,9 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
         <span>@hydrofoil/shaperone playground</span>
       </h2>
       <vaadin-select id="lang" slot="navbar"
+                     .items="${languages}"
                      value="${this.playground.language}"
                      @value-changed="${(e: any) => store().dispatch.playground.switchLanguage(e.detail.value)}">
-        <template>
-          <vaadin-list-box>
-            <vaadin-item value="en">🇬🇧</vaadin-item>
-            <vaadin-item value="de">🇩🇪</vaadin-item>
-            <vaadin-item value="es">🇪🇸</vaadin-item>
-            <vaadin-item value="fr">🇫🇷</vaadin-item>
-            <vaadin-item value="pl">🇵🇱</vaadin-item>
-          </vaadin-list-box>
-        </template>
       </vaadin-select>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
       <vaadin-button slot="navbar" @click="${this.__share}" id="share-button">
@@ -296,9 +305,9 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   async __share() {
-    await Promise.all([import('@vaadin/vaadin-dialog/vaadin-dialog.js'),
-      import('@vaadin/vaadin-text-field/vaadin-text-field.js'),
-      import('@vaadin/vaadin-checkbox/vaadin-checkbox.js')])
+    await Promise.all([import('@vaadin/dialog/vaadin-dialog.js'),
+      import('@vaadin/text-field/vaadin-text-field.js'),
+      import('@vaadin/checkbox/vaadin-checkbox.js')])
     store().dispatch.playground.showSharingDialog()
   }
 

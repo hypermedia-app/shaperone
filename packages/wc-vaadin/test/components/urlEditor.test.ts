@@ -1,7 +1,7 @@
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { expect, fixture } from '@open-wc/testing'
-import { TextFieldElement } from '@vaadin/vaadin-text-field'
+import { TextFieldElement } from '@vaadin/text-field'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components/url-editor'
 

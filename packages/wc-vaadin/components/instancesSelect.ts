@@ -3,10 +3,9 @@ import { html, PropertyPart, noChange } from 'lit'
 import { directive, Directive } from 'lit/directive.js'
 import type { InstancesSelect, InstancesSelectEditor, Item } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
-import '@vaadin/vaadin-combo-box/vaadin-combo-box'
-import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
+import '@vaadin/combo-box/vaadin-combo-box'
+import type { ComboBoxDataProvider, ComboBoxElement } from '@vaadin/combo-box'
 import type { GraphPointer } from 'clownface'
-import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
 
@@ -115,7 +114,7 @@ export const instancesSelect: Render<InstancesSelectEditor> = function (params, 
                                 ${spread(validity(value))}
                                 .readonly="${!!property.shape.readOnly}"
                 .dataProvider="${dataProvider(this, params, searchUri) as any}"
-                .selectedItem="${selectedInstance}"
+                .selectedItem="${selectedInstance as any}"
                 @selected-item-changed="${onChange}">
   </vaadin-combo-box>`
 }

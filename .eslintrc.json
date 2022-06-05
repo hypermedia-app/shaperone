@@ -38,5 +38,10 @@
     "rules": {
       "@typescript-eslint/no-empty-interface": "off"
     }
+  }, {
+    "files":[ "packages/wc-vaadin/**", "demos/**" ],
+    "rules": {
+      "import/no-extraneous-dependencies": "warn"
+    }
   }]
 }

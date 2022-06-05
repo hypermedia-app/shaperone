@@ -17,6 +17,6 @@
     "@rdfjs-elements/lit-helpers": "^0.2.1",
     "@zazuko/rdf-vocabularies": "*",
     "lit": "^2.0.0",
-    "multiselect-combo-box": "^2.4.2"
+    "multiselect-combo-box": "^3.0.0-alpha.2"
   }
 }

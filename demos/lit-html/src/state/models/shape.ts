@@ -101,7 +101,7 @@ ex:FriendGroup
 .
 
 lexvo:en ${rdfs.label} "English", "angielski"@pl .
-lexvo:de ${rdfs.label} "German", "niemiecki"@de .
+lexvo:de ${rdfs.label} "German", "niemiecki"@pl .
 lexvo:fr ${rdfs.label} "French", "francuski"@pl .
 lexvo:pl ${rdfs.label} "Polish", "polski"@pl .
 lexvo:es ${rdfs.label} "Spanish", "hiszpański"@pl .`

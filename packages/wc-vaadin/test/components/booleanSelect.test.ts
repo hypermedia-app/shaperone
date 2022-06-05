@@ -3,7 +3,7 @@ import $rdf from '@rdf-esm/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { SelectElement } from '@vaadin/vaadin-select'
+import { SelectElement } from '@vaadin/select'
 import { booleanSelect } from '../../components/booleanSelect'
 
 describe('wc-vaadin/components/booleanSelect', () => {

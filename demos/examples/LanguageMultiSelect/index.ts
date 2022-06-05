@@ -2,8 +2,14 @@ import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
 import { quad, namedNode, literal } from '@rdf-esm/data-model'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
+import { render } from 'lit'
+import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
 
 const editor = namedNode('http://example.com/LanguageMultiSelect')
+
+function renderItem(root, owner, { item }) {
+  render(html`${taggedLiteral(item)}`, root)
+}
 
 export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponent> = theme => ({
   editor,
@@ -11,11 +17,7 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
     await import(`multiselect-combo-box/theme/${theme}/multiselect-combo-box`)
 
     return ({ property }, { update }) => {
-      const languages = property.shape.in.map(lang => ({
-        id: lang.value,
-        term: lang,
-        label: property.shape.pointer.node(lang).out(rdfs.label).value || lang.value,
-      }))
+      const languages = property.shape.in.map(lang => property.shape.pointer.node(lang))
 
       const values = property.objects.map(o => o.object)
       const selected = languages.filter(lang => values.find(object => object?.term.equals(lang.term)))
@@ -36,7 +38,11 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
         update(newSelection.map((lang: any) => lang.term))
       }
 
-      return html`<multiselect-combo-box item-id-path="id" item-label-path="label"
+      return html`<multiselect-combo-box item-id-path="value"
+                                         item-label-path="label"
+                                         item-value-path="value"
+                                         compact-mode
+                                         .renderer="${renderItem}"
                       .selectedItems="${selected}"
                       .items="${languages}"
                       .invalid="${property.hasErrors}"

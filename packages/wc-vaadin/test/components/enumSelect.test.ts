@@ -1,7 +1,7 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import '@vaadin/vaadin-select/vaadin-select'
+import '@vaadin/select/vaadin-select'
 import { editorTestParams } from '@shaperone/testing'
 import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { enumSelectEditor } from '../../components'

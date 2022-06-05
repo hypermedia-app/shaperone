@@ -21,14 +21,7 @@
     "@tpluscode/rdf-ns-builders": "^1.0.0",
     "@rdf-esm/data-model": "^0.5.3",
     "@rdfjs-elements/lit-helpers": "^0.2.1",
-    "@vaadin/vaadin-accordion": "^2.0.0-alpha4",
-    "@vaadin/vaadin-combo-box": "^5.4.7",
-    "@vaadin/vaadin-date-picker": "^4.4.1",
-    "@vaadin/vaadin-date-time-picker": "^1.4.0",
-    "@vaadin/vaadin-select": "^2.4.0",
-    "@vaadin/vaadin-item": "^2.3.0",
-    "@vaadin/vaadin-list-box": "^1.4.0",
-    "@vaadin/vaadin-text-field": "^2.8.1",
+    "@vaadin/vaadin": "^23",
     "lit": "^2.0.0"
   },
   "devDependencies": {

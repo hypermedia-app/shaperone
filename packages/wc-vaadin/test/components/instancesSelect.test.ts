@@ -1,10 +1,10 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import '@vaadin/vaadin-select/vaadin-select'
+import '@vaadin/select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
-import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
+import { ComboBoxElement } from '@vaadin/combo-box'
 import { instancesSelectEditor } from '../../components'
 
 describe('wc-vaadin/components/instancesSelect', () => {

@@ -1,9 +1,9 @@
-import type { TextFieldElement } from '@vaadin/vaadin-text-field'
+import type { TextFieldElement } from '@vaadin/text-field'
 import type { State } from '../state/models/shape'
 
 const fetchShapeMenu = (() => {
-  import('@vaadin/vaadin-button/vaadin-button.js')
-  import('@vaadin/vaadin-checkbox/vaadin-checkbox.js')
+  import('@vaadin/button/vaadin-button.js')
+  import('@vaadin/checkbox/vaadin-checkbox.js')
 
   const fetchShapeInput = document.createElement('vaadin-text-field') as TextFieldElement
   fetchShapeInput.placeholder = 'Shapes URL'
@@ -52,7 +52,7 @@ const fetchShapeMenu = (() => {
 })()
 
 const toolsMenu = (() => {
-  import('@vaadin/vaadin-button/vaadin-button.js')
+  import('@vaadin/button/vaadin-button.js')
 
   const generateInstancesButton = document.createElement('vaadin-button')
   generateInstancesButton.addEventListener('click', (e) => {
