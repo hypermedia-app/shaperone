@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.7
+
+### Patch Changes
+
+- 09c9057: Support multi-lingual shape labels
+
 ## 0.8.6
 
 ### Patch Changes

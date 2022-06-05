@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.44
+
+### Patch Changes
+
+- 8526995: Language switcher
+- 09c9057: Support multi-lingual shape labels
+- Updated dependencies [09c9057]
+  - @hydrofoil/shaperone-playground-examples@0.2.24
+  - @hydrofoil/shaperone-wc@0.6.9
+  - @hydrofoil/shaperone-wc-material@0.5.1
+  - @hydrofoil/shaperone-wc-vaadin@0.4.3
+
 ## 0.1.43
 
 ### Patch Changes
