@@ -1,11 +1,6 @@
 import { SingleEditorComponent, html } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { GraphPointer } from 'clownface'
-import { FocusNode } from '@hydrofoil/shaperone-core'
-
-function isFocusNode(value?: GraphPointer): value is FocusNode {
-  return value?.term.termType === 'NamedNode' || value?.term.termType === 'BlankNode'
-}
+import { isResource } from 'is-graph-pointer'
 
 export const nestedForm: SingleEditorComponent = {
   editor: dash.DetailsEditor,
@@ -13,7 +8,7 @@ export const nestedForm: SingleEditorComponent = {
   render({ value, renderer, property: { shape: { node } } }) {
     const focusNode = value.object
 
-    if (isFocusNode(focusNode)) {
+    if (isResource(focusNode)) {
       return renderer.renderFocusNode({ focusNode, shape: node })
     }
 
