@@ -6,9 +6,9 @@
   "devDependencies": {
     "@hydrofoil/shaperone-core": "*",
     "@rdf-esm/dataset": "^0.5.1",
-    "@rdfine/shacl": "^0.8",
+    "@rdfine/shacl": "^0.8.7",
     "@shaperone/testing": "*",
-    "@tpluscode/rdf-ns-builders": "^1",
+    "@tpluscode/rdf-ns-builders": "^2.0.0",
     "chai": "^4.2.0",
     "clownface": "^1.2.0",
     "mocha": "^8.0.1",
