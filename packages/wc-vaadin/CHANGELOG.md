@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.4.4
+
+### Patch Changes
+
+- 61ac785: Update `@tpluscode/rdf-ns-builders` to v2
+- bc6a5d6: Incorret URI used for DateTime editor
+- Updated dependencies [61ac785]
+- Updated dependencies [bc6a5d6]
+- Updated dependencies [bc6a5d6]
+  - @hydrofoil/shaperone-core@0.8.8
+  - @hydrofoil/shaperone-wc@0.6.10
+
 ## 0.4.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-core
 
+## 0.8.8
+
+### Patch Changes
+
+- 61ac785: Update `@tpluscode/rdf-ns-builders` to v2
+- bc6a5d6: Default value would have incorrectly used `xsd:langString` instead of `rdf:langString` to fill the form
+- bc6a5d6: `TextAreaWithLangEditor` wrongly matched on `rdf:string` instead of `xsd:string`
+
 ## 0.8.7
 
 ### Patch Changes
