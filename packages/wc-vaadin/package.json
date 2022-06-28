@@ -18,9 +18,9 @@
   "dependencies": {
     "@hydrofoil/shaperone-wc": "^0.6.9",
     "@hydrofoil/shaperone-core": "^0.8.7",
-    "@tpluscode/rdf-ns-builders": "^1.0.0",
+    "@tpluscode/rdf-ns-builders": "^2.0.0",
     "@rdf-esm/data-model": "^0.5.3",
-    "@rdfjs-elements/lit-helpers": "^0.2.1",
+    "@rdfjs-elements/lit-helpers": "^0.2.2",
     "@vaadin/vaadin-accordion": "^2.0.0-alpha4",
     "@vaadin/vaadin-combo-box": "^5.4.7",
     "@vaadin/vaadin-date-picker": "^4.4.1",
