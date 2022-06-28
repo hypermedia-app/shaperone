@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-playground-examples
 
+## 0.2.25
+
+### Patch Changes
+
+- 61ac785: Update `@tpluscode/rdf-ns-builders` to v2
+- Updated dependencies [61ac785]
+- Updated dependencies [bc6a5d6]
+- Updated dependencies [bc6a5d6]
+  - @hydrofoil/shaperone-core@0.8.8
+  - @hydrofoil/shaperone-wc@0.6.10
+
 ## 0.2.24
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 {
   "name": "@hydrofoil/shaperone-core-tests",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "devDependencies": {
     "@hydrofoil/shaperone-core": "*",
