@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha'
 import { PropertyShape } from '@rdfine/shacl'
-import { dash, schema } from '@tpluscode/rdf-ns-builders'
+import { schema } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { NamedNode } from 'rdf-js'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form'

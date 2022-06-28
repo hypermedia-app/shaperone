@@ -1,7 +1,8 @@
 import { createModel } from '@captaincodeman/rdx'
 import $rdf from 'rdf-ext'
 import cf, { AnyPointer, GraphPointer } from 'clownface'
-import { schema, rdf, foaf } from '@tpluscode/rdf-ns-builders'
+import { rdf, foaf } from '@tpluscode/rdf-ns-builders'
+import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { DatasetCore, Quad } from 'rdf-js'
 
 export interface State {

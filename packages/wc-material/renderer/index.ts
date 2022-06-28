@@ -1,7 +1,7 @@
 import { css, html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate, decorate } from '@hydrofoil/shaperone-wc/templates'
-import { sh } from '@tpluscode/rdf-ns-builders/strict'
+import { sh } from '@tpluscode/rdf-ns-builders'
 import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
 
 export const focusNode = decorate((currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {

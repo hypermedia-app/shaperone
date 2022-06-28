@@ -1,13 +1,13 @@
 import { describe, it } from 'mocha'
 import { AnyPointer } from 'clownface'
 import $rdf from 'rdf-ext'
-import { schema } from '@tpluscode/rdf-ns-builders'
+import { unit } from '@tpluscode/rdf-ns-builders'
+import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form'
 import removeObject from '@hydrofoil/shaperone-core/models/resources/effects/forms/removeObject'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util'
-import { unit } from '@tpluscode/rdf-ns-builders/strict'
 
 describe('models/resources/effects/forms/removeObject', () => {
   let store: Store

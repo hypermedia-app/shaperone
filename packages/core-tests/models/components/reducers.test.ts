@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import reducers from '@hydrofoil/shaperone-core/models/components/reducers'
 import { Component, ComponentDecorator, ComponentsState } from '@hydrofoil/shaperone-core/models/components'
 

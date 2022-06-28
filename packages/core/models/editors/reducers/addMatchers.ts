@@ -1,6 +1,5 @@
 import produce from 'immer'
-import { dash } from '@tpluscode/rdf-ns-builders'
-import { rdf } from '@tpluscode/rdf-ns-builders/strict'
+import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import type { Editor, EditorsState, MultiEditor, SingleEditor } from '../index'
 
 type AnyEditor = SingleEditor<any> | MultiEditor

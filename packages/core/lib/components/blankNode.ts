@@ -1,4 +1,4 @@
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { ComponentInstance, SingleEditorComponent } from '../../models/components'
 import { CoreComponent } from '../components'
 

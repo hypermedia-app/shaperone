@@ -1,6 +1,6 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
-import { xsd } from '@tpluscode/rdf-ns-builders'
+import { rdf } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
 import TermMap from '@rdf-esm/term-map'
 import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor, Editor, MultiEditorMatch } from '../index'
@@ -29,7 +29,7 @@ function valuePlaceholder(shape: PropertyShape): GraphPointer {
       if (shape.class) {
         return shape.pointer.blankNode()
       }
-      if (shape.languageIn.length || shape.datatype?.equals(xsd.langString)) {
+      if (shape.languageIn.length || shape.datatype?.equals(rdf.langString)) {
         return shape.pointer.literal('', shape.languageIn[0] || 'en')
       }
       if (shape.datatype?.id.termType === 'NamedNode') {
