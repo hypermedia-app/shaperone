@@ -1,6 +1,7 @@
 import { createModel } from '@captaincodeman/rdx'
 import $rdf from 'rdf-ext'
-import { sh, schema, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
+import { sh, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
+import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { turtle } from '@tpluscode/rdf-string'
 import { Quad } from 'rdf-js'
 import * as formats from '@rdf-esm/formats-common'

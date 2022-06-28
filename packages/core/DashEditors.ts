@@ -132,7 +132,7 @@ export const textAreaWithLang: SingleEditor = {
     if (
       valueDatatype?.equals(rdf.langString) ||
       shape.permitsDatatype(rdf.langString) ||
-      shape.permitsDatatype(rdf.string)
+      shape.permitsDatatype(xsd.string)
     ) {
       return 5
     }

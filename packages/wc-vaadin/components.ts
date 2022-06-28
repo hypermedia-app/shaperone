@@ -120,7 +120,7 @@ export const datePicker: Lazy<SingleEditorComponent> = {
  * Renders [`vaadin-date-time-picker`](https://vaadin.com/components/vaadin-date-time-picker)
  */
 export const dateTimePicker: Lazy<SingleEditorComponent> = {
-  editor: dash.DateTImePickerEditor,
+  editor: dash.DateTimePickerEditor,
   lazyRender() {
     return import('./components/date').then(m => m.dateTimePicker)
   },

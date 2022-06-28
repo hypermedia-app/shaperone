@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
 import { testEditor, testFocusNodeState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form'
 import { selectMultiEditor, selectSingleEditors } from '@hydrofoil/shaperone-core/models/forms/reducers/multiEditors'

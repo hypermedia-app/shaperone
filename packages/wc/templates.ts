@@ -8,7 +8,7 @@ import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/s
 import { repeat } from 'lit/directives/repeat.js'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { NamedNode } from 'rdf-js'
-import { sh } from '@tpluscode/rdf-ns-builders/strict'
+import { sh } from '@tpluscode/rdf-ns-builders'
 import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
 
 export * from './renderer/decorator'

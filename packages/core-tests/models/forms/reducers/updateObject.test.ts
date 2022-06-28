@@ -3,7 +3,7 @@ import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { RecursivePartial, sinon } from '@shaperone/testing'
 import { testObjectState, testStore } from '@shaperone/testing/models/form'
 import {

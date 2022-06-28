@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testEditor } from '@shaperone/testing/models/form'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors'
 import { decorate } from '@hydrofoil/shaperone-core/models/editors/reducers/decorate'

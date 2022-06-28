@@ -3,7 +3,8 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core'
 import { html, SingleEditor, Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import type { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import { literal, namedNode, quad } from '@rdf-esm/data-model'
-import { dash, rdf, rdfs, schema, xsd } from '@tpluscode/rdf-ns-builders'
+import { rdf, rdfs, schema, xsd } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import type { PropertyShape } from '@rdfine/shacl'
 
 export interface StarRating {

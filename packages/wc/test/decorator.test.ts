@@ -6,7 +6,7 @@ import {
 } from '@hydrofoil/shaperone-core/models/components'
 import { expect, fixture, html } from '@open-wc/testing'
 import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/lib/decorate'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { editorTestParams } from '@shaperone/testing'
 import clownface from 'clownface'
 import { dataset } from '@rdf-esm/dataset'

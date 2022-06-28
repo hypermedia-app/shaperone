@@ -4,7 +4,8 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
 import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
-import { schema, sh, dash, dcterms } from '@tpluscode/rdf-ns-builders'
+import { sh, dash, dcterms } from '@tpluscode/rdf-ns-builders'
+import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { testEditor, testStore } from '@shaperone/testing/models/form'
 import {
   initialiseFocusNode,
