@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.6.11
+
+### Patch Changes
+
+- 9be4ed0: Missing `custom-elements.json` in package
+
 ## 0.6.10
 
 ### Patch Changes
