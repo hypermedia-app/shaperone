@@ -1,0 +1,33 @@
+{
+  "name": "@hydrofoil/shaperone-wc-shoelace",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prepack": "tsc",
+    "analyze": "run-p analyze:*",
+    "analyze:wc": "wca --format json --outFile ./custom-elements.json",
+    "analyze:readme": "wca --outFile ./README.md",
+    "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
+  },
+  "exports": {
+    "./components.js": "./components.js",
+    "./templates.js": "./templates.js"
+  },
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "custom-elements.json"
+  ],
+  "dependencies": {
+    "@hydrofoil/shaperone-wc": "^0.6.9",
+    "@rdfjs/data-model": "^2",
+    "@rdfjs-elements/lit-helpers": "^0.2.2",
+    "@shoelace-style/shoelace": "^2.0.0-beta.74",
+    "@tpluscode/rdf-ns-builders": "^2",
+    "is-graph-pointer": "^1.2.2",
+    "lit": "^2"
+  },
+  "repository": "https://github.com/hypermedia-app/shaperone",
+  "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
+  "license": "MIT"
+}

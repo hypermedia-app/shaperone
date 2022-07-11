@@ -1,0 +1,98 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "sh-sl-object",
+      "path": "./components/sh-sl-object.ts",
+      "attributes": [
+        {
+          "name": "canBeRemoved",
+          "type": "boolean | undefined"
+        }
+      ],
+      "properties": [
+        {
+          "name": "canBeRemoved",
+          "attribute": "canBeRemoved",
+          "type": "boolean | undefined"
+        }
+      ],
+      "events": [
+        {
+          "name": "removed"
+        }
+      ]
+    },
+    {
+      "name": "sh-sl-property",
+      "path": "./components/sh-sl-property.ts",
+      "attributes": [
+        {
+          "name": "canAddValue",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "label",
+          "type": "string | undefined"
+        },
+        {
+          "name": "helpText",
+          "type": "string | undefined"
+        }
+      ],
+      "properties": [
+        {
+          "name": "canAddValue",
+          "attribute": "canAddValue",
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "label",
+          "attribute": "label",
+          "type": "string | undefined"
+        },
+        {
+          "name": "helpText",
+          "attribute": "helpText",
+          "type": "string | undefined"
+        }
+      ],
+      "events": [
+        {
+          "name": "added"
+        }
+      ]
+    },
+    {
+      "name": "sh-sl-with-lang-editor",
+      "path": "./components/sh-sl-with-lang-editor.ts",
+      "attributes": [
+        {
+          "name": "languages",
+          "type": "string[] | undefined"
+        },
+        {
+          "name": "language",
+          "type": "string | undefined"
+        }
+      ],
+      "properties": [
+        {
+          "name": "languages",
+          "attribute": "languages",
+          "type": "string[] | undefined"
+        },
+        {
+          "name": "language",
+          "attribute": "language",
+          "type": "string | undefined"
+        }
+      ],
+      "events": [
+        {
+          "name": "language-selected"
+        }
+      ]
+    }
+  ]
+}
