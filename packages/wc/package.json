@@ -6,7 +6,8 @@
   "type": "module",
   "files": [
     "**/*.js",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "custom-elements.json"
   ],
   "scripts": {
     "prepack": "tsc",
