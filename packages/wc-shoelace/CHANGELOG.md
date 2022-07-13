@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.2
+
+### Patch Changes
+
+- 33691fa: Update shoelace version to beta.77
+
 ## 0.1.1
 
 ### Patch Changes
