@@ -343,6 +343,41 @@ describe('hydra/lib/components/instancesSelector', () => {
         })
       })
 
+      it('constructs search URL from multiple nodes', async () => {
+        // given
+        property.shape.pointer.addOut(hydra.search, (template) => {
+          initTemplate(template, {
+            template: 'http://example.com/foo{?bar}',
+            [sh.path.value]: ex.child,
+            mapping: [{
+              variable: 'bar',
+              property: ex.foo,
+            }],
+          })
+        })
+        focusNode.addOut(ex.child, child => child.addOut(ex.foo, 'bar'))
+        focusNode.addOut(ex.child, child => child.addOut(ex.foo, 'baz'))
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+          value: {
+            componentState: {},
+          },
+          updateComponentState,
+        } as any)
+
+        // then
+        expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar,baz')
+        expect(updateComponentState).to.have.been.calledWith({
+          lastLoaded: 'http://example.com/foo?bar=bar,baz',
+        })
+      })
+
       it('does not load searchable collection when freetextQuery is empty string', async () => {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {

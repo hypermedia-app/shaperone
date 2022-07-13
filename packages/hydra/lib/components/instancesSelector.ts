@@ -10,7 +10,7 @@ import RdfResourceImpl from '@tpluscode/rdfine'
 import { IriTemplateBundle } from '@rdfine/hydra/bundles'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { FocusNode } from '@hydrofoil/shaperone-core'
-import type { GraphPointer } from 'clownface'
+import type { MultiPointer } from 'clownface'
 import { findNodes } from 'clownface-shacl-path'
 import clownface from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
@@ -94,11 +94,10 @@ function load(client: Pick<HydraClient, 'loadResource'>, uri: string) {
   return request
 }
 
-function getVariablesNode(focusNode: FocusNode, template: IriTemplate): GraphPointer | undefined {
+function getVariablesPointer(focusNode: FocusNode, template: IriTemplate): MultiPointer | undefined {
   const [path] = template.pointer.out(sh.path).toArray()
 
-  const candidates = path ? findNodes(focusNode, path).toArray() : [focusNode]
-  return candidates.find(node => hasAllRequiredVariables(template, node))
+  return path ? findNodes(focusNode, path) : focusNode
 }
 
 function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusNode, prop: PropertyState, freetextQuery: string | undefined): string | undefined {
@@ -115,8 +114,8 @@ function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusN
     }
   }
 
-  const variablesNode = getVariablesNode(focusNode, searchTemplate)
-  if (!variablesNode) {
+  const variables = getVariablesPointer(focusNode, searchTemplate)
+  if (!variables || !hasAllRequiredVariables(searchTemplate, variables)) {
     return undefined
   }
 
@@ -125,7 +124,7 @@ function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusN
     freetextModel.addOut(hydra.freetextQuery, freetextQuery)
   }
 
-  return searchTemplate.expand(variablesNode, freetextModel)
+  return searchTemplate.expand(variables, freetextModel)
 }
 
 /**
