@@ -1,7 +1,7 @@
 import { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
-import type { GraphPointer } from 'clownface'
+import type { MultiPointer } from 'clownface'
 
-export function hasAllRequiredVariables(template: IriTemplate, variables: GraphPointer): boolean {
+export function hasAllRequiredVariables(template: IriTemplate, variables: MultiPointer): boolean {
   for (const mapping of template.mapping) {
     const { property, required } = mapping
 
