@@ -14,7 +14,7 @@ export const render: SingleEditorComponent<Locals>['render'] = function details(
   if (isResource(focusNode)) {
     return html`
       <sl-details .open="${value.componentState.open || false}"
-                  .summary="${taggedLiteral(node?.pointer)}"
+                  .summary="${taggedLiteral(focusNode, { fallback: taggedLiteral(node?.pointer) })}"
                   @sl-show="${() => updateComponentState({ open: true })}"
                   @sl-hide="${() => updateComponentState({ open: false })}"
       >
