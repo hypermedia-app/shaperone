@@ -22,7 +22,7 @@
     "@hydrofoil/shaperone-wc": "^0.6.11",
     "@rdfjs/data-model": "^2",
     "@rdfjs-elements/lit-helpers": "^0.2.2",
-    "@shoelace-style/shoelace": "^2.0.0-beta.74",
+    "@shoelace-style/shoelace": "^2.0.0-beta.77",
     "@tpluscode/rdf-ns-builders": "^2",
     "is-graph-pointer": "^1.2.2",
     "lit": "^2"
