@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.1
+
+### Patch Changes
+
+- a8083e3: dash:DetailsEditor: Displayed header should focus node label and shape label as fallback
+
 ## 0.1.0
 
 ### Minor Changes
