@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.48
+
+### Patch Changes
+
+- f2195ed: Make it simple to clear the data graph
+
 ## 0.1.47
 
 ### Patch Changes
