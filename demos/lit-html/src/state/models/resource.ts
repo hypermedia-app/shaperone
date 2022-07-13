@@ -51,12 +51,12 @@ export const resource = createModel({
         quads: [...dataset],
       }
     },
-    replaceGraph(state, { dataset, updatePointer = true }: { dataset: Quad[] | DatasetCore; updatePointer?: boolean }) {
+    replaceGraph(state, { dataset, updatePointer = true, resetPointer = false }: { dataset: Quad[] | DatasetCore; updatePointer?: boolean; resetPointer?: boolean }) {
       const graph = Array.isArray(dataset) ? cf({ dataset: $rdf.dataset(dataset) }) : cf({ dataset })
       let { pointer } = state
 
       if (updatePointer) {
-        if (state.selectedResource) {
+        if (state.selectedResource && !resetPointer) {
           pointer = graph.namedNode(state.selectedResource)
         } else {
           pointer = graph.namedNode('')

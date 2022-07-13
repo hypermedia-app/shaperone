@@ -241,7 +241,8 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
     }
 
     this.resourceGraphInitialized = true
-    store().dispatch.resource.replaceGraph({ dataset: e.detail.value })
+    const resetPointer = e.detail.value.length === 0
+    store().dispatch.resource.replaceGraph({ dataset: e.detail.value, resetPointer })
     store().dispatch.resource.setSerialized(this.resourceEditor.codeMirror.value)
   }
 
@@ -281,6 +282,9 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
           break
         case 'root shape':
           dispatch.selectRootShape(e.detail.value.pointer)
+          break
+        case 'clear':
+          store().dispatch.resource.replaceGraph({ dataset: [], resetPointer: true })
           break
         default:
           dispatch.serialized(editor.codeMirror.value)

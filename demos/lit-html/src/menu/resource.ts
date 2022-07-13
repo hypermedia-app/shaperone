@@ -20,6 +20,9 @@ const resourceMenuItem = (() => {
     text: 'Resource',
     children: [{
       component: comboBox,
+    }, {
+      text: 'Clear',
+      type: 'clear',
     }],
   }
 
