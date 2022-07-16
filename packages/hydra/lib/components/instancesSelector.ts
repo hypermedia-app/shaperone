@@ -4,7 +4,7 @@ import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors'
 import { dash, hydra, sh } from '@tpluscode/rdf-ns-builders'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
 import type { HydraClient, HydraResponse } from 'alcaeus/alcaeus'
-import { fromPointer, IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
+import { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
 import { DatasetCore } from 'rdf-js'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { IriTemplateBundle } from '@rdfine/hydra/bundles'
@@ -141,11 +141,7 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
     return {
       ...component,
       searchTemplate({ property }) {
-        const searchTemplatePtr = property.shape.pointer.out(hydra.search)
-        if (searchTemplatePtr.term) {
-          return fromPointer(searchTemplatePtr as any)
-        }
-        return undefined
+        return property.shape.get<IriTemplate>(hydra.search) || undefined
       },
       shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }, freetextQuery): boolean {
         const searchTemplate = this.searchTemplate?.({ property })
