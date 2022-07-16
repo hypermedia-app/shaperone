@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-hydra",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Shaperone extensions to integrate with Hydra-driven APIs",
   "main": "index.js",
   "type": "module",
