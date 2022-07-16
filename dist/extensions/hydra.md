@@ -22,15 +22,14 @@ They will both fall back to standard behavior when no Hydra terms are used on a 
 
 ```typescript
 import * as configure from '@hydrofoil/shaperone-wc/configure'
-import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
+import shaperoneHydra from '@hydrofoil/shaperone-hydra'
 import { Hydra } from 'alcaeus/web'
 
-configure.editors.decorate(instancesSelector.matcher)
-configure.components.decorate(instancesSelector.decorator({ client: Hydra }))
+shaperoneHydra(configure, { client: Hydra })
 ```
 
 > [!TIP]
-> All parameters are optional
+> Second parameter is optional
 
 ## Preparing shapes
 
