@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.6
+
+### Patch Changes
+
+- 641a2d9: Update `@rdfine/hydra` - improves base URI resolution for template expansion
+- 722146c: Search template would not consider named parent resources as template base context
+- 357d59f: Add a main module for quick setup
+
 ## 0.3.5
 
 ### Patch Changes
