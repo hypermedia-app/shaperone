@@ -15,7 +15,7 @@
     "@hydrofoil/shaperone-core": "^0.8.8",
     "@rdf-esm/dataset": "^0.5.0",
     "@rdf-esm/term-map": "^0.5.0",
-    "@rdfine/hydra": "^0.8.4",
+    "@rdfine/hydra": "^0.8.5",
     "@tpluscode/rdf-ns-builders": "^2.0.0",
     "@tpluscode/rdfine": "^0.5.39",
     "alcaeus": "^2.2.3",
