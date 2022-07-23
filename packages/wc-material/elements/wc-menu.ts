@@ -31,7 +31,7 @@ export class WcMenu extends LitElement {
 
   render() {
     return html`<wc-menu-button @opened="${this.__open}" @closed="${this.__close}"></wc-menu-button>
-      <mwc-menu quick @closed="${this.__closeButton}" .menuCorner="${menuCorner}" corner="TOP_END" .anchor="${this}">
+      <mwc-menu quick @closed="${this.__closeButton}" .menuCorner="${menuCorner}" corner="TOP_END" .anchor="${this as any}">
         <slot></slot>
       </mwc-menu>`
   }
