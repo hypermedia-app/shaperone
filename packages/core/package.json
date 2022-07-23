@@ -22,6 +22,7 @@
     "@rdfine/rdfs": "^0.6.10",
     "@rdfine/shacl": "^0.8.7",
     "@rdfjs/types": "*",
+    "@rdfjs-elements/lit-helpers": "^0.3.3",
     "@tpluscode/rdf-ns-builders": "^2.0.0",
     "@tpluscode/rdfine": "^0.5.39",
     "@zazuko/rdf-vocabularies": "*",

@@ -1,7 +1,7 @@
 import { NamedNode } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
-import produce from 'immer'
-import { BaseParams, formStateReducer } from '../../index'
+import { produce } from 'immer'
+import { BaseParams, formStateReducer } from '../../index.js'
 import { FocusNode } from '../../../index'
 import type { FormState, PropertyObjectState } from '../index'
 

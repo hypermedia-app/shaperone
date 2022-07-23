@@ -3,10 +3,10 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
-import { testStore } from '@shaperone/testing/models/form'
-import { pushFocusNode } from '@hydrofoil/shaperone-core/models/forms/effects/pushFocusNode'
+import { testStore } from '@shaperone/testing/models/form.js'
+import { pushFocusNode } from '@hydrofoil/shaperone-core/models/forms/effects/pushFocusNode.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/pushFocusNode', () => {
   let store: Store

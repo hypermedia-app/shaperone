@@ -1,6 +1,6 @@
 import type { Store } from '../../../../state'
 import { SetShapesGraphParams } from '../../../shapes/reducers'
-import { matchShapes } from '../../../shapes/lib'
+import { matchShapes } from '../../../shapes/lib/index.js'
 import { ShapeState } from '../../../shapes'
 
 export default function setGraph(store: Store) {

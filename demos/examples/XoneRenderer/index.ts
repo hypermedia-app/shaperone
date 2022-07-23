@@ -3,7 +3,7 @@ import { html } from '@hydrofoil/shaperone-wc'
 import { LogicalConstraint } from '@hydrofoil/shaperone-core/models/forms'
 import type { Shape } from '@rdfine/shacl'
 import { Term } from 'rdf-js'
-import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 
 const selectedShapes = new WeakMap<Term, Shape>()
 
@@ -14,7 +14,7 @@ function renderDropdown(shapeSelected: (xone: LogicalConstraint, shape: Shape) =
     }
 
     return html`<select @input="${onInput}">
-      ${xone.shapes.map(shape => html`<option>${taggedLiteral(shape, { fallback: shape.id.value })}</option>`)}
+      ${xone.shapes.map(shape => html`<option>${localizedLabel(shape, { fallback: shape.id.value })}</option>`)}
     </select>`
   }
 }

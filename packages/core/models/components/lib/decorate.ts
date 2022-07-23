@@ -3,7 +3,7 @@ import type {
   DecoratedComponent, Lazy,
   MultiEditorComponent,
   SingleEditorComponent,
-} from '../index'
+} from '..'
 
 function decorateRender<TRenderResult>(component: DecoratedComponent<TRenderResult>) {
   const { _decorateRender } = component

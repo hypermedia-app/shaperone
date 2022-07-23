@@ -4,7 +4,8 @@ import $rdf from '@rdf-esm/dataset'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams } from '@shaperone/testing'
 import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
-import { enumSelectEditor } from '../../components'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
+import { enumSelectEditor } from '../../components.js'
 
 describe('wc-vaadin/components/enumSelect', () => {
   let component: EnumSelectEditor
@@ -23,8 +24,8 @@ describe('wc-vaadin/components/enumSelect', () => {
       object: graph.literal(''),
       componentState: {
         choices: [
-          [graph.literal('foo'), 'foo'],
-          [graph.literal('bar'), 'bar'],
+          graph.literal('foo').addOut(rdfs.label, 'foo'),
+          graph.literal('bar').addOut(rdfs.label, 'bar'),
         ],
       },
     })
@@ -57,8 +58,8 @@ describe('wc-vaadin/components/enumSelect', () => {
       object: graph.literal('bar'),
       componentState: {
         choices: [
-          [graph.literal('foo'), 'foo'],
-          [graph.literal('bar'), 'bar'],
+          graph.literal('foo').addOut(rdfs.label, 'foo'),
+          graph.literal('bar').addOut(rdfs.label, 'bar'),
         ],
       },
     })

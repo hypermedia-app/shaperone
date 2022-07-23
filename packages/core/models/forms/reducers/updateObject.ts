@@ -1,14 +1,14 @@
 import type { Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
-import produce from 'immer'
+import { produce } from 'immer'
 import { GraphPointer, MultiPointer } from 'clownface'
-import { BaseParams, formStateReducer } from '../../index'
+import { BaseParams, formStateReducer } from '../../index.js'
 import type { PropertyObjectState, State } from '../index'
 import type { FocusNode } from '../../../index'
 import { EditorsState } from '../../editors'
-import { nextid } from '../lib/objectid'
-import { canAddObject, canRemoveObject } from '../lib/property'
-import { objectStateProducer } from '../objectStateProducer'
+import { nextid } from '../lib/objectid.js'
+import { canAddObject, canRemoveObject } from '../lib/property.js'
+import { objectStateProducer } from '../objectStateProducer.js'
 
 export interface SetObjectParams extends BaseParams {
   focusNode: FocusNode

@@ -1,6 +1,6 @@
 import { SetObjectParams } from '../reducers/updateObject'
 import type { Store } from '../../../state'
-import { syncProperties } from './lib/syncProperties'
+import { syncProperties } from './lib/syncProperties.js'
 
 export function setObjectValue(store: Store) {
   const dispatch = store.getDispatch()

@@ -1,6 +1,6 @@
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { ComponentInstance, SingleEditorComponent } from '../../models/components'
-import { CoreComponent } from '../components'
+import { CoreComponent } from '../components.js'
 
 /**
  * Instance state of blank node component

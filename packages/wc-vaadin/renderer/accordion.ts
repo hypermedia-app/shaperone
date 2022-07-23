@@ -1,7 +1,7 @@
 import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit/directives/repeat.js'
-import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 
 export const AccordionFocusNodeRenderer: FocusNodeTemplate = function (renderer, { focusNode }) {
   const { actions } = renderer
@@ -23,7 +23,7 @@ export const AccordionGroupingRenderer: GroupTemplate = function (renderer, { pr
   const { group } = renderer
 
   return html`<vaadin-accordion-panel .opened="${group.selected}">
-    <div slot="summary">${taggedLiteral(group.group, { fallback: 'Ungrouped properties' })}</div>
+    <div slot="summary">${localizedLabel(group.group, { fallback: 'Ungrouped properties' })}</div>
     <div part="property-group">
       ${repeat(properties, property => renderer.renderProperty({ property }))}
     </div>

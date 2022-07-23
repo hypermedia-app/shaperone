@@ -1,6 +1,6 @@
 import type { Store } from '../../../state'
 import { ReplaceObjectsParams } from '../reducers/updateObject'
-import { syncProperties } from './lib/syncProperties'
+import { syncProperties } from './lib/syncProperties.js'
 
 export function setPropertyObjects(store: Store) {
   const dispatch = store.getDispatch()

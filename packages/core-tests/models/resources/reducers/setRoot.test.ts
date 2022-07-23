@@ -3,8 +3,8 @@ import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import cf from 'clownface'
 import ns from '@rdf-esm/namespace'
-import { testStore } from '@shaperone/testing/models/form'
-import { setRoot } from '@hydrofoil/shaperone-core/models/resources/reducers/setRoot'
+import { testStore } from '@shaperone/testing/models/form.js'
+import { setRoot } from '@hydrofoil/shaperone-core/models/resources/reducers/setRoot.js'
 
 const ex = ns('http://example.com/')
 

@@ -2,10 +2,10 @@ import { createModel } from '@captaincodeman/rdx'
 import clownface, { AnyPointer } from 'clownface'
 import { dataset } from '@rdf-esm/dataset'
 import type { Store } from '../../state'
-import { setRoot } from './reducers/setRoot'
-import formsEffects from './effects/forms'
+import { setRoot } from './reducers/setRoot.js'
+import formsEffects from './effects/forms/index.js'
 import type { ChangeDetails } from './lib/notify'
-import { createState } from './lib/state'
+import { createState } from './lib/state.js'
 import type { FocusNode } from '../../index'
 
 export interface ResourceState {

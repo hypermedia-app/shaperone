@@ -122,7 +122,6 @@ export interface FocusNodeState extends ValidationState {
 
 export interface FormSettings {
   shouldEnableEditorChoice: ShouldEnableEditorChoice
-  languages: string[]
   labelProperties: NamedNode[]
 }
 

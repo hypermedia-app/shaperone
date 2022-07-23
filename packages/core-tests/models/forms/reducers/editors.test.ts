@@ -4,9 +4,9 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { PropertyShapeMixin } from '@rdfine/shacl'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
-import { testFocusNodeState, testObjectState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form'
-import { testEditorsState } from '@shaperone/testing/models/editors'
-import { recalculateEditors, toggleSwitching, updateComponentState } from '@hydrofoil/shaperone-core/models/forms/reducers/editors'
+import { testFocusNodeState, testObjectState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form.js'
+import { testEditorsState } from '@shaperone/testing/models/editors.js'
+import { recalculateEditors, toggleSwitching, updateComponentState } from '@hydrofoil/shaperone-core/models/forms/reducers/editors.js'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 
 describe('core/models/forms/reducers/editors', () => {

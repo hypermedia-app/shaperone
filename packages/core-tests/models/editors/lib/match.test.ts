@@ -4,10 +4,10 @@ import { schema } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { NamedNode } from 'rdf-js'
 import { expect } from 'chai'
-import { testStore } from '@shaperone/testing/models/form'
+import { testStore } from '@shaperone/testing/models/form.js'
 import { Editor, EditorsState, MultiEditor } from '@hydrofoil/shaperone-core/models/editors'
-import { matchSingleEditors, matchMultiEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match'
-import { propertyShape } from '@shaperone/testing/util'
+import { matchSingleEditors, matchMultiEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match.js'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/editors/lib/match', () => {
   let editors: EditorsState

@@ -5,11 +5,11 @@ import { AnyPointer } from 'clownface'
 import { xsd, sh } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { RecursivePartial } from '@shaperone/testing'
-import { testStore } from '@shaperone/testing/models/form'
-import addFormField from '@hydrofoil/shaperone-core/models/resources/effects/forms/addFormField'
+import { testStore } from '@shaperone/testing/models/form.js'
+import addFormField from '@hydrofoil/shaperone-core/models/resources/effects/forms/addFormField.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { FormState } from '@hydrofoil/shaperone-core/models/forms'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/resources/effects/forms/addFormField', () => {
   let store: Store

@@ -5,16 +5,16 @@ import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { RecursivePartial, sinon } from '@shaperone/testing'
-import { testObjectState, testStore } from '@shaperone/testing/models/form'
+import { testObjectState, testStore } from '@shaperone/testing/models/form.js'
 import {
   clearValue,
   setDefaultValue,
   initObjectValue,
   setPropertyObjects,
-} from '@hydrofoil/shaperone-core/models/forms/reducers/updateObject'
+} from '@hydrofoil/shaperone-core/models/forms/reducers/updateObject.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { FormState } from '@hydrofoil/shaperone-core/models/forms'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 const ex = ns('http://example.com/')
 

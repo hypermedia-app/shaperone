@@ -1,7 +1,7 @@
 import type { State } from '../index'
 import { BaseParams } from '../../index'
 import { FocusNode } from '../../../index'
-import { createState } from '../lib/state'
+import { createState } from '../lib/state.js'
 
 export interface Params extends BaseParams {
   rootPointer: FocusNode

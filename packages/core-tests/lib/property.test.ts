@@ -1,16 +1,17 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@rdf-esm/data-model'
+import { dataset } from '@rdf-esm/dataset'
 import { sh, xsd } from '@tpluscode/rdf-ns-builders'
-import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
-import { propertyShape } from '@shaperone/testing/util'
+import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/lib/property', () => {
   describe('createTerm', () => {
     it('creates named node when property has sh:IRI kind', () => {
     // given
-      const pointer = cf({ dataset: $rdf.dataset() }).blankNode()
+      const pointer = cf({ dataset: dataset() }).blankNode()
       const property = {
         shape: propertyShape(pointer, {
           [sh.nodeKind.value]: sh.IRI,
@@ -21,12 +22,12 @@ describe('core/lib/property', () => {
       const term = createTerm(property, 'http://foo/bar')
 
       // then
-      expect(term).to.deep.equal($rdf.namedNode('http://foo/bar'))
+      expect(term.value).to.equal('http://foo/bar')
     })
 
     it('creates typed literal when property has sh:datatype', () => {
     // given
-      const pointer = cf({ dataset: $rdf.dataset() }).blankNode()
+      const pointer = cf({ dataset: dataset() }).blankNode()
       const property = {
         shape: propertyShape(pointer),
         datatype: xsd.int,

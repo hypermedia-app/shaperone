@@ -1,10 +1,10 @@
 import { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
-import { forms } from '../models/forms'
-import { editors } from '../models/editors'
-import { components } from '../models/components'
-import { resources } from '../models/resources'
-import { shapes } from '../models/shapes'
-import { validation } from '../models/validation'
+import { forms } from '../models/forms/index.js'
+import { editors } from '../models/editors/index.js'
+import { components } from '../models/components/index.js'
+import { resources } from '../models/resources/index.js'
+import { shapes } from '../models/shapes/index.js'
+import { validation } from '../models/validation/index.js'
 
 interface Config {
   models: {

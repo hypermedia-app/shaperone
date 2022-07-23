@@ -6,10 +6,10 @@ import type { EditorsState } from '../../editors'
 import type { ComponentsState } from '../../components'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
 import { FocusNode } from '../../../index'
-import { byShOrder } from '../../../lib/order'
-import { canAddObject, canRemoveObject, combineProperties } from './property'
-import PropertyShapeEx from '../../shapes/lib/PropertyShape'
-import { nextid } from './objectid'
+import { byShOrder } from '../../../lib/order.js'
+import { canAddObject, canRemoveObject, combineProperties } from './property.js'
+import PropertyShapeEx from '../../shapes/lib/PropertyShape.js'
+import { nextid } from './objectid.js'
 
 RdfResource.factory.addMixin(PropertyShapeEx)
 

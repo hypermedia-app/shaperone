@@ -18,7 +18,6 @@ describe('wc-vaadin/components', () => {
     describe('init', () => {
       const form: FormSettings = {
         labelProperties: [rdfs.label, schema.name, dcterms.title],
-        languages: ['en'],
         shouldEnableEditorChoice: () => true,
       }
 

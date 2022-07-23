@@ -3,10 +3,10 @@ import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { dash, schema, sh } from '@tpluscode/rdf-ns-builders'
-import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form'
+import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { setPropertyObjects } from '@hydrofoil/shaperone-core/models/forms/effects/setPropertyObjects'
-import { nodeShape, propertyShape } from '@shaperone/testing/util'
+import { setPropertyObjects } from '@hydrofoil/shaperone-core/models/forms/effects/setPropertyObjects.js'
+import { nodeShape, propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/setPropertyObjects', () => {
   let store: Store

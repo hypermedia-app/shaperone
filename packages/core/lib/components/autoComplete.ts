@@ -1,6 +1,6 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { ComponentInstance, SingleEditorComponent } from '../../models/components'
-import { CoreComponent } from '../components'
+import type { ComponentInstance, SingleEditorComponent } from '../../models/components'
+import { CoreComponent } from '../components.js'
 
 /**
  * Instance state of auto complete components

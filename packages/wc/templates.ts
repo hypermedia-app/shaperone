@@ -9,7 +9,7 @@ import { repeat } from 'lit/directives/repeat.js'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { NamedNode } from 'rdf-js'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 
 export * from './renderer/decorator'
 
@@ -109,7 +109,7 @@ export const templates: RenderTemplates = {
     notFound(this: PropertyRenderer, editor: NamedNode) {
       const { editors } = this.context
 
-      return html`No component found for ${taggedLiteral(editors.allEditors[editor.value]?.meta, { fallback: editor.value })}`
+      return html`No component found for ${localizedLabel(editors.allEditors[editor.value]?.meta, { fallback: editor.value })}`
     },
     loading() {
       return html`Loading editor`
@@ -142,7 +142,7 @@ export const templates: RenderTemplates = {
   },
   property(renderer, { property }): TemplateResult {
     return html`${repeat(property.objects, object => html`<div class="field">
-    <label for="${property.shape.id.value}">${taggedLiteral(property.shape, { property: sh.name })}</label>
+    <label for="${property.shape.id.value}">${localizedLabel(property.shape, { property: sh.name })}</label>
     ${renderer.renderObject({ object })}</div>`)}`
   },
   object(renderer): TemplateResult {

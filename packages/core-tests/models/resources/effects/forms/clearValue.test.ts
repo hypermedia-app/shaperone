@@ -3,10 +3,10 @@ import { AnyPointer } from 'clownface'
 import $rdf from 'rdf-ext'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
-import { testStore } from '@shaperone/testing/models/form'
-import clearValue from '@hydrofoil/shaperone-core/models/resources/effects/forms/clearValue'
+import { testStore } from '@shaperone/testing/models/form.js'
+import clearValue from '@hydrofoil/shaperone-core/models/resources/effects/forms/clearValue.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/resources/effects/forms/clearValue', () => {
   let store: Store

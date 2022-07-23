@@ -4,10 +4,10 @@ import clownface from 'clownface'
 import type * as sinon from 'sinon'
 import $rdf from 'rdf-ext'
 import { schema } from '@tpluscode/rdf-ns-builders'
-import { testStore, testObjectState } from '@shaperone/testing/models/form'
+import { testStore, testObjectState } from '@shaperone/testing/models/form.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { updateObject } from '@hydrofoil/shaperone-core/models/forms/effects/updateObject'
-import { propertyShape } from '@shaperone/testing/util'
+import { updateObject } from '@hydrofoil/shaperone-core/models/forms/effects/updateObject.js'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/updateObject', () => {
   let store: Store

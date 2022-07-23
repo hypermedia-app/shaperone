@@ -2,6 +2,8 @@ import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
 import { quad, namedNode, literal } from '@rdf-esm/data-model'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
+import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
+import { sort } from '@hydrofoil/shaperone-core/lib/components'
 
 const editor = namedNode('http://example.com/LanguageMultiSelect')
 
@@ -11,11 +13,14 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
     await import(`multiselect-combo-box/theme/${theme}/multiselect-combo-box`)
 
     return ({ property }, { update }) => {
-      const languages = property.shape.in.map(lang => ({
-        id: lang.value,
-        term: lang,
-        label: property.shape.pointer.node(lang).out(rdfs.label).value || lang.value,
-      }))
+      const languages = property.shape.in
+        .map(lang => property.shape.pointer.node(lang))
+        .sort(sort)
+        .map(lang => ({
+          id: lang.value,
+          term: lang.term,
+          label: getLocalizedLabel(lang.out(rdfs.label)) || lang.value,
+        }))
 
       const values = property.objects.map(o => o.object)
       const selected = languages.filter(lang => values.find(object => object?.term.equals(lang.term)))

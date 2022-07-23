@@ -5,8 +5,8 @@ import cf from 'clownface'
 import ns from '@rdf-esm/namespace'
 import { rdf, rdfs, sh } from '@tpluscode/rdf-ns-builders'
 import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
-import { testStore } from '@shaperone/testing/models/form'
-import { setGraph } from '@hydrofoil/shaperone-core/models/shapes/reducers'
+import { testStore } from '@shaperone/testing/models/form.js'
+import { setGraph } from '@hydrofoil/shaperone-core/models/shapes/reducers.js'
 
 const ex = ns('http://example.com/')
 

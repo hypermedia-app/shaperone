@@ -19,7 +19,7 @@ export type { Editor, SingleEditor, MultiEditor } from './models/editors'
  * @ignore
  */
 export async function loadMixins(): Promise<void> {
-  const deps = await import('./lib/mixins')
+  const deps = await import('./lib/mixins.js')
 
   Object.values(deps).forEach((bundle) => {
     RdfResource.factory.addMixin(...bundle)

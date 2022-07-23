@@ -15,7 +15,7 @@ import {
   EnumSelectEditor,
   instancesSelect,
   InstancesSelectEditor,
-} from '@hydrofoil/shaperone-core/components'
+} from '@hydrofoil/shaperone-core/components.js'
 
 /**
  * Renders [`vaadin-text-field`](https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement),

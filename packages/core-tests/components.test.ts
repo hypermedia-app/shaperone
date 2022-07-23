@@ -6,13 +6,13 @@ import clownface, { GraphPointer } from 'clownface'
 import promise from 'promise-the-world'
 import { sinon } from '@shaperone/testing'
 import { BlankNode } from 'rdf-js'
-import { objectRenderer } from '@shaperone/testing/renderer'
-import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
-import { enumSelect, InstancesSelect, instancesSelect, EnumSelect } from '@hydrofoil/shaperone-core/components'
-import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { propertyShape } from '@shaperone/testing/util'
+import { objectRenderer } from '@shaperone/testing/renderer.js'
+import { testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
+import { enumSelect, InstancesSelect, instancesSelect, EnumSelect } from '@hydrofoil/shaperone-core/components.js'
+import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { propertyShape } from '@shaperone/testing/util.js'
 import type { SinonStubbedInstance } from 'sinon'
-import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
+import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components/index.js'
 
 describe('components', () => {
   describe('enumSelect', () => {
@@ -26,7 +26,6 @@ describe('components', () => {
     beforeEach(() => {
       form = {
         labelProperties: [rdfs.label],
-        languages: [],
         shouldEnableEditorChoice() {
           return true
         },
@@ -112,11 +111,11 @@ describe('components', () => {
           ready: true,
           loading: false,
         }))
-        expect(updateComponentState.lastCall.lastArg.choices.map(([, label]: [any, string]) => label)).to.contain.ordered.members([
-          'Also Person',
-          'Class',
-          'Org',
-          'Person',
+        expect(updateComponentState.lastCall.lastArg.choices.map((p: GraphPointer) => p.term)).to.contain.deep.ordered.members([
+          foaf.Person,
+          rdfs.Class,
+          schema.Organization,
+          schema.Person,
         ])
       })
     })
@@ -140,42 +139,6 @@ describe('components', () => {
         term: $rdf.namedNode('baz'),
       }])
     })
-
-    it('displays label in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = enumSelect.label(choice, {
-        languages: ['fr'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('le foo')
-    })
-
-    it('displays plain label if not found in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = enumSelect.label(choice, {
-        languages: ['en'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('foo')
-    })
   })
 
   describe('instancesSelect', () => {
@@ -189,7 +152,6 @@ describe('components', () => {
     beforeEach(() => {
       form = {
         labelProperties: [rdfs.label],
-        languages: [],
         shouldEnableEditorChoice() {
           return true
         },
@@ -209,8 +171,8 @@ describe('components', () => {
         // given
         const graph = clownface({ dataset: $rdf.dataset() })
         value.componentState.instances = [
-          [graph.literal('foo'), 'foo'],
-          [graph.literal('bar'), 'bar'],
+          graph.literal('foo').addOut(rdfs.label, 'foo'),
+          graph.literal('bar').addOut(rdfs.label, 'bar'),
         ]
 
         // when
@@ -269,11 +231,11 @@ describe('components', () => {
           ready: true,
           loading: false,
         }))
-        expect(updateComponentState.lastCall.lastArg.instances.map(([, label]: [any, string]) => label)).to.contain.ordered.members([
-          'Also Person',
-          'Class',
-          'Org',
-          'Person',
+        expect(updateComponentState.lastCall.lastArg.instances.map((p: GraphPointer) => p.term)).to.contain.deep.ordered.members([
+          foaf.Person,
+          rdfs.Class,
+          schema.Organization,
+          schema.Person,
         ])
       })
     })
@@ -308,42 +270,6 @@ describe('components', () => {
       }, {
         term: $rdf.namedNode('baz'),
       }])
-    })
-
-    it('displays label in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = instancesSelect.label(choice, {
-        languages: ['fr'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('le foo')
-    })
-
-    it('displays plain label if not found in desired language', () => {
-      // given
-      const choice = clownface({ dataset: $rdf.dataset() })
-        .blankNode()
-        .addOut(rdfs.label, $rdf.literal('foo'))
-        .addOut(rdfs.label, $rdf.literal('le foo', 'fr'))
-        .addOut(rdfs.label, $rdf.literal('das Foo', 'de'))
-
-      // when
-      const label = instancesSelect.label(choice, {
-        languages: ['en'],
-        labelProperties: [rdfs.label],
-      })
-
-      // then
-      expect(label).to.eq('foo')
     })
   })
 })

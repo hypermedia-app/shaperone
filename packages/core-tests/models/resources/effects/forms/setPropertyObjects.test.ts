@@ -3,10 +3,10 @@ import clownface, { AnyContext, AnyPointer } from 'clownface'
 import $rdf from 'rdf-ext'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
-import { testStore } from '@shaperone/testing/models/form'
-import setPropertyObjects from '@hydrofoil/shaperone-core/models/resources/effects/forms/setPropertyObjects'
+import { testStore } from '@shaperone/testing/models/form.js'
+import setPropertyObjects from '@hydrofoil/shaperone-core/models/resources/effects/forms/setPropertyObjects.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 import DatasetExt from 'rdf-ext/lib/Dataset'
 
 describe('models/resources/effects/forms/setPropertyObjects', () => {

@@ -7,6 +7,7 @@ import type {
   InstancesSelectEditor,
 } from '@hydrofoil/shaperone-core/components'
 import { xsd } from '@tpluscode/rdf-ns-builders'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { Render } from '../index'
 import { getType } from './lib/textFieldType'
 import { validity } from './validity'
@@ -29,13 +30,13 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ property, value 
 
   function updateHandler(e: any) {
     const chosen = choices[(e.target).selectedIndex - 1]
-    if (chosen) update(chosen[0].term)
+    if (chosen) update(chosen.term)
   }
 
   return html`<select ${readOnly(property)} @input="${updateHandler}" required ${validity(value)}>
         <option value=""></option>
-        ${repeat(choices, ([choice, label]) => html`<option ?selected="${choice.value === value.object?.value}" value="${choice.value}">
-            ${label}
+        ${repeat(choices, pointer => html`<option ?selected="${pointer.value === value.object?.value}" value="${pointer.value}">
+            ${localizedLabel(pointer)}
         </option>`)}
     </select>`
 }
@@ -55,13 +56,13 @@ export const instancesSelect: Render<InstancesSelectEditor> = function ({ proper
     const { selectedIndex } = e.target
     return selectedIndex === 0
       ? clear()
-      : update(choices[(e.target).selectedIndex - 1]?.[0].term)
+      : update(choices[(e.target).selectedIndex - 1]?.term)
   }
 
   return html`<select ${readOnly(property)} @input="${onInput}" ${validity(value)}>
         <option value=""></option>
-        ${repeat(choices, ([choice, label]) => html`<option ?selected="${choice.term.equals(value.object?.term)}" value="${choice.value}">
-            ${label}
+        ${repeat(choices, pointer => html`<option ?selected="${pointer.term.equals(value.object?.term)}" value="${pointer.value}">
+            ${localizedLabel(pointer)}
         </option>`)}
     </select>`
 }

@@ -1,8 +1,8 @@
 import type { PropertyShape } from '@rdfine/shacl'
-import { objectStateProducer } from '../objectStateProducer'
-import { BaseParams, formStateReducer } from '../../index'
+import { objectStateProducer } from '../objectStateProducer.js'
+import { BaseParams, formStateReducer } from '../../index.js'
 import type { FocusNode } from '../../../index'
-import { canAddObject, canRemoveObject } from '../lib/property'
+import { canAddObject, canRemoveObject } from '../lib/property.js'
 import type { PropertyObjectState } from '../index'
 
 export interface RemoveObjectParams extends BaseParams {

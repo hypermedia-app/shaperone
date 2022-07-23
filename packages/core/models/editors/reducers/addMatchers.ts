@@ -1,4 +1,4 @@
-import produce from 'immer'
+import { produce } from 'immer'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import type { Editor, EditorsState, MultiEditor, SingleEditor } from '../index'
 

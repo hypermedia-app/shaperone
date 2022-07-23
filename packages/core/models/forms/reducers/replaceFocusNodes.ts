@@ -1,8 +1,8 @@
-import produce from 'immer'
-import { BaseParams, formStateReducer } from '../../index'
-import { initialiseFocusNode } from '../lib/stateBuilder'
+import { produce } from 'immer'
+import { BaseParams, formStateReducer } from '../../index.js'
+import { initialiseFocusNode } from '../lib/stateBuilder.js'
 import type { FormState } from '../index'
-import { matchShapes } from '../../shapes/lib'
+import { matchShapes } from '../../shapes/lib/index.js'
 
 type StackAction = {appendToStack?: true} | {replaceStack?: true}
 

@@ -13,7 +13,7 @@ import { literal } from '@rdf-esm/data-model'
 import type { BlankNode, Literal, NamedNode } from 'rdf-js'
 import { GraphPointer } from 'clownface'
 import type { SingleEditor } from './models/editors'
-import { isString } from './lib/datatypes'
+import { isString } from './lib/datatypes.js'
 
 /**
  * Matcher for `dash:TextFieldEditor`

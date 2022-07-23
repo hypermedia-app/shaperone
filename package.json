@@ -7,7 +7,7 @@
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "wsrun -m build",
     "test": "run-p test:*",
-    "test:core": "BABEL_ENV=test c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core-tests/**/*.test.ts'",
+    "test:core": "c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core-tests/**/*.test.ts'",
     "test:open-wc": "karma start karma.conf.cjs --coverage",
     "test:open-wc:watch": "karma start karma.conf.cjs --auto-watch=true --single-run=false",
     "test:web": "web-test-runner",
@@ -55,6 +55,7 @@
     "sinon-chai": "^3.5.0",
     "standard": "^14.3.4",
     "ts-lit-plugin": "^1.2.1",
+    "ts-node": "^10.9.1",
     "typedoc": "^0.20.34",
     "typescript": "^3.9.3",
     "web-component-analyzer": "^1.1.6",
@@ -75,7 +76,8 @@
     ],
     "require": [
       "test-setup.js"
-    ]
+    ],
+    "loader": "ts-node/esm/transpile-only"
   },
   "lint-staged": {
     "*.{js,ts}": [

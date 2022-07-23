@@ -2,7 +2,7 @@ import { css, html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate, decorate } from '@hydrofoil/shaperone-wc/templates'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 
 export const focusNode = decorate((currentStrategy: FocusNodeTemplate): FocusNodeTemplate => {
   const renderer: FocusNodeTemplate = (renderer, params) => {
@@ -13,8 +13,8 @@ export const focusNode = decorate((currentStrategy: FocusNodeTemplate): FocusNod
 
     return html`<mwc-list part="focus-node-header ${focusNode.hasErrors ? 'invalid' : ''}">
       <mwc-list-item ?hasmeta="${shapes.length > 1}" twoline>
-          ${taggedLiteral(focusNode.focusNode, { fallback: 'Resource' })}
-          <span slot="secondary">${taggedLiteral(focusNode.shape)}</span>
+          ${localizedLabel(focusNode.focusNode, { fallback: 'Resource' })}
+          <span slot="secondary">${localizedLabel(focusNode.shape)}</span>
           <mwc-shape-selector slot="meta" .shapes="${shapes}" title="Select shape"
                              .selected="${focusNode.shape}"
                              @shape-selected="${(e: CustomEvent) => actions.selectShape(e.detail.value)}"></mwc-shape-selector>
@@ -61,7 +61,7 @@ export const property: PropertyTemplate = function (renderer, param) {
   }
 
   return html`<mwc-list part="property ${property.hasErrors ? 'invalid' : ''}">
-    <mwc-list-item hasmeta part="property-header"><b>${taggedLiteral(property.shape, { property: sh.name })}</b> ${menuElement}</mwc-list-item>
+    <mwc-list-item hasmeta part="property-header"><b>${localizedLabel(property.shape, { property: sh.name })}</b> ${menuElement}</mwc-list-item>
     ${editors()}
   </mwc-list>`
 }

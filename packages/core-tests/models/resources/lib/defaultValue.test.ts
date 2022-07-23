@@ -5,8 +5,8 @@ import $rdf from 'rdf-ext'
 import { literal } from '@rdf-esm/data-model'
 import { xsd, rdf, foaf, dash } from '@tpluscode/rdf-ns-builders'
 import { NodeKindEnum } from '@rdfine/shacl'
-import { defaultValue } from '@hydrofoil/shaperone-core/models/resources/lib/defaultValue'
-import { propertyShape } from '@shaperone/testing/util'
+import { defaultValue } from '@hydrofoil/shaperone-core/models/resources/lib/defaultValue.js'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/models/resources/lib/defaultValue', () => {
   it('returns default value from property', () => {

@@ -1,7 +1,7 @@
 import type { Store } from '../../../../state'
-import { notify } from '../../lib/notify'
+import { notify } from '../../lib/notify.js'
 import { Params } from '../../../forms/reducers/addFormField'
-import { defaultValue } from '../../lib/defaultValue'
+import { defaultValue } from '../../lib/defaultValue.js'
 
 export default function (store: Store) {
   const dispatch = store.getDispatch()
