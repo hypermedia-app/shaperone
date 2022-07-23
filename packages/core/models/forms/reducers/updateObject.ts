@@ -1,6 +1,6 @@
 import type { Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
-import { produce } from 'immer'
+import produce from 'immer'
 import { GraphPointer, MultiPointer } from 'clownface'
 import { BaseParams, formStateReducer } from '../../index.js'
 import type { PropertyObjectState, State } from '../index'

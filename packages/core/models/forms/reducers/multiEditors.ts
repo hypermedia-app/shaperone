@@ -1,4 +1,4 @@
-import { produce } from 'immer'
+import produce from 'immer'
 import type { PropertyShape } from '@rdfine/shacl'
 import { Term } from 'rdf-js'
 import type { FormState } from '../index'

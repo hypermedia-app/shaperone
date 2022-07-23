@@ -1,6 +1,6 @@
 import { DatasetCore } from 'rdf-js'
 import cf, { AnyPointer } from 'clownface'
-import { produce } from 'immer'
+import produce from 'immer'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import * as NodeShape from '@rdfine/shacl/lib/NodeShape'
 import { BaseParams, formStateReducer } from '../index.js'

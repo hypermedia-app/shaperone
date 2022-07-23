@@ -1,4 +1,4 @@
-import { produce } from 'immer'
+import produce from 'immer'
 import { NamedNode } from 'rdf-js'
 import type {
   ComponentsState,

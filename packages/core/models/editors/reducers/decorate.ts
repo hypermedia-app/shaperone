@@ -1,4 +1,4 @@
-import { produce } from 'immer'
+import produce from 'immer'
 import type { EditorsState, MatcherDecorator } from '../index'
 
 export function decorate(editors: EditorsState, decorator: MatcherDecorator): EditorsState {

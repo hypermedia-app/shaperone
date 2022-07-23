@@ -1,4 +1,4 @@
-import { produce } from 'immer'
+import produce from 'immer'
 import { formStateReducer, BaseParams } from '../../index.js'
 import { FocusNode } from '../../../index'
 import type { FormState } from '../index'

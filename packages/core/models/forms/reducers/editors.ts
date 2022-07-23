@@ -1,4 +1,4 @@
-import { produce } from 'immer'
+import produce from 'immer'
 import { PropertyShape } from '@rdfine/shacl'
 import type { PropertyObjectState, FormState, State } from '../index'
 import { BaseParams, formStateReducer } from '../../index.js'

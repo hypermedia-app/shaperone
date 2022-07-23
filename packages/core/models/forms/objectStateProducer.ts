@@ -1,4 +1,4 @@
-import { produce, Draft } from 'immer'
+import produce, { Draft } from 'immer'
 import { PropertyShape } from '@rdfine/shacl'
 import type { FormState, PropertyState } from './index'
 import { BaseParams } from '../index'
