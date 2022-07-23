@@ -1,9 +1,8 @@
-# `wc-vaadin/components/url-editor`
+/* @web/test-runner snapshot v1 */
+export const snapshots = {}
 
-#### `renders text field`
-
-```html
-<vaadin-text-field
+snapshots['wc-vaadin/components/url-editor renders text field'] =
+`<vaadin-text-field
   auto-validate=""
   has-value=""
   invalid=""
@@ -20,6 +19,5 @@
     type="url"
   >
 </vaadin-text-field>
-
-```
-
+`
+/* end snapshot wc-vaadin/components/url-editor renders text field */

@@ -175,7 +175,7 @@ export const components = createModel({
             editor,
             render: await component.lazyRender(),
           })
-        } catch (e) {
+        } catch (e: any) {
           dispatch.components.loadingFailed({ editor, reason: e.message })
         }
       },
