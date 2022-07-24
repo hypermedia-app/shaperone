@@ -87,7 +87,7 @@ export interface ComponentState extends Component {
   }
 }
 
-interface ComponentRender<Params extends RenderParams, Actions, TRenderResult> {
+interface ComponentRender<Params extends RenderParams<any>, Actions, TRenderResult> {
   render: RenderFunc<Params, Actions, TRenderResult>
 }
 
