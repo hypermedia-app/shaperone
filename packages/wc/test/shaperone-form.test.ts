@@ -21,7 +21,7 @@ describe('shaperone-form', () => {
     const form = await fixture<ShaperoneForm>(html`<shaperone-form></shaperone-form>`)
 
     // then
-    expect(form.resource.term.equals(namedNode(''))).to.be.true
+    expect(form.resource?.term.equals(namedNode(''))).to.be.true
   })
 
   xit('dispatches event when object values change', async () => {

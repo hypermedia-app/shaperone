@@ -99,7 +99,7 @@
         {
           "name": "resource",
           "description": "Gets or sets the resource graph as graph pointer",
-          "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>>"
+          "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
         }
       ],
       "events": [
