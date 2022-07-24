@@ -1,5 +1,6 @@
 ---
 "@hydrofoil/shaperone-core": minor
+"@hydrofoil/shaperone-wc": minor
 ---
 
 Significant changes in handling translations:
