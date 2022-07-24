@@ -7,14 +7,11 @@ import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { Term } from 'rdf-js'
 import { repeat } from 'lit/directives/repeat.js'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
+import type { GraphPointer } from 'clownface'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { validity } from './validation'
 
-interface Choice {
-  term: Term
-  label: string
-}
-
-function renderer(choices: Choice[], value: Term | undefined) {
+function renderer(choices: GraphPointer[], value: Term | undefined) {
   return function (root: HTMLElement) {
     let listBox = root.firstElementChild as HTMLElement
     if (!listBox) {
@@ -24,7 +21,7 @@ function renderer(choices: Choice[], value: Term | undefined) {
 
     render(
       html`
-        ${repeat(choices, ({ label, term }) => html`<vaadin-item ?selected="${term.equals(value)}">${label}</vaadin-item>`)}
+        ${repeat(choices, pointer => html`<vaadin-item ?selected="${pointer.term.equals(value)}">${localizedLabel(pointer)}</vaadin-item>`)}
       `,
       listBox!,
     )
@@ -32,15 +29,12 @@ function renderer(choices: Choice[], value: Term | undefined) {
 }
 
 export const enumSelect: Render<EnumSelectEditor> = function ({ value, property }, actions) {
-  const choices = value.componentState.choices?.map(([choice, label]) => ({
-    term: choice.term,
-    label,
-  })) || []
+  const choices = value.componentState.choices || []
 
-  const selectValue = choices.find(choice => choice.term.equals(value.object?.term))?.label
+  const selectValue = choices.find(choice => choice.term.equals(value.object?.term))?.value
 
   function onChange(e: any) {
-    const pointer = choices.find(choice => choice.label === e.target.value)
+    const pointer = choices.find(choice => choice.value === e.target.value)
     if (pointer) actions.update(pointer.term)
   }
 

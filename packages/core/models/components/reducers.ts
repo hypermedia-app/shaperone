@@ -6,8 +6,8 @@ import type {
   RenderFunc,
   ComponentDecorator,
   Component,
-} from './index'
-import { decorateComponent } from './lib/decorate'
+} from '.'
+import { decorateComponent } from './lib/decorate.js'
 
 type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 

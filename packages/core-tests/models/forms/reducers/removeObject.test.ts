@@ -3,12 +3,12 @@ import { expect } from 'chai'
 import clownface from 'clownface'
 import $rdf from 'rdf-ext'
 import { RecursivePartial } from '@shaperone/testing'
-import { testObjectState, testStore } from '@shaperone/testing/models/form'
-import { removeObject } from '@hydrofoil/shaperone-core/models/forms/reducers/removeObject'
+import { testObjectState, testStore } from '@shaperone/testing/models/form.js'
+import { removeObject } from '@hydrofoil/shaperone-core/models/forms/reducers/removeObject.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { FormState } from '@hydrofoil/shaperone-core/models/forms'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/reducers/removeObject', () => {
   let store: Store

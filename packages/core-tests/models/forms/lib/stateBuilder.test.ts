@@ -6,16 +6,16 @@ import ns from '@rdf-esm/namespace'
 import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import { sh, dash, dcterms } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
-import { testEditor, testStore } from '@shaperone/testing/models/form'
+import { testEditor, testStore } from '@shaperone/testing/models/form.js'
 import {
   initialiseFocusNode,
   initialiseObjectState,
   initialisePropertyShape,
-} from '@hydrofoil/shaperone-core/models/forms/lib/stateBuilder'
+} from '@hydrofoil/shaperone-core/models/forms/lib/stateBuilder.js'
 import { loadMixins } from '@hydrofoil/shaperone-core'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { propertyShape } from '@shaperone/testing/util'
-import { blankNode } from '@shaperone/testing/nodeFactory'
+import { propertyShape } from '@shaperone/testing/util.js'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 
 const ex = ns('http://example.com/')
 

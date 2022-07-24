@@ -1,8 +1,8 @@
 /* eslint-disable no-continue */
 import { GraphPointer } from 'clownface'
 import { rdf } from '@tpluscode/rdf-ns-builders'
-import { defaultValue } from '../../lib/defaultValue'
-import { notify } from '../../lib/notify'
+import { defaultValue } from '../../lib/defaultValue.js'
+import { notify } from '../../lib/notify.js'
 import type { Store } from '../../../../state'
 import { Params } from '../../../forms/reducers/replaceFocusNodes'
 import { EditorsState } from '../../../editors'

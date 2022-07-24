@@ -2,7 +2,7 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { FocusNode } from '../../../index'
 import type { BaseParams } from '../../index'
 import type { Store } from '../../../state'
-import { matchShapes } from '../../shapes/lib'
+import { matchShapes } from '../../shapes/lib/index.js'
 
 export function pushFocusNode(store: Store) {
   const dispatch = store.getDispatch()

@@ -69,7 +69,7 @@ export const id: (form: any) => symbol = (() => {
  * Check the main documentation page for instructions on customizing the form's rendering.
  */
 export class ShaperoneForm extends connect(store(), LitElement) {
-  private [resourceSymbol]: FocusNode
+  private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
   private [notify]: (detail: any) => void
 
@@ -135,12 +135,13 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     store().dispatch.editors.loadDash()
     store().dispatch.forms.connect({
       form: id(this),
-      languages: this.__languages(),
     })
 
     super.connectedCallback()
 
-    this.resource = this[resourceSymbol]
+    if (this[resourceSymbol]) {
+      this.resource = this[resourceSymbol]
+    }
     this.shapes = this[shapesSymbol]
   }
 
@@ -165,11 +166,11 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   /**
    * Gets or sets the resource graph as graph pointer
    */
-  get resource(): FocusNode {
+  get resource(): FocusNode | undefined {
     return this[resourceSymbol]
   }
 
-  set resource(rootPointer: FocusNode) {
+  set resource(rootPointer: FocusNode | undefined) {
     if (!rootPointer) {
       return
     }
@@ -276,14 +277,5 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       editors: state.editors,
       components: state.components,
     }
-  }
-
-  __languages() {
-    const languages = this.getAttribute('languages')
-    if (languages) {
-      return languages.split(',')
-    }
-
-    return [...navigator.languages]
   }
 }

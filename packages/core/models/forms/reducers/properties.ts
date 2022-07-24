@@ -1,6 +1,6 @@
 import produce from 'immer'
 import type { Shape } from '@rdfine/shacl'
-import { BaseParams, formStateReducer } from '../../index'
+import { BaseParams, formStateReducer } from '../../index.js'
 import type { FormState } from '../index'
 import { FocusNode } from '../../../index'
 

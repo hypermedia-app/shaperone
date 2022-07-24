@@ -1,8 +1,8 @@
 import type { Store } from '../../../../state'
 import type { ClearValueParams } from '../../../forms/reducers/updateObject'
-import { notify } from '../../lib/notify'
+import { notify } from '../../lib/notify.js'
 import { PropertyObjectState } from '../../../forms'
-import { deleteOrphanedSubgraphs } from '../../../../lib/graph'
+import { deleteOrphanedSubgraphs } from '../../../../lib/graph.js'
 
 type Params = Omit<ClearValueParams, 'object'> & {
   object: Pick<PropertyObjectState, 'object'>

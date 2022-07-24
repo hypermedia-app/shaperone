@@ -9,7 +9,7 @@ export function loadDash(store: Store) {
     if (dashLoaded) return
 
     const dash = (await import('@zazuko/rdf-vocabularies/datasets/dash')).default
-    const DashEditors = await import('../../../DashEditors')
+    const DashEditors = await import('../../../DashEditors.js')
 
     dispatch.editors.addMetadata(dash($rdf))
     dispatch.editors.addMatchers(DashEditors)

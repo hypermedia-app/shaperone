@@ -1,12 +1,12 @@
 import { html } from '@hydrofoil/shaperone-wc'
 import { PropertyTemplate, ObjectTemplate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { repeat } from 'lit/directives/repeat.js'
-import { taggedLiteral } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 
 export const property: PropertyTemplate = (renderer, current) => html`
-      <sh-sl-property .label="${taggedLiteral(current.property.shape, { property: sh.name })}"
-                      .helpText="${taggedLiteral(current.property.shape, { property: sh.description })}"
+      <sh-sl-property .label="${localizedLabel(current.property.shape, { property: sh.name })}"
+                      .helpText="${localizedLabel(current.property.shape, { property: sh.description })}"
                       .canAddValue="${current.property.canAdd}"
                       @added="${renderer.actions.addObject}"
       >
@@ -38,7 +38,7 @@ export const focusNode: FocusNodeTemplate = (renderer, { focusNode: { groups } }
     const groupName = group.group?.id.value || 'default'
 
     return html`
-          <sl-tab slot="nav" panel="${groupName}" ?active="${group.selected}">${taggedLiteral(group.group)}</sl-tab>
+          <sl-tab slot="nav" panel="${groupName}" ?active="${group.selected}">${localizedLabel(group.group)}</sl-tab>
           <sl-tab-panel name="${groupName}" ?active="${group.selected}">
             ${renderer.renderGroup({ group })}
           </sl-tab-panel>

@@ -3,12 +3,11 @@ import type { FormSettings, State } from '../index'
 
 export type Params = { form: symbol } & Partial<FormSettings>
 
-export function connect(map: State, { form, ...settings }: Params): State {
+export function connect(map: State, { form }: Params): State {
   map.set(form, {
     focusNodes: {},
     focusStack: [],
     shouldEnableEditorChoice: () => true,
-    languages: settings.languages || [],
     labelProperties: [rdfs.label, schema.name],
     validationResults: [],
     hasErrors: false,

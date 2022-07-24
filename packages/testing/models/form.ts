@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge'
-import * as sinon from 'sinon'
+import sinon from 'sinon'
 import type { GraphPointer } from 'clownface'
 import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
@@ -11,10 +11,10 @@ import { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
 import { MultiEditor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
-import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify'
+import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify.js'
 import { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
 import type { RecursivePartial } from '..'
-import { blankNode } from '../nodeFactory'
+import { blankNode } from '../nodeFactory.js'
 
 interface Initializer {
   singleEditors?: SingleEditor[]

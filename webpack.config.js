@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { merge } = require('webpack-merge')
 const { createDefaultConfig } = require('@open-wc/building-webpack')
+const ResolveTypeScriptPlugin = require('resolve-typescript-plugin')
 
 module.exports = ({ input, output, contentBase, publicPath, options = {} }) => merge(
   createDefaultConfig({
@@ -13,6 +14,7 @@ module.exports = ({ input, output, contentBase, publicPath, options = {} }) => m
       publicPath,
     },
     resolve: {
+      plugins: [new ResolveTypeScriptPlugin()],
       extensions: ['.ts', '.mjs', '.js', '.json'],
       alias: {
         stream: 'readable-stream',

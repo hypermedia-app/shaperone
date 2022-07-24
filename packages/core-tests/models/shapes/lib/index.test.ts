@@ -3,8 +3,8 @@ import clownface from 'clownface'
 import $rdf from 'rdf-ext'
 import { rdf, schema, rdfs } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
-import { matchShapes } from '@hydrofoil/shaperone-core/models/shapes/lib'
-import { nodeShape } from '@shaperone/testing/util'
+import { matchShapes } from '@hydrofoil/shaperone-core/models/shapes/lib/index.js'
+import { nodeShape } from '@shaperone/testing/util.js'
 
 describe('models/shapes/lib', () => {
   describe('matchShapes', () => {

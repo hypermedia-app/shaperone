@@ -4,8 +4,8 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import ns from '@rdf-esm/namespace'
 import { sinon } from '@shaperone/testing'
-import { testStore } from '@shaperone/testing/models/form'
-import setRoot from '@hydrofoil/shaperone-core/models/forms/effects/resources/setRoot'
+import { testStore } from '@shaperone/testing/models/form.js'
+import setRoot from '@hydrofoil/shaperone-core/models/forms/effects/resources/setRoot.js'
 import type { Store } from '@hydrofoil/shaperone-core/state'
 
 const ex = ns('http://example.com/')

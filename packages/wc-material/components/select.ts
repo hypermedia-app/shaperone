@@ -14,33 +14,29 @@ import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/sha
 import { literal } from '@rdf-esm/data-model'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { validity } from '../directives/validity'
 
 function select(
   form: FormSettings,
   value: PropertyObjectState,
-  pointers: [GraphPointer, string][] | undefined,
+  pointers: GraphPointer[],
   actions: Pick<SingleEditorActions, 'update'>,
   property: PropertyState,
 ) {
-  const choices = pointers?.map(([c, label]) => ({
-    term: c.term,
-    label,
-  })) || []
-
-  return html`<mwc-select ${readOnly(property)} @selected="${(e: CustomEvent) => actions.update(choices[e.detail.index].term)}" ${validity(value)}>
-    ${repeat(choices, choice => html`<mwc-list-item ?selected="${choice.term.equals(value.object?.term)}" value="${choice.term.value}">
-        ${choice.label}
+  return html`<mwc-select ${readOnly(property)} @selected="${(e: CustomEvent) => actions.update(pointers[e.detail.index].term)}" ${validity(value)}>
+    ${repeat(pointers, pointer => html`<mwc-list-item ?selected="${pointer.term.equals(value.object?.term)}" value="${pointer.value}">
+        ${localizedLabel(pointer)}
     </mwc-list-item>`)}
 </mwc-select>`
 }
 
 export const enumSelect: Render<EnumSelectEditor> = function ({ form, value, property }, actions) {
-  return select(form, value, value.componentState.choices, actions, property)
+  return select(form, value, value.componentState.choices || [], actions, property)
 }
 
 export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, value, property }, actions) {
-  return select(form, value, value.componentState.instances, actions, property)
+  return select(form, value, value.componentState.instances || [], actions, property)
 }
 
 export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { update, clear }) {

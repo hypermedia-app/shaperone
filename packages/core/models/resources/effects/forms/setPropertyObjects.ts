@@ -1,7 +1,7 @@
-import * as updateObject from '../../../forms/reducers/updateObject'
+import * as updateObject from '../../../forms/reducers/updateObject.js'
 import type { Store } from '../../../../state'
-import { notify } from '../../lib/notify'
-import { deleteOrphanedSubgraphs } from '../../../../lib/graph'
+import { notify } from '../../lib/notify.js'
+import { deleteOrphanedSubgraphs } from '../../../../lib/graph.js'
 
 type Params = Pick<updateObject.ReplaceObjectsParams, 'form' | 'focusNode' | 'property' | 'objects'>
 

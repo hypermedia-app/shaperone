@@ -3,7 +3,7 @@ import * as PropertyShape from '@rdfine/shacl/lib/PropertyShape'
 import RdfResource, { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/RdfResource'
 import clownface, { GraphPointer } from 'clownface'
 import * as $rdf from '@rdf-esm/dataset'
-import PropertyShapeEx from '@hydrofoil/shaperone-core/models/shapes/lib/PropertyShape'
+import PropertyShapeEx from '@hydrofoil/shaperone-core/models/shapes/lib/PropertyShape.js'
 
 RdfResource.factory.addMixin(PropertyShapeEx)
 

@@ -1,13 +1,14 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { html, PropertyPart, noChange } from 'lit'
 import { directive, Directive } from 'lit/directive.js'
-import type { InstancesSelect, InstancesSelectEditor, Item } from '@hydrofoil/shaperone-core/components'
+import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
+import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
 import { validity } from './validation'
 
 declare module '@hydrofoil/shaperone-core/components' {
@@ -17,7 +18,7 @@ declare module '@hydrofoil/shaperone-core/components' {
      *
      * @category vaadin
      */
-    selectedInstance?: Item
+    selectedInstance?: GraphPointer
   }
 }
 
@@ -31,17 +32,21 @@ function createDataProvider(_component: InstancesSelectEditor, _renderParams: Si
     const pattern = new RegExp(params.filter, 'i')
 
     if (!provider.component.shouldLoad(provider.renderParams, params.filter)) {
-      const instances = (provider.renderParams.value.componentState.instances || []).filter(([, label]) => pattern.test(label))
+      const instances = (provider.renderParams.value.componentState.instances || []).filter((pointer) => {
+        const label = getLocalizedLabel(pointer)
+        return pattern.test(label)
+      })
 
       callback(instances, instances.length)
       return
     }
 
-    const choices = await provider.component.loadChoices(provider.renderParams, params.filter)
-    const instances = choices.map<[GraphPointer, string]>(pointer => [pointer, provider.component.label(pointer, provider.renderParams.form)])
+    const instances = await provider.component.loadChoices(provider.renderParams, params.filter)
     const items = instances
+      .map<[GraphPointer, string]>(pointer => [pointer, getLocalizedLabel(pointer)])
       .filter(([, label]) => pattern.test(label))
       .sort(([, l], [, r]) => l.localeCompare(r))
+      .map(([pointer]) => pointer)
 
     callback(items, items.length)
     provider.renderParams.updateComponentState({
@@ -83,26 +88,21 @@ class DataProviderDirective extends Directive {
 const dataProvider = directive(DataProviderDirective)
 
 export const instancesSelect: Render<InstancesSelectEditor> = function (params, actions) {
-  const { form, focusNode, property, value } = params
-  let selectedInstance: [GraphPointer, string] | undefined
+  const { focusNode, property, value } = params
+  let selectedInstance: GraphPointer | undefined
   if (value.componentState.selectedInstance) {
     selectedInstance = value.componentState.selectedInstance
   }
 
   if (value.object && !selectedInstance) {
-    let label = this.label(value.object, form)
-    if (label === value.object.value) {
-      label = this.label(property.shape.pointer.node(value.object), form)
-    }
-
-    selectedInstance = [value.object, label]
+    selectedInstance = value.object
   }
 
   function onChange(e: any) {
-    const selectedInstance = e.target.selectedItem as [GraphPointer, string] | undefined
+    const selectedInstance = e.target.selectedItem as GraphPointer | undefined
 
-    if (selectedInstance && !selectedInstance[0].term.equals(value.object?.term)) {
-      actions.update(selectedInstance[0].term)
+    if (selectedInstance && !selectedInstance.term.equals(value.object?.term)) {
+      actions.update(selectedInstance.term)
       params.updateComponentState({
         selectedInstance,
       })

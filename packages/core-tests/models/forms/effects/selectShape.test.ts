@@ -4,8 +4,8 @@ import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { NodeShape } from '@rdfine/shacl'
-import { testStore } from '@shaperone/testing/models/form'
-import { selectShape } from '@hydrofoil/shaperone-core/models/forms/effects/selectShape'
+import { testStore } from '@shaperone/testing/models/form.js'
+import { selectShape } from '@hydrofoil/shaperone-core/models/forms/effects/selectShape.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 
 describe('models/forms/effects/selectShape', () => {

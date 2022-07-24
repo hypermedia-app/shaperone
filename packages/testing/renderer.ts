@@ -1,12 +1,12 @@
-import * as Renderer from '@hydrofoil/shaperone-core/renderer'
+import * as Renderer from '@hydrofoil/shaperone-core/renderer.js'
 import { FocusNode } from '@hydrofoil/shaperone-core'
-import { RenderContext } from '@hydrofoil/shaperone-core/renderer'
-import { FocusNodeState } from '@hydrofoil/shaperone-core/models/forms'
+import { RenderContext } from '@hydrofoil/shaperone-core/renderer.js'
+import { FocusNodeState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import tsSinon from 'ts-sinon'
 import type * as TsSinon from 'ts-sinon'
-import { sinon } from './sinon'
-import { testEditorsState } from './models/editors'
-import { testFocusNodeState, testFormState, emptyGroupState } from './models/form'
+import { sinon } from './sinon.js'
+import { testEditorsState } from './models/editors.js'
+import { testFocusNodeState, testFormState, emptyGroupState } from './models/form.js'
 
 const { stubInterface } = tsSinon as any as {
   stubInterface: typeof TsSinon.stubInterface

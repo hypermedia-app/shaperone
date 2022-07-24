@@ -132,7 +132,6 @@ describe('hydra/lib/components/instancesSelector', () => {
       component = {
         editor: dash.InstancesSelectEditor,
         loadChoices: sinon.stub(),
-        label: sinon.stub(),
         render: sinon.stub(),
         loadInstance: sinon.stub(),
         shouldLoad: sinon.stub(),

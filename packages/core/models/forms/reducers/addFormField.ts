@@ -1,11 +1,11 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import { NamedNode } from 'rdf-js'
 import type { FocusNode } from '../../..'
-import { objectStateProducer } from '../objectStateProducer'
-import { formStateReducer, BaseParams } from '../../index'
-import { canAddObject, canRemoveObject } from '../lib/property'
+import { objectStateProducer } from '../objectStateProducer.js'
+import { formStateReducer, BaseParams } from '../../index.js'
+import { canAddObject, canRemoveObject } from '../lib/property.js'
 import type { EditorsState, SingleEditorMatch } from '../../editors'
-import { nextid } from '../lib/objectid'
+import { nextid } from '../lib/objectid.js'
 
 export interface Params extends BaseParams {
   focusNode: FocusNode

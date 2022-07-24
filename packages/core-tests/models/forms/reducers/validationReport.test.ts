@@ -2,11 +2,11 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import clownface, { GraphPointer } from 'clownface'
 import $rdf from 'rdf-ext'
-import { testFocusNodeState, testFormState, testObjectState, testPropertyState } from '@shaperone/testing/models/form'
-import { blankNode, namedNode } from '@shaperone/testing/nodeFactory'
+import { testFocusNodeState, testFormState, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
+import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { validationReport } from '@hydrofoil/shaperone-core/models/forms/reducers/validation'
-import { propertyShape } from '@shaperone/testing/util'
+import { validationReport } from '@hydrofoil/shaperone-core/models/forms/reducers/validation.js'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('@hydrofoil/shaperone-core/models/forms/reducers/validation', () => {
   let report: GraphPointer

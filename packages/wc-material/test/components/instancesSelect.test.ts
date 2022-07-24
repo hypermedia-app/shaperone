@@ -5,6 +5,7 @@ import { editorTestParams, sinon } from '@shaperone/testing'
 import { InstancesSelectEditor, InstancesSelect } from '@hydrofoil/shaperone-core/components'
 import { Select } from '@material/mwc-select'
 import { ListItem } from '@material/mwc-list/mwc-list-item'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { instancesSelectEditor } from '../../components'
 
 describe('wc-material/components/instancesSelect', () => {
@@ -24,8 +25,8 @@ describe('wc-material/components/instancesSelect', () => {
       object: graph.literal(''),
       componentState: {
         instances: [
-          [graph.namedNode('foo'), 'Foo I'],
-          [graph.literal('bar'), 'Bar I'],
+          graph.namedNode('foo').addOut(rdfs.label, 'Foo I'),
+          graph.literal('bar'),
         ],
       },
     })
@@ -44,8 +45,8 @@ describe('wc-material/components/instancesSelect', () => {
       object: graph.namedNode('bar'),
       componentState: {
         instances: [
-          [graph.namedNode('foo'), 'Foo I'],
-          [graph.namedNode('bar'), 'Bar I'],
+          graph.namedNode('foo').addOut(rdfs.label, 'Foo I'),
+          graph.namedNode('bar').addOut(rdfs.label, 'Bar I'),
         ],
       },
     })
@@ -64,7 +65,7 @@ describe('wc-material/components/instancesSelect', () => {
       object: graph.namedNode(''),
       componentState: {
         instances: [
-          [graph.namedNode('foo'), 'foo'],
+          graph.namedNode('foo').addOut(rdfs.label, 'foo'),
         ],
       },
     })

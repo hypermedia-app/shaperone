@@ -4,6 +4,7 @@ import $rdf from '@rdf-esm/dataset'
 import { editorTestParams } from '@shaperone/testing'
 import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { Select } from '@material/mwc-select'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { enumSelectEditor } from '../../components'
 
 describe('wc-material/components/enumSelect', () => {
@@ -23,8 +24,8 @@ describe('wc-material/components/enumSelect', () => {
       object: graph.literal(''),
       componentState: {
         choices: [
-          [graph.literal('foo'), 'foo'],
-          [graph.literal('bar'), 'bar'],
+          graph.literal('foo').addOut(rdfs.label, 'foo'),
+          graph.literal('bar').addOut(rdfs.label, 'bar'),
         ],
       },
     })
@@ -43,8 +44,8 @@ describe('wc-material/components/enumSelect', () => {
       object: graph.literal('bar'),
       componentState: {
         choices: [
-          [graph.literal('foo'), 'foo'],
-          [graph.literal('bar'), 'bar'],
+          graph.literal('foo').addOut(rdfs.label, 'foo'),
+          graph.literal('bar').addOut(rdfs.label, 'bar'),
         ],
       },
     })

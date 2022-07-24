@@ -4,8 +4,8 @@ import $rdf from 'rdf-ext'
 import { dash, rdf, schema, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import { NodeKindEnum } from '@rdfine/shacl'
-import * as DashEditors from '@hydrofoil/shaperone-core/DashEditors'
-import { propertyShape } from '@shaperone/testing/util'
+import * as DashEditors from '@hydrofoil/shaperone-core/DashEditors.js'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/DashEditors', () => {
   describe(dash.TextFieldEditor.value, () => {

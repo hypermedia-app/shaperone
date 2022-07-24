@@ -1,6 +1,6 @@
 import { NodeShape } from '@rdfine/shacl'
 import produce from 'immer'
-import { BaseParams, formStateReducer } from '../../index'
+import { BaseParams, formStateReducer } from '../../index.js'
 import { FocusNode } from '../../../index'
 import type { FormState } from '../index'
 

@@ -42,7 +42,8 @@ describe('wc-vaadin/components/instancesSelect', () => {
     const result = await fixture<ComboBoxElement>(component.render(params, actions)) as any
 
     // then
-    expect(result.selectedItem[1]).to.eq('bar')
+    expect(result.selectedItem.term.termType).to.eq('NamedNode')
+    expect(result.selectedItem.value).to.eq('bar')
   })
 
   it('updates form when value changes', async () => {
@@ -54,7 +55,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
     const selectElement = await fixture<ComboBoxElement>(component.render(params, actions))
 
     // when
-    selectElement.selectedItem = [graph.namedNode('foo'), 'foo']
+    selectElement.selectedItem = graph.namedNode('foo')
 
     // then
     expect(actions.update).to.have.been.calledWith(sinon.match({

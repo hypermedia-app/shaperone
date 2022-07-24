@@ -2,23 +2,23 @@ import {
   SingleEditorActions,
   SingleEditorRenderParams,
   ComponentInstance,
-} from '@hydrofoil/shaperone-core/models/components'
-import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+} from '@hydrofoil/shaperone-core/models/components/index.js'
+import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
 import clownface, { GraphPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import { NamedNode } from 'rdf-js'
-import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid'
+import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import $rdf from '@rdf-esm/dataset'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import namespace from '@rdf-esm/namespace'
-import { propertyShape } from './util'
-import { sinon } from './sinon'
-import { objectRenderer } from './renderer'
+import { propertyShape } from './util.js'
+import { sinon } from './sinon.js'
+import { objectRenderer } from './renderer.js'
 
-export { sinon } from './sinon'
-export type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial'
+export { sinon } from './sinon.js'
+export type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial.js'
 
 export const ex = namespace('http://example.com/')
 
@@ -69,7 +69,6 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
   return {
     params: {
       form: {
-        languages: ['en'],
         labelProperties: [rdfs.label],
         shouldEnableEditorChoice: () => true,
       },

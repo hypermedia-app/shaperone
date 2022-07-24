@@ -1,14 +1,12 @@
 import type { GraphPointer } from 'clownface'
-import type { FormSettings } from '../models/forms'
+import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 import type { SingleEditorComponent } from '../models/components'
 
 export type CoreComponent<T extends SingleEditorComponent<any>> = Omit<T, 'render' | 'lazyRender'>
-export type Item = [GraphPointer, string]
 
-export function sort([, left]: [GraphPointer, string], [, right]: [GraphPointer, string]): number {
-  return left.localeCompare(right)
-}
-
-export function label(choice: GraphPointer, { languages, labelProperties }: Pick<FormSettings, 'labelProperties' | 'languages'>) {
-  return choice.out(labelProperties, { language: [...languages, ''] }).values[0] || choice.value
+export function sort(left: GraphPointer, right: GraphPointer): number {
+  const leftLabel = getLocalizedLabel(left.out(rdfs.label)) || left.value
+  const rightLabel = getLocalizedLabel(right.out(rdfs.label)) || right.value
+  return leftLabel.localeCompare(rightLabel)
 }

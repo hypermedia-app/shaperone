@@ -4,12 +4,12 @@ import $rdf from 'rdf-ext'
 import { AnyPointer } from 'clownface'
 import { rdf, schema } from '@tpluscode/rdf-ns-builders'
 import { RecursivePartial } from '@shaperone/testing'
-import { testStore } from '@shaperone/testing/models/form'
+import { testStore } from '@shaperone/testing/models/form.js'
 import { Term } from 'rdf-js'
-import createFocusNodeState from '@hydrofoil/shaperone-core/models/resources/effects/forms/createFocusNodeState'
+import createFocusNodeState from '@hydrofoil/shaperone-core/models/resources/effects/forms/createFocusNodeState.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { FormState } from '@hydrofoil/shaperone-core/models/forms'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/resources/effects/forms/createFocusNodeState', () => {
   let store: Store

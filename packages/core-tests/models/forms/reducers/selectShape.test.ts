@@ -4,8 +4,8 @@ import ns from '@rdf-esm/namespace'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
-import { testFocusNodeState, testFormState as testState } from '@shaperone/testing/models/form'
-import { selectShape } from '@hydrofoil/shaperone-core/models/forms/reducers/selectShape'
+import { testFocusNodeState, testFormState as testState } from '@shaperone/testing/models/form.js'
+import { selectShape } from '@hydrofoil/shaperone-core/models/forms/reducers/selectShape.js'
 
 const ex = ns('http://example.com/')
 

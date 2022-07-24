@@ -1,5 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import { setLanguages } from '@rdfjs-elements/lit-helpers/taggedLiteral.js'
+import { setLanguages } from '@rdfjs-elements/lit-helpers'
 import type { Store } from '../store'
 import { ComponentsState } from './components'
 import { RendererState } from './renderer'

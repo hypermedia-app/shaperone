@@ -4,11 +4,11 @@ import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { testStore } from '@shaperone/testing/models/form'
-import { addObject } from '@hydrofoil/shaperone-core/models/forms/effects/addObject'
+import { testStore } from '@shaperone/testing/models/form.js'
+import { addObject } from '@hydrofoil/shaperone-core/models/forms/effects/addObject.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/addObject', () => {
   let store: Store

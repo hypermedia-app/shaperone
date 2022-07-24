@@ -4,12 +4,12 @@ import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { dash, foaf, schema, sh } from '@tpluscode/rdf-ns-builders'
-import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form'
+import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
 import { Dispatch, Store } from '@hydrofoil/shaperone-core/state'
-import { syncProperties } from '@hydrofoil/shaperone-core/models/forms/effects/lib/syncProperties'
+import { syncProperties } from '@hydrofoil/shaperone-core/models/forms/effects/lib/syncProperties.js'
 import { EditorsState } from '@hydrofoil/shaperone-core/models/editors'
 import { State } from '@hydrofoil/shaperone-core/models/forms'
-import { nodeShape, propertyShape } from '@shaperone/testing/util'
+import { nodeShape, propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/lib/syncProperties', () => {
   let store: Store

@@ -2,7 +2,7 @@ import { createModel } from '@captaincodeman/rdx'
 import { NodeShape } from '@rdfine/shacl'
 import { AnyPointer } from 'clownface'
 import { setGraph } from './reducers'
-import { emptyState } from './lib'
+import { emptyState } from './lib/index.js'
 
 export interface ShapeState {
   shapesGraph?: AnyPointer

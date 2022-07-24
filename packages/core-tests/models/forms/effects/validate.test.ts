@@ -2,10 +2,10 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import { testStore, testFocusNodeState } from '@shaperone/testing/models/form'
+import { testStore, testFocusNodeState } from '@shaperone/testing/models/form.js'
 import { sinon } from '@shaperone/testing'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { validate } from '@hydrofoil/shaperone-core/models/forms/effects/validate'
+import { validate } from '@hydrofoil/shaperone-core/models/forms/effects/validate.js'
 
 describe('@hydrofoil/shaperone-core/models/forms/effects/validate', () => {
   let store: Store

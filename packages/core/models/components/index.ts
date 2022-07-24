@@ -87,7 +87,7 @@ export interface ComponentState extends Component {
   }
 }
 
-interface ComponentRender<Params extends RenderParams, Actions, TRenderResult> {
+interface ComponentRender<Params extends RenderParams<any>, Actions, TRenderResult> {
   render: RenderFunc<Params, Actions, TRenderResult>
 }
 
@@ -175,7 +175,7 @@ export const components = createModel({
             editor,
             render: await component.lazyRender(),
           })
-        } catch (e) {
+        } catch (e: any) {
           dispatch.components.loadingFailed({ editor, reason: e.message })
         }
       },

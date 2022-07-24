@@ -3,7 +3,7 @@ import { ValidationReport } from '@rdfine/shacl'
 import produce from 'immer'
 import { fromPointer } from '@rdfine/shacl/lib/ValidationReport'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { BaseParams, formStateReducer } from '../../index'
+import { BaseParams, formStateReducer } from '../../index.js'
 import type { FormState, ValidationResultState } from '../index'
 
 export interface ValidationReportParams extends BaseParams {

@@ -5,10 +5,10 @@ import type DatasetExt from 'rdf-ext/lib/Dataset'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
-import { testStore } from '@shaperone/testing/models/form'
-import setObjectValue from '@hydrofoil/shaperone-core/models/resources/effects/forms/setObjectValue'
+import { testStore } from '@shaperone/testing/models/form.js'
+import setObjectValue from '@hydrofoil/shaperone-core/models/resources/effects/forms/setObjectValue.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/resources/effects/forms/setObject', () => {
   let store: Store

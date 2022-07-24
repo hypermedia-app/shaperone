@@ -2,15 +2,14 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { ComponentInstance, SingleEditorComponent } from '../../models/components'
-import { FocusNode } from '../../index'
-import { FormSettings } from '../../models/forms'
-import { CoreComponent, Item, label, sort } from '../components'
+import { FocusNode } from '../../index.js'
+import { CoreComponent, sort } from '../components.js'
 
 /**
  * Represents the state of an enum select component
  */
 export interface EnumSelect extends ComponentInstance {
-  choices?: Item[]
+  choices?: GraphPointer[]
   loading?: boolean
 }
 
@@ -28,18 +27,11 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
   }): Promise<GraphPointer[]>
 
   /**
-   * Return the displayed label for an enum choice
-   * @param choice
-   * @param form
-   */
-  label(choice: GraphPointer, form: Pick<FormSettings, 'labelProperties' | 'languages'>): string
-
-  /**
    * Sorting function to order the component elements
    * @param left
    * @param right
    */
-  sort(left: Item, right: Item): number
+  sort(left: GraphPointer, right: GraphPointer): number
 }
 
 /**
@@ -49,15 +41,14 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
  */
 export const enumSelect: CoreComponent<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
-  init({ focusNode, form, property, value: { componentState }, updateComponentState }) {
+  init({ focusNode, property, value: { componentState }, updateComponentState }) {
     if (!componentState.choices && !componentState.loading) {
       updateComponentState({
         loading: true,
       });
       (async () => {
         const pointers = await this.loadChoices({ focusNode, property: property.shape })
-        const choices = pointers.map<Item>(ptr => [ptr, this.label(ptr, form)])
-          .sort(this.sort)
+        const choices = pointers.sort(this.sort)
 
         updateComponentState({
           choices,
@@ -73,6 +64,5 @@ export const enumSelect: CoreComponent<EnumSelectEditor> = {
   async loadChoices({ property }) {
     return property.pointer.node(property.in).toArray()
   },
-  label,
   sort,
 }

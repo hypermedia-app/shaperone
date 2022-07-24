@@ -1,5 +1,5 @@
 import type { ResourceState } from '../index'
-import { ChangeNotifier } from './notify'
+import { ChangeNotifier } from './notify.js'
 import type { FocusNode } from '../../../index'
 
 export function createState(rootPointer: FocusNode): ResourceState {

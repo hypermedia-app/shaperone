@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
-import reducers from '@hydrofoil/shaperone-core/models/components/reducers'
+import reducers from '@hydrofoil/shaperone-core/models/components/reducers.js'
 import { Component, ComponentDecorator, ComponentsState } from '@hydrofoil/shaperone-core/models/components'
 
 describe('core/models/components/reducers', () => {

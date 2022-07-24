@@ -3,9 +3,9 @@ import cf, { AnyPointer } from 'clownface'
 import produce from 'immer'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import * as NodeShape from '@rdfine/shacl/lib/NodeShape'
-import { BaseParams, formStateReducer } from '../index'
+import { BaseParams, formStateReducer } from '../index.js'
 import type { ShapeState } from '.'
-import { emptyState } from './lib/index'
+import { emptyState } from './lib/index.js'
 
 export interface SetShapesGraphParams extends BaseParams {
   shapesGraph: DatasetCore | AnyPointer

@@ -1,12 +1,8 @@
-# `wc-vaadin/components/instancesSelect`
+/* @web/test-runner snapshot v1 */
+export const snapshots = {};
 
-#### `renders an vaadin-select`
-
-```html
-<vaadin-select-text-field
-  has-value=""
-  tabindex="0"
->
+snapshots["wc-vaadin/components/enumSelect renders an vaadin-select"] = 
+`<vaadin-select-text-field tabindex="0">
   <slot
     name="prefix"
     slot="prefix"
@@ -42,29 +38,24 @@
       role="option"
       tabindex="0"
     >
-      Foo I
+      foo
     </vaadin-item>
     <vaadin-item
       aria-selected="false"
       role="option"
       tabindex="-1"
     >
-      Bar I
+      bar
     </vaadin-item>
   </vaadin-list-box>
 </vaadin-select-overlay>
 <iron-media-query style="display: none;">
 </iron-media-query>
+`;
+/* end snapshot wc-vaadin/components/enumSelect renders an vaadin-select */
 
-```
-
-#### `renders empty vaadin-select when there are no choices`
-
-```html
-<vaadin-select-text-field
-  has-value=""
-  tabindex="0"
->
+snapshots["wc-vaadin/components/enumSelect renders empty vaadin-select when there are no choices"] = 
+`<vaadin-select-text-field tabindex="0">
   <slot
     name="prefix"
     slot="prefix"
@@ -99,6 +90,6 @@
 </vaadin-select-overlay>
 <iron-media-query style="display: none;">
 </iron-media-query>
-
-```
+`;
+/* end snapshot wc-vaadin/components/enumSelect renders empty vaadin-select when there are no choices */
 

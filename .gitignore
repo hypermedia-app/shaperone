@@ -12,3 +12,4 @@ dist/playground/
 dist/shaperone-form/
 !types/**/*.d.ts
 *.log
+!*.snap.js
