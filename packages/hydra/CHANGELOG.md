@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.7
+
+### Patch Changes
+
+- Updated dependencies [7d6c3b4]
+  - @hydrofoil/shaperone-core@0.9.0
+
 ## 0.3.6
 
 ### Patch Changes

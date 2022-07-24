@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc-shoelace",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "scripts": {
     "prepack": "tsc",
@@ -19,7 +19,7 @@
     "custom-elements.json"
   ],
   "dependencies": {
-    "@hydrofoil/shaperone-wc": "^0.6.11",
+    "@hydrofoil/shaperone-wc": "^0.7.0",
     "@rdfjs/data-model": "^2",
     "@rdfjs-elements/lit-helpers": "^0.3.3",
     "@shoelace-style/shoelace": "^2.0.0-beta.77",

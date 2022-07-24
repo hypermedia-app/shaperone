@@ -1,5 +1,18 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.50
+
+### Patch Changes
+
+- 7d6c3b4: Updated `@rdfjs-elements/lit-helpers` to 0.3.2
+- Updated dependencies [7d6c3b4]
+- Updated dependencies [7d6c3b4]
+  - @hydrofoil/shaperone-wc@0.7.0
+  - @hydrofoil/shaperone-playground-examples@0.2.27
+  - @hydrofoil/shaperone-wc-material@0.5.4
+  - @hydrofoil/shaperone-wc-vaadin@0.4.5
+  - @hydrofoil/shaperone-hydra@0.3.7
+
 ## 0.1.49
 
 ### Patch Changes
