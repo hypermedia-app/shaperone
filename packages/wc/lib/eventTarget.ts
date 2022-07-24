@@ -10,6 +10,6 @@ export async function ensureEventTarget() {
       document.head.appendChild(script)
       return
     }
-    resolve(void (0))
+    resolve(undefined)
   })
 }
