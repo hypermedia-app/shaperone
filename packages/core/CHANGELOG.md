@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.1
+
+### Patch Changes
+
+- 5b8ed7f: Separate `dash:AutoCompleteEditor` with similar functionality so the `dash:InstancesSelectEditor` so that they can be
+  implemented as different components more easily
+
 ## 0.9.0
 
 ### Minor Changes
