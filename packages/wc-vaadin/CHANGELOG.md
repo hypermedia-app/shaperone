@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.4.6
+
+### Patch Changes
+
+- 5b8ed7f: Labels and items were handled incorrectly
+- 41482a7: Added `dash:AutoCompleteEditor` component - same implementation as instances select
+- Updated dependencies [5b8ed7f]
+  - @hydrofoil/shaperone-core@0.9.1
+
 ## 0.4.5
 
 ### Patch Changes

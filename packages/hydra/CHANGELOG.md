@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.8
+
+### Patch Changes
+
+- 5b8ed7f: The search decorator should now match both instances select and auto-complete
+- Updated dependencies [5b8ed7f]
+  - @hydrofoil/shaperone-core@0.9.1
+
 ## 0.3.7
 
 ### Patch Changes
