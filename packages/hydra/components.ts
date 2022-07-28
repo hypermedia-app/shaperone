@@ -6,5 +6,7 @@
  */
 
 import * as instancesSelectorNs from './lib/components/instancesSelector'
+import * as autocompleteNs from './lib/components/autocomplete'
 
 export { instancesSelectorNs as instancesSelector }
+export { autocompleteNs as autocomplete }

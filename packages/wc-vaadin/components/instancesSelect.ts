@@ -1,7 +1,7 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { html, PropertyPart, noChange } from 'lit'
 import { directive, Directive } from 'lit/directive.js'
-import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import type { AutoComplete, InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
@@ -9,6 +9,7 @@ import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { validity } from './validation'
 
 declare module '@hydrofoil/shaperone-core/components' {
@@ -22,31 +23,31 @@ declare module '@hydrofoil/shaperone-core/components' {
   }
 }
 
+type Item = [GraphPointer, string]
+
 type CollectionDataProvider = ComboBoxDataProvider & {
   component: InstancesSelectEditor
-  renderParams: SingleEditorRenderParams<InstancesSelect>
+  renderParams: SingleEditorRenderParams<InstancesSelect | AutoComplete>
 }
 
 function createDataProvider(_component: InstancesSelectEditor, _renderParams: SingleEditorRenderParams<InstancesSelect>): CollectionDataProvider {
   const provider: CollectionDataProvider = async (params, callback) => {
     const pattern = new RegExp(params.filter, 'i')
 
-    if (!provider.component.shouldLoad(provider.renderParams, params.filter)) {
-      const instances = (provider.renderParams.value.componentState.instances || []).filter((pointer) => {
-        const label = getLocalizedLabel(pointer)
-        return pattern.test(label)
-      })
+    provider.renderParams.updateComponentState({
+      freetextQuery: params.filter,
+    })
 
-      callback(instances, instances.length)
-      return
+    let instances = provider.renderParams.value.componentState.instances || []
+
+    if (provider.component.shouldLoad(provider.renderParams)) {
+      instances = await provider.component.loadChoices(provider.renderParams)
     }
 
-    const instances = await provider.component.loadChoices(provider.renderParams, params.filter)
     const items = instances
-      .map<[GraphPointer, string]>(pointer => [pointer, getLocalizedLabel(pointer)])
+      .map<Item>(pointer => [pointer, getLocalizedLabel(pointer.out(rdfs.label))])
       .filter(([, label]) => pattern.test(label))
       .sort(([, l], [, r]) => l.localeCompare(r))
-      .map(([pointer]) => pointer)
 
     callback(items, items.length)
     provider.renderParams.updateComponentState({
@@ -99,7 +100,10 @@ export const instancesSelect: Render<InstancesSelectEditor> = function (params, 
   }
 
   function onChange(e: any) {
-    const selectedInstance = e.target.selectedItem as GraphPointer | undefined
+    const selectedItem = e.target.selectedItem as Item | GraphPointer | undefined
+    const selectedInstance = Array.isArray(selectedItem)
+      ? selectedItem[0]
+      : selectedItem
 
     if (selectedInstance && !selectedInstance.term.equals(value.object?.term)) {
       actions.update(selectedInstance.term)
@@ -110,12 +114,15 @@ export const instancesSelect: Render<InstancesSelectEditor> = function (params, 
   }
 
   const searchUri = this.searchTemplate?.({ property })?.expand(focusNode)
+  const selectedItem = selectedInstance
+    ? [selectedInstance, getLocalizedLabel(selectedInstance.out(rdfs.label))]
+    : []
 
   return html`<vaadin-combo-box item-id-path="0.value" item-label-path="1"
                                 ${spread(validity(value))}
                                 .readonly="${!!property.shape.readOnly}"
                 .dataProvider="${dataProvider(this, params, searchUri) as any}"
-                .selectedItem="${selectedInstance}"
+                .selectedItem="${selectedItem}"
                 @selected-item-changed="${onChange}">
   </vaadin-combo-box>`
 }

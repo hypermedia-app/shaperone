@@ -1,19 +1,25 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { ComponentInstance, SingleEditorComponent } from '../../models/components'
-import { CoreComponent } from '../components.js'
+import { CoreComponent, sort } from '../components.js'
+import * as select from './base/instancesSelect.js'
+import type { State, Editor } from './base/instancesSelect.js'
 
 /**
- * Instance state of auto complete components
+ * Represents the state of an instances select component
  */
-export interface AutoComplete extends ComponentInstance {
+export interface AutoComplete extends State {
+  freetextQuery?: string
 }
 
-export interface AutoCompleteEditor extends SingleEditorComponent<AutoComplete> {
+export interface AutoCompleteEditor extends Editor<AutoComplete> {
 }
 
 /**
- * Extend to implement [DASH auto complete editor](http://datashapes.org/forms.html#AutoCompleteEditor)
+ * A base implementation of Instances Select component which sets {@link InstancesSelect.ready} state flag the instances are first loaded.
+ *
+ * The instance data will be loaded from the shapes graph
  */
 export const autoComplete: CoreComponent<AutoCompleteEditor> = {
   editor: dash.AutoCompleteEditor,
+  ...select,
+  sort,
 }

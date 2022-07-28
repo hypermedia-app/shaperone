@@ -397,10 +397,12 @@ describe('hydra/lib/components/instancesSelector', () => {
           focusNode,
           property,
           value: {
-            componentState: {},
+            componentState: {
+              freetextQuery: '',
+            },
           },
           updateComponentState,
-        } as any, '')
+        } as any)
 
         // then
         expect(client.loadResource).not.to.have.been.called
@@ -427,10 +429,12 @@ describe('hydra/lib/components/instancesSelector', () => {
           focusNode,
           property,
           value: {
-            componentState: {},
+            componentState: {
+              freetextQuery: '1234',
+            },
           },
           updateComponentState,
-        } as any, '1234')
+        } as any)
 
         // then
         expect(client.loadResource).not.to.have.been.called
@@ -457,10 +461,12 @@ describe('hydra/lib/components/instancesSelector', () => {
           focusNode,
           property,
           value: {
-            componentState: {},
+            componentState: {
+              freetextQuery: 'abc',
+            },
           },
           updateComponentState,
-        } as any, 'abc')
+        } as any)
 
         // then
         expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?q=abc')
