@@ -5,10 +5,10 @@ import { propertyShape } from '@shaperone/testing/util'
 import clownface from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { NamedNode } from 'rdf-js'
-import * as instancesSelector from '../../../lib/components/instancesSelector'
+import * as autoComplete from '../../../lib/components/autocomplete'
 import { hydraCollectionProperty, hydraSearchProperty } from './_support'
 
-describe('hydra/lib/components/instancesSelector', () => {
+describe('hydra/lib/components/autoComplete', () => {
   describe('matcher', () => {
     let matcher: {
       term: NamedNode
@@ -17,13 +17,13 @@ describe('hydra/lib/components/instancesSelector', () => {
 
     beforeEach(() => {
       matcher = {
-        term: dash.InstancesSelectEditor,
+        term: dash.AutoCompleteEditor,
         match: sinon.stub(),
       }
     })
 
-    it('applies to Instances Selector', () => {
-      expect(instancesSelector.matcher.term).to.deep.eq(dash.InstancesSelectEditor)
+    it('applies to Auto Complete', () => {
+      expect(matcher.term).to.deep.eq(dash.AutoCompleteEditor)
     })
 
     it('returns 1 if property shape has named node hydra:collection', () => {
@@ -32,7 +32,7 @@ describe('hydra/lib/components/instancesSelector', () => {
       const value = clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
-      const result = instancesSelector.matcher.decorate(matcher)(property.shape, value)
+      const result = autoComplete.matcher.decorate(matcher)(property.shape, value)
 
       // then
       expect(result).to.eq(1)
@@ -44,7 +44,7 @@ describe('hydra/lib/components/instancesSelector', () => {
       const value = clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
-      const result = instancesSelector.matcher.decorate(matcher)(property.shape, value)
+      const result = autoComplete.matcher.decorate(matcher)(property.shape, value)
 
       // then
       expect(result).to.eq(1)
@@ -58,7 +58,7 @@ describe('hydra/lib/components/instancesSelector', () => {
       const value = clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
-      instancesSelector.matcher.decorate(matcher)(shape, value)
+      autoComplete.matcher.decorate(matcher)(shape, value)
 
       // then
       expect(matcher.match).to.have.been.called
@@ -70,7 +70,7 @@ describe('hydra/lib/components/instancesSelector', () => {
       const value = clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
-      instancesSelector.matcher.decorate(matcher)(shape, value)
+      autoComplete.matcher.decorate(matcher)(shape, value)
 
       // then
       expect(matcher.match).to.have.been.called

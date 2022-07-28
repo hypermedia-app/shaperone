@@ -149,17 +149,15 @@ prefix ex: <http://example.com/>
 
 <TaskShape> a sh:NodeShape ;
   sh:property [
-    sh:path [
-      sh:path ex:assignee ;
-      hydra:search [
-        a hydra:IriTemplate ;
-        hydra:template "https://example.com/people{?company}" ;
-        sh:path [ sh:inversePath schema:hasPart ] ;
-        hydra:mapping [
-          hydra:property schema:department ;
-          hydra:variable "company" ;
-          hydra:required true
-        ] ;
+    sh:path ex:assignee ;
+    hydra:search [
+      a hydra:IriTemplate ;
+      hydra:template "https://example.com/people{?company}" ;
+      sh:path [ sh:inversePath schema:hasPart ] ;
+      hydra:mapping [
+        hydra:property schema:department ;
+        hydra:variable "company" ;
+        hydra:required true
       ] ;
     ]
   ]

@@ -9,6 +9,7 @@ import { Lazy } from '@hydrofoil/shaperone-core'
 import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import {
+  AutoCompleteEditor,
   booleanSelect,
   BooleanSelectEditor,
   enumSelect,
@@ -96,7 +97,14 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   lazyRender() {
     return import('./components/instancesSelect').then(m => m.instancesSelect)
   },
-}/**
+}
+
+export const autoComplete: Lazy<AutoCompleteEditor> = {
+  ...instancesSelectEditor,
+  editor: dash.AutoCompleteEditor,
+}
+
+/**
  * Renders [`vaadin-select`](https://vaadin.com/components/vaadin-select/html-api/elements/Vaadin.SelectElement) displaying true/false.
  */
 export const booleanSelectEditor: Lazy<BooleanSelectEditor> = {

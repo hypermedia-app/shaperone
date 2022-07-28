@@ -42,8 +42,8 @@ describe('wc-vaadin/components/instancesSelect', () => {
     const result = await fixture<ComboBoxElement>(component.render(params, actions)) as any
 
     // then
-    expect(result.selectedItem.term.termType).to.eq('NamedNode')
-    expect(result.selectedItem.value).to.eq('bar')
+    expect(result.selectedItem[0].term.termType).to.eq('NamedNode')
+    expect(result.selectedItem[0].value).to.eq('bar')
   })
 
   it('updates form when value changes', async () => {
