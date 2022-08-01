@@ -16,7 +16,10 @@ export const render: SingleEditorComponent<Locals>['render'] = function details(
       <sl-details .open="${value.componentState.open || false}"
                   .summary="${localizedLabel(focusNode, { fallback: localizedLabel(node?.pointer) })}"
                   @sl-show="${() => updateComponentState({ open: true })}"
-                  @sl-hide="${() => updateComponentState({ open: false })}"
+                  @sl-hide="${(e: Event) => {
+    e.stopPropagation()
+    updateComponentState({ open: false })
+  }}"
       >
         ${renderer.renderFocusNode({ focusNode, shape: node })}
       </sl-details>
