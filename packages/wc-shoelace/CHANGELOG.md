@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.4
+
+### Patch Changes
+
+- e7455cb: Prevent `sl-hide` event from hiding parent `sl-details` elements
+
 ## 0.1.3
 
 ### Patch Changes
