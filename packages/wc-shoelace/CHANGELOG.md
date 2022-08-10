@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.5
+
+### Patch Changes
+
+- e2db802: Render multi editor when selected
+
 ## 0.1.4
 
 ### Patch Changes
