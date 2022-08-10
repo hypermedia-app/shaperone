@@ -2,9 +2,10 @@ import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/rend
 import { Term } from 'rdf-js'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
 import { GraphPointer } from 'clownface'
+import { ComponentState, MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-core/models/components'
 
 export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function () {
-  const { dispatch, form, components, templates } = this.context
+  const { dispatch, form, state, components, templates } = this.context
   const { property, focusNode } = this
 
   function update(termsOrStrings : Array<Term | string>) {
@@ -33,23 +34,39 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
   if (!editor) {
     return templates.editor.notFound()
   }
-  const component = components.components[editor.value]
+  const component: MultiEditorComponent<any> = components.components[editor.value] as any
   if (!component) {
     return templates.component.notFound.call(this, editor)
   }
 
   if (!component.render) {
-    if (component.loadingFailed) {
-      return templates.component.loadingFailed(component.loadingFailed.reason)
+    const componentState = component as ComponentState
+    if (componentState.loadingFailed) {
+      return templates.component.loadingFailed(componentState.loadingFailed.reason)
     }
-    if (!component.loading) {
+    if (!componentState.loading) {
       dispatch.components.load(editor)
     }
     return templates.component.loading()
   }
 
+  if (component.init) {
+    const ready = component.init({
+      form: state,
+      focusNode: focusNode.focusNode,
+      property,
+      updateComponentState,
+      renderer: this,
+      componentState,
+    }, { update })
+
+    if (!ready) {
+      return templates.component.initializing()
+    }
+  }
+
   return component.render(
-    { focusNode: focusNode.focusNode, property, updateComponentState, renderer: this, componentState },
+    { form: state, focusNode: focusNode.focusNode, property, updateComponentState, renderer: this, componentState },
     { update },
   )
 }
@@ -110,16 +127,17 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   if (!editor) {
     return templates.editor.notFound()
   }
-  const component = components.components[editor.value]
+  const component: SingleEditorComponent<any> = components.components[editor.value] as any
   if (!component) {
     return templates.component.notFound.call(this, editor)
   }
 
   if (!component.render) {
-    if (component.loadingFailed) {
-      return templates.component.loadingFailed(component.loadingFailed.reason)
+    const componentState = component as ComponentState
+    if (componentState.loadingFailed) {
+      return templates.component.loadingFailed(componentState.loadingFailed.reason)
     }
-    if (!component.loading) {
+    if (!componentState.loading) {
       dispatch.components.load(editor)
     }
     return templates.component.loading()

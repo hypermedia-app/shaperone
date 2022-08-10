@@ -47,7 +47,6 @@ export interface SingleEditorActions {
 
 export interface MultiEditorActions {
   update(newValues: Array<Term | string>): void
-  focusOnObjectNode(): void
 }
 
 export interface Component {
