@@ -196,6 +196,52 @@ describe('wc/renderer/editor', () => {
       }))
       expect(result.textContent).to.equal('Multi editor')
     })
+
+    it('renders component when init is ready', async () => {
+      // given
+      property.selectedEditor = editor
+      const render = sinon.stub().returns(html`Multi editor`)
+      renderer.context.components.components[editor.value] = {
+        editor,
+        loading: false,
+        render,
+        init: () => true,
+      }
+
+      // when
+      const result = await fixture(html`<div>${renderMultiEditor.call(renderer)}</div>`)
+
+      // then
+      expect(render).to.have.been.called
+      expect(result.textContent).to.equal('Multi editor')
+    })
+
+    it('renders "initializing" template when not ready', async () => {
+      // given
+      property.selectedEditor = editor
+      const init = sinon.stub().returns(false)
+      const render = sinon.stub()
+      renderer.context.components.components[editor.value] = {
+        editor,
+        loading: false,
+        init,
+        render,
+      }
+      renderer.context.templates.component.initializing = sinon.stub().returns(html`Preparing`)
+
+      // when
+      const result = await fixture(html`<div>${renderMultiEditor.call(renderer)}</div>`)
+
+      // then
+      expect(render).not.to.have.been.called
+      expect(init).to.have.been.calledWith(sinon.match({
+        renderer,
+        focusNode: sinon.match({
+          term: sinon.match.object,
+        }),
+      }))
+      expect(result.textContent).to.equal('Preparing')
+    })
   })
 
   describe('singleEditor', () => {
