@@ -1,5 +1,31 @@
 # @hydrofoil/shaperone-playground-examples
 
+## 0.2.30
+
+### Patch Changes
+
+- 7eaafd8: Change how `componentState` is accessed in calls to `render`, `init`, etc., which unifies implementations of single
+  editors and multi editors.
+
+  Implementors who wish to reuse their code with both kinds of editors, should update their functions so that
+  `componentState` is retrieved from the first argument and not from `value` (which does not exist in the case of
+  multi editors).
+
+  ```diff
+  {
+  - init({ value: { componentState } }) {
+  - init({ value, componentState }) {
+  }
+  - render({ value: { componentState } }) {
+  + render({ value, componentState }) {
+   }
+  }
+  ```
+
+- Updated dependencies [7eaafd8]
+  - @hydrofoil/shaperone-core@0.9.3
+  - @hydrofoil/shaperone-wc@0.7.2
+
 ## 0.2.29
 
 ### Patch Changes
