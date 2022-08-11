@@ -47,13 +47,11 @@ describe('components', () => {
 
         // when
         const result = enumSelect.init?.(<any>{
-          value: {
-            componentState: {
-              choices: [
-                [graph.literal('foo'), 'foo'],
-                [graph.literal('bar'), 'bar'],
-              ],
-            },
+          componentState: {
+            choices: [
+              [graph.literal('foo'), 'foo'],
+              [graph.literal('bar'), 'bar'],
+            ],
           },
         }, actions)
 
@@ -64,10 +62,8 @@ describe('components', () => {
       it('returns false if loading', () => {
         // when
         const result = enumSelect.init?.(<any>{
-          value: {
-            componentState: {
-              loading: true,
-            },
+          componentState: {
+            loading: true,
           },
         }, actions)
 
@@ -171,13 +167,15 @@ describe('components', () => {
       it('returns true if already has choices', () => {
         // given
         const graph = clownface({ dataset: $rdf.dataset() })
-        value.componentState.instances = [
-          graph.literal('foo').addOut(rdfs.label, 'foo'),
-          graph.literal('bar').addOut(rdfs.label, 'bar'),
-        ]
+        const componentState = {
+          instances: [
+            graph.literal('foo').addOut(rdfs.label, 'foo'),
+            graph.literal('bar').addOut(rdfs.label, 'bar'),
+          ],
+        }
 
         // when
-        const result = instancesSelect.init?.(<any>{ value }, actions)
+        const result = instancesSelect.init?.(<any>{ value, componentState }, actions)
 
         // then
         expect(result).to.be.true
@@ -185,11 +183,12 @@ describe('components', () => {
 
       it('returns false if loading', () => {
         // given
-        value.componentState.loading = true
+        const componentState = { loading: true }
 
         // when
         const result = instancesSelect.init?.(<any>{
           value,
+          componentState,
         }, actions)
 
         // then
