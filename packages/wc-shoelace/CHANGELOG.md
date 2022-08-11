@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.7
+
+### Patch Changes
+
+- 60dbf08: Do no show "add value" button when multi editor is rendered
+- f6aa63a: Configurable icons to add/remove objects
+- f6aa63a: The default icon to remove an object should be an [X]
+
 ## 0.1.6
 
 ### Patch Changes
