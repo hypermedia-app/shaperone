@@ -4,15 +4,15 @@ import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 
-export const property: PropertyTemplate = (renderer, current) => {
-  const editors = current.property.selectedEditor
+export const property: PropertyTemplate = (renderer, { property }) => {
+  const editors = property.selectedEditor
     ? renderer.renderMultiEditor()
-    : html`${repeat(current.property.objects, object => html`${renderer.renderObject({ object })}`)}`
+    : html`${repeat(property.objects, object => html`${renderer.renderObject({ object })}`)}`
 
   return html`
-    <sh-sl-property .label="${localizedLabel(current.property.shape, { property: sh.name })}"
-                    .helpText="${localizedLabel(current.property.shape, { property: sh.description })}"
-                    .canAddValue="${current.property.canAdd}"
+    <sh-sl-property .label="${localizedLabel(property.shape, { property: sh.name })}"
+                    .helpText="${localizedLabel(property.shape, { property: sh.description })}"
+                    .canAddValue="${property.canAdd && !property.selectedEditor}"
                     @added="${renderer.actions.addObject}"
     >
       ${editors}
