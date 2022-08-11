@@ -75,6 +75,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
       focusNode,
       property,
       value,
+      componentState: value.componentState,
       updateComponentState: sinon.spy(),
       renderer,
     },

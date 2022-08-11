@@ -8,12 +8,12 @@ interface Locals extends ComponentInstance {
   open?: boolean
 }
 
-export const render: SingleEditorComponent<Locals>['render'] = function details({ value, renderer, property: { shape: { node } }, updateComponentState }) {
+export const render: SingleEditorComponent<Locals>['render'] = function details({ value, componentState, renderer, property: { shape: { node } }, updateComponentState }) {
   const focusNode = value.object
 
   if (isResource(focusNode)) {
     return html`
-      <sl-details .open="${value.componentState.open || false}"
+      <sl-details .open="${componentState.open || false}"
                   .summary="${localizedLabel(focusNode, { fallback: localizedLabel(node?.pointer) })}"
                   @sl-show="${() => updateComponentState({ open: true })}"
                   @sl-hide="${(e: Event) => {

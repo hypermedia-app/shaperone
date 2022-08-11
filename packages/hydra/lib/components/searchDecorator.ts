@@ -141,7 +141,7 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
         }
         return undefined
       },
-      shouldLoad({ focusNode, value: { componentState }, property, updateComponentState }): boolean {
+      shouldLoad({ focusNode, componentState, property, updateComponentState }): boolean {
         let freetextQuery: string | undefined
         if ('freetextQuery' in componentState) {
           freetextQuery = componentState.freetextQuery
@@ -182,7 +182,7 @@ export const decorator = (client?: Pick<HydraClient, 'loadResource'>): Component
           return getMembers(response)
         }
 
-        const { lastLoaded, freetextQuery } = args.value.componentState
+        const { lastLoaded, freetextQuery } = args.componentState
         const searchTemplate = this.searchTemplate?.(args)
         const searchUri = getSearchUri(searchTemplate, args.focusNode, args.property, freetextQuery)
         if (searchUri && searchUri !== lastLoaded) {

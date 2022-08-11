@@ -57,6 +57,7 @@ describe('wc-vaadin/components', () => {
             value,
             focusNode,
             property,
+            componentState: {},
             updateComponentState,
             renderer,
           }, actions)
@@ -73,7 +74,6 @@ describe('wc-vaadin/components', () => {
             ...instancesSelectEditor,
             loadInstance: sinon.spy(),
           }
-          value.componentState.ready = true
 
           // when
           const result = editor.init?.({
@@ -81,6 +81,9 @@ describe('wc-vaadin/components', () => {
             value,
             focusNode,
             property,
+            componentState: {
+              ready: true,
+            },
             updateComponentState,
             renderer,
           }, actions)
@@ -104,6 +107,7 @@ describe('wc-vaadin/components', () => {
             value,
             focusNode,
             property,
+            componentState: {},
             updateComponentState,
             renderer,
           }, actions)
@@ -132,6 +136,7 @@ describe('wc-vaadin/components', () => {
             value,
             focusNode,
             property,
+            componentState: {},
             updateComponentState: sinon.spy(),
             renderer,
           }, actions)
@@ -164,6 +169,7 @@ describe('wc-vaadin/components', () => {
           value,
           focusNode,
           property,
+          componentState: {},
           updateComponentState: sinon.spy(),
           renderer,
         }, actions)
@@ -190,6 +196,7 @@ describe('wc-vaadin/components', () => {
           value,
           focusNode,
           property,
+          componentState: {},
           updateComponentState: sinon.spy(),
           renderer,
         }, actions)

@@ -55,10 +55,10 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
  */
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
-  init({ form, property, value, updateComponentState }) {
+  init({ form, property, value, componentState, updateComponentState }) {
     const { object } = value
 
-    if (!value.componentState.ready && !value.componentState.loading && object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
+    if (!componentState.ready && !componentState.loading && object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
       updateComponentState({
         loading: true,
         ready: false,
@@ -85,14 +85,14 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
 
       return false
     }
-    if (!value.componentState.ready) {
+    if (!componentState.ready) {
       updateComponentState({
         loading: false,
         ready: true,
       })
     }
 
-    return !!value.componentState.ready
+    return !!componentState.ready
   },
   lazyRender() {
     return import('./components/instancesSelect').then(m => m.instancesSelect)

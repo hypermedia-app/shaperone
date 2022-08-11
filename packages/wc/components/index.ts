@@ -25,8 +25,8 @@ export const textArea: Render = function ({ property, value }, { update }) {
   return html`<textarea ${readOnly(property)} @blur="${(e: any) => update(literal(e.target.value))}" ${validity(value)}>${value.object?.value}</textarea>`
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ property, value }, { update }) {
-  const choices = value.componentState.choices || []
+export const enumSelect: Render<EnumSelectEditor> = function ({ property, value, componentState }, { update }) {
+  const choices = componentState.choices || []
 
   function updateHandler(e: any) {
     const chosen = choices[(e.target).selectedIndex - 1]
@@ -49,8 +49,8 @@ export const datePicker = (type: 'date' | 'datetime-local'): Render => function 
                        @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const instancesSelect: Render<InstancesSelectEditor> = function ({ property, value }, { update, clear }) {
-  const choices = value.componentState.instances || []
+export const instancesSelect: Render<InstancesSelectEditor> = function ({ property, value, componentState }, { update, clear }) {
+  const choices = componentState.instances || []
 
   function onInput(e: any) {
     const { selectedIndex } = e.target

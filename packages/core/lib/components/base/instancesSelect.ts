@@ -39,7 +39,7 @@ export interface Editor<S extends State> extends SingleEditorComponent<S> {
   sort(left: GraphPointer, right: GraphPointer): number
 }
 
-export function shouldLoad({ value: { componentState } }: SingleEditorRenderParams<State>): boolean {
+export function shouldLoad({ componentState }: SingleEditorRenderParams<State>): boolean {
   return !componentState.instances
 }
 
@@ -61,8 +61,8 @@ export async function loadChoices({ property }: SingleEditorRenderParams<State>)
 }
 
 export const init: SingleEditorComponent<State>['init'] = function (this: Editor<State>, params) {
-  const { value, updateComponentState } = params
-  if (this.shouldLoad(params) && !value.componentState.loading) {
+  const { componentState, updateComponentState } = params
+  if (this.shouldLoad(params) && !componentState.loading) {
     updateComponentState({
       loading: true,
     });
@@ -79,5 +79,5 @@ export const init: SingleEditorComponent<State>['init'] = function (this: Editor
 
     return false
   }
-  return !value.componentState.loading
+  return !componentState.loading
 }
