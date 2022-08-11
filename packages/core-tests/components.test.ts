@@ -98,6 +98,7 @@ describe('components', () => {
         enumSelect.init?.({
           form,
           value,
+          componentState: {},
           updateComponentState,
           focusNode,
           property,
@@ -219,6 +220,7 @@ describe('components', () => {
           form,
           value,
           updateComponentState,
+          componentState: {},
           focusNode,
           property,
           renderer,

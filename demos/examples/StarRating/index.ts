@@ -42,12 +42,12 @@ async function loadIcon({ defaultIcon, shape, updateComponentState }: LoadIcon) 
 
 export const component: Lazy<StarRatingComponent> = {
   editor,
-  init({ value, updateComponentState, property: { shape } }) {
-    if (typeof value.componentState.icon !== 'undefined') {
+  init({ componentState, updateComponentState, property: { shape } }) {
+    if (typeof componentState.icon !== 'undefined') {
       return true
     }
 
-    if (value.componentState.loading) {
+    if (componentState.loading) {
       return false
     }
 

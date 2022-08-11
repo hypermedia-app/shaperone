@@ -25,6 +25,7 @@ export interface RenderParams<T extends ComponentInstance = ComponentInstance> {
   form: FormSettings
   focusNode: FocusNode
   property: PropertyState
+  componentState: T
   updateComponentState: UpdateComponentState<T>
 }
 
@@ -34,7 +35,6 @@ export interface SingleEditorRenderParams<T extends ComponentInstance = Componen
 }
 
 export interface MultiEditorRenderParams<T extends ComponentInstance = ComponentInstance> extends RenderParams<T> {
-  componentState: T
   renderer: PropertyRenderer
 }
 

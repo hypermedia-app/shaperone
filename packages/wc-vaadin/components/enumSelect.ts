@@ -28,8 +28,8 @@ function renderer(choices: GraphPointer[], value: Term | undefined) {
   }
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ value, property }, actions) {
-  const choices = value.componentState.choices || []
+export const enumSelect: Render<EnumSelectEditor> = function ({ value, componentState, property }, actions) {
+  const choices = componentState.choices || []
 
   const selectValue = choices.find(choice => choice.term.equals(value.object?.term))?.value
 

@@ -123,7 +123,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
     })
   }
 
-  const editor = object.selectedEditor
+  const { componentState, selectedEditor: editor } = object
   if (!editor) {
     return templates.editor.notFound()
   }
@@ -147,6 +147,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
       form: state,
       focusNode: focusNode.focusNode,
       property,
+      componentState,
       updateComponentState,
       value: object,
       renderer: this,
@@ -158,7 +159,15 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   }
 
   return component.render(
-    { form: state, focusNode: focusNode.focusNode, property, value: object, updateComponentState, renderer: this },
+    {
+      form: state,
+      focusNode: focusNode.focusNode,
+      property,
+      value: object,
+      componentState,
+      updateComponentState,
+      renderer: this,
+    },
     { update, focusOnObjectNode, clear, remove },
   )
 }

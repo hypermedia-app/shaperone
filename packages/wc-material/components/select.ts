@@ -31,12 +31,12 @@ function select(
 </mwc-select>`
 }
 
-export const enumSelect: Render<EnumSelectEditor> = function ({ form, value, property }, actions) {
-  return select(form, value, value.componentState.choices || [], actions, property)
+export const enumSelect: Render<EnumSelectEditor> = function ({ form, value, componentState, property }, actions) {
+  return select(form, value, componentState.choices || [], actions, property)
 }
 
-export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, value, property }, actions) {
-  return select(form, value, value.componentState.instances || [], actions, property)
+export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, value, componentState, property }, actions) {
+  return select(form, value, componentState.instances || [], actions, property)
 }
 
 export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { update, clear }) {

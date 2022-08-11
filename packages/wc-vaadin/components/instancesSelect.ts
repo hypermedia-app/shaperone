@@ -38,7 +38,7 @@ function createDataProvider(_component: InstancesSelectEditor, _renderParams: Si
       freetextQuery: params.filter,
     })
 
-    let instances = provider.renderParams.value.componentState.instances || []
+    let instances = provider.renderParams.componentState.instances || []
 
     if (provider.component.shouldLoad(provider.renderParams)) {
       instances = await provider.component.loadChoices(provider.renderParams)
@@ -89,10 +89,10 @@ class DataProviderDirective extends Directive {
 const dataProvider = directive(DataProviderDirective)
 
 export const instancesSelect: Render<InstancesSelectEditor> = function (params, actions) {
-  const { focusNode, property, value } = params
+  const { focusNode, property, value, componentState } = params
   let selectedInstance: GraphPointer | undefined
-  if (value.componentState.selectedInstance) {
-    selectedInstance = value.componentState.selectedInstance
+  if (componentState.selectedInstance) {
+    selectedInstance = componentState.selectedInstance
   }
 
   if (value.object && !selectedInstance) {

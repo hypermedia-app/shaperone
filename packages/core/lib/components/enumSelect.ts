@@ -41,7 +41,7 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
  */
 export const enumSelect: CoreComponent<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
-  init({ focusNode, property, value: { componentState }, updateComponentState }) {
+  init({ focusNode, property, componentState, updateComponentState }) {
     if (!componentState.choices && !componentState.loading) {
       updateComponentState({
         loading: true,

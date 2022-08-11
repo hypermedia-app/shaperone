@@ -52,13 +52,14 @@ describe('hydra/lib/components/searchDecorator', () => {
     describe('shouldLoad', () => {
       it('returns false if instances state is initialized and there is no search template', () => {
         // given
-        value.componentState.instances = []
+        const componentState = { instances: [] }
 
         // when
         const result = decorated.shouldLoad({
           focusNode,
           value,
           property,
+          componentState,
           updateComponentState: sinon.stub(),
         } as any)
 
@@ -72,6 +73,7 @@ describe('hydra/lib/components/searchDecorator', () => {
           focusNode,
           value,
           property,
+          componentState: {},
           updateComponentState: sinon.stub(),
         } as any)
 
@@ -88,6 +90,7 @@ describe('hydra/lib/components/searchDecorator', () => {
           focusNode,
           value,
           property,
+          componentState: {},
           updateComponentState: sinon.stub(),
         } as any)
 
@@ -113,6 +116,7 @@ describe('hydra/lib/components/searchDecorator', () => {
           focusNode,
           value,
           property,
+          componentState: {},
           updateComponentState: sinon.stub(),
         } as any)
 
@@ -132,7 +136,6 @@ describe('hydra/lib/components/searchDecorator', () => {
             },
           },
         })
-        value.componentState.searchUri = 'people?name=jane'
         focusNode.addOut(schema.name, 'john')
 
         // when
@@ -140,6 +143,9 @@ describe('hydra/lib/components/searchDecorator', () => {
           focusNode,
           value,
           property,
+          componentState: {
+            searchUri: 'people?name=jane',
+          },
           updateComponentState: sinon.stub(),
         } as any)
 
@@ -237,9 +243,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         await decorated.loadChoices({
           focusNode,
           property,
-          value: {
-            componentState: {},
-          },
+          componentState: {},
           updateComponentState,
         } as any)
 
@@ -272,9 +276,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         await decorated.loadChoices({
           focusNode,
           property,
-          value: {
-            componentState: {},
-          },
+          componentState: {},
           updateComponentState,
         } as any)
 
@@ -304,10 +306,8 @@ describe('hydra/lib/components/searchDecorator', () => {
         await decorated.loadChoices({
           focusNode,
           property,
-          value: {
-            componentState: {
-              freetextQuery: '',
-            },
+          componentState: {
+            freetextQuery: '',
           },
           updateComponentState,
         } as any)
@@ -336,10 +336,8 @@ describe('hydra/lib/components/searchDecorator', () => {
         await decorated.loadChoices({
           focusNode,
           property,
-          value: {
-            componentState: {
-              freetextQuery: '1234',
-            },
+          componentState: {
+            freetextQuery: '1234',
           },
           updateComponentState,
         } as any)
@@ -368,10 +366,8 @@ describe('hydra/lib/components/searchDecorator', () => {
         await decorated.loadChoices({
           focusNode,
           property,
-          value: {
-            componentState: {
-              freetextQuery: 'abc',
-            },
+          componentState: {
+            freetextQuery: 'abc',
           },
           updateComponentState,
         } as any)
@@ -394,9 +390,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         await decorated.loadChoices({
           focusNode,
           property,
-          value: {
-            componentState,
-          },
+          componentState,
           updateComponentState,
         } as any)
 

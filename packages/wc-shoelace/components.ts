@@ -37,7 +37,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
 
     return function (object, actions) {
       function valueChanged(value: string) {
-        actions.update(rdf.literal(value, object.value.componentState.language))
+        actions.update(rdf.literal(value, object.componentState.language))
       }
 
       function languageChanged(e: any) {
