@@ -5,6 +5,7 @@
 | Property       | Attribute      | Type                   |
 |----------------|----------------|------------------------|
 | `canBeRemoved` | `canBeRemoved` | `boolean \| undefined` |
+| `removeIcon`   | `removeIcon`   | `string \| undefined`  |
 
 ## Events
 
@@ -19,6 +20,7 @@
 
 | Property      | Attribute     | Type                   |
 |---------------|---------------|------------------------|
+| `addIcon`     | `addIcon`     | `string \| undefined`  |
 | `canAddValue` | `canAddValue` | `boolean \| undefined` |
 | `helpText`    | `helpText`    | `string \| undefined`  |
 | `label`       | `label`       | `string \| undefined`  |

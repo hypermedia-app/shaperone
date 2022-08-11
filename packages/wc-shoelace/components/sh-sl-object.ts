@@ -9,12 +9,12 @@ export class ShaperoneShoelaceObject extends LitElement {
         display: flex;
         justify-content: space-between;
       }
-      
+
       slot {
         display: block;
         flex: 1 ;
       }
-      
+
       sl-icon-button {
         font-size: var(--sh-sl-icon-size, 1.75em)
       }
@@ -24,10 +24,13 @@ export class ShaperoneShoelaceObject extends LitElement {
   @property({ type: Boolean })
   canBeRemoved?: boolean
 
+  @property({ type: String })
+  removeIcon?: string
+
   render() {
     let removeRow = html``
     if (this.canBeRemoved) {
-      removeRow = html`<sl-icon-button name="dash-square-dotted" 
+      removeRow = html`<sl-icon-button name="${this.removeIcon || 'x-square'}"
                                        label="Remove value"
                                        @click="${() => this.dispatchEvent(new Event('removed'))}"></sl-icon-button>`
     }

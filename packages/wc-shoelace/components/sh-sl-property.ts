@@ -17,11 +17,11 @@ export class ShSlProperty extends LitElement {
       slot::slotted(*) {
         padding: var(--sh-sl-property-object-padding, 0 0 10px);
       }
-      
+
       #label {
         font-size: var(--sh-sl-label-font-size);
       }
-      
+
       #help-text {
         margin-top: 0;
         font-size: var(--sh-sl-help-text-font-size);
@@ -43,6 +43,9 @@ export class ShSlProperty extends LitElement {
   @property({ type: String })
   helpText?: string
 
+  @property({ type: String })
+  addIcon?: string
+
   @property({ type: Boolean })
   __slotEmpty = true
 
@@ -53,7 +56,7 @@ export class ShSlProperty extends LitElement {
     let addRow = html``
     if (this.canAddValue) {
       addRow = html`<sl-icon-button style="font-size: 1.75em"
-                                  name="plus-square-dotted"
+                                  name="${this.addIcon || 'plus-square'}"
                                   label="Add value"
                                   @click="${() => this.dispatchEvent(new Event('added'))}"
     ></sl-icon-button>`

@@ -8,6 +8,10 @@
         {
           "name": "canBeRemoved",
           "type": "boolean | undefined"
+        },
+        {
+          "name": "removeIcon",
+          "type": "string | undefined"
         }
       ],
       "properties": [
@@ -15,6 +19,11 @@
           "name": "canBeRemoved",
           "attribute": "canBeRemoved",
           "type": "boolean | undefined"
+        },
+        {
+          "name": "removeIcon",
+          "attribute": "removeIcon",
+          "type": "string | undefined"
         }
       ],
       "events": [
@@ -38,6 +47,10 @@
         {
           "name": "helpText",
           "type": "string | undefined"
+        },
+        {
+          "name": "addIcon",
+          "type": "string | undefined"
         }
       ],
       "properties": [
@@ -54,6 +67,11 @@
         {
           "name": "helpText",
           "attribute": "helpText",
+          "type": "string | undefined"
+        },
+        {
+          "name": "addIcon",
+          "attribute": "addIcon",
           "type": "string | undefined"
         }
       ],
