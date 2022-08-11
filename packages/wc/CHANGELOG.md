@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc
 
+## 0.7.1
+
+### Patch Changes
+
+- 5099ddc: Fix: `init` would not have been called for multi-editors when calling `renderMultiEditor`
+- Updated dependencies [5099ddc]
+  - @hydrofoil/shaperone-core@0.9.2
+
 ## 0.7.0
 
 ### Minor Changes

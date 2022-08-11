@@ -1,7 +1,7 @@
 {
   "name": "@hydrofoil/shaperone-playground",
   "private": true,
-  "version": "0.1.51",
+  "version": "0.1.52",
   "description": "@hydrofoil/shaperone demo using lit-html",
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
@@ -14,8 +14,8 @@
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
     "@github/clipboard-copy-element": "^1.1.2",
-    "@hydrofoil/shaperone-playground-examples": "0.2.28",
-    "@hydrofoil/shaperone-wc": "0.7.0",
+    "@hydrofoil/shaperone-playground-examples": "0.2.29",
+    "@hydrofoil/shaperone-wc": "0.7.1",
     "@hydrofoil/shaperone-wc-material": "0.5.4",
     "@hydrofoil/shaperone-wc-vaadin": "0.4.6",
     "@hydrofoil/shaperone-hydra": "0.3.8",
