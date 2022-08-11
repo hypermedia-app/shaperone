@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.2
+
+### Patch Changes
+
+- 5099ddc: Potentially breaking: removed `focusOnObjectNode` from multi editor actions since it was not actually passed to
+  the implementing code, nor did it make sense anyway.
+
 ## 0.9.1
 
 ### Patch Changes
