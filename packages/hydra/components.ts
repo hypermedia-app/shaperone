@@ -5,8 +5,10 @@
  * @module @hydrofoil/shaperone-hydra/components
  */
 
-import * as instancesSelectorNs from './lib/components/instancesSelector'
-import * as autocompleteNs from './lib/components/autocomplete'
+import * as instancesSelectorNs from './lib/components/instancesSelector.js'
+import * as autocompleteNs from './lib/components/autocomplete.js'
+import * as multiInstanceSelectorNs from './lib/components/multiInstanceSelector.js'
 
 export { instancesSelectorNs as instancesSelector }
 export { autocompleteNs as autocomplete }
+export { multiInstanceSelectorNs as multiInstanceSelector }
