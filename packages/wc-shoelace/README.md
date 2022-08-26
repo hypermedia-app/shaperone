@@ -1,3 +1,29 @@
+# sh-sl-autocomplete
+
+## Properties
+
+| Property     | Attribute    | Type                                             | Default |
+|--------------|--------------|--------------------------------------------------|---------|
+| `empty`      | `empty`      | `boolean`                                        | true    |
+| `inputValue` | `inputValue` | `string`                                         | ""      |
+| `selected`   | `selected`   | `GraphPointer<Term, DatasetCore<Quad, Quad>> \| undefined` |         |
+
+## Methods
+
+| Method                 | Type                          |
+|------------------------|-------------------------------|
+| `dispatchItemSelected` | `(e: CustomEvent<any>): void` |
+| `dispatchSearch`       | `(): void`                    |
+| `updateEmpty`          | `(e: Event): void`            |
+
+## Events
+
+| Event          | Type                              |
+|----------------|-----------------------------------|
+| `itemSelected` | `CustomEvent<{ value: any; }>`    |
+| `search`       | `CustomEvent<{ value: string; }>` |
+
+
 # sh-sl-object
 
 ## Properties

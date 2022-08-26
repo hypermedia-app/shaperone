@@ -6,6 +6,8 @@ import rdf from '@rdfjs/data-model'
 import { isGraphPointer, isLiteral } from 'is-graph-pointer'
 import type { GraphPointer } from 'clownface'
 
+export { autocomplete } from './editors/autocomplete.js'
+
 interface EditorState extends ComponentInstance {
   noLabel?: boolean
 }

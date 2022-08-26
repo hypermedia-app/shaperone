@@ -1883,6 +1883,11 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@ngard/tiny-difference@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ngard/tiny-difference/-/tiny-difference-1.0.0.tgz#a25d08d8d02c7a9bab364f0f6dffdc786dd86175"
+  integrity sha512-CKeah3PCWXhDqbV8UGfxAGgU6QicsGHlGx6Z/WBK6d5wD1r7XWzcwbZOr+OxfWM9xQyiLmf87PlW5al/Nv7H5w==
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -2286,10 +2291,10 @@
     "@tpluscode/rdf-ns-builders" "^2"
     readable-stream "^3.6.0"
 
-"@rdfjs-elements/lit-helpers@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@rdfjs-elements/lit-helpers/-/lit-helpers-0.3.3.tgz#bb72efa87e90f918c233c15f2ff8264d4c66d974"
-  integrity sha512-nYY+aHXTsUA3kR+oMj4q1f2K38MJH0M5X2OPnZSA/oPlJOyWYw+il2VqH94+lGsiAqNpfTD/ojTY5kI7kaJQPA==
+"@rdfjs-elements/lit-helpers@^0.3.3", "@rdfjs-elements/lit-helpers@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@rdfjs-elements/lit-helpers/-/lit-helpers-0.3.5.tgz#a9095395cd6cc16c86c45d276491d34bdc5de9f4"
+  integrity sha512-mOpdZO6YzDj0cSCXEQLGIEzdbscjhrSlNRmnD9EUcJjLnDQO+DKlcDKHS40ujdf0MyBjZdBS+LWRM0XACst13w==
   dependencies:
     "@tpluscode/rdf-ns-builders" "^2"
     "@ungap/event-target" "^0.2.3"
