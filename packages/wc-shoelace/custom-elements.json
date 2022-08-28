@@ -2,8 +2,66 @@
   "version": "experimental",
   "tags": [
     {
+      "name": "sh-sl-autocomplete",
+      "path": "./elements/sh-sl-autocomplete.ts",
+      "attributes": [
+        {
+          "name": "selected",
+          "type": "GraphPointer<Term, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "inputValue",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "empty",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "hoist",
+          "type": "boolean",
+          "default": "true"
+        }
+      ],
+      "properties": [
+        {
+          "name": "selected",
+          "attribute": "selected",
+          "type": "GraphPointer<Term, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "inputValue",
+          "attribute": "inputValue",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "empty",
+          "attribute": "empty",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "hoist",
+          "attribute": "hoist",
+          "type": "boolean",
+          "default": "true"
+        }
+      ],
+      "events": [
+        {
+          "name": "search"
+        },
+        {
+          "name": "itemSelected"
+        }
+      ]
+    },
+    {
       "name": "sh-sl-object",
-      "path": "./components/sh-sl-object.ts",
+      "path": "./elements/sh-sl-object.ts",
       "attributes": [
         {
           "name": "canBeRemoved",
@@ -34,7 +92,7 @@
     },
     {
       "name": "sh-sl-property",
-      "path": "./components/sh-sl-property.ts",
+      "path": "./elements/sh-sl-property.ts",
       "attributes": [
         {
           "name": "canAddValue",
@@ -83,7 +141,7 @@
     },
     {
       "name": "sh-sl-with-lang-editor",
-      "path": "./components/sh-sl-with-lang-editor.ts",
+      "path": "./elements/sh-sl-with-lang-editor.ts",
       "attributes": [
         {
           "name": "languages",

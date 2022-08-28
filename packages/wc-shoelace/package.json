@@ -11,6 +11,7 @@
   },
   "exports": {
     "./components.js": "./components.js",
+    "./component-extras.js": "./components-extras.js",
     "./templates.js": "./templates.js"
   },
   "files": [
@@ -19,13 +20,21 @@
     "custom-elements.json"
   ],
   "dependencies": {
+    "@hydrofoil/shaperone-core": "^0.9.3",
     "@hydrofoil/shaperone-wc": "^0.7.2",
+    "@ngard/tiny-difference": "^1.0.0",
     "@rdfjs/data-model": "^2",
-    "@rdfjs-elements/lit-helpers": "^0.3.3",
+    "@rdfjs-elements/lit-helpers": "^0.3.5",
     "@shoelace-style/shoelace": "^2.0.0-beta.77",
     "@tpluscode/rdf-ns-builders": "^2",
     "is-graph-pointer": "^1.2.2",
     "lit": "^2"
+  },
+  "devDependencies": {
+    "@open-wc/testing": "^3.1.6",
+    "@rdf-esm/dataset": "^0.5.1",
+    "@shaperone/testing": "*",
+    "clownface": "^1.5.1"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

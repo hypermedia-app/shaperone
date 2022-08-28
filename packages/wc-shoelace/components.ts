@@ -6,6 +6,10 @@ import rdf from '@rdfjs/data-model'
 import { isGraphPointer, isLiteral } from 'is-graph-pointer'
 import type { GraphPointer } from 'clownface'
 
+export { autocomplete } from './components/autocomplete.js'
+export { enumSelect } from './components/enumSelect.js'
+export { instancesSelect } from './components/instancesSelect.js'
+
 interface EditorState extends ComponentInstance {
   noLabel?: boolean
 }
@@ -28,7 +32,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
   async lazyRender() {
     const [{ inputRenderer }] = await Promise.all([
       import('./renderer/input'),
-      import('./components/sh-sl-with-lang-editor'),
+      import('./elements/sh-sl-with-lang-editor'),
     ])
 
     function extractLanguage(ptr: GraphPointer | undefined) {

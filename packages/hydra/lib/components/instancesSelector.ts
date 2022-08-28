@@ -22,4 +22,4 @@ export const matcher: MatcherDecorator = {
   },
 }
 
-export { decorator } from './searchDecorator'
+export { decorator } from './searchDecorator.js'
