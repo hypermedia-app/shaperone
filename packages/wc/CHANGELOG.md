@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc
 
+## 0.7.3
+
+### Patch Changes
+
+- 604a1c0: Export default metadata for multi instances select editor
+- Updated dependencies [76f55b0]
+- Updated dependencies [604a1c0]
+  - @hydrofoil/shaperone-core@0.9.4
+
 ## 0.7.2
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.8
+
+### Patch Changes
+
+- 76f55b0: Added `dash:AutocompleteEditor` and `sh1:InstanceMultiSelectEditor`
+- Updated dependencies [76f55b0]
+- Updated dependencies [604a1c0]
+  - @hydrofoil/shaperone-core@0.9.4
+  - @hydrofoil/shaperone-wc@0.7.3
+
 ## 0.1.7
 
 ### Patch Changes
