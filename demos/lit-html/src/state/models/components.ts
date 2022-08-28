@@ -1,7 +1,7 @@
 import { createModel } from '@captaincodeman/rdx'
 
 export interface ComponentsState {
-  components: 'native' | 'material' | 'vaadin'
+  components: 'native' | 'material' | 'vaadin' | 'shoelace'
   disableEditorChoice: boolean
 }
 
@@ -16,6 +16,7 @@ export const componentsSettings = createModel({
         case 'material':
         case 'native':
         case 'vaadin':
+        case 'shoelace':
           return { ...state, components }
         default:
           return state

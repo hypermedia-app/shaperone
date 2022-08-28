@@ -5,6 +5,7 @@
 | Property     | Attribute    | Type                                             | Default |
 |--------------|--------------|--------------------------------------------------|---------|
 | `empty`      | `empty`      | `boolean`                                        | true    |
+| `hoist`      | `hoist`      | `boolean`                                        | true    |
 | `inputValue` | `inputValue` | `string`                                         | ""      |
 | `selected`   | `selected`   | `GraphPointer<Term, DatasetCore<Quad, Quad>> \| undefined` |         |
 

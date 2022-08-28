@@ -1,3 +1,4 @@
 types/
 node_modules/
 dist/
+*.snap.js

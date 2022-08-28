@@ -26,7 +26,7 @@ export const property: ShoelacePropertyTemplate = (renderer, { property: state }
 }
 
 property.loadDependencies = () => [
-  import('./components/sh-sl-property'),
+  import('./elements/sh-sl-property'),
 ]
 
 interface ShoelaceObjectTemplate extends ObjectTemplate {
@@ -43,7 +43,7 @@ export const object: ShoelaceObjectTemplate = renderer => html`
 `
 
 object.loadDependencies = () => [
-  import('./components/sh-sl-object'),
+  import('./elements/sh-sl-object'),
 ]
 
 export const focusNode: FocusNodeTemplate = (renderer, { focusNode: { groups } }) => {

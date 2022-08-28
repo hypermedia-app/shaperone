@@ -30,6 +30,12 @@
     "is-graph-pointer": "^1.2.2",
     "lit": "^2"
   },
+  "devDependencies": {
+    "@open-wc/testing": "^3.1.6",
+    "@rdf-esm/dataset": "^0.5.1",
+    "@shaperone/testing": "*",
+    "clownface": "^1.5.1"
+  },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
   "license": "MIT",

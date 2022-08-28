@@ -11,6 +11,7 @@ import { SlSelect } from '@shoelace-style/shoelace'
 import type { GraphPointer } from 'clownface'
 import { renderItem } from './lib/components.js'
 import { stop } from './lib/handlers.js'
+import { settings } from './settings.js'
 
 export const instancesMultiSelectEditor: Lazy<MultiEditorComponent> = {
   ...select,
@@ -41,7 +42,7 @@ export const instancesMultiSelectEditor: Lazy<MultiEditorComponent> = {
       }
 
       return html`
-        <sl-select hoist multiple clearable .value=${values} @sl-hide=${stop} @sl-change=${onChange}>
+        <sl-select ?hoist="${settings.hoist}" multiple clearable .value=${values} @sl-hide=${stop} @sl-change=${onChange}>
           ${repeat(pointers || [], renderItem)}
         </sl-select>
         <sl-button @click=${selectAll}>

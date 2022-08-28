@@ -18,6 +18,7 @@
     "@hydrofoil/shaperone-wc": "0.7.2",
     "@hydrofoil/shaperone-wc-material": "0.5.5",
     "@hydrofoil/shaperone-wc-vaadin": "0.4.7",
+    "@hydrofoil/shaperone-wc-shoelace": "0.1.7",
     "@hydrofoil/shaperone-hydra": "0.3.9",
     "@hydrofoil/shaperone-rdf-validate-shacl": "1.0.0",
     "@material/mwc-icon": "^0.25",

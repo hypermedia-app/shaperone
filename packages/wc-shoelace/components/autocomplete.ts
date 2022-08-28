@@ -4,17 +4,26 @@ import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import { isNamedNode } from 'is-graph-pointer'
+import isGraphPointer from 'is-graph-pointer'
 import { NamedNode } from 'rdf-js'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
-import { renderItem } from '../lib/components'
+import type { GraphPointer } from 'clownface'
+import { renderItem } from '../lib/components.js'
+import { settings } from '../settings.js'
 
 interface Options {
   labelProperties: NamedNode | NamedNode[]
 }
 
-interface AutoCompleteEditor extends Core.AutoCompleteEditor {
+export interface AutoCompleteEditor extends Core.AutoCompleteEditor {
   initLabel(arg: SingleEditorRenderParams): void
+}
+
+declare module '@hydrofoil/shaperone-core/components' {
+  /* eslint-disable @typescript-eslint/no-empty-interface */
+  interface AutoComplete {
+    selected?: GraphPointer
+  }
 }
 
 export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
@@ -22,7 +31,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
   labelProperties: rdfs.label,
   editor: dash.AutoCompleteEditor,
   async lazyRender() {
-    await import('../components/sh-sl-autocomplete.js')
+    await import('../elements/sh-sl-autocomplete.js')
 
     return (params, { update }) => {
       const { value } = params
@@ -49,7 +58,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
       }
 
       let nodeValue = value.object?.value
-      if (isNamedNode(value.object)) {
+      if (isGraphPointer.isNamedNode(value.object)) {
         const nodeUrl = new URL(value.object.value)
         nodeValue = nodeUrl.hash || nodeUrl.pathname
       }
@@ -59,7 +68,9 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
         <sh-sl-autocomplete .selected=${selected}
                             .inputValue=${localizedLabel(selected, { property: autocomplete.labelProperties, fallback })}
                             @search=${search}
-                            @itemSelected=${itemSelected}>
+                            @itemSelected=${itemSelected}
+                            .hoist="${settings.hoist}"
+        >
           ${repeat(pointers, renderItem)}
         </sh-sl-autocomplete>`
     }

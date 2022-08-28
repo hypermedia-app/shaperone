@@ -6,6 +6,8 @@ import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating
 import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating'
 import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
+import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components'
+import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings.js'
 import { components, editors, renderer, validation } from '@hydrofoil/shaperone-wc/configure'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates'
@@ -18,10 +20,13 @@ import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 import { errorSummary } from '../../examples/ErrorSummary'
 
+shoelaceSettings.hoist = false
+
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },
   material: { ...nativeComponents, ...mwcComponents, languages: LanguageSelect.component('material'), starRating },
   vaadin: { ...nativeComponents, ...vaadinComponents, languages: LanguageSelect.component('lumo'), starRating },
+  shoelace: { ...nativeComponents, ...shoelaceComponents, starRating },
 }
 
 editors.addMetadata([...LanguageSelect.metadata(), ...StarRating.metadata()])
