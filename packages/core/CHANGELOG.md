@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.4
+
+### Patch Changes
+
+- 76f55b0: Added a module which exports `sh1` namespace for extensions
+- 604a1c0: Export default metadata for multi instances select editor
+
 ## 0.9.3
 
 ### Patch Changes

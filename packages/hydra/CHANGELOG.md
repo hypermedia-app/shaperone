@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.10
+
+### Patch Changes
+
+- 604a1c0: Apply search decorator to multi instance editor
+- Updated dependencies [76f55b0]
+- Updated dependencies [604a1c0]
+  - @hydrofoil/shaperone-core@0.9.4
+
 ## 0.3.9
 
 ### Patch Changes
