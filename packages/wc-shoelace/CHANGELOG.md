@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.10
+
+### Patch Changes
+
+- e144fc2: Enum select would not display its values
+- 374792b: Dependencies not imported by multi-instances editor
+
 ## 0.1.9
 
 ### Patch Changes
