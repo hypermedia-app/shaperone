@@ -13,7 +13,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -41,7 +41,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -70,7 +70,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -99,7 +99,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -130,7 +130,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {

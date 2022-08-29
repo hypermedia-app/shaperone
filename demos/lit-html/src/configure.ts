@@ -7,7 +7,7 @@ import { component as starRating } from '@hydrofoil/shaperone-playground-example
 import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip'
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components'
-import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings.js'
+import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings'
 import { components, editors, renderer, validation } from '@hydrofoil/shaperone-wc/configure'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates'
@@ -16,9 +16,9 @@ import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
 import $rdf from 'rdf-ext'
 import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer'
+import { errorSummary } from '@hydrofoil/shaperone-playground-examples/ErrorSummary/index.js'
 import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
-import { errorSummary } from '../../examples/ErrorSummary'
 
 shoelaceSettings.hoist = false
 

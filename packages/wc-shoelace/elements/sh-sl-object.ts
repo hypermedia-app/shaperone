@@ -22,10 +22,10 @@ export class ShaperoneShoelaceObject extends LitElement {
   }
 
   @property({ type: Boolean })
-  canBeRemoved?: boolean
+    canBeRemoved?: boolean
 
   @property({ type: String })
-  removeIcon?: string
+    removeIcon?: string
 
   render() {
     let removeRow = html``

@@ -15,19 +15,19 @@ export class ShSlAutocomplete extends LitElement {
   }
 
   @property({ type: Object })
-  selected?: GraphPointer
+    selected?: GraphPointer
 
   @property({ type: String })
-  inputValue = ''
+    inputValue = ''
 
   @property({ type: Boolean, reflect: true })
-  empty = true
+    empty = true
 
   @property({ type: Boolean })
-  hoist = true
+    hoist = true
 
   @query('sl-input')
-  _input!: SlInput
+    _input!: SlInput
 
   render() {
     return html`<sl-dropdown @sl-hide=${stop} ?hoist="${this.hoist}">

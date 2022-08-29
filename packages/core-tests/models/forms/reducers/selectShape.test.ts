@@ -30,11 +30,12 @@ describe('core/models/forms/reducers/selectShape', () => {
   it('replaces current shape with new', () => {
     // given
     const focusNode = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
-    const { form, state: before } = testState({
+    const { form, state: before } = testState(undefined, {
       form: {
         focusNodes: {
           ...testFocusNodeState(focusNode, {
-            shape: fromPointer(cf({ dataset: $rdf.dataset() }).node(ex.OldShape)),
+            shape: fromPointer(cf({ dataset: $rdf.dataset() })
+              .node(ex.OldShape)),
           }),
         },
       },
@@ -57,7 +58,7 @@ describe('core/models/forms/reducers/selectShape', () => {
     // given
     const focusNode = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
     const shape = fromPointer(cf({ dataset: $rdf.dataset() }).node(ex.Shape))
-    const { form, state: before } = testState({
+    const { form, state: before } = testState(undefined, {
       form: {
         focusNodes: {
           ...testFocusNodeState(focusNode, {

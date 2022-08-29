@@ -24,10 +24,10 @@ export class WcMenu extends LitElement {
   }
 
   @query('mwc-menu')
-  menu!: Menu
+    menu!: Menu
 
   @query('wc-menu-button')
-  menuButton!: WcMenuButton
+    menuButton!: WcMenuButton
 
   render() {
     return html`<wc-menu-button @opened="${this.__open}" @closed="${this.__close}"></wc-menu-button>

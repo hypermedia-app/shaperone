@@ -8,7 +8,7 @@
     "**/*.d.ts"
   ],
   "scripts": {
-    "prepack": "tsc"
+    "prepack": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json"
   },
   "dependencies": {
     "rdf-validate-shacl": "zazuko/rdf-validate-shacl#bnodes-clash"

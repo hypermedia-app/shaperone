@@ -10,6 +10,6 @@ export const shapeLink: SingleEditorComponent = {
   editor: dash.DetailsEditor,
 
   render({ value }, { focusOnObjectNode }) {
-    return html`<a href="javascript:void(0)" @click="${focusOnObjectNode}">Edit ${label(value.object)}</a>`
+    return html`<button @click="${focusOnObjectNode}">Edit ${label(value.object)}</button>`
   },
 }

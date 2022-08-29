@@ -12,13 +12,13 @@ import { SelectableMenuMixin } from './SelectableMenuMixin'
 @customElement('mwc-editor-toggle')
 export class MwcEditorToggle extends SelectableMenuMixin(LitElement) {
   @property({ type: Array })
-  editors: SingleEditorMatch[] = []
+    editors: SingleEditorMatch[] = []
 
   @property({ type: Object })
-  selected: NamedNode | undefined
+    selected: NamedNode | undefined
 
   @property({ type: Boolean })
-  removeEnabled = false
+    removeEnabled = false
 
   render() {
     const removeButton = this.removeEnabled

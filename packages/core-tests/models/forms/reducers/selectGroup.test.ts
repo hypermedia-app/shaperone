@@ -14,7 +14,7 @@ describe('core/models/forms/reducers/selectGroup', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, state } = testState({
+    const { form, state } = testState(undefined, {
       form: {
         focusNodes: {
           ...testFocusNodeState(focusNode, {

@@ -10,10 +10,10 @@ import '@material/mwc-list/mwc-list-item'
 @customElement('mwc-shape-selector')
 export class MwcShapeSelector extends SelectableMenuMixin(LitElement) {
   @property({ type: Array })
-  shapes?: NodeShape[]
+    shapes?: NodeShape[]
 
   @property({ type: Object })
-  selected?: NodeShape
+    selected?: NodeShape
 
   render() {
     return html`<wc-menu>${repeat(this.shapes || [], this.__renderShapeMenuItem.bind(this))}</wc-menu>`

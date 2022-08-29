@@ -15,7 +15,7 @@ export class MwcPropertyMenu extends LitElement {
   }
 
   @property({ type: Object })
-  property!: PropertyState
+    property!: PropertyState
 
   render() {
     return html`<wc-menu>
