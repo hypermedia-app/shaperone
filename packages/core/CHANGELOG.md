@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.5
+
+### Patch Changes
+
+- 572a38f: Ensure .js extensions are added to all imports. Previously, there were issues with strict ESM imports
+
 ## 0.9.4
 
 ### Patch Changes

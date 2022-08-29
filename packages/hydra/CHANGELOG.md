@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.11
+
+### Patch Changes
+
+- 572a38f: Ensure .js extensions are added to all imports. Previously, there were issues with strict ESM imports
+- Updated dependencies [572a38f]
+  - @hydrofoil/shaperone-core@0.9.5
+
 ## 0.3.10
 
 ### Patch Changes
