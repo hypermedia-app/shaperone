@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-hydra",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "Shaperone extensions to integrate with Hydra-driven APIs",
   "main": "index.js",
   "type": "module",
@@ -12,7 +12,7 @@
     "prepack": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-core": "^0.9.4",
+    "@hydrofoil/shaperone-core": "^0.9.5",
     "@rdf-esm/dataset": "^0.5.0",
     "@rdf-esm/term-map": "^0.5.0",
     "@rdfine/hydra": "^0.8.5",
