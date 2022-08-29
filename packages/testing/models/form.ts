@@ -13,7 +13,7 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
 import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify.js'
 import { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
-import type { RecursivePartial } from '..'
+import type { RecursivePartial } from '../index.js'
 import { blankNode } from '../nodeFactory.js'
 
 interface Initializer {
@@ -29,7 +29,7 @@ export const emptyGroupState = () => ({
   selected: true,
 })
 
-export function testFormState(initializer: Initializer = {}, addToState?: Form.State) {
+export function testFormState(addToState?: Form.State, initializer: Initializer = {}) {
   num += 1
   const form = Symbol(num)
 

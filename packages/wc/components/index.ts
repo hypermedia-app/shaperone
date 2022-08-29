@@ -8,7 +8,7 @@ import type {
 } from '@hydrofoil/shaperone-core/components'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import { Render } from '../index'
+import type { Render } from '../index'
 import { getType } from './lib/textFieldType'
 import { validity } from './validity'
 import { readOnly } from './readonly'

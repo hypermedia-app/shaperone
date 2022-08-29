@@ -100,31 +100,31 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   @property({ type: Object })
-  shape!: State['shape']
+    shape!: State['shape']
 
   @property({ type: Object })
-  playground!: State['playground']
+    playground!: State['playground']
 
   @property({ type: Object })
-  resource!: State['resource']
+    resource!: State['resource']
 
   @query('#shapeEditor')
-  shapeEditor!: RdfEditor
+    shapeEditor!: RdfEditor
 
   @query('#resourceEditor')
-  resourceEditor!: RdfEditor
+    resourceEditor!: RdfEditor
 
   @query('#form')
-  form!: ShaperoneForm
+    form!: ShaperoneForm
 
   @property({ type: Object })
-  components!: State['componentsSettings']
+    components!: State['componentsSettings']
 
   @property({ type: Object })
-  renderer!: State['rendererSettings']
+    renderer!: State['rendererSettings']
 
   @property({ type: Boolean })
-  noEditorSwitches!: boolean
+    noEditorSwitches!: boolean
 
   shapesGraphInitialized = false
   resourceGraphInitialized = false

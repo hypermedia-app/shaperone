@@ -42,10 +42,10 @@ export class ShSlWithLangEditor extends LitElement {
   }
 
   @property({ type: Array })
-  languages?: string[]
+    languages?: string[]
 
   @property({ type: String })
-  language?: string
+    language?: string
 
   protected render() {
     return html`

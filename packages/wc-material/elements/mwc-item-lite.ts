@@ -40,10 +40,10 @@ slot[name=options]::slotted(mwc-icon) {
   }
 
   @property({ type: Boolean, reflect: true, attribute: 'no-options' })
-  noOptions = true
+    noOptions = true
 
   @query('slot[name=options]')
-  optionsSlot: HTMLSlotElement | undefined
+    optionsSlot: HTMLSlotElement | undefined
 
   render() {
     return html`

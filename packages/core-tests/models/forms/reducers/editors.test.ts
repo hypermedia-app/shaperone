@@ -15,7 +15,7 @@ describe('core/models/forms/reducers/editors', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
       const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -42,7 +42,7 @@ describe('core/models/forms/reducers/editors', () => {
       // given
       const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
       const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -76,7 +76,7 @@ describe('core/models/forms/reducers/editors', () => {
           foo: 'bar',
         },
       })
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -116,7 +116,7 @@ describe('core/models/forms/reducers/editors', () => {
       const property = testPropertyState(shape.pointer, {
         objects: [object],
       })
-      const { form, state } = testState({
+      const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -154,7 +154,7 @@ describe('core/models/forms/reducers/editors', () => {
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'))],
       })
-      const { state } = testState({
+      const { state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -163,7 +163,7 @@ describe('core/models/forms/reducers/editors', () => {
           },
         },
       })
-      testState({
+      testState(state, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -171,7 +171,7 @@ describe('core/models/forms/reducers/editors', () => {
             }),
           },
         },
-      }, state)
+      })
       const editors = testEditorsState({
         matchSingleEditors: () => [{
           term: dash.TextFieldEditor,
@@ -196,7 +196,7 @@ describe('core/models/forms/reducers/editors', () => {
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'))],
       })
-      const { state } = testState({
+      const { state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -229,7 +229,7 @@ describe('core/models/forms/reducers/editors', () => {
         objects: [testObjectState(focusNode.literal('foo'))],
         selectedEditor: dash.FooEditor,
       })
-      const { state } = testState({
+      const { state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {
@@ -263,7 +263,7 @@ describe('core/models/forms/reducers/editors', () => {
           selectedEditor: dash.TextFieldEditor,
         })],
       })
-      const { state } = testState({
+      const { state } = testState(undefined, {
         form: {
           focusNodes: {
             ...testFocusNodeState(focusNode, {

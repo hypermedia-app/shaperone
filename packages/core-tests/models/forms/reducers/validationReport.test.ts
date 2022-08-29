@@ -29,7 +29,7 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/validation', () => {
 
     it('clears validation state properties if there are not results', () => {
       // given
-      const { form, state } = testFormState({
+      const { form, state } = testFormState(undefined, {
         form: {
           hasErrors: true,
           validationResults: [{}],
@@ -64,14 +64,15 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/validation', () => {
 
     it('sets validation result to object and its parents', () => {
       // given
-      const { form, state } = testFormState({
+      const { form, state } = testFormState(undefined, {
         form: {
           focusNodes: testFocusNodeState(namedNode(''), {
             properties: [testPropertyState(blankNode(), {
               shape: propertyShape({
                 path: namedNode('prop'),
               }),
-              objects: [testObjectState(blankNode().literal('obj'))],
+              objects: [testObjectState(blankNode()
+                .literal('obj'))],
             })],
           }),
         },

@@ -49,7 +49,7 @@ export const property: PropertyTemplate = function (renderer, param) {
 
     const addRow = !property.selectedEditor && property.canAdd
       ? html`<mwc-item-lite part="property-options">
-              <i @click="${actions.addObject}">Click to add value</i>
+              <i @click="${actions.addObject}" @keyDown="${onEnter(actions.addObject)}">Click to add value</i>
               <mwc-icon slot="options" @click="${actions.addObject}" title="Add value">add_circle</mwc-icon>
           </mwc-item-lite>`
       : html``
@@ -64,6 +64,12 @@ export const property: PropertyTemplate = function (renderer, param) {
     <mwc-list-item hasmeta part="property-header"><b>${localizedLabel(property.shape, { property: sh.name })}</b> ${menuElement}</mwc-list-item>
     ${editors()}
   </mwc-list>`
+}
+
+function onEnter(cb: () => void) {
+  return (e: KeyboardEvent) => {
+    if (e.key === 'Enter') cb()
+  }
 }
 
 property.loadDependencies = () => [

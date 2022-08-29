@@ -5,8 +5,8 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import { fixture, html, expect } from '@open-wc/testing'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { any } from '@shaperone/testing/nodeFactory'
+import { formRenderer } from '@shaperone/testing/renderer'
 import { renderFocusNode } from '../../renderer/focusNode'
-import { formRenderer } from '../../../testing/renderer'
 
 describe('wc/renderer/focusNode', () => {
   let focusNode: FocusNode

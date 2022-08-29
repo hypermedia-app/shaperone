@@ -94,7 +94,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * @readonly
    */
   @property({ type: Object })
-  editors!: State['editors']
+    editors!: State['editors']
 
   /**
    * Gets the state of the editor components
@@ -102,7 +102,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * @readonly
    */
   @property({ type: Object })
-  components!: State['components']
+    components!: State['components']
 
   /**
    * Gets the state of the renderer
@@ -110,7 +110,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * @readonly
    */
   @property({ type: Object })
-  rendererOptions!: State['renderer']
+    rendererOptions!: State['renderer']
 
   /**
    * Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered
@@ -118,7 +118,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * @attr no-editor-switches
    */
   @property({ type: Boolean, attribute: 'no-editor-switches' })
-  noEditorSwitches = false
+    noEditorSwitches = false
 
   constructor() {
     super()
@@ -154,7 +154,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * Gets the internal state of the form element
    */
   @property({ type: Object })
-  state!: FormState
+    state!: FormState
 
   protected updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties)

@@ -5,7 +5,7 @@ export const topmostFocusNodeFormRenderer = decorate((form: FormTemplate): FormT
   const formTemplate: FormTemplate = (renderer) => {
     let backButton = html``
     if (renderer.context.state.focusStack.length > 1) {
-      backButton = html`<a class="form-back-button" href="javascript:void(0)" @click="${renderer.actions.popFocusNode}">back</a>`
+      backButton = html`<button class="form-back-button" @click="${renderer.actions.popFocusNode}">back</button>`
     }
 
     return html`${backButton}${form(renderer)}`

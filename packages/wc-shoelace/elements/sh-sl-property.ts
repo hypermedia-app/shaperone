@@ -35,22 +35,22 @@ export class ShSlProperty extends LitElement {
   }
 
   @property({ type: Boolean })
-  canAddValue?: boolean
+    canAddValue?: boolean
 
   @property({ type: String })
-  label?: string
+    label?: string
 
   @property({ type: String })
-  helpText?: string
+    helpText?: string
 
   @property({ type: String })
-  addIcon?: string
+    addIcon?: string
 
   @property({ type: Boolean })
-  __slotEmpty = true
+    __slotEmpty = true
 
   @query('slot')
-  __slot!: HTMLSlotElement
+    __slot!: HTMLSlotElement
 
   render() {
     let addRow = html``

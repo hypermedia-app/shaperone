@@ -1,3 +1,4 @@
+/* eslint-disable lit-a11y/click-events-have-key-events */
 import { css, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { html } from '@hydrofoil/shaperone-wc'
@@ -9,13 +10,13 @@ import type { IconDefinition } from '@fortawesome/fontawesome-common-types'
 @customElement('ex-star-rating')
 export class StarRating extends LitElement {
   @property({ type: Number })
-  max = 5
+    max = 5
 
   @property({ type: Number })
-  value = 0
+    value = 0
 
   @property({ attribute: false })
-  icon?: IconDefinition
+    icon?: IconDefinition
 
   static get styles() {
     return css`

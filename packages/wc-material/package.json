@@ -10,7 +10,7 @@
     "custom-elements.json"
   ],
   "scripts": {
-    "prepack": "tsc",
+    "prepack": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json",
     "analyze": "run-p analyze:*",
     "analyze:wc": "wca --format json --outFile ./custom-elements.json",
     "analyze:readme": "wca --outFile ./README.md",
@@ -38,7 +38,6 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@open-wc/eslint-config": "^2.0.6",
     "@open-wc/testing": "^3.0.0-next.2",
     "@rdfine/shacl": "^0.8.2",
     "@rdf-esm/dataset": "^0.5.0",
