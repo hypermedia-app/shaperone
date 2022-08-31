@@ -3,12 +3,17 @@ import { customElement, property, query } from 'lit/decorators.js'
 import type { GraphPointer } from 'clownface'
 import { SlInput } from '@shoelace-style/shoelace'
 import { stop } from '../lib/handlers.js'
+import '@shoelace-style/shoelace/dist/components/input/input.js'
+import '@shoelace-style/shoelace/dist/components/icon/icon.js'
+import '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
+import '@shoelace-style/shoelace/dist/components/menu/menu.js'
+import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 
 @customElement('sh-sl-autocomplete')
 export class ShSlAutocomplete extends LitElement {
   static get styles() {
     return css`
-      :host([empty]) sl-menu {
+      [hidden] {
         display: none;
       }
     `
@@ -20,7 +25,7 @@ export class ShSlAutocomplete extends LitElement {
   @property({ type: String })
     inputValue = ''
 
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean })
     empty = true
 
   @property({ type: Boolean })
@@ -37,6 +42,7 @@ export class ShSlAutocomplete extends LitElement {
         <sl-icon name="search" slot="suffix"></sl-icon>
       </sl-input>
       <sl-menu hoist .value=${this.selected?.value}
+               ?hidden="${this.empty}"
                placeholder="Missing data!"
                @sl-select=${this.dispatchItemSelected}>
         <slot @slotchange=${this.updateEmpty}></slot>
