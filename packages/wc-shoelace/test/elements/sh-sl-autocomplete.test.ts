@@ -11,11 +11,11 @@ describe('packages/wc-shoelace/elements/sh-sl-autocomplete', () => {
     expect(el.empty).to.be.true
   })
 
-  it('has empty attribute when empty', async () => {
+  it('hides menu when empty', async () => {
     // when
     const el = await fixture<ShSlAutocomplete>(html`<sh-sl-autocomplete></sh-sl-autocomplete>`)
 
     // then
-    expect(el).attr('empty').to.eq('')
+    expect(el.renderRoot.querySelector('sl-menu')).attr('hidden').to.eq('')
   })
 })
