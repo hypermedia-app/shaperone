@@ -45,7 +45,7 @@
     "clownface": "^1",
     "lit": "^2.0.0",
     "multiselect-combo-box": "^2.4.2",
-    "nanoid": "^3.1.31",
+    "nanoid": "^4",
     "rdf-ext": "^1.3.0"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
     "@types/clownface": "^1",
-    "@types/nanoid": "^2.1.0",
+    "@types/nanoid": "^3",
     "@types/rdf-ext": "^1.3.8",
     "@types/rdf-js": "^4",
     "@types/rdfjs__fetch-lite": "^2.0.2",
