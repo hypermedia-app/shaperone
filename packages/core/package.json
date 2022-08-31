@@ -28,7 +28,8 @@
     "@zazuko/rdf-vocabularies": "*",
     "clownface": "^1.2.0",
     "clownface-shacl-path": "^1.3.2",
-    "immer": "^9.0.15"
+    "immer": "^9.0.15",
+    "nanoid": "^3"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
