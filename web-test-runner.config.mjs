@@ -14,6 +14,16 @@ const immer = {
   },
 }
 
+const nanoid = {
+  resolveImport({ source }) {
+    if (/nanoid/.test(source)) {
+      return '/node_modules/nanoid/index.browser.js'
+    }
+
+    return undefined
+  },
+}
+
 const nodeResolveFix = {
   serve(context) {
     if (context.path.includes('node_modules') && context.path.endsWith('.ts')) {
@@ -40,6 +50,7 @@ const config = {
     nodeResolveFix,
     rdfjs,
     immer,
+    nanoid,
     fromRollup(commonjs)({
       exclude: [
         '**/node_modules/@open-wc/**/*',
