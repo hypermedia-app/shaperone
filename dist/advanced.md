@@ -13,20 +13,24 @@ When adding a new object to a property, one of the following can happen:
 1. If the property has `sh:defaulVtalue`, that value will be used as new object of that property
 2. If the form has `sh:nodeKind` which is `sh:BlankNode`, `sh:BlankNodeOrIRI` or `sh:BlankNodeOrLiteral`, a new blank node will be used as new object of that property 
 3. If the form has `sh:nodeKind sh:IRI`, a new random, relative URI will be used as new object of that property
-4. If the form has `sh:nodeKind` which is `sh:IRI`, `sh:LiteralOrIRI` or `sh:BlankNodeOrIRI` and a non-empty value of `dash:uriStart`, a new, random URI will be used as new object of that property, such as that the `dash:uriStart` is used to prefix
+4. If the form has `sh:nodeKind` which is `sh:IRI`, `sh:LiteralOrIRI` or `sh:BlankNodeOrIRI` and a non-empty value of `sh1:iriPrefix`, a new, random URI will be used as new object of that property, such as that the `sh1:iriPrefix` is used to prefix
 5. Otherwise, do not add a new node to graph.
 
 > [!HINT]
-> The value of `dash:uriStart` does not have to be a URI itself but also a relative reference
+> The value of `sh1:iriPrefix` does not have to be a URI itself but also a relative reference
 
 > [!TIP]
 > The shape below will mint new URIs similar to `/resource/{uuid}` but also allow literals in validation
 > ```turtle
+> PREFIX sh1: <https://hypermedia.app/shaperone#>
+> PREFIX sh: <http://www.w3.org/ns/shacl#>
+> PREFIX ex: <http://example.com/>
+> 
 > [
 >   a sh:PropertyShape ;
 >   sh:path ex:property ;
 >   sh:nodeKind sh:LiteralOrIRI ;
->   dash:uriStart "/resource/" ;
+>   sh1:iriPrefix "/resource/" ;
 > ]
 
 ## [Logical Constraint Components](https://www.w3.org/TR/shacl/#core-components-logical)

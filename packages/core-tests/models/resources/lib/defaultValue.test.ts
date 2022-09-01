@@ -8,6 +8,7 @@ import { NodeKind, NodeKindEnum } from '@rdfine/shacl'
 import { defaultValue } from '@hydrofoil/shaperone-core/models/resources/lib/defaultValue.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { Term } from 'rdf-js'
+import sh1 from '@hydrofoil/shaperone-core/ns.js'
 
 describe('core/models/resources/lib/defaultValue', () => {
   it('returns default value from property', () => {
@@ -57,7 +58,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       nodeKind: sh.IRI,
-      [dash.uriStart.value]: 'http://example.com/foo/',
+      [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
 
     // when
@@ -73,7 +74,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       nodeKind: sh.BlankNodeOrIRI,
-      [dash.uriStart.value]: 'http://example.com/foo/',
+      [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
 
     // when
@@ -89,7 +90,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       nodeKind: sh.IRIOrLiteral,
-      [dash.uriStart.value]: 'http://example.com/foo/',
+      [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
 
     // when
@@ -128,7 +129,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const property = propertyShape(graph.blankNode(), {
         nodeKind,
         class: foaf.Agent,
-        [dash.uriStart.value]: 'http://example.com/foo/',
+        [sh1.iriPrefix.value]: 'http://example.com/foo/',
       })
 
       // when
@@ -145,7 +146,7 @@ describe('core/models/resources/lib/defaultValue', () => {
         nodeKind,
         class: foaf.Agent,
         [dash.editor.value]: dash.InstancesSelectEditor,
-        [dash.uriStart.value]: 'http://example.com/foo/',
+        [sh1.iriPrefix.value]: 'http://example.com/foo/',
       })
 
       // when

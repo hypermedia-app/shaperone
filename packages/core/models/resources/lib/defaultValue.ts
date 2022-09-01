@@ -4,6 +4,7 @@ import { dash, rdf, sh } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
 import type { NamedNode } from 'rdf-js'
 import { nanoid } from 'nanoid'
+import sh1 from '../../../ns.js'
 import type { FocusNode } from '../../../index'
 
 export function defaultValue(property: PropertyShape, focusNode: FocusNode): MultiPointer | null {
@@ -25,7 +26,7 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
 }
 
 function createResourceNode(property: PropertyShape, nodeKind: NodeKind, focusNode: FocusNode) {
-  const uriStart = property.pointer.out(dash.uriStart).value
+  const uriStart = property.pointer.out(sh1.iriPrefix).value
   let resourceNode: GraphPointer<ResourceIdentifier> = focusNode.blankNode()
 
   if (nodeKind.equals(sh.IRI)) {
