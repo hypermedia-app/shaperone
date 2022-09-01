@@ -10,7 +10,7 @@ This page describes how various SHACL constructs are handled and, where applicab
 
 When adding a new object to a property, one of the following can happen:
 
-1. If the property has `sh:defaulVtalue`, that value will be used as new object of that property
+1. If the property has `sh:defaultValue`, that value will be used as new object of that property
 2. If the form has `sh:nodeKind` which is `sh:BlankNode`, `sh:BlankNodeOrIRI` or `sh:BlankNodeOrLiteral`, a new blank node will be used as new object of that property 
 3. If the form has `sh:nodeKind sh:IRI`, a new random, relative URI will be used as new object of that property
 4. If the form has `sh:nodeKind` which is `sh:IRI`, `sh:LiteralOrIRI` or `sh:BlankNodeOrIRI` and a non-empty value of `sh1:iriPrefix`, a new, random URI will be used as new object of that property, such as that the `sh1:iriPrefix` is used to prefix
