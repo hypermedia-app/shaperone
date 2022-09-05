@@ -38,6 +38,20 @@ describe('core/models/resources/lib/defaultValue', () => {
     expect(pointer).to.be.null
   })
 
+  it('returns null when there is nodeKind is sh:IRIOrLiteral ad there is no sh1:iriPrefix', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = propertyShape(graph.blankNode(), {
+      nodeKind: sh.IRIOrLiteral,
+    })
+
+    // when
+    const pointer = defaultValue(property, graph.blankNode())
+
+    // then
+    expect(pointer).to.be.null
+  })
+
   it('creates a random IRI when sh:nodeKind sh:IRI', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
