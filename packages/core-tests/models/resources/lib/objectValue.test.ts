@@ -53,7 +53,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     expect(first?.term).not.to.deep.eq(second)
   })
 
-  it('uses base from dash:uriStart when sh:nodeKind sh:IRI', () => {
+  it('uses base from sh1:iriPrefix when sh:nodeKind sh:IRI', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
@@ -69,7 +69,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     expect(term?.value).to.match(/^http:\/\/example.com\/foo\/.+$/)
   })
 
-  it('creates a URI node when node kind is sh:BlankNodeOrIRI and property has dash:uriStart', () => {
+  it('creates a URI node when node kind is sh:BlankNodeOrIRI and property has sh1:iriPrefix', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
@@ -85,7 +85,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     expect(term?.value).to.match(/^http:\/\/example.com\/foo\/.+$/)
   })
 
-  it('creates a URI node when node kind is sh:IRIOrLiteral and property has dash:uriStart', () => {
+  it('creates a URI node when node kind is sh:IRIOrLiteral and property has sh1:iriPrefix', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
