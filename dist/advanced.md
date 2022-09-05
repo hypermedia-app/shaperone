@@ -6,6 +6,33 @@ This page describes how various SHACL constructs are handled and, where applicab
 
 [ucr]: https://www.w3.org/TR/shacl-ucr/  
 
+## Default value and new graph nodes
+
+When adding a new object to a property, one of the following can happen:
+
+1. If the property has `sh:defaultValue`, that value will be used as new object of that property
+2. If the form has `sh:nodeKind` which is `sh:BlankNode`, `sh:BlankNodeOrIRI` or `sh:BlankNodeOrLiteral`, a new blank node will be used as new object of that property 
+3. If the form has `sh:nodeKind sh:IRI`, a new random, relative URI will be used as new object of that property
+4. If the form has `sh:nodeKind` which is `sh:IRI`, `sh:LiteralOrIRI` or `sh:BlankNodeOrIRI` and a non-empty value of `sh1:iriPrefix`, a new, random URI will be used as new object of that property, such as that the `sh1:iriPrefix` is used to prefix
+5. Otherwise, do not add a new node to graph.
+
+> [!HINT]
+> The value of `sh1:iriPrefix` does not have to be a URI itself but also a relative reference
+
+> [!TIP]
+> The shape below will mint new URIs similar to `/resource/{uuid}` but also allow literals in validation
+> ```turtle
+> PREFIX sh1: <https://hypermedia.app/shaperone#>
+> PREFIX sh: <http://www.w3.org/ns/shacl#>
+> PREFIX ex: <http://example.com/>
+> 
+> [
+>   a sh:PropertyShape ;
+>   sh:path ex:property ;
+>   sh:nodeKind sh:LiteralOrIRI ;
+>   sh1:iriPrefix "/resource/" ;
+> ]
+
 ## [Logical Constraint Components](https://www.w3.org/TR/shacl/#core-components-logical)
 
 The predicates `sh:or`, `sh:or`, `sh:and` and `sh:xone` represents logical operators which specify additional conditions which apply to sets of shapes and properties.
@@ -49,7 +76,6 @@ ex:PersonShape
 > Click [here][node-logical] for a complete example using the above shape
 
 [node-logical]: ${playground}/#shapes=%40prefix+sh%3A+%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Fshacl%23%3E+.%0A%40prefix+schema%3A+%3Chttp%3A%2F%2Fschema.org%2F%3E+.%0A%40prefix+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E+.%0A%40prefix+ex%3A+%3Chttp%3A%2F%2Fexample.com%2F%3E+.%0A%0Aex%3APersonShape%0A++a+sh%3AShape+%3B%0A++sh%3AtargetClass+schema%3APerson+%3B%0A++rdfs%3Alabel+%22Person%22+%3B%0A++sh%3Aproperty+ex%3ALastNameProperty+%3B%0A++sh%3Aor+%28+%0A++++ex%3AFirstNameProperty+%0A++++ex%3AGivenNameProperty%0A++%29%0A.%0A%0Aex%3ALastNameProperty+%0A++a+sh%3APropertyShape+%3B%0A++sh%3Apath+schema%3AfamilyName+%3B%0A++sh%3Aorder+20+%3B%0A++sh%3AmaxCount+1+%3B%0A.%0A%0Aex%3AFirstNameProperty%0A++sh%3Apath+schema%3AfirstName+%3B++++%0A++sh%3Aorder+10+%3B%0A++sh%3AmaxCount+1+%3B%0A.%0A%0Aex%3AGivenNameProperty%0A++sh%3Apath+schema%3AgivenName+%3B%0A++sh%3Aorder+10+%3B%0A++sh%3AmaxCount+1+%3B%0A.&resource=%7B%0A++%22%40context%22%3A+%7B%0A++++%22rdf%22%3A+%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%2C%0A++++%22rdfs%22%3A+%22http%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%22%2C%0A++++%22xsd%22%3A+%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%23%22%2C%0A++++%22schema%22%3A+%22http%3A%2F%2Fschema.org%2F%22%0A++%7D%2C%0A++%22%40id%22%3A+%22http%3A%2F%2Fexample.com%2FJohn_Doe%22%2C%0A++%22%40type%22%3A+%22schema%3APerson%22%2C%0A++%22schema%3AfamilyName%22%3A+%22Doe%22%2C%0A++%22schema%3AfirstName%22%3A+%22John%22%0A%7D&selectedResource=http%3A%2F%2Fexample.com%2FJohn_Doe
-
 
 ## Hidden properties
 
