@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.12
+
+### Patch Changes
+
+- b224b43: Typo in package `exports`
+- Updated dependencies [683ae4b]
+  - @hydrofoil/shaperone-core@0.9.7
+
 ## 0.1.11
 
 ### Patch Changes

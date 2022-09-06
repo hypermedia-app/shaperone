@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.7
+
+### Patch Changes
+
+- 683ae4b: When a property has `sh:class` and no `sh:nodeKind`, a blank node should be created for new form values
+  This behaviour was inadvertently broken in #236
+
 ## 0.9.6
 
 ### Patch Changes
