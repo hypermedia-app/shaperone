@@ -12,7 +12,11 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
     return focusNode.node(property.defaultValue)
   }
 
-  const { nodeKind } = property
+  let { nodeKind } = property
+  if (!nodeKind && property.class) {
+    nodeKind = sh.BlankNode
+  }
+
   switch (nodeKind?.value) {
     case 'http://www.w3.org/ns/shacl#IRI':
     case 'http://www.w3.org/ns/shacl#IRIOrLiteral':

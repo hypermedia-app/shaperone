@@ -38,6 +38,21 @@ describe('core/models/resources/lib/defaultValue', () => {
     expect(pointer).to.be.null
   })
 
+  it('creates a blank node when there is no sh:nodeKind and sh:class is set', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = propertyShape(graph.blankNode(), {
+      class: foaf.Person,
+    })
+
+    // when
+    const pointer = defaultValue(property, graph.blankNode())
+
+    // then
+    expect(pointer?.term?.termType).to.eq('BlankNode')
+    expect(pointer?.out(rdf.type).term).to.deep.eq(foaf.Person)
+  })
+
   it('returns null when there is nodeKind is sh:IRIOrLiteral ad there is no sh1:iriPrefix', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
