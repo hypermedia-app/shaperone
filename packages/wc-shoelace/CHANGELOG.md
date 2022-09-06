@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.11
+
+### Patch Changes
+
+- 68d98aa: Missing imports in `sh-sl-autocomplete`
+- Updated dependencies [cb60db7]
+  - @hydrofoil/shaperone-core@0.9.6
+
 ## 0.1.10
 
 ### Patch Changes
