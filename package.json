@@ -9,6 +9,7 @@
     "test": "run-p test:*",
     "test:core": "c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core-tests/**/*.test.ts'",
     "test:web": "web-test-runner",
+    "prerelease": "tsc --declaration --emitDeclarationOnly",
     "release": "changeset publish",
     "docs": "docsify serve ./dist",
     "typedoc": "typedoc --watch",
