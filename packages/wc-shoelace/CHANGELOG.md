@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.13
+
+### Patch Changes
+
+- 55271d1: Babel build inadvertently caused TS typings to disappear from packages
+- Updated dependencies [55271d1]
+  - @hydrofoil/shaperone-core@0.9.8
+  - @hydrofoil/shaperone-wc@0.7.5
+
 ## 0.1.12
 
 ### Patch Changes

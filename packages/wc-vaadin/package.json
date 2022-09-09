@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc-vaadin",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Rendering forms with Vaadin components",
   "main": "index.js",
   "type": "module",
@@ -16,8 +16,8 @@
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-wc": "^0.7.4",
-    "@hydrofoil/shaperone-core": "^0.9.5",
+    "@hydrofoil/shaperone-wc": "^0.7.5",
+    "@hydrofoil/shaperone-core": "^0.9.8",
     "@tpluscode/rdf-ns-builders": "^2.0.0",
     "@rdf-esm/data-model": "^0.5.3",
     "@rdfjs-elements/lit-helpers": "^0.3.3",
