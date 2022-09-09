@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.14
+
+### Patch Changes
+
+- 50d4582: One more build fix, where babel tried to compile `.d.ts` files
+- Updated dependencies [50d4582]
+  - @hydrofoil/shaperone-core@0.9.9
+  - @hydrofoil/shaperone-wc@0.7.6
+
 ## 0.1.13
 
 ### Patch Changes
