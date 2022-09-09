@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc
 
+## 0.7.5
+
+### Patch Changes
+
+- 55271d1: Babel build inadvertently caused TS typings to disappear from packages
+- Updated dependencies [55271d1]
+  - @hydrofoil/shaperone-core@0.9.8
+
 ## 0.7.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-rdf-validate-shacl
 
+## 1.0.2
+
+### Patch Changes
+
+- 55271d1: Babel build inadvertently caused TS typings to disappear from packages
+
 ## 1.0.1
 
 ### Patch Changes
