@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-rdf-validate-shacl
 
+## 1.0.3
+
+### Patch Changes
+
+- 50d4582: One more build fix, where babel tried to compile `.d.ts` files
+
 ## 1.0.2
 
 ### Patch Changes

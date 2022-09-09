@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.9
+
+### Patch Changes
+
+- 50d4582: One more build fix, where babel tried to compile `.d.ts` files
+
 ## 0.9.8
 
 ### Patch Changes

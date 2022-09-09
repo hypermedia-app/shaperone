@@ -1,5 +1,18 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.60
+
+### Patch Changes
+
+- Updated dependencies [50d4582]
+  - @hydrofoil/shaperone-hydra@0.3.13
+  - @hydrofoil/shaperone-rdf-validate-shacl@1.0.3
+  - @hydrofoil/shaperone-wc@0.7.6
+  - @hydrofoil/shaperone-wc-material@0.5.8
+  - @hydrofoil/shaperone-wc-shoelace@0.1.14
+  - @hydrofoil/shaperone-wc-vaadin@0.4.10
+  - @hydrofoil/shaperone-playground-examples@0.2.36
+
 ## 0.1.59
 
 ### Patch Changes
