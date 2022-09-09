@@ -23,6 +23,7 @@ jobs:
       - run: yarn install --ci
       - run: yarn tsc --noEmit
       - run: yarn build
+      - run: yarn prerelease
 
   test:
     runs-on: ubuntu-latest

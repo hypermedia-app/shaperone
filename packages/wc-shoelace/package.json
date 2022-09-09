@@ -3,7 +3,7 @@
   "version": "0.1.13",
   "type": "module",
   "scripts": {
-    "prepack": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json",
+    "babel": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json",
     "analyze": "run-p analyze:*",
     "analyze:wc": "wca --format json --outFile ./custom-elements.json",
     "analyze:readme": "wca --outFile ./README.md",
