@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.16
+
+### Patch Changes
+
+- 3100c0a: Clearing a multiselect would not remove triples from graph
+
 ## 0.1.15
 
 ### Patch Changes
