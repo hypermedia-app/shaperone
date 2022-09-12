@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.15
+
+### Patch Changes
+
+- 7f8d013: Typo in `exports` was fixed wrong
+
 ## 0.1.14
 
 ### Patch Changes
