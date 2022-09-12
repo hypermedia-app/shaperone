@@ -1957,11 +1957,6 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ngard/tiny-difference@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ngard/tiny-difference/-/tiny-difference-1.0.0.tgz#a25d08d8d02c7a9bab364f0f6dffdc786dd86175"
-  integrity sha512-CKeah3PCWXhDqbV8UGfxAGgU6QicsGHlGx6Z/WBK6d5wD1r7XWzcwbZOr+OxfWM9xQyiLmf87PlW5al/Nv7H5w==
-
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz#323d72dd25103d0c4fbdce89dadf574a787b1f9b"
@@ -3100,11 +3095,6 @@
   integrity sha512-UXitWSmXCwhDmAKe7D3hNQtQaHeHt5L8LO1CB8GF8jlYVzOv5cBWDNqiJ+oPEWrWei3i3dkZtHY/bUtd0R/uOQ==
   dependencies:
     nanoid "*"
-
-"@types/ngard__tiny-difference@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/ngard__tiny-difference/-/ngard__tiny-difference-1.0.0.tgz#b5d8f70fc0d28b3a4e686898fac3d4f654c74464"
-  integrity sha512-hLVGVHg1YVIz9+IP9YMbJLr2GtCxz4gfcHlYXchrwH30sLykeTLsw7GbSdQM/AgZdkZMPg+nXpC0cTzchFv9hA==
 
 "@types/node@*", "@types/node@^14.6.1":
   version "14.14.25"
