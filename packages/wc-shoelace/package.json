@@ -11,7 +11,7 @@
   },
   "exports": {
     "./components.js": "./components.js",
-    "./components-extras.js": "./components-extras.js",
+    "./component-extras.js": "./component-extras.js",
     "./templates.js": "./templates.js"
   },
   "files": [
