@@ -1,9 +1,9 @@
 import type { GraphPointer } from 'clownface'
 import { SlSelect } from '@shoelace-style/shoelace'
-import tiny from '@ngard/tiny-difference'
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import type { MultiEditorComponent } from '@hydrofoil/shaperone-wc'
+import { difference } from '../lib/difference'
 import { settings } from '../settings'
 import { stop } from '../lib/handlers'
 import { renderItem } from '../lib/components'
@@ -20,7 +20,7 @@ export const render: MultiEditorComponent['render'] = ({ property, componentStat
   function onChange(e: CustomEvent) {
     const target = e.target as SlSelect
 
-    if (Array.isArray(target.value) && tiny.difference(target.value, values).length !== 0) {
+    if (Array.isArray(target.value) && difference(target.value, values).length !== 0) {
       const selected = pointers
         .filter(({ value }) => target.value.includes(value))
         .map(({ term }) => term)
