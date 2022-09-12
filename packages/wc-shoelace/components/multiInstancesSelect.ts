@@ -1,6 +1,6 @@
 import type { GraphPointer } from 'clownface'
 import { SlSelect } from '@shoelace-style/shoelace'
-import { difference } from '@ngard/tiny-difference'
+import tiny from '@ngard/tiny-difference'
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import type { MultiEditorComponent } from '@hydrofoil/shaperone-wc'
@@ -9,6 +9,7 @@ import { stop } from '../lib/handlers'
 import { renderItem } from '../lib/components'
 
 import '@shoelace-style/shoelace/dist/components/menu/menu.js'
+import '@shoelace-style/shoelace/dist/components/select/select.js'
 import '@shoelace-style/shoelace/dist/components/button/button.js'
 import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 
@@ -19,7 +20,7 @@ export const render: MultiEditorComponent['render'] = ({ property, componentStat
   function onChange(e: CustomEvent) {
     const target = e.target as SlSelect
 
-    if (Array.isArray(target.value) && difference(target.value, values).length !== 0) {
+    if (Array.isArray(target.value) && tiny.difference(target.value, values).length !== 0) {
       const selected = pointers
         .filter(({ value }) => target.value.includes(value))
         .map(({ term }) => term)
@@ -34,7 +35,12 @@ export const render: MultiEditorComponent['render'] = ({ property, componentStat
   }
 
   return html`
-        <sl-select ?hoist="${settings.hoist}" multiple clearable .value=${values} @sl-hide=${stop} @sl-change=${onChange}>
+        <sl-select ?hoist="${settings.hoist}"
+                   multiple clearable
+                   .value=${values}
+                   @sl-clear="${() => update([])}"
+                   @sl-hide=${stop}
+                   @sl-change=${onChange}>
           ${repeat(pointers || [], renderItem)}
         </sl-select>
         <sl-button @click=${selectAll}>
