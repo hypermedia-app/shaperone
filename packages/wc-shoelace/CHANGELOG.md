@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.18
+
+### Patch Changes
+
+- 30dafb4: In some scenarios, multi-select would fall into endless udpate loop and freeze the browser
+
 ## 0.1.17
 
 ### Patch Changes
