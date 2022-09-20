@@ -13,7 +13,6 @@ import { PropertyState } from '@hydrofoil/shaperone-core/models/forms/index'
 import { dataset } from '@rdf-esm/dataset'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { IriTemplateBundle } from '@rdfine/hydra/bundles'
-import { hasAllRequiredVariables } from '../template'
 
 RdfResourceImpl.factory.addMixin(...IriTemplateBundle)
 
@@ -97,26 +96,38 @@ function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusN
     return undefined
   }
 
-  const freetextQueryVariable = searchTemplate.mapping
-    .find(({ property }) => property?.equals(hydra.freetextQuery))
-  if (freetextQueryVariable) {
-    const freetextQueryMinLength = freetextQueryVariable.pointer.out(sh.minLength).value || '1'
-    if (parseInt(freetextQueryMinLength || '1', 10) > (freetextQuery?.length || 0)) {
-      return undefined
-    }
-  }
-
-  const variables = getVariablesPointer(focusNode, searchTemplate)
-  if (!variables || !hasAllRequiredVariables(searchTemplate, variables)) {
+  const variableSource = getVariablesPointer(focusNode, searchTemplate)
+  if (!variableSource) {
     return undefined
   }
 
-  const freetextModel = clownface({ dataset: dataset() }).blankNode()
-  if (freetextQuery) {
-    freetextModel.addOut(hydra.freetextQuery, freetextQuery)
+  const variables = clownface({ dataset: dataset() }).blankNode()
+  for (const mapping of searchTemplate.mapping) {
+    const { property } = mapping
+    if (property) {
+      if (property.equals(hydra.freetextQuery)) {
+        const freetextQueryMinLength = mapping.pointer.out(sh.minLength).value || '1'
+        if (parseInt(freetextQueryMinLength || '1', 10) > (freetextQuery?.length || 0)) {
+          return undefined
+        }
+        if (freetextQuery) {
+          variables.addOut(hydra.freetextQuery, freetextQuery)
+        }
+      } else {
+        let path = mapping.pointer.out(sh.path)
+        if (!path.term) {
+          path = property.pointer
+        }
+        const { terms } = findNodes(variableSource, path)
+        if (mapping.required && !terms.length) {
+          return undefined
+        }
+        variables.addOut(property.pointer, terms)
+      }
+    }
   }
 
-  return searchTemplate.expand(variables, freetextModel)
+  return searchTemplate.expand(variables)
 }
 
 type DecoratedEditor = InstancesSelectEditor | AutoCompleteEditor

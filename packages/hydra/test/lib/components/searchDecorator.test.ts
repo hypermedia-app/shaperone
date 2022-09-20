@@ -7,6 +7,7 @@ import $rdf from '@rdf-esm/dataset'
 import { BlankNode } from 'rdf-js'
 import { fromPointer } from '@rdfine/hydra/lib/Collection'
 import RdfResourceImpl from '@tpluscode/rdfine'
+import { rdfList } from '@tpluscode/rdfine/initializer'
 import * as Hydra from '@rdfine/hydra'
 import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
@@ -284,6 +285,46 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar,baz')
         expect(updateComponentState).to.have.been.calledWith({
           lastLoaded: 'http://example.com/foo?bar=bar,baz',
+        })
+      })
+
+      it('constructs search URL using sh:path before hydra:property', async () => {
+        // given
+        property.shape.pointer.addOut(hydra.search, (template) => {
+          initTemplate(template, {
+            template: 'http://example.com/{?foo,bar}',
+            [sh.path.value]: ex.child,
+            mapping: [{
+              variable: 'foo',
+              property: ex.foo,
+            }, {
+              variable: 'bar',
+              property: ex.bar,
+              [sh.path.value]: rdfList(ex.baz, ex.baz),
+            }],
+          })
+        })
+        focusNode.addOut(ex.child, (child) => {
+          child.addOut(ex.foo, 'foo')
+          child.addOut(ex.bar, 'bar')
+          child.addOut(ex.baz, bar => bar.addOut(ex.baz, 'baz'))
+        })
+        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const representation = new ResourceRepresentation([collection.pointer])
+        client.loadResource.resolves({ representation })
+
+        // when
+        await decorated.loadChoices({
+          focusNode,
+          property,
+          componentState: {},
+          updateComponentState,
+        } as any)
+
+        // then
+        expect(client.loadResource).to.have.been.calledWith('http://example.com/?foo=foo&bar=baz')
+        expect(updateComponentState).to.have.been.calledWith({
+          lastLoaded: 'http://example.com/?foo=foo&bar=baz',
         })
       })
 
