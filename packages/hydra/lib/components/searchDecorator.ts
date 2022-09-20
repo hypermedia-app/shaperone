@@ -85,7 +85,7 @@ function load(client: Pick<HydraClient, 'loadResource'>, uri: string) {
   return request
 }
 
-function getVariablesPointer(focusNode: FocusNode, template: IriTemplate): MultiPointer | undefined {
+function getVariablesPointer(focusNode: FocusNode, template: IriTemplate): MultiPointer {
   const [path] = template.pointer.out(sh.path).toArray()
 
   return path ? findNodes(focusNode, path) : focusNode
@@ -97,7 +97,7 @@ function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusN
   }
 
   const variableSource = getVariablesPointer(focusNode, searchTemplate)
-  if (!variableSource) {
+  if (!variableSource.terms.length) {
     return undefined
   }
 
