@@ -153,6 +153,33 @@ describe('hydra/lib/components/searchDecorator', () => {
         // then
         expect(result).to.be.true
       })
+
+      it('returns false if sh:path does not find any focus nodes', () => {
+        // given
+        property = hydraSearchProperty({
+          search: {
+            template: 'people?name={name}',
+            [sh.path.value]: ex.foo,
+            mapping: {
+              variable: 'name',
+              property: schema.name,
+            },
+          },
+        })
+        const componentState = { instances: [] }
+
+        // when
+        const result = decorated.shouldLoad({
+          focusNode,
+          value,
+          property,
+          componentState,
+          updateComponentState: sinon.stub(),
+        } as any)
+
+        // then
+        expect(result).to.be.false
+      })
     })
 
     describe('loadChoices', () => {
