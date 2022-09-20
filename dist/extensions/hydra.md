@@ -106,6 +106,66 @@ The crucial detail is matching a template's `hydra:property` with another proper
 > [!EXAMPLE]
 > See an example shape in the [Playground][template]
 
+#### Selecting template value using a complex path
+
+Consider the resource below.
+
+```turtle
+@prefix schema: <http://schema.org/> .
+
+<>
+  a schema:Vehicle ;
+  schema:engine [
+    schema:enginePower [
+      schema:value "120" ;
+      schema:unit "PS" ;        
+    ] ;
+  ] ;
+  schema:fuelType "DIESEL" ;
+.
+```
+
+To construct a URI using the values of `schema:fuelType` and `schema:engine/schema:enginePower/schema:value` requires that
+property paths are used. That is not possible with `hydra:mapping/hydra:property` because it only allows a single RDF 
+predicate.
+
+`@hydrofoil/shaperone-hydra` supports an additional `sh:path` property on the template mappings so that values are not 
+limited only to the given focus node.
+
+```turtle
+@prefix schema: <http://schema.org/> .
+@prefix ex: <http://example.org/> .
+@prefix hydra: <http://www.w3.org/ns/hydra/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<>
+  sh:property [
+    sh:path ex:related ;
+    hydra:search [
+      a hydra:IriTemplate ;
+      hydra:template "https://example.com/cars{?power,fuel}" ;
+      hydra:mapping [
+        hydra:property schema:fuelType ;
+        hydra:variable "fuel" ;
+      ],  [
+        hydra:property schema:enginePower ;
+        hydra:variable "power" ;
+        sh:path ( schema:engine schema:enginePower schema:value ) ;
+      ] ;
+    ] ;
+  ] ;
+.
+```
+
+The above will use the path instead of `hydra:property` to fill in the `power` template variable. The resulting URL
+would be `https://example.com/cars?power=120,fuel=DIESEL`.
+
+> [!TIP]
+> Any [SHACL Property Path](https://www.w3.org/TR/shacl/#property-paths) is supported
+
+Another good use case for this would be to select template variables from multiple location in graph by defining a
+`sh:alternativePath`.
+
 #### Selecting different focus node for search template
 
 By default, the Focus Node itself is used to provide values to the search template. By adding `sh:path` to the search template it is possible to change that behaviour.
