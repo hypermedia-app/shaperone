@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.3.14
+
+### Patch Changes
+
+- e8d1fc7: Use `sh:path` to select template value from arbitrary location in graph
+
 ## 0.3.13
 
 ### Patch Changes
