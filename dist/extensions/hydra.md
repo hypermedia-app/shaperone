@@ -267,6 +267,9 @@ For that, `hydra:search` template is used as above, with one variable mapped to 
 > [!TIP]
 > The `sh:minLength` can be used optionally to increase the minimum length of the search text which will trigger a request.
 
+> [!NOTE]
+> The default is `sh:minLength 1`
+
 To support this, a component implementing `dash:InstanceSelectEditor` must manually fetch the filtered collection when search is performed. This is done by passing an optional `string` parameter to the functions `shouldLoad` and `loadChoices`.
 
 ```typescript
