@@ -121,7 +121,7 @@ describe('wc-shoelace/components', () => {
       expect(result.disabled).to.be.true
     })
 
-    it('updates when clicked', async () => {
+    it('updates when checked', async () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams<BooleanSelectEditor>({
@@ -135,6 +135,22 @@ describe('wc-shoelace/components', () => {
 
       // then
       expect(actions.update).to.have.been.calledWith(graph.literal('true', xsd.boolean).term)
+    })
+
+    it('updates when unchecked', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+        object: graph.node($rdf.literal('true', xsd.boolean)),
+      })
+
+      // when
+      const result = await fixture<SlCheckbox>(component.render(params, actions))
+      result.click()
+      await result.updateComplete
+
+      // then
+      expect(actions.update).to.have.been.calledWith(graph.literal('false', xsd.boolean).term)
     })
 
     it('is checked when value is "true"^^xsd:boolean', async () => {
