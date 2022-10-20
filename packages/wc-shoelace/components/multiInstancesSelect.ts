@@ -40,10 +40,10 @@ export const render: MultiEditorComponent['render'] = ({ property, componentStat
                    .value=${values}
                    @sl-clear="${() => update([])}"
                    @sl-hide=${stop}
-                   @sl-change=${onChange}>
+                   @sl-change=${onChange} .disabled="${property.shape.readOnly || false}">
           ${repeat(pointers || [], renderItem)}
         </sl-select>
-        <sl-button @click=${selectAll}>
+        <sl-button @click=${selectAll} .disabled="${property.shape.readOnly || false}">
           Select all
         </sl-button>`
 }

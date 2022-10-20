@@ -23,6 +23,11 @@
           "name": "hoist",
           "type": "boolean",
           "default": "true"
+        },
+        {
+          "name": "readonly",
+          "type": "boolean",
+          "default": "false"
         }
       ],
       "properties": [
@@ -48,6 +53,12 @@
           "attribute": "hoist",
           "type": "boolean",
           "default": "true"
+        },
+        {
+          "name": "readonly",
+          "attribute": "readonly",
+          "type": "boolean",
+          "default": "false"
         }
       ],
       "events": [
@@ -150,6 +161,11 @@
         {
           "name": "language",
           "type": "string | undefined"
+        },
+        {
+          "name": "readonly",
+          "type": "boolean",
+          "default": "false"
         }
       ],
       "properties": [
@@ -162,6 +178,12 @@
           "name": "language",
           "attribute": "language",
           "type": "string | undefined"
+        },
+        {
+          "name": "readonly",
+          "attribute": "readonly",
+          "type": "boolean",
+          "default": "false"
         }
       ],
       "events": [

@@ -40,4 +40,21 @@ describe('wc-shoelace/components/autocomplete', () => {
     // then
     expect(result.inputValue).to.eq('Selected Label')
   })
+
+  it('is readonly when dash:readOnly true', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const { params, actions } = editorTestParams<AutoComplete>({
+      property: {
+        readOnly: true,
+      },
+      object: graph.literal(''),
+    })
+
+    // when
+    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+
+    // then
+    expect(result.readonly).to.be.true
+  })
 })

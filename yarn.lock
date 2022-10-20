@@ -2663,10 +2663,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tpluscode/eslint-config@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@tpluscode/eslint-config/-/eslint-config-0.3.2.tgz#0bc80d71c80426a32aad277d40d5f8ca748b6a3c"
-  integrity sha512-ojKLVb0/DEfeD4Kw4rBnQTQSEsE2ndKJD4AG7c/SV8MKNVUqNbzIbZfH+T3MHfsKv/LAJ3LGNpvF1p1eYWk6yQ==
+"@tpluscode/eslint-config@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@tpluscode/eslint-config/-/eslint-config-0.3.3.tgz#1499b9240c871693042f3df2f2dcf3c78378f7bf"
+  integrity sha512-M1MaQaGUCmep31us09CVgIR9gFQ1sFKHoYKrFnEOs81g5yzI527XorViuUZ9WeaP9NGFCkITy4+2Dv7Uo/xU+Q==
 
 "@tpluscode/rdf-ns-builders@^2", "@tpluscode/rdf-ns-builders@^2.0.0", "@tpluscode/rdf-ns-builders@^2.0.1":
   version "2.0.1"

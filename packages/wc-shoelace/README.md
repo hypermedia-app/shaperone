@@ -7,6 +7,7 @@
 | `empty`      | `empty`      | `boolean`                                        | true    |
 | `hoist`      | `hoist`      | `boolean`                                        | true    |
 | `inputValue` | `inputValue` | `string`                                         | ""      |
+| `readonly`   | `readonly`   | `boolean`                                        | false   |
 | `selected`   | `selected`   | `GraphPointer<Term, DatasetCore<Quad, Quad>> \| undefined` |         |
 
 ## Methods
@@ -63,10 +64,11 @@
 
 ## Properties
 
-| Property    | Attribute   | Type                    |
-|-------------|-------------|-------------------------|
-| `language`  | `language`  | `string \| undefined`   |
-| `languages` | `languages` | `string[] \| undefined` |
+| Property    | Attribute   | Type                    | Default |
+|-------------|-------------|-------------------------|---------|
+| `language`  | `language`  | `string \| undefined`   |         |
+| `languages` | `languages` | `string[] \| undefined` |         |
+| `readonly`  | `readonly`  | `boolean`               | false   |
 
 ## Events
 
