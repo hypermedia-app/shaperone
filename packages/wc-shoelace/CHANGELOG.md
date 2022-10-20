@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.19
+
+### Patch Changes
+
+- e90097a: Disable editors when `dash:readOnly`
+- fbcf734: Implement `dash:BooleanSelectEditor` as checkbox
+
 ## 0.1.18
 
 ### Patch Changes
