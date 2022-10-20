@@ -31,11 +31,14 @@ export class ShSlAutocomplete extends LitElement {
   @property({ type: Boolean })
     hoist = true
 
+  @property({ type: Boolean })
+  public readonly = false
+
   @query('sl-input')
     _input!: SlInput
 
   render() {
-    return html`<sl-dropdown @sl-hide=${stop} ?hoist="${this.hoist}">
+    return html`<sl-dropdown @sl-hide=${stop} ?hoist="${this.hoist}" .disabled="${this.readonly}">
       <sl-input slot="trigger"
                 .value=${this.inputValue}
                 @sl-input="${this.dispatchSearch}">

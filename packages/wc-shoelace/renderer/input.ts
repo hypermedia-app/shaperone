@@ -8,11 +8,12 @@ interface InputRenderer {
 }
 
 export function inputRenderer(arg: InputRenderer = {}): SingleEditorComponent['render'] {
-  return ({ value }, { update }) => {
+  return ({ value, property }, { update }) => {
     const onChange = arg.onChange || update
 
     return html`<sl-input .value="${value.object?.value || ''}"
                           .type="${arg.type || 'text'}"
+                          .readonly="${property.shape.readOnly || false}"
                           @sl-change="${(e: any) => onChange(e.target.value)}"></sl-input>`
   }
 }

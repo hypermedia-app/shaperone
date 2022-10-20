@@ -34,7 +34,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
     await import('../elements/sh-sl-autocomplete.js')
 
     return (params, { update }) => {
-      const { value } = params
+      const { value, property } = params
       const pointers = value.componentState.instances || []
       const freetextQuery = value.componentState.freetextQuery || ''
       const { selected } = value.componentState
@@ -69,6 +69,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
                             .inputValue=${localizedLabel(selected, { property: autocomplete.labelProperties, fallback })}
                             @search=${search}
                             @itemSelected=${itemSelected}
+                            .readonly="${property.shape.readOnly || false}"
                             .hoist="${settings.hoist}"
         >
           ${repeat(pointers, renderItem)}

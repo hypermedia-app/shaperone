@@ -18,21 +18,21 @@ export class ShSlWithLangEditor extends LitElement {
         display: block;
         flex: 1;
       }
-      
+
       .selector {
         margin-left: var(--sl-spacing-x-small);
       }
-      
+
       sl-input.selector::part(form-control-input) {
         width: 80px;
       }
-      
+
       .selector::part(form-control) {
         display: flex;
         align-items: center;
         gap: 1rem;
       }
-      
+
       .selector::part(form-control-label) {
         flex: 0 0 auto;
         width: 60px;
@@ -47,6 +47,9 @@ export class ShSlWithLangEditor extends LitElement {
   @property({ type: String })
     language?: string
 
+  @property({ type: Boolean })
+  public readonly = false
+
   protected render() {
     return html`
       <slot></slot>
@@ -59,15 +62,16 @@ export class ShSlWithLangEditor extends LitElement {
 
     if (this.languages?.length) {
       return html`
-        <sl-select label="Language" placeholder="None" class="selector" @sl-change="${this.dispatchSelected}" .value="${language}">
+        <sl-select label="Language" placeholder="None" class="selector" @sl-change="${this.dispatchSelected}" .value="${language}" .disabled="${this.readonly}">
           ${repeat(this.languages, lang => html`<sl-menu-item value="${lang}">${lang}</sl-menu-item>`)}
         </sl-select>`
     }
 
-    return html`<sl-input class="selector" 
+    return html`<sl-input class="selector"
                           label="Language"
                           @sl-change="${this.dispatchSelected}"
                           placeholder="None"
+                          .readonly="${this.readonly}"
                           .value="${language}"></sl-input>`
   }
 

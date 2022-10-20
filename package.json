@@ -32,7 +32,7 @@
     "@open-wc/building-webpack": "^2.13.46",
     "@open-wc/eslint-config": "^8.0.2",
     "@rollup/plugin-commonjs": "^17.0.0",
-    "@tpluscode/eslint-config": "^0.3.2",
+    "@tpluscode/eslint-config": "^0.3.3",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "@web/dev-server-esbuild": "^0.3.2",

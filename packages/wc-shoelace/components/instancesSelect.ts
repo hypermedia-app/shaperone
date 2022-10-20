@@ -6,10 +6,10 @@ export const instancesSelect: Lazy<Core.InstancesSelectEditor> = {
   async lazyRender() {
     const { select } = await import('./select.js')
 
-    return ({ value, componentState }, { update }) => {
+    return ({ value, property, componentState }, { update }) => {
       const pointers = componentState.instances || []
 
-      return select(value, pointers, update)
+      return select({ property, value, pointers, update })
     }
   },
 }
