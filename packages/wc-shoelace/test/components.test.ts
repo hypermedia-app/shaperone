@@ -3,9 +3,11 @@ import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
-import { SlInput } from '@shoelace-style/shoelace'
+import { SlCheckbox, SlInput } from '@shoelace-style/shoelace'
 import { TextFieldWithLang, TextFieldWithLangEditor } from '@hydrofoil/shaperone-core/lib/components/textFieldWithLang'
 import { URIEditor, URI } from '@hydrofoil/shaperone-core/lib/components/uri'
+import { BooleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
+import { xsd } from '@tpluscode/rdf-ns-builders'
 import * as components from '../components'
 import { ShSlWithLangEditor } from '../elements/sh-sl-with-lang-editor'
 
@@ -91,6 +93,90 @@ describe('wc-shoelace/components', () => {
 
       // then
       expect(result.readonly).to.be.true
+    })
+  })
+
+  describe('boolean', () => {
+    let component: BooleanSelect
+
+    beforeEach(async () => {
+      component = {
+        ...components.boolean,
+        render: await components.boolean.lazyRender(),
+      }
+    })
+
+    it('is disabled when dash:readOnly true', async () => {
+      // given
+      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+        property: {
+          readOnly: true,
+        },
+      })
+
+      // when
+      const result = await fixture<SlCheckbox>(component.render(params, actions))
+
+      // then
+      expect(result.disabled).to.be.true
+    })
+
+    it('updates when clicked', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+        object: graph.node($rdf.literal('false', xsd.boolean)),
+      })
+
+      // when
+      const result = await fixture<SlCheckbox>(component.render(params, actions))
+      result.click()
+      await result.updateComplete
+
+      // then
+      expect(actions.update).to.have.been.calledWith(graph.literal('true', xsd.boolean).term)
+    })
+
+    it('is checked when value is "true"^^xsd:boolean', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+        object: graph.node($rdf.literal('true', xsd.boolean)),
+      })
+
+      // when
+      const result = await fixture<SlCheckbox>(component.render(params, actions))
+
+      // then
+      expect(result.checked).to.be.true
+      expect(result.indeterminate).to.be.false
+    })
+
+    it('is unchecked when value is "false"^^xsd:boolean', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+        object: graph.node($rdf.literal('false', xsd.boolean)),
+      })
+
+      // when
+      const result = await fixture<SlCheckbox>(component.render(params, actions))
+
+      // then
+      expect(result.checked).to.be.false
+      expect(result.indeterminate).to.be.false
+    })
+
+    it('is indeterminate and unchecked when unset', async () => {
+      // given
+      const { params, actions } = editorTestParams<BooleanSelectEditor>()
+
+      // when
+      const result = await fixture<SlCheckbox>(component.render(params, actions))
+
+      // then
+      expect(result.checked).to.be.false
+      expect(result.indeterminate).to.be.true
     })
   })
 })

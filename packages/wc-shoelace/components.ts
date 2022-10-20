@@ -5,6 +5,7 @@ import { html } from 'lit'
 import rdf from '@rdfjs/data-model'
 import isGraphPointer from 'is-graph-pointer'
 import type { GraphPointer } from 'clownface'
+import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
 
 export { autocomplete } from './components/autocomplete.js'
 export { enumSelect } from './components/enumSelect.js'
@@ -81,6 +82,14 @@ export const details: Lazy<SingleEditorComponent> = {
   editor: dash.DetailsEditor,
   async lazyRender() {
     const { render } = await import('./renderer/details')
+    return render
+  },
+}
+
+export const boolean: Lazy<BooleanSelectEditor> = {
+  editor: dash.BooleanSelectEditor,
+  async lazyRender() {
+    const { render } = await import('./renderer/boolean.js')
     return render
   },
 }
