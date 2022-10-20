@@ -29,7 +29,7 @@ interface EditorTestParams<T> {
 }
 
 interface SingleEditorTestParams<T> extends EditorTestParams<T> {
-  object: GraphPointer
+  object?: GraphPointer
   datatype?: NamedNode
 }
 
@@ -47,9 +47,11 @@ interface SingleEditorTestFixture<T>{
   actions: SingleEditorActions
 }
 
-export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg: MultiEditorTestParams<T>): MultiEditorTestFixture<T>
-export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg: SingleEditorTestParams<T>): SingleEditorTestFixture<T>
-export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg: SingleEditorTestParams<T> | MultiEditorTestParams<T>): MultiEditorTestFixture<T> | SingleEditorTestFixture<T> {
+export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg?: MultiEditorTestParams<T>): MultiEditorTestFixture<T>
+export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg?: SingleEditorTestParams<T>): SingleEditorTestFixture<T>
+export function editorTestParams<T extends ComponentInstance = ComponentInstance>(
+  arg: SingleEditorTestParams<T> | MultiEditorTestParams<T> = {},
+): MultiEditorTestFixture<T> | SingleEditorTestFixture<T> {
   const { componentState } = arg
 
   const focusNode = arg.focusNode || clownface({ dataset: $rdf.dataset() }).blankNode()
@@ -70,7 +72,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
 
   if ('objects' in arg) {
     const { objects } = arg
-    property.objects = objects.map(toState)
+    property.objects = objects?.map(toState) || []
     const renderer = propertyRenderer({
       property,
       focusNode,
