@@ -3,7 +3,7 @@ import { dash } from '@tpluscode/rdf-ns-builders'
 import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
 import { html } from 'lit'
 import rdf from '@rdfjs/data-model'
-import { isGraphPointer, isLiteral } from 'is-graph-pointer'
+import isGraphPointer from 'is-graph-pointer'
 import type { GraphPointer } from 'clownface'
 
 export { autocomplete } from './components/autocomplete.js'
@@ -36,7 +36,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
     ])
 
     function extractLanguage(ptr: GraphPointer | undefined) {
-      return isLiteral(ptr) ? ptr.term.language : ''
+      return isGraphPointer.isLiteral(ptr) ? ptr.term.language : ''
     }
 
     return function (object, actions) {
@@ -50,7 +50,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
           language = e.detail.value
         }
 
-        if (isGraphPointer(object.value.object)) {
+        if (isGraphPointer.isGraphPointer(object.value.object)) {
           actions.update(rdf.literal(object.value.object.value, language))
         } else {
           object.updateComponentState({ language })
@@ -60,6 +60,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
       return html`
         <sh-sl-with-lang-editor .languages="${object.property.shape.languageIn}"
                                 .language="${extractLanguage(object.value.object)}"
+                                .readonly="${object.property.shape.readOnly || false}"
                                 @language-selected="${languageChanged}">
           ${inputRenderer({ onChange: valueChanged })(object, actions)}
         </sh-sl-with-lang-editor>`
