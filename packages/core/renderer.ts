@@ -87,6 +87,8 @@ export interface FocusNodeActions {
 
   hideProperty (shape: Shape): void
   showProperty (shape: Shape): void
+
+  clearProperty(shape: Shape): void
 }
 
 /**
