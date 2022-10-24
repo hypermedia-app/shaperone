@@ -23,6 +23,25 @@ export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focu
     selectShape: (shape: NodeShape) => dispatch.forms.selectShape({ form, focusNode, shape }),
     hideProperty: (shape: Shape) => dispatch.forms.hideProperty({ form, focusNode, shape }),
     showProperty: (shape: Shape) => dispatch.forms.showProperty({ form, focusNode, shape }),
+    clearProperty: (shape: Shape) => {
+      const property = focusNodeState.properties
+        .find(property => property.shape.equals(shape))
+
+      property?.objects.forEach((object) => {
+        const args = {
+          form,
+          focusNode,
+          property: property.shape,
+          object,
+        }
+
+        if (property.canRemove) {
+          dispatch.forms.removeObject(args)
+        } else {
+          dispatch.forms.clearValue(args)
+        }
+      })
+    },
   }
 
   const context: FocusNodeRenderer = {

@@ -59,6 +59,7 @@ export const focusNodeRenderer = (arg: TestFocusNode): sinon.SinonStubbedInstanc
       selectShape: sinon.spy(),
       hideProperty: sinon.spy(),
       showProperty: sinon.spy(),
+      clearProperty: sinon.spy(),
     },
   })
 }
