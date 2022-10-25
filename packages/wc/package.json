@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "description": "Web Component rendering SHACL forms",
   "main": "index.js",
   "type": "module",
