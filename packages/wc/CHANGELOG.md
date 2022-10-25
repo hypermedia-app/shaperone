@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc
 
+## 0.7.7
+
+### Patch Changes
+
+- 80e08c9: Focus node action to clear a selected property
+
 ## 0.7.6
 
 ### Patch Changes
