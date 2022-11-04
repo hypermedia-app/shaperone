@@ -28,6 +28,15 @@
           "name": "readonly",
           "type": "boolean",
           "default": "false"
+        },
+        {
+          "name": "debounce-timeout",
+          "type": "number",
+          "default": "350"
+        },
+        {
+          "name": "loading",
+          "type": "boolean | undefined"
         }
       ],
       "properties": [
@@ -59,6 +68,17 @@
           "attribute": "readonly",
           "type": "boolean",
           "default": "false"
+        },
+        {
+          "name": "debounceTimeout",
+          "attribute": "debounce-timeout",
+          "type": "number",
+          "default": "350"
+        },
+        {
+          "name": "loading",
+          "attribute": "loading",
+          "type": "boolean | undefined"
         }
       ],
       "events": [

@@ -2,6 +2,7 @@ import { css, html, LitElement } from 'lit'
 import { customElement, property, query } from 'lit/decorators.js'
 import type { GraphPointer } from 'clownface'
 import { SlInput } from '@shoelace-style/shoelace'
+import debounce from 'p-debounce'
 import { stop } from '../lib/handlers.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js'
@@ -16,33 +17,60 @@ export class ShSlAutocomplete extends LitElement {
       [hidden] {
         display: none;
       }
+
+      :host([loading]) sl-input sl-icon {
+        animation-name: spin;
+        animation-duration: 500ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+
+      @keyframes spin {
+        from {
+          transform:rotate(0deg);
+        }
+        to {
+          transform:rotate(360deg);
+        }
+      }
+
+      sl-input sl-icon[slot=suffix] {
+        padding-right: 0;
+        margin-right: var(--sl-input-spacing-medium);
+      }
     `
   }
 
   @property({ type: Object })
-    selected?: GraphPointer
+  public selected?: GraphPointer
 
   @property({ type: String })
-    inputValue = ''
+  public inputValue = ''
 
   @property({ type: Boolean })
-    empty = true
+  public empty = true
 
   @property({ type: Boolean })
-    hoist = true
+  public hoist = true
 
   @property({ type: Boolean })
   public readonly = false
 
+  @property({ type: Number, attribute: 'debounce-timeout' })
+  public debounceTimeout = 350
+
+  @property({ type: Boolean, reflect: true })
+  public loading?: boolean
+
   @query('sl-input')
-    _input!: SlInput
+  private _input!: SlInput
 
   render() {
     return html`<sl-dropdown @sl-hide=${stop} ?hoist="${this.hoist}" .disabled="${this.readonly}">
       <sl-input slot="trigger"
                 .value=${this.inputValue}
-                @sl-input="${this.dispatchSearch}">
-        <sl-icon name="search" slot="suffix"></sl-icon>
+                @sl-input="${debounce(this.dispatchSearch, this.debounceTimeout)}">
+        <sl-icon name="${this.loading ? 'arrow-repeat' : 'search'}" slot="suffix"></sl-icon>
       </sl-input>
       <sl-menu hoist .value=${this.selected?.value}
                ?hidden="${this.empty}"
