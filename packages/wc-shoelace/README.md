@@ -2,13 +2,15 @@
 
 ## Properties
 
-| Property     | Attribute    | Type                                             | Default |
-|--------------|--------------|--------------------------------------------------|---------|
-| `empty`      | `empty`      | `boolean`                                        | true    |
-| `hoist`      | `hoist`      | `boolean`                                        | true    |
-| `inputValue` | `inputValue` | `string`                                         | ""      |
-| `readonly`   | `readonly`   | `boolean`                                        | false   |
-| `selected`   | `selected`   | `GraphPointer<Term, DatasetCore<Quad, Quad>> \| undefined` |         |
+| Property          | Attribute          | Type                                             | Default |
+|-------------------|--------------------|--------------------------------------------------|---------|
+| `debounceTimeout` | `debounce-timeout` | `number`                                         | 350     |
+| `empty`           | `empty`            | `boolean`                                        | true    |
+| `hoist`           | `hoist`            | `boolean`                                        | true    |
+| `inputValue`      | `inputValue`       | `string`                                         | ""      |
+| `loading`         | `loading`          | `boolean \| undefined`                           |         |
+| `readonly`        | `readonly`         | `boolean`                                        | false   |
+| `selected`        | `selected`         | `GraphPointer<Term, DatasetCore<Quad, Quad>> \| undefined` |         |
 
 ## Methods
 

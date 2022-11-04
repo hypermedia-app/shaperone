@@ -57,4 +57,21 @@ describe('wc-shoelace/components/autocomplete', () => {
     // then
     expect(result.readonly).to.be.true
   })
+
+  it('sets loading attribute', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const { params, actions } = editorTestParams<AutoComplete>({
+      object: graph.literal(''),
+      componentState: {
+        loading: true,
+      },
+    })
+
+    // when
+    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+
+    // then
+    expect(result).to.have.attr('loading')
+  })
 })

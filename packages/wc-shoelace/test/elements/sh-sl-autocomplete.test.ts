@@ -26,4 +26,12 @@ describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
     // expect
     expect(el.renderRoot.querySelector('sl-dropdown')?.disabled).to.be.true
   })
+
+  it('spins the icon when [loading]', async () => {
+    // when
+    const el = await fixture<ShSlAutocomplete>(html`<sh-sl-autocomplete loading></sh-sl-autocomplete>`)
+
+    // expect
+    expect(el.renderRoot.querySelector('sl-input sl-icon')).to.have.style('animation-name', 'spin')
+  })
 })

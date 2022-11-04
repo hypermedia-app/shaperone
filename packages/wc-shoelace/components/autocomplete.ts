@@ -37,7 +37,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
       const { value, property } = params
       const pointers = value.componentState.instances || []
       const freetextQuery = value.componentState.freetextQuery || ''
-      const { selected } = value.componentState
+      const { selected, loading } = value.componentState
 
       const search = (e: CustomEvent) => {
         params.updateComponentState({
@@ -71,6 +71,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
                             @itemSelected=${itemSelected}
                             .readonly="${property.shape.readOnly || false}"
                             .hoist="${settings.hoist}"
+                            ?loading="${loading || false}"
         >
           ${repeat(pointers, renderItem)}
         </sh-sl-autocomplete>`
