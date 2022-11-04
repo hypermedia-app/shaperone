@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.20
+
+### Patch Changes
+
+- e0c8909: To not trigger search immediately when typing in auto complete editor
+- e0c8909: When loading, chage the icon to spinning arrows
+
 ## 0.1.19
 
 ### Patch Changes
