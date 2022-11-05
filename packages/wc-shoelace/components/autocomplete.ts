@@ -89,9 +89,13 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
           updateComponentState({
             selected: resource,
           })
+        }).finally(() => {
+          updateComponentState({
+            loading: false,
+          })
         })
 
-      updateComponentState({ selectionLoading })
+      updateComponentState({ selectionLoading, loading: true })
     }
   },
   init(...args) {
