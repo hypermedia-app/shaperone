@@ -98,7 +98,7 @@ export function testObjectState(object?: GraphPointer, init: RecursivePartial<Fo
     object,
     editors: [],
     componentState: {},
-  }, init, { clone: false })
+  }, init, { clone: false, isMergeableObject })
 }
 
 const spyHandler: ProxyHandler<any> = {
@@ -164,4 +164,8 @@ export function testStore({ graph = datasetFactory.defaultGraph(), factory: { da
       getState: () => state,
     },
   }
+}
+
+function isMergeableObject(arg: any) {
+  return !('termType' in arg)
 }

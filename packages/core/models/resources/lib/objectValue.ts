@@ -6,8 +6,15 @@ import type { NamedNode } from 'rdf-js'
 import { nanoid } from 'nanoid'
 import sh1 from '../../../ns.js'
 import type { FocusNode } from '../../../index'
+import { PropertyObjectState } from '../../forms'
 
-export function defaultValue(property: PropertyShape, focusNode: FocusNode): MultiPointer | null {
+interface DefaultValue {
+  property: PropertyShape
+  object: PropertyObjectState
+  focusNode: FocusNode
+}
+
+export function defaultValue({ property, focusNode, object }: DefaultValue): MultiPointer | null {
   if (property.defaultValue) {
     return focusNode.node(property.defaultValue)
   }
@@ -15,6 +22,10 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
   let { nodeKind } = property
   if (!nodeKind && property.class) {
     nodeKind = sh.BlankNode
+  }
+
+  if (shouldNotCreateNode(object)) {
+    return null
   }
 
   switch (nodeKind?.value) {
@@ -27,6 +38,14 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
     default:
       return null
   }
+}
+
+function shouldNotCreateNode(object: PropertyObjectState) {
+  const editor = object.selectedEditor
+
+  return editor && (editor.equals(dash.EnumSelectEditor) ||
+    editor.equals(dash.InstancesSelectEditor) ||
+    editor.equals(dash.AutoCompleteEditor))
 }
 
 function createResourceNode(property: PropertyShape, nodeKind: NodeKind, focusNode: FocusNode) {

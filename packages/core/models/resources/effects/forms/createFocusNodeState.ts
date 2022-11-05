@@ -33,7 +33,7 @@ export default function createFocusNodeState(store: Store) {
     if (object.object) {
       return { shouldNotify: false }
     }
-    const [value] = defaultValue(property.shape, focusNode)?.toArray() || []
+    const [value] = defaultValue({ property: property.shape, focusNode, object })?.toArray() || []
     if (!value) {
       return { shouldNotify: false }
     }
