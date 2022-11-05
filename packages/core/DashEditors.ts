@@ -163,7 +163,7 @@ export const detailsEditor: SingleEditor = {
  *
  * @returns `0` if shape does not have `sh:in`
  * @returns `20` if value is empty string or value is one of `sh:in`
- * @returns `6` otherwise
+ * @returns `11` otherwise
  */
 export const enumSelect: SingleEditor = {
   term: dash.EnumSelectEditor,
@@ -176,7 +176,7 @@ export const enumSelect: SingleEditor = {
       return 20
     }
 
-    return shape.in.some(enumValue => value?.term.equals(enumValue)) ? 20 : 6
+    return shape.in.some(enumValue => value?.term.equals(enumValue)) ? 20 : 11
   },
 }
 
