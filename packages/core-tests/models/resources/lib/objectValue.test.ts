@@ -9,7 +9,6 @@ import { defaultValue } from '@hydrofoil/shaperone-core/models/resources/lib/obj
 import { propertyShape } from '@shaperone/testing/util.js'
 import { Term } from 'rdf-js'
 import sh1 from '@hydrofoil/shaperone-core/ns.js'
-import { testObjectState } from '@shaperone/testing/models/form.js'
 
 describe('core/models/resources/lib/defaultValue', () => {
   it('returns default value from property', () => {
@@ -19,10 +18,9 @@ describe('core/models/resources/lib/defaultValue', () => {
       defaultValue: literal('foo', xsd.anySimpleType),
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const pointer = defaultValue({ property, focusNode, object })
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer?.term).to.deep.eq(literal('foo', xsd.anySimpleType))
@@ -34,10 +32,9 @@ describe('core/models/resources/lib/defaultValue', () => {
     const property = propertyShape(graph.blankNode(), {
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const pointer = defaultValue({ property, focusNode, object })
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer).to.be.null
@@ -50,10 +47,9 @@ describe('core/models/resources/lib/defaultValue', () => {
       class: foaf.Person,
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const pointer = defaultValue({ property, focusNode, object })
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer?.term?.termType).to.eq('BlankNode')
@@ -67,10 +63,9 @@ describe('core/models/resources/lib/defaultValue', () => {
       nodeKind: sh.IRIOrLiteral,
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const pointer = defaultValue({ property, focusNode, object })
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer).to.be.null
@@ -83,11 +78,10 @@ describe('core/models/resources/lib/defaultValue', () => {
       nodeKind: sh.IRI,
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const first = defaultValue({ property, focusNode, object })
-    const second = defaultValue({ property, focusNode, object })
+    const first = defaultValue({ property, focusNode })
+    const second = defaultValue({ property, focusNode })
 
     // then
     expect(first?.term).not.to.deep.eq(second)
@@ -101,10 +95,9 @@ describe('core/models/resources/lib/defaultValue', () => {
       [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const term = defaultValue({ property, focusNode, object })?.term
+    const term = defaultValue({ property, focusNode })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -119,10 +112,9 @@ describe('core/models/resources/lib/defaultValue', () => {
       [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const term = defaultValue({ property, focusNode, object })?.term
+    const term = defaultValue({ property, focusNode })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -137,10 +129,9 @@ describe('core/models/resources/lib/defaultValue', () => {
       [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
     const focusNode = graph.blankNode()
-    const object = testObjectState()
 
     // when
-    const term = defaultValue({ property, focusNode, object })?.term
+    const term = defaultValue({ property, focusNode })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -162,10 +153,9 @@ describe('core/models/resources/lib/defaultValue', () => {
         nodeKind,
       })
       const focusNode = graph.blankNode()
-      const object = testObjectState()
 
       // when
-      const pointer = defaultValue({ property, focusNode, object })
+      const pointer = defaultValue({ property, focusNode })
 
       // then
       expect(pointer?.term?.termType).to.eq(termType)
@@ -180,10 +170,9 @@ describe('core/models/resources/lib/defaultValue', () => {
         [sh1.iriPrefix.value]: 'http://example.com/foo/',
       })
       const focusNode = graph.blankNode()
-      const object = testObjectState()
 
       // when
-      const pointer = defaultValue({ property, focusNode, object })
+      const pointer = defaultValue({ property, focusNode })
 
       // then
       expect(pointer?.out(rdf.type).term).to.deep.eq(foaf.Agent)
@@ -199,10 +188,9 @@ describe('core/models/resources/lib/defaultValue', () => {
         [sh1.iriPrefix.value]: 'http://example.com/foo/',
       })
       const focusNode = graph.blankNode()
-      const object = testObjectState()
 
       // when
-      const pointer = defaultValue({ property, focusNode, object })
+      const pointer = defaultValue({ property, focusNode })
 
       // then
       expect(pointer?.out(rdf.type).term).to.be.undefined
@@ -222,13 +210,10 @@ describe('core/models/resources/lib/defaultValue', () => {
       const property = propertyShape(graph.blankNode(), {
         nodeKind: sh.IRI,
       })
-      const object = testObjectState(undefined, {
-        selectedEditor: editor,
-      })
       const focusNode = graph.blankNode()
 
       // then
-      expect(defaultValue({ property, focusNode, object })).to.be.null
+      expect(defaultValue({ property, focusNode, editor })).to.be.null
     })
   })
 })

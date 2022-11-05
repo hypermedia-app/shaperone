@@ -22,12 +22,12 @@ describe('models/forms/effects/addObject', () => {
     // given
     const property = propertyShape()
     const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-    const matchedEditors: SingleEditorMatch[] = [{
+    const editors: SingleEditorMatch[] = [{
       term: dash.TextFieldEditor,
       score: 5,
       meta: <any> {},
     }]
-    store.getState().editors.matchSingleEditors = () => matchedEditors
+    store.getState().editors.matchSingleEditors = () => editors
 
     // when
     addObject(store)({
@@ -42,7 +42,7 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
-      matchedEditors,
+      editors,
     }))
   })
 })
