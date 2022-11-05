@@ -21,7 +21,9 @@ function renderer(choices: GraphPointer[], value: Term | undefined) {
 
     render(
       html`
-        ${repeat(choices, pointer => html`<vaadin-item ?selected="${pointer.term.equals(value)}">${localizedLabel(pointer)}</vaadin-item>`)}
+        ${repeat(choices, pointer => html`<vaadin-item ?selected="${pointer.term.equals(value)}">
+          ${localizedLabel(pointer, { fallback: pointer.value })}
+        </vaadin-item>`)}
       `,
       listBox!,
     )

@@ -26,7 +26,7 @@ function select(
 ) {
   return html`<mwc-select ${readOnly(property)} @selected="${(e: CustomEvent) => actions.update(pointers[e.detail.index].term)}" ${validity(value)}>
     ${repeat(pointers, pointer => html`<mwc-list-item ?selected="${pointer.term.equals(value.object?.term)}" value="${pointer.value}">
-        ${localizedLabel(pointer)}
+        ${localizedLabel(pointer, { fallback: pointer.value })}
     </mwc-list-item>`)}
 </mwc-select>`
 }

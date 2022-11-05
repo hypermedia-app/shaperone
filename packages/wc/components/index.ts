@@ -36,7 +36,7 @@ export const enumSelect: Render<EnumSelectEditor> = function ({ property, value,
   return html`<select ${readOnly(property)} @input="${updateHandler}" required ${validity(value)}>
         <option value=""></option>
         ${repeat(choices, pointer => html`<option ?selected="${pointer.value === value.object?.value}" value="${pointer.value}">
-            ${localizedLabel(pointer)}
+            ${localizedLabel(pointer, { fallback: pointer.value })}
         </option>`)}
     </select>`
 }

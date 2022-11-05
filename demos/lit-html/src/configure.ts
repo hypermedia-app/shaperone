@@ -17,9 +17,11 @@ import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
 import $rdf from 'rdf-ext'
 import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer'
 import { errorSummary } from '@hydrofoil/shaperone-playground-examples/ErrorSummary/index.js'
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 import { ComponentsState } from './state/models/components'
 import { RendererState } from './state/models/renderer'
 
+setBasePath('https://unpkg.com/@shoelace-style/shoelace/dist')
 shoelaceSettings.hoist = false
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {

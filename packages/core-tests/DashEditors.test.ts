@@ -324,7 +324,7 @@ describe('core/DashEditors', () => {
       expect(result).to.eq(20)
     })
 
-    it('has score 6 when sh:in exists but value is not in the set', () => {
+    it('has score 11 when sh:in exists but value is not in the set', () => {
       // given
       const graph = cf({ dataset: $rdf.dataset() })
       const property = propertyShape(
@@ -336,7 +336,7 @@ describe('core/DashEditors', () => {
       const result = DashEditors.enumSelect.match(property, value)
 
       // then
-      expect(result).to.eq(6)
+      expect(result).to.eq(11)
     })
   })
 
