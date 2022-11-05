@@ -1,7 +1,7 @@
-import { css, html, LitElement } from 'lit'
+import { css, html, LitElement, PropertyValues } from 'lit'
 import { customElement, property, query } from 'lit/decorators.js'
 import type { GraphPointer } from 'clownface'
-import { SlInput } from '@shoelace-style/shoelace'
+import { SlDropdown, SlInput } from '@shoelace-style/shoelace'
 import debounce from 'p-debounce'
 import { stop } from '../lib/handlers.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
@@ -65,10 +65,14 @@ export class ShSlAutocomplete extends LitElement {
   @query('sl-input')
   private _input!: SlInput
 
+  @query('sl-dropdown')
+  private _menu!: SlDropdown
+
   render() {
     return html`<sl-dropdown @sl-hide=${stop} ?hoist="${this.hoist}" .disabled="${this.readonly}">
       <sl-input slot="trigger"
                 .value=${this.inputValue}
+                @keydown="${this._inputKeyDown}"
                 @sl-input="${debounce(this.dispatchSearch, this.debounceTimeout)}">
         <sl-icon name="${this.loading ? 'arrow-repeat' : 'search'}" slot="suffix"></sl-icon>
       </sl-input>
@@ -80,6 +84,16 @@ export class ShSlAutocomplete extends LitElement {
       </sl-menu>
     </sl-dropdown>
     `
+  }
+
+  protected updated(_changedProperties: PropertyValues) {
+    if (_changedProperties.has('loading')) {
+      if (this.loading) {
+        this._menu.hide()
+      } else {
+        this._menu.show()
+      }
+    }
   }
 
   updateEmpty(e: Event) {
@@ -101,5 +115,11 @@ export class ShSlAutocomplete extends LitElement {
         value: e.detail.item.value,
       },
     }))
+  }
+
+  _inputKeyDown(e: KeyboardEvent) {
+    if (e.key === ' ') {
+      e.stopPropagation()
+    }
   }
 }
