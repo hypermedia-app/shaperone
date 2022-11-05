@@ -57,7 +57,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
         }
       }
 
-      let nodeValue = value.object?.value
+      let nodeValue = ''
       if (isGraphPointer.isNamedNode(value.object)) {
         const nodeUrl = new URL(value.object.value)
         nodeValue = nodeUrl.hash || nodeUrl.pathname
