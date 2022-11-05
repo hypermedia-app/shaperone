@@ -30,6 +30,7 @@
     "@rdfjs/fetch-lite": "^3.1.0",
     "@tpluscode/rdf-ns-builders": "^2.0.0",
     "@tpluscode/rdf-string": "^0.2.26",
+    "@shoelace-style/shoelace": "^2.0.0-beta.78",
     "@vaadin/vaadin-app-layout": "^2.1.0",
     "@vaadin/vaadin-button": "^2.4.0",
     "@vaadin/vaadin-checkbox": "^2.5.0",
