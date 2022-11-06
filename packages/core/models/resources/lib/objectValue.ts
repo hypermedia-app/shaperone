@@ -4,6 +4,7 @@ import { dash, rdf, sh } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
 import type { NamedNode } from 'rdf-js'
 import { nanoid } from 'nanoid'
+import TermSet from '@rdf-esm/term-set'
 import sh1 from '../../../ns.js'
 import type { FocusNode } from '../../../index'
 
@@ -12,6 +13,13 @@ interface DefaultValue {
   editor?: NamedNode
   focusNode: FocusNode
 }
+
+const excludedEditors = new TermSet<NamedNode>([
+  dash.EnumSelectEditor,
+  dash.InstancesSelectEditor,
+  dash.AutoCompleteEditor,
+  dash.URIEditor,
+])
 
 export function defaultValue({ property, focusNode, editor }: DefaultValue): MultiPointer | null {
   if (property.defaultValue) {
@@ -23,7 +31,7 @@ export function defaultValue({ property, focusNode, editor }: DefaultValue): Mul
     nodeKind = sh.BlankNode
   }
 
-  if (editor && shouldNotCreateNode(editor)) {
+  if (editor && excludedEditors.has(editor)) {
     return null
   }
 
@@ -37,12 +45,6 @@ export function defaultValue({ property, focusNode, editor }: DefaultValue): Mul
     default:
       return null
   }
-}
-
-function shouldNotCreateNode(editor: NamedNode) {
-  return editor.equals(dash.EnumSelectEditor) ||
-    editor.equals(dash.InstancesSelectEditor) ||
-    editor.equals(dash.AutoCompleteEditor)
 }
 
 function createResourceNode(property: PropertyShape, nodeKind: NodeKind, focusNode: FocusNode) {

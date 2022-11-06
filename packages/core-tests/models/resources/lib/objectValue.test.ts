@@ -201,6 +201,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     dash.EnumSelectEditor,
     dash.InstancesSelectEditor,
     dash.AutoCompleteEditor,
+    dash.URIEditor,
   ]
 
   selectEditors.forEach((editor) => {
