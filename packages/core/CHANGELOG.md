@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.11
+
+### Patch Changes
+
+- 79cece9: Prioritise EnumSelect over IRIEditor when there is `sh:in`
+- 358db18: Do not create a new node when the editor is a `dash:*SelectEditor`
+
 ## 0.9.10
 
 ### Patch Changes

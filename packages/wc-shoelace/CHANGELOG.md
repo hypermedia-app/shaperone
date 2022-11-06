@@ -1,5 +1,18 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.21
+
+### Patch Changes
+
+- d9ea23b: Do not show blank node id as default dropwdown label
+- 6628a4b: Improve autocomplete usability by handling spacebar properly and automatically opening the menu when done loading
+- f51c1ef: Spin the icon when loading initial autosomplete selection
+- Updated dependencies [79cece9]
+- Updated dependencies [79cece9]
+- Updated dependencies [358db18]
+  - @hydrofoil/shaperone-wc@0.7.8
+  - @hydrofoil/shaperone-core@0.9.11
+
 ## 0.1.20
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.70
+
+### Patch Changes
+
+- 3f1bfca: Ensure shoelace icons in playground
+- Updated dependencies [79cece9]
+- Updated dependencies [d9ea23b]
+- Updated dependencies [6628a4b]
+- Updated dependencies [f51c1ef]
+  - @hydrofoil/shaperone-wc@0.7.8
+  - @hydrofoil/shaperone-wc-material@0.5.9
+  - @hydrofoil/shaperone-wc-vaadin@0.4.11
+  - @hydrofoil/shaperone-wc-shoelace@0.1.21
+  - @hydrofoil/shaperone-playground-examples@0.2.39
+
 ## 0.1.69
 
 ### Patch Changes
