@@ -5,7 +5,7 @@
 
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
-import type { NodeShape, PropertyGroup, PropertyShape, Shape, ValidationResult } from '@rdfine/shacl'
+import type { NodeKind, NodeShape, PropertyGroup, PropertyShape, Shape, ValidationResult } from '@rdfine/shacl'
 import { GraphPointer } from 'clownface'
 import type { sh } from '@tpluscode/rdf-ns-builders'
 import effects from './effects'
@@ -71,6 +71,11 @@ export interface PropertyObjectState<TState extends ComponentInstance = Componen
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
   componentState: TState
+  /**
+   * An optional hint set when creating object state which will be used to override what kind of initial value is
+   * created for the given object
+   */
+  nodeKind: NodeKind | undefined
 }
 
 export interface ShouldEnableEditorChoice {

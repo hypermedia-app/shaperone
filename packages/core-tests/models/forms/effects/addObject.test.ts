@@ -9,6 +9,7 @@ import { addObject } from '@hydrofoil/shaperone-core/models/forms/effects/addObj
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
 import { propertyShape } from '@shaperone/testing/util.js'
+import { sh } from '@tpluscode/rdf-ns-builders'
 
 describe('models/forms/effects/addObject', () => {
   let store: Store
@@ -35,6 +36,7 @@ describe('models/forms/effects/addObject', () => {
       property,
       focusNode,
       editor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -45,6 +47,33 @@ describe('models/forms/effects/addObject', () => {
       focusNode,
       editors,
       selectedEditor: dash.TextFieldEditor,
+    }))
+  })
+
+  it('sets nodeKind to state', () => {
+    // given
+    const property = propertyShape()
+    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const editors: SingleEditorMatch[] = [{
+      term: dash.TextFieldEditor,
+      score: 5,
+      meta: <any> {},
+    }]
+    store.getState().editors.matchSingleEditors = () => editors
+
+    // when
+    addObject(store)({
+      form,
+      property,
+      focusNode,
+      editor: undefined,
+      nodeKind: sh.IRI,
+    })
+
+    // then
+    const dispatch = store.getDispatch()
+    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+      nodeKind: sh.IRI,
     }))
   })
 
@@ -66,6 +95,7 @@ describe('models/forms/effects/addObject', () => {
       property,
       focusNode,
       editor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -97,6 +127,7 @@ describe('models/forms/effects/addObject', () => {
         property,
         focusNode,
         editor: dash.BarEditor,
+        nodeKind: undefined,
       })
 
       // then
@@ -124,6 +155,7 @@ describe('models/forms/effects/addObject', () => {
         property,
         focusNode,
         editor: dash.BarEditor,
+        nodeKind: undefined,
       })
 
       // then
@@ -154,6 +186,7 @@ describe('models/forms/effects/addObject', () => {
         property,
         focusNode,
         editor: dash.TextFieldEditor,
+        nodeKind: undefined,
       })
 
       // then

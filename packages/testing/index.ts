@@ -105,6 +105,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
     componentState: componentState || {} as T,
     validationResults: [],
     hasErrors: false,
+    nodeKind: undefined,
   }
 
   property.objects = [value]
@@ -147,5 +148,6 @@ function toState(object: GraphPointer): PropertyObjectState {
     componentState: {} as any,
     validationResults: [],
     hasErrors: false,
+    nodeKind: undefined,
   }
 }

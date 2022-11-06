@@ -50,6 +50,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
         componentState: {},
         validationResults: [],
         hasErrors: false,
+        nodeKind: undefined,
       },
     })
 
@@ -83,6 +84,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
         componentState: { foo: 'bar' },
         validationResults: [],
         hasErrors: false,
+        nodeKind: undefined,
       },
     })
 

@@ -43,6 +43,7 @@ describe('models/resources/effects/forms/addFormField', () => {
       focusNode,
       property,
       selectedEditor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -66,6 +67,7 @@ describe('models/resources/effects/forms/addFormField', () => {
       focusNode,
       property,
       selectedEditor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -91,6 +93,7 @@ describe('models/resources/effects/forms/addFormField', () => {
         focusNode,
         property,
         selectedEditor: undefined,
+        nodeKind: undefined,
       })
 
       // then

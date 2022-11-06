@@ -12,6 +12,7 @@ interface DefaultValue {
   property: PropertyShape
   editor?: NamedNode
   focusNode: FocusNode
+  nodeKind: NodeKind | undefined
 }
 
 const excludedEditors = new TermSet<NamedNode>([
@@ -21,13 +22,13 @@ const excludedEditors = new TermSet<NamedNode>([
   dash.URIEditor,
 ])
 
-export function defaultValue({ property, focusNode, editor }: DefaultValue): MultiPointer | null {
+export function defaultValue({ property, focusNode, editor, nodeKind = property.nodeKind }: DefaultValue): MultiPointer | null {
   if (property.defaultValue) {
     return focusNode.node(property.defaultValue)
   }
 
-  let { nodeKind } = property
   if (!nodeKind && property.class) {
+    // eslint-disable-next-line no-param-reassign
     nodeKind = sh.BlankNode
   }
 

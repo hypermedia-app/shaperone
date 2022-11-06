@@ -7,6 +7,7 @@ import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
 import { addFormField } from '@hydrofoil/shaperone-core/models/forms/reducers/addFormField.js'
 import { propertyShape } from '@shaperone/testing/util.js'
+import { sh } from '@tpluscode/rdf-ns-builders'
 
 const ex = ns('http://example.com/')
 
@@ -40,6 +41,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -76,6 +78,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -112,6 +115,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -147,11 +151,48 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
+      nodeKind: undefined,
     })
 
     // then
     const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
     expect(fooState.properties[0].objects[0].editorSwitchDisabled).to.be.true
+  })
+
+  it('adds state with passed nodeKind', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = propertyShape(graph.blankNode(), {
+      path: ex.prop,
+    })
+    const focusNode = graph.node(ex.FocusNode)
+    const { form, store } = testStore()
+    const { forms } = store.getState()
+
+    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      properties: [testPropertyState(focusNode.blankNode(), {
+        canRemove: true,
+        canAdd: true,
+        name: 'prop',
+        shape: property,
+        selectedEditor: undefined,
+        objects: [],
+      })],
+    })
+
+    // when
+    const after = addFormField(forms, {
+      form,
+      property,
+      focusNode,
+      editors: [],
+      selectedEditor: undefined,
+      nodeKind: sh.IRIOrLiteral,
+    })
+
+    // then
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    expect(fooState.properties[0].objects[0].nodeKind).to.deep.eq(sh.IRIOrLiteral)
   })
 
   it('initializes with state with preferred editor and adds it as first choice', () => {
@@ -191,6 +232,7 @@ describe('core/models/forms/reducers/addObject', () => {
         meta: {} as any,
       }],
       selectedEditor: dash.FooEditor,
+      nodeKind: undefined,
     })
 
     // then

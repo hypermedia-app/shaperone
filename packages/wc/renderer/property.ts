@@ -10,7 +10,7 @@ export const renderProperty: GroupRenderer['renderProperty'] = function ({ prope
   const actionParams = { form, focusNode: focusNode.focusNode, property: property.shape }
 
   const propertyActions: PropertyActions = {
-    addObject: ({ editor } = {}) => dispatch.forms.addObject({ editor, ...actionParams }),
+    addObject: ({ editor, nodeKind } = {}) => dispatch.forms.addObject({ editor, nodeKind, ...actionParams }),
     removeObject: (arg) => {
       let object: PropertyObjectState | undefined
       if ('key' in arg) {

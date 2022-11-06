@@ -1,4 +1,4 @@
-import { PropertyShape } from '@rdfine/shacl'
+import { NodeKind, PropertyShape } from '@rdfine/shacl'
 import { NamedNode } from 'rdf-js'
 import type { Store } from '../../../state'
 import { FocusNode } from '../../../index'
@@ -9,11 +9,12 @@ export interface AddObject extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
   editor: NamedNode | undefined
+  nodeKind: NodeKind | undefined
 }
 
 export function addObject(store: Store) {
   const dispatch = store.getDispatch()
-  return function ({ form, property, focusNode, editor }: AddObject) {
+  return function ({ form, property, focusNode, editor, nodeKind }: AddObject) {
     const { editors: editorsState, resources } = store.getState()
     const graph = resources.get(form)?.graph
     if (!graph) {
@@ -49,6 +50,7 @@ export function addObject(store: Store) {
       focusNode,
       editors,
       selectedEditor,
+      nodeKind,
     })
   }
 }
