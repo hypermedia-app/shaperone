@@ -34,6 +34,7 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
+      editor: undefined,
     })
 
     // then
@@ -64,6 +65,7 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
+      editor: undefined,
     })
 
     // then
@@ -74,5 +76,91 @@ describe('models/forms/effects/addObject', () => {
       focusNode,
       selectedEditor: dash.FooEditor,
     }))
+  })
+
+  context('with editor argument', () => {
+    it('sets selected editor', () => {
+      // given
+      const property = propertyShape({
+        editor: dash.FooEditor,
+      })
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      store.getState().editors.matchSingleEditors = () => [{
+        term: dash.TextFieldEditor,
+        score: 5,
+        meta: <any> {},
+      }]
+
+      // when
+      addObject(store)({
+        form,
+        property,
+        focusNode,
+        editor: dash.BarEditor,
+      })
+
+      // then
+      const dispatch = store.getDispatch()
+      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+        selectedEditor: dash.BarEditor,
+      }))
+    })
+
+    it('add editor to array', () => {
+      // given
+      const property = propertyShape({
+        editor: dash.FooEditor,
+      })
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      store.getState().editors.matchSingleEditors = () => [{
+        term: dash.TextFieldEditor,
+        score: 5,
+        meta: <any> {},
+      }]
+
+      // when
+      addObject(store)({
+        form,
+        property,
+        focusNode,
+        editor: dash.BarEditor,
+      })
+
+      // then
+      const dispatch = store.getDispatch()
+      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+        editors: sinon.match.some(sinon.match({
+          term: dash.BarEditor,
+          score: null,
+        })),
+      }))
+    })
+
+    it('does not add editor to array if its already a match', () => {
+      // given
+      const property = propertyShape({
+        editor: dash.FooEditor,
+      })
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      store.getState().editors.matchSingleEditors = () => [{
+        term: dash.TextFieldEditor,
+        score: 5,
+        meta: <any> {},
+      }]
+
+      // when
+      addObject(store)({
+        form,
+        property,
+        focusNode,
+        editor: dash.TextFieldEditor,
+      })
+
+      // then
+      const dispatch = store.getDispatch()
+      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+        editors: sinon.match.has('length', 2),
+      }))
+    })
   })
 })

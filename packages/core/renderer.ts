@@ -123,7 +123,7 @@ export interface GroupRenderer<TemplateResult = any> extends FocusNodeRenderer<T
  * State mutation functions available to the {@link PropertyRenderer} (combined with {@link GroupActions})
  */
 export interface PropertyActions {
-  addObject(): void
+  addObject(arg?: { editor?: NamedNode }): void
   removeObject(object: Term | GraphPointer | PropertyObjectState): void
   selectMultiEditor(): void
   selectSingleEditors(): void

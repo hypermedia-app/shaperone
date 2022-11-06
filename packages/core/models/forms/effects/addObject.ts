@@ -5,9 +5,15 @@ import { FocusNode } from '../../../index'
 import { BaseParams } from '../../index'
 import { SingleEditorMatch } from '../../editors'
 
+export interface AddObject extends BaseParams {
+  focusNode: FocusNode
+  property: PropertyShape
+  editor: NamedNode | undefined
+}
+
 export function addObject(store: Store) {
   const dispatch = store.getDispatch()
-  return function ({ form, property, focusNode }: { focusNode: FocusNode; property: PropertyShape } & BaseParams) {
+  return function ({ form, property, focusNode, editor }: AddObject) {
     const { editors: editorsState, resources } = store.getState()
     const graph = resources.get(form)?.graph
     if (!graph) {
@@ -26,6 +32,15 @@ export function addObject(store: Store) {
     } else {
       editors = matchedEditors
       selectedEditor = editors[0]?.term
+    }
+
+    if (editor) {
+      selectedEditor = editor
+      if (!editors.find(match => match.term.equals(editor))) {
+        editors.unshift({
+          term: editor, score: null, meta: editorsState.metadata.node(editor),
+        })
+      }
     }
 
     dispatch.forms.addFormField({
