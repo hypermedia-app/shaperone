@@ -4,8 +4,9 @@ import RdfResource, { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/
 import clownface, { GraphPointer } from 'clownface'
 import * as $rdf from '@rdf-esm/dataset'
 import PropertyShapeEx from '@hydrofoil/shaperone-core/models/shapes/lib/PropertyShape.js'
+import { PropertyShapeMixinEx } from '@rdfine/dash/extensions/sh'
 
-RdfResource.factory.addMixin(PropertyShapeEx)
+RdfResource.factory.addMixin(PropertyShapeEx, PropertyShapeMixinEx)
 
 function isPointer(arg: GraphPointer<ResourceIdentifier> | Initializer<PropertyShape.PropertyShape> | undefined): arg is GraphPointer<ResourceIdentifier> {
   return (arg && '_context' in arg) || false

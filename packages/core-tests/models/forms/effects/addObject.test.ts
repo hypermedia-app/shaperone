@@ -3,7 +3,7 @@ import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
-import { dash } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { addObject } from '@hydrofoil/shaperone-core/models/forms/effects/addObject.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -22,12 +22,12 @@ describe('models/forms/effects/addObject', () => {
     // given
     const property = propertyShape()
     const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-    const matchedEditors: SingleEditorMatch[] = [{
+    const editors: SingleEditorMatch[] = [{
       term: dash.TextFieldEditor,
       score: 5,
       meta: <any> {},
     }]
-    store.getState().editors.matchSingleEditors = () => matchedEditors
+    store.getState().editors.matchSingleEditors = () => editors
 
     // when
     addObject(store)({
@@ -42,7 +42,37 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
-      matchedEditors,
+      editors,
+      selectedEditor: dash.TextFieldEditor,
+    }))
+  })
+
+  it('takes property editor as default match', () => {
+    // given
+    const property = propertyShape({
+      editor: dash.FooEditor,
+    })
+    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    store.getState().editors.matchSingleEditors = () => [{
+      term: dash.TextFieldEditor,
+      score: 5,
+      meta: <any> {},
+    }]
+
+    // when
+    addObject(store)({
+      form,
+      property,
+      focusNode,
+    })
+
+    // then
+    const dispatch = store.getDispatch()
+    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+      form,
+      property,
+      focusNode,
+      selectedEditor: dash.FooEditor,
     }))
   })
 })

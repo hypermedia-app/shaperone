@@ -7,6 +7,7 @@
     "@hydrofoil/shaperone-core": "*",
     "@rdf-esm/dataset": "^0.5.1",
     "@rdf-esm/namespace": "^0.5.2",
+    "@rdfine/dash": "^0.2.4",
     "@rdfine/shacl": "^0.8.7",
     "@tpluscode/rdfine": "^0.5.39",
     "@tpluscode/rdf-ns-builders": "^2.0.0",

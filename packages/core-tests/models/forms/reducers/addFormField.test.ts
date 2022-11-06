@@ -20,7 +20,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, store } = testStore()
-    const { editors, forms } = store.getState()
+    const { forms } = store.getState()
 
     forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
@@ -38,8 +38,8 @@ describe('core/models/forms/reducers/addObject', () => {
       form,
       property,
       focusNode,
-      matchedEditors: [],
-      editors,
+      editors: [],
+      selectedEditor: undefined,
     })
 
     // then
@@ -56,7 +56,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, store } = testStore()
-    const { editors, forms } = store.getState()
+    const { forms } = store.getState()
 
     forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
@@ -74,8 +74,8 @@ describe('core/models/forms/reducers/addObject', () => {
       form,
       property,
       focusNode,
-      matchedEditors: [],
-      editors,
+      editors: [],
+      selectedEditor: undefined,
     })
 
     // then
@@ -92,7 +92,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, store } = testStore()
-    const { editors, forms } = store.getState()
+    const { forms } = store.getState()
 
     forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
@@ -110,8 +110,8 @@ describe('core/models/forms/reducers/addObject', () => {
       form,
       property,
       focusNode,
-      matchedEditors: [],
-      editors,
+      editors: [],
+      selectedEditor: undefined,
     })
 
     // then
@@ -127,7 +127,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, store } = testStore()
-    const { editors, forms } = store.getState()
+    const { forms } = store.getState()
 
     forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
@@ -145,8 +145,8 @@ describe('core/models/forms/reducers/addObject', () => {
       form,
       property,
       focusNode,
-      matchedEditors: [],
-      editors,
+      editors: [],
+      selectedEditor: undefined,
     })
 
     // then
@@ -163,7 +163,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
     const focusNode = graph.node(ex.FocusNode)
     const { form, store } = testStore()
-    const { editors, forms } = store.getState()
+    const { forms } = store.getState()
 
     forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
@@ -181,12 +181,16 @@ describe('core/models/forms/reducers/addObject', () => {
       form,
       property,
       focusNode,
-      matchedEditors: [{
+      editors: [{
+        term: dash.FooEditor,
+        score: 100,
+        meta: {} as any,
+      }, {
         term: dash.TextFieldEditor,
         score: 10,
         meta: {} as any,
       }],
-      editors,
+      selectedEditor: dash.FooEditor,
     })
 
     // then

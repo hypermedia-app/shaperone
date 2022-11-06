@@ -17,9 +17,10 @@ describe('core/models/resources/lib/defaultValue', () => {
     const property = propertyShape(graph.blankNode(), {
       defaultValue: literal('foo', xsd.anySimpleType),
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue(property, graph.blankNode())
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer?.term).to.deep.eq(literal('foo', xsd.anySimpleType))
@@ -30,9 +31,10 @@ describe('core/models/resources/lib/defaultValue', () => {
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue(property, graph.blankNode())
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer).to.be.null
@@ -44,9 +46,10 @@ describe('core/models/resources/lib/defaultValue', () => {
     const property = propertyShape(graph.blankNode(), {
       class: foaf.Person,
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue(property, graph.blankNode())
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer?.term?.termType).to.eq('BlankNode')
@@ -59,9 +62,10 @@ describe('core/models/resources/lib/defaultValue', () => {
     const property = propertyShape(graph.blankNode(), {
       nodeKind: sh.IRIOrLiteral,
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue(property, graph.blankNode())
+    const pointer = defaultValue({ property, focusNode })
 
     // then
     expect(pointer).to.be.null
@@ -73,10 +77,11 @@ describe('core/models/resources/lib/defaultValue', () => {
     const property = propertyShape(graph.blankNode(), {
       nodeKind: sh.IRI,
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const first = defaultValue(property, graph.blankNode())
-    const second = defaultValue(property, graph.blankNode())
+    const first = defaultValue({ property, focusNode })
+    const second = defaultValue({ property, focusNode })
 
     // then
     expect(first?.term).not.to.deep.eq(second)
@@ -89,9 +94,10 @@ describe('core/models/resources/lib/defaultValue', () => {
       nodeKind: sh.IRI,
       [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue(property, graph.blankNode())?.term
+    const term = defaultValue({ property, focusNode })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -105,9 +111,10 @@ describe('core/models/resources/lib/defaultValue', () => {
       nodeKind: sh.BlankNodeOrIRI,
       [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue(property, graph.blankNode())?.term
+    const term = defaultValue({ property, focusNode })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -121,9 +128,10 @@ describe('core/models/resources/lib/defaultValue', () => {
       nodeKind: sh.IRIOrLiteral,
       [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
+    const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue(property, graph.blankNode())?.term
+    const term = defaultValue({ property, focusNode })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -144,9 +152,10 @@ describe('core/models/resources/lib/defaultValue', () => {
       const property = propertyShape(graph.blankNode(), {
         nodeKind,
       })
+      const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue(property, graph.blankNode())
+      const pointer = defaultValue({ property, focusNode })
 
       // then
       expect(pointer?.term?.termType).to.eq(termType)
@@ -160,9 +169,10 @@ describe('core/models/resources/lib/defaultValue', () => {
         class: foaf.Agent,
         [sh1.iriPrefix.value]: 'http://example.com/foo/',
       })
+      const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue(property, graph.blankNode())
+      const pointer = defaultValue({ property, focusNode })
 
       // then
       expect(pointer?.out(rdf.type).term).to.deep.eq(foaf.Agent)
@@ -177,12 +187,33 @@ describe('core/models/resources/lib/defaultValue', () => {
         [dash.editor.value]: dash.InstancesSelectEditor,
         [sh1.iriPrefix.value]: 'http://example.com/foo/',
       })
+      const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue(property, graph.blankNode())
+      const pointer = defaultValue({ property, focusNode })
 
       // then
       expect(pointer?.out(rdf.type).term).to.be.undefined
+    })
+  })
+
+  const selectEditors = [
+    dash.EnumSelectEditor,
+    dash.InstancesSelectEditor,
+    dash.AutoCompleteEditor,
+  ]
+
+  selectEditors.forEach((editor) => {
+    it(`does not create a node when editor is ${editor.value}`, () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape(graph.blankNode(), {
+        nodeKind: sh.IRI,
+      })
+      const focusNode = graph.blankNode()
+
+      // then
+      expect(defaultValue({ property, focusNode, editor })).to.be.null
     })
   })
 })

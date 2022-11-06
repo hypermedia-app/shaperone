@@ -7,7 +7,13 @@ import { nanoid } from 'nanoid'
 import sh1 from '../../../ns.js'
 import type { FocusNode } from '../../../index'
 
-export function defaultValue(property: PropertyShape, focusNode: FocusNode): MultiPointer | null {
+interface DefaultValue {
+  property: PropertyShape
+  editor?: NamedNode
+  focusNode: FocusNode
+}
+
+export function defaultValue({ property, focusNode, editor }: DefaultValue): MultiPointer | null {
   if (property.defaultValue) {
     return focusNode.node(property.defaultValue)
   }
@@ -15,6 +21,10 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
   let { nodeKind } = property
   if (!nodeKind && property.class) {
     nodeKind = sh.BlankNode
+  }
+
+  if (editor && shouldNotCreateNode(editor)) {
+    return null
   }
 
   switch (nodeKind?.value) {
@@ -27,6 +37,12 @@ export function defaultValue(property: PropertyShape, focusNode: FocusNode): Mul
     default:
       return null
   }
+}
+
+function shouldNotCreateNode(editor: NamedNode) {
+  return editor.equals(dash.EnumSelectEditor) ||
+    editor.equals(dash.InstancesSelectEditor) ||
+    editor.equals(dash.AutoCompleteEditor)
 }
 
 function createResourceNode(property: PropertyShape, nodeKind: NodeKind, focusNode: FocusNode) {
