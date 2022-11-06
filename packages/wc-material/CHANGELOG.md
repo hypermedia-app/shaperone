@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.5.9
+
+### Patch Changes
+
+- 79cece9: Enum Select would not show values for literal nodes
+- Updated dependencies [79cece9]
+- Updated dependencies [79cece9]
+- Updated dependencies [358db18]
+  - @hydrofoil/shaperone-wc@0.7.8
+  - @hydrofoil/shaperone-core@0.9.11
+
 ## 0.5.8
 
 ### Patch Changes
