@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.22
+
+### Patch Changes
+
+- fab77ac: Autcomplete would cause outer `sl-details` to open automatically
+- Updated dependencies [c974b6b]
+  - @hydrofoil/shaperone-core@0.9.12
+
 ## 0.1.21
 
 ### Patch Changes
