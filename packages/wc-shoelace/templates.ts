@@ -1,8 +1,17 @@
-import { html } from '@hydrofoil/shaperone-wc'
+import { html, TemplateResult } from 'lit'
 import { PropertyTemplate, ObjectTemplate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
+import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+
+declare module '@hydrofoil/shaperone-wc/templates' {
+  interface RenderTemplates {
+    shoelace?: {
+      addObject?(property: PropertyState): TemplateResult
+    }
+  }
+}
 
 interface ShoelacePropertyTemplate extends PropertyTemplate {
   addObjectIcon?: string
@@ -13,14 +22,25 @@ export const property: ShoelacePropertyTemplate = (renderer, { property: state }
     ? renderer.renderMultiEditor()
     : html`${repeat(state.objects, object => html`${renderer.renderObject({ object })}`)}`
 
+  let customAddObject: TemplateResult | undefined
+  if (renderer.context.templates.shoelace?.addObject) {
+    customAddObject = renderer.context.templates.shoelace.addObject(state)
+  }
+
+  function onAdd(e: CustomEvent) {
+    renderer.actions.addObject(e.detail)
+    e.stopPropagation()
+  }
+
   return html`
     <sh-sl-property .label="${localizedLabel(state.shape, { property: sh.name })}"
                     .helpText="${localizedLabel(state.shape, { property: sh.description })}"
                     .canAddValue="${state.canAdd && !state.selectedEditor}"
                     .addIcon="${property.addObjectIcon}"
-                    @added="${renderer.actions.addObject}"
+                    @added="${onAdd}"
     >
       ${editors}
+      ${customAddObject ? html`<section slot="add-object">${customAddObject}</section>` : ''}
     </sh-sl-property>
   `
 }

@@ -10,6 +10,7 @@ import './ShaperoneForm'
 
 export type { ShaperoneForm } from './ShaperoneForm'
 export { html, css, render } from 'lit'
+export type { TemplateResult } from 'lit'
 
 export type { SingleEditor, MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 
