@@ -69,7 +69,7 @@ export class ShSlAutocomplete extends LitElement {
   private _menu!: SlDropdown
 
   render() {
-    return html`<sl-dropdown @sl-hide=${stop} ?hoist="${this.hoist}" .disabled="${this.readonly}">
+    return html`<sl-dropdown @sl-hide=${stop} @sl-show="${stop}" ?hoist="${this.hoist}" .disabled="${this.readonly}">
       <sl-input slot="trigger"
                 .value=${this.inputValue}
                 @keydown="${this._inputKeyDown}"
