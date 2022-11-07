@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.12
+
+### Patch Changes
+
+- c974b6b: Do not create a new URI when editor is `dash:URIEditor`
+
 ## 0.9.11
 
 ### Patch Changes
