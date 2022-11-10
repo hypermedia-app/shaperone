@@ -20,7 +20,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode })
+    const pointer = defaultValue({ property, focusNode, nodeKind: undefined })
 
     // then
     expect(pointer?.term).to.deep.eq(literal('foo', xsd.anySimpleType))
@@ -34,7 +34,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode })
+    const pointer = defaultValue({ property, focusNode, nodeKind: undefined })
 
     // then
     expect(pointer).to.be.null
@@ -49,7 +49,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode })
+    const pointer = defaultValue({ property, focusNode, nodeKind: undefined })
 
     // then
     expect(pointer?.term?.termType).to.eq('BlankNode')
@@ -65,7 +65,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode })
+    const pointer = defaultValue({ property, focusNode, nodeKind: undefined })
 
     // then
     expect(pointer).to.be.null
@@ -80,8 +80,8 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const first = defaultValue({ property, focusNode })
-    const second = defaultValue({ property, focusNode })
+    const first = defaultValue({ property, focusNode, nodeKind: undefined })
+    const second = defaultValue({ property, focusNode, nodeKind: undefined })
 
     // then
     expect(first?.term).not.to.deep.eq(second)
@@ -97,7 +97,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ property, focusNode })?.term
+    const term = defaultValue({ property, focusNode, nodeKind: undefined })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -114,7 +114,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ property, focusNode })?.term
+    const term = defaultValue({ property, focusNode, nodeKind: undefined })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -131,11 +131,27 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ property, focusNode })?.term
+    const term = defaultValue({ property, focusNode, nodeKind: undefined })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
     expect(term?.value).to.match(/^http:\/\/example.com\/foo\/.+$/)
+  })
+
+  it('forces give nodeKind when passed aas argument', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = propertyShape(graph.blankNode(), {
+      nodeKind: sh.IRIOrLiteral,
+      [sh1.iriPrefix.value]: 'http://example.com/foo/',
+    })
+    const focusNode = graph.blankNode()
+
+    // when
+    const term = defaultValue({ property, focusNode, nodeKind: sh.BlankNode })?.term
+
+    // then
+    expect(term?.termType).to.eq('BlankNode')
   })
 
   const resourceNodeKinds: [NodeKind, Term['termType']][] = [
@@ -155,7 +171,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ property, focusNode })
+      const pointer = defaultValue({ property, focusNode, nodeKind: undefined })
 
       // then
       expect(pointer?.term?.termType).to.eq(termType)
@@ -172,7 +188,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ property, focusNode })
+      const pointer = defaultValue({ property, focusNode, nodeKind: undefined })
 
       // then
       expect(pointer?.out(rdf.type).term).to.deep.eq(foaf.Agent)
@@ -190,7 +206,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ property, focusNode })
+      const pointer = defaultValue({ property, focusNode, nodeKind: undefined })
 
       // then
       expect(pointer?.out(rdf.type).term).to.be.undefined
@@ -214,7 +230,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // then
-      expect(defaultValue({ property, focusNode, editor })).to.be.null
+      expect(defaultValue({ property, focusNode, editor, nodeKind: undefined })).to.be.null
     })
   })
 })

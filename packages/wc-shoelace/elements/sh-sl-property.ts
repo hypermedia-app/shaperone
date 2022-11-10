@@ -1,4 +1,4 @@
-import { css, html, LitElement } from 'lit'
+import { css, html, LitElement, TemplateResult } from 'lit'
 import { customElement, property, query } from 'lit/decorators.js'
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js'
 
@@ -35,31 +35,33 @@ export class ShSlProperty extends LitElement {
   }
 
   @property({ type: Boolean })
-    canAddValue?: boolean
+  public canAddValue?: boolean
 
   @property({ type: String })
-    label?: string
+  public label?: string
 
   @property({ type: String })
-    helpText?: string
+  public helpText?: string
 
   @property({ type: String })
-    addIcon?: string
+  public addIcon?: string
 
   @property({ type: Boolean })
-    __slotEmpty = true
+  private __slotEmpty = true
 
   @query('slot')
-    __slot!: HTMLSlotElement
+  private __slot!: HTMLSlotElement
 
   render() {
-    let addRow = html``
+    let addRow: TemplateResult = html``
     if (this.canAddValue) {
-      addRow = html`<sl-icon-button style="font-size: 1.75em"
-                                  name="${this.addIcon || 'plus-square'}"
-                                  label="Add value"
-                                  @click="${() => this.dispatchEvent(new Event('added'))}"
-    ></sl-icon-button>`
+      addRow = html`<slot name="add-object">
+        <sl-icon-button style="font-size: 1.75em"
+                        name="${this.addIcon || 'plus-square'}"
+                        label="Add value"
+                        @click="${() => this.dispatchEvent(new Event('added'))}"
+        ></sl-icon-button>
+      </slot>`
     }
 
     let helpText: any = ''

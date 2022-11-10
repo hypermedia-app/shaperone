@@ -39,6 +39,7 @@ export function initialiseObjectState({ shape, editors, components, shouldEnable
       componentState: {},
       validationResults: [],
       hasErrors: false,
+      nodeKind: undefined,
     }
   }
 }

@@ -1,4 +1,4 @@
-import type { PropertyShape } from '@rdfine/shacl'
+import type { NodeKind, PropertyShape } from '@rdfine/shacl'
 import { NamedNode } from 'rdf-js'
 import type { FocusNode } from '../../..'
 import { objectStateProducer } from '../objectStateProducer.js'
@@ -12,9 +12,10 @@ export interface Params extends BaseParams {
   property: PropertyShape
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
+  nodeKind: NodeKind | undefined
 }
 
-export const addFormField = formStateReducer(objectStateProducer<Params>((state, { property, editors, selectedEditor }, currentProperty) => {
+export const addFormField = formStateReducer(objectStateProducer<Params>((state, { property, editors, selectedEditor, nodeKind }, currentProperty) => {
   currentProperty.objects.push({
     key: nextid(),
     editors,
@@ -23,6 +24,7 @@ export const addFormField = formStateReducer(objectStateProducer<Params>((state,
     componentState: {},
     validationResults: [],
     hasErrors: false,
+    nodeKind,
   })
   currentProperty.canRemove = !!currentProperty.selectedEditor || canRemoveObject(property, currentProperty.objects.length)
   currentProperty.canAdd = !!currentProperty.selectedEditor || canAddObject(property, currentProperty.objects.length)

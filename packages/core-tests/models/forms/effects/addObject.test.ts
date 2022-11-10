@@ -9,6 +9,7 @@ import { addObject } from '@hydrofoil/shaperone-core/models/forms/effects/addObj
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
 import { propertyShape } from '@shaperone/testing/util.js'
+import { sh } from '@tpluscode/rdf-ns-builders'
 
 describe('models/forms/effects/addObject', () => {
   let store: Store
@@ -34,6 +35,8 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
+      editor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -44,6 +47,33 @@ describe('models/forms/effects/addObject', () => {
       focusNode,
       editors,
       selectedEditor: dash.TextFieldEditor,
+    }))
+  })
+
+  it('sets nodeKind to state', () => {
+    // given
+    const property = propertyShape()
+    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const editors: SingleEditorMatch[] = [{
+      term: dash.TextFieldEditor,
+      score: 5,
+      meta: <any> {},
+    }]
+    store.getState().editors.matchSingleEditors = () => editors
+
+    // when
+    addObject(store)({
+      form,
+      property,
+      focusNode,
+      editor: undefined,
+      nodeKind: sh.IRI,
+    })
+
+    // then
+    const dispatch = store.getDispatch()
+    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+      nodeKind: sh.IRI,
     }))
   })
 
@@ -64,6 +94,8 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
+      editor: undefined,
+      nodeKind: undefined,
     })
 
     // then
@@ -74,5 +106,94 @@ describe('models/forms/effects/addObject', () => {
       focusNode,
       selectedEditor: dash.FooEditor,
     }))
+  })
+
+  context('with editor argument', () => {
+    it('sets selected editor', () => {
+      // given
+      const property = propertyShape({
+        editor: dash.FooEditor,
+      })
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      store.getState().editors.matchSingleEditors = () => [{
+        term: dash.TextFieldEditor,
+        score: 5,
+        meta: <any> {},
+      }]
+
+      // when
+      addObject(store)({
+        form,
+        property,
+        focusNode,
+        editor: dash.BarEditor,
+        nodeKind: undefined,
+      })
+
+      // then
+      const dispatch = store.getDispatch()
+      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+        selectedEditor: dash.BarEditor,
+      }))
+    })
+
+    it('add editor to array', () => {
+      // given
+      const property = propertyShape({
+        editor: dash.FooEditor,
+      })
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      store.getState().editors.matchSingleEditors = () => [{
+        term: dash.TextFieldEditor,
+        score: 5,
+        meta: <any> {},
+      }]
+
+      // when
+      addObject(store)({
+        form,
+        property,
+        focusNode,
+        editor: dash.BarEditor,
+        nodeKind: undefined,
+      })
+
+      // then
+      const dispatch = store.getDispatch()
+      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+        editors: sinon.match.some(sinon.match({
+          term: dash.BarEditor,
+          score: null,
+        })),
+      }))
+    })
+
+    it('does not add editor to array if its already a match', () => {
+      // given
+      const property = propertyShape({
+        editor: dash.FooEditor,
+      })
+      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      store.getState().editors.matchSingleEditors = () => [{
+        term: dash.TextFieldEditor,
+        score: 5,
+        meta: <any> {},
+      }]
+
+      // when
+      addObject(store)({
+        form,
+        property,
+        focusNode,
+        editor: dash.TextFieldEditor,
+        nodeKind: undefined,
+      })
+
+      // then
+      const dispatch = store.getDispatch()
+      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+        editors: sinon.match.has('length', 2),
+      }))
+    })
   })
 })
