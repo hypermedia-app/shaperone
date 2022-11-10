@@ -1,5 +1,15 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.23
+
+### Patch Changes
+
+- 86d4287: Extends property renderer to support overriding the controls to add new object
+- Updated dependencies [d1be750]
+- Updated dependencies [680f6dc]
+  - @hydrofoil/shaperone-core@0.9.13
+  - @hydrofoil/shaperone-wc@0.7.9
+
 ## 0.1.22
 
 ### Patch Changes
