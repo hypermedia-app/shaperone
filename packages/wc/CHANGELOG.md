@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-wc
 
+## 0.7.9
+
+### Patch Changes
+
+- d1be750: When adding a new object for a property, it should is now possible to override the `nodeKind` to
+  select
+- 680f6dc: When adding a new object for a property, it should is now possible to override the `editor` to select
+- Updated dependencies [d1be750]
+- Updated dependencies [680f6dc]
+  - @hydrofoil/shaperone-core@0.9.13
+
 ## 0.7.8
 
 ### Patch Changes
