@@ -5,10 +5,14 @@ import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 
+interface AddObject {
+  (property: PropertyState): TemplateResult | ''
+}
+
 declare module '@hydrofoil/shaperone-wc/templates' {
   interface RenderTemplates {
     shoelace?: {
-      addObject?(property: PropertyState): TemplateResult
+      addObject?: AddObject
     }
   }
 }
@@ -22,10 +26,7 @@ export const property: ShoelacePropertyTemplate = (renderer, { property: state }
     ? renderer.renderMultiEditor()
     : html`${repeat(state.objects, object => html`${renderer.renderObject({ object })}`)}`
 
-  let customAddObject: TemplateResult | undefined
-  if (renderer.context.templates.shoelace?.addObject) {
-    customAddObject = renderer.context.templates.shoelace.addObject(state)
-  }
+  const customAddObject = renderer.context.templates.shoelace?.addObject?.(state)
 
   function onAdd(e: CustomEvent) {
     renderer.actions.addObject(e.detail)
