@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-wc-shoelace",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "type": "module",
   "scripts": {
     "babel": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json",
@@ -20,7 +20,7 @@
     "custom-elements.json"
   ],
   "dependencies": {
-    "@hydrofoil/shaperone-core": "^0.9.13",
+    "@hydrofoil/shaperone-core": "^0.9.14",
     "@hydrofoil/shaperone-wc": "^0.7.9",
     "@rdfjs/data-model": "^2",
     "@rdfjs-elements/lit-helpers": "^0.3.5",
