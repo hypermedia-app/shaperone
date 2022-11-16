@@ -1,10 +1,10 @@
 import type { NodeKind, PropertyShape } from '@rdfine/shacl'
-import type { GraphPointer, MultiPointer } from 'clownface'
-import { dash, rdf, sh } from '@tpluscode/rdf-ns-builders'
+import type { AnyPointer, GraphPointer, MultiPointer } from 'clownface'
+import { dash, rdf, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
+import $rdf from '@rdf-esm/data-model'
 import type { NamedNode } from 'rdf-js'
 import { nanoid } from 'nanoid'
-import TermSet from '@rdf-esm/term-set'
 import sh1 from '../../../ns.js'
 import type { FocusNode } from '../../../index'
 
@@ -13,16 +13,12 @@ interface DefaultValue {
   editor?: NamedNode
   focusNode: FocusNode
   nodeKind: NodeKind | undefined
+  editorMeta: AnyPointer
 }
 
-const excludedEditors = new TermSet<NamedNode>([
-  dash.EnumSelectEditor,
-  dash.InstancesSelectEditor,
-  dash.AutoCompleteEditor,
-  dash.URIEditor,
-])
+const TRUE = $rdf.literal('true', xsd.boolean)
 
-export function defaultValue({ property, focusNode, editor, nodeKind = property.nodeKind }: DefaultValue): MultiPointer | null {
+export function defaultValue({ property, focusNode, editor, nodeKind = property.nodeKind, editorMeta }: DefaultValue): MultiPointer | null {
   if (property.defaultValue) {
     return focusNode.node(property.defaultValue)
   }
@@ -32,7 +28,7 @@ export function defaultValue({ property, focusNode, editor, nodeKind = property.
     nodeKind = sh.BlankNode
   }
 
-  if (editor && excludedEditors.has(editor)) {
+  if (editor && !allowsImplicitDefault(editorMeta.node(editor))) {
     return null
   }
 
@@ -46,6 +42,10 @@ export function defaultValue({ property, focusNode, editor, nodeKind = property.
     default:
       return null
   }
+}
+
+function allowsImplicitDefault(editor: GraphPointer) {
+  return editor.out(sh1.implicitDefaultValue).term?.equals(TRUE)
 }
 
 function createResourceNode(property: PropertyShape, nodeKind: NodeKind, focusNode: FocusNode) {
