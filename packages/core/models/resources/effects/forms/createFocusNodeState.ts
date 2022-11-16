@@ -38,6 +38,7 @@ export default function createFocusNodeState(store: Store) {
       focusNode,
       editor: object.selectedEditor,
       nodeKind: object.nodeKind,
+      editorMeta: editors.metadata,
     })?.toArray() || []
     if (!value) {
       return { shouldNotify: false }

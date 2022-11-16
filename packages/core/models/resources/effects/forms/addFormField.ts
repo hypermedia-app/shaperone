@@ -14,7 +14,8 @@ export default function (store: Store) {
       return
     }
 
-    const pointer = defaultValue({ property, focusNode, editor: selectedEditor, nodeKind })
+    const editorMeta = editors.metadata
+    const pointer = defaultValue({ property, focusNode, editor: selectedEditor, nodeKind, editorMeta })
     const predicate = property.getPathProperty(true).id
     if (!pointer || focusNode.has(predicate, pointer).terms.length) {
       return
