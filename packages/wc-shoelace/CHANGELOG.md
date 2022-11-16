@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.24
+
+### Patch Changes
+
+- c337f03: Allow empty string return from add-object template
+- Updated dependencies [c7b4315]
+  - @hydrofoil/shaperone-core@0.9.14
+
 ## 0.1.23
 
 ### Patch Changes

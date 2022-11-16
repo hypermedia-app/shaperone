@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.14
+
+### Patch Changes
+
+- c7b4315: It should be explicitly configurable which editors generate a default node without `sh:defaultValue` property. By default, only `dash:DetailsEditor` does
+
 ## 0.9.13
 
 ### Patch Changes
