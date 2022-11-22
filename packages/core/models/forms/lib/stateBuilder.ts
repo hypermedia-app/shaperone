@@ -40,6 +40,7 @@ export function initialiseObjectState({ shape, editors, components, shouldEnable
       validationResults: [],
       hasErrors: false,
       nodeKind: undefined,
+      overrides: undefined,
     }
   }
 }

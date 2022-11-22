@@ -1,9 +1,9 @@
-import type { NodeKind, PropertyShape } from '@rdfine/shacl'
+import type { PropertyShape } from '@rdfine/shacl'
 import type { AnyPointer, GraphPointer, MultiPointer } from 'clownface'
 import { dash, rdf, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
 import $rdf from '@rdf-esm/data-model'
-import type { NamedNode } from 'rdf-js'
+import type { NamedNode, Term } from 'rdf-js'
 import { nanoid } from 'nanoid'
 import sh1 from '../../../ns.js'
 import type { FocusNode } from '../../../index'
@@ -12,13 +12,15 @@ interface DefaultValue {
   property: PropertyShape
   editor?: NamedNode
   focusNode: FocusNode
-  nodeKind: NodeKind | undefined
+  overrides?: MultiPointer
   editorMeta: AnyPointer
 }
 
 const TRUE = $rdf.literal('true', xsd.boolean)
 
-export function defaultValue({ property, focusNode, editor, nodeKind = property.nodeKind, editorMeta }: DefaultValue): MultiPointer | null {
+export function defaultValue({ property, focusNode, editor, overrides, editorMeta }: DefaultValue): MultiPointer | null {
+  let nodeKind = overrides?.out(sh.nodeKind).term || property.nodeKind
+
   if (property.defaultValue) {
     return focusNode.node(property.defaultValue)
   }
@@ -48,7 +50,7 @@ function allowsImplicitDefault(editor: GraphPointer) {
   return editor.out(sh1.implicitDefaultValue).term?.equals(TRUE)
 }
 
-function createResourceNode(property: PropertyShape, nodeKind: NodeKind, focusNode: FocusNode) {
+function createResourceNode(property: PropertyShape, nodeKind: Term, focusNode: FocusNode) {
   const uriStart = property.pointer.out(sh1.iriPrefix).value
   let resourceNode: GraphPointer<ResourceIdentifier> = focusNode.blankNode()
 

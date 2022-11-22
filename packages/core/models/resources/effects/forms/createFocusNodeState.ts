@@ -37,7 +37,6 @@ export default function createFocusNodeState(store: Store) {
       property: property.shape,
       focusNode,
       editor: object.selectedEditor,
-      nodeKind: object.nodeKind,
       editorMeta: editors.metadata,
     })?.toArray() || []
     if (!value) {

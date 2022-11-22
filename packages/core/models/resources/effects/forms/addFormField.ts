@@ -6,7 +6,7 @@ import { defaultValue } from '../../lib/objectValue.js'
 export default function (store: Store) {
   const dispatch = store.getDispatch()
 
-  return function ({ form, focusNode, property, selectedEditor, nodeKind }: Pick<Params, 'form' | 'focusNode' | 'property' | 'selectedEditor' | 'nodeKind'>): void {
+  return function ({ form, focusNode, property, selectedEditor, overrides }: Pick<Params, 'form' | 'focusNode' | 'property' | 'selectedEditor' | 'overrides'>): void {
     const { resources, editors } = store.getState()
     const state = resources.get(form)
 
@@ -15,7 +15,7 @@ export default function (store: Store) {
     }
 
     const editorMeta = editors.metadata
-    const pointer = defaultValue({ property, focusNode, editor: selectedEditor, nodeKind, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editor: selectedEditor, overrides, editorMeta })
     const predicate = property.getPathProperty(true).id
     if (!pointer || focusNode.has(predicate, pointer).terms.length) {
       return

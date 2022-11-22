@@ -6,7 +6,7 @@
 import { createModel } from '@captaincodeman/rdx'
 import { NamedNode } from 'rdf-js'
 import type { NodeKind, NodeShape, PropertyGroup, PropertyShape, Shape, ValidationResult } from '@rdfine/shacl'
-import { GraphPointer } from 'clownface'
+import { GraphPointer, MultiPointer } from 'clownface'
 import type { sh } from '@tpluscode/rdf-ns-builders'
 import effects from './effects'
 import { addFormField } from './reducers/addFormField'
@@ -76,6 +76,11 @@ export interface PropertyObjectState<TState extends ComponentInstance = Componen
    * created for the given object
    */
   nodeKind: NodeKind | undefined
+  /**
+   * A pointer to additional shape constraints passed to `addFormField`. For example, that could be a pointer on of
+   * the properties `sh:in`
+   */
+  overrides: MultiPointer | undefined
 }
 
 export interface ShouldEnableEditorChoice {

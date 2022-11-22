@@ -7,6 +7,7 @@ import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
 import { addFormField } from '@hydrofoil/shaperone-core/models/forms/reducers/addFormField.js'
 import { propertyShape } from '@shaperone/testing/util.js'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 
 const ex = ns('http://example.com/')
@@ -41,7 +42,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
-      nodeKind: undefined,
+      overrides: undefined,
     })
 
     // then
@@ -78,7 +79,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
-      nodeKind: undefined,
+      overrides: undefined,
     })
 
     // then
@@ -115,7 +116,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
-      nodeKind: undefined,
+      overrides: undefined,
     })
 
     // then
@@ -151,7 +152,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
-      nodeKind: undefined,
+      overrides: undefined,
     })
 
     // then
@@ -179,6 +180,7 @@ describe('core/models/forms/reducers/addObject', () => {
         objects: [],
       })],
     })
+    const overrides = blankNode().addOut(sh.nodeKind, sh.IRIOrLiteral)
 
     // when
     const after = addFormField(forms, {
@@ -187,7 +189,7 @@ describe('core/models/forms/reducers/addObject', () => {
       focusNode,
       editors: [],
       selectedEditor: undefined,
-      nodeKind: sh.IRIOrLiteral,
+      overrides,
     })
 
     // then
@@ -232,7 +234,7 @@ describe('core/models/forms/reducers/addObject', () => {
         meta: {} as any,
       }],
       selectedEditor: dash.FooEditor,
-      nodeKind: undefined,
+      overrides: undefined,
     })
 
     // then

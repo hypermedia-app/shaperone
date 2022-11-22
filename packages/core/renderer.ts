@@ -6,7 +6,7 @@
 import type { NodeKind, NodeShape, Shape } from '@rdfine/shacl'
 import { PropertyGroup } from '@rdfine/shacl'
 import { NamedNode, Term } from 'rdf-js'
-import type { GraphPointer } from 'clownface'
+import type { GraphPointer, MultiPointer } from 'clownface'
 import type { EditorsState } from './models/editors'
 import type { FormState } from './models/forms'
 import type { ComponentsState } from './models/components'
@@ -124,6 +124,7 @@ export interface GroupRenderer<TemplateResult = any> extends FocusNodeRenderer<T
  */
 export interface PropertyActions {
   addObject(arg?: { editor?: NamedNode; nodeKind?: NodeKind }): void
+  addObject(arg?: MultiPointer): void
   removeObject(object: Term | GraphPointer | PropertyObjectState): void
   selectMultiEditor(): void
   selectSingleEditors(): void

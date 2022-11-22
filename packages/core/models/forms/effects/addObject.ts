@@ -1,5 +1,8 @@
-import { NodeKind, PropertyShape } from '@rdfine/shacl'
+import { PropertyShape } from '@rdfine/shacl'
 import { NamedNode } from 'rdf-js'
+import type { MultiPointer } from 'clownface'
+import { dash } from '@tpluscode/rdf-ns-builders'
+import graphPointer from 'is-graph-pointer'
 import type { Store } from '../../../state'
 import { FocusNode } from '../../../index'
 import { BaseParams } from '../../index'
@@ -8,13 +11,12 @@ import { SingleEditorMatch } from '../../editors'
 export interface AddObject extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
-  editor: NamedNode | undefined
-  nodeKind: NodeKind | undefined
+  overrides?: MultiPointer
 }
 
 export function addObject(store: Store) {
   const dispatch = store.getDispatch()
-  return function ({ form, property, focusNode, editor, nodeKind }: AddObject) {
+  return function ({ form, property, focusNode, overrides }: AddObject) {
     const { editors: editorsState, resources } = store.getState()
     const graph = resources.get(form)?.graph
     if (!graph) {
@@ -35,12 +37,15 @@ export function addObject(store: Store) {
       selectedEditor = editors[0]?.term
     }
 
-    if (editor) {
-      selectedEditor = editor
-      if (!editors.find(match => match.term.equals(editor))) {
-        editors.unshift({
-          term: editor, score: null, meta: editorsState.metadata.node(editor),
-        })
+    if (overrides) {
+      const editor = overrides.out(dash.editor)
+      if (graphPointer.isNamedNode(editor)) {
+        selectedEditor = editor.term
+        if (!editors.find(match => match.term.equals(selectedEditor))) {
+          editors.unshift({
+            term: selectedEditor, score: null, meta: editorsState.metadata.node(selectedEditor),
+          })
+        }
       }
     }
 
@@ -50,7 +55,7 @@ export function addObject(store: Store) {
       focusNode,
       editors,
       selectedEditor,
-      nodeKind,
+      overrides,
     })
   }
 }
