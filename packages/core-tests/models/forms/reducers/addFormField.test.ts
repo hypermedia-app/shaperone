@@ -197,6 +197,43 @@ describe('core/models/forms/reducers/addObject', () => {
     expect(fooState.properties[0].objects[0].nodeKind).to.deep.eq(sh.IRIOrLiteral)
   })
 
+  it('sets overrides to state', () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const property = propertyShape(graph.blankNode(), {
+      path: ex.prop,
+    })
+    const focusNode = graph.node(ex.FocusNode)
+    const { form, store } = testStore()
+    const { forms } = store.getState()
+
+    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      properties: [testPropertyState(focusNode.blankNode(), {
+        canRemove: true,
+        canAdd: true,
+        name: 'prop',
+        shape: property,
+        selectedEditor: undefined,
+        objects: [],
+      })],
+    })
+    const overrides = blankNode()
+
+    // when
+    const after = addFormField(forms, {
+      form,
+      property,
+      focusNode,
+      editors: [],
+      selectedEditor: undefined,
+      overrides,
+    })
+
+    // then
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    expect(fooState.properties[0].objects[0].overrides).to.eq(overrides)
+  })
+
   it('initializes with state with preferred editor and adds it as first choice', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
