@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.9.15
+
+### Patch Changes
+
+- ef3aa6c: When adding a new form object, it should be possible to pass a pointer with overriding constraints
+
 ## 0.9.14
 
 ### Patch Changes
