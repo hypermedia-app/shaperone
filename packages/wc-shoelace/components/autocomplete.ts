@@ -49,7 +49,6 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
         const selected = pointers.find(({ value }) => value === e.detail.value)
 
         params.updateComponentState({
-          freetextQuery: '',
           selected,
         })
         if (selected) {
