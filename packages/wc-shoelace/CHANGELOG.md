@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.26
+
+### Patch Changes
+
+- bc4128b: When an autocomplete was populated on load, it would unnecessarily call `loadInstance` upon selection
+- Updated dependencies [ef3aa6c]
+  - @hydrofoil/shaperone-core@0.9.15
+  - @hydrofoil/shaperone-wc@0.7.10
+
 ## 0.1.25
 
 ### Patch Changes

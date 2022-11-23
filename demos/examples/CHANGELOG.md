@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-playground-examples
 
+## 0.2.43
+
+### Patch Changes
+
+- Updated dependencies [ef3aa6c]
+  - @hydrofoil/shaperone-core@0.9.15
+  - @hydrofoil/shaperone-wc@0.7.10
+
 ## 0.2.42
 
 ### Patch Changes
