@@ -56,6 +56,7 @@ describe('wc-material/renderer', () => {
         validationResults: [],
         hasErrors: false,
         nodeKind: undefined,
+        overrides: undefined,
       }
       renderer = objectRenderer({
         property,

@@ -51,6 +51,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
         validationResults: [],
         hasErrors: false,
         nodeKind: undefined,
+        overrides: undefined,
       },
     })
 
@@ -85,6 +86,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
         validationResults: [],
         hasErrors: false,
         nodeKind: undefined,
+        overrides: undefined,
       },
     })
 

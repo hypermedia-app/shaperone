@@ -10,6 +10,7 @@ import { Store } from '@hydrofoil/shaperone-core/state'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 
 describe('models/forms/effects/addObject', () => {
   let store: Store
@@ -35,8 +36,7 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
-      editor: undefined,
-      nodeKind: undefined,
+      overrides: undefined,
     })
 
     // then
@@ -50,7 +50,7 @@ describe('models/forms/effects/addObject', () => {
     }))
   })
 
-  it('sets nodeKind to state', () => {
+  it('sets overrides to state', () => {
     // given
     const property = propertyShape()
     const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
@@ -60,21 +60,20 @@ describe('models/forms/effects/addObject', () => {
       meta: <any> {},
     }]
     store.getState().editors.matchSingleEditors = () => editors
+    const overrides = blankNode().addOut(sh.nodeKind, sh.IRI)
 
     // when
     addObject(store)({
       form,
       property,
       focusNode,
-      editor: undefined,
-      nodeKind: sh.IRI,
+      overrides,
     })
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
-      nodeKind: sh.IRI,
-    }))
+    expect(dispatch.forms.addFormField).to.have.been
+      .calledWith(sinon.match(({ overrides }) => sh.IRI.equals(overrides.out(sh.nodeKind).term)))
   })
 
   it('takes property editor as default match', () => {
@@ -94,8 +93,7 @@ describe('models/forms/effects/addObject', () => {
       form,
       property,
       focusNode,
-      editor: undefined,
-      nodeKind: undefined,
+      overrides: undefined,
     })
 
     // then
@@ -108,7 +106,7 @@ describe('models/forms/effects/addObject', () => {
     }))
   })
 
-  context('with editor argument', () => {
+  context('with overrides', () => {
     it('sets selected editor', () => {
       // given
       const property = propertyShape({
@@ -120,14 +118,14 @@ describe('models/forms/effects/addObject', () => {
         score: 5,
         meta: <any> {},
       }]
+      const overrides = blankNode().addOut(dash.editor, dash.BarEditor)
 
       // when
       addObject(store)({
         form,
         property,
         focusNode,
-        editor: dash.BarEditor,
-        nodeKind: undefined,
+        overrides,
       })
 
       // then
@@ -148,14 +146,14 @@ describe('models/forms/effects/addObject', () => {
         score: 5,
         meta: <any> {},
       }]
+      const overrides = blankNode().addOut(dash.editor, dash.BarEditor)
 
       // when
       addObject(store)({
         form,
         property,
         focusNode,
-        editor: dash.BarEditor,
-        nodeKind: undefined,
+        overrides,
       })
 
       // then
@@ -179,14 +177,14 @@ describe('models/forms/effects/addObject', () => {
         score: 5,
         meta: <any> {},
       }]
+      const overrides = blankNode().addOut(dash.editor, dash.TextFieldEditor)
 
       // when
       addObject(store)({
         form,
         property,
         focusNode,
-        editor: dash.TextFieldEditor,
-        nodeKind: undefined,
+        overrides,
       })
 
       // then

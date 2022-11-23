@@ -47,6 +47,7 @@ export const setPropertyObjects = formStateReducer(objectStateProducer<ReplaceOb
       validationResults: [],
       hasErrors: false,
       nodeKind: undefined,
+      overrides: undefined,
     }
   })
 }))

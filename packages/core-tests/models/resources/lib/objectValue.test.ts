@@ -12,6 +12,7 @@ import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import { ex } from '@shaperone/testing'
 import DatasetExt from 'rdf-ext/lib/Dataset'
 import CoreMetadata from '@hydrofoil/shaperone-core/metadata.js'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 
 describe('core/models/resources/lib/defaultValue', () => {
   let editorMeta: AnyPointer<AnyContext, DatasetExt>
@@ -29,7 +30,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer?.term).to.deep.eq(literal('foo', xsd.anySimpleType))
@@ -43,7 +44,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer).to.be.null
@@ -58,7 +59,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer?.term?.termType).to.eq('BlankNode')
@@ -74,7 +75,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer).to.be.null
@@ -89,8 +90,8 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const first = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
-    const second = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+    const first = defaultValue({ property, focusNode, editorMeta })
+    const second = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(first?.term).not.to.deep.eq(second)
@@ -106,7 +107,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -123,7 +124,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -140,7 +141,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -155,9 +156,10 @@ describe('core/models/resources/lib/defaultValue', () => {
       [sh1.iriPrefix.value]: 'http://example.com/foo/',
     })
     const focusNode = graph.blankNode()
+    const overrides = blankNode().addOut(sh.nodeKind, sh.BlankNode)
 
     // when
-    const term = defaultValue({ property, focusNode, nodeKind: sh.BlankNode, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, overrides, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('BlankNode')
@@ -180,7 +182,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+      const pointer = defaultValue({ property, focusNode, editorMeta })
 
       // then
       expect(pointer?.term?.termType).to.eq(termType)
@@ -197,7 +199,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+      const pointer = defaultValue({ property, focusNode, editorMeta })
 
       // then
       expect(pointer?.out(rdf.type).term).to.deep.eq(foaf.Agent)
@@ -215,7 +217,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ property, focusNode, nodeKind: undefined, editorMeta })
+      const pointer = defaultValue({ property, focusNode, editorMeta })
 
       // then
       expect(pointer?.out(rdf.type).term).to.be.undefined
@@ -232,7 +234,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // then
-    expect(defaultValue({ property, focusNode, editor, nodeKind: undefined, editorMeta })).to.be.null
+    expect(defaultValue({ property, focusNode, editor, editorMeta })).to.be.null
   })
 
   it('creates a node when editor is annotated', () => {
@@ -248,7 +250,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       .addOut(sh1.implicitDefaultValue, true)
 
     // then
-    expect(defaultValue({ property, focusNode, editor, nodeKind: undefined, editorMeta })).not.to.be.null
+    expect(defaultValue({ property, focusNode, editor, editorMeta })).not.to.be.null
   })
 
   it('by default, creates a node for dash:DetailsEditor', () => {
@@ -262,6 +264,6 @@ describe('core/models/resources/lib/defaultValue', () => {
     editorMeta.dataset.addAll(CoreMetadata)
 
     // then
-    expect(defaultValue({ property, focusNode, editor, nodeKind: undefined, editorMeta })).not.to.be.null
+    expect(defaultValue({ property, focusNode, editor, editorMeta })).not.to.be.null
   })
 })
