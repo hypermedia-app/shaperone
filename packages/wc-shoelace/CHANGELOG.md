@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.1.25
+
+### Patch Changes
+
+- 8a8e0b5: Autocomplete would open again immediately after selecting a value
+- c0592ee: Autocomplete would open when not focused
+
 ## 0.1.24
 
 ### Patch Changes
