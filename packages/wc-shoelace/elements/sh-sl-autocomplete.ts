@@ -68,11 +68,15 @@ export class ShSlAutocomplete extends LitElement {
   @query('sl-dropdown')
   private _menu!: SlDropdown
 
+  private _hasFocus!: boolean
+
   render() {
     return html`<sl-dropdown @sl-hide=${stop} @sl-show="${stop}" ?hoist="${this.hoist}" .disabled="${this.readonly}">
       <sl-input slot="trigger"
                 .value=${this.inputValue}
                 @keydown="${this._inputKeyDown}"
+                @sl-focus="${() => { this._hasFocus = true }}"
+                @sl-blur="${() => { this._hasFocus = false }}"
                 @sl-input="${debounce(this.dispatchSearch, this.debounceTimeout)}">
         <sl-icon name="${this.loading ? 'arrow-repeat' : 'search'}" slot="suffix"></sl-icon>
       </sl-input>
@@ -90,7 +94,7 @@ export class ShSlAutocomplete extends LitElement {
     if (_changedProperties.has('loading')) {
       if (this.loading) {
         this._menu.hide()
-      } else {
+      } else if (this._hasFocus) {
         this._menu.show()
       }
     }
