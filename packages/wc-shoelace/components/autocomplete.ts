@@ -79,10 +79,10 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
   initLabel(this: AutoCompleteEditor, { property: { shape }, value, updateComponentState }) {
     const {
       object,
-      componentState: { freetextQuery, selectionLoading },
+      componentState: { freetextQuery, selectionLoading, selected },
     } = value
 
-    if (object && !freetextQuery && !selectionLoading) {
+    if (object && !selected && !freetextQuery && !selectionLoading) {
       const selectionLoading = this.loadInstance({ property: shape, value: object })
         .then((resource) => {
           updateComponentState({
