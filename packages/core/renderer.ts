@@ -3,7 +3,7 @@
  * @module @hydrofoil/shaperone-core/renderer
  */
 
-import type { NodeKind, NodeShape, Shape } from '@rdfine/shacl'
+import type { NodeShape, Shape } from '@rdfine/shacl'
 import { PropertyGroup } from '@rdfine/shacl'
 import { NamedNode, Term } from 'rdf-js'
 import type { GraphPointer, MultiPointer } from 'clownface'
@@ -123,8 +123,7 @@ export interface GroupRenderer<TemplateResult = any> extends FocusNodeRenderer<T
  * State mutation functions available to the {@link PropertyRenderer} (combined with {@link GroupActions})
  */
 export interface PropertyActions {
-  addObject(arg?: { editor?: NamedNode; nodeKind?: NodeKind }): void
-  addObject(arg?: MultiPointer): void
+  addObject(arg?: { overrides?: MultiPointer; componentState?: Record<string, unknown> }): void
   removeObject(object: Term | GraphPointer | PropertyObjectState): void
   selectMultiEditor(): void
   selectSingleEditors(): void

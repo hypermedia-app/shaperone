@@ -5,6 +5,7 @@ import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { sinon } from '@shaperone/testing'
 import * as template from '../templates.js'
+import { settings } from '../settings'
 
 describe('wc-shoelace/templates', () => {
   describe('property', () => {
@@ -30,7 +31,7 @@ describe('wc-shoelace/templates', () => {
         expect(el.querySelector('section[slot=add-object]')).lightDom.to.eq('<foo-bar></foo-bar>')
       })
 
-      it('forwards event detail to dispatch', async () => {
+      it('forwards overrides to action', async () => {
         // given
         const focusNode = blankNode()
         const property = testPropertyState()
@@ -38,6 +39,42 @@ describe('wc-shoelace/templates', () => {
           property,
           focusNode,
         })
+        const overrides = blankNode()
+        settings.newFieldDefaults.foo = 'bar'
+        function simulateAdd(e: Event) {
+          e.target!.dispatchEvent(new CustomEvent('added', {
+            composed: true,
+            bubbles: true,
+            detail: {
+              overrides,
+            },
+          }))
+        }
+        renderer.context.templates.shoelace = {
+          addObject() {
+            return html`<button @click="${simulateAdd}"></button>`
+          },
+        }
+
+        // when
+        const el = await fixture(template.property(renderer, { property }))
+        el.querySelector('button')?.click()
+
+        // then
+        expect(renderer.actions.addObject).to.have.been.calledWith(sinon.match({
+          overrides,
+        }))
+      })
+
+      it('applies defaults to component state', async () => {
+        // given
+        const focusNode = blankNode()
+        const property = testPropertyState()
+        const renderer = propertyRenderer({
+          property,
+          focusNode,
+        })
+        settings.newFieldDefaults.foo = 'bar'
         function simulateAdd(e: Event) {
           e.target!.dispatchEvent(new CustomEvent('added', {
             composed: true,
@@ -60,8 +97,9 @@ describe('wc-shoelace/templates', () => {
 
         // then
         expect(renderer.actions.addObject).to.have.been.calledWith(sinon.match({
-          editor: dash.EnumSelectEditor,
-          nodeKind: sh.Literal,
+          componentState: {
+            foo: 'bar',
+          },
         }))
       })
     })

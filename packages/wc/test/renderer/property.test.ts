@@ -6,7 +6,6 @@ import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/mo
 import { expect } from '@open-wc/testing'
 import { ex, sinon } from '@shaperone/testing'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
-import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { renderProperty } from '../../renderer/property'
 
 describe('wc/renderer/property', () => {
@@ -103,12 +102,12 @@ describe('wc/renderer/property', () => {
     })
 
     describe('addObject', () => {
-      it('called with pointer overrides forwards them to dispatch', () => {
+      it('called with pointer overrides, forwards them to dispatch', () => {
         // given
         const overrides = blankNode()
 
         // when
-        actions.addObject(overrides)
+        actions.addObject({ overrides })
 
         // then
         expect(dispatch.addObject).to.have.been.calledWith(sinon.match({
@@ -116,18 +115,16 @@ describe('wc/renderer/property', () => {
         }))
       })
 
-      it('called with terms, wraps them in overrides pointer', () => {
+      it('called with componentState, forwards it to dispatch', () => {
         // given
-        const nodeKind = sh.IRIOrLiteral
-        const editor = dash.DatePickerEditor
+        const componentState = {}
 
         // when
-        actions.addObject({ nodeKind, editor })
+        actions.addObject({ componentState })
 
         // then
         expect(dispatch.addObject).to.have.been.calledWith(sinon.match({
-          overrides: sinon.match(pointer => sh.IRIOrLiteral.equals(pointer.out(sh.nodeKind).term) &&
-            dash.DatePickerEditor.equals(pointer.out(dash.editor).term)),
+          componentState,
         }))
       })
     })

@@ -1,9 +1,15 @@
+export interface NewFieldDefaults extends Record<string, unknown> {
+  open: boolean
+}
+
 interface Settings {
   hoist: boolean
-  newFieldDefaults: Record<string, unknown>
+  newFieldDefaults: NewFieldDefaults
 }
 
 export const settings: Settings = {
   hoist: true,
-  newFieldDefaults: {},
+  newFieldDefaults: {
+    open: true,
+  },
 }
