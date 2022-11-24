@@ -15,9 +15,16 @@ export interface Params extends BaseParams {
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   overrides: MultiPointer | undefined
+  componentState: Record<string, unknown> | undefined
 }
 
-export const addFormField = formStateReducer(objectStateProducer<Params>((state, { property, editors, selectedEditor, overrides }, currentProperty) => {
+export const addFormField = formStateReducer(objectStateProducer<Params>((state, {
+  property,
+  editors,
+  selectedEditor,
+  overrides,
+  componentState = {},
+}, currentProperty) => {
   const nodeKind = overrides?.out(sh.nodeKind).term as any
 
   currentProperty.objects.push({
@@ -25,7 +32,10 @@ export const addFormField = formStateReducer(objectStateProducer<Params>((state,
     editors,
     selectedEditor,
     editorSwitchDisabled: !state.shouldEnableEditorChoice(),
-    componentState: {},
+    componentState: {
+      ...componentState,
+      ready: false,
+    },
     validationResults: [],
     hasErrors: false,
     nodeKind,
