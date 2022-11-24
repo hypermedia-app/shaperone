@@ -1,7 +1,7 @@
 {
   "name": "@hydrofoil/shaperone-playground",
   "private": true,
-  "version": "0.1.76",
+  "version": "0.1.77",
   "description": "@hydrofoil/shaperone demo using lit-html",
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
@@ -18,7 +18,7 @@
     "@hydrofoil/shaperone-wc": "0.7.11",
     "@hydrofoil/shaperone-wc-material": "0.5.10",
     "@hydrofoil/shaperone-wc-vaadin": "0.4.12",
-    "@hydrofoil/shaperone-wc-shoelace": "0.2.0",
+    "@hydrofoil/shaperone-wc-shoelace": "0.2.1",
     "@hydrofoil/shaperone-hydra": "0.3.15",
     "@hydrofoil/shaperone-rdf-validate-shacl": "1.0.3",
     "@material/mwc-icon": "^0.25",
