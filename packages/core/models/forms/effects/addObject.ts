@@ -12,11 +12,12 @@ export interface AddObject extends BaseParams {
   focusNode: FocusNode
   property: PropertyShape
   overrides?: MultiPointer
+  componentState?: Record<string, unknown>
 }
 
 export function addObject(store: Store) {
   const dispatch = store.getDispatch()
-  return function ({ form, property, focusNode, overrides }: AddObject) {
+  return function ({ form, property, focusNode, overrides, componentState }: AddObject) {
     const { editors: editorsState, resources } = store.getState()
     const graph = resources.get(form)?.graph
     if (!graph) {
@@ -56,6 +57,7 @@ export function addObject(store: Store) {
       editors,
       selectedEditor,
       overrides,
+      componentState,
     })
   }
 }

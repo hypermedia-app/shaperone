@@ -1,8 +1,5 @@
 import { GroupRenderer, PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
-import clownface, { MultiPointer } from 'clownface'
-import { dataset } from '@rdf-esm/dataset'
-import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { renderObject } from './object'
 import { renderMultiEditor } from './editor'
 
@@ -13,17 +10,8 @@ export const renderProperty: GroupRenderer['renderProperty'] = function ({ prope
   const actionParams = { form, focusNode: focusNode.focusNode, property: property.shape }
 
   const propertyActions: PropertyActions = {
-    addObject: (arg) => {
-      let overrides: MultiPointer | undefined
-      if (arg && '_context' in arg) {
-        overrides = arg
-      } else if (arg) {
-        overrides = clownface({ dataset: dataset() })
-          .blankNode()
-        if (arg.nodeKind) overrides.addOut(sh.nodeKind, arg.nodeKind)
-        if (arg.editor) overrides.addOut(dash.editor, arg.editor)
-      }
-      dispatch.forms.addObject({ overrides, ...actionParams })
+    addObject: (arg = {}) => {
+      dispatch.forms.addObject({ ...arg, ...actionParams })
     },
     removeObject: (arg) => {
       let object: PropertyObjectState | undefined

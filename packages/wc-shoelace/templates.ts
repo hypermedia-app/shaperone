@@ -4,6 +4,7 @@ import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import { settings } from './settings'
 
 interface AddObject {
   (property: PropertyState): TemplateResult | ''
@@ -28,8 +29,20 @@ export const property: ShoelacePropertyTemplate = (renderer, { property: state }
 
   const customAddObject = renderer.context.templates.shoelace?.addObject?.(state)
 
-  function onAdd(e: CustomEvent) {
-    renderer.actions.addObject(e.detail)
+  function onAdd(e: CustomEvent<Parameters<typeof renderer.actions.addObject>[0]>) {
+    const detail = e.detail ? { ...e.detail } : {}
+    if (!detail.componentState) {
+      detail.componentState = {}
+    }
+
+    Object.entries(settings.newFieldDefaults)
+      .forEach(([key, value]) => {
+        if (!(key in detail.componentState!)) {
+          detail.componentState![key] = value
+        }
+      })
+
+    renderer.actions.addObject(detail)
     e.stopPropagation()
   }
 
