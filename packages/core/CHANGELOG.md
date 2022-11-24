@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.10.0
+
+### Minor Changes
+
+- dff822d: Removed the overload of `forms/addObject` reducer with `nodeKind`/`editor` signature. They must be passed with the `overrides` pointer
+
 ## 0.9.15
 
 ### Patch Changes

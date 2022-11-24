@@ -1,6 +1,6 @@
 {
   "name": "@hydrofoil/shaperone-core",
-  "version": "0.9.15",
+  "version": "0.10.0",
   "description": "Base processor of SHACL Shape intended to build forms",
   "main": "index.js",
   "type": "module",
