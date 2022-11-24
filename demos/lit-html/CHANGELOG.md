@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.77
+
+### Patch Changes
+
+- Updated dependencies [781b66b]
+  - @hydrofoil/shaperone-wc-shoelace@0.2.1
+
 ## 0.1.76
 
 ### Patch Changes

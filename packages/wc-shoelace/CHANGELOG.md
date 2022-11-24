@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.2.1
+
+### Patch Changes
+
+- 781b66b: By mistake, every details would open expanded and not only newly added. Reverting
+
 ## 0.2.0
 
 ### Minor Changes
