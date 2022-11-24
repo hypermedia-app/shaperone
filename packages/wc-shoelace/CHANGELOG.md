@@ -1,5 +1,17 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.2.0
+
+### Minor Changes
+
+- dff822d: A `dash:DetailsEditor` will expand by default when added to form as new object
+
+### Patch Changes
+
+- Updated dependencies [dff822d]
+  - @hydrofoil/shaperone-core@0.10.0
+  - @hydrofoil/shaperone-wc@0.7.11
+
 ## 0.1.26
 
 ### Patch Changes
