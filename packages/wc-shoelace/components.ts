@@ -80,17 +80,6 @@ export const uri: Lazy<SingleEditorComponent> = {
 
 export const details: Lazy<SingleEditorComponent> = {
   editor: dash.DetailsEditor,
-  init({ componentState, updateComponentState }) {
-    if (typeof componentState.open === 'undefined') {
-      const defaultOpen = true
-
-      updateComponentState({
-        open: defaultOpen,
-      })
-    }
-
-    return true
-  },
   async lazyRender() {
     const { render } = await import('./renderer/details')
     return render

@@ -8,8 +8,6 @@ import { TextFieldWithLang, TextFieldWithLangEditor } from '@hydrofoil/shaperone
 import { URIEditor, URI } from '@hydrofoil/shaperone-core/lib/components/uri'
 import { BooleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import { Details, DetailsEditor } from '@hydrofoil/shaperone-core/lib/components/details'
-import { blankNode } from '@shaperone/testing/nodeFactory'
 import { ShSlWithLangEditor } from '../elements/sh-sl-with-lang-editor'
 import * as components from '../components'
 
@@ -195,50 +193,6 @@ describe('wc-shoelace/components', () => {
       // then
       expect(result.checked).to.be.false
       expect(result.indeterminate).to.be.true
-    })
-  })
-
-  describe('details', () => {
-    let component: DetailsEditor
-
-    beforeEach(async () => {
-      component = {
-        ...components.details,
-        render: await components.details.lazyRender(),
-      }
-    })
-
-    describe('init', () => {
-      it("applies default value of 'open' state property if not set", () => {
-        // given
-        const { params, actions } = editorTestParams<Details>({
-          object: blankNode(),
-        })
-
-        // when
-        component.init?.(params, actions)
-
-        // then
-        expect(params.updateComponentState).to.have.been.calledWith({
-          open: true,
-        })
-      })
-
-      it("does not overwrite 'open' state property if set", () => {
-        // given
-        const { params, actions } = editorTestParams<Details>({
-          object: blankNode(),
-          componentState: {
-            open: false,
-          },
-        })
-
-        // when
-        component.init?.(params, actions)
-
-        // then
-        expect(params.updateComponentState).not.to.have.been.called
-      })
     })
   })
 })
