@@ -1,13 +1,15 @@
 import { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
-import { editorTestParams } from '@shaperone/testing'
+import { editorTestParams, ex, sinon } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
 import { SlCheckbox, SlInput } from '@shoelace-style/shoelace'
 import { TextFieldWithLang, TextFieldWithLangEditor } from '@hydrofoil/shaperone-core/lib/components/textFieldWithLang'
 import { URIEditor, URI } from '@hydrofoil/shaperone-core/lib/components/uri'
 import { BooleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
-import { xsd } from '@tpluscode/rdf-ns-builders'
+import { Details, DetailsEditor } from '@hydrofoil/shaperone-core/lib/components/details'
+import { sh, xsd } from '@tpluscode/rdf-ns-builders'
+import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
 import { ShSlWithLangEditor } from '../elements/sh-sl-with-lang-editor'
 import * as components from '../components'
 
@@ -193,6 +195,55 @@ describe('wc-shoelace/components', () => {
       // then
       expect(result.checked).to.be.false
       expect(result.indeterminate).to.be.true
+    })
+  })
+
+  describe('details', () => {
+    let component: Details
+
+    beforeEach(async () => {
+      component = {
+        ...components.details,
+        render: await components.details.lazyRender(),
+      }
+    })
+
+    it('it renders using override sh:node', async () => {
+      // given
+      const shNode = ex.FooShape
+      const overrides = blankNode()
+        .addOut(sh.node, shNode)
+      const { params, actions } = editorTestParams<DetailsEditor>({
+        object: namedNode(ex.Foo),
+        overrides,
+      })
+
+      // when
+      await fixture(component.render(params, actions))
+
+      // then
+      expect(params.renderer.renderFocusNode).to.have.been.calledWith(sinon.match({
+        shape: sinon.match(res => res.equals(shNode)),
+      }))
+    })
+
+    it('it renders using property shape sh:node', async () => {
+      // given
+      const node = ex.FooShape
+      const { params, actions } = editorTestParams<DetailsEditor>({
+        object: namedNode(ex.Foo),
+        property: {
+          node,
+        },
+      })
+
+      // when
+      await fixture(component.render(params, actions))
+
+      // then
+      expect(params.renderer.renderFocusNode).to.have.been.calledWith(sinon.match({
+        shape: sinon.match(res => res.equals(node)),
+      }))
     })
   })
 })
