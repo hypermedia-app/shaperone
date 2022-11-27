@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.2.2
+
+### Patch Changes
+
+- e80cbbe: DetailsViewer: when object state has override of `sh:node`, it should be used instead of the property's `sh:node`
+- Updated dependencies [01611d5]
+  - @hydrofoil/shaperone-core@0.10.1
+
 ## 0.2.1
 
 ### Patch Changes

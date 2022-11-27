@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.10.1
+
+### Patch Changes
+
+- 01611d5: When an object had default value set, its editor selected in overrides would be changed
+
 ## 0.10.0
 
 ### Minor Changes
