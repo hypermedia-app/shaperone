@@ -135,7 +135,7 @@ describe('models/forms/effects/addObject', () => {
       }))
     })
 
-    it('add editor to array', () => {
+    it('adds editor to array', () => {
       // given
       const property = propertyShape({
         editor: dash.FooEditor,
@@ -166,7 +166,7 @@ describe('models/forms/effects/addObject', () => {
       }))
     })
 
-    it('does not add editor to array if its already a match', () => {
+    it('does not add extra editor to array if its already a match and move match to the top', () => {
       // given
       const property = propertyShape({
         editor: dash.FooEditor,
@@ -176,8 +176,12 @@ describe('models/forms/effects/addObject', () => {
         term: dash.TextFieldEditor,
         score: 5,
         meta: <any> {},
+      }, {
+        term: dash.BarEditor,
+        score: 1,
+        meta: <any> {},
       }]
-      const overrides = blankNode().addOut(dash.editor, dash.TextFieldEditor)
+      const overrides = blankNode().addOut(dash.editor, dash.BarEditor)
 
       // when
       addObject(store)({
@@ -190,7 +194,8 @@ describe('models/forms/effects/addObject', () => {
       // then
       const dispatch = store.getDispatch()
       expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
-        editors: sinon.match.has('length', 2),
+        editors: sinon.match.has('length', 3)
+          .and(sinon.match(([first]: [SingleEditorMatch]) => first.term.equals(dash.BarEditor) && first.score === null)),
       }))
     })
   })

@@ -42,11 +42,15 @@ export function addObject(store: Store) {
       const editor = overrides.out(dash.editor)
       if (graphPointer.isNamedNode(editor)) {
         selectedEditor = editor.term
-        if (!editors.find(match => match.term.equals(selectedEditor))) {
-          editors.unshift({
-            term: selectedEditor, score: null, meta: editorsState.metadata.node(selectedEditor),
-          })
+        const alreadyMatched = editors.findIndex(match => match.term.equals(selectedEditor))
+        if (alreadyMatched !== -1) {
+          editors.splice(alreadyMatched, 1)
         }
+        editors.unshift({
+          term: selectedEditor,
+          score: null,
+          meta: editorsState.metadata.node(selectedEditor),
+        })
       }
     }
 
