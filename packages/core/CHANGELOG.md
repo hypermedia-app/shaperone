@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.10.2
+
+### Patch Changes
+
+- c2e467d: Proper fix for overridden `dash:editor` being lost
+
 ## 0.10.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.79
+
+### Patch Changes
+
+- @hydrofoil/shaperone-playground-examples@0.2.46
+
 ## 0.1.78
 
 ### Patch Changes
