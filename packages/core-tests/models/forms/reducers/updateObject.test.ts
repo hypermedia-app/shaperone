@@ -15,6 +15,7 @@ import {
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { propertyShape } from '@shaperone/testing/util.js'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 
 const ex = ns('http://example.com/')
 
@@ -308,6 +309,45 @@ describe('core/models/forms/reducers/updateObject', () => {
       const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
       expect(objectsAfter?.[1].selectedEditor?.value).to.deep.equal(dash.FooEditor.value)
       expect(objectsAfter?.[0].selectedEditor).to.deep.equal(dash.BarEditor)
+    })
+
+    it('keeps dash:editor override', () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const property = propertyShape()
+      const emptyObject = testObjectState(undefined, {
+        overrides: blankNode().addOut(dash.editor, dash.BazEditor),
+      })
+      const focusNode = graph.blankNode()
+      formState.focusNodes = {
+        [focusNode.value]: {
+          properties: [{
+            shape: property,
+            objects: [
+              emptyObject,
+            ],
+          }],
+        },
+      }
+      const { editors } = store.getState()
+      editors.matchSingleEditors = sinon.stub().returns([{
+        score: 10,
+        term: dash.BarEditor,
+      }])
+
+      // when
+      const value = graph.literal('foo', 'bar')
+      const afterState = setDefaultValue(store.getState().forms, {
+        focusNode,
+        property,
+        form,
+        editors,
+        value,
+      })
+
+      // then
+      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      expect(objectsAfter?.[0].selectedEditor).to.deep.equal(dash.BazEditor)
     })
   })
 

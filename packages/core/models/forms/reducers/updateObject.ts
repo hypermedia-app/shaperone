@@ -2,6 +2,8 @@ import type { Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
 import produce from 'immer'
 import { GraphPointer, MultiPointer } from 'clownface'
+import { dash } from '@tpluscode/rdf-ns-builders'
+import graphPointer from 'is-graph-pointer'
 import { BaseParams, formStateReducer } from '../../index.js'
 import type { PropertyObjectState, State } from '../index'
 import type { FocusNode } from '../../../index'
@@ -85,10 +87,15 @@ export const setDefaultValue = formStateReducer(objectStateProducer<SetDefaultVa
 
   for (const objectState of objects) {
     if (!objectState.object) {
-      const suitableEditors = editors.matchSingleEditors({ shape: property, object: value })
-
       objectState.object = value
-      objectState.selectedEditor = suitableEditors[0]?.term
+
+      const editorOverride = objectState.overrides?.out(dash.editor)
+      if (graphPointer.isNamedNode(editorOverride)) {
+        objectState.selectedEditor = editors.metadata.node(editorOverride).term
+      } else {
+        const suitableEditors = editors.matchSingleEditors({ shape: property, object: value })
+        objectState.selectedEditor = suitableEditors[0]?.term
+      }
     }
   }
 }))
