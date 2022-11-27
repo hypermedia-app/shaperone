@@ -5,7 +5,7 @@ import {
 } from '@hydrofoil/shaperone-core/models/components/index.js'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
-import clownface, { GraphPointer } from 'clownface'
+import clownface, { GraphPointer, MultiPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import { NamedNode } from 'rdf-js'
 import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
@@ -31,6 +31,7 @@ interface EditorTestParams<T> {
 interface SingleEditorTestParams<T> extends EditorTestParams<T> {
   object?: GraphPointer
   datatype?: NamedNode
+  overrides?: MultiPointer
 }
 
 interface MultiEditorTestParams<T> extends EditorTestParams<T> {
@@ -95,7 +96,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
       },
     }
   }
-  const { object, datatype } = arg
+  const { object, datatype, overrides } = arg
 
   const value: PropertyObjectState<T> = {
     key: nextid(),
@@ -106,7 +107,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
     validationResults: [],
     hasErrors: false,
     nodeKind: undefined,
-    overrides: undefined,
+    overrides,
   }
 
   property.objects = [value]
