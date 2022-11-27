@@ -3,13 +3,19 @@ import '@shoelace-style/shoelace/dist/components/details/details.js'
 import graphPointer from 'is-graph-pointer'
 import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
+import { sh } from '@tpluscode/rdf-ns-builders'
+import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 
 interface Locals extends ComponentInstance {
   open?: boolean
 }
 
-export const render: SingleEditorComponent<Locals>['render'] = function details({ value, componentState, renderer, property: { shape: { node } }, updateComponentState }) {
-  const focusNode = value.object
+export const render: SingleEditorComponent<Locals>['render'] = function details({ value, componentState, renderer, property: { shape }, updateComponentState }) {
+  const { overrides, object: focusNode } = value
+  const overrideShape = overrides?.out(sh.node)
+  const node = graphPointer.isResource(overrideShape)
+    ? fromPointer(overrideShape)
+    : shape.node
 
   if (graphPointer.isResource(focusNode)) {
     return html`
