@@ -22,4 +22,5 @@
   * [Create your own](components/implement.md "Shaperone | Implementing components")
 * Extensions
   * [Hydra](extensions/hydra.md "Shaperone | Hydra") 
+  * [Plugins](extensions/plugins.md "Shaperone | Plugins") 
 * [API](/api)

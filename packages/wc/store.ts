@@ -10,6 +10,7 @@ import { forms } from '@hydrofoil/shaperone-core/models/forms'
 import { resources } from '@hydrofoil/shaperone-core/models/resources'
 import { shapes } from '@hydrofoil/shaperone-core/models/shapes'
 import { validation } from '@hydrofoil/shaperone-core/models/validation'
+import { getPlugins } from '@hydrofoil/shaperone-core/store'
 import { renderer } from './renderer/model'
 
 declare global {
@@ -40,9 +41,16 @@ export type Store = ModelStore<Dispatch, State>
 
 export const store = (() => {
   let debug = false
-  let store = createStore(config)
+  let store: ReturnType<typeof createStore<typeof config>> | undefined
 
   return () => {
+    if (!store) {
+      store = createStore({
+        ...config,
+        plugins: getPlugins(),
+      })
+    }
+
     if (window.Shaperone?.DEBUG === true && !debug) {
       debug = true
       store = devtools(store)
