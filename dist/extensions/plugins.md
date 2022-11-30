@@ -8,7 +8,7 @@ A low-level feature allows adding custom functionality directly to the state sto
 Use `addPlugin` to have it added to the store. Make sure to call this before a form is initialised on a page.
 
 ```js
-import { addPlugins } from '@hydrofoil/shaperone-core/store'
+import { addPlugin } from '@hydrofoil/shaperone-core/store'
 
 const loggerPlugin = {
   // a plugin can have its own state
