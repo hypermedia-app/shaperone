@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.10.3
+
+### Patch Changes
+
+- 7ea528e: Add a low-level plugin feature
+
 ## 0.10.2
 
 ### Patch Changes
