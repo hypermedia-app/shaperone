@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc
 
+## 0.7.12
+
+### Patch Changes
+
+- 7ea528e: Add a low-level plugin feature
+- Updated dependencies [7ea528e]
+  - @hydrofoil/shaperone-core@0.10.3
+
 ## 0.7.11
 
 ### Patch Changes
