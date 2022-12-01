@@ -1,5 +1,14 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.2.3
+
+### Patch Changes
+
+- 6c85b6c: Relax shoelace dependency
+- 42e9cf1: Add "clearable" option to `dash:AutoCompleteEditor`, `dash:InstancesSelectEditor` and `dash:EnumSelectEditor`.
+
+  To enable, annotate Property Shape with `sh1:clearable`
+
 ## 0.2.2
 
 ### Patch Changes
