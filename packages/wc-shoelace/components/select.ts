@@ -1,4 +1,5 @@
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
+import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import { html } from 'lit'
 import '@shoelace-style/shoelace/dist/components/select/select.js'
 import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
@@ -13,11 +14,13 @@ import { settings } from '../settings.js'
 interface Parameters {
   value: PropertyObjectState
   pointers: GraphPointer[]
-  update: SingleEditorActions['update']
+  actions: Pick<SingleEditorActions, 'update' | 'clear'>
   property: PropertyState
 }
 
-export function select({ update, value, pointers, property }: Parameters) {
+export function select({ actions: { update, clear }, value, pointers, property }: Parameters) {
+  const clearable = property.shape.getBoolean(sh1.clearable)
+
   function onChange(e: Event) {
     const target = e.target as SlSelect
     const selected = pointers.find(({ value }) => value === target.value)
@@ -25,7 +28,13 @@ export function select({ update, value, pointers, property }: Parameters) {
     if (selected) { update(selected.term) }
   }
 
-  return html`<sl-select .disabled="${property.shape.readOnly || false}" ?hoist="${settings.hoist}" .value=${value.object?.value || ''} @sl-change=${onChange} @sl-hide=${stop}>
+  return html`<sl-select ?clearable="${clearable}"
+                         .disabled="${property.shape.readOnly || false}"
+                         ?hoist="${settings.hoist}"
+                         .value=${value.object?.value || ''}
+                         @sl-clear="${clear}"
+                         @sl-change=${onChange}
+                         @sl-hide=${stop}>
     ${repeat(pointers || [], renderItem)}
   </sl-select>`
 }

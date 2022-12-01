@@ -6,10 +6,10 @@ export const enumSelect: Lazy<Core.EnumSelectEditor> = {
   async lazyRender() {
     const { select } = await import('./select.js')
 
-    return ({ value, componentState, property }, { update }) => {
+    return ({ value, componentState, property }, actions) => {
       const pointers = componentState.choices || []
 
-      return select({ value, pointers, update, property })
+      return select({ value, pointers, actions, property })
     }
   },
 }

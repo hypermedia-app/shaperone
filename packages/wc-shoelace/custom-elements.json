@@ -30,6 +30,11 @@
           "default": "false"
         },
         {
+          "name": "clearable",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
           "name": "debounce-timeout",
           "type": "number",
           "default": "350"
@@ -70,6 +75,12 @@
           "default": "false"
         },
         {
+          "name": "clearable",
+          "attribute": "clearable",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
           "name": "debounceTimeout",
           "attribute": "debounce-timeout",
           "type": "number",
@@ -82,6 +93,9 @@
         }
       ],
       "events": [
+        {
+          "name": "cleared"
+        },
         {
           "name": "search"
         },
