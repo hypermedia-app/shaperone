@@ -8,6 +8,7 @@ import isGraphPointer from 'is-graph-pointer'
 import { NamedNode } from 'rdf-js'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
+import sh1 from '@hydrofoil/shaperone-core/ns'
 import { renderItem } from '../lib/components.js'
 import { settings } from '../settings.js'
 
@@ -33,7 +34,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
   async lazyRender() {
     await import('../elements/sh-sl-autocomplete.js')
 
-    return (params, { update }) => {
+    return (params, { update, clear }) => {
       const { value, property } = params
       const pointers = value.componentState.instances || []
       const freetextQuery = value.componentState.freetextQuery || ''
@@ -62,11 +63,14 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
         nodeValue = nodeUrl.hash || nodeUrl.pathname
       }
       const fallback = nodeValue || freetextQuery
+      const clearable = property.shape.getBoolean(sh1.clearable)
 
       return html`
         <sh-sl-autocomplete .selected=${selected}
                             .inputValue=${localizedLabel(selected, { property: autocomplete.labelProperties, fallback })}
                             @search=${search}
+                            .clearable="${clearable}"
+                            @cleared="${clear}"
                             @itemSelected=${itemSelected}
                             .readonly="${property.shape.readOnly || false}"
                             .hoist="${settings.hoist}"

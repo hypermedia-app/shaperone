@@ -4,6 +4,7 @@
 
 | Property          | Attribute          | Type                                             | Default |
 |-------------------|--------------------|--------------------------------------------------|---------|
+| `clearable`       | `clearable`        | `boolean`                                        | false   |
 | `debounceTimeout` | `debounce-timeout` | `number`                                         | 350     |
 | `empty`           | `empty`            | `boolean`                                        | true    |
 | `hoist`           | `hoist`            | `boolean`                                        | true    |
@@ -16,6 +17,7 @@
 
 | Method                 | Type                          |
 |------------------------|-------------------------------|
+| `cleared`              | `(e: Event): void`            |
 | `dispatchItemSelected` | `(e: CustomEvent<any>): void` |
 | `dispatchSearch`       | `(): void`                    |
 | `updateEmpty`          | `(e: Event): void`            |
@@ -24,6 +26,7 @@
 
 | Event          | Type                              |
 |----------------|-----------------------------------|
+| `cleared`      |                                   |
 | `itemSelected` | `CustomEvent<{ value: any; }>`    |
 | `search`       | `CustomEvent<{ value: string; }>` |
 

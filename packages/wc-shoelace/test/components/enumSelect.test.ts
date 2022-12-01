@@ -1,9 +1,10 @@
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams } from '@shaperone/testing'
-import { expect, fixture } from '@open-wc/testing'
+import { expect, fixture, nextFrame } from '@open-wc/testing'
 import { SlSelect } from '@shoelace-style/shoelace/dist/shoelace'
-import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/lib/components/enumSelect'
+import { EnumSelect } from '@hydrofoil/shaperone-core/lib/components/enumSelect'
+import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import { enumSelect } from '../../components/enumSelect'
 
 describe('wc-shoelace/components/enumSelect', () => {
@@ -15,10 +16,14 @@ describe('wc-shoelace/components/enumSelect', () => {
       render: await enumSelect.lazyRender(),
     }
   })
+
   it('is disabled when dash:readOnly true', async () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<EnumSelectEditor>({
+    const {
+      params,
+      actions,
+    } = editorTestParams<EnumSelect>({
       property: {
         readOnly: true,
       },
@@ -30,5 +35,57 @@ describe('wc-shoelace/components/enumSelect', () => {
 
     // then
     expect(result.disabled).to.be.true
+  })
+
+  context('property sh1:clearable true', () => {
+    it('makes select clearable', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const {
+        params,
+        actions,
+      } = editorTestParams<EnumSelect>({
+        property: {
+          readOnly: true,
+          [sh1.clearable.value]: true,
+        },
+        object: graph.literal(''),
+      })
+
+      // when
+      const result = await fixture<SlSelect>(component.render(params, actions))
+
+      // then
+      expect(result.clearable).to.be.true
+    })
+
+    it('clears value when cleared', async () => {
+      // given
+      const graph = cf({ dataset: $rdf.dataset() })
+      const {
+        params,
+        actions,
+      } = editorTestParams<EnumSelect>({
+        property: {
+          [sh1.clearable.value]: true,
+        },
+        object: graph.literal('B'),
+        componentState: {
+          choices: [
+            graph.literal('A'),
+            graph.literal('B'),
+            graph.literal('C'),
+          ],
+        },
+      })
+
+      // when
+      const result = await fixture<SlSelect>(component.render(params, actions))
+      result.renderRoot.querySelector<HTMLButtonElement>('.select__clear')?.click()
+      await nextFrame()
+
+      // then
+      expect(actions.clear).to.have.been.called
+    })
   })
 })

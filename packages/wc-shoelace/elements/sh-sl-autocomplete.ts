@@ -6,6 +6,7 @@ import debounce from 'p-debounce'
 import { stop } from '../lib/handlers.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js'
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js'
 import '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
 import '@shoelace-style/shoelace/dist/components/menu/menu.js'
 import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
@@ -56,6 +57,9 @@ export class ShSlAutocomplete extends LitElement {
   @property({ type: Boolean })
   public readonly = false
 
+  @property({ type: Boolean })
+  public clearable = false
+
   @property({ type: Number, attribute: 'debounce-timeout' })
   public debounceTimeout = 350
 
@@ -78,6 +82,11 @@ export class ShSlAutocomplete extends LitElement {
                 @sl-focus="${() => { this._hasFocus = true }}"
                 @sl-blur="${() => { this._hasFocus = false }}"
                 @sl-input="${debounce(this.dispatchSearch, this.debounceTimeout)}">
+        <sl-icon-button id="clear"
+                        name="x-circle-fill"
+                        slot="suffix"
+                        ?hidden="${!this.selected || !this.clearable}"
+                        @click="${this.cleared}"></sl-icon-button>
         <sl-icon name="${this.loading ? 'arrow-repeat' : 'search'}" slot="suffix"></sl-icon>
       </sl-input>
       <sl-menu hoist .value=${this.selected?.value}
@@ -98,6 +107,11 @@ export class ShSlAutocomplete extends LitElement {
         this._menu.show()
       }
     }
+  }
+
+  cleared(e: Event) {
+    e.stopPropagation()
+    this.dispatchEvent(new Event('cleared'))
   }
 
   updateEmpty(e: Event) {
