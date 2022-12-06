@@ -7,13 +7,14 @@ import { difference } from '../lib/difference'
 import { settings } from '../settings'
 import { stop } from '../lib/handlers'
 import { renderItem } from '../lib/components'
+import type { InstancesMultiSelect } from '../component-extras'
 
 import '@shoelace-style/shoelace/dist/components/menu/menu.js'
 import '@shoelace-style/shoelace/dist/components/select/select.js'
 import '@shoelace-style/shoelace/dist/components/button/button.js'
 import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 
-export const render: MultiEditorComponent['render'] = ({ property, componentState }, { update }) => {
+export const render: MultiEditorComponent<InstancesMultiSelect>['render'] = ({ property, componentState, form }, { update }) => {
   const values = property.objects.map(o => o.object?.value).filter(isDef)
   const pointers: GraphPointer[] = componentState.instances || []
 
@@ -41,7 +42,7 @@ export const render: MultiEditorComponent['render'] = ({ property, componentStat
                    @sl-clear="${() => update([])}"
                    @sl-hide=${stop}
                    @sl-change=${onChange} .disabled="${property.shape.readOnly || false}">
-          ${repeat(pointers || [], renderItem)}
+          ${repeat(pointers || [], renderItem(form.labelProperties))}
         </sl-select>
         <sl-button @click=${selectAll} .disabled="${property.shape.readOnly || false}">
           Select all

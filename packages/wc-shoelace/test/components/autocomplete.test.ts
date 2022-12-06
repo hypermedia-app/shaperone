@@ -1,5 +1,5 @@
 import { expect, fixture } from '@open-wc/testing'
-import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
+import { dash, rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import cf from 'clownface'
 import $rdf from '@rdf-esm/dataset'
 import { editorTestParams } from '@shaperone/testing'
@@ -75,6 +75,51 @@ describe('wc-shoelace/components/autocomplete', () => {
 
     // then
     expect(result).to.have.attr('loading')
+  })
+
+  it('uses form settings for item labels', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const {
+      params,
+      actions,
+    } = editorTestParams<AutoComplete>({
+      componentState: {
+        instances: [
+          graph.namedNode('http://example.com/A').addOut(schema.name, 'Ą'),
+        ],
+      },
+      object: graph.namedNode('http://example.com/A'),
+    })
+    params.form.labelProperties = [schema.name]
+
+    // when
+    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+
+    // then
+    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
+  })
+
+  it('uses form settings for selected label', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const selected = graph.namedNode('http://example.com/A').addOut(schema.name, 'Ą')
+    const {
+      params,
+      actions,
+    } = editorTestParams<AutoComplete>({
+      componentState: {
+        selected,
+      },
+      object: selected,
+    })
+    params.form.labelProperties = [schema.name]
+
+    // when
+    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+
+    // then
+    expect(result.inputValue).to.eq('Ą')
   })
 
   context('property sh1:clearable true', () => {

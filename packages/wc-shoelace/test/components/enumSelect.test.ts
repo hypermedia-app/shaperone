@@ -5,6 +5,7 @@ import { expect, fixture, nextFrame } from '@open-wc/testing'
 import { SlSelect } from '@shoelace-style/shoelace/dist/shoelace'
 import { EnumSelect } from '@hydrofoil/shaperone-core/lib/components/enumSelect'
 import sh1 from '@hydrofoil/shaperone-core/ns.js'
+import { schema } from '@tpluscode/rdf-ns-builders'
 import { enumSelect } from '../../components/enumSelect'
 
 describe('wc-shoelace/components/enumSelect', () => {
@@ -35,6 +36,29 @@ describe('wc-shoelace/components/enumSelect', () => {
 
     // then
     expect(result.disabled).to.be.true
+  })
+
+  it('uses form settings for display labels', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const {
+      params,
+      actions,
+    } = editorTestParams<EnumSelect>({
+      componentState: {
+        choices: [
+          graph.namedNode('A').addOut(schema.name, 'Ą'),
+        ],
+      },
+      object: graph.namedNode('A'),
+    })
+    params.form.labelProperties = [schema.name]
+
+    // when
+    const result = await fixture<SlSelect>(component.render(params, actions))
+
+    // then
+    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
   })
 
   context('property sh1:clearable true', () => {

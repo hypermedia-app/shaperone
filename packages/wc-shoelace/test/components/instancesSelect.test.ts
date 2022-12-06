@@ -5,6 +5,7 @@ import { expect, fixture } from '@open-wc/testing'
 import { SlSelect } from '@shoelace-style/shoelace/dist/shoelace'
 import { InstancesSelect } from '@hydrofoil/shaperone-core/lib/components/instancesSelect'
 import sh1 from '@hydrofoil/shaperone-core/ns'
+import { schema } from '@tpluscode/rdf-ns-builders'
 import { instancesSelect } from '../../components/instancesSelect'
 
 describe('wc-shoelace/components/instancesSelect', () => {
@@ -32,6 +33,29 @@ describe('wc-shoelace/components/instancesSelect', () => {
 
     // then
     expect(result.disabled).to.be.true
+  })
+
+  it('uses form settings for display labels', async () => {
+    // given
+    const graph = cf({ dataset: $rdf.dataset() })
+    const {
+      params,
+      actions,
+    } = editorTestParams<InstancesSelect>({
+      componentState: {
+        instances: [
+          graph.namedNode('A').addOut(schema.name, 'Ą'),
+        ],
+      },
+      object: graph.namedNode('A'),
+    })
+    params.form.labelProperties = [schema.name]
+
+    // when
+    const result = await fixture<SlSelect>(component.render(params, actions))
+
+    // then
+    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
   })
 
   context('property sh1:clearable true', () => {

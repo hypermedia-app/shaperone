@@ -5,7 +5,7 @@ import '@shoelace-style/shoelace/dist/components/select/select.js'
 import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 import type { GraphPointer } from 'clownface'
 import { repeat } from 'lit/directives/repeat.js'
-import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { SlSelect } from '@shoelace-style/shoelace'
 import { renderItem } from '../lib/components.js'
 import { stop } from '../lib/handlers.js'
@@ -16,9 +16,10 @@ interface Parameters {
   pointers: GraphPointer[]
   actions: Pick<SingleEditorActions, 'update' | 'clear'>
   property: PropertyState
+  form: FormSettings
 }
 
-export function select({ actions: { update, clear }, value, pointers, property }: Parameters) {
+export function select({ actions: { update, clear }, value, pointers, property, form }: Parameters) {
   const clearable = property.shape.getBoolean(sh1.clearable)
 
   function onChange(e: Event) {
@@ -35,6 +36,6 @@ export function select({ actions: { update, clear }, value, pointers, property }
                          @sl-clear="${clear}"
                          @sl-change=${onChange}
                          @sl-hide=${stop}>
-    ${repeat(pointers || [], renderItem)}
+    ${repeat(pointers || [], renderItem(form.labelProperties))}
   </sl-select>`
 }

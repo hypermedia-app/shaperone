@@ -89,7 +89,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
         property,
         updateComponentState: sinon.spy(),
         renderer,
-        componentState: {} as any,
+        componentState: componentState || {} as T,
       },
       actions: {
         update: sinon.spy(),

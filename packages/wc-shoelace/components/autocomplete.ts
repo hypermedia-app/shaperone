@@ -1,20 +1,15 @@
 import { Lazy } from '@hydrofoil/shaperone-core'
 import * as Core from '@hydrofoil/shaperone-core/components.js'
-import { dash, rdfs } from '@tpluscode/rdf-ns-builders'
+import { dash } from '@tpluscode/rdf-ns-builders'
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import isGraphPointer from 'is-graph-pointer'
-import { NamedNode } from 'rdf-js'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
 import sh1 from '@hydrofoil/shaperone-core/ns'
 import { renderItem } from '../lib/components.js'
 import { settings } from '../settings.js'
-
-interface Options {
-  labelProperties: NamedNode | NamedNode[]
-}
 
 export interface AutoCompleteEditor extends Core.AutoCompleteEditor {
   initLabel(arg: SingleEditorRenderParams): void
@@ -27,15 +22,14 @@ declare module '@hydrofoil/shaperone-core/components' {
   }
 }
 
-export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
+export const autocomplete: Lazy<AutoCompleteEditor> = {
   ...Core.instancesSelect,
-  labelProperties: rdfs.label,
   editor: dash.AutoCompleteEditor,
   async lazyRender() {
     await import('../elements/sh-sl-autocomplete.js')
 
     return (params, { update, clear }) => {
-      const { value, property } = params
+      const { value, property, form } = params
       const pointers = value.componentState.instances || []
       const freetextQuery = value.componentState.freetextQuery || ''
       const { selected, loading } = value.componentState
@@ -67,7 +61,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
 
       return html`
         <sh-sl-autocomplete .selected=${selected}
-                            .inputValue=${localizedLabel(selected, { property: autocomplete.labelProperties, fallback })}
+                            .inputValue=${localizedLabel(selected, { property: form.labelProperties, fallback })}
                             @search=${search}
                             .clearable="${clearable}"
                             @cleared="${clear}"
@@ -76,7 +70,7 @@ export const autocomplete: Lazy<AutoCompleteEditor> & Options = {
                             .hoist="${settings.hoist}"
                             ?loading="${loading || false}"
         >
-          ${repeat(pointers, renderItem)}
+          ${repeat(pointers, renderItem(form.labelProperties))}
         </sh-sl-autocomplete>`
     }
   },
