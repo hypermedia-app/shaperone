@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.3.0
+
+### Minor Changes
+
+- 6c4ebe7: Use global form settings to configure what predicates to use for dropdown labels
+
 ## 0.2.3
 
 ### Patch Changes
