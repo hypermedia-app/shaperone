@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.3.1
+
+### Patch Changes
+
+- aebf262: Display style for `sh-sl-autocomplete`
+
 ## 0.3.0
 
 ### Minor Changes
