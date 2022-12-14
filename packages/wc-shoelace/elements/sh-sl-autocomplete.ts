@@ -15,6 +15,14 @@ import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 export class ShSlAutocomplete extends LitElement {
   static get styles() {
     return css`
+      :host {
+        display: block;
+      }
+
+      sl-dropdown {
+        width: 100%;
+      }
+
       [hidden] {
         display: none;
       }
