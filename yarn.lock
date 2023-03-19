@@ -2964,10 +2964,10 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.3.1.tgz#e2c6e73e0bdeb2521d00756d099218e9f5d90a04"
   integrity sha512-/zPMqDkzSZ8t3VtxOa4KPq7uzzW978M9Tvh+j7GHKuo6k6GTLxPJ4J5gE5cjfJ26pnXst0N5Hax8Sr0T2Mi9zQ==
 
-"@types/clownface@*", "@types/clownface@^1", "@types/clownface@^1.0.3", "@types/clownface@^1.2", "@types/clownface@^1.2.6", "@types/clownface@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@types/clownface/-/clownface-1.5.0.tgz#8da08cd66c2762b49aed111d9afcf6f06a9d7a9b"
-  integrity sha512-/TPkbDuGUn7PXyHi3UMGnM88XltVDkutc0cgYBjouQBZAu22jQ5v2xBtfyd+MYxIGtSTF/NWByyl94M3Uk9QHA==
+"@types/clownface@*", "@types/clownface@^1", "@types/clownface@^1.0.3", "@types/clownface@^1.2", "@types/clownface@^1.2.6", "@types/clownface@^1.5.0", "@types/clownface@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@types/clownface/-/clownface-1.5.2.tgz#9d71952cfc2368a1a45d5f2b367ce0652107e3fa"
+  integrity sha512-c/BLyUFSuzgmbQ0kBlxNf9HEkDdCk4tMxUxWjtGSpvLMXM3t5KrJabcGkDStmfzA+bHFHwHHikyWsZYVC1TuWw==
   dependencies:
     rdf-js "^4.0.2"
 
@@ -11467,7 +11467,7 @@ rdf-dataset-ext@^1.0.0:
     rdf-canonize "^3.0.0"
     readable-stream "^3.4.0"
 
-rdf-ext@^2.2.0:
+rdf-ext@2, rdf-ext@^2, rdf-ext@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/rdf-ext/-/rdf-ext-2.2.0.tgz#32ff50ef4220e88336f3ed1a3656a38e807bd57a"
   integrity sha512-/6Z1VK+OdL4SQnxhzdN1CJJY7pmtTzh0BHLRgKQG9MPIN2SnYr/eymHxqcygcZ/YHqXAV7kl2aOFbn6u9P4Wgw==

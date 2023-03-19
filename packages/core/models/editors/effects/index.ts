@@ -1,4 +1,4 @@
-import * as $rdf from '@rdfjs/dataset'
+import $rdf from 'rdf-ext'
 import type { Dispatch, Store } from '../../../state'
 
 export function loadDash(store: Store) {

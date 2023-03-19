@@ -4,10 +4,10 @@ import type { PropertyShape } from '@rdfine/shacl'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { shrink } from '@zazuko/prefixes'
 import { NamedNode, Term } from 'rdf-js'
-import TermSet from '@rdfjs/term-set'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
 import type { Resource } from '@rdfine/rdfs'
 import { findNodes } from 'clownface-shacl-path'
+import $rdf from 'rdf-ext'
 import { FocusNode } from '../../../index.js'
 
 interface PropertyShapeEx {
@@ -83,7 +83,7 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
         this.__orderTypes = this.or.reduce((types, shape) => {
           const dt = shape.pointer.out(sh.datatype).term
           return dt ? types.add(dt) : types
-        }, new TermSet())
+        }, $rdf.termSet())
       }
 
       return this.__orderTypes

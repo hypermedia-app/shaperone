@@ -9,7 +9,7 @@ import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/l
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { editorTestParams } from '@shaperone/testing'
 import clownface from 'clownface'
-import { dataset } from '@rdfjs/dataset'
+import $rdf from 'rdf-ext'
 import { SingleEditorComponent } from '../index'
 
 describe('core/models/components/lib/decorate', () => {
@@ -38,7 +38,7 @@ describe('core/models/components/lib/decorate', () => {
 
     beforeEach(() => {
       ({ actions, params } = editorTestParams({
-        object: clownface({ dataset: dataset() }).blankNode(),
+        object: clownface({ dataset: $rdf.dataset() }).blankNode(),
       }))
     })
 

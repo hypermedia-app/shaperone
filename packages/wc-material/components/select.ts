@@ -11,7 +11,7 @@ import {
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { literal } from '@rdfjs/data-model'
+import $rdf from 'rdf-ext'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
@@ -42,7 +42,7 @@ export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, 
 export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { update, clear }) {
   function onSelected(e: any) {
     if (e.target.selected?.value) {
-      update(literal(e.target.selected.value, xsd.boolean))
+      update($rdf.literal(e.target.selected.value, xsd.boolean))
     } else {
       clear()
     }

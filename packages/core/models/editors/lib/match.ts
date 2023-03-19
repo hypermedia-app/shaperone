@@ -2,7 +2,7 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { rdf } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
-import TermMap from '@rdfjs/term-map'
+import $rdf from 'rdf-ext'
 import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor, Editor, MultiEditorMatch } from '../index'
 
 function toDefined<T extends Editor>(arr: Map<NamedNode, T>, next: T | undefined): Map<NamedNode, T> {
@@ -42,7 +42,7 @@ function valuePlaceholder(shape: PropertyShape): GraphPointer {
 }
 
 export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { shape: PropertyShape; object?: GraphPointer }): SingleEditorMatch[] {
-  const singleEditors = Object.values(this.singleEditors).reduce<Map<NamedNode, SingleEditor>>(toDefined, new TermMap())
+  const singleEditors = Object.values(this.singleEditors).reduce<Map<NamedNode, SingleEditor>>(toDefined, $rdf.termMap())
 
   const object = rest.object || valuePlaceholder(shape)
   const preferredEditor = shape.editor?.id
@@ -59,7 +59,7 @@ export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { sha
 }
 
 export function matchMultiEditors(this: EditorsState, { shape }: { shape: PropertyShape }): MultiEditorMatch[] {
-  const multiEditors = Object.values(this.multiEditors).reduce<Map<NamedNode, MultiEditor>>(toDefined, new TermMap())
+  const multiEditors = Object.values(this.multiEditors).reduce<Map<NamedNode, MultiEditor>>(toDefined, $rdf.termMap())
 
   return [...multiEditors.values()]
     .map(editor => ({ term: editor.term, score: editor.match(shape) }))

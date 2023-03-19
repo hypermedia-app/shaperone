@@ -1,5 +1,5 @@
 import { html } from 'lit'
-import { literal, namedNode } from '@rdfjs/data-model'
+import RDF from '@rdfjs/data-model'
 import { repeat } from 'lit/directives/repeat.js'
 import type {
   BooleanSelectEditor,
@@ -22,7 +22,7 @@ export const textField: Render = function ({ property, value }, { update }) {
 }
 
 export const textArea: Render = function ({ property, value }, { update }) {
-  return html`<textarea ${readOnly(property)} @blur="${(e: any) => update(literal(e.target.value))}" ${validity(value)}>${value.object?.value}</textarea>`
+  return html`<textarea ${readOnly(property)} @blur="${(e: any) => update(RDF.literal(e.target.value))}" ${validity(value)}>${value.object?.value}</textarea>`
 }
 
 export const enumSelect: Render<EnumSelectEditor> = function ({ property, value, componentState }, { update }) {
@@ -72,13 +72,13 @@ export const uri: Render = function ({ property, value }, { update }) {
                        type="url"
                        ${validity(value)}
                        ${readOnly(property)}
-                       @blur="${(e: any) => update(namedNode(e.target.value))}">`
+                       @blur="${(e: any) => update(RDF.namedNode(e.target.value))}">`
 }
 
 export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { clear, update }) {
   function changed(e: any) {
     if (e.target.value) {
-      update(literal(e.target.value, xsd.boolean))
+      update(RDF.literal(e.target.value, xsd.boolean))
     } else {
       clear()
     }

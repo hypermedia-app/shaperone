@@ -13,11 +13,6 @@
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
-    "@rdfjs/data-model": "^2.0.1",
-    "@rdfjs/dataset": "^2.0.1",
-    "@rdfjs/namespace": "^2.0.0",
-    "@rdfjs/term-map": "^2.0.0",
-    "@rdfjs/term-set": "^2.0.1",
     "@rdfine/dash": "^0.2.4",
     "@rdfine/rdfs": "^0.6.10",
     "@rdfine/shacl": "^0.8.7",
@@ -31,7 +26,8 @@
     "clownface-shacl-path": "2.0.0",
     "immer": "^9.0.15",
     "is-graph-pointer": "^1.2.2",
-    "nanoid": "^4"
+    "nanoid": "^4",
+    "rdf-ext": "^2.2.0"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

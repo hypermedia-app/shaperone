@@ -10,7 +10,7 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import clownface, { MultiPointer } from 'clownface'
 import { findNodes } from 'clownface-shacl-path'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms/index'
-import { dataset } from '@rdfjs/dataset'
+import $rdf from 'rdf-ext'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { IriTemplateBundle } from '@rdfine/hydra/bundles'
 
@@ -101,7 +101,7 @@ function getSearchUri(searchTemplate: IriTemplate | undefined, focusNode: FocusN
     return undefined
   }
 
-  const variables = clownface({ dataset: dataset() }).blankNode()
+  const variables = clownface({ dataset: $rdf.dataset() }).blankNode()
   for (const mapping of searchTemplate.mapping) {
     const { property } = mapping
     if (property) {

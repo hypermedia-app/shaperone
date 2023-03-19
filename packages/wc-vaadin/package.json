@@ -29,7 +29,8 @@
     "@vaadin/vaadin-item": "^2.3.0",
     "@vaadin/vaadin-list-box": "^1.4.0",
     "@vaadin/vaadin-text-field": "^2.8.1",
-    "lit": "^2.0.0"
+    "lit": "^2.0.0",
+    "rdf-ext": "^2"
   },
   "devDependencies": {
     "@types/rdf-js": "^4",

@@ -2,7 +2,7 @@ import type { IconDefinition } from '@fortawesome/fontawesome-common-types'
 import type { IconName } from '@fortawesome/fontawesome-svg-core'
 import { html, SingleEditor, Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import type { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
-import { literal, namedNode, quad } from '@rdfjs/data-model'
+import $rdf from 'rdf-ext'
 import { rdf, rdfs, schema, xsd } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import type { PropertyShape } from '@rdfine/shacl'
@@ -16,7 +16,7 @@ export interface StarRatingComponent extends SingleEditorComponent<StarRating> {
   defaultIcon?: IconDefinition
 }
 
-const editor = namedNode('http://example.com/StarRating')
+const editor = $rdf.namedNode('http://example.com/StarRating')
 
 interface LoadIcon {
   defaultIcon: IconDefinition | undefined
@@ -70,7 +70,7 @@ export const component: Lazy<StarRatingComponent> = {
       const rating = value.object ? Number.parseFloat(value.object.value) : 0
 
       function setRating(e: CustomEvent) {
-        update(literal(e.detail.value.toString(), xsd.float))
+        update($rdf.literal(e.detail.value.toString(), xsd.float))
       }
 
       return html`<ex-star-rating .value="${rating}"
@@ -88,6 +88,6 @@ export const matcher: SingleEditor = {
 }
 
 export function * metadata() {
-  yield quad(editor, rdf.type, dash.SingleEditor)
-  yield quad(editor, rdfs.label, literal('Star rating'))
+  yield $rdf.quad(editor, rdf.type, dash.SingleEditor)
+  yield $rdf.quad(editor, rdfs.label, $rdf.literal('Star rating'))
 }

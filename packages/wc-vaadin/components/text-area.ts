@@ -1,5 +1,5 @@
 import { html, Render } from '@hydrofoil/shaperone-wc'
-import { literal } from '@rdfjs/data-model'
+import $rdf from 'rdf-ext'
 import '@vaadin/vaadin-text-field/vaadin-text-area'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'
@@ -10,7 +10,7 @@ export const textArea: Render = function ({ value, property }, { update }) {
         .value="${value.object?.value || ''}"
         required
         auto-validate
-        @blur="${(e: any) => update(literal(e.target.value))}"
+        @blur="${(e: any) => update($rdf.literal(e.target.value))}"
         ${spread(validity(value))}
         .readonly="${!!property.shape.readOnly}"
       ></vaadin-text-area>

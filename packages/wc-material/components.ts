@@ -7,7 +7,7 @@
 
 import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { namedNode } from '@rdfjs/data-model'
+import RDF from '@rdfjs/data-model'
 import { booleanSelect, BooleanSelectEditor, enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 
 /**
@@ -30,7 +30,7 @@ export const urlEditor: Lazy<SingleEditorComponent> = {
     const { createTextField } = await import('./components/textField')
     return createTextField({
       type: 'url',
-      createTerm: value => namedNode(value),
+      createTerm: value => RDF.namedNode(value),
     })
   },
 }

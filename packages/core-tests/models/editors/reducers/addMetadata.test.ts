@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import ns from '@rdfjs/namespace'
-import { quad, literal } from '@rdfjs/data-model'
+import RDF from '@rdfjs/data-model'
 import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors.js'
 import { addMetadata } from '@hydrofoil/shaperone-core/models/editors/reducers/addMetadata.js'
@@ -20,7 +20,7 @@ describe('core/models/editors/reducers/addMetadata', () => {
 
     // when
     const dataset = $rdf.dataset([
-      quad(ex.Bar, rdf.type, dash.Editor),
+      RDF.quad(ex.Bar, rdf.type, dash.Editor),
     ])
     const after = addMetadata(before, dataset)
 
@@ -44,8 +44,8 @@ describe('core/models/editors/reducers/addMetadata', () => {
 
     // when
     const dataset = $rdf.dataset([
-      quad(ex.Foo, rdfs.label, literal('Foo editor')),
-      quad(ex.Bar, rdfs.label, literal('Bar editor')),
+      RDF.quad(ex.Foo, rdfs.label, RDF.literal('Foo editor')),
+      RDF.quad(ex.Bar, rdfs.label, RDF.literal('Bar editor')),
     ])
     const after = addMetadata(before, dataset)
 

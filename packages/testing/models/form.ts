@@ -5,7 +5,6 @@ import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
 import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import clownface from 'clownface'
 import type { DatasetCoreFactory, NamedNode, DefaultGraph } from 'rdf-js'
-import * as datasetFactory from '@rdfjs/dataset'
 import * as Form from '@hydrofoil/shaperone-core/models/forms'
 import { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
 import { MultiEditor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
@@ -13,6 +12,8 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
 import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify.js'
 import { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
+import $rdf from 'rdf-ext'
+import type { Environment } from '@rdfjs/environment/Environment'
 import type { RecursivePartial } from '../index.js'
 import { blankNode } from '../nodeFactory.js'
 
@@ -112,11 +113,11 @@ const spyHandler: ProxyHandler<any> = {
 }
 
 interface TestStore {
-  factory?: DatasetCoreFactory
+  factory?: Environment<DatasetCoreFactory>
   graph?: NamedNode | DefaultGraph
 }
 
-export function testStore({ graph = datasetFactory.defaultGraph(), factory: { dataset } = datasetFactory }: TestStore = {}): { form: symbol; store: Store } {
+export function testStore({ graph = $rdf.defaultGraph(), factory: { dataset } = $rdf }: TestStore = {}): { form: symbol; store: Store } {
   const { form, state: forms } = testFormState()
   const dispatch = {
     forms: new Proxy({}, spyHandler),

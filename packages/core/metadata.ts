@@ -1,4 +1,4 @@
-import $rdf from '@rdfjs/data-model'
+import $rdf from 'rdf-ext'
 import { dash, rdf, xsd } from '@tpluscode/rdf-ns-builders'
 import sh1 from './ns.js'
 

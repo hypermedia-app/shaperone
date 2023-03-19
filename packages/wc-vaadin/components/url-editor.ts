@@ -1,6 +1,6 @@
 import { html, Render } from '@hydrofoil/shaperone-wc'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
-import { namedNode } from '@rdfjs/data-model'
+import RDF from '@rdfjs/data-model'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 import { validity } from './validation'
 
@@ -14,6 +14,6 @@ export const urlEditor: Render = function ({ value, property }, { update }) {
   }
 
   return html`<vaadin-text-field ${spread(props)}>
-                <input type="url" slot="input" @blur="${(e: any) => update(namedNode(e.target.value))}">
+                <input type="url" slot="input" @blur="${(e: any) => update(RDF.namedNode(e.target.value))}">
               </vaadin-text-field>`
 }

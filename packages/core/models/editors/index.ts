@@ -3,7 +3,7 @@ import type { NamedNode, Term } from 'rdf-js'
 import type { PropertyShape } from '@rdfine/shacl'
 import type { AnyPointer } from 'clownface'
 import clownface, { GraphPointer } from 'clownface'
-import { dataset } from '@rdfjs/dataset'
+import $rdf from 'rdf-ext'
 import type { Store } from '../../state'
 import { addMatchers } from './reducers/addMatchers'
 import { addMetadata } from './reducers/addMetadata'
@@ -52,7 +52,7 @@ export interface EditorsState {
 
 export const editors = createModel(({
   state: <EditorsState>{
-    metadata: clownface({ dataset: dataset() }),
+    metadata: clownface({ dataset: $rdf.dataset() }),
     multiEditors: {},
     singleEditors: {},
     allEditors: {},

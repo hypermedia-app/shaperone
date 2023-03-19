@@ -1,6 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import clownface, { AnyPointer } from 'clownface'
-import { dataset } from '@rdfjs/dataset'
+import $rdf from 'rdf-ext'
 import type { Store } from '../../state'
 import { setRoot } from './reducers/setRoot.js'
 import formsEffects from './effects/forms/index.js'
@@ -27,7 +27,7 @@ export const resources = createModel({
         return map
       }
 
-      return map.set(form, createState(clownface({ dataset: dataset() }).namedNode('')))
+      return map.set(form, createState(clownface({ dataset: $rdf.dataset() }).namedNode('')))
     },
     disconnect(map: State, form: symbol) {
       map.delete(form)

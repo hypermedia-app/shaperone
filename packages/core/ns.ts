@@ -1,3 +1,3 @@
-import namespace from '@rdfjs/namespace'
+import $rdf from 'rdf-ext'
 
-export default namespace('https://hypermedia.app/shaperone#')
+export default $rdf.namespace('https://hypermedia.app/shaperone#')

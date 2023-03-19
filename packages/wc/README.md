@@ -37,7 +37,7 @@ Check the main documentation page for instructions on customizing the form's ren
 | `editors`           | `editors`            | readonly  | `EditorsState`                                   |                   | Gets the state of the DASH editors model         |
 | `isValid`           |                      | readonly  | `boolean`                                        |                   | Gets a value indicating if there are any `sh:Violation` violation results |
 | `noEditorSwitches`  | `no-editor-switches` |           | `boolean`                                        | false             | Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered |
-| `renderer`          |                      |           | `Renderer<TemplateResult<ResultType>>`           | "DefaultRenderer" | Gets or sets the renderer implementation         |
+| `renderer`          |                      |           | `Renderer<TemplateResult<1 \| 2>>`               | "DefaultRenderer" | Gets or sets the renderer implementation         |
 | `rendererOptions`   | `rendererOptions`    | readonly  | `RendererState`                                  |                   | Gets the state of the renderer                   |
 | `resource`          |                      |           | `GraphPointer<BlankNode \| NamedNode<string>, DatasetCore<Quad, Quad>> \| undefined` |                   | Gets or sets the resource graph as graph pointer |
 | `shapes`            |                      |           | `DatasetCore<Quad, Quad> \| AnyPointer<AnyContext, DatasetCore<Quad, Quad>> \| undefined` |                   | Gets or sets the shapes graph                    |

@@ -13,20 +13,20 @@
   },
   "dependencies": {
     "@hydrofoil/shaperone-core": "^0.10.0",
-    "@rdfjs/dataset": "^2.0.1",
-    "@rdfjs/term-map": "^2.0.0",
     "@rdfine/hydra": "^0.8.5",
     "@tpluscode/rdf-ns-builders": "^3.0.2",
     "@tpluscode/rdfine": "^0.5.41",
     "alcaeus": "^2.2.3",
     "clownface": "^1.2.0",
-    "clownface-shacl-path": "^2.0.0"
+    "clownface-shacl-path": "^2.0.0",
+    "rdf-ext": "^2.2.0"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.1.6",
     "@rdfjs/dataset": "^2.0.1",
     "@shaperone/testing": "0.0.10",
-    "clownface": "^1"
+    "clownface": "^1",
+    "rdf-ext": "^2.2.0"
   },
   "repository": {
     "type": "git",

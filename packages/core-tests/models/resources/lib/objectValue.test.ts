@@ -2,7 +2,6 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import cf, { AnyContext, AnyPointer } from 'clownface'
 import $rdf from 'rdf-ext'
-import { literal } from '@rdfjs/data-model'
 import { xsd, rdf, foaf, dash, sh } from '@tpluscode/rdf-ns-builders'
 import { NodeKind, NodeKindEnum } from '@rdfine/shacl'
 import { defaultValue } from '@hydrofoil/shaperone-core/models/resources/lib/objectValue.js'
@@ -25,7 +24,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     // given
     const graph = cf({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
-      defaultValue: literal('foo', xsd.anySimpleType),
+      defaultValue: $rdf.literal('foo', xsd.anySimpleType),
     })
     const focusNode = graph.blankNode()
 
@@ -33,7 +32,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
-    expect(pointer?.term).to.deep.eq(literal('foo', xsd.anySimpleType))
+    expect(pointer?.term).to.deep.eq($rdf.literal('foo', xsd.anySimpleType))
   })
 
   it('returns null when there is no nodeKind', () => {

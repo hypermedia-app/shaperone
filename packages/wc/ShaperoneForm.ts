@@ -10,7 +10,7 @@ import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
 import { Renderer } from '@hydrofoil/shaperone-core/renderer'
 import clownface from 'clownface'
-import { dataset } from '@rdfjs/dataset'
+import $rdf from 'rdf-ext'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import DefaultRenderer from './renderer'
@@ -125,7 +125,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     this[notify] = (detail: any) => {
       this.dispatchEvent(new CustomEvent('changed', { detail }))
     }
-    this.resource = clownface({ dataset: dataset() }).namedNode('')
+    this.resource = clownface({ dataset: $rdf.dataset() }).namedNode('')
   }
 
   async connectedCallback() {

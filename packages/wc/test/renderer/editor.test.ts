@@ -7,7 +7,7 @@ import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/mo
 import { xsd, sh } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { MultiEditorActions, SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
-import { blankNode, defaultGraph, literal, namedNode } from '@rdfjs/data-model'
+import RDF from 'rdf-ext'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { renderMultiEditor, renderEditor } from '../../renderer/editor'
 
@@ -54,15 +54,15 @@ describe('wc/renderer/editor', () => {
           actions.update([
             'foo',
             'bar',
-            literal('baz'),
+            RDF.literal('baz'),
           ])
 
           // then
           const { terms } = dispatch.replaceObjects.firstCall.firstArg
           expect(terms).to.have.deep.members([
-            literal('foo', xsd.int),
-            literal('bar', xsd.int),
-            literal('baz'),
+            RDF.literal('foo', xsd.int),
+            RDF.literal('bar', xsd.int),
+            RDF.literal('baz'),
           ])
         })
 
@@ -74,15 +74,15 @@ describe('wc/renderer/editor', () => {
           actions.update([
             'foo',
             'bar',
-            literal('baz'),
+            RDF.literal('baz'),
           ])
 
           // then
           const { terms } = dispatch.replaceObjects.firstCall.firstArg
           expect(terms).to.have.deep.members([
-            namedNode('foo'),
-            namedNode('bar'),
-            literal('baz'),
+            RDF.namedNode('foo'),
+            RDF.namedNode('bar'),
+            RDF.literal('baz'),
           ])
         })
       })
@@ -290,7 +290,7 @@ describe('wc/renderer/editor', () => {
 
           // then
           const { newValue } = dispatch.updateObject.firstCall.firstArg
-          expect(newValue).to.have.deep.eq(literal('foo', xsd.int))
+          expect(newValue).to.have.deep.eq(RDF.literal('foo', xsd.int))
         })
 
         it('sets strings as named node when property has nodeKind sh:IRI', () => {
@@ -302,12 +302,12 @@ describe('wc/renderer/editor', () => {
 
           // then
           const { newValue } = dispatch.updateObject.firstCall.firstArg
-          expect(newValue).to.have.deep.eq(namedNode('foo'))
+          expect(newValue).to.have.deep.eq(RDF.namedNode('foo'))
         })
       })
 
       describe('focusOnObjectNode', () => {
-        [namedNode('foo'), blankNode()].forEach((node) => {
+        [RDF.namedNode('foo'), RDF.blankNode()].forEach((node) => {
           it(`calls dispatch when object is ${node.termType}`, () => {
             // given
             object.object = renderer.focusNode.focusNode.node(node)
@@ -321,7 +321,7 @@ describe('wc/renderer/editor', () => {
           })
         });
 
-        [literal('foo'), defaultGraph()].forEach((node) => {
+        [RDF.literal('foo'), RDF.defaultGraph()].forEach((node) => {
           it(`does not call dispatch when object is ${node.termType}`, () => {
             // given
             object.object = renderer.focusNode.focusNode.node(node)

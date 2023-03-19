@@ -1,11 +1,11 @@
 import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
-import { quad, namedNode, literal } from '@rdfjs/data-model'
+import $rdf from 'rdf-ext'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
 import { sort } from '@hydrofoil/shaperone-core/lib/components'
 
-const editor = namedNode('http://example.com/LanguageMultiSelect')
+const editor = $rdf.namedNode('http://example.com/LanguageMultiSelect')
 
 export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponent> = theme => ({
   editor,
@@ -59,6 +59,6 @@ export const matcher: MultiEditor = {
 }
 
 export function * metadata() {
-  yield quad(editor, rdf.type, dash.MultiEditor)
-  yield quad(editor, rdfs.label, literal('Language combobox'))
+  yield $rdf.quad(editor, rdf.type, dash.MultiEditor)
+  yield $rdf.quad(editor, rdfs.label, $rdf.literal('Language combobox'))
 }

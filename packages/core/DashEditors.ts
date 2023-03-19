@@ -9,7 +9,7 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import { NodeKindEnum } from '@rdfine/shacl'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
-import { literal } from '@rdfjs/data-model'
+import $rdf from 'rdf-ext'
 import type { BlankNode, Literal, NamedNode } from 'rdf-js'
 import { GraphPointer } from 'clownface'
 import type { SingleEditor } from './models/editors'
@@ -72,8 +72,8 @@ export const textFieldWithLang: SingleEditor = {
   },
 }
 
-const booleanTrue = literal('true', xsd.boolean)
-const booleanFalse = literal('false', xsd.boolean)
+const booleanTrue = $rdf.literal('true', xsd.boolean)
+const booleanFalse = $rdf.literal('false', xsd.boolean)
 
 /**
  * Matcher for `dash:TextAreaEditor`

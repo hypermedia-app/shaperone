@@ -35,7 +35,8 @@
     "@open-wc/testing": "^3.1.6",
     "@rdfjs/dataset": "^2.0.1",
     "@shaperone/testing": "*",
-    "clownface": "^1.5.1"
+    "clownface": "^1.5.1",
+    "rdf-ext": "^2.2.0"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

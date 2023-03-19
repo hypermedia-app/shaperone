@@ -38,7 +38,7 @@ describe('wc/renderer/focusNode', () => {
   it('dispatches to create node when previous node was from different dataset', async () => {
     // given
     renderer.context.templates.initialising = () => html`Loading`
-    renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node(focusNode))
+    renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node<any>(focusNode))
 
     // when
     await fixture(html`<div>${renderFocusNode.call(renderer, { focusNode })}</div>`)

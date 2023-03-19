@@ -13,10 +13,12 @@
     "@tpluscode/rdf-ns-builders": "^3.0.2",
     "clownface": "^1.1.0",
     "deepmerge": "^4.2.2",
+    "rdf-ext": "^2.2.0",
     "sinon": "^9.2.1",
     "ts-sinon": "^2.0.1"
   },
   "devDependencies": {
+    "@types/clownface": "^1.5.2",
     "@types/sinon": "^9.0.4"
   }
 }

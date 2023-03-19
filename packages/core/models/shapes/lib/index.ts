@@ -1,10 +1,11 @@
 import { NodeShape } from '@rdfine/shacl'
 import { rdf, sh, rdfs } from '@tpluscode/rdf-ns-builders'
-import TermMap from '@rdfjs/term-map'
+import $rdf from 'rdf-ext'
+import { Term } from 'rdf-js'
 import { FocusNode } from '../../../index'
 import type { ShapeState } from '..'
 
-const scores = new TermMap([
+const scores = $rdf.termMap<Term, number>([
   [sh.targetNode, 20],
   [sh.targetClass, 10],
   [sh.targetObjectsOf, 5],
