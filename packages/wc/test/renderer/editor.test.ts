@@ -7,7 +7,7 @@ import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/mo
 import { xsd, sh } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { MultiEditorActions, SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
-import { blankNode, defaultGraph, literal, namedNode } from '@rdf-esm/data-model'
+import { blankNode, defaultGraph, literal, namedNode } from '@rdfjs/data-model'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { renderMultiEditor, renderEditor } from '../../renderer/editor'
 

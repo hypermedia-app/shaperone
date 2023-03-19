@@ -1,6 +1,6 @@
 import { Term } from 'rdf-js'
 import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
-import $rdf from '@rdf-esm/data-model'
+import $rdf from '@rdfjs/data-model'
 import type { PropertyShape } from '@rdfine/shacl/lib/PropertyShape'
 import type { Dispatch } from '../../../../state'
 import type { FocusNode } from '../../../../index'

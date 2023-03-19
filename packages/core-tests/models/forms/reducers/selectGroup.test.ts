@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import ns from '@rdf-esm/namespace'
+import ns from '@rdfjs/namespace'
 import cf from 'clownface'
 import { fromPointer } from '@rdfine/shacl/lib/PropertyGroup'
 import $rdf from 'rdf-ext'

@@ -1,5 +1,5 @@
 import { DatasetCore, Quad } from 'rdf-js'
-import * as RDF from '@rdf-esm/dataset'
+import * as RDF from '@rdfjs/dataset'
 import cf, { AnyPointer } from 'clownface'
 import type { Editor, EditorsState } from '../index'
 

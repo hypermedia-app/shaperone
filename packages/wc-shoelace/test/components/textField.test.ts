@@ -1,5 +1,5 @@
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
 import { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField'

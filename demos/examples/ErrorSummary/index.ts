@@ -1,8 +1,8 @@
 import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html } from '@hydrofoil/shaperone-wc'
 import type { ValidationResult } from '@rdfine/shacl'
-import { shrink } from '@zazuko/rdf-vocabularies/shrink'
-import TermMap from '@rdf-esm/term-map'
+import { shrink } from '@zazuko/prefixes'
+import TermMap from '@rdfjs/term-map'
 import { Term } from 'rdf-js'
 
 function createMessage(result: ValidationResult) {

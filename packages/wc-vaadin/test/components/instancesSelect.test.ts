@@ -1,6 +1,6 @@
 import { expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'

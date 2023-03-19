@@ -1,5 +1,5 @@
 import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
-import { quad, namedNode, literal } from '@rdf-esm/data-model'
+import { quad, namedNode, literal } from '@rdfjs/data-model'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'

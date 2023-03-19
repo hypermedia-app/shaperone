@@ -10,7 +10,7 @@ import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
 import { Renderer } from '@hydrofoil/shaperone-core/renderer'
 import clownface from 'clownface'
-import { dataset } from '@rdf-esm/dataset'
+import { dataset } from '@rdfjs/dataset'
 import { ensureEventTarget } from './lib/eventTarget'
 import { store, State } from './store'
 import DefaultRenderer from './renderer'
@@ -52,7 +52,7 @@ export const id: (form: any) => symbol = (() => {
  * import '@hypermedia-app/shaperone-form/shaperone-form.js'
  * import { html } from '@hypermedia-app/shaperone-form'
  * import { Hydra } from 'alcaeus/web'
- * import { dataset, blankNode } from '@rdf-esm/dataset'
+ * import { dataset, blankNode } from '@rdfjs/dataset'
  *
  * const shapes = await Hydra.loadResource('http://example.com/api/shape')
  * const resource = clownface({

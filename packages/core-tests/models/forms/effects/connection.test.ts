@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import clownface from 'clownface'
-import * as $rdf from '@rdf-esm/dataset'
+import * as $rdf from '@rdfjs/dataset'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { connect } from '@hydrofoil/shaperone-core/models/forms/effects/connection.js'
 import { Store } from '@hydrofoil/shaperone-core/state'

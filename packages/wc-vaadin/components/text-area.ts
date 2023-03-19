@@ -1,5 +1,5 @@
 import { html, Render } from '@hydrofoil/shaperone-wc'
-import { literal } from '@rdf-esm/data-model'
+import { literal } from '@rdfjs/data-model'
 import '@vaadin/vaadin-text-field/vaadin-text-area'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { validity } from './validation'

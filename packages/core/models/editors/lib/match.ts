@@ -2,7 +2,7 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { rdf } from '@tpluscode/rdf-ns-builders'
 import { NamedNode } from 'rdf-js'
-import TermMap from '@rdf-esm/term-map'
+import TermMap from '@rdfjs/term-map'
 import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor, Editor, MultiEditorMatch } from '../index'
 
 function toDefined<T extends Editor>(arr: Map<NamedNode, T>, next: T | undefined): Map<NamedNode, T> {

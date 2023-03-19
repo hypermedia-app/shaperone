@@ -1,6 +1,6 @@
 import { NodeShape } from '@rdfine/shacl'
 import { rdf, sh, rdfs } from '@tpluscode/rdf-ns-builders'
-import TermMap from '@rdf-esm/term-map'
+import TermMap from '@rdfjs/term-map'
 import { FocusNode } from '../../../index'
 import type { ShapeState } from '..'
 

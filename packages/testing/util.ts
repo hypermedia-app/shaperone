@@ -2,7 +2,7 @@ import * as NodeShape from '@rdfine/shacl/lib/NodeShape'
 import * as PropertyShape from '@rdfine/shacl/lib/PropertyShape'
 import RdfResource, { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/RdfResource'
 import clownface, { GraphPointer } from 'clownface'
-import * as $rdf from '@rdf-esm/dataset'
+import * as $rdf from '@rdfjs/dataset'
 import PropertyShapeEx from '@hydrofoil/shaperone-core/models/shapes/lib/PropertyShape.js'
 import { PropertyShapeMixinEx } from '@rdfine/dash/extensions/sh'
 

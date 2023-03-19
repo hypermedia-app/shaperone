@@ -11,7 +11,7 @@ This example shows the element used with the default lit renderer
 import '@hypermedia-app/shaperone-form/shaperone-form.js'
 import { html } from '@hypermedia-app/shaperone-form'
 import { Hydra } from 'alcaeus/web'
-import { dataset, blankNode } from '@rdf-esm/dataset'
+import { dataset, blankNode } from '@rdfjs/dataset'
 
 const shapes = await Hydra.loadResource('http://example.com/api/shape')
 const resource = clownface({

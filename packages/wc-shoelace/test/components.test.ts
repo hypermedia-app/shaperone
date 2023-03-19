@@ -1,6 +1,6 @@
 import { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField'
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { editorTestParams, ex, sinon } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
 import { SlCheckbox, SlInput } from '@shoelace-style/shoelace'

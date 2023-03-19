@@ -1,5 +1,5 @@
 import { html } from 'lit'
-import { literal, namedNode } from '@rdf-esm/data-model'
+import { literal, namedNode } from '@rdfjs/data-model'
 import { repeat } from 'lit/directives/repeat.js'
 import type {
   BooleanSelectEditor,

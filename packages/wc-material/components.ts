@@ -7,7 +7,7 @@
 
 import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { namedNode } from '@rdf-esm/data-model'
+import { namedNode } from '@rdfjs/data-model'
 import { booleanSelect, BooleanSelectEditor, enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 
 /**

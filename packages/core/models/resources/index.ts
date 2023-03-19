@@ -1,6 +1,6 @@
 import { createModel } from '@captaincodeman/rdx'
 import clownface, { AnyPointer } from 'clownface'
-import { dataset } from '@rdf-esm/dataset'
+import { dataset } from '@rdfjs/dataset'
 import type { Store } from '../../state'
 import { setRoot } from './reducers/setRoot.js'
 import formsEffects from './effects/forms/index.js'

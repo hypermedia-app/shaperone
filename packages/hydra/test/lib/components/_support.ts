@@ -1,6 +1,6 @@
 import { testPropertyState } from '@shaperone/testing/models/form'
 import clownface from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { propertyShape } from '@shaperone/testing/util'
 import { hydra } from '@tpluscode/rdf-ns-builders'
 import { ex } from '@shaperone/testing'

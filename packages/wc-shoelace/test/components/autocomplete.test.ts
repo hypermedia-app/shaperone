@@ -1,7 +1,7 @@
 import { expect, fixture } from '@open-wc/testing'
 import { dash, rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { editorTestParams } from '@shaperone/testing'
 import { AutoComplete } from '@hydrofoil/shaperone-core/components'
 import { SlIconButton } from '@shoelace-style/shoelace'

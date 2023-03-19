@@ -1,6 +1,6 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit'
-import { literal } from '@rdf-esm/data-model'
+import { literal } from '@rdfjs/data-model'
 import '@material/mwc-textarea/mwc-textarea'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly'
 import { validity } from '../directives/validity'

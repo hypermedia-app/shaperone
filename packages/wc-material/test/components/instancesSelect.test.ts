@@ -1,6 +1,6 @@
 import { aTimeout, expect, fixture } from '@open-wc/testing'
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { InstancesSelectEditor, InstancesSelect } from '@hydrofoil/shaperone-core/components'
 import { Select } from '@material/mwc-select'

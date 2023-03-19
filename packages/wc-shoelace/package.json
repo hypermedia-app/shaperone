@@ -23,17 +23,17 @@
     "@hydrofoil/shaperone-core": "^0.10.1",
     "@hydrofoil/shaperone-wc": "^0.7.11",
     "@rdfine/shacl": "^0.8.7",
-    "@rdfjs/data-model": "^2",
+    "@rdfjs/data-model": "^2.0.1",
     "@rdfjs-elements/lit-helpers": "^0.3.5",
     "@shoelace-style/shoelace": ">=2.0.0-beta.77 < 3",
-    "@tpluscode/rdf-ns-builders": "^2",
+    "@tpluscode/rdf-ns-builders": "^3.0.2",
     "is-graph-pointer": "^1.2.2",
     "lit": "^2",
     "p-debounce": "^4"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.1.6",
-    "@rdf-esm/dataset": "^0.5.1",
+    "@rdfjs/dataset": "^2.0.1",
     "@shaperone/testing": "*",
     "clownface": "^1.5.1"
   },

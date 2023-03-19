@@ -1,6 +1,6 @@
 import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components'
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'

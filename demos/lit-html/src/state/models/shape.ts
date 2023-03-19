@@ -4,7 +4,7 @@ import { sh, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builder
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { turtle } from '@tpluscode/rdf-string'
 import { Quad } from 'rdf-js'
-import * as formats from '@rdf-esm/formats-common'
+import * as formats from '@rdfjs/formats-common'
 import rdfFetch from '@rdfjs/fetch-lite'
 import clownface, { AnyPointer, GraphPointer } from 'clownface'
 import type { Store } from '../store'

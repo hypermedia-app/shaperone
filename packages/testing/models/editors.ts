@@ -1,5 +1,5 @@
 import type { AnyPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import clownface from 'clownface'
 import sinon from 'sinon'
 import { matchMultiEditors, matchSingleEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match.js'

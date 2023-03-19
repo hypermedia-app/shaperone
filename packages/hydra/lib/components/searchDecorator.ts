@@ -10,7 +10,7 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import clownface, { MultiPointer } from 'clownface'
 import { findNodes } from 'clownface-shacl-path'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms/index'
-import { dataset } from '@rdf-esm/dataset'
+import { dataset } from '@rdfjs/dataset'
 import RdfResourceImpl from '@tpluscode/rdfine'
 import { IriTemplateBundle } from '@rdfine/hydra/bundles'
 

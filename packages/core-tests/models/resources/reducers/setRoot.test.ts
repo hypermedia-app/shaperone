@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import cf from 'clownface'
-import ns from '@rdf-esm/namespace'
+import ns from '@rdfjs/namespace'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { setRoot } from '@hydrofoil/shaperone-core/models/resources/reducers/setRoot.js'
 

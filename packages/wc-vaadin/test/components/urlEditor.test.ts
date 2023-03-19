@@ -1,5 +1,5 @@
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { expect, fixture } from '@open-wc/testing'
 import { TextFieldElement } from '@vaadin/vaadin-text-field'
 import { editorTestParams, sinon } from '@shaperone/testing'

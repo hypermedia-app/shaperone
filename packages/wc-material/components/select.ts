@@ -11,7 +11,7 @@ import {
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { literal } from '@rdf-esm/data-model'
+import { literal } from '@rdfjs/data-model'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'

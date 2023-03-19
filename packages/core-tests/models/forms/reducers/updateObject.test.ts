@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha'
-import ns from '@rdf-esm/namespace'
+import ns from '@rdfjs/namespace'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
 import { expect } from 'chai'

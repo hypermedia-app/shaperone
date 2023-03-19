@@ -1,6 +1,6 @@
 import { fixture, expect } from '@open-wc/testing'
 import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams } from '@shaperone/testing'

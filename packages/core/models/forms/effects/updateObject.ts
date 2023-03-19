@@ -1,5 +1,5 @@
 import clownface, { GraphPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@rdfjs/dataset'
 import { BlankNode, Term } from 'rdf-js'
 import { SetObjectParams } from '../reducers/updateObject'
 import type { Store } from '../../../state'

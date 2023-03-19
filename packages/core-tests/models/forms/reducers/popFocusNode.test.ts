@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import cf from 'clownface'
 import $rdf from 'rdf-ext'
-import ns from '@rdf-esm/namespace'
+import ns from '@rdfjs/namespace'
 import { testFormState as testState, testFocusNodeState } from '@shaperone/testing/models/form.js'
 import { popFocusNode } from '@hydrofoil/shaperone-core/models/forms/reducers/popFocusNode.js'
 

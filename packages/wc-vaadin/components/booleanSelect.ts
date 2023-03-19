@@ -1,6 +1,6 @@
 import { html, Render } from '@hydrofoil/shaperone-wc'
 import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
-import { literal } from '@rdf-esm/data-model'
+import { literal } from '@rdfjs/data-model'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import '@vaadin/vaadin-select'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
