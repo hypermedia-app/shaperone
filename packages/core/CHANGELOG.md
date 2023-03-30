@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core
 
+## 0.11.0
+
+### Minor Changes
+
+- 7bb4047: Use `sh1:orderBy` to define how enum select, instance select and autocomplete should be sorted. The object must be a list of predicates to use for sorting
+
 ## 0.10.3
 
 ### Patch Changes

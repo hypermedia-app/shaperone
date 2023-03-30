@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [7bb4047]
+  - @hydrofoil/shaperone-core@0.11.0
+  - @hydrofoil/shaperone-wc@0.7.13
+
 ## 0.3.1
 
 ### Patch Changes

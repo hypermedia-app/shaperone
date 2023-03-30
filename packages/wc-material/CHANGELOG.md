@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-wc-material
 
+## 0.5.11
+
+### Patch Changes
+
+- Updated dependencies [7bb4047]
+  - @hydrofoil/shaperone-core@0.11.0
+  - @hydrofoil/shaperone-wc@0.7.13
+
 ## 0.5.10
 
 ### Patch Changes
