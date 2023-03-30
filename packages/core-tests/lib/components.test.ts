@@ -25,6 +25,22 @@ describe('core/lib/components', () => {
       expect(result.map(r => r.term)).to.deep.equal([ex.first, ex.second, ex.last])
     })
 
+    it('sorts by rdf:label when sh1:orderBy is not a list', () => {
+      // given
+      const shape = fromPointer(blankNode().addOut(sh1.orderBy, 'wrong'))
+      const resources = [
+        namedNode(ex.last).addOut(rdfs.label, 'Z'),
+        namedNode(ex.first).addOut(rdfs.label, 'A'),
+        namedNode(ex.second).addOut(rdfs.label, 'F'),
+      ]
+
+      // when
+      const result = resources.sort(sort(shape))
+
+      // then
+      expect(result.map(r => r.term)).to.deep.equal([ex.first, ex.second, ex.last])
+    })
+
     it('sorts by shape-annotated predicates', () => {
       // given
       const shape = fromPointer(blankNode().addList(sh1.orderBy, [schema.name]))
@@ -46,7 +62,7 @@ describe('core/lib/components', () => {
       const shape = fromPointer(blankNode().addList(sh1.orderBy, [skos.prefLabel, skos.altLabel]))
       const resources = [
         namedNode(ex.last).addOut(skos.prefLabel, 'foo').addOut(skos.altLabel, 'foo'),
-        namedNode(ex.first).addOut(skos.prefLabel, 'foo').addOut(skos.altLabel, 'bar'),
+        namedNode(ex.first).addOut(skos.prefLabel, 'bar').addOut(skos.altLabel, 'bar'),
         namedNode(ex.second).addOut(skos.prefLabel, 'foo').addOut(skos.altLabel, 'baz'),
       ]
 
