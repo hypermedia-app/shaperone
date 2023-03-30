@@ -36,7 +36,7 @@ export interface Editor<S extends State> extends SingleEditorComponent<S> {
    */
   shouldLoad(params: SingleEditorRenderParams<State>): boolean
 
-  sort(left: GraphPointer, right: GraphPointer): number
+  sort(shape: PropertyShape): (left: GraphPointer, right: GraphPointer) => number
 }
 
 export function shouldLoad({ componentState }: SingleEditorRenderParams<State>): boolean {
@@ -68,7 +68,7 @@ export const init: SingleEditorComponent<State>['init'] = function (this: Editor
     });
     (async () => {
       const pointers = await this.loadChoices(params)
-      const instances = pointers.sort(this.sort)
+      const instances = pointers.sort(this.sort(params.property.shape))
 
       updateComponentState({
         instances,

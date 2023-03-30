@@ -26,12 +26,7 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
     property: PropertyShape
   }): Promise<GraphPointer[]>
 
-  /**
-   * Sorting function to order the component elements
-   * @param left
-   * @param right
-   */
-  sort(left: GraphPointer, right: GraphPointer): number
+  sort(shape: PropertyShape): (left: GraphPointer, right: GraphPointer) => number
 }
 
 /**
@@ -48,7 +43,7 @@ export const enumSelect: CoreComponent<EnumSelectEditor> = {
       });
       (async () => {
         const pointers = await this.loadChoices({ focusNode, property: property.shape })
-        const choices = pointers.sort(this.sort)
+        const choices = pointers.sort(this.sort(property.shape))
 
         updateComponentState({
           choices,

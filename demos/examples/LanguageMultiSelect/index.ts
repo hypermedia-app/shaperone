@@ -15,7 +15,7 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
     return ({ property }, { update }) => {
       const languages = property.shape.in
         .map(lang => property.shape.pointer.node(lang))
-        .sort(sort)
+        .sort(sort(property.shape))
         .map(lang => ({
           id: lang.value,
           term: lang.term,
