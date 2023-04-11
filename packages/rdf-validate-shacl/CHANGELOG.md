@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-rdf-validate-shacl
 
+## 1.0.4
+
+### Patch Changes
+
+- 22242f5: Updated `rdf-validate-shacl`
+
 ## 1.0.3
 
 ### Patch Changes
