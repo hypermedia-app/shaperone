@@ -1,16 +1,13 @@
-import { DataFactory, DatasetCore, DatasetCoreFactory, Term } from 'rdf-js'
-import type { Environment } from '@rdfjs/environment/Environment'
-import type * as RdfValidateShacl from 'rdf-validate-shacl'
+import type * as RDF from '@rdfjs/types'
+import type { Options } from 'rdf-validate-shacl'
 import type { Validator } from '@hydrofoil/shaperone-core/models/validation'
 
-type Options = RdfValidateShacl.Options<Environment<DatasetCoreFactory | DataFactory>>
-
 interface Validate extends Validator {
-  with(factory: Options): Validator
+  with<T extends RDF.DataFactory & RDF.DatasetCoreFactory>(factory: Options<T>): Validator
 }
 
-function create(options?: Options) {
-  return async function (shapesGraph: DatasetCore, dataGraph: DatasetCore): Promise<{ term: Term; dataset: DatasetCore }> {
+function create<T extends RDF.DataFactory & RDF.DatasetCoreFactory>(options?: Options<T>) {
+  return async function (shapesGraph: RDF.DatasetCore, dataGraph: RDF.DatasetCore): Promise<{ term: RDF.Term; dataset: RDF.DatasetCore }> {
     const Validator = (await import('rdf-validate-shacl')).default
 
     const validator = new Validator(shapesGraph, options)
@@ -19,4 +16,4 @@ function create(options?: Options) {
 }
 
 export const validate: Validate = create() as any
-validate.with = (options: Options) => create(options)
+validate.with = <T extends RDF.DataFactory & RDF.DatasetCoreFactory>(options: Options<T>) => create(options)

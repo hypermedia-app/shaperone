@@ -11,12 +11,10 @@
     "babel": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json"
   },
   "dependencies": {
-    "@rdfjs/environment": "^0.1.2",
     "rdf-validate-shacl": "^0.4.5"
   },
   "devDependencies": {
-    "@types/rdf-validate-shacl": "^0.4.2",
-    "@types/rdfjs__environment": "^0.1.2"
+    "@types/rdf-validate-shacl": "^0.4.2"
   },
   "repository": {
     "type": "git",
