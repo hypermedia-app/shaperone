@@ -2404,7 +2404,7 @@
   dependencies:
     "@rdfjs/types" ">=1.0.1"
 
-"@rdfjs/data-model@^2", "@rdfjs/data-model@^2.0.0", "@rdfjs/data-model@^2.0.1":
+"@rdfjs/data-model@^2":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@rdfjs/data-model/-/data-model-2.0.1.tgz#410aeaea65de9bac605b63172baa64384b65ca98"
   integrity sha512-oRDYpy7/fJ9NNjS+M7m+dbnhi4lOWYGbBiM/A+u9bBExnN6ifXUF5mUsFxwZaQulmwTDaMhKERdV6iKTBUMgtw==
@@ -2416,25 +2416,7 @@
   dependencies:
     "@rdfjs/data-model" "^1.2.0"
 
-"@rdfjs/dataset@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@rdfjs/dataset/-/dataset-2.0.1.tgz#8d4c448291ebfd40d75ebe1d5d59a2b3f4843bac"
-  integrity sha512-hDIaXpUmU/ZdofX/BMFDAchkhN/AjmP5dMCOuVL2VCqWuFjeQxd2KV84E4+7S2Biw8tjEFhPBeQZP7KW+ARV7Q==
-
-"@rdfjs/environment@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@rdfjs/environment/-/environment-0.1.2.tgz#845ad9816f768417170d1a214f16b9aea2b26322"
-  integrity sha512-R4N73kaoaOt3XvgLy2Cb98bJUgMJv/wRsUPGDxeogbtalkENPmo3X5to/rKQEwOjnj+jw+ILzN2webUHb8pvEw==
-  dependencies:
-    "@rdfjs/data-model" "^2.0.1"
-    "@rdfjs/dataset" "^2.0.1"
-    "@rdfjs/fetch-lite" "^3.2.1"
-    "@rdfjs/namespace" "^2.0.0"
-    "@rdfjs/sink-map" "^2.0.0"
-    "@rdfjs/term-map" "^2.0.0"
-    "@rdfjs/term-set" "^2.0.1"
-
-"@rdfjs/fetch-lite@^3.1.0", "@rdfjs/fetch-lite@^3.2.1":
+"@rdfjs/fetch-lite@^3.1.0":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@rdfjs/fetch-lite/-/fetch-lite-3.2.1.tgz#d45869fa20884de00558bba7e520af320bf2e47b"
   integrity sha512-cnCuSkEpMGsSbkd3+bIKheCKTDE4iBSGG6l/Inp0qg4y5WMLtcffKtSUzWhq09cAajm0dWs+5W3EGPNBqF5A4w==
@@ -2461,13 +2443,6 @@
   integrity sha512-utO5rtaOKxk8B90qzaQ0N+J5WrCI28DtfAY/zExCmXE7cOfC5uRI/oMKbLaVEPj2P7uArekt/T4IPATtj7Tjug==
   dependencies:
     "@rdfjs/data-model" "^1.1.0"
-
-"@rdfjs/namespace@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@rdfjs/namespace/-/namespace-2.0.0.tgz#e6ca090f253505d95544c6482400c89e55fc9e1c"
-  integrity sha512-cBBvNrlSOah4z7u2vS74Lxng/ivELy6tNPjx+G/Ag14up8z5xmX8njn+U/mJ+nlcXO7nDGK4rgaAq7jtl9S3CQ==
-  dependencies:
-    "@rdfjs/data-model" "^2.0.0"
 
 "@rdfjs/parser-jsonld@^1.2.1", "@rdfjs/parser-jsonld@^1.2.2":
   version "1.2.2"
@@ -2524,11 +2499,6 @@
   resolved "https://registry.yarnpkg.com/@rdfjs/sink-map/-/sink-map-1.0.1.tgz#e26ea2a9bafd05e2c6420bb438bdcb3854052227"
   integrity sha512-PRp5TjULHe2oRcupR80SClZ/l50wnSuX2Pl+TlkcRazt1w7AT86kLmQYFbDfjqGM7uDwSyD6evLJxXBDf5UuvQ==
 
-"@rdfjs/sink-map@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@rdfjs/sink-map/-/sink-map-2.0.0.tgz#8026d59cd2ab7a84fdd65a2afa4421500dfdd112"
-  integrity sha512-5Ahs1Ky6fglsqewpo89K7CFxD4EvFvAHdI/E5HJTu0L4tCUlvnZsmyKem4iYPDWdwsKplmUdORonUz75qPgd1g==
-
 "@rdfjs/sink@^1.0.2", "@rdfjs/sink@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@rdfjs/sink/-/sink-1.0.3.tgz#cdbb4ecf0ff34e6ad6c301a5bc221508c820568c"
@@ -2541,24 +2511,10 @@
   dependencies:
     "@rdfjs/to-ntriples" "^1.0.2"
 
-"@rdfjs/term-map@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@rdfjs/term-map/-/term-map-2.0.0.tgz#6360314e9b62a1d540b213865403130721be1123"
-  integrity sha512-z0K8AgLsJGTrh+dGkXNl/oT9vBdMei4xq1MIeGN360oimA81Q+ruQUKFCbYNRRZS03tVHPBzqXUal/DezFGPEA==
-  dependencies:
-    "@rdfjs/to-ntriples" "^2.0.0"
-
 "@rdfjs/term-set@^1.0.1", "@rdfjs/term-set@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rdfjs/term-set/-/term-set-1.1.0.tgz#36adb73683262e94f135f0bb0cdf71d983e70960"
   integrity sha512-QQ4yzVe1Rvae/GN9SnOhweHNpaxQtnAjeOVciP/yJ0Gfxtbphy2tM56ZsRLV04Qq5qMcSclZIe6irYyEzx/UwQ==
-  dependencies:
-    "@rdfjs/to-ntriples" "^2.0.0"
-
-"@rdfjs/term-set@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@rdfjs/term-set/-/term-set-2.0.1.tgz#bbf406e0477c226e65753da2da0089cbbe847ab5"
-  integrity sha512-ZD8IwSY7tPpevs2iaQEsesAu8c7TO4GKHQHObbehUE4odKa9BuhuimdNuYwBoyVprTtHARaW6VW+0Jsu7ehD+Q==
   dependencies:
     "@rdfjs/to-ntriples" "^2.0.0"
 
@@ -2573,9 +2529,9 @@
   integrity sha512-nDhpfhx6W6HKsy4HjyLp3H1nbrX1CiUCWhWQwKcYZX1s9GOjcoQTwY7GUUbVec0hzdJDQBR6gnjxtENBDt482Q==
 
 "@rdfjs/types@*", "@rdfjs/types@>=1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@rdfjs/types/-/types-1.0.1.tgz#92908a13bc88c71b349b332f3db19178282d6f4e"
-  integrity sha512-YxVkH0XrCNG3MWeZxfg596GFe+oorTVusmNxRP6ZHTsGczZ8AGvG3UchRNkg3Fy4MyysI7vBAA5YZbESL+VmHQ==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@rdfjs/types/-/types-1.1.0.tgz#098f180b7cccb03bb416c7b4d03baaa9d480e36b"
+  integrity sha512-5zm8bN2/CC634dTcn/0AhTRLaQRjXDZs3QfcAsQKNturHT7XVWcKy/8p3P5gXl+YkZTAmy7T5M/LyiT/jbkENw==
   dependencies:
     "@types/node" "*"
 
@@ -3239,17 +3195,6 @@
   dependencies:
     rdf-js "^4.0.2"
 
-"@types/rdfjs__environment@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@types/rdfjs__environment/-/rdfjs__environment-0.1.2.tgz#14d90a96d175b72494e6be672988ae3dfdee048a"
-  integrity sha512-no9U48Te9CO8nzUxWZZMGNBEnZzy9/ueKjVC7SM7IAfOzYNwwAZvGCgciTuwoqMDl3KHiTEVirwv/80yBisKog==
-  dependencies:
-    "@rdfjs/types" "*"
-    "@types/rdfjs__namespace" "*"
-    "@types/rdfjs__sink-map" "*"
-    "@types/rdfjs__term-map" "*"
-    "@types/rdfjs__term-set" "*"
-
 "@types/rdfjs__fetch-lite@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/rdfjs__fetch-lite/-/rdfjs__fetch-lite-2.0.2.tgz#d129b6fa8f5120db9d7fb72a6e8ac5f7f7457f02"
@@ -3266,13 +3211,6 @@
     "@types/rdf-js" "*"
     "@types/rdfjs__sink-map" "*"
 
-"@types/rdfjs__namespace@*":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/rdfjs__namespace/-/rdfjs__namespace-2.0.3.tgz#4d290fd7d5d89982056b9d124dc3e921f144ec67"
-  integrity sha512-qJ8KpDby8p6STR8ZeDrhVDfzAnwII0txlrLhCsZz/V+3Mbsz0GzUiY8654ENzCicbjd+ZY8PNiS2fHZ/evY3Dw==
-  dependencies:
-    "@rdfjs/types" "*"
-
 "@types/rdfjs__namespace@^1.1.3":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@types/rdfjs__namespace/-/rdfjs__namespace-1.1.5.tgz#c7bffd0edf489ba73ce7ceb901a27cd357651aa0"
@@ -3287,26 +3225,12 @@
   dependencies:
     "@types/rdf-js" "*"
 
-"@types/rdfjs__term-map@*":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/rdfjs__term-map/-/rdfjs__term-map-2.0.3.tgz#44b5b5b8d9515d66d2f2c8aee295a022babae194"
-  integrity sha512-yoXUFl3F4OLgZ6rR1XV8iBEE8YUt88SDermutJTe7eU4ntyqpJvTuGfYrnQqUFdRUntrjhzV/kXJOvyvD/5q6g==
-  dependencies:
-    "@rdfjs/types" "*"
-
 "@types/rdfjs__term-map@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/rdfjs__term-map/-/rdfjs__term-map-1.0.0.tgz#b2405508a965b14ecd5a5d67f8defaad2f032c46"
   integrity sha512-0uzzEeQr/iAGcWw3AWIsPnmoOmaZcf1118ajJU6QveCBMnIMl7DO+cBZID2y0eApdiM30JlOA/jk2Sb9BAC9Lw==
   dependencies:
     "@types/rdf-js" "*"
-
-"@types/rdfjs__term-set@*":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/rdfjs__term-set/-/rdfjs__term-set-2.0.3.tgz#6f4bf6ef2ceef744a73ad7086659ea2ad67ad1b3"
-  integrity sha512-X/5fRPmLSjzHRRt5+M0Pq0uNGxUwE9h5tfBbc9bTBTgSVfsCV11UwOzS+7s1lAU/0Q0Bem3tKfGdCZ4ieRL3yg==
-  dependencies:
-    "@rdfjs/types" "*"
 
 "@types/rdfjs__term-set@^1.0.1":
   version "1.0.1"
