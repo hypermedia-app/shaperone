@@ -1,5 +1,12 @@
 # @hydrofoil/shaperone-playground
 
+## 0.1.85
+
+### Patch Changes
+
+- Updated dependencies [22242f5]
+  - @hydrofoil/shaperone-rdf-validate-shacl@1.0.4
+
 ## 0.1.84
 
 ### Patch Changes
