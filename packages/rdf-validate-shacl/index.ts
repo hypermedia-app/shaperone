@@ -1,6 +1,9 @@
-import { DatasetCore, Term } from 'rdf-js'
-import type { Options } from 'rdf-validate-shacl'
+import { DataFactory, DatasetCore, DatasetCoreFactory, Term } from 'rdf-js'
+import type { Environment } from '@rdfjs/environment/Environment'
+import type * as RdfValidateShacl from 'rdf-validate-shacl'
 import type { Validator } from '@hydrofoil/shaperone-core/models/validation'
+
+type Options = RdfValidateShacl.Options<Environment<DatasetCoreFactory | DataFactory>>
 
 interface Validate extends Validator {
   with(factory: Options): Validator
