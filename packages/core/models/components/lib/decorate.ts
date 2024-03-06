@@ -3,7 +3,8 @@ import type {
   DecoratedComponent, Lazy,
   MultiEditorComponent,
   SingleEditorComponent,
-} from '..'
+} from '../index.js'
+import { ShaperoneEnvironment } from '../../../env.js'
 
 function decorateRender<TRenderResult>(component: DecoratedComponent<TRenderResult>) {
   const { _decorateRender } = component
@@ -31,6 +32,10 @@ function decorateRender<TRenderResult>(component: DecoratedComponent<TRenderResu
 
 type Component = SingleEditorComponent<any> | MultiEditorComponent<any>
 
-export function decorateComponent<T extends Component, TOrLazy extends T | Lazy<T> = T | Lazy<T>>(component: TOrLazy, { decorate }: ComponentDecorator<T | Lazy<T>>): TOrLazy {
-  return decorateRender(decorate(component) as any) as any
+export function decorateComponent<T extends Component, TOrLazy extends T | Lazy<T> = T | Lazy<T>>(
+  component: TOrLazy,
+  { decorate }: ComponentDecorator<T | Lazy<T>>,
+  env: ShaperoneEnvironment,
+): TOrLazy {
+  return decorateRender(decorate(component, env) as any) as any
 }

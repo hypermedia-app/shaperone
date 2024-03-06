@@ -1,8 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
-import { PropertyShapeMixin } from '@rdfine/shacl'
+import $rdf from '@shaperone/testing/env.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testFocusNodeState, testObjectState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form.js'
 import { testEditorsState } from '@shaperone/testing/models/editors.js'
@@ -13,8 +11,8 @@ describe('core/models/forms/reducers/editors', () => {
   describe('toggleSwitching', () => {
     it('can disable all editor switches', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
@@ -40,8 +38,8 @@ describe('core/models/forms/reducers/editors', () => {
 
     it('can enable all editor switches', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const { form, state } = testState(undefined, {
         form: {
           focusNodes: {
@@ -69,8 +67,8 @@ describe('core/models/forms/reducers/editors', () => {
   describe('updateComponentState', () => {
     it('merges current and new state for multi editor', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const property = testPropertyState(shape.pointer, {
         componentState: {
           foo: 'bar',
@@ -106,8 +104,8 @@ describe('core/models/forms/reducers/editors', () => {
 
     it('merges current and new state for single editor', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const object = testObjectState(focusNode.literal('foo'), {
         componentState: {
           foo: 'bar',
@@ -149,8 +147,8 @@ describe('core/models/forms/reducers/editors', () => {
   describe('recalculateEditors', () => {
     it('sets editor to all objects which previously had none', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'))],
       })
@@ -191,8 +189,8 @@ describe('core/models/forms/reducers/editors', () => {
 
     it('sets multi editor if matched', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'))],
       })
@@ -223,8 +221,8 @@ describe('core/models/forms/reducers/editors', () => {
 
     it('does not change multi editor if previously selected', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'))],
         selectedEditor: dash.FooEditor,
@@ -256,8 +254,8 @@ describe('core/models/forms/reducers/editors', () => {
 
     it('does not change object editor if previously selected', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-      const shape = new PropertyShapeMixin.Class(focusNode.blankNode())
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'), {
           selectedEditor: dash.TextFieldEditor,

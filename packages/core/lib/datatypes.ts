@@ -1,6 +1,6 @@
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
-import { NamedNode, Term } from 'rdf-js'
+import type { NamedNode, Term } from '@rdfjs/types'
 
 const numericDatatypes = [
   xsd.int,

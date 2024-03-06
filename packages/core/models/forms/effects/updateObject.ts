@@ -1,10 +1,10 @@
-import clownface, { GraphPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
-import { BlankNode, Term } from 'rdf-js'
-import { SetObjectParams } from '../reducers/updateObject'
-import type { Store } from '../../../state'
+import type { GraphPointer } from 'clownface'
+import type { BlankNode, Term } from '@rdfjs/types'
+import { SetObjectParams } from '../reducers/updateObject.js'
+import type { Store } from '../../../state/index.js'
+import { ShaperoneEnvironment } from '../../../env.js'
 
-function rewrite(prefix: string, original: GraphPointer): GraphPointer {
+function rewrite(prefix: string, original: GraphPointer, $rdf: ShaperoneEnvironment): GraphPointer {
   function prefixBlank(term: BlankNode | Term) {
     if (term.termType !== 'BlankNode') {
       return term
@@ -13,7 +13,7 @@ function rewrite(prefix: string, original: GraphPointer): GraphPointer {
     return $rdf.blankNode(`${prefix}_${term.value}`)
   }
 
-  const newPointer = clownface({ dataset: $rdf.dataset() })
+  const newPointer = $rdf.clownface()
     .node(prefixBlank(original.term))
   for (const { subject, predicate, object } of original.dataset) {
     newPointer.node(prefixBlank(subject))
@@ -27,6 +27,8 @@ export function updateObject(store: Store) {
   const dispatch = store.getDispatch()
 
   return (arg: SetObjectParams) => {
+    const { env } = store.getState()
+
     if ('dataset' in arg.newValue) {
       const { newValue: pointer, ...rest } = arg
       if (pointer.dataset === arg.focusNode.dataset) {
@@ -34,7 +36,7 @@ export function updateObject(store: Store) {
       }
 
       const prefix = arg.focusNode.blankNode().value
-      const newValue = rewrite(prefix, pointer)
+      const newValue = rewrite(prefix, pointer, env)
       dispatch.forms.setObjectValue({ newValue, ...rest })
     } else {
       dispatch.forms.setObjectValue(arg)

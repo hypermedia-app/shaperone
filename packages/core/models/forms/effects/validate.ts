@@ -1,6 +1,5 @@
-import clownface from 'clownface'
-import type { Store } from '../../../state'
-import { BaseParams } from '../../index'
+import type { Store } from '../../../state/index.js'
+import { BaseParams } from '../../index.js'
 
 export function validate(store: Store) {
   const dispatch = store.getDispatch()
@@ -13,7 +12,7 @@ export function validate(store: Store) {
       return
     }
 
-    const report = clownface(await validation.validator(shapesGraph, data))
+    const report = shapes.env.clownface(await validation.validator(shapesGraph, data))
 
     dispatch.forms.validationReport({
       form,

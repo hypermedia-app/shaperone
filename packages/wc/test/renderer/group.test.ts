@@ -5,8 +5,8 @@ import { emptyGroupState, testPropertyState } from '@shaperone/testing/models/fo
 import { blankNode } from '@shaperone/testing/nodeFactory'
 import { expect } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
-import { fromPointer } from '@rdfine/shacl/lib/PropertyGroup'
-import { renderGroup } from '../../renderer/group'
+import $rdf from '@shaperone/testing/env.js'
+import { renderGroup } from '../../renderer/group.js'
 
 describe('wc/renderer/group', () => {
   let renderer: GroupRenderer
@@ -23,7 +23,7 @@ describe('wc/renderer/group', () => {
 
   it('renders properties of given group', () => {
     // given
-    const groupShape = fromPointer(blankNode())
+    const groupShape = $rdf.rdfine.sh.PropertyGroup(blankNode())
     group.group = groupShape
     const withGroup = testPropertyState(blankNode(), {
       name: 'with-group',
@@ -49,7 +49,7 @@ describe('wc/renderer/group', () => {
 
   it('renders properties without group if not selected', () => {
     // given
-    const groupShape = fromPointer(blankNode())
+    const groupShape = $rdf.rdfine.sh.PropertyGroup(blankNode())
     const withGroup = testPropertyState(blankNode(), {
       name: 'with-group',
       shape: {

@@ -1,15 +1,13 @@
 import { html, Render } from '@hydrofoil/shaperone-wc'
 import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
-import { literal } from '@rdf-esm/data-model'
-import { xsd } from '@tpluscode/rdf-ns-builders'
 import '@vaadin/vaadin-select'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
-import { validity } from './validation'
+import { validity } from './validation.js'
 
-export const booleanSelect: Render<BooleanSelectEditor> = ({ value, property }, { update, clear }) => {
+export const booleanSelect: Render<BooleanSelectEditor> = ({ env, value, property }, { update, clear }) => {
   function onChange(e: any) {
     if (e.target.value) {
-      update(literal(e.target.value, xsd.boolean))
+      update(env.literal(e.target.value, env.ns.xsd.boolean))
     } else {
       clear()
     }

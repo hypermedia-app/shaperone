@@ -1,16 +1,16 @@
 import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
-import { Term } from 'rdf-js'
+import type { Term } from '@rdfjs/types'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
-import { GraphPointer } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import { ComponentState, MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-core/models/components'
 
 export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function () {
-  const { dispatch, form, state, components, templates } = this.context
+  const { dispatch, env, form, state, components, templates } = this.context
   const { property, focusNode } = this
 
   function update(termsOrStrings : Array<Term | string>) {
     const terms = termsOrStrings.map(termOrString => (typeof termOrString === 'string'
-      ? createTerm(property, termOrString)
+      ? createTerm(env, property, termOrString)
       : termOrString))
 
     dispatch.forms.replaceObjects({
@@ -52,6 +52,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
 
   if (component.init) {
     const ready = component.init({
+      env,
       form: state,
       focusNode: focusNode.focusNode,
       property,
@@ -66,18 +67,18 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
   }
 
   return component.render(
-    { form: state, focusNode: focusNode.focusNode, property, updateComponentState, renderer: this, componentState },
+    { env, form: state, focusNode: focusNode.focusNode, property, updateComponentState, renderer: this, componentState },
     { update },
   )
 }
 
 export const renderEditor: ObjectRenderer['renderEditor'] = function () {
-  const { dispatch, form, state, components, templates } = this.context
+  const { dispatch, env, form, state, components, templates } = this.context
   const { property, focusNode, object } = this
 
   function update(termOrString: GraphPointer | Term | string) {
     const newValue = typeof termOrString === 'string'
-      ? createTerm(property, termOrString)
+      ? createTerm(env, property, termOrString)
       : termOrString
 
     dispatch.forms.updateObject({
@@ -144,6 +145,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   }
   if (component.init) {
     const ready = component.init({
+      env,
       form: state,
       focusNode: focusNode.focusNode,
       property,
@@ -160,6 +162,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
 
   return component.render(
     {
+      env,
       form: state,
       focusNode: focusNode.focusNode,
       property,

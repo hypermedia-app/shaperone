@@ -4,14 +4,15 @@
  */
 
 import { createStore, ModelStore, StoreDispatch, StoreState, devtools } from '@captaincodeman/rdx'
-import { editors } from '@hydrofoil/shaperone-core/models/editors'
-import { components } from '@hydrofoil/shaperone-core/models/components'
-import { forms } from '@hydrofoil/shaperone-core/models/forms'
-import { resources } from '@hydrofoil/shaperone-core/models/resources'
-import { shapes } from '@hydrofoil/shaperone-core/models/shapes'
-import { validation } from '@hydrofoil/shaperone-core/models/validation'
-import { getPlugins } from '@hydrofoil/shaperone-core/store'
-import { renderer } from './renderer/model'
+import { env } from '@hydrofoil/shaperone-core/models/rdfEnv/index.js'
+import { editors } from '@hydrofoil/shaperone-core/models/editors/index.js'
+import { components } from '@hydrofoil/shaperone-core/models/components/index.js'
+import { forms } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { resources } from '@hydrofoil/shaperone-core/models/resources/index.js'
+import { shapes } from '@hydrofoil/shaperone-core/models/shapes/index.js'
+import { validation } from '@hydrofoil/shaperone-core/models/validation/index.js'
+import { getPlugins } from '@hydrofoil/shaperone-core/store.js'
+import { renderer } from './renderer/model.js'
 
 declare global {
   interface Window {
@@ -25,6 +26,7 @@ window.Shaperone = { DEBUG: false }
 
 const config = {
   models: {
+    env,
     editors,
     renderer,
     forms,

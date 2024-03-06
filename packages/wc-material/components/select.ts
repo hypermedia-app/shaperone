@@ -11,11 +11,10 @@ import {
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { literal } from '@rdf-esm/data-model'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import { validity } from '../directives/validity'
+import { validity } from '../directives/validity.js'
 
 function select(
   form: FormSettings,
@@ -39,10 +38,10 @@ export const instancesSelect: Render<InstancesSelectEditor> = function ({ form, 
   return select(form, value, componentState.instances || [], actions, property)
 }
 
-export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { update, clear }) {
+export const booleanSelect: Render<BooleanSelectEditor> = function ({ env, value, property }, { update, clear }) {
   function onSelected(e: any) {
     if (e.target.selected?.value) {
-      update(literal(e.target.selected.value, xsd.boolean))
+      update(env.literal(e.target.selected.value, xsd.boolean))
     } else {
       clear()
     }

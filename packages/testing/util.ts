@@ -1,12 +1,12 @@
 import * as NodeShape from '@rdfine/shacl/lib/NodeShape'
 import * as PropertyShape from '@rdfine/shacl/lib/PropertyShape'
-import RdfResource, { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/RdfResource'
-import clownface, { GraphPointer } from 'clownface'
-import * as $rdf from '@rdf-esm/dataset'
+import { Initializer, ResourceIdentifier } from '@tpluscode/rdfine/RdfResource'
+import type { GraphPointer } from 'clownface'
 import PropertyShapeEx from '@hydrofoil/shaperone-core/models/shapes/lib/PropertyShape.js'
 import { PropertyShapeMixinEx } from '@rdfine/dash/extensions/sh'
+import $rdf from './env.js'
 
-RdfResource.factory.addMixin(PropertyShapeEx, PropertyShapeMixinEx)
+$rdf.rdfine().factory.addMixin(PropertyShapeEx, PropertyShapeMixinEx)
 
 function isPointer(arg: GraphPointer<ResourceIdentifier> | Initializer<PropertyShape.PropertyShape> | undefined): arg is GraphPointer<ResourceIdentifier> {
   return (arg && '_context' in arg) || false
@@ -22,13 +22,13 @@ export function propertyShape(shape?: GraphPointer<ResourceIdentifier> | Initial
       initializer = init
     }
   } else {
-    node = clownface({ dataset: $rdf.dataset() }).blankNode()
+    node = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     if (shape) {
       initializer = shape
     }
   }
 
-  return PropertyShape.fromPointer(node, initializer, { additionalMixins: [PropertyShapeEx] })
+  return $rdf.rdfine.sh.PropertyShape(node, initializer, { additionalMixins: [PropertyShapeEx] })
 }
 
 function isTerm(term: any): term is ResourceIdentifier {
@@ -37,12 +37,12 @@ function isTerm(term: any): term is ResourceIdentifier {
 
 export function nodeShape(idOrInit: GraphPointer<ResourceIdentifier> | ResourceIdentifier | Initializer<NodeShape.NodeShape>, shape?: Initializer<NodeShape.NodeShape>): NodeShape.NodeShape {
   if (isPointer(idOrInit)) {
-    return NodeShape.fromPointer(idOrInit, shape)
+    return $rdf.rdfine.sh.NodeShape(idOrInit, shape)
   }
 
-  const graph = clownface({ dataset: $rdf.dataset() })
+  const graph = $rdf.clownface({ dataset: $rdf.dataset() })
   if (isTerm(idOrInit)) {
-    return NodeShape.fromPointer(graph.node(idOrInit), shape)
+    return $rdf.rdfine.sh.NodeShape(graph.node(idOrInit), shape)
   }
-  return NodeShape.fromPointer(graph.blankNode(), idOrInit)
+  return $rdf.rdfine.sh.NodeShape(graph.blankNode(), idOrInit)
 }

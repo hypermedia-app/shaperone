@@ -1,13 +1,13 @@
 /* eslint-disable no-continue */
-import { GraphPointer } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import { rdf } from '@tpluscode/rdf-ns-builders'
 import { defaultValue } from '../../lib/objectValue.js'
 import { notify } from '../../lib/notify.js'
-import type { Store } from '../../../../state'
-import { Params } from '../../../forms/reducers/replaceFocusNodes'
-import { EditorsState } from '../../../editors'
-import { PropertyObjectState, PropertyState } from '../../../forms'
-import { FocusNode } from '../../../../index'
+import type { Store } from '../../../../state/index.js'
+import { Params } from '../../../forms/reducers/replaceFocusNodes.js'
+import { EditorsState } from '../../../editors/index.js'
+import { PropertyObjectState, PropertyState } from '../../../forms/index.js'
+import { FocusNode } from '../../../../index.js'
 
 interface SetDefault {
   (params: {
@@ -33,7 +33,9 @@ export default function createFocusNodeState(store: Store) {
     if (object.object) {
       return { shouldNotify: false }
     }
+    const { env } = store.getState()
     const [value] = defaultValue({
+      env,
       property: property.shape,
       focusNode,
       editor: object.selectedEditor,

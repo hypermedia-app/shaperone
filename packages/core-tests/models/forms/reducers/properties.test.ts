@@ -1,9 +1,7 @@
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
-import clownface from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
-import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { hideProperty, showProperty } from '@hydrofoil/shaperone-core/models/forms/reducers/properties.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -17,7 +15,7 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
 
   beforeEach(() => {
     ({ form, store } = testStore())
-    focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
+    focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
   })
 
   describe('hideProperty', () => {
@@ -46,7 +44,7 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
       })
 
       // when
-      const after = hideProperty(store.getState().forms, { form, focusNode, shape: fromPointer(shape) })
+      const after = hideProperty(store.getState().forms, { form, focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
 
       // then
       expect(after.get(form)?.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => shape.hidden)
@@ -81,7 +79,7 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
       })
 
       // when
-      const after = showProperty(store.getState().forms, { form, focusNode, shape: fromPointer(shape) })
+      const after = showProperty(store.getState().forms, { form, focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
 
       // then
       expect(after.get(form)?.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => !shape.hidden)

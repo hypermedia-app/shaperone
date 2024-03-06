@@ -1,10 +1,11 @@
 import { rdfs, schema } from '@tpluscode/rdf-ns-builders'
-import type { FormSettings, State } from '../index'
+import type { FormSettings, State } from '../index.js'
 
 export type Params = { form: symbol } & Partial<FormSettings>
 
 export function connect(map: State, { form }: Params): State {
   map.set(form, {
+    env: map.env,
     focusNodes: {},
     focusStack: [],
     shouldEnableEditorChoice: () => true,

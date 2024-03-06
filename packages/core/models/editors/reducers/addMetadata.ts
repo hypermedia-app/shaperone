@@ -1,7 +1,7 @@
-import { DatasetCore, Quad } from 'rdf-js'
-import * as RDF from '@rdf-esm/dataset'
-import cf, { AnyPointer } from 'clownface'
-import type { Editor, EditorsState } from '../index'
+import type { DatasetCore, Quad } from '@rdfjs/types'
+import type { AnyPointer } from 'clownface'
+import type { Editor, EditorsState } from '../index.js'
+import { ShaperoneEnvironment } from '../../../env.js'
 
 type AllEditors = EditorsState['allEditors']
 type MultiEditors = EditorsState['multiEditors']
@@ -23,17 +23,19 @@ function updateMeta<T>(metadata: AnyPointer) {
   }
 }
 
-export function addMetadata(state: EditorsState, moreMeta: DatasetCore | Iterable<Quad>): EditorsState {
+export function addMetadata(state: EditorsState, factory: (env: ShaperoneEnvironment) => DatasetCore | Iterable<Quad>): EditorsState {
+  const moreMeta = factory(state.env)
+
   let dataset = state.metadata?.dataset
   if (state.metadata?.dataset) {
-    [...moreMeta].forEach(({ subject, predicate, object }) => state.metadata.dataset.add(RDF.quad(subject, predicate, object)))
+    [...moreMeta].forEach(({ subject, predicate, object }) => state.metadata.dataset.add(state.env.quad(subject, predicate, object)))
   } else if ('add' in moreMeta) {
     dataset = moreMeta
   } else {
-    dataset = RDF.dataset([...moreMeta])
+    dataset = state.env.dataset([...moreMeta])
   }
 
-  const metadata = cf({ dataset })
+  const metadata = state.env.clownface({ dataset })
   const allEditors = Object.entries(state.allEditors).reduce(updateMeta<AllEditors>(metadata), {})
   const multiEditors = Object.entries(state.multiEditors).reduce(updateMeta<MultiEditors>(metadata), {})
   const singleEditors = Object.entries(state.singleEditors).reduce(updateMeta<SingleEditors>(metadata), {})

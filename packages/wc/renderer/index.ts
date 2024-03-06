@@ -6,8 +6,8 @@
 import { html, TemplateResult } from 'lit'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { FormRenderer, Renderer } from '@hydrofoil/shaperone-core/renderer'
-import { RenderTemplates } from '../templates'
-import { renderFocusNode } from './focusNode'
+import { RenderTemplates } from '../templates.js'
+import { renderFocusNode } from './focusNode.js'
 
 declare module '@hydrofoil/shaperone-core/renderer' {
   interface RenderContext {

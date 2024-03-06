@@ -1,12 +1,12 @@
 import { PropertyShape } from '@rdfine/shacl'
-import { NamedNode } from 'rdf-js'
+import type { NamedNode } from '@rdfjs/types'
 import type { MultiPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import graphPointer from 'is-graph-pointer'
-import type { Store } from '../../../state'
-import { FocusNode } from '../../../index'
-import { BaseParams } from '../../index'
-import { SingleEditorMatch } from '../../editors'
+import type { Store } from '../../../state/index.js'
+import { FocusNode } from '../../../index.js'
+import { BaseParams } from '../../index.js'
+import { SingleEditorMatch } from '../../editors/index.js'
 
 export interface AddObject extends BaseParams {
   focusNode: FocusNode

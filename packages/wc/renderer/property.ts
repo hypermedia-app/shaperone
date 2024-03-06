@@ -1,7 +1,7 @@
 import { GroupRenderer, PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
-import { renderObject } from './object'
-import { renderMultiEditor } from './editor'
+import { renderObject } from './object.js'
+import { renderMultiEditor } from './editor.js'
 
 export const renderProperty: GroupRenderer['renderProperty'] = function ({ property }) {
   const { dispatch, form, templates } = this.context

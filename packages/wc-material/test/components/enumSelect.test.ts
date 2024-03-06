@@ -1,11 +1,10 @@
 import { expect, fixture } from '@open-wc/testing'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { Select } from '@material/mwc-select'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
-import { enumSelectEditor } from '../../components'
+import { enumSelectEditor } from '../../components.js'
 
 describe('wc-material/components/enumSelect', () => {
   let enumSelect: EnumSelectEditor
@@ -19,7 +18,7 @@ describe('wc-material/components/enumSelect', () => {
 
   it('renders an mwc-select', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal(''),
       componentState: {
@@ -39,7 +38,7 @@ describe('wc-material/components/enumSelect', () => {
 
   it('sets selection to current object', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal('bar'),
       componentState: {

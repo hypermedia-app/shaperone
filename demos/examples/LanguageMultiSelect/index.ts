@@ -1,21 +1,22 @@
 import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
-import { quad, namedNode, literal } from '@rdf-esm/data-model'
+import $rdf from '@zazuko/env'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
-import { vcard, dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
+import { vcard, rdfs } from '@tpluscode/rdf-ns-builders'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
 import { sort } from '@hydrofoil/shaperone-core/lib/components'
+import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env'
 
-const editor = namedNode('http://example.com/LanguageMultiSelect')
+const editor = $rdf.namedNode('http://example.com/LanguageMultiSelect')
 
 export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponent> = theme => ({
   editor,
   async lazyRender() {
     await import(`multiselect-combo-box/theme/${theme}/multiselect-combo-box`)
 
-    return ({ property }, { update }) => {
+    return ({ env, property }, { update }) => {
       const languages = property.shape.in
         .map(lang => property.shape.pointer.node(lang))
-        .sort(sort(property.shape))
+        .sort(sort(property.shape, env))
         .map(lang => ({
           id: lang.value,
           term: lang.term,
@@ -58,7 +59,7 @@ export const matcher: MultiEditor = {
   },
 }
 
-export function * metadata() {
-  yield quad(editor, rdf.type, dash.MultiEditor)
-  yield quad(editor, rdfs.label, literal('Language combobox'))
+export function * metadata(env: ShaperoneEnvironment) {
+  yield env.quad(editor, env.ns.rdf.type, env.ns.dash.MultiEditor)
+  yield env.quad(editor, env.ns.rdfs.label, env.literal('Language combobox'))
 }

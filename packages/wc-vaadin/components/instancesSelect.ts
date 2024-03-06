@@ -9,8 +9,7 @@ import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
-import { rdfs } from '@tpluscode/rdf-ns-builders'
-import { validity } from './validation'
+import { validity } from './validation.js'
 
 declare module '@hydrofoil/shaperone-core/components' {
   interface InstancesSelect {
@@ -45,7 +44,7 @@ function createDataProvider(_component: InstancesSelectEditor, _renderParams: Si
     }
 
     const items = instances
-      .map<Item>(pointer => [pointer, getLocalizedLabel(pointer.out(rdfs.label))])
+      .map<Item>(pointer => [pointer, getLocalizedLabel(pointer.out(_renderParams.env.ns.rdfs.label))])
       .filter(([, label]) => pattern.test(label))
       .sort(([, l], [, r]) => l.localeCompare(r))
 
@@ -89,7 +88,7 @@ class DataProviderDirective extends Directive {
 const dataProvider = directive(DataProviderDirective)
 
 export const instancesSelect: Render<InstancesSelectEditor> = function (params, actions) {
-  const { focusNode, property, value, componentState } = params
+  const { env, focusNode, property, value, componentState } = params
   let selectedInstance: GraphPointer | undefined
   if (componentState.selectedInstance) {
     selectedInstance = componentState.selectedInstance
@@ -115,7 +114,7 @@ export const instancesSelect: Render<InstancesSelectEditor> = function (params, 
 
   const searchUri = this.searchTemplate?.({ property })?.expand(focusNode)
   const selectedItem = selectedInstance
-    ? [selectedInstance, getLocalizedLabel(selectedInstance.out(rdfs.label))]
+    ? [selectedInstance, getLocalizedLabel(selectedInstance.out(env.ns.rdfs.label))]
     : []
 
   return html`<vaadin-combo-box item-id-path="0.value" item-label-path="1"

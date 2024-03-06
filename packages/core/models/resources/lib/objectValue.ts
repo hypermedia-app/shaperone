@@ -1,14 +1,14 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { AnyPointer, GraphPointer, MultiPointer } from 'clownface'
-import { dash, rdf, sh, xsd } from '@tpluscode/rdf-ns-builders'
+import { dash, rdf, sh } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
-import $rdf from '@rdf-esm/data-model'
-import type { NamedNode, Term } from 'rdf-js'
+import type { NamedNode, Term } from '@rdfjs/types'
 import { nanoid } from 'nanoid'
-import sh1 from '../../../ns.js'
-import type { FocusNode } from '../../../index'
+import type { FocusNode } from '../../../index.js'
+import { ShaperoneEnvironment } from '../../../env.js'
 
 interface DefaultValue {
+  env: ShaperoneEnvironment
   property: PropertyShape
   editor?: NamedNode
   focusNode: FocusNode
@@ -16,9 +16,7 @@ interface DefaultValue {
   editorMeta: AnyPointer
 }
 
-const TRUE = $rdf.literal('true', xsd.boolean)
-
-export function defaultValue({ property, focusNode, editor, overrides, editorMeta }: DefaultValue): MultiPointer | null {
+export function defaultValue({ env, property, focusNode, editor, overrides, editorMeta }: DefaultValue): MultiPointer | null {
   let nodeKind = overrides?.out(sh.nodeKind).term || property.nodeKind
 
   if (property.defaultValue) {
@@ -30,7 +28,7 @@ export function defaultValue({ property, focusNode, editor, overrides, editorMet
     nodeKind = sh.BlankNode
   }
 
-  if (editor && !allowsImplicitDefault(editorMeta.node(editor))) {
+  if (editor && !allowsImplicitDefault(env, editorMeta.node(editor))) {
     return null
   }
 
@@ -40,18 +38,18 @@ export function defaultValue({ property, focusNode, editor, overrides, editorMet
     case 'http://www.w3.org/ns/shacl#BlankNode':
     case 'http://www.w3.org/ns/shacl#BlankNodeOrIRI':
     case 'http://www.w3.org/ns/shacl#BlankNodeOrLiteral':
-      return createResourceNode(property, nodeKind, focusNode)
+      return createResourceNode(env, property, nodeKind, focusNode)
     default:
       return null
   }
 }
 
-function allowsImplicitDefault(editor: GraphPointer) {
-  return editor.out(sh1.implicitDefaultValue).term?.equals(TRUE)
+function allowsImplicitDefault(env: ShaperoneEnvironment, editor: GraphPointer) {
+  return editor.out(env.ns.sh1.implicitDefaultValue).term?.equals(env.constant.TRUE)
 }
 
-function createResourceNode(property: PropertyShape, nodeKind: Term, focusNode: FocusNode) {
-  const uriStart = property.pointer.out(sh1.iriPrefix).value
+function createResourceNode(env: ShaperoneEnvironment, property: PropertyShape, nodeKind: Term, focusNode: FocusNode) {
+  const uriStart = property.pointer.out(env.ns.sh1.iriPrefix).value
   let resourceNode: GraphPointer<ResourceIdentifier> = focusNode.blankNode()
 
   if (nodeKind.equals(sh.IRI)) {

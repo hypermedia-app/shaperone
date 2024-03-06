@@ -27,7 +27,7 @@ import {
   BooleanSelectEditor,
   booleanSelect,
 } from '@hydrofoil/shaperone-core/components'
-import type { Lazy } from './index'
+import type { Lazy } from './index.js'
 
 export const nativeBooleanSelect: Lazy<BooleanSelectEditor> = {
   ...booleanSelect,

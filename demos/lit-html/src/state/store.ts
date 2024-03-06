@@ -1,5 +1,5 @@
 import { createStore, devtools, ModelStore, StoreDispatch, StoreState, persist } from '@captaincodeman/rdx'
-import { config } from './config'
+import { config } from './config.js'
 
 export type State = StoreState<typeof config>
 export type Dispatch = StoreDispatch<typeof config>

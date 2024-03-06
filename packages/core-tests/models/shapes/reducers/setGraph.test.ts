@@ -1,14 +1,11 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import $rdf from 'rdf-ext'
-import cf from 'clownface'
-import ns from '@rdf-esm/namespace'
+import $rdf from '@shaperone/testing/env.js'
 import { rdf, rdfs, sh } from '@tpluscode/rdf-ns-builders'
-import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { setGraph } from '@hydrofoil/shaperone-core/models/shapes/reducers.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('models/shapes/reducers/setGraph', () => {
   it('sets dataset to state', () => {
@@ -31,7 +28,7 @@ describe('models/shapes/reducers/setGraph', () => {
     // given
     const { form, store } = testStore()
     const before = store.getState().shapes
-    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Graph })
 
     // when
     const after = setGraph(before, {
@@ -48,7 +45,7 @@ describe('models/shapes/reducers/setGraph', () => {
     // given
     const { form, store } = testStore()
     const before = store.getState().shapes
-    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Graph })
     shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
     shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
 
@@ -69,11 +66,11 @@ describe('models/shapes/reducers/setGraph', () => {
     // given
     const { form, store } = testStore()
     const before = store.getState().shapes
-    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Graph })
     shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
     shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
     before.get(form)!.shapesGraph = shapesGraph
-    before.get(form)!.preferredRootShape = fromPointer(shapesGraph.node(ex.Shape1))
+    before.get(form)!.preferredRootShape = $rdf.rdfine.sh.NodeShape(shapesGraph.node(ex.Shape1))
 
     // when
     const after = setGraph(before, {
@@ -90,7 +87,7 @@ describe('models/shapes/reducers/setGraph', () => {
     // given
     const { form, store } = testStore()
     const before = store.getState().shapes.get(form)!
-    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Graph })
     before.shapesGraph = shapesGraph
 
     // when
@@ -107,11 +104,11 @@ describe('models/shapes/reducers/setGraph', () => {
     // given
     const { form, store } = testStore()
     const before = store.getState().shapes.get(form)!
-    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Graph })
     shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
     shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
     before.shapesGraph = shapesGraph
-    before.preferredRootShape = fromPointer(shapesGraph.node(ex.Shape1))
+    before.preferredRootShape = $rdf.rdfine.sh.NodeShape(shapesGraph.node(ex.Shape1))
 
     // when
     const after = setGraph(store.getState().shapes, {
@@ -127,7 +124,7 @@ describe('models/shapes/reducers/setGraph', () => {
     // given
     const { form, store } = testStore()
     const before = store.getState().shapes
-    const shapesGraph = cf({ dataset: $rdf.dataset(), graph: ex.Graph })
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Graph })
     shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
     shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
 
@@ -146,7 +143,7 @@ describe('models/shapes/reducers/setGraph', () => {
     // given
     const { form, store } = testStore()
     const before = store.getState().shapes
-    const shapesGraph = cf({ dataset: $rdf.dataset() })
+    const shapesGraph = $rdf.clownface()
     shapesGraph.node(ex.Shape1).addOut(rdf.type, sh.Shape).addOut(rdfs.label, 'Shape one')
     shapesGraph.node(ex.Shape2).addOut(rdf.type, sh.NodeShape).addOut(rdfs.label, 'Shape two')
 

@@ -4,12 +4,12 @@ import '@vaadin/vaadin-select/vaadin-select'
 import '@vaadin/vaadin-list-box/vaadin-list-box'
 import '@vaadin/vaadin-item/vaadin-item'
 import { EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
-import { Term } from 'rdf-js'
+import type { Term } from '@rdfjs/types'
 import { repeat } from 'lit/directives/repeat.js'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
 import type { GraphPointer } from 'clownface'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import { validity } from './validation'
+import { validity } from './validation.js'
 
 function renderer(choices: GraphPointer[], value: Term | undefined) {
   return function (root: HTMLElement) {

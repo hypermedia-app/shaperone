@@ -1,18 +1,16 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import $rdf from 'rdf-ext'
-import cf from 'clownface'
-import ns from '@rdf-esm/namespace'
+import $rdf from '@shaperone/testing/env.js'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { setRoot } from '@hydrofoil/shaperone-core/models/resources/reducers/setRoot.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/resources/reducers/setRoot', () => {
   it('sets dataset to state', () => {
     // given
     const dataset = $rdf.dataset()
-    const graph = cf({ dataset })
+    const graph = $rdf.clownface({ dataset })
     const { form, store } = testStore()
 
     // when

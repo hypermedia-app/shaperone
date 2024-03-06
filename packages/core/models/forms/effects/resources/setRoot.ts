@@ -1,6 +1,6 @@
 import type{ GraphPointer } from 'clownface'
-import type { Store } from '../../../../state'
-import * as setRoot from '../../../resources/reducers/setRoot'
+import type { Store } from '../../../../state/index.js'
+import * as setRoot from '../../../resources/reducers/setRoot.js'
 
 function samePointers(left: GraphPointer, right?: GraphPointer) {
   return left.dataset === right?.dataset && left.term.equals(right.term)

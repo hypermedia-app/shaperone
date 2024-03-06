@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import clownface, { GraphPointer } from 'clownface'
-import $rdf from 'rdf-ext'
+import type { GraphPointer } from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
 import { testFocusNodeState, testFormState, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
@@ -12,7 +12,7 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/validation', () => {
   let report: GraphPointer
 
   beforeEach(() => {
-    report = clownface({ dataset: $rdf.dataset() }).blankNode()
+    report = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
   })
 
   describe('validationReport', () => {

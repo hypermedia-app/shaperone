@@ -4,33 +4,35 @@
  */
 
 import { createModel } from '@captaincodeman/rdx'
-import { NamedNode } from 'rdf-js'
+import type { NamedNode } from '@rdfjs/types'
 import type { NodeKind, NodeShape, PropertyGroup, PropertyShape, Shape, ValidationResult } from '@rdfine/shacl'
-import { GraphPointer, MultiPointer } from 'clownface'
+import type { GraphPointer, MultiPointer } from 'clownface'
 import type { sh } from '@tpluscode/rdf-ns-builders'
-import effects from './effects'
-import { addFormField } from './reducers/addFormField'
-import { popFocusNode } from './reducers/popFocusNode'
-import { removeObject } from './reducers/removeObject'
-import { selectEditor } from './reducers/selectEditor'
-import { selectGroup } from './reducers/selectGroup'
-import { selectShape } from './reducers/selectShape'
-import { truncateFocusNodes } from './reducers/truncateFocusNodes'
-import * as objects from './reducers/updateObject'
-import * as connection from './reducers/connection'
-import * as editors from './reducers/editors'
-import * as multiEditors from './reducers/multiEditors'
-import * as validation from './reducers/validation'
-import * as properties from './reducers/properties'
-import { FocusNode } from '../../index'
-import type { SingleEditorMatch, MultiEditorMatch } from '../editors'
-import { createFocusNodeState } from './reducers/replaceFocusNodes'
-import editorsEffects from './effects/editors'
-import shapesEffects from './effects/shapes'
-import resourcesEffects from './effects/resources'
-import componentsEffects from './effects/components'
-import type { Store } from '../../state'
-import type { ComponentInstance } from '../components'
+import effects from './effects/index.js'
+import { addFormField } from './reducers/addFormField.js'
+import { popFocusNode } from './reducers/popFocusNode.js'
+import { removeObject } from './reducers/removeObject.js'
+import { selectEditor } from './reducers/selectEditor.js'
+import { selectGroup } from './reducers/selectGroup.js'
+import { selectShape } from './reducers/selectShape.js'
+import { truncateFocusNodes } from './reducers/truncateFocusNodes.js'
+import * as objects from './reducers/updateObject.js'
+import * as connection from './reducers/connection.js'
+import * as editors from './reducers/editors.js'
+import * as multiEditors from './reducers/multiEditors.js'
+import * as validation from './reducers/validation.js'
+import * as properties from './reducers/properties.js'
+import { FocusNode } from '../../index.js'
+import type { SingleEditorMatch, MultiEditorMatch } from '../editors/index.js'
+import { createFocusNodeState } from './reducers/replaceFocusNodes.js'
+import editorsEffects from './effects/editors/index.js'
+import shapesEffects from './effects/shapes/index.js'
+import resourcesEffects from './effects/resources/index.js'
+import componentsEffects from './effects/components/index.js'
+import type { Store } from '../../state/index.js'
+import type { ComponentInstance } from '../components/index.js'
+import { ShaperoneEnvironment } from '../../env.js'
+import FormMap, { StateMap } from '../StateMap.js'
 
 export interface ValidationResultState {
   /**
@@ -102,7 +104,7 @@ export interface LogicalConstraints {
 export interface PropertyState extends ValidationState {
   shape: PropertyShape
   /**
-   * @deprecated Property will be removed in future version. Use taggedLiteral directive to display property name
+   * @deprecated Property will be removed in a future version. Use taggedLiteral directive to display property name
    */
   name: string
   editors: MultiEditorMatch[]
@@ -136,6 +138,7 @@ export interface FormSettings {
 }
 
 export interface FormState extends FormSettings, ValidationState {
+  env: ShaperoneEnvironment
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
   /**
@@ -144,7 +147,7 @@ export interface FormState extends FormSettings, ValidationState {
   validationReport?: GraphPointer
 }
 
-export type State = Map<symbol, FormState>
+export type State = StateMap<FormState>
 
 const reducers = {
   addFormField,
@@ -164,7 +167,7 @@ const reducers = {
 }
 
 export const forms = createModel({
-  state: <State> new Map(),
+  state: <State> new FormMap(),
   reducers,
   effects(store: Store) {
     return {

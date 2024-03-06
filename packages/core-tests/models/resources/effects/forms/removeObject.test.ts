@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
-import { AnyPointer } from 'clownface'
-import $rdf from 'rdf-ext'
+import type { AnyPointer } from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
 import { unit } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'

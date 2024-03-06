@@ -1,5 +1,5 @@
 import { expect, fixture, html } from '@open-wc/testing'
-import type{ ShSlProperty } from '../../elements/sh-sl-property'
+import type{ ShSlProperty } from '../../elements/sh-sl-property.js'
 import '../../elements/sh-sl-property.js'
 
 describe('wc-shoelace/elements/sh-sl-property', () => {

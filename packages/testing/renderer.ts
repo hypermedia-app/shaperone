@@ -4,6 +4,7 @@ import { RenderContext } from '@hydrofoil/shaperone-core/renderer.js'
 import { FocusNodeState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import tsSinon from 'ts-sinon'
 import type * as TsSinon from 'ts-sinon'
+import rdf from '@shaperone/testing/env.js'
 import { sinon } from './sinon.js'
 import { testEditorsState } from './models/editors.js'
 import { testFocusNodeState, testFormState, emptyGroupState } from './models/form.js'
@@ -21,15 +22,18 @@ export const formRenderer = (): sinon.SinonStubbedInstance<Renderer.FormRenderer
       truncateFocusNodes: sinon.spy(),
     },
     context: {
+      env: rdf,
       form,
       editors: testEditorsState(),
       state: state.get(form)!,
       components: {
+        env: rdf,
         components: {},
         decorators: [],
       },
       shapes: [],
       dispatch: {
+        env: stubInterface<RenderContext['dispatch']['env']>(),
         components: stubInterface<RenderContext['dispatch']['components']>(),
         editors: stubInterface<RenderContext['dispatch']['editors']>(),
         forms: stubInterface<RenderContext['dispatch']['forms']>(),

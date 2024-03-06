@@ -1,4 +1,4 @@
-import type { Store } from '../../../state'
+import type { Store } from '../../../state/index.js'
 import { pushFocusNode } from './pushFocusNode.js'
 import { addObject } from './addObject.js'
 import { selectShape } from './selectShape.js'

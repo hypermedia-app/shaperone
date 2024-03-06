@@ -1,5 +1,5 @@
 import type { TextFieldElement } from '@vaadin/vaadin-text-field'
-import type { State } from '../state/models/shape'
+import type { State } from '../state/models/shape.js'
 
 const fetchShapeMenu = (() => {
   import('@vaadin/vaadin-button/vaadin-button.js')

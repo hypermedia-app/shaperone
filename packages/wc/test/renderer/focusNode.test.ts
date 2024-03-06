@@ -4,9 +4,9 @@ import { FormRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { fixture, html, expect } from '@open-wc/testing'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
-import { any, blankNode } from '@shaperone/testing/nodeFactory'
+import { any, blankNode } from '@shaperone/testing/nodeFactory.js'
 import { formRenderer } from '@shaperone/testing/renderer'
-import { renderFocusNode } from '../../renderer/focusNode'
+import { renderFocusNode } from '../../renderer/focusNode.js'
 
 describe('wc/renderer/focusNode', () => {
   let focusNode: FocusNode
@@ -38,7 +38,7 @@ describe('wc/renderer/focusNode', () => {
   it('dispatches to create node when previous node was from different dataset', async () => {
     // given
     renderer.context.templates.initialising = () => html`Loading`
-    renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node(focusNode))
+    renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node(focusNode.term))
 
     // when
     await fixture(html`<div>${renderFocusNode.call(renderer, { focusNode })}</div>`)

@@ -1,7 +1,7 @@
 import { css, html } from 'lit'
 import { expect } from '@open-wc/testing'
-import { renderer } from '../../renderer/model'
-import { templates } from '../../templates'
+import { renderer } from '../../renderer/model.js'
+import { templates } from '../../templates.js'
 
 describe('wc/renderer/model', () => {
   describe('reducers', () => {

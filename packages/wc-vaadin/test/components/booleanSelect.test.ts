@@ -1,15 +1,14 @@
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@zazuko/env'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { SelectElement } from '@vaadin/vaadin-select'
-import { booleanSelect } from '../../components/booleanSelect'
+import { booleanSelect } from '../../components/booleanSelect.js'
 
 describe('wc-vaadin/components/booleanSelect', () => {
   it('renders a vaadin-select with selected value', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal('true'),
       datatype: xsd.boolean,
@@ -24,7 +23,7 @@ describe('wc-vaadin/components/booleanSelect', () => {
 
   it('clears when selecting empty', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal('true'),
       datatype: xsd.boolean,
@@ -41,7 +40,7 @@ describe('wc-vaadin/components/booleanSelect', () => {
 
   it('update when selection changes', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal(''),
       datatype: xsd.boolean,

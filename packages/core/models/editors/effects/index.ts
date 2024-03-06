@@ -1,5 +1,4 @@
-import * as $rdf from '@rdf-esm/dataset'
-import type { Dispatch, Store } from '../../../state'
+import type { Dispatch, Store } from '../../../state/index.js'
 
 export function loadDash(store: Store) {
   let dashLoaded = false
@@ -8,10 +7,10 @@ export function loadDash(store: Store) {
   return async () => {
     if (dashLoaded) return
 
-    const dash = (await import('@zazuko/rdf-vocabularies/datasets/dash')).default
+    const dash = (await import('@vocabulary/dash')).default
     const DashEditors = await import('../../../DashEditors.js')
 
-    dispatch.editors.addMetadata(dash($rdf))
+    dispatch.editors.addMetadata(factory => dash({ factory }))
     dispatch.editors.addMatchers(DashEditors)
     dashLoaded = true
   }

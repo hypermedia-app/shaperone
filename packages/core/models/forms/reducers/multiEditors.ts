@@ -1,9 +1,9 @@
 import produce from 'immer'
 import type { PropertyShape } from '@rdfine/shacl'
-import { Term } from 'rdf-js'
-import type { FormState } from '../index'
+import type { Term } from '@rdfjs/types'
+import type { FormState } from '../index.js'
 import { BaseParams, formStateReducer } from '../../index.js'
-import { FocusNode } from '../../../index'
+import { FocusNode } from '../../../index.js'
 
 export interface MultiEditorParams extends BaseParams {
   focusNode: FocusNode

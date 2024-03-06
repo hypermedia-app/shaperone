@@ -1,5 +1,4 @@
 import { html } from 'lit'
-import { literal, namedNode } from '@rdf-esm/data-model'
 import { repeat } from 'lit/directives/repeat.js'
 import type {
   BooleanSelectEditor,
@@ -8,10 +7,10 @@ import type {
 } from '@hydrofoil/shaperone-core/components'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import type { Render } from '../index'
-import { getType } from './lib/textFieldType'
-import { validity } from './validity'
-import { readOnly } from './readonly'
+import type { Render } from '../index.js'
+import { getType } from './lib/textFieldType.js'
+import { validity } from './validity.js'
+import { readOnly } from './readonly.js'
 
 export const textField: Render = function ({ property, value }, { update }) {
   return html`<input .value="${value.object?.value || ''}"
@@ -21,8 +20,8 @@ export const textField: Render = function ({ property, value }, { update }) {
                      @blur="${(e: any) => update(e.target.value)}">`
 }
 
-export const textArea: Render = function ({ property, value }, { update }) {
-  return html`<textarea ${readOnly(property)} @blur="${(e: any) => update(literal(e.target.value))}" ${validity(value)}>${value.object?.value}</textarea>`
+export const textArea: Render = function ({ env, property, value }, { update }) {
+  return html`<textarea ${readOnly(property)} @blur="${(e: any) => update(env.literal(e.target.value))}" ${validity(value)}>${value.object?.value}</textarea>`
 }
 
 export const enumSelect: Render<EnumSelectEditor> = function ({ property, value, componentState }, { update }) {
@@ -67,18 +66,18 @@ export const instancesSelect: Render<InstancesSelectEditor> = function ({ proper
     </select>`
 }
 
-export const uri: Render = function ({ property, value }, { update }) {
+export const uri: Render = function ({ env, property, value }, { update }) {
   return html`<input .value="${value.object?.value || ''}"
                        type="url"
                        ${validity(value)}
                        ${readOnly(property)}
-                       @blur="${(e: any) => update(namedNode(e.target.value))}">`
+                       @blur="${(e: any) => update(env.namedNode(e.target.value))}">`
 }
 
-export const booleanSelect: Render<BooleanSelectEditor> = function ({ value, property }, { clear, update }) {
+export const booleanSelect: Render<BooleanSelectEditor> = function ({ env, value, property }, { clear, update }) {
   function changed(e: any) {
     if (e.target.value) {
-      update(literal(e.target.value, xsd.boolean))
+      update(env.literal(e.target.value, xsd.boolean))
     } else {
       clear()
     }

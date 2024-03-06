@@ -1,12 +1,10 @@
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
 import { SlSelect } from '@shoelace-style/shoelace/dist/shoelace'
 import { InstancesSelect } from '@hydrofoil/shaperone-core/lib/components/instancesSelect'
-import sh1 from '@hydrofoil/shaperone-core/ns'
 import { schema } from '@tpluscode/rdf-ns-builders'
-import { instancesSelect } from '../../components/instancesSelect'
+import { instancesSelect } from '../../components/instancesSelect.js'
 
 describe('wc-shoelace/components/instancesSelect', () => {
   let component: InstancesSelect
@@ -20,7 +18,7 @@ describe('wc-shoelace/components/instancesSelect', () => {
 
   it('is disabled when dash:readOnly true', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       property: {
         readOnly: true,
@@ -37,7 +35,7 @@ describe('wc-shoelace/components/instancesSelect', () => {
 
   it('uses form settings for display labels', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const {
       params,
       actions,
@@ -58,13 +56,13 @@ describe('wc-shoelace/components/instancesSelect', () => {
     expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
   })
 
-  context('property sh1:clearable true', () => {
+  context('property $rdf.ns.sh1:clearable true', () => {
     it('makes select clearable', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams<InstancesSelect>({
         property: {
-          [sh1.clearable.value]: true,
+          [$rdf.ns.sh1.clearable.value]: true,
         },
         object: graph.namedNode(''),
       })
@@ -78,10 +76,10 @@ describe('wc-shoelace/components/instancesSelect', () => {
 
     it('clears value when cleared', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams<InstancesSelect>({
         property: {
-          [sh1.clearable.value]: true,
+          [$rdf.ns.sh1.clearable.value]: true,
         },
         object: graph.namedNode('A'),
         componentState: {

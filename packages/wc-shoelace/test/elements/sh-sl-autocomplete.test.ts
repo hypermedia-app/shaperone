@@ -1,7 +1,7 @@
 import { html, expect, fixture } from '@open-wc/testing'
 import { namedNode } from '@shaperone/testing/nodeFactory'
 import '../../elements/sh-sl-autocomplete.js'
-import type { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete'
+import type { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete.js'
 
 describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
   it('has empty property when empty', async () => {

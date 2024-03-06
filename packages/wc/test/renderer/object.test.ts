@@ -5,7 +5,7 @@ import { emptyGroupState, testObjectState, testPropertyState } from '@shaperone/
 import { expect } from '@open-wc/testing'
 import { blankNode } from '@shaperone/testing/nodeFactory'
 import { sinon } from '@shaperone/testing'
-import { renderObject } from '../../renderer/object'
+import { renderObject } from '../../renderer/object.js'
 
 describe('wc/renderer/object', () => {
   let renderer: ObjectRenderer

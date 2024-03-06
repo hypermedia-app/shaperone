@@ -1,5 +1,5 @@
 import produce from 'immer'
-import type { EditorsState, MatcherDecorator } from '../index'
+import type { EditorsState, MatcherDecorator } from '../index.js'
 
 export function decorate(editors: EditorsState, decorator: MatcherDecorator): EditorsState {
   return produce(editors, (draft) => {

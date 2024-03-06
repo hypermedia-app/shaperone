@@ -1,12 +1,14 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { connect, disconnect } from '@hydrofoil/shaperone-core/models/forms/reducers/connection.js'
+import FormMap from '@hydrofoil/shaperone-core/models/StateMap.js'
+import { State } from '@hydrofoil/shaperone-core/models/forms/index.js'
 
 describe('core/models/forms/reducers/connection', () => {
   describe('connect', () => {
     it('creates a state for given form', () => {
       // given
-      const before = new Map()
+      const before: State = new FormMap()
       const form = Symbol('test')
 
       // when
@@ -22,8 +24,8 @@ describe('core/models/forms/reducers/connection', () => {
     it('removes own state', () => {
       // given
       const form = Symbol('test')
-      const before = new Map()
-      before.set(form, {})
+      const before: State = new FormMap()
+      before.set(form, <any>{})
 
       // when
       const after = disconnect(before, form)

@@ -2,22 +2,16 @@ import { expect } from '@open-wc/testing'
 import { dash, hydra, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { sinon, ex } from '@shaperone/testing'
 import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
-import clownface, { GraphPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
-import { BlankNode } from 'rdf-js'
-import { fromPointer } from '@rdfine/hydra/lib/Collection'
-import RdfResourceImpl from '@tpluscode/rdfine'
+import type { GraphPointer } from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
+import type { BlankNode } from '@rdfjs/types'
 import { rdfList } from '@tpluscode/rdfine/initializer'
-import * as Hydra from '@rdfine/hydra'
 import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { fromPointer as initTemplate } from '@rdfine/hydra/lib/IriTemplate'
 import { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
-import * as instancesSelector from '../../../lib/components/instancesSelector'
-import { ResourceRepresentation } from '../../helpers/alcaeus'
-import { hydraCollectionProperty, hydraSearchProperty } from './_support'
-
-RdfResourceImpl.factory.addMixin(...Object.values(Hydra))
+import * as instancesSelector from '../../../lib/components/instancesSelector.js'
+import ResourceRepresentation from '../../helpers/alcaeus.js'
+import { hydraCollectionProperty, hydraSearchProperty } from './_support.js'
 
 describe('hydra/lib/components/searchDecorator', () => {
   describe('decorated', () => {
@@ -32,9 +26,9 @@ describe('hydra/lib/components/searchDecorator', () => {
     let updateComponentState: UpdateComponentState
 
     beforeEach(() => {
-      value = testObjectState(clownface({ dataset: $rdf.dataset() }).blankNode())
-      property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
-      focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
+      value = testObjectState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
+      property = testPropertyState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
+      focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       client = {
         loadResource: sinon.stub(),
       }
@@ -46,7 +40,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         shouldLoad: sinon.stub(),
         sort: sinon.stub(),
       }
-      decorated = instancesSelector.decorator(client).decorate(component)
+      decorated = instancesSelector.decorator.decorate(component, $rdf)
       updateComponentState = sinon.spy()
     })
 
@@ -186,7 +180,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('sets loading state when API has returned collection', async () => {
         // given
         const property = hydraCollectionProperty()
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection), {
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection), {
           member: [
             ex.Item1,
             ex.Item2,
@@ -212,7 +206,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('dedupes simultaneous loading of same resource', async () => {
         // given
         const property = hydraCollectionProperty()
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -233,7 +227,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('repeats resource call when previous load finished', async () => {
         // given
         const property = hydraCollectionProperty()
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -254,7 +248,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('loads searchable collection when search template has been constructed', async () => {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
-          initTemplate(template, {
+          $rdf.rdfine.hydra.IriTemplate(template, {
             template: 'http://example.com/foo{?bar}',
             mapping: [{
               variable: 'bar',
@@ -263,7 +257,7 @@ describe('hydra/lib/components/searchDecorator', () => {
           })
         })
         focusNode.addOut(ex.foo, 'bar')
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -285,7 +279,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('constructs search URL from multiple nodes', async () => {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
-          initTemplate(template, {
+          $rdf.rdfine.hydra.IriTemplate(template, {
             template: 'http://example.com/foo{?bar}',
             [sh.path.value]: ex.child,
             mapping: [{
@@ -296,7 +290,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
         focusNode.addOut(ex.child, child => child.addOut(ex.foo, 'bar'))
         focusNode.addOut(ex.child, child => child.addOut(ex.foo, 'baz'))
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -318,7 +312,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('constructs search URL using sh:path before hydra:property', async () => {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
-          initTemplate(template, {
+          $rdf.rdfine.hydra.IriTemplate(template, {
             template: 'http://example.com/{?foo,bar}',
             [sh.path.value]: ex.child,
             mapping: [{
@@ -336,7 +330,7 @@ describe('hydra/lib/components/searchDecorator', () => {
           child.addOut(ex.bar, 'bar')
           child.addOut(ex.baz, bar => bar.addOut(ex.baz, 'baz'))
         })
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -358,7 +352,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('does not load searchable collection when freetextQuery is empty string', async () => {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
-          initTemplate(template, {
+          $rdf.rdfine.hydra.IriTemplate(template, {
             template: 'http://example.com/foo{?q}',
             mapping: [{
               variable: 'q',
@@ -366,7 +360,7 @@ describe('hydra/lib/components/searchDecorator', () => {
             }],
           })
         })
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -387,7 +381,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('does not load searchable collection when freetextQuery is too short', async () => {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
-          initTemplate(template, {
+          $rdf.rdfine.hydra.IriTemplate(template, {
             template: 'http://example.com/foo{?q}',
             mapping: [{
               variable: 'q',
@@ -396,7 +390,7 @@ describe('hydra/lib/components/searchDecorator', () => {
             }],
           })
         })
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -417,7 +411,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       it('loads searchable collection when freetextQuery has exactly min length', async () => {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
-          initTemplate(template, {
+          $rdf.rdfine.hydra.IriTemplate(template, {
             template: 'http://example.com/foo{?q}',
             mapping: [{
               variable: 'q',
@@ -426,7 +420,7 @@ describe('hydra/lib/components/searchDecorator', () => {
             }],
           })
         })
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 
@@ -450,7 +444,7 @@ describe('hydra/lib/components/searchDecorator', () => {
           searchUri: 'foo-bar',
           lastLoaded: 'foo-bar',
         }
-        const collection = fromPointer(clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
+        const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
         client.loadResource.resolves({ representation })
 

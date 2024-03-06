@@ -1,17 +1,17 @@
 import { expect } from '@open-wc/testing'
 import { ex, sinon } from '@shaperone/testing'
-import { testObjectState, testPropertyState } from '@shaperone/testing/models/form'
-import clownface, { GraphPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import { testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
+import type { GraphPointer } from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
 import { rdfs, schema, dcterms, hydra } from '@tpluscode/rdf-ns-builders'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { BlankNode } from 'rdf-js'
+import type { BlankNode } from '@rdfjs/types'
 import { SingleEditorActions, UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import promise from 'promise-the-world'
 import { ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
 import { objectRenderer } from '@shaperone/testing/renderer'
 import type { SinonStubbedInstance } from 'sinon'
-import { instancesSelectEditor } from '../components'
+import { instancesSelectEditor } from '../components.js'
 
 describe('wc-vaadin/components', () => {
   describe('instancesSelectEditor', () => {
@@ -30,9 +30,9 @@ describe('wc-vaadin/components', () => {
       let actions: SinonStubbedInstance<SingleEditorActions>
 
       beforeEach(() => {
-        focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-        property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
-        fetchedInstance = clownface({ dataset: $rdf.dataset() }).node(ex.Foo)
+        focusNode = $rdf.clownface().blankNode()
+        property = testPropertyState($rdf.clownface().blankNode())
+        fetchedInstance = $rdf.clownface().node(ex.Foo)
         value = testObjectState(focusNode.blankNode())
         value.object = focusNode.node(ex.Foo)
         updateComponentState = sinon.spy()
@@ -53,6 +53,7 @@ describe('wc-vaadin/components', () => {
 
           // when
           editor.init?.({
+            env: $rdf,
             form,
             value,
             focusNode,
@@ -77,6 +78,7 @@ describe('wc-vaadin/components', () => {
 
           // when
           const result = editor.init?.({
+            env: $rdf,
             form,
             value,
             focusNode,
@@ -103,6 +105,7 @@ describe('wc-vaadin/components', () => {
 
           // when
           editor.init?.({
+            env: $rdf,
             form,
             value,
             focusNode,
@@ -132,6 +135,7 @@ describe('wc-vaadin/components', () => {
 
           // when
           await editor.init?.({
+            env: $rdf,
             form,
             value,
             focusNode,
@@ -151,11 +155,11 @@ describe('wc-vaadin/components', () => {
 
       it('only adds known labels to shapes graph', async () => {
         // given
-        const focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-        const property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+        const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+        const property = testPropertyState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
         const value = testObjectState(focusNode.blankNode())
         value.object = focusNode.node(ex.Foo)
-        const fetchedFoo = clownface({ dataset: $rdf.dataset() })
+        const fetchedFoo = $rdf.clownface({ dataset: $rdf.dataset() })
           .node(ex.Foo)
           .addOut(hydra.title, $rdf.literal('ignored'))
         const editor = {
@@ -165,6 +169,7 @@ describe('wc-vaadin/components', () => {
 
         // when
         await editor.init?.({
+          env: $rdf,
           form,
           value,
           focusNode,
@@ -181,8 +186,8 @@ describe('wc-vaadin/components', () => {
 
       it('does not attempt fetching blank nodes', async () => {
         // given
-        const focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-        const property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+        const focusNode = $rdf.clownface().blankNode()
+        const property = testPropertyState($rdf.clownface().blankNode())
         const value = testObjectState(focusNode.blankNode())
         value.object = focusNode.blankNode()
         const editor = {
@@ -192,6 +197,7 @@ describe('wc-vaadin/components', () => {
 
         // when
         await editor.init?.({
+          env: $rdf,
           form,
           value,
           focusNode,

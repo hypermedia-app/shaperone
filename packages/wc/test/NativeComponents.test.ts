@@ -1,17 +1,14 @@
 import { dash, xsd } from '@tpluscode/rdf-ns-builders'
-import TermSet from '@rdf-esm/term-set'
 import { expect, fixture } from '@open-wc/testing'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { RenderFunc } from '@hydrofoil/shaperone-core/models/components'
-import { fromPointer } from '@rdfine/shacl/lib/ValidationResult'
 import { blankNode } from '@shaperone/testing/nodeFactory'
-import * as components from '../NativeComponents'
-import { Render } from '../index'
+import * as components from '../NativeComponents.js'
+import { Render } from '../index.js'
 
 describe('NativeComponents', () => {
-  const supportedEditors = new TermSet([
+  const supportedEditors = $rdf.termSet([
     dash.TextFieldEditor,
     dash.TextAreaEditor,
     dash.EnumSelectEditor,
@@ -40,14 +37,14 @@ describe('NativeComponents', () => {
 
       it('sets native validity', async () => {
         // given
-        const graph = cf({ dataset: $rdf.dataset() })
+        const graph = $rdf.clownface({ dataset: $rdf.dataset() })
         const { params, actions } = editorTestParams({
           object: graph.literal(''),
         })
         params.value.hasErrors = true
         params.value.validationResults = [{
           matchedTo: 'object',
-          result: fromPointer(blankNode(), {
+          result: $rdf.rdfine.sh.ValidationResult(blankNode(), {
             resultMessage: 'invalid',
           }),
         }]
@@ -61,7 +58,7 @@ describe('NativeComponents', () => {
 
       it('is not disabled by default', async () => {
         // given
-        const graph = cf({ dataset: $rdf.dataset() })
+        const graph = $rdf.clownface({ dataset: $rdf.dataset() })
         const { params, actions } = editorTestParams({
           object: graph.literal(''),
         })
@@ -76,7 +73,7 @@ describe('NativeComponents', () => {
 
       it('sets disabled when it is dash:readOnly', async () => {
         // given
-        const graph = cf({ dataset: $rdf.dataset() })
+        const graph = $rdf.clownface({ dataset: $rdf.dataset() })
         const { params, actions } = editorTestParams({
           object: graph.literal(''),
           property: {
@@ -102,7 +99,7 @@ describe('NativeComponents', () => {
 
     it('updates with NamedNode', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
@@ -134,7 +131,7 @@ describe('NativeComponents', () => {
 
     it('clears when selecting empty <option>', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams({
         object: graph.literal('true'),
         datatype: xsd.boolean,
@@ -150,7 +147,7 @@ describe('NativeComponents', () => {
 
     it('sets correct selection', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams({
         object: graph.literal('false'),
         datatype: xsd.boolean,
@@ -165,7 +162,7 @@ describe('NativeComponents', () => {
 
     it('updates when selecting', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams({
         object: graph.literal(''),
       })

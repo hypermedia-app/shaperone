@@ -1,4 +1,4 @@
-import { GraphPointer } from 'clownface'
+import type { GraphPointer } from 'clownface'
 
 export function deleteOrphanedSubgraphs(roots: GraphPointer[]): void {
   const nextChildren =

@@ -1,8 +1,8 @@
 import produce, { Draft } from 'immer'
 import { PropertyShape } from '@rdfine/shacl'
-import type { FormState, PropertyState } from './index'
-import { BaseParams } from '../index'
-import { FocusNode } from '../../index'
+import type { FormState, PropertyState } from './index.js'
+import { BaseParams } from '../index.js'
+import { FocusNode } from '../../index.js'
 
 interface Params extends BaseParams {
   focusNode: FocusNode

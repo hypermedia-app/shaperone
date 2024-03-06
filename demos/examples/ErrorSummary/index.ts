@@ -1,9 +1,9 @@
 import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html } from '@hydrofoil/shaperone-wc'
 import type { ValidationResult } from '@rdfine/shacl'
-import { shrink } from '@zazuko/rdf-vocabularies/shrink'
-import TermMap from '@rdf-esm/term-map'
-import { Term } from 'rdf-js'
+import { shrink } from '@zazuko/prefixes/shrink'
+import rdf from '@zazuko/env'
+import type { Term } from '@rdfjs/types'
 
 function createMessage(result: ValidationResult) {
   if (result.resultMessage) {
@@ -46,7 +46,7 @@ export const errorSummary = decorate((focusNode: FocusNodeTemplate) => (context,
   const summary = context.focusNode.validationResults
     .reduce(({ focusNodes, errors }, { result }) => {
       if (result.focusNode) {
-        const focusNodeErrors = focusNodes.get(result.focusNode) || { properties: new TermMap(), errors: [] }
+        const focusNodeErrors = focusNodes.get(result.focusNode) || { properties: rdf.termMap(), errors: [] }
         if (result.resultPath) {
           const pathErrors = focusNodeErrors.properties.get(result.resultPath.id)
           if (pathErrors) {
@@ -64,7 +64,7 @@ export const errorSummary = decorate((focusNode: FocusNodeTemplate) => (context,
       }
 
       return { focusNodes, errors }
-    }, { focusNodes: new TermMap(), errors: [] } as Errors)
+    }, { focusNodes: rdf.termMap(), errors: [] } as Errors)
 
   if (summary.errors.length || summary.focusNodes.size) {
     return html`${renderSummary(summary)} ${focusNode(context, args)}`

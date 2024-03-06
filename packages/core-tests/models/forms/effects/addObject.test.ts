@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@zazuko/env'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
@@ -23,7 +22,7 @@ describe('models/forms/effects/addObject', () => {
   it('adds form field with matched editors', () => {
     // given
     const property = propertyShape()
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     const editors: SingleEditorMatch[] = [{
       term: dash.TextFieldEditor,
       score: 5,
@@ -53,7 +52,7 @@ describe('models/forms/effects/addObject', () => {
   it('sets overrides to state', () => {
     // given
     const property = propertyShape()
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     const editors: SingleEditorMatch[] = [{
       term: dash.TextFieldEditor,
       score: 5,
@@ -81,7 +80,7 @@ describe('models/forms/effects/addObject', () => {
     const property = propertyShape({
       editor: dash.FooEditor,
     })
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     store.getState().editors.matchSingleEditors = () => [{
       term: dash.TextFieldEditor,
       score: 5,
@@ -112,7 +111,7 @@ describe('models/forms/effects/addObject', () => {
       const property = propertyShape({
         editor: dash.FooEditor,
       })
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       store.getState().editors.matchSingleEditors = () => [{
         term: dash.TextFieldEditor,
         score: 5,
@@ -140,7 +139,7 @@ describe('models/forms/effects/addObject', () => {
       const property = propertyShape({
         editor: dash.FooEditor,
       })
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       store.getState().editors.matchSingleEditors = () => [{
         term: dash.TextFieldEditor,
         score: 5,
@@ -171,7 +170,7 @@ describe('models/forms/effects/addObject', () => {
       const property = propertyShape({
         editor: dash.FooEditor,
       })
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       store.getState().editors.matchSingleEditors = () => [{
         term: dash.TextFieldEditor,
         score: 5,

@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
@@ -20,7 +19,7 @@ describe('models/forms/effects/replaceObjects', () => {
     // given
     const dataset = store.getState().resources.get(form)?.graph.dataset
     const property = propertyShape()
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface().blankNode()
     const terms = [
       $rdf.literal('a'),
       $rdf.literal('b'),

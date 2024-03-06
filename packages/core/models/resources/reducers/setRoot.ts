@@ -1,6 +1,6 @@
-import type { State } from '../index'
-import { BaseParams } from '../../index'
-import { FocusNode } from '../../../index'
+import type { State } from '../index.js'
+import { BaseParams } from '../../index.js'
+import { FocusNode } from '../../../index.js'
 import { createState } from '../lib/state.js'
 
 export interface Params extends BaseParams {

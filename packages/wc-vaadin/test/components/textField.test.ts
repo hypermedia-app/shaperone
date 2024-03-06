@@ -1,9 +1,8 @@
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { editorTestParams } from '@shaperone/testing'
-import { textField } from '../../components/text-field'
+import { textField } from '../../components/text-field.js'
 
 const datatytpes = [xsd.double, xsd.float, xsd.decimal, xsd.integer]
 
@@ -11,7 +10,7 @@ describe('wc-vaadin/components/text-field', () => {
   datatytpes.forEach((datatype) => {
     it(`renders correct input for datatype ${datatype.value}`, async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams({
         object: graph.literal(''),
         datatype,

@@ -1,17 +1,17 @@
 import { describe, it } from 'mocha'
-import clownface, { AnyContext, AnyPointer } from 'clownface'
-import $rdf from 'rdf-ext'
+import type { AnyContext, AnyPointer } from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
 import setPropertyObjects from '@hydrofoil/shaperone-core/models/resources/effects/forms/setPropertyObjects.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util.js'
-import DatasetExt from 'rdf-ext/lib/Dataset'
+import { Dataset } from '@zazuko/env/lib/Dataset'
 
 describe('models/resources/effects/forms/setPropertyObjects', () => {
   let store: Store
-  let graph: AnyPointer<AnyContext, DatasetExt>
+  let graph: AnyPointer<AnyContext, Dataset>
   let form: symbol
 
   beforeEach(() => {
@@ -67,7 +67,7 @@ describe('models/resources/effects/forms/setPropertyObjects', () => {
     })
 
     // then
-    const expected = clownface({ dataset: $rdf.dataset() })
+    const expected = $rdf.clownface({ dataset: $rdf.dataset() })
       .blankNode()
       .addOut(schema.contactPoints, graph.blankNode('a2'), (addr) => {
         addr.addOut(schema.streetAddress, 'Broadway')

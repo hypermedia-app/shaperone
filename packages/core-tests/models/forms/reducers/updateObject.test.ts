@@ -1,7 +1,5 @@
 import { describe, it } from 'mocha'
-import ns from '@rdf-esm/namespace'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@zazuko/env'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { RecursivePartial, sinon } from '@shaperone/testing'
@@ -17,7 +15,7 @@ import { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/forms/reducers/updateObject', () => {
   let store: Store
@@ -35,7 +33,7 @@ describe('core/models/forms/reducers/updateObject', () => {
   describe('setPropertyObjects', () => {
     it('removes all current objects and creates new', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.FocusNode)
         .addOut(ex.prop, ['foo1', 'foo2'])
       const property = propertyShape(graph.blankNode(), {
@@ -73,7 +71,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
     it('flips canAdd flag when max reached', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.FocusNode)
       const property = propertyShape(graph.blankNode(), {
         path: ex.prop,
@@ -103,7 +101,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
     it('sets canRemove flag when min reached', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.FocusNode)
       const property = propertyShape(graph.blankNode(), {
         path: ex.prop,
@@ -133,7 +131,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
     it('sets canAdd/canRemove flags to true', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const focusNode = graph.node(ex.FocusNode)
       const property = propertyShape(graph.blankNode(), {
         path: ex.prop,
@@ -168,7 +166,7 @@ describe('core/models/forms/reducers/updateObject', () => {
   describe('initObjectValue', () => {
     it('recalculates editors', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const property = propertyShape()
       const object = testObjectState(graph.literal('foo'))
       const { editors } = store.getState()
@@ -203,7 +201,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
     it('sets new value', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const property = propertyShape()
       const object = testObjectState(graph.literal('foo'))
       const focusNode = graph.blankNode()
@@ -236,7 +234,7 @@ describe('core/models/forms/reducers/updateObject', () => {
   describe('setDefaultValue', () => {
     it('sets object pointers to object state without value', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const property = propertyShape()
       const emptyObject = testObjectState()
       const notEmptyObject = testObjectState(graph.literal('10'))
@@ -271,7 +269,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
     it('selects appropriate editor to default object', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const property = propertyShape()
       const emptyObject = testObjectState()
       const notEmptyObject = testObjectState(graph.literal('10'), {
@@ -313,7 +311,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
     it('keeps dash:editor override', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const property = propertyShape()
       const emptyObject = testObjectState(undefined, {
         overrides: blankNode().addOut(dash.editor, dash.BazEditor),
@@ -354,7 +352,7 @@ describe('core/models/forms/reducers/updateObject', () => {
   describe('clearValue', () => {
     it('sets object state value to undefined', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const property = propertyShape()
       const object = testObjectState(graph.literal('foo'))
       const focusNode = graph.blankNode()

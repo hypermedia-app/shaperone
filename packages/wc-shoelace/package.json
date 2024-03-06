@@ -22,20 +22,18 @@
   "dependencies": {
     "@hydrofoil/shaperone-core": "^0.11.0",
     "@hydrofoil/shaperone-wc": "^0.7.13",
-    "@rdfine/shacl": "^0.8.7",
-    "@rdfjs/data-model": "^2",
-    "@rdfjs-elements/lit-helpers": "^0.3.5",
+    "@rdfine/shacl": "^0.10.5",
+    "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@shoelace-style/shoelace": ">=2.0.0-beta.77 < 3",
-    "@tpluscode/rdf-ns-builders": "^2",
-    "is-graph-pointer": "^1.2.2",
+    "@tpluscode/rdf-ns-builders": "^4.3.0",
+    "is-graph-pointer": "^2.1.0",
     "lit": "^2",
     "p-debounce": "^4"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.1.6",
-    "@rdf-esm/dataset": "^0.5.1",
-    "@shaperone/testing": "*",
-    "clownface": "^1.5.1"
+    "@zazuko/env": "^2.0.6",
+    "@shaperone/testing": "*"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

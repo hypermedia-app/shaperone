@@ -8,21 +8,23 @@ import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/Des
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components'
 import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings'
-import { components, editors, renderer, validation } from '@hydrofoil/shaperone-wc/configure'
+import { components, editors, renderer, validation, env } from '@hydrofoil/shaperone-wc/configure'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
 import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
-import $rdf from 'rdf-ext'
 import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer'
 import { errorSummary } from '@hydrofoil/shaperone-playground-examples/ErrorSummary/index.js'
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
-import { ComponentsState } from './state/models/components'
-import { RendererState } from './state/models/renderer'
+import $rdf from './env.js'
+import { ComponentsState } from './state/models/components.js'
+import { RendererState } from './state/models/renderer.js'
 
 setBasePath('https://unpkg.com/@shoelace-style/shoelace/dist')
 shoelaceSettings.hoist = false
+
+env.use($rdf)
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },
@@ -31,16 +33,16 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
   shoelace: { ...nativeComponents, ...shoelaceComponents, starRating },
 }
 
-editors.addMetadata([...LanguageSelect.metadata(), ...StarRating.metadata()])
+editors.addMetadata(env => [...LanguageSelect.metadata(env), ...StarRating.metadata(env)])
 editors.addMatchers({
   languages: LanguageSelect.matcher,
   starRating: StarRating.matcher,
 })
 editors.decorate(instancesSelector.matcher)
-components.decorate(instancesSelector.decorator())
+components.decorate(instancesSelector.decorator)
 components.decorate(DescriptionTooltip)
 
-validation.setValidator(validate.with({ factory: $rdf }))
+validation.setValidator(validate)
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native

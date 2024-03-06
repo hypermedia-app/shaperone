@@ -19,13 +19,16 @@
     "max-len": ["error", 200],
     "wc/guard-super-call": "off",
     "class-methods-use-this": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "lit/no-classfield-shadowing": "warn"
   },
   "overrides": [{
     "files": "**/test/**/*.ts",
     "rules": {
       "no-unused-expressions": "warn",
-      "babel/no-unused-expressions": "off"
+      "babel/no-unused-expressions": "off",
+      "lit-a11y/accessible-name": "off"
     }
   },{
     "files": "packages/core-tests/**/*.ts",

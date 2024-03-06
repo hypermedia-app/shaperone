@@ -1,11 +1,9 @@
 import deepmerge from 'deepmerge'
 import sinon from 'sinon'
 import type { GraphPointer } from 'clownface'
-import { fromPointer } from '@rdfine/shacl/lib/PropertyShape'
-import { ResourceNode } from '@tpluscode/rdfine/RdfResource'
-import clownface from 'clownface'
-import type { DatasetCoreFactory, NamedNode, DefaultGraph } from 'rdf-js'
-import * as datasetFactory from '@rdf-esm/dataset'
+import type { ResourceNode } from '@tpluscode/rdfine/RdfResource'
+import rdf from '@shaperone/testing/env.js'
+import type { DatasetCoreFactory, NamedNode, DefaultGraph } from '@rdfjs/types'
 import * as Form from '@hydrofoil/shaperone-core/models/forms'
 import { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
 import { MultiEditor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
@@ -13,6 +11,7 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
 import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify.js'
 import { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
+import StateMap from '@hydrofoil/shaperone-core/models/StateMap.js'
 import type { RecursivePartial } from '../index.js'
 import { blankNode } from '../nodeFactory.js'
 
@@ -67,7 +66,7 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
 }
 
 export function testPropertyState(pointer: ResourceNode = blankNode(), init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
-  const shape = fromPointer(pointer)
+  const shape = rdf.rdfine.sh.PropertyShape(pointer)
 
   return deepmerge({
     editors: [],
@@ -116,9 +115,10 @@ interface TestStore {
   graph?: NamedNode | DefaultGraph
 }
 
-export function testStore({ graph = datasetFactory.defaultGraph(), factory: { dataset } = datasetFactory }: TestStore = {}): { form: symbol; store: Store } {
+export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestStore = {}): { form: symbol; store: Store } {
   const { form, state: forms } = testFormState()
   const dispatch = {
+    env: new Proxy({}, spyHandler),
     forms: new Proxy({}, spyHandler),
     shapes: new Proxy({}, spyHandler),
     editors: new Proxy({}, spyHandler),
@@ -127,7 +127,7 @@ export function testStore({ graph = datasetFactory.defaultGraph(), factory: { da
     validation: new Proxy({}, spyHandler),
   }
   const resourcesState: ResourceState = {
-    rootPointer: clownface({ dataset: dataset(), graph }).blankNode(),
+    rootPointer: rdf.clownface({ dataset: factory.dataset(), graph }).blankNode(),
     get graph() {
       return this.rootPointer.any()
     },
@@ -135,22 +135,25 @@ export function testStore({ graph = datasetFactory.defaultGraph(), factory: { da
   }
   const shapesState: ShapeState = {
     shapes: [],
-    shapesGraph: clownface({ dataset: dataset() }),
+    shapesGraph: rdf.clownface({ dataset: factory.dataset() }),
   }
   const state: State = {
-    shapes: new Map([[form, shapesState]]),
-    resources: new Map([[form, resourcesState]]),
+    env: rdf,
+    shapes: new StateMap([[form, shapesState]], rdf),
+    resources: new StateMap([[form, resourcesState]], rdf),
     editors: {
+      env: rdf,
       singleEditors: {},
       allEditors: {},
       multiEditors: {},
       decorators: {},
-      metadata: clownface({ dataset: dataset() }),
+      metadata: rdf.clownface({ dataset: factory.dataset() }),
       matchMultiEditors: () => [],
       matchSingleEditors: () => [],
     },
     forms,
     components: {
+      env: rdf,
       components: {},
       decorators: [],
     },

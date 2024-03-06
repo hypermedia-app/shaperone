@@ -2,7 +2,6 @@ import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
 import { html } from 'lit'
-import rdf from '@rdfjs/data-model'
 import isGraphPointer from 'is-graph-pointer'
 import type { GraphPointer } from 'clownface'
 import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
@@ -42,7 +41,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
 
     return function (object, actions) {
       function valueChanged(value: string) {
-        actions.update(rdf.literal(value, object.componentState.language))
+        actions.update(object.env.literal(value, object.componentState.language))
       }
 
       function languageChanged(e: any) {
@@ -52,7 +51,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
         }
 
         if (isGraphPointer.isGraphPointer(object.value.object)) {
-          actions.update(rdf.literal(object.value.object.value, language))
+          actions.update(object.env.literal(object.value.object.value, language))
         } else {
           object.updateComponentState({ language })
         }

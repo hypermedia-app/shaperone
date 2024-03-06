@@ -9,7 +9,7 @@ export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { fo
   const { actions } = renderer
 
   function renderTab(group: PropertyGroupState) {
-    return html`<mwc-tab .label="${localizedLabel(group.group, { fallback: 'Ungrouped properties' })}"
+    return html`<mwc-tab .label="${localizedLabel(group.group, { fallback: 'Ungrouped properties' }) as any}"
                          @MDCTab:interacted="${() => actions.selectGroup(group.group)}"></mwc-tab>`
   }
 

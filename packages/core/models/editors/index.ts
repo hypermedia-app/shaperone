@@ -1,15 +1,14 @@
 import { createModel } from '@captaincodeman/rdx'
-import type { NamedNode, Term } from 'rdf-js'
+import type { NamedNode, Term } from '@rdfjs/types'
 import type { PropertyShape } from '@rdfine/shacl'
-import type { AnyPointer } from 'clownface'
-import clownface, { GraphPointer } from 'clownface'
-import { dataset } from '@rdf-esm/dataset'
-import type { Store } from '../../state'
-import { addMatchers } from './reducers/addMatchers'
-import { addMetadata } from './reducers/addMetadata'
-import { decorate } from './reducers/decorate'
-import { matchSingleEditors, matchMultiEditors } from './lib/match'
-import { loadDash } from './effects'
+import type { AnyPointer, GraphPointer } from 'clownface'
+import type { Store } from '../../state/index.js'
+import { addMatchers } from './reducers/addMatchers.js'
+import { addMetadata } from './reducers/addMetadata.js'
+import { decorate } from './reducers/decorate.js'
+import { matchSingleEditors, matchMultiEditors } from './lib/match.js'
+import { loadDash } from './effects/index.js'
+import { ShaperoneEnvironment } from '../../env.js'
 
 interface EditorBase {
   term: NamedNode
@@ -21,7 +20,7 @@ export interface MultiEditor extends EditorBase {
 }
 
 export interface SingleEditor<T extends Term = Term> extends EditorBase {
-  match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
+  match: (shape: PropertyShape, value: GraphPointer<T>, env: ShaperoneEnvironment) => number | null
 }
 
 export interface MatcherDecorator<T extends Term = Term> extends EditorBase {
@@ -41,6 +40,7 @@ export interface MultiEditorMatch extends Omit<MultiEditor, 'match'> {
 type EditorMap<T> = Record<string, T | undefined>
 
 export interface EditorsState {
+  env: ShaperoneEnvironment
   metadata: AnyPointer
   allEditors: EditorMap<Editor>
   singleEditors: EditorMap<SingleEditor>
@@ -52,7 +52,6 @@ export interface EditorsState {
 
 export const editors = createModel(({
   state: <EditorsState>{
-    metadata: clownface({ dataset: dataset() }),
     multiEditors: {},
     singleEditors: {},
     allEditors: {},

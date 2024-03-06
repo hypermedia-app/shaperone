@@ -1,9 +1,9 @@
 import { createModel } from '@captaincodeman/rdx'
-import $rdf from 'rdf-ext'
-import cf, { AnyPointer, GraphPointer } from 'clownface'
+import $rdf from '@zazuko/env'
+import type { AnyPointer, GraphPointer } from 'clownface'
 import { rdf, foaf } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
-import { DatasetCore, Quad } from 'rdf-js'
+import type { DatasetCore, Quad } from '@rdfjs/types'
 
 export interface State {
   serialized?: string
@@ -17,7 +17,7 @@ export interface State {
   error?: Error
 }
 
-const graph = cf({ dataset: $rdf.dataset() })
+const graph = $rdf.clownface()
 const pointer = graph
   .namedNode('http://example.com/John_Doe')
   .addOut(rdf.type, schema.Person)
@@ -52,7 +52,7 @@ export const resource = createModel({
       }
     },
     replaceGraph(state, { dataset, updatePointer = true, resetPointer = false }: { dataset: Quad[] | DatasetCore; updatePointer?: boolean; resetPointer?: boolean }) {
-      const graph = Array.isArray(dataset) ? cf({ dataset: $rdf.dataset(dataset) }) : cf({ dataset })
+      const graph = Array.isArray(dataset) ? $rdf.clownface({ dataset: $rdf.dataset(dataset) }) : $rdf.clownface({ dataset })
       let { pointer } = state
 
       if (updatePointer) {

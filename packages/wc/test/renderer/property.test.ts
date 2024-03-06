@@ -6,7 +6,7 @@ import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/mo
 import { expect } from '@open-wc/testing'
 import { ex, sinon } from '@shaperone/testing'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
-import { renderProperty } from '../../renderer/property'
+import { renderProperty } from '../../renderer/property.js'
 
 describe('wc/renderer/property', () => {
   let renderer: PropertyRenderer

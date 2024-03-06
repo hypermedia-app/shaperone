@@ -4,7 +4,7 @@ import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { settings } from './settings'
+import { settings } from './settings.js'
 
 interface AddObject {
   (property: PropertyState): TemplateResult | ''
@@ -47,8 +47,8 @@ export const property: ShoelacePropertyTemplate = (renderer, { property: state }
   }
 
   return html`
-    <sh-sl-property .label="${localizedLabel(state.shape, { property: sh.name })}"
-                    .helpText="${localizedLabel(state.shape, { property: sh.description })}"
+    <sh-sl-property .label="${localizedLabel(state.shape, { property: sh.name }) as any}"
+                    .helpText="${localizedLabel(state.shape, { property: sh.description }) as any}"
                     .canAddValue="${state.canAdd && !state.selectedEditor}"
                     .addIcon="${property.addObjectIcon}"
                     @added="${onAdd}"

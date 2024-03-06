@@ -1,7 +1,7 @@
 import type { PropertyShape } from '@rdfine/shacl'
-import { BaseParams } from '../..'
-import type { Store } from '../../../state'
-import { FocusNode } from '../../../index'
+import { BaseParams } from '../../index.js'
+import type { Store } from '../../../state/index.js'
+import { FocusNode } from '../../../index.js'
 
 export interface ChangeDetails {
   focusNode: FocusNode

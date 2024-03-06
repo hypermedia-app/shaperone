@@ -1,9 +1,9 @@
 import produce from 'immer'
 import { PropertyShape } from '@rdfine/shacl'
-import type { PropertyObjectState, FormState, State } from '../index'
+import type { PropertyObjectState, FormState, State } from '../index.js'
 import { BaseParams, formStateReducer } from '../../index.js'
-import { FocusNode } from '../../../index'
-import type { EditorsState } from '../../editors'
+import { FocusNode } from '../../../index.js'
+import type { EditorsState } from '../../editors/index.js'
 
 type ToggleSwitchingParams = BaseParams & { switchingEnabled: boolean }
 

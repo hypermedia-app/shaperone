@@ -1,13 +1,11 @@
 import { createModel } from '@captaincodeman/rdx'
-import $rdf from 'rdf-ext'
 import { sh, xsd, rdfs, dash, foaf, vcard, rdf } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { turtle } from '@tpluscode/rdf-string'
-import { Quad } from 'rdf-js'
-import * as formats from '@rdf-esm/formats-common'
-import rdfFetch from '@rdfjs/fetch-lite'
-import clownface, { AnyPointer, GraphPointer } from 'clownface'
-import type { Store } from '../store'
+import type { Quad } from '@rdfjs/types'
+import type { AnyPointer, GraphPointer } from 'clownface'
+import $rdf from '../../env.js'
+import type { Store } from '../store.js'
 
 const triples = turtle`@prefix ex: <http://example.com/> .
 @prefix lexvo: <http://lexvo.org/id/iso639-1/> .
@@ -136,7 +134,7 @@ export const shape = createModel({
       return { ...state, error }
     },
     setShapesGraph(state, quads: Quad[]) {
-      let pointer = clownface({ dataset: $rdf.dataset(quads) })
+      let pointer = $rdf.clownface({ dataset: $rdf.dataset(quads) })
       const shapes = pointer.has(rdf.type, [sh.Shape, sh.NodeShape])
       if (state.pointer?.term) {
         const previousPointer = pointer.node(state.pointer.term)
@@ -189,9 +187,8 @@ export const shape = createModel({
 
     return {
       async loadShape({ shape, authHeader, clearResource }: { shape: string; authHeader: string; clearResource: boolean }) {
-        const shapes = await rdfFetch(shape, {
-          formats: formats as any,
-          factory: $rdf,
+        const shapes = await $rdf.fetch(shape, {
+          formats: $rdf.formats,
           headers: {
             authorization: `Bearer ${authHeader}`,
           },
@@ -220,7 +217,7 @@ export const shape = createModel({
           const { nanoid } = await import('nanoid')
 
           const dataset = $rdf.dataset([...state.shape.pointer.dataset])
-          const graph = clownface({ dataset })
+          const graph = $rdf.clownface({ dataset })
           graph
             .has(sh.class)
             .out(sh.class)

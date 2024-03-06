@@ -1,11 +1,10 @@
 import { expect, fixture } from '@open-wc/testing'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
-import { instancesSelectEditor } from '../../components'
+import { instancesSelectEditor } from '../../components.js'
 
 describe('wc-vaadin/components/instancesSelect', () => {
   let component: InstancesSelectEditor
@@ -19,7 +18,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
 
   it('renders an vaadin-select', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.literal(''),
     })
@@ -33,7 +32,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
 
   it('sets selection to current object', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode('bar'),
     })
@@ -48,7 +47,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
 
   it('updates form when value changes', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
     })
@@ -66,7 +65,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
 
   it('does not load when template', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
     })

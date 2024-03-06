@@ -7,7 +7,6 @@ import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import isGraphPointer from 'is-graph-pointer'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
-import sh1 from '@hydrofoil/shaperone-core/ns'
 import { renderItem } from '../lib/components.js'
 import { settings } from '../settings.js'
 
@@ -57,11 +56,11 @@ export const autocomplete: Lazy<AutoCompleteEditor> = {
         nodeValue = nodeUrl.hash || nodeUrl.pathname
       }
       const fallback = nodeValue || freetextQuery
-      const clearable = property.shape.getBoolean(sh1.clearable)
+      const clearable = property.shape.getBoolean(params.env.ns.sh1.clearable)
 
       return html`
         <sh-sl-autocomplete .selected=${selected}
-                            .inputValue=${localizedLabel(selected, { property: form.labelProperties, fallback })}
+                            .inputValue=${localizedLabel(selected, { property: form.labelProperties, fallback }) as any}
                             @search=${search}
                             .clearable="${clearable}"
                             @cleared="${clear}"
@@ -74,14 +73,14 @@ export const autocomplete: Lazy<AutoCompleteEditor> = {
         </sh-sl-autocomplete>`
     }
   },
-  initLabel(this: AutoCompleteEditor, { property: { shape }, value, updateComponentState }) {
+  initLabel(this: AutoCompleteEditor, { env, property: { shape }, value, updateComponentState }) {
     const {
       object,
       componentState: { freetextQuery, selectionLoading, selected },
     } = value
 
     if (object && !selected && !freetextQuery && !selectionLoading) {
-      const selectionLoading = this.loadInstance({ property: shape, value: object })
+      const selectionLoading = this.loadInstance({ env, property: shape, value: object })
         .then((resource) => {
           updateComponentState({
             selected: resource,

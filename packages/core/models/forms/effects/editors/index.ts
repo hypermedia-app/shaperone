@@ -1,4 +1,4 @@
-import type { Store } from '../../../../state'
+import type { Store } from '../../../../state/index.js'
 
 function recalculateEditors(store: Store) {
   const dispatch = store.getDispatch()

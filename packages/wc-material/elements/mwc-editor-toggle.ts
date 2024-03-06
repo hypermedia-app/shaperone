@@ -3,11 +3,11 @@ import { customElement, property } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
 import type { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
 
-import './wc-menu'
+import './wc-menu.js'
 import '@material/mwc-icon/mwc-icon'
 import '@material/mwc-list/mwc-list-item'
-import { NamedNode } from 'rdf-js'
-import { SelectableMenuMixin } from './SelectableMenuMixin'
+import type { NamedNode } from '@rdfjs/types'
+import { SelectableMenuMixin } from './SelectableMenuMixin.js'
 
 @customElement('mwc-editor-toggle')
 export class MwcEditorToggle extends SelectableMenuMixin(LitElement) {

@@ -1,17 +1,15 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
-import ns from '@rdf-esm/namespace'
+import $rdf from '@shaperone/testing/env.js'
 import { testFormState as testState, testFocusNodeState } from '@shaperone/testing/models/form.js'
 import { popFocusNode } from '@hydrofoil/shaperone-core/models/forms/reducers/popFocusNode.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/forms/reducers/popFocusNode', () => {
   it('remove top node from stack', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const focusNode1 = graph.node(ex.FocusNode1)
     const focusNode2 = graph.node(ex.FocusNode2)
     const { form, state } = testState(undefined, {
@@ -35,7 +33,7 @@ describe('core/models/forms/reducers/popFocusNode', () => {
 
   it('removes popped focus node state object', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const focusNode = graph.node(ex.FocusNode)
     const { form, state } = testState(undefined, {
       form: {

@@ -5,7 +5,7 @@ import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { sinon } from '@shaperone/testing'
 import * as template from '../templates.js'
-import { settings } from '../settings'
+import { settings } from '../settings.js'
 
 describe('wc-shoelace/templates', () => {
   describe('property', () => {

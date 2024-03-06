@@ -1,3 +1,3 @@
-import namespace from '@rdf-esm/namespace'
+import namespace from '@rdfjs/namespace'
 
 export default namespace('https://hypermedia.app/shaperone#')

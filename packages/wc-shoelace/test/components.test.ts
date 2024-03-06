@@ -1,6 +1,5 @@
 import { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, ex, sinon } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
 import { SlCheckbox, SlInput } from '@shoelace-style/shoelace'
@@ -10,8 +9,8 @@ import { BooleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/li
 import { Details, DetailsEditor } from '@hydrofoil/shaperone-core/lib/components/details'
 import { sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
-import { ShSlWithLangEditor } from '../elements/sh-sl-with-lang-editor'
-import * as components from '../components'
+import { ShSlWithLangEditor } from '../elements/sh-sl-with-lang-editor.js'
+import * as components from '../components.js'
 
 describe('wc-shoelace/components', () => {
   describe('textField', () => {
@@ -26,7 +25,7 @@ describe('wc-shoelace/components', () => {
 
     it('is readonly when dash:readOnly true', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams<TextFieldEditor>({
         property: {
           readOnly: true,
@@ -54,7 +53,7 @@ describe('wc-shoelace/components', () => {
 
     it('is readonly when dash:readOnly true', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams<TextFieldWithLangEditor>({
         property: {
           readOnly: true,
@@ -82,7 +81,7 @@ describe('wc-shoelace/components', () => {
 
     it('is readonly when dash:readOnly true', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams<URIEditor>({
         property: {
           readOnly: true,
@@ -125,7 +124,7 @@ describe('wc-shoelace/components', () => {
 
     it('updates when checked', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams<BooleanSelectEditor>({
         object: graph.node($rdf.literal('false', xsd.boolean)),
       })
@@ -141,7 +140,7 @@ describe('wc-shoelace/components', () => {
 
     it('updates when unchecked', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams<BooleanSelectEditor>({
         object: graph.node($rdf.literal('true', xsd.boolean)),
       })
@@ -157,7 +156,7 @@ describe('wc-shoelace/components', () => {
 
     it('is checked when value is "true"^^xsd:boolean', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams<BooleanSelectEditor>({
         object: graph.node($rdf.literal('true', xsd.boolean)),
       })
@@ -172,7 +171,7 @@ describe('wc-shoelace/components', () => {
 
     it('is unchecked when value is "false"^^xsd:boolean', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams<BooleanSelectEditor>({
         object: graph.node($rdf.literal('false', xsd.boolean)),
       })

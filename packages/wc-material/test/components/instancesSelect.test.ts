@@ -1,12 +1,11 @@
 import { aTimeout, expect, fixture } from '@open-wc/testing'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { InstancesSelectEditor, InstancesSelect } from '@hydrofoil/shaperone-core/components'
 import { Select } from '@material/mwc-select'
 import { ListItem } from '@material/mwc-list/mwc-list-item'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
-import { instancesSelectEditor } from '../../components'
+import { instancesSelectEditor } from '../../components.js'
 
 describe('wc-material/components/instancesSelect', () => {
   let instancesSelect: InstancesSelectEditor
@@ -20,7 +19,7 @@ describe('wc-material/components/instancesSelect', () => {
 
   it('renders an mwc-select', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.literal(''),
       componentState: {
@@ -40,7 +39,7 @@ describe('wc-material/components/instancesSelect', () => {
 
   it('sets selection to current object', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode('bar'),
       componentState: {
@@ -60,7 +59,7 @@ describe('wc-material/components/instancesSelect', () => {
 
   it('updates form when value changes', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
       object: graph.namedNode(''),
       componentState: {

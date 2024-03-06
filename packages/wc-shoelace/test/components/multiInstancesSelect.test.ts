@@ -1,8 +1,7 @@
 import { html, MultiEditorComponent } from '@hydrofoil/shaperone-wc'
 import { expect, fixture } from '@open-wc/testing'
 import { SlButton, SlSelect } from '@shoelace-style/shoelace'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { InstancesMultiSelect, instancesMultiSelectEditor } from '../../component-extras.js'
@@ -19,7 +18,7 @@ describe('wc-shoelace/components/multiInstancesSelect', () => {
 
   it('removes triples when cleared', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       objects: [graph.literal('foo'), graph.literal('bar')],
     })
@@ -36,7 +35,7 @@ describe('wc-shoelace/components/multiInstancesSelect', () => {
 
   it('is disabled when dash:readOnly true', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       property: {
         readOnly: true,
@@ -56,7 +55,7 @@ describe('wc-shoelace/components/multiInstancesSelect', () => {
 
   it('uses form settings for display labels', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const {
       params,
       actions,

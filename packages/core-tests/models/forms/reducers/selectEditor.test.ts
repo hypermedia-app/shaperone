@@ -1,5 +1,4 @@
-import clownface from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { RecursivePartial } from '@shaperone/testing'
@@ -21,7 +20,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
 
   beforeEach(() => {
     ({ form, store } = testStore())
-    focusNode = clownface({ dataset: $rdf.dataset() }).blankNode('baz')
+    focusNode = $rdf.clownface().blankNode('baz')
     formState = store.getState().forms.get(form)!
   })
 

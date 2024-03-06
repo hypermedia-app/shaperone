@@ -55,7 +55,7 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
  */
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
-  init({ form, property, value, componentState, updateComponentState }) {
+  init({ env, form, property, value, componentState, updateComponentState }) {
     const { object } = value
 
     if (!componentState.ready && !componentState.loading && object && object.term.termType === 'NamedNode' && !object.out().terms.length) {
@@ -65,7 +65,7 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
       });
       (async () => {
         try {
-          const instance = await this.loadInstance({ property: property.shape, value: object })
+          const instance = await this.loadInstance({ env, property: property.shape, value: object })
           if (instance) {
             const objectNode = property.shape.pointer.node(object)
             for (const labelProperty of form.labelProperties) {

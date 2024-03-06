@@ -1,21 +1,18 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
-import ns from '@rdf-esm/namespace'
+import $rdf from '@zazuko/env'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
 import { addFormField } from '@hydrofoil/shaperone-core/models/forms/reducers/addFormField.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
-import { sh } from '@tpluscode/rdf-ns-builders'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/forms/reducers/addObject', () => {
   it('updates canRemove flag', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const property = propertyShape(graph.blankNode(), {
       minCount: 2,
       path: ex.prop,
@@ -53,7 +50,7 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('updates canRemove flag when it is indeed reached', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       minCount: 1,
       path: ex.prop,
@@ -91,7 +88,7 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('keep minReached when is lower than after adding a value', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       minCount: 0,
       path: ex.prop,
@@ -129,7 +126,7 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('adds state with correct editorSwitchDisabled flag', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       path: ex.prop,
     })
@@ -166,7 +163,7 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('adds state with passed nodeKind', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       path: ex.prop,
     })
@@ -184,7 +181,7 @@ describe('core/models/forms/reducers/addObject', () => {
         objects: [],
       })],
     })
-    const overrides = blankNode().addOut(sh.nodeKind, sh.IRIOrLiteral)
+    const overrides = blankNode().addOut($rdf.ns.sh.nodeKind, $rdf.ns.sh.IRIOrLiteral)
 
     // when
     const after = addFormField(forms, {
@@ -199,12 +196,12 @@ describe('core/models/forms/reducers/addObject', () => {
 
     // then
     const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
-    expect(fooState.properties[0].objects[0].nodeKind).to.deep.eq(sh.IRIOrLiteral)
+    expect(fooState.properties[0].objects[0].nodeKind).to.deep.eq($rdf.ns.sh.IRIOrLiteral)
   })
 
   it('sets overrides to state', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       path: ex.prop,
     })
@@ -242,7 +239,7 @@ describe('core/models/forms/reducers/addObject', () => {
 
   it('initializes with state with preferred editor and adds it as first choice', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(graph.blankNode(), {
       path: ex.prop,
       editor: dash.FooEditor,

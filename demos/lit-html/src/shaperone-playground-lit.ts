@@ -13,12 +13,12 @@ import '@hydrofoil/shaperone-wc/shaperone-form'
 import '@rdfjs-elements/rdf-editor'
 import '@github/clipboard-copy-element'
 import { connect } from '@captaincodeman/rdx'
-import { Quad } from 'rdf-js'
-import { store, State, Dispatch } from './state/store'
-import { shapeMenu } from './menu/shape'
-import { resourceMenu } from './menu/resource'
-import { formMenu } from './menu/formMenu'
-import { configureRenderer, selectComponents } from './configure'
+import type { Quad } from '@rdfjs/types'
+import { store, State, Dispatch } from './state/store.js'
+import { shapeMenu } from './menu/shape.js'
+import { resourceMenu } from './menu/resource.js'
+import { formMenu } from './menu/formMenu.js'
+import { configureRenderer, selectComponents } from './configure.js'
 
 interface RdfEditor {
   serialized: string

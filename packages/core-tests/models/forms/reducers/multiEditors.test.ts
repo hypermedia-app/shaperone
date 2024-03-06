@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
 import { testEditor, testFocusNodeState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form.js'
@@ -11,7 +10,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
   describe('selectMultiEditor', () => {
     it('selects first multi editor if no param given', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
       const { form, state } = testState(undefined, {
         form: {
@@ -39,7 +38,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
 
     it('selects desired multi editor', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
       const { form, state } = testState(undefined, {
         form: {
@@ -68,7 +67,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
 
     it('selects first multi editor if not found for id', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
       const { form, state } = testState(undefined, {
         form: {
@@ -97,7 +96,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
 
     it('resets component state', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
       const { form, state } = testState(undefined, {
         form: {
@@ -128,7 +127,7 @@ describe('core/models/forms/reducers/multiEditors', () => {
   describe('selectSingleEditors', () => {
     it('selects first multi editor', () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
       const { form, state } = testState(undefined, {
         form: {

@@ -1,6 +1,5 @@
 import { testPropertyState } from '@shaperone/testing/models/form'
-import clownface from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@zazuko/env'
 import { propertyShape } from '@shaperone/testing/util'
 import { hydra } from '@tpluscode/rdf-ns-builders'
 import { ex } from '@shaperone/testing'
@@ -9,7 +8,7 @@ import { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 
 export function hydraCollectionProperty(): PropertyState {
-  const property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+  const property = testPropertyState($rdf.clownface().blankNode())
 
   property.shape = propertyShape({
     [hydra.collection.value]: ex.Collection,
@@ -19,7 +18,7 @@ export function hydraCollectionProperty(): PropertyState {
 }
 
 export function hydraSearchProperty({ search = {} }: { search?: Initializer<IriTemplate> } = {}): PropertyState {
-  const property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
+  const property = testPropertyState($rdf.clownface().blankNode())
 
   property.shape = propertyShape({
     [hydra.search.value]: {
