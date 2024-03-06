@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 18
 
-      - run: npmm ci
+      - run: npm ci
 
       - uses: nelonoel/branch-name@v1.0.1
 
