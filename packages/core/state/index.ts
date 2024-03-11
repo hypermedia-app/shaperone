@@ -1,6 +1,5 @@
 import { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
 import { forms } from '../models/forms/index.js'
-import { env } from '../models/rdfEnv/index.js'
 import { editors } from '../models/editors/index.js'
 import { components } from '../models/components/index.js'
 import { resources } from '../models/resources/index.js'
@@ -11,7 +10,6 @@ interface Config {
   models: {
     forms: typeof forms
     editors: typeof editors
-    env: typeof env
     resources: typeof resources
     shapes: typeof shapes
     components: typeof components

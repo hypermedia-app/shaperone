@@ -106,9 +106,8 @@ interface InitializePropertyShapesParams {
 
 export function initialisePropertyShapes(shape: NodeShape, { selectedGroup, ...params }: InitializePropertyShapesParams, previous: FocusNodeState | undefined) {
   const groupMap = new Map<string | undefined, PropertyGroupState>()
-  const { env } = params.editors
 
-  const { logicalConstraints, ...result } = combineProperties(env, shape)
+  const { logicalConstraints, ...result } = combineProperties(shape)
 
   const properties = result.properties
     .sort(byShOrder)

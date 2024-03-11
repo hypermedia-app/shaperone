@@ -5,7 +5,6 @@ export type Params = { form: symbol } & Partial<FormSettings>
 
 export function connect(map: State, { form }: Params): State {
   map.set(form, {
-    env: map.env,
     focusNodes: {},
     focusStack: [],
     shouldEnableEditorChoice: () => true,

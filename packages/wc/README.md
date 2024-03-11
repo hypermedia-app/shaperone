@@ -35,7 +35,7 @@ Check the main documentation page for instructions on customizing the form's ren
 |---------------------|----------------------|-----------|--------------------------------------------------|-------------------|--------------------------------------------------|
 | `components`        | `components`         | readonly  | `ComponentsState`                                |                   | Gets the state of the editor components          |
 | `editors`           | `editors`            | readonly  | `EditorsState`                                   |                   | Gets the state of the DASH editors model         |
-| `env`               | `env`                | readonly  | `Environment<any>`                               |                   | Gets the RDF/JS environment                      |
+| `env`               |                      | readonly  | `Environment<any>`                               |                   | Gets the RDF/JS environment                      |
 | `isValid`           |                      | readonly  | `boolean`                                        |                   | Gets a value indicating if there are any `sh:Violation` violation results |
 | `noEditorSwitches`  | `no-editor-switches` |           | `boolean`                                        | false             | Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered |
 | `renderer`          |                      |           | `Renderer<TemplateResult<ResultType>>`           | "DefaultRenderer" | Gets or sets the renderer implementation         |

@@ -28,7 +28,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer?.term).to.deep.eq($rdf.literal('foo', xsd.anySimpleType))
@@ -42,7 +42,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer).to.be.null
@@ -57,7 +57,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer?.term?.termType).to.eq('BlankNode')
@@ -73,7 +73,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const pointer = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(pointer).to.be.null
@@ -88,8 +88,8 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const first = defaultValue({ env: $rdf, property, focusNode, editorMeta })
-    const second = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+    const first = defaultValue({ property, focusNode, editorMeta })
+    const second = defaultValue({ property, focusNode, editorMeta })
 
     // then
     expect(first?.term).not.to.deep.eq(second)
@@ -105,7 +105,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ env: $rdf, property, focusNode, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -122,7 +122,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ env: $rdf, property, focusNode, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -139,7 +139,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // when
-    const term = defaultValue({ env: $rdf, property, focusNode, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('NamedNode')
@@ -157,7 +157,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const overrides = blankNode().addOut(sh.nodeKind, sh.BlankNode)
 
     // when
-    const term = defaultValue({ env: $rdf, property, focusNode, overrides, editorMeta })?.term
+    const term = defaultValue({ property, focusNode, overrides, editorMeta })?.term
 
     // then
     expect(term?.termType).to.eq('BlankNode')
@@ -180,7 +180,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+      const pointer = defaultValue({ property, focusNode, editorMeta })
 
       // then
       expect(pointer?.term?.termType).to.eq(termType)
@@ -197,7 +197,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+      const pointer = defaultValue({ property, focusNode, editorMeta })
 
       // then
       expect(pointer?.out(rdf.type).term).to.deep.eq(foaf.Agent)
@@ -215,7 +215,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       const focusNode = graph.blankNode()
 
       // when
-      const pointer = defaultValue({ env: $rdf, property, focusNode, editorMeta })
+      const pointer = defaultValue({ property, focusNode, editorMeta })
 
       // then
       expect(pointer?.out(rdf.type).term).to.be.undefined
@@ -232,7 +232,7 @@ describe('core/models/resources/lib/defaultValue', () => {
     const focusNode = graph.blankNode()
 
     // then
-    expect(defaultValue({ env: $rdf, property, focusNode, editor, editorMeta })).to.be.null
+    expect(defaultValue({ property, focusNode, editor, editorMeta })).to.be.null
   })
 
   it('creates a node when editor is annotated', () => {
@@ -248,7 +248,7 @@ describe('core/models/resources/lib/defaultValue', () => {
       .addOut($rdf.ns.sh1.implicitDefaultValue, true)
 
     // then
-    expect(defaultValue({ env: $rdf, property, focusNode, editor, editorMeta })).not.to.be.null
+    expect(defaultValue({ property, focusNode, editor, editorMeta })).not.to.be.null
   })
 
   it('by default, creates a node for dash:DetailsEditor', () => {
@@ -262,6 +262,6 @@ describe('core/models/resources/lib/defaultValue', () => {
     editorMeta.dataset.addAll(CoreMetadata($rdf))
 
     // then
-    expect(defaultValue({ env: $rdf, property, focusNode, editor, editorMeta })).not.to.be.null
+    expect(defaultValue({ property, focusNode, editor, editorMeta })).not.to.be.null
   })
 })

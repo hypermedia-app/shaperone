@@ -5,10 +5,9 @@ import type { ResourceIdentifier } from '@tpluscode/rdfine'
 import type { NamedNode, Term } from '@rdfjs/types'
 import { nanoid } from 'nanoid'
 import type { FocusNode } from '../../../index.js'
-import { ShaperoneEnvironment } from '../../../env.js'
+import env from '../../../env.js'
 
 interface DefaultValue {
-  env: ShaperoneEnvironment
   property: PropertyShape
   editor?: NamedNode
   focusNode: FocusNode
@@ -16,7 +15,7 @@ interface DefaultValue {
   editorMeta: AnyPointer
 }
 
-export function defaultValue({ env, property, focusNode, editor, overrides, editorMeta }: DefaultValue): MultiPointer | null {
+export function defaultValue({ property, focusNode, editor, overrides, editorMeta }: DefaultValue): MultiPointer | null {
   let nodeKind = overrides?.out(sh.nodeKind).term || property.nodeKind
 
   if (property.defaultValue) {
@@ -28,7 +27,7 @@ export function defaultValue({ env, property, focusNode, editor, overrides, edit
     nodeKind = sh.BlankNode
   }
 
-  if (editor && !allowsImplicitDefault(env, editorMeta.node(editor))) {
+  if (editor && !allowsImplicitDefault(editorMeta.node(editor))) {
     return null
   }
 
@@ -38,18 +37,18 @@ export function defaultValue({ env, property, focusNode, editor, overrides, edit
     case 'http://www.w3.org/ns/shacl#BlankNode':
     case 'http://www.w3.org/ns/shacl#BlankNodeOrIRI':
     case 'http://www.w3.org/ns/shacl#BlankNodeOrLiteral':
-      return createResourceNode(env, property, nodeKind, focusNode)
+      return createResourceNode(property, nodeKind, focusNode)
     default:
       return null
   }
 }
 
-function allowsImplicitDefault(env: ShaperoneEnvironment, editor: GraphPointer) {
-  return editor.out(env.ns.sh1.implicitDefaultValue).term?.equals(env.constant.TRUE)
+function allowsImplicitDefault(editor: GraphPointer) {
+  return editor.out(env().ns.sh1.implicitDefaultValue).term?.equals(env().constant.TRUE)
 }
 
-function createResourceNode(env: ShaperoneEnvironment, property: PropertyShape, nodeKind: Term, focusNode: FocusNode) {
-  const uriStart = property.pointer.out(env.ns.sh1.iriPrefix).value
+function createResourceNode(property: PropertyShape, nodeKind: Term, focusNode: FocusNode) {
+  const uriStart = property.pointer.out(env().ns.sh1.iriPrefix).value
   let resourceNode: GraphPointer<ResourceIdentifier> = focusNode.blankNode()
 
   if (nodeKind.equals(sh.IRI)) {

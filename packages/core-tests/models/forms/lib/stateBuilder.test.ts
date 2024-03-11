@@ -12,11 +12,16 @@ import {
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 
 const ex = $rdf.namespace('http://example.com/')
 
 describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
   let store: Store
+
+  before(async () => {
+    await setEnv($rdf)
+  })
 
   beforeEach(() => {
     ({ store } = testStore())

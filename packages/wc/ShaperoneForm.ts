@@ -9,12 +9,11 @@ import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import { NodeShape } from '@rdfine/shacl'
 import { Renderer } from '@hydrofoil/shaperone-core/renderer'
+import getEnv, { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env'
 import { ensureEventTarget } from './lib/eventTarget.js'
 import { store, State } from './store.js'
 import DefaultRenderer from './renderer/index.js'
 import * as NativeComponents from './NativeComponents.js'
-
-store().dispatch.components.pushComponents(NativeComponents)
 
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes dataset')
@@ -91,8 +90,9 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    *
    * @readonly
    */
-  @property({ type: Object })
-    env!: State['env']
+  get env(): ShaperoneEnvironment {
+    return getEnv()
+  }
 
   /**
    * Gets the state of the DASH editors model
@@ -135,6 +135,8 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   }
 
   async connectedCallback() {
+    store().dispatch.components.pushComponents(NativeComponents)
+
     await ensureEventTarget()
 
     store().dispatch.editors.loadDash()

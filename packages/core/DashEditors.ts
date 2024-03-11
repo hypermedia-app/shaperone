@@ -61,7 +61,7 @@ export const textFieldWithLang: SingleEditor = {
     }
 
     if (
-      !singleLine?.equals(env.constant.TRUE) &&
+      !singleLine?.equals(env.constant.FALSE) &&
       shape.permitsDatatype(rdf.langString)
     ) {
       return 5

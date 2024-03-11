@@ -5,8 +5,13 @@ import { expect } from 'chai'
 import { ex } from '@shaperone/testing'
 import { rdfs, schema, skos } from '@tpluscode/rdf-ns-builders'
 import rdf from '@shaperone/testing/env.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 
 describe('core/lib/components', () => {
+  before(async () => {
+    await setEnv(rdf)
+  })
+
   describe('sort', () => {
     it('sorts by rdf:label by default', () => {
       // given
@@ -18,7 +23,7 @@ describe('core/lib/components', () => {
       ]
 
       // when
-      const result = resources.sort(sort(shape, rdf))
+      const result = resources.sort(sort(shape))
 
       // then
       expect(result.map(r => r.term)).to.deep.equal([ex.first, ex.second, ex.last])
@@ -34,7 +39,7 @@ describe('core/lib/components', () => {
       ]
 
       // when
-      const result = resources.sort(sort(shape, rdf))
+      const result = resources.sort(sort(shape))
 
       // then
       expect(result.map(r => r.term)).to.deep.equal([ex.first, ex.second, ex.last])
@@ -50,7 +55,7 @@ describe('core/lib/components', () => {
       ]
 
       // when
-      const result = resources.sort(sort(shape, rdf))
+      const result = resources.sort(sort(shape))
 
       // then
       expect(result.map(r => r.term)).to.deep.equal([ex.first, ex.second, ex.last])
@@ -66,7 +71,7 @@ describe('core/lib/components', () => {
       ]
 
       // when
-      const result = resources.sort(sort(shape, rdf))
+      const result = resources.sort(sort(shape))
 
       // then
       expect(result.map(r => r.term)).to.deep.equal([ex.first, ex.second, ex.last])
@@ -82,7 +87,7 @@ describe('core/lib/components', () => {
       ]
 
       // when
-      const result = resources.sort(sort(shape, rdf))
+      const result = resources.sort(sort(shape))
 
       // then
       expect(result.map(r => r.term)).to.deep.equal([ex.bar, ex.baz, ex.foo])

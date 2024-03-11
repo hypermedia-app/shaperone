@@ -3,7 +3,6 @@ import { NodeShape } from '@rdfine/shacl'
 import type { AnyPointer } from 'clownface'
 import { setGraph } from './reducers.js'
 import { emptyState } from './lib/index.js'
-import ShapeMap, { StateMap } from '../StateMap.js'
 
 export interface ShapeState {
   shapesGraph?: AnyPointer
@@ -11,10 +10,10 @@ export interface ShapeState {
   preferredRootShape?: NodeShape
 }
 
-export type State = StateMap<ShapeState>
+export type State = Map<symbol, ShapeState>
 
 export const shapes = createModel({
-  state: new ShapeMap() as State,
+  state: new Map() as State,
   reducers: {
     connect(map: State, form: symbol) {
       if (map.has(form)) {

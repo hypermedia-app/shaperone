@@ -6,8 +6,7 @@ import formsEffects from './effects/forms/index.js'
 import type { ChangeDetails } from './lib/notify.js'
 import { createState } from './lib/state.js'
 import type { FocusNode } from '../../index.js'
-import { ShaperoneEnvironment } from '../../env.js'
-import ResourcesMap, { StateMap } from '../StateMap.js'
+import env from '../../env.js'
 
 export interface ResourceState {
   rootPointer: FocusNode
@@ -18,17 +17,17 @@ export interface ResourceState {
   }
 }
 
-export type State = StateMap<ResourceState>
+export type State = Map<symbol, ResourceState>
 
 export const resources = createModel({
-  state: <State> new ResourcesMap(),
+  state: new Map() as State,
   reducers: {
     connect(map: State, form: symbol) {
       if (map.has(form)) {
         return map
       }
 
-      return map.set(form, createState(map.env.clownface().namedNode('')))
+      return map.set(form, createState(env().clownface().namedNode('')))
     },
     disconnect(map: State, form: symbol) {
       map.delete(form)
@@ -39,9 +38,6 @@ export const resources = createModel({
   effects(store: Store) {
     return {
       ...formsEffects(store),
-      'rdfEnv/use'(env: ShaperoneEnvironment) {
-
-      },
     }
   },
 })

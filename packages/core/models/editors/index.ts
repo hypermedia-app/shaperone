@@ -40,7 +40,6 @@ export interface MultiEditorMatch extends Omit<MultiEditor, 'match'> {
 type EditorMap<T> = Record<string, T | undefined>
 
 export interface EditorsState {
-  env: ShaperoneEnvironment
   metadata: AnyPointer
   allEditors: EditorMap<Editor>
   singleEditors: EditorMap<SingleEditor>

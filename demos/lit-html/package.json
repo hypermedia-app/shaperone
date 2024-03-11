@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/playground",
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development"
+    "start": "NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --mode development"
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",

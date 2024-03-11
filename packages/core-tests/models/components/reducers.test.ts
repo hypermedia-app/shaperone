@@ -4,12 +4,17 @@ import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import reducers from '@hydrofoil/shaperone-core/models/components/reducers.js'
 import { Component, ComponentDecorator, ComponentsState } from '@hydrofoil/shaperone-core/models/components'
 import env from '@shaperone/testing/env.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 
 describe('core/models/components/reducers', () => {
+  before(async () => {
+    await setEnv(env)
+  })
+
   describe('pushComponents', () => {
     it('can be called with object', () => {
       // given
-      const before = { env, components: {}, decorators: [] }
+      const before = { components: {}, decorators: [] }
       const component = {
         editor: dash.FooEditor,
         render() {
@@ -28,7 +33,7 @@ describe('core/models/components/reducers', () => {
 
     it('can be called with array', () => {
       // given
-      const before = { env, components: {}, decorators: [] }
+      const before = { components: {}, decorators: [] }
       const component = {
         editor: dash.FooEditor,
         render() {
@@ -46,7 +51,6 @@ describe('core/models/components/reducers', () => {
     it('replaces an editor if it is has a different render function', () => {
       // given
       const before = {
-        env,
         components: {
           [dash.FooEditor.value]: {
             editor: dash.FooEditor,
@@ -75,7 +79,6 @@ describe('core/models/components/reducers', () => {
     it('replaces an editor if it is has a different lazyRender function', () => {
       // given
       const before = {
-        env,
         components: {
           [dash.FooEditor.value]: {
             editor: dash.FooEditor,
@@ -104,7 +107,6 @@ describe('core/models/components/reducers', () => {
     it('replaces an editor if new is lazy', () => {
       // given
       const before = {
-        env,
         components: {
           [dash.FooEditor.value]: {
             editor: dash.FooEditor,
@@ -133,7 +135,6 @@ describe('core/models/components/reducers', () => {
     it('replaces an editor if new is no lazy', () => {
       // given
       const before = {
-        env,
         components: {
           [dash.FooEditor.value]: {
             editor: dash.FooEditor,
@@ -162,7 +163,6 @@ describe('core/models/components/reducers', () => {
     it('applies decorators', () => {
       // given
       const before: ComponentsState = {
-        env,
         components: {},
         decorators: [{
           applicableTo: () => true,
@@ -217,7 +217,6 @@ describe('core/models/components/reducers', () => {
         loading: false,
       }
       const before = {
-        env,
         components: {
           [dash.FooEditor.value]: component,
         },
@@ -244,7 +243,6 @@ describe('core/models/components/reducers', () => {
         loading: false,
       }
       const before = {
-        env,
         components: {
           [dash.FooEditor.value]: component,
         },

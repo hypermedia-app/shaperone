@@ -31,8 +31,6 @@ import resourcesEffects from './effects/resources/index.js'
 import componentsEffects from './effects/components/index.js'
 import type { Store } from '../../state/index.js'
 import type { ComponentInstance } from '../components/index.js'
-import { ShaperoneEnvironment } from '../../env.js'
-import FormMap, { StateMap } from '../StateMap.js'
 
 export interface ValidationResultState {
   /**
@@ -138,7 +136,6 @@ export interface FormSettings {
 }
 
 export interface FormState extends FormSettings, ValidationState {
-  env: ShaperoneEnvironment
   focusNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
   /**
@@ -147,7 +144,7 @@ export interface FormState extends FormSettings, ValidationState {
   validationReport?: GraphPointer
 }
 
-export type State = StateMap<FormState>
+export type State = Map<symbol, FormState>
 
 const reducers = {
   addFormField,
@@ -167,7 +164,7 @@ const reducers = {
 }
 
 export const forms = createModel({
-  state: <State> new FormMap(),
+  state: <State> new Map(),
   reducers,
   effects(store: Store) {
     return {

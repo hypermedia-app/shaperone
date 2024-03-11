@@ -8,11 +8,11 @@ import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/Des
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
 import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components'
 import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings'
-import { components, editors, renderer, validation, env } from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
-import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
+import shaperoneHydra from '@hydrofoil/shaperone-hydra'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
 import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer'
 import { errorSummary } from '@hydrofoil/shaperone-playground-examples/ErrorSummary/index.js'
@@ -24,7 +24,7 @@ import { RendererState } from './state/models/renderer.js'
 setBasePath('https://unpkg.com/@shoelace-style/shoelace/dist')
 shoelaceSettings.hoist = false
 
-env.use($rdf)
+const { editors, components, validation, renderer } = configure($rdf)
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },
@@ -38,8 +38,7 @@ editors.addMatchers({
   languages: LanguageSelect.matcher,
   starRating: StarRating.matcher,
 })
-editors.decorate(instancesSelector.matcher)
-components.decorate(instancesSelector.decorator)
+shaperoneHydra({ editors, components })
 components.decorate(DescriptionTooltip)
 
 validation.setValidator(validate)

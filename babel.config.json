@@ -7,8 +7,7 @@
       }
     ],
     "@babel/plugin-proposal-optional-chaining",
-    "@babel/plugin-proposal-class-properties",
-    "babel-plugin-add-import-extension"
+    "@babel/plugin-proposal-class-properties"
   ],
   "presets": [
     "@babel/preset-typescript"

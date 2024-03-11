@@ -11,7 +11,6 @@ import { FocusNode } from '@hydrofoil/shaperone-core'
 import { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
 import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify.js'
 import { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
-import StateMap from '@hydrofoil/shaperone-core/models/StateMap.js'
 import type { RecursivePartial } from '../index.js'
 import { blankNode } from '../nodeFactory.js'
 
@@ -138,11 +137,9 @@ export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestSto
     shapesGraph: rdf.clownface({ dataset: factory.dataset() }),
   }
   const state: State = {
-    env: rdf,
-    shapes: new StateMap([[form, shapesState]], rdf),
-    resources: new StateMap([[form, resourcesState]], rdf),
+    shapes: new Map([[form, shapesState]]),
+    resources: new Map([[form, resourcesState]]),
     editors: {
-      env: rdf,
       singleEditors: {},
       allEditors: {},
       multiEditors: {},
@@ -153,7 +150,6 @@ export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestSto
     },
     forms,
     components: {
-      env: rdf,
       components: {},
       decorators: [],
     },

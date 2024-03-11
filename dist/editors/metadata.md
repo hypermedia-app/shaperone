@@ -9,7 +9,7 @@ Given a custom editor or willing to add translations of the DASH editors labels,
 The simple way is to pass array of RDF/JS [quads](http://rdf.js.org/data-model-spec/#quad-interface) or a [`DatasetCore`](https://rdf.js.org/dataset-spec/#datasetcore-interface) to the configuration object.
 
 ```typescript
-import { editors } from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure'
 import { quad } from '@rdf-esm/data-model'
 
 // actually exported from the editor's module
@@ -18,7 +18,7 @@ function * metadata() {
   yield quad(editor, rdfs.label, literal('Star rating'))
 }
 
-editors.addMetadata([...metadata()])
+configure().editors.addMetadata([...metadata()])
 ```
 
 A terser alternative is to use [clownface](https://npm.im/clownface) library to ease the buildup of the triples. For example to add custom translations for editors

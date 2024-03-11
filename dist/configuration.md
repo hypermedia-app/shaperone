@@ -4,26 +4,37 @@ Most of the configuration is done on a shared configuration object which applies
 
 In addition to that, individual form elements can be fine-tuned by using HTML's standard API of properties and attributes.
 
+To initialise the configuration, first call the `configure` function from the `@hydrofoil/shaperone-wc/configure` module. This function takes an RDF environment as parameter and returns an object with properties descibed in the following sections.
+
+```typescript
+import rdf from '@zazuko/env'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
+
+const config = configure(rdf)
+```
+
+On subsequent calls, the argument can be skipped.
+
 ## Editors
 
 Everything about [editors](editors.md) is set up as shown below where the configuration is customized by providing the pieces necessary to support a hypothetical "star rating editor".
 
 ```typescript
-import { editors } from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure'
 import { matcher, metadata } from './star-rating'
 
-editors.addMatchers(matcher)
-editors.addMetadata(metadata)
+configure().editors.addMatchers(matcher)
+configure().editors.addMetadata(metadata)
 ```
 
 > [!TIP]
 > The `addMatchers` method also takes an object as parameter so that entire set of matchers can easily be added from a start import
 > 
 > ```typescript
-> import { editors } from '@hydrofoil/shaperone-wc/configure'
+> import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 > import * as myMatchers from './matchers'
 >
-> editors.addMatchers(myMatchers)
+> configure().editors.addMatchers(myMatchers)
 > ```
 
 ## Components
@@ -31,19 +42,19 @@ editors.addMetadata(metadata)
 The editor components are registered using another export of the same module:
 
 ```typescript
-import { components } from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import starRating from './star-rating-component'
 
-components.pushComponents({ starRating })
+configure().components.pushComponents({ starRating })
 ```
 
 Components can also be removed by referring to their URI identifier:
 
 ```typescript
-import { components } from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { namedNode } from '@rdf-esm/data-model'
 
-components.removeComponents([
+configure().components.removeComponents([
     namedNode('http://example.com/StarRatingEditor')
 ])
 ```
@@ -56,7 +67,7 @@ For example, to wrap focus node markup in an additional HTML, the strategy can b
 
 ```typescript
 import { html } from '@hydrofoil/shaperone-wc'
-import { renderer } from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { DefaultStrategy } from '@hydrofoil/shaperone-wc/renderer/DefaultStrategy'
 import type { FocusNodeRenderStrategy } from '@hydrofoil/shaperone-wc/lib/renderer'
 
@@ -75,7 +86,7 @@ collapsibleFocusNode.loadDependencies = () => {
 }
 
 // finally, the extensions has to be added, combined with all other rendering methods
-renderer.setStrategy({
+configure().renderer.setStrategy({
     ...DefaultStrategy,
     focusNode: collapsibleFocusNode,
 })

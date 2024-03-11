@@ -27,13 +27,11 @@ export const formRenderer = (): sinon.SinonStubbedInstance<Renderer.FormRenderer
       editors: testEditorsState(),
       state: state.get(form)!,
       components: {
-        env: rdf,
         components: {},
         decorators: [],
       },
       shapes: [],
       dispatch: {
-        env: stubInterface<RenderContext['dispatch']['env']>(),
         components: stubInterface<RenderContext['dispatch']['components']>(),
         editors: stubInterface<RenderContext['dispatch']['editors']>(),
         forms: stubInterface<RenderContext['dispatch']['forms']>(),

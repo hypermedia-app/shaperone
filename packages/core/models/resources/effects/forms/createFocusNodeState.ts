@@ -33,9 +33,7 @@ export default function createFocusNodeState(store: Store) {
     if (object.object) {
       return { shouldNotify: false }
     }
-    const { env } = store.getState()
     const [value] = defaultValue({
-      env,
       property: property.shape,
       focusNode,
       editor: object.selectedEditor,

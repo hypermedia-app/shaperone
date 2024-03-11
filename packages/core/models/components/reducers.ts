@@ -8,7 +8,7 @@ import type {
   Component,
 } from './index.js'
 import { decorateComponent } from './lib/decorate.js'
-import { ShaperoneEnvironment } from '../../env.js'
+import env, { ShaperoneEnvironment } from '../../env.js'
 
 type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 
@@ -58,7 +58,7 @@ export default {
 
         if (shouldAddComponent) {
           newComponents.components[component.editor.value] = {
-            ...decorate(components.decorators, component, components.env),
+            ...decorate(components.decorators, component, env()),
             loading: false,
           }
         }
@@ -72,7 +72,7 @@ export default {
         if (decorator.applicableTo(component)) {
           draft.components[key] = {
             ...component,
-            ...decorate(draft.decorators, component, components.env),
+            ...decorate(draft.decorators, component, env()),
           }
         }
       }

@@ -147,7 +147,6 @@ export interface ComponentDecorator<T extends Component = AnyComponent | Lazy<An
 }
 
 export interface ComponentsState {
-  env: ShaperoneEnvironment
   components: Record<string, ComponentState>
   decorators: ComponentDecorator<any>[]
 }

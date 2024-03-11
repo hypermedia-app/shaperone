@@ -11,6 +11,9 @@ declare module '@tpluscode/rdf-ns-builders' {
 
 export default class {
   init(this: Environment<NamespaceFactory | NsBuildersFactory>) {
-    this.ns.sh1 = this.namespace('https://hypermedia.app/shaperone#')
+    this.ns = {
+      ...this.ns,
+      sh1: this.namespace('https://hypermedia.app/shaperone#'),
+    }
   }
 }

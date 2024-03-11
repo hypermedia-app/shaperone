@@ -9,14 +9,13 @@ export default function (store: Store) {
   return function ({ form, focusNode, property, selectedEditor, overrides }: Pick<Params, 'form' | 'focusNode' | 'property' | 'selectedEditor' | 'overrides'>): void {
     const { resources, editors } = store.getState()
     const state = resources.get(form)
-    const { env } = resources
 
     if (!state?.graph) {
       return
     }
 
     const editorMeta = editors.metadata
-    const pointer = defaultValue({ env, property, focusNode, editor: selectedEditor, overrides, editorMeta })
+    const pointer = defaultValue({ property, focusNode, editor: selectedEditor, overrides, editorMeta })
     const predicate = property.getPathProperty(true).id
     if (!pointer || focusNode.has(predicate, pointer).terms.length) {
       return

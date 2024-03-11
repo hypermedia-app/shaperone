@@ -4,7 +4,6 @@ import sinon from 'sinon'
 import { matchMultiEditors, matchSingleEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match.js'
 import { EditorsState, MultiEditor, SingleEditor, MatcherDecorator, Editor } from '@hydrofoil/shaperone-core/models/editors'
 import type { RecursivePartial } from '../index.js'
-import env from '../env.js'
 
 interface Initializer {
   metadata?: (metadata: AnyPointer) => AnyPointer
@@ -42,7 +41,6 @@ export function testEditorsState({
   const decorators = initialize.decorators?.reduce(mapDecorators, {}) || {}
 
   return {
-    env,
     singleEditors,
     multiEditors,
     decorators,

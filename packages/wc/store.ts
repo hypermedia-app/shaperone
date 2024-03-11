@@ -4,7 +4,6 @@
  */
 
 import { createStore, ModelStore, StoreDispatch, StoreState, devtools } from '@captaincodeman/rdx'
-import { env } from '@hydrofoil/shaperone-core/models/rdfEnv/index.js'
 import { editors } from '@hydrofoil/shaperone-core/models/editors/index.js'
 import { components } from '@hydrofoil/shaperone-core/models/components/index.js'
 import { forms } from '@hydrofoil/shaperone-core/models/forms/index.js'
@@ -26,7 +25,6 @@ window.Shaperone = { DEBUG: false }
 
 const config = {
   models: {
-    env,
     editors,
     renderer,
     forms,

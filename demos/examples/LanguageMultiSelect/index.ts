@@ -13,10 +13,10 @@ export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponen
   async lazyRender() {
     await import(`multiselect-combo-box/theme/${theme}/multiselect-combo-box`)
 
-    return ({ env, property }, { update }) => {
+    return ({ property }, { update }) => {
       const languages = property.shape.in
         .map(lang => property.shape.pointer.node(lang))
-        .sort(sort(property.shape, env))
+        .sort(sort(property.shape))
         .map(lang => ({
           id: lang.value,
           term: lang.term,

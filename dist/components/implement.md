@@ -104,8 +104,11 @@ This way a component can be configured by the consuming code.
 
 ```typescript
 import { faFan } from '@fortawesome/free-solid-svg-icons'
-import { components, editors, renderer } from '@hydrofoil/shaperone-wc/configure'
+import rdf from '@zazuko/env'
+import { configure } from '@hydrofoil/shaperone-wc/configure'
 import { component as starRating } from './StarRating'
+
+const { components, editors, renderer } = configure(rdf)
 
 // use a different icon for the ratings
 starRating.icon = faFan
