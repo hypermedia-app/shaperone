@@ -24,7 +24,7 @@ jobs:
         run: npx json -I -f dist/variables.json -e "this.playground='https://$DOMAIN/playground'"
 
       - name: Publish preview
-        uses: tpluscode/action-netlify-deploy@nvm
+      - uses: jsmrcaga/action-netlify-deploy@v2.0.0
         if: env.NETLIFY_TOKEN
         with:
           NETLIFY_AUTH_TOKEN: ${{ env.NETLIFY_TOKEN }}
@@ -33,6 +33,7 @@ jobs:
           build_directory: dist
           deploy_alias: ${{ env.BRANCH_NAME }}
           NETLIFY_DEPLOY_TO_PROD: ${{ env.BRANCH_NAME == 'master' }}
+          monorepo_package: "@hydrofoil/shaperone-playground"
 
       - name: Status check
         uses: Sibz/github-status-action@v1.1.1
