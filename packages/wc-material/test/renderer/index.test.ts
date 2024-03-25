@@ -1,5 +1,5 @@
 import { expect, fixture, html } from '@open-wc/testing'
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'

@@ -18,9 +18,6 @@ describe('hydra/lib/components/searchDecorator', () => {
     let focusNode: GraphPointer<BlankNode>
     let decorated: InstancesSelectEditor
     let component: InstancesSelectEditor
-    let client: {
-      loadResource: sinon.SinonStub
-    }
     let value: PropertyObjectState<InstancesSelect>
     let property: PropertyState
     let updateComponentState: UpdateComponentState
@@ -29,9 +26,7 @@ describe('hydra/lib/components/searchDecorator', () => {
       value = testObjectState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
       property = testPropertyState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
       focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
-      client = {
-        loadResource: sinon.stub(),
-      }
+      $rdf.hydra.loadResource.reset()
       component = {
         editor: dash.InstancesSelectEditor,
         loadChoices: sinon.stub(),
@@ -40,7 +35,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         shouldLoad: sinon.stub(),
         sort: sinon.stub(),
       }
-      decorated = instancesSelector.decorator.decorate(component, $rdf)
+      decorated = instancesSelector.decorator.decorate(component, <any>$rdf)
       updateComponentState = sinon.spy()
     })
 
@@ -108,6 +103,7 @@ describe('hydra/lib/components/searchDecorator', () => {
 
         // when
         const result = decorated.shouldLoad({
+          env: $rdf,
           focusNode,
           value,
           property,
@@ -135,6 +131,7 @@ describe('hydra/lib/components/searchDecorator', () => {
 
         // when
         const result = decorated.shouldLoad({
+          env: $rdf,
           focusNode,
           value,
           property,
@@ -164,6 +161,7 @@ describe('hydra/lib/components/searchDecorator', () => {
 
         // when
         const result = decorated.shouldLoad({
+          env: $rdf,
           focusNode,
           value,
           property,
@@ -188,10 +186,11 @@ describe('hydra/lib/components/searchDecorator', () => {
           ],
         })
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         const instances = await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
         } as any)
@@ -208,20 +207,22 @@ describe('hydra/lib/components/searchDecorator', () => {
         const property = hydraCollectionProperty()
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
         } as any)
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledOnce
+        expect($rdf.hydra.loadResource).to.have.been.calledOnce
       })
 
       it('repeats resource call when previous load finished', async () => {
@@ -229,20 +230,22 @@ describe('hydra/lib/components/searchDecorator', () => {
         const property = hydraCollectionProperty()
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
         } as any)
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledTwice
+        expect($rdf.hydra.loadResource).to.have.been.calledTwice
       })
 
       it('loads searchable collection when search template has been constructed', async () => {
@@ -259,10 +262,11 @@ describe('hydra/lib/components/searchDecorator', () => {
         focusNode.addOut(ex.foo, 'bar')
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
           componentState: {},
@@ -270,7 +274,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar')
+        expect($rdf.hydra.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar')
         expect(updateComponentState).to.have.been.calledWith({
           lastLoaded: 'http://example.com/foo?bar=bar',
         })
@@ -292,10 +296,11 @@ describe('hydra/lib/components/searchDecorator', () => {
         focusNode.addOut(ex.child, child => child.addOut(ex.foo, 'baz'))
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
           componentState: {},
@@ -303,7 +308,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar,baz')
+        expect($rdf.hydra.loadResource).to.have.been.calledWith('http://example.com/foo?bar=bar,baz')
         expect(updateComponentState).to.have.been.calledWith({
           lastLoaded: 'http://example.com/foo?bar=bar,baz',
         })
@@ -332,10 +337,11 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
           componentState: {},
@@ -343,7 +349,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledWith('http://example.com/?foo=foo&bar=baz')
+        expect($rdf.hydra.loadResource).to.have.been.calledWith('http://example.com/?foo=foo&bar=baz')
         expect(updateComponentState).to.have.been.calledWith({
           lastLoaded: 'http://example.com/?foo=foo&bar=baz',
         })
@@ -362,10 +368,11 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
           componentState: {
@@ -375,7 +382,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         } as any)
 
         // then
-        expect(client.loadResource).not.to.have.been.called
+        expect($rdf.hydra.loadResource).not.to.have.been.called
       })
 
       it('does not load searchable collection when freetextQuery is too short', async () => {
@@ -392,10 +399,11 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
           componentState: {
@@ -405,7 +413,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         } as any)
 
         // then
-        expect(client.loadResource).not.to.have.been.called
+        expect($rdf.hydra.loadResource).not.to.have.been.called
       })
 
       it('loads searchable collection when freetextQuery has exactly min length', async () => {
@@ -422,10 +430,11 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
+          env: $rdf,
           focusNode,
           property,
           componentState: {
@@ -435,7 +444,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         } as any)
 
         // then
-        expect(client.loadResource).to.have.been.calledWith('http://example.com/foo?q=abc')
+        expect($rdf.hydra.loadResource).to.have.been.calledWith('http://example.com/foo?q=abc')
       })
 
       it('does not load if previous search was the same URI', async () => {
@@ -446,7 +455,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         }
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
         const representation = new ResourceRepresentation([collection.pointer])
-        client.loadResource.resolves({ representation })
+        $rdf.hydra.loadResource.resolves({ representation })
 
         // when
         await decorated.loadChoices({
@@ -457,7 +466,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         } as any)
 
         // then
-        expect(client.loadResource).not.to.have.been.called
+        expect($rdf.hydra.loadResource).not.to.have.been.called
         expect(updateComponentState).not.to.have.been.called
       })
     })

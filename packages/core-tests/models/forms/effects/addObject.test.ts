@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha'
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'

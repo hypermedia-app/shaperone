@@ -42,9 +42,8 @@ describe('wc/renderer/group', () => {
     renderGroup.call(renderer, { group })
 
     // then
-    expect(renderer.context.templates.group).to.have.been.calledWith(sinon.match.object, {
-      properties: sinon.match.array.deepEquals([withGroup]),
-    })
+    const groupSpy = renderer.context.templates.group as sinon.SinonStub
+    expect(groupSpy.firstCall.args[1]).to.have.property('properties').deep.equals([withGroup])
   })
 
   it('renders properties without group if not selected', () => {
@@ -68,9 +67,8 @@ describe('wc/renderer/group', () => {
     renderGroup.call(renderer, { group })
 
     // then
-    expect(renderer.context.templates.group).to.have.been.calledWith(sinon.match.object, {
-      properties: sinon.match.array.deepEquals([noGroup]),
-    })
+    const groupSpy = renderer.context.templates.group as sinon.SinonStub
+    expect(groupSpy.firstCall.args[1]).to.have.property('properties').deep.equals([noGroup])
   })
 
   it('does not render hidden properties', () => {
@@ -84,8 +82,7 @@ describe('wc/renderer/group', () => {
     renderGroup.call(renderer, { group })
 
     // then
-    expect(renderer.context.templates.group).to.have.been.calledWith(sinon.match.object, {
-      properties: sinon.match.array.deepEquals([]),
-    })
+    const groupSpy = renderer.context.templates.group as sinon.SinonStub
+    expect(groupSpy.firstCall.args[1]).to.have.property('properties').with.length(0)
   })
 })

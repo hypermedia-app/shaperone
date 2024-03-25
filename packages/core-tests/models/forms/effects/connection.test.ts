@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { connect } from '@hydrofoil/shaperone-core/models/forms/effects/connection.js'
 import { Store } from '@hydrofoil/shaperone-core/state'

@@ -34,9 +34,8 @@ describe('wc/renderer/property', () => {
     renderProperty.call(renderer, { property })
 
     // then
-    expect(renderer.context.templates.property).to.have.been.calledWith(sinon.match.object, {
-      property,
-    })
+    const render = renderer.context.templates.property as sinon.SinonSpy
+    expect(render.firstCall.args[1]).to.have.property('property', property)
   })
 
   describe('actions', () => {
@@ -61,9 +60,7 @@ describe('wc/renderer/property', () => {
         actions.removeObject(object)
 
         // then
-        expect(dispatch.removeObject).to.have.been.calledWith(sinon.match({
-          object: fooObject,
-        }))
+        expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
       })
 
       it('dispatches action when called with pointer', () => {
@@ -74,9 +71,7 @@ describe('wc/renderer/property', () => {
         actions.removeObject(object)
 
         // then
-        expect(dispatch.removeObject).to.have.been.calledWith(sinon.match({
-          object: fooObject,
-        }))
+        expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
       })
 
       it('dispatches action when called with state object', () => {
@@ -84,9 +79,7 @@ describe('wc/renderer/property', () => {
         actions.removeObject(fooObject)
 
         // then
-        expect(dispatch.removeObject).to.have.been.calledWith(sinon.match({
-          object: fooObject,
-        }))
+        expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
       })
 
       it('does not dispatch action when object is not found', () => {
@@ -110,9 +103,7 @@ describe('wc/renderer/property', () => {
         actions.addObject({ overrides })
 
         // then
-        expect(dispatch.addObject).to.have.been.calledWith(sinon.match({
-          overrides,
-        }))
+        expect(dispatch.addObject.firstCall.args[0].overrides).to.eq(overrides)
       })
 
       it('called with componentState, forwards it to dispatch', () => {
@@ -123,9 +114,7 @@ describe('wc/renderer/property', () => {
         actions.addObject({ componentState })
 
         // then
-        expect(dispatch.addObject).to.have.been.calledWith(sinon.match({
-          componentState,
-        }))
+        expect(dispatch.addObject.firstCall.firstArg).to.have.property('componentState', componentState)
       })
     })
   })

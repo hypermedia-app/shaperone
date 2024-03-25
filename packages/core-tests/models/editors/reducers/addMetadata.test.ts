@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors.js'
 import { addMetadata } from '@hydrofoil/shaperone-core/models/editors/reducers/addMetadata.js'

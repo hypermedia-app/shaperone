@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import type { AnyPointer } from 'clownface'
 import { RecursivePartial } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'

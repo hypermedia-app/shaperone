@@ -33,7 +33,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     const result = await fixture(component.render(params, actions))
 
     // then
-    expect(result).shadowDom.to.equalSnapshot()
+    await expect(result).shadowDom.to.equalSnapshot()
   })
 
   it('renders empty vaadin-select when there are no choices', async () => {
@@ -47,7 +47,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     const result = await fixture(component.render(params, actions))
 
     // then
-    expect(result).shadowDom.to.equalSnapshot()
+    await expect(result).shadowDom.to.equalSnapshot()
   })
 
   it('sets selection to current object', async () => {

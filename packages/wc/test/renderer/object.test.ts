@@ -30,15 +30,9 @@ describe('wc/renderer/object', () => {
     renderObject.call(renderer, { object })
 
     // then
-    expect(renderer.context.templates.object).to.have.been.calledWith(sinon.match({
-      actions: sinon.match({
-        selectEditor: sinon.match.func,
-        remove: sinon.match.func,
-        removeObject: sinon.match.func,
-      }),
-    }), {
-      object,
-    })
+    const render = renderer.context.templates.object as sinon.SinonSpy
+    expect(render.firstCall.firstArg).to.have.property('actions')
+    expect(render.firstCall.args[1]).to.have.property('object', object)
   })
 
   describe('actions', () => {

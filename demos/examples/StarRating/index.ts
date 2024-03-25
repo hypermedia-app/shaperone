@@ -6,7 +6,7 @@ import { schema, xsd } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import type { PropertyShape } from '@rdfine/shacl'
 import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env'
-import rdf from '@zazuko/env'
+import rdf from '@zazuko/env/web.js'
 
 export interface StarRating {
   icon?: IconDefinition | null

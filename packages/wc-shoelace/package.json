@@ -31,8 +31,8 @@
     "p-debounce": "^4"
   },
   "devDependencies": {
-    "@open-wc/testing": "^3.1.6",
-    "@zazuko/env": "^2.0.6",
+    "@open-wc/testing": "^3.2.2",
+    "@zazuko/env": "^2.1.0",
     "@shaperone/testing": "*"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",

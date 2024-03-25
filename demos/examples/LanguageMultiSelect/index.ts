@@ -1,5 +1,5 @@
 import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, rdfs } from '@tpluscode/rdf-ns-builders'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'

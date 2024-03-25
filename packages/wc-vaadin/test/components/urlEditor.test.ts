@@ -16,7 +16,7 @@ describe('wc-vaadin/components/url-editor', () => {
     const element = await fixture(urlEditor(params, actions))
 
     // then
-    expect(element).to.equalSnapshot({
+    await expect(element).to.equalSnapshot({
       ignoreAttributes: ['aria-labelledby'],
     })
   })

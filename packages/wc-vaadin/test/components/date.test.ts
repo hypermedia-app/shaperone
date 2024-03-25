@@ -1,4 +1,4 @@
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { editorTestParams } from '@shaperone/testing'
@@ -18,7 +18,7 @@ describe('wc-vaadin/components/date', () => {
       const element = await fixture(datePicker(params, actions))
 
       // then
-      expect(element).to.equalSnapshot()
+      await expect(element).to.equalSnapshot()
     })
   })
 
@@ -35,7 +35,7 @@ describe('wc-vaadin/components/date', () => {
       const element = await fixture(dateTimePicker(params, actions))
 
       // then
-      expect(element).to.equalSnapshot()
+      await expect(element).to.equalSnapshot()
     })
   })
 })

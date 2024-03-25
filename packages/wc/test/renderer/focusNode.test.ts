@@ -28,11 +28,7 @@ describe('wc/renderer/focusNode', () => {
 
     // then
     expect(result.textContent).to.eq('Loading')
-    expect(dispatch.createFocusNodeState).to.have.been.calledWith(sinon.match({
-      focusNode: sinon.match({
-        term: focusNode.term,
-      }),
-    }))
+    expect(dispatch.createFocusNodeState.firstCall.firstArg).to.have.deep.property('focusNode', focusNode)
   })
 
   it('dispatches to create node when previous node was from different dataset', async () => {
@@ -44,11 +40,7 @@ describe('wc/renderer/focusNode', () => {
     await fixture(html`<div>${renderFocusNode.call(renderer, { focusNode })}</div>`)
 
     // then
-    expect(dispatch.createFocusNodeState).to.have.been.calledWith(sinon.match({
-      focusNode: sinon.match({
-        term: focusNode.term,
-      }),
-    }))
+    expect(dispatch.createFocusNodeState.firstCall.firstArg).to.have.deep.property('focusNode', focusNode)
   })
 
   it('calls render template', async () => {
@@ -63,7 +55,7 @@ describe('wc/renderer/focusNode', () => {
     // then
     expect(result.textContent).to.eq('Focus node')
     expect(renderer.context.templates.focusNode).to.have.been.calledWith(sinon.match({
-      focusNode: childState,
+      focusNode: sinon.match.same(childState),
     }))
   })
 

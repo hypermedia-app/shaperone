@@ -11,7 +11,6 @@ snapshots['wc-vaadin/components/url-editor renders text field'] =
 >
   <input
     aria-invalid="true"
-    aria-labelledby="vaadin-text-field-input-9"
     invalid=""
     required=""
     slot="input"

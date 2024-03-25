@@ -1,5 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import $rdf from '@zazuko/env'
+import $rdf from '@zazuko/env/web.js'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import { rdf, foaf } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'

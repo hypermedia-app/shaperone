@@ -3,11 +3,16 @@ import { fixture, oneEvent, expect } from '@open-wc/testing'
 import rdf from '@shaperone/testing/env.js'
 import { propertyShape } from '@shaperone/testing/util'
 import { FocusNode } from '@hydrofoil/shaperone-core'
+import { setEnv } from '@hydrofoil/shaperone-core/env'
 import { store } from '../store.js'
 import { id, ShaperoneForm } from '../ShaperoneForm.js'
 import '../shaperone-form.js'
 
 describe('shaperone-form', () => {
+  beforeEach(() => {
+    setEnv(rdf)
+  })
+
   const shape = rdf.rdfine.sh.NodeShape(rdf.clownface().blankNode())
   shape.property = [propertyShape(shape.pointer.blankNode(), {
     id: rdf.namedNode('schema-name'),

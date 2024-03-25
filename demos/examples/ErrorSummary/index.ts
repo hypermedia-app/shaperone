@@ -2,7 +2,7 @@ import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
 import { html } from '@hydrofoil/shaperone-wc'
 import type { ValidationResult } from '@rdfine/shacl'
 import { shrink } from '@zazuko/prefixes/shrink'
-import rdf from '@zazuko/env'
+import rdf from '@zazuko/env/web.js'
 import type { Term } from '@rdfjs/types'
 
 function createMessage(result: ValidationResult) {
