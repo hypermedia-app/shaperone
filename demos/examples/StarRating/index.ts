@@ -30,7 +30,7 @@ async function loadIcon({ defaultIcon, shape, updateComponentState }: LoadIcon) 
   const iconName: IconName | undefined = shape.pointer.out(dash.icon).value as IconName
   if (iconName) {
     try {
-      ({ definition: icon } = await import(`@fortawesome/free-solid-svg-icons/${iconName}.js`))
+      ({ definition: icon } = await import(/* @vite-ignore */`@fortawesome/free-solid-svg-icons/${iconName}.js`))
     } catch (e) {
       icon = null
     }

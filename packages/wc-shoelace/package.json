@@ -9,11 +9,6 @@
     "analyze:readme": "wca --outFile ./README.md",
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
   },
-  "exports": {
-    "./components.js": "./components.js",
-    "./component-extras.js": "./component-extras.js",
-    "./templates.js": "./templates.js"
-  },
   "files": [
     "**/*.js",
     "**/*.d.ts",

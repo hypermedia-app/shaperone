@@ -1,7 +1,7 @@
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fromRollup } from '@web/dev-server-rollup'
 import commonjs from '@rollup/plugin-commonjs'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const immer = {
   resolveImport({ source }) {

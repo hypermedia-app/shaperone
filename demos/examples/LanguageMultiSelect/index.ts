@@ -11,7 +11,7 @@ const editor = $rdf.namedNode('http://example.com/LanguageMultiSelect')
 export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponent> = theme => ({
   editor,
   async lazyRender() {
-    await import(`multiselect-combo-box/theme/${theme}/multiselect-combo-box`)
+    await import(/* @vite-ignore */`multiselect-combo-box/theme/${theme}/multiselect-combo-box`)
 
     return ({ property }, { update }) => {
       const languages = property.shape.in
