@@ -13,6 +13,7 @@ import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/sha
 import { propertyShape } from '@shaperone/testing/util.js'
 import type { SinonStubbedInstance } from 'sinon'
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components/index.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 
 describe('components', () => {
   describe('enumSelect', () => {
@@ -22,6 +23,10 @@ describe('components', () => {
     let updateComponentState: sinon.SinonSpy
     let focusNode: GraphPointer<BlankNode>
     let actions: SinonStubbedInstance<SingleEditorActions>
+
+    before(() => {
+      setEnv($rdf)
+    })
 
     beforeEach(() => {
       form = {
@@ -101,7 +106,7 @@ describe('components', () => {
           property,
           renderer,
         }, actions)
-        await deferred
+        await deferred.promise
 
         // then
         expect(updateComponentState).to.have.been.calledWith(sinon.match({

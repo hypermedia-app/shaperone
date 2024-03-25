@@ -65,10 +65,11 @@ describe('models/forms/effects/resources/setRoot', () => {
     })
 
     // then
-    expect(store.getDispatch().forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
+    const spy = store.getDispatch().forms.createFocusNodeState as sinon.SinonSpy
+    expect(spy.firstCall.firstArg).to.containSubset({
       form,
       focusNode: rootPointer,
       replaceStack: true,
-    }))
+    })
   })
 })

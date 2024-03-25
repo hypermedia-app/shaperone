@@ -1,8 +1,7 @@
 import { describe, it } from 'mocha'
-import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
-import { sinon } from '@shaperone/testing'
+import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
 import setGraph from '@hydrofoil/shaperone-core/models/forms/effects/shapes/setGraph.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -35,11 +34,10 @@ describe('models/forms/effects/shapes/setGraph', () => {
     })
 
     // then
-    formState.focusStack.forEach((focusNode) => {
-      expect(store.getDispatch().forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
-        form,
-        focusNode,
-      }))
-    })
+    const spy = store.getDispatch().forms.createFocusNodeState as sinon.SinonSpy
+    expect(spy.getCalls().map(c => c.firstArg)).to.containSubset([
+      { form, focusNode: resourceGraph.node(ex.Foo) },
+      { form, focusNode: resourceGraph.node(ex.Bar) },
+    ])
   })
 })

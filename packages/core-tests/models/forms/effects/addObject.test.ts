@@ -40,13 +40,14 @@ describe('models/forms/effects/addObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+    const spy = dispatch.forms.addFormField as sinon.SinonSpy
+    expect(spy.firstCall.firstArg).to.containSubset({
       form,
       property,
       focusNode,
       editors,
       selectedEditor: dash.TextFieldEditor,
-    }))
+    })
   })
 
   it('sets overrides to state', () => {
@@ -97,12 +98,13 @@ describe('models/forms/effects/addObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+    const spy = dispatch.forms.addFormField as sinon.SinonSpy
+    expect(spy.firstCall.firstArg).to.containSubset({
       form,
       property,
       focusNode,
       selectedEditor: dash.FooEditor,
-    }))
+    })
   })
 
   context('with overrides', () => {

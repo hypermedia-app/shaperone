@@ -8,6 +8,7 @@ import setPropertyObjects from '@hydrofoil/shaperone-core/models/resources/effec
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { Dataset } from '@zazuko/env/lib/Dataset'
+import toCanonical from 'rdf-dataset-ext/toCanonical.js'
 
 describe('models/resources/effects/forms/setPropertyObjects', () => {
   let store: Store
@@ -72,6 +73,6 @@ describe('models/resources/effects/forms/setPropertyObjects', () => {
       .addOut(schema.contactPoints, graph.blankNode('a2'), (addr) => {
         addr.addOut(schema.streetAddress, 'Broadway')
       })
-    expect(focusNode.dataset.toCanonical()).to.eq(expected.dataset.toCanonical())
+    expect(toCanonical(focusNode.dataset)).to.eq(toCanonical(expected.dataset))
   })
 })
