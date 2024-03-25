@@ -7,7 +7,7 @@ import type { NamedNode, Term } from '@rdfjs/types'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
 import type { Resource } from '@rdfine/rdfs'
 import { findNodes } from 'clownface-shacl-path'
-import { FocusNode } from '../../../index.js'
+import type { FocusNode } from '../../../index.js'
 
 interface PropertyShapeEx {
   getPathProperty<T extends boolean = false>(throwIfNotPredicatePath?: T): T extends true ? Resource : (Resource | undefined)
