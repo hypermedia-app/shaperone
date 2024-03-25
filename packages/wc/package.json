@@ -17,7 +17,7 @@
     "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off",
     "start": "webpack-dev-server --mode development",
     "prebuild": "rimraf ../../dist/shaperone-form",
-    "build": "webpack --mode production --config webpack.config.cjs"
+    "build": "vite build --outDir ../../../dist/shaperone-form"
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",

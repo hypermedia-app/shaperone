@@ -1,37 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { defineConfig } from 'vite'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+// eslint-disable-next-line import/no-relative-packages
+import config from '../../vite.config.js'
 
-export default defineConfig({
-  define: {
-    global: 'window',
-  },
-  server: {
-    hmr: false,
-  },
-  resolve: {
-    alias: {
-      stream: 'readable-stream',
-      zlib: 'browserify-zlib',
-      util: 'util',
-    },
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      plugins: [
-        <any>NodeGlobalsPolyfillPlugin({
-          process: true,
-          buffer: true,
-        }),
-      ],
-    },
-  },
-  build: {
-    rollupOptions: {
-      plugins: [
-        rollupNodePolyFill() as any,
-      ],
-    },
-  },
-})
+export default config

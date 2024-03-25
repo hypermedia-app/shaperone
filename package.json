@@ -47,6 +47,7 @@
     "ts-node": "^10.9.1",
     "typedoc": "^0.25.9",
     "typescript": "^5.3.3",
+    "vite": "^5.2.6",
     "web-component-analyzer": "^1.1.6",
     "wsrun": "^5.2.4"
   },
