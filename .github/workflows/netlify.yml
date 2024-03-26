@@ -35,11 +35,10 @@ jobs:
           NETLIFY_DEPLOY_TO_PROD: ${{ env.BRANCH_NAME == 'master' }}
           monorepo_package: "@hydrofoil/shaperone-playground"
 
-      - name: Status check
-        uses: Sibz/github-status-action@v1.1.1
-        if: env.NETLIFY_TOKEN
+      - uses: exercism/pr-commenter-action@v1.4.0
         with:
-          authToken: ${{ secrets.GITHUB_TOKEN }}
-          context: Netlify Site
-          state: success
-          target_url: https://${{ env.BRANCH_NAME }}--shaperone.netlify.app
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          template-variables: |
+            {
+              "url": "${{ env.NETLIFY_PREVIEW_URL }}"
+            }
