@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "prebuild": "rimraf ../../dist/playground",
-    "build": "vite build",
+    "build": "vite build --outDir ../../dist/playground",
     "start": "vite"
   },
   "dependencies": {
