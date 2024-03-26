@@ -24,7 +24,7 @@ jobs:
         run: npx json -I -f dist/variables.json -e "this.playground='https://$DOMAIN/playground'"
 
       - name: Publish preview
-        uses: jsmrcaga/action-netlify-deploy@v2.0.0
+        uses: jsmrcaga/action-netlify-deploy@v2.1.0
         if: env.NETLIFY_TOKEN
         with:
           NETLIFY_AUTH_TOKEN: ${{ env.NETLIFY_TOKEN }}
