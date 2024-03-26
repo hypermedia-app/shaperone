@@ -12,8 +12,7 @@
     "prepack": "tsc",
     "analyze": "run-p analyze:*",
     "analyze:wc": "wca --format json --outFile ./custom-elements.json",
-    "analyze:readme": "wca --outFile ./README.md",
-    "analyze:lit": "lit-analyzer . --strict --quiet --rules.no-invalid-css off"
+    "analyze:readme": "wca --outFile ./README.md"
   },
   "dependencies": {
     "@hydrofoil/shaperone-wc": "^0.7.13",
