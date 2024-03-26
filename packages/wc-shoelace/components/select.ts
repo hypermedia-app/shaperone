@@ -2,7 +2,7 @@ import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components
 import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import { html } from 'lit'
 import '@shoelace-style/shoelace/dist/components/select/select.js'
-import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
+import '@shoelace-style/shoelace/dist/components/option/option.js'
 import type { GraphPointer } from 'clownface'
 import { repeat } from 'lit/directives/repeat.js'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'

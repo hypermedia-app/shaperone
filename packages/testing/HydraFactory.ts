@@ -1,5 +1,5 @@
 import sinon from 'sinon'
-import type { HydraClient } from 'alcaeus/alcaeus'
+import type { HydraClient } from 'alcaeus/alcaeus.js'
 
 export default class AlcaeusFactory {
   hydra!: HydraClient & {

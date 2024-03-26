@@ -1,8 +1,8 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, fixture, nextFrame } from '@open-wc/testing'
-import { SlSelect } from '@shoelace-style/shoelace/dist/shoelace'
-import { EnumSelect } from '@hydrofoil/shaperone-core/lib/components/enumSelect'
+import { SlSelect } from '@shoelace-style/shoelace'
+import { EnumSelect } from '@hydrofoil/shaperone-core/lib/components/enumSelect.js'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { enumSelect } from '../../components/enumSelect.js'
 

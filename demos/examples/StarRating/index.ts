@@ -5,7 +5,7 @@ import type { UpdateComponentState } from '@hydrofoil/shaperone-core/models/comp
 import { schema, xsd } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import type { PropertyShape } from '@rdfine/shacl'
-import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env'
+import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import rdf from '@zazuko/env/web.js'
 
 export interface StarRating {
@@ -65,7 +65,7 @@ export const component: Lazy<StarRatingComponent> = {
     return false
   },
   async lazyRender() {
-    await import('./star-rating')
+    await import('./star-rating.js')
 
     return function ({ env, value }, { update }) {
       const rating = value.object ? Number.parseFloat(value.object.value) : 0

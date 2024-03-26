@@ -1,5 +1,5 @@
-import { objectRenderer, propertyRenderer } from '@shaperone/testing/renderer'
-import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { objectRenderer, propertyRenderer } from '@shaperone/testing/renderer.js'
+import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { fixture, expect, html } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
 import { emptyGroupState, testFocusNode, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'

@@ -1,7 +1,7 @@
 import { expect } from '@open-wc/testing'
 import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 import { sinon } from '@shaperone/testing'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 import $rdf from '@shaperone/testing/env.js'
 import type { NamedNode } from '@rdfjs/types'
 import * as instancesSelector from '../../../lib/components/instancesSelector.js'

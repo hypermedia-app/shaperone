@@ -5,7 +5,7 @@ import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { hideProperty, showProperty } from '@hydrofoil/shaperone-core/models/forms/reducers/properties.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { FocusNode } from '@hydrofoil/shaperone-core/index'
+import { FocusNode } from '@hydrofoil/shaperone-core/index.js'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 
 describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {

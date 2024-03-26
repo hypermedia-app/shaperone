@@ -1,5 +1,5 @@
 import { html, expect, fixture } from '@open-wc/testing'
-import { namedNode } from '@shaperone/testing/nodeFactory'
+import { namedNode } from '@shaperone/testing/nodeFactory.js'
 import '../../elements/sh-sl-autocomplete.js'
 import type { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete.js'
 

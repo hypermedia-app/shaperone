@@ -1,8 +1,8 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
-import { SlSelect } from '@shoelace-style/shoelace/dist/shoelace'
-import { InstancesSelect } from '@hydrofoil/shaperone-core/lib/components/instancesSelect'
+import { SlSelect } from '@shoelace-style/shoelace'
+import { InstancesSelect } from '@hydrofoil/shaperone-core/lib/components/instancesSelect.js'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { instancesSelect } from '../../components/instancesSelect.js'
 

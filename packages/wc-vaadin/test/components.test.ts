@@ -8,8 +8,8 @@ import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/sha
 import type { BlankNode } from '@rdfjs/types'
 import { SingleEditorActions, UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import promise from 'promise-the-world'
-import { ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
-import { objectRenderer } from '@shaperone/testing/renderer'
+import { ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import { objectRenderer } from '@shaperone/testing/renderer.js'
 import type { SinonStubbedInstance } from 'sinon'
 import { instancesSelectEditor } from '../components.js'
 

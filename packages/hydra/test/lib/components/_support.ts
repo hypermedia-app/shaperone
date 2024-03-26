@@ -1,6 +1,6 @@
-import { testPropertyState } from '@shaperone/testing/models/form'
+import { testPropertyState } from '@shaperone/testing/models/form.js'
 import $rdf from '@zazuko/env/web.js'
-import { propertyShape } from '@shaperone/testing/util'
+import { propertyShape } from '@shaperone/testing/util.js'
 import { hydra } from '@tpluscode/rdf-ns-builders'
 import { ex } from '@shaperone/testing'
 import { Initializer } from '@tpluscode/rdfine/RdfResource'

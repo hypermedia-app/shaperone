@@ -10,7 +10,7 @@ import type { Term } from '@rdfjs/types'
 import { ex } from '@shaperone/testing'
 import CoreMetadata from '@hydrofoil/shaperone-core/metadata.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
-import type { Dataset } from '@zazuko/env/lib/Dataset'
+import type { Dataset } from '@zazuko/env/lib/Dataset.js'
 
 describe('core/models/resources/lib/defaultValue', () => {
   let editorMeta: AnyPointer<AnyContext, Dataset>

@@ -5,7 +5,7 @@ import {
   Lazy,
 } from '@hydrofoil/shaperone-core/models/components'
 import { expect, fixture, html } from '@open-wc/testing'
-import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/lib/decorate'
+import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/lib/decorate.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { editorTestParams } from '@shaperone/testing'
 import $rdf from '@shaperone/testing/env.js'

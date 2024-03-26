@@ -25,7 +25,7 @@
     "@rdfine/shacl": "^0.10.5",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
-    "@tpluscode/rdfine": "^0.7.7",
+    "@tpluscode/rdfine": "^0.7.9",
     "concat-merge": "^1.0.3",
     "lit": "^2.0.0",
     "onetime": "^5.1.2"
