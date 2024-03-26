@@ -147,8 +147,8 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       </h2>
       <vaadin-select id="lang" slot="navbar"
                      value="${this.playground.language}"
-                     @value-changed="${(e: any) => store().dispatch.playground.switchLanguage(e.detail.value)}">
-        <template>
+                     @value-changed="${(e: any) => store().dispatch.playground.switchLanguage(e.detail.value)}"
+                     .renderer="${(root: HTMLElement) => render(html`
           <vaadin-list-box>
             <vaadin-item value="en">🇬🇧</vaadin-item>
             <vaadin-item value="de">🇩🇪</vaadin-item>
@@ -156,7 +156,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
             <vaadin-item value="fr">🇫🇷</vaadin-item>
             <vaadin-item value="pl">🇵🇱</vaadin-item>
           </vaadin-list-box>
-        </template>
+      `, root)}">
       </vaadin-select>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
       <vaadin-button slot="navbar" @click="${this.__share}" id="share-button">
