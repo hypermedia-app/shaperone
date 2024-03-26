@@ -7,7 +7,7 @@ export interface Params extends BaseParams {
   focusNode?: FocusNode
 }
 
-export const truncateFocusNodes = formStateReducer((state: FormState, { focusNode }: Params) => produce(state, (draft) => {
+export const truncateFocusNodes = formStateReducer((state: FormState, { focusNode }: Params) => produce.default(state, (draft) => {
   if (!focusNode) {
     draft.focusNodes = {}
     draft.focusStack = []

@@ -12,7 +12,7 @@ function decorate<T extends Editor>(decorators: EditorsState['decorators'], edit
 }
 
 export function addMatchers(state: EditorsState, editors: Record<string, AnyEditor> | AnyEditor[]): EditorsState {
-  return produce(state, (draft) => {
+  return produce.default(state, (draft) => {
     const editorsArray = Array.isArray(editors) ? editors : Object.values(editors)
 
     for (const editor of editorsArray) {

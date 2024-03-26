@@ -4,7 +4,7 @@ import type {
   BooleanSelectEditor,
   EnumSelectEditor,
   InstancesSelectEditor,
-} from '@hydrofoil/shaperone-core/components'
+} from '@hydrofoil/shaperone-core/components.js'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import type { Render } from '../index.js'

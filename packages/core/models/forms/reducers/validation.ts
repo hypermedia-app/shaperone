@@ -10,7 +10,7 @@ export interface ValidationReportParams extends BaseParams {
   report: GraphPointer<any> | ValidationReport
 }
 
-export const validationReport = formStateReducer((state: FormState, { report }: ValidationReportParams) => produce(state, (draft) => {
+export const validationReport = formStateReducer((state: FormState, { report }: ValidationReportParams) => produce.default(state, (draft) => {
   const reportObj = '_context' in report ? env().rdfine.sh.ValidationReport(report) : report
 
   draft.validationReport = reportObj.pointer

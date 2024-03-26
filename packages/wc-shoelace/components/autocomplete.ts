@@ -14,7 +14,7 @@ export interface AutoCompleteEditor extends Core.AutoCompleteEditor {
   initLabel(arg: SingleEditorRenderParams): void
 }
 
-declare module '@hydrofoil/shaperone-core/components' {
+declare module '@hydrofoil/shaperone-core/components.js' {
   /* eslint-disable @typescript-eslint/no-empty-interface */
   interface AutoComplete {
     selected?: GraphPointer

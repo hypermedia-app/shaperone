@@ -1,11 +1,12 @@
 {
   "extends": "../../tsconfig",
   "files": [
-    "components.ts"
+    "component-extras.ts",
+    "components.ts",
+    "templates.ts"
   ],
   "include": [
     "components",
-    "directives",
     "elements",
     "renderer"
   ]

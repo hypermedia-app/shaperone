@@ -1,6 +1,6 @@
-import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import type { Term } from '@rdfjs/types'
-import { createTerm } from '@hydrofoil/shaperone-core/lib/property'
+import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
 import type { GraphPointer } from 'clownface'
 import { ComponentState, MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-core/models/components'
 

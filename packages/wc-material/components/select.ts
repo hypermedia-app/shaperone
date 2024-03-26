@@ -7,12 +7,12 @@ import {
   BooleanSelectEditor,
   EnumSelectEditor,
   InstancesSelectEditor,
-} from '@hydrofoil/shaperone-core/components'
+} from '@hydrofoil/shaperone-core/components.js'
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
 import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly'
+import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { validity } from '../directives/validity.js'
 

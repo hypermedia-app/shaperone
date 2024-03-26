@@ -19,12 +19,12 @@ export function decorate<T extends _Component>(decorators: ComponentDecorator<T>
 
 export default {
   loading(components: ComponentsState, editor: NamedNode): ComponentsState {
-    return produce(components, (draft) => {
+    return produce.default(components, (draft) => {
       draft.components[editor.value].loading = true
     })
   },
   loadingFailed(components: ComponentsState, { editor, reason }: { editor: NamedNode; reason: string }): ComponentsState {
-    return produce(components, (draft) => {
+    return produce.default(components, (draft) => {
       draft.components[editor.value].loading = false
       draft.components[editor.value].loadingFailed = {
         reason,
@@ -32,21 +32,21 @@ export default {
     })
   },
   loaded(components: ComponentsState, { editor, render } : {editor: NamedNode; render: RenderFunc<any, any, any>}): ComponentsState {
-    return produce(components, (draft) => {
+    return produce.default(components, (draft) => {
       draft.components[editor.value].loading = false
       draft.components[editor.value].render = render
       draft.components[editor.value].loadingFailed = undefined
     })
   },
   removeComponents(components: ComponentsState, toRemove: NamedNode[]) {
-    return produce(components, (newComponents) => {
+    return produce.default(components, (newComponents) => {
       for (const editor of toRemove) {
         delete newComponents.components[editor.value]
       }
     })
   },
   pushComponents(components: ComponentsState, toAdd: Record<string, _Component> | _Component[]): ComponentsState {
-    return produce(components, (newComponents) => {
+    return produce.default(components, (newComponents) => {
       const addedArray = Array.isArray(toAdd) ? toAdd : Object.values(toAdd)
 
       for (const component of addedArray) {
@@ -66,7 +66,7 @@ export default {
     })
   },
   decorate<T extends Component>(components: ComponentsState, decorator: ComponentDecorator<T>) {
-    return produce(components, (draft) => {
+    return produce.default(components, (draft) => {
       draft.decorators.push(decorator)
       for (const [key, component] of Object.entries(components.components)) {
         if (decorator.applicableTo(component)) {

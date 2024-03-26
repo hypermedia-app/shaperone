@@ -9,7 +9,7 @@
     "**/*.d.ts"
   ],
   "scripts": {
-    "babel": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json"
+    "prepack": "tsc"
   },
   "dependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",

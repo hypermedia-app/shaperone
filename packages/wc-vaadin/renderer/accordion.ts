@@ -1,4 +1,4 @@
-import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates'
+import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates.js'
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
@@ -17,7 +17,7 @@ export const AccordionFocusNodeRenderer: FocusNodeTemplate = function (renderer,
     </vaadin-accordion>`
 }
 
-AccordionFocusNodeRenderer.loadDependencies = () => [import('@vaadin/vaadin-accordion/vaadin-accordion')]
+AccordionFocusNodeRenderer.loadDependencies = () => [import('@vaadin/vaadin-accordion/vaadin-accordion.js')]
 
 export const AccordionGroupingRenderer: GroupTemplate = function (renderer, { properties }) {
   const { group } = renderer

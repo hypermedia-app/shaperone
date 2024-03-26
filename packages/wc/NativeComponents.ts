@@ -26,61 +26,61 @@ import {
   URIEditor,
   BooleanSelectEditor,
   booleanSelect,
-} from '@hydrofoil/shaperone-core/components'
+} from '@hydrofoil/shaperone-core/components.js'
 import type { Lazy } from './index.js'
 
 export const nativeBooleanSelect: Lazy<BooleanSelectEditor> = {
   ...booleanSelect,
   async lazyRender() {
-    return (await import('./components')).booleanSelect
+    return (await import('./components/index.js')).booleanSelect
   },
 }
 
 export const textFieldEditor: Lazy<TextFieldEditor> = {
   ...textField,
   async lazyRender() {
-    return (await import('./components')).textField
+    return (await import('./components/index.js')).textField
   },
 }
 
 export const textAreaEditor: Lazy<TextAreaEditor> = {
   ...textArea,
   async lazyRender() {
-    return (await import('./components')).textArea
+    return (await import('./components/index.js')).textArea
   },
 }
 
 export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   async lazyRender() {
-    return (await import('./components')).enumSelect
+    return (await import('./components/index.js')).enumSelect
   },
 }
 
 export const datePickerEditor: Lazy<DatePickerEditor> = {
   ...datePicker,
   async lazyRender() {
-    return (await import('./components')).datePicker('date')
+    return (await import('./components/index.js')).datePicker('date')
   },
 }
 
 export const dateTimePickerEditor: Lazy<DateTimePickerEditor> = {
   ...dateTimePicker,
   async lazyRender() {
-    return (await import('./components')).datePicker('datetime-local')
+    return (await import('./components/index.js')).datePicker('datetime-local')
   },
 }
 
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
   async lazyRender() {
-    return (await import('./components')).instancesSelect
+    return (await import('./components/index.js')).instancesSelect
   },
 }
 
 export const uriEditor: Lazy<URIEditor> = {
   ...uri,
   async lazyRender() {
-    return (await import('./components')).uri
+    return (await import('./components/index.js')).uri
   },
 }

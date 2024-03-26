@@ -1,4 +1,4 @@
-import { PropertyRenderer, ObjectRenderer, ObjectActions } from '@hydrofoil/shaperone-core/renderer'
+import { PropertyRenderer, ObjectRenderer, ObjectActions } from '@hydrofoil/shaperone-core/renderer.js'
 import type { NamedNode } from '@rdfjs/types'
 import { renderEditor } from './editor.js'
 

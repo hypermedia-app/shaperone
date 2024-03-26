@@ -1,7 +1,7 @@
 import { html, Render } from '@hydrofoil/shaperone-wc'
-import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
+import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
 import '@vaadin/vaadin-select'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
 import { validity } from './validation.js'
 
 export const booleanSelect: Render<BooleanSelectEditor> = ({ env, value, property }, { update, clear }) => {

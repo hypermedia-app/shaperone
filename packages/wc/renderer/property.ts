@@ -1,4 +1,4 @@
-import { GroupRenderer, PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { GroupRenderer, PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import { renderObject } from './object.js'
 import { renderMultiEditor } from './editor.js'

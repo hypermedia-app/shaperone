@@ -1,6 +1,6 @@
 import { html, Render } from '@hydrofoil/shaperone-wc'
 import '@vaadin/vaadin-text-field/vaadin-text-area'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
 import { validity } from './validation.js'
 
 export const textArea: Render = function ({ env, value, property }, { update }) {

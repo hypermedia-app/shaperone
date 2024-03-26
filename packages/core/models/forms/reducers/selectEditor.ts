@@ -12,7 +12,7 @@ export interface SelectEditorParams extends BaseParams {
   editor: NamedNode
 }
 
-export const selectEditor = formStateReducer((state: FormState, { focusNode, property, object, editor }: SelectEditorParams) => produce(state, (state) => {
+export const selectEditor = formStateReducer((state: FormState, { focusNode, property, object, editor }: SelectEditorParams) => produce.default(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 

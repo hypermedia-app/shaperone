@@ -1,6 +1,6 @@
 import { css, html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
-import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate, decorate } from '@hydrofoil/shaperone-wc/templates'
+import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate, decorate } from '@hydrofoil/shaperone-wc/templates.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 
@@ -25,7 +25,7 @@ export const focusNode = decorate((currentStrategy: FocusNodeTemplate): FocusNod
   }
 
   renderer.loadDependencies = () => [
-    import('../elements/mwc-shape-selector'),
+    import('../elements/mwc-shape-selector.js'),
   ]
 
   return renderer
@@ -73,11 +73,11 @@ function onEnter(cb: () => void) {
 }
 
 property.loadDependencies = () => [
-  import('../elements/mwc-item-lite'),
-  import('../elements/mwc-property-menu'),
-  import('@material/mwc-icon/mwc-icon'),
-  import('@material/mwc-list/mwc-list'),
-  import('@material/mwc-list/mwc-list-item'),
+  import('../elements/mwc-item-lite.js'),
+  import('../elements/mwc-property-menu.js'),
+  import('@material/mwc-icon/mwc-icon.js'),
+  import('@material/mwc-list/mwc-list.js'),
+  import('@material/mwc-list/mwc-list-item.js'),
 ]
 
 property.styles = css`
@@ -117,6 +117,6 @@ export const object: ObjectTemplate = function (renderer, param) {
 }
 
 object.loadDependencies = () => [
-  import('../elements/mwc-item-lite'),
-  import('../elements/mwc-editor-toggle'),
+  import('../elements/mwc-item-lite.js'),
+  import('../elements/mwc-editor-toggle.js'),
 ]

@@ -1,5 +1,5 @@
 import { html, TemplateResult } from 'lit'
-import { PropertyTemplate, ObjectTemplate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
+import { PropertyTemplate, ObjectTemplate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates.js'
 import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
@@ -10,7 +10,7 @@ interface AddObject {
   (property: PropertyState): TemplateResult | ''
 }
 
-declare module '@hydrofoil/shaperone-wc/templates' {
+declare module '@hydrofoil/shaperone-wc/templates.js' {
   interface RenderTemplates {
     shoelace?: {
       addObject?: AddObject
@@ -60,7 +60,7 @@ export const property: ShoelacePropertyTemplate = (renderer, { property: state }
 }
 
 property.loadDependencies = () => [
-  import('./elements/sh-sl-property'),
+  import('./elements/sh-sl-property.js'),
 ]
 
 interface ShoelaceObjectTemplate extends ObjectTemplate {
@@ -77,7 +77,7 @@ export const object: ShoelaceObjectTemplate = renderer => html`
 `
 
 object.loadDependencies = () => [
-  import('./elements/sh-sl-object'),
+  import('./elements/sh-sl-object.js'),
 ]
 
 export const focusNode: FocusNodeTemplate = (renderer, { focusNode: { groups } }) => {

@@ -7,7 +7,7 @@
 
 import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { booleanSelect, BooleanSelectEditor, enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { booleanSelect, BooleanSelectEditor, enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 
 /**
  * Renders an [mwc-textfield](https://material-components.github.io/material-components-web-components/demos/textfield/)
@@ -15,7 +15,7 @@ import { booleanSelect, BooleanSelectEditor, enumSelect, EnumSelectEditor, insta
 export const textField: Lazy<SingleEditorComponent> = {
   editor: dash.TextFieldEditor,
   async lazyRender() {
-    const { createTextField } = await import('./components/textField')
+    const { createTextField } = await import('./components/textField.js')
     return createTextField()
   },
 }
@@ -26,7 +26,7 @@ export const textField: Lazy<SingleEditorComponent> = {
 export const urlEditor: Lazy<SingleEditorComponent> = {
   editor: dash.URIEditor,
   async lazyRender() {
-    const { createTextField } = await import('./components/textField')
+    const { createTextField } = await import('./components/textField.js')
     return createTextField({
       type: 'url',
       createTerm: (value, env) => env.namedNode(value),
@@ -40,7 +40,7 @@ export const urlEditor: Lazy<SingleEditorComponent> = {
 export const textArea: Lazy<SingleEditorComponent> = {
   editor: dash.TextAreaEditor,
   lazyRender() {
-    return import('./components/textArea').then(m => m.textArea)
+    return import('./components/textArea.js').then(m => m.textArea)
   },
 }
 
@@ -51,7 +51,7 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   editor: dash.EnumSelectEditor,
   lazyRender() {
-    return import('./components/select').then(m => m.enumSelect)
+    return import('./components/select.js').then(m => m.enumSelect)
   },
 }
 
@@ -61,7 +61,7 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
 export const booleanSelectEditor: Lazy<BooleanSelectEditor> = {
   ...booleanSelect,
   lazyRender() {
-    return import('./components/select').then(m => m.booleanSelect)
+    return import('./components/select.js').then(m => m.booleanSelect)
   },
 }
 
@@ -72,7 +72,7 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
   editor: dash.InstancesSelectEditor,
   lazyRender() {
-    return import('./components/select').then(m => m.instancesSelect)
+    return import('./components/select.js').then(m => m.instancesSelect)
   },
 }
 
@@ -82,7 +82,7 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
 export const datePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DatePickerEditor,
   async lazyRender() {
-    const { createTextField } = await import('./components/textField')
+    const { createTextField } = await import('./components/textField.js')
     return createTextField({ type: 'date' })
   },
 }
@@ -93,7 +93,7 @@ export const datePicker: Lazy<SingleEditorComponent> = {
 export const dateTimePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DateTimePickerEditor,
   async lazyRender() {
-    const { createTextField } = await import('./components/textField')
+    const { createTextField } = await import('./components/textField.js')
     return createTextField({ type: 'datetime-local' })
   },
 }

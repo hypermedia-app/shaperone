@@ -13,7 +13,7 @@ interface Params extends BaseParams {
  * Reducer decorator which prevents mutating objects of `dash:readOnly` properties
  */
 export function objectStateProducer<T extends Params>(mutate: (draft: Draft<FormState>, params: T, propertyState: Draft<PropertyState>) => void) {
-  return (state: FormState, params: T) => produce(state, (draft) => {
+  return (state: FormState, params: T) => produce.default(state, (draft) => {
     const focusNodeState = draft.focusNodes[params.focusNode.value]
     const propertyState = focusNodeState.properties.find(p => p.shape.equals(params.property))
 

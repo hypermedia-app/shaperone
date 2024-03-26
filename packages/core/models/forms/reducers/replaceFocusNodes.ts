@@ -8,7 +8,7 @@ type StackAction = {appendToStack?: true} | {replaceStack?: true}
 
 export type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction & BaseParams
 
-export const createFocusNodeState = formStateReducer((state: FormState, { focusNode, ...rest }: Params) => produce(state, (draft) => {
+export const createFocusNodeState = formStateReducer((state: FormState, { focusNode, ...rest }: Params) => produce.default(state, (draft) => {
   let { shapes } = rest
 
   if ('appendToStack' in rest && rest.appendToStack) {

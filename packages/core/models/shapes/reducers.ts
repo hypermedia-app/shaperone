@@ -25,7 +25,7 @@ function getPreferredShape(pointer: AnyPointer) {
   return env().rdfine.sh.NodeShape(pointer as any)
 }
 
-export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce(state, (draft) => {
+export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce.default(state, (draft) => {
   if ('match' in shapesGraph) {
     // new dataset
     const pointer = env().clownface({ dataset: shapesGraph })

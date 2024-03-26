@@ -1,4 +1,4 @@
-import { FormRenderer, FocusNodeRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { FormRenderer, FocusNodeRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { TemplateResult } from 'lit'
 import { NodeShape, PropertyGroup, Shape } from '@rdfine/shacl'
 import { renderGroup } from './group.js'

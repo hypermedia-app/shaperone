@@ -6,7 +6,7 @@
 import { CSSResult, html, TemplateResult, CSSResultGroup } from 'lit'
 import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { repeat } from 'lit/directives/repeat.js'
-import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
+import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import type { NamedNode } from '@rdfjs/types'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'

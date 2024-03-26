@@ -8,7 +8,7 @@
     "**/*.d.ts"
   ],
   "scripts": {
-    "babel": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json"
+    "prepack": "tsc"
   },
   "dependencies": {
     "rdf-validate-shacl": "^0.5.3"

@@ -9,7 +9,7 @@
     "**/*.d.ts"
   ],
   "scripts": {
-    "babel": "babel . --out-dir . --extensions .ts --config-file ../../babel.config.json"
+    "prepack": "tsc"
   },
   "dependencies": {
     "@hydrofoil/shaperone-core": "^0.11.0",

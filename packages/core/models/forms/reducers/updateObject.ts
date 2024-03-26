@@ -102,7 +102,7 @@ export const setDefaultValue = formStateReducer(objectStateProducer<SetDefaultVa
 
 export const resetComponents = (state: State) => {
   for (const [form, formState] of state.entries()) {
-    const newState = produce(formState, (draft: typeof formState) => {
+    const newState = produce.default(formState, (draft: typeof formState) => {
       for (const focusNode of Object.values(draft.focusNodes)) {
         for (const property of focusNode.properties) {
           for (const object of property.objects) {

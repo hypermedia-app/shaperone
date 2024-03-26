@@ -11,7 +11,7 @@ export interface MultiEditorParams extends BaseParams {
   editor?: Term
 }
 
-export const selectMultiEditor = formStateReducer((state: FormState, { focusNode, property, editor }: MultiEditorParams) => produce(state, (state) => {
+export const selectMultiEditor = formStateReducer((state: FormState, { focusNode, property, editor }: MultiEditorParams) => produce.default(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
@@ -21,7 +21,7 @@ export const selectMultiEditor = formStateReducer((state: FormState, { focusNode
   }
 }))
 
-export const selectSingleEditors = formStateReducer((state: FormState, { focusNode, property }: MultiEditorParams) => produce(state, (state) => {
+export const selectSingleEditors = formStateReducer((state: FormState, { focusNode, property }: MultiEditorParams) => produce.default(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 

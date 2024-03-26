@@ -10,7 +10,7 @@ export interface ToggleParams extends BaseParams {
 }
 
 function setHidden(hidden: boolean) {
-  return (state: FormState, { focusNode, shape }: ToggleParams) => produce(state, (state) => {
+  return (state: FormState, { focusNode, shape }: ToggleParams) => produce.default(state, (state) => {
     const focusNodeState = state.focusNodes[focusNode.value]
     const propertyStates = focusNodeState.properties.filter(p => p.shape.equals(shape) || shape.property.some(property => p.shape.equals(property)))
 

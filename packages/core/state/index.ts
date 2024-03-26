@@ -1,4 +1,5 @@
-import { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
+import { StoreDispatch, StoreState } from '@captaincodeman/rdx'
+import { ModelStore } from '@captaincodeman/rdx/typings/model.js'
 import { forms } from '../models/forms/index.js'
 import { editors } from '../models/editors/index.js'
 import { components } from '../models/components/index.js'

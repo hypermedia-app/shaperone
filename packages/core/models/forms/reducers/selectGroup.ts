@@ -9,7 +9,7 @@ export interface Params extends BaseParams {
   group?: PropertyGroup
 }
 
-export const selectGroup = formStateReducer((state: FormState, { group, focusNode }: Params) => produce(state, (draft) => {
+export const selectGroup = formStateReducer((state: FormState, { group, focusNode }: Params) => produce.default(state, (draft) => {
   draft.focusNodes[focusNode.value].groups.forEach((g) => {
     if (!group && !g.group) {
       g.selected = true

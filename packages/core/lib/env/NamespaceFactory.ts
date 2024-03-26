@@ -1,7 +1,7 @@
 import type { NamespaceBuilder } from '@rdfjs/namespace'
-import type { NamespaceFactory } from '@rdfjs/namespace/Factory'
-import type { Environment } from '@rdfjs/environment/Environment'
-import type { NsBuildersFactory } from '@tpluscode/rdf-ns-builders/Factory.js'
+import type { NamespaceFactory } from '@rdfjs/namespace/Factory.js'
+import type { Environment } from '@rdfjs/environment/Environment.js'
+import type NsBuildersFactory from '@tpluscode/rdf-ns-builders'
 
 declare module '@tpluscode/rdf-ns-builders' {
   interface CustomNamespaces {

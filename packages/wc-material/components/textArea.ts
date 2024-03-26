@@ -1,7 +1,7 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { html } from 'lit'
 import '@material/mwc-textarea/mwc-textarea'
-import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly'
+import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly.js'
 import { validity } from '../directives/validity.js'
 
 export const textArea: Render =

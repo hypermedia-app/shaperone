@@ -1,6 +1,6 @@
 import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import { ComponentDecorator } from '@hydrofoil/shaperone-core/models/components'
-import { InstancesSelectEditor } from '@hydrofoil/shaperone-core/lib/components/instancesSelect'
+import { InstancesSelectEditor } from '@hydrofoil/shaperone-core/lib/components/instancesSelect.js'
 import { decorator as searchDecorator } from './searchDecorator.js'
 
 export const decorator: ComponentDecorator<InstancesSelectEditor> = {

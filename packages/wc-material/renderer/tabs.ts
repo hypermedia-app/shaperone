@@ -1,4 +1,4 @@
-import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates'
+import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates.js'
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit/directives/repeat.js'
 import { styleMap } from 'lit/directives/style-map.js'
@@ -21,8 +21,8 @@ export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { fo
 }
 
 TabsFocusNodeRenderer.loadDependencies = () => [
-  import('@material/mwc-tab-bar/mwc-tab-bar'),
-  import('@material/mwc-tab/mwc-tab'),
+  import('@material/mwc-tab-bar/mwc-tab-bar.js'),
+  import('@material/mwc-tab/mwc-tab.js'),
 ]
 
 export const TabsGroupRenderer: GroupTemplate = function (renderer, { properties }) {

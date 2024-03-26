@@ -1,4 +1,4 @@
-import { FocusNodeRenderer, GroupRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { FocusNodeRenderer, GroupRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { PropertyGroup } from '@rdfine/shacl'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { renderProperty } from './property.js'

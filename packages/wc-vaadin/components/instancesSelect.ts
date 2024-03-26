@@ -1,17 +1,17 @@
 import type { Render } from '@hydrofoil/shaperone-wc'
 import { html, PropertyPart, noChange } from 'lit'
 import { directive, Directive } from 'lit/directive.js'
-import type { AutoComplete, InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components'
+import type { AutoComplete, InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { SingleEditorRenderParams } from '@hydrofoil/shaperone-core/models/components'
 import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread'
+import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
 import { validity } from './validation.js'
 
-declare module '@hydrofoil/shaperone-core/components' {
+declare module '@hydrofoil/shaperone-core/components.js' {
   interface InstancesSelect {
     /**
      * The currently selected instance

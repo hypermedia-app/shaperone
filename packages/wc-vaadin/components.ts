@@ -26,7 +26,7 @@ import {
 export const textField: Lazy<SingleEditorComponent> = {
   editor: dash.TextFieldEditor,
   lazyRender() {
-    return import('./components/text-field').then(m => m.textField)
+    return import('./components/text-field.js').then(m => m.textField)
   },
 }
 
@@ -36,7 +36,7 @@ export const textField: Lazy<SingleEditorComponent> = {
 export const textArea: Lazy<SingleEditorComponent> = {
   editor: dash.TextAreaEditor,
   lazyRender() {
-    return import('./components/text-area').then(m => m.textArea)
+    return import('./components/text-area.js').then(m => m.textArea)
   },
 }
 
@@ -46,7 +46,7 @@ export const textArea: Lazy<SingleEditorComponent> = {
 export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   lazyRender() {
-    return import('./components/enumSelect').then(m => m.enumSelect)
+    return import('./components/enumSelect.js').then(m => m.enumSelect)
   },
 }
 
@@ -95,7 +95,7 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
     return !!componentState.ready
   },
   lazyRender() {
-    return import('./components/instancesSelect').then(m => m.instancesSelect)
+    return import('./components/instancesSelect.js').then(m => m.instancesSelect)
   },
 }
 
@@ -110,7 +110,7 @@ export const autoComplete: Lazy<AutoCompleteEditor> = {
 export const booleanSelectEditor: Lazy<BooleanSelectEditor> = {
   ...booleanSelect,
   lazyRender() {
-    return import('./components/booleanSelect').then(m => m.booleanSelect)
+    return import('./components/booleanSelect.js').then(m => m.booleanSelect)
   },
 }
 
@@ -120,7 +120,7 @@ export const booleanSelectEditor: Lazy<BooleanSelectEditor> = {
 export const datePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DatePickerEditor,
   lazyRender() {
-    return import('./components/date').then(m => m.datePicker)
+    return import('./components/date.js').then(m => m.datePicker)
   },
 }
 
@@ -130,7 +130,7 @@ export const datePicker: Lazy<SingleEditorComponent> = {
 export const dateTimePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DateTimePickerEditor,
   lazyRender() {
-    return import('./components/date').then(m => m.dateTimePicker)
+    return import('./components/date.js').then(m => m.dateTimePicker)
   },
 }
 
@@ -141,6 +141,6 @@ export const dateTimePicker: Lazy<SingleEditorComponent> = {
 export const urlEditor: Lazy<SingleEditorComponent> = {
   editor: dash.URIEditor,
   lazyRender() {
-    return import('./components/url-editor').then(m => m.urlEditor)
+    return import('./components/url-editor.js').then(m => m.urlEditor)
   },
 }

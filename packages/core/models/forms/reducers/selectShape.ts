@@ -9,7 +9,7 @@ export interface Params extends BaseParams {
   shape: NodeShape
 }
 
-export const selectShape = formStateReducer((state: FormState, { focusNode, shape }: Params) => produce(state, (draft) => {
+export const selectShape = formStateReducer((state: FormState, { focusNode, shape }: Params) => produce.default(state, (draft) => {
   const current = draft.focusNodes[focusNode.value]
   if (!current || current.shape?.equals(shape)) {
     return
