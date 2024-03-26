@@ -1,5 +1,5 @@
-import Environment from '@zazuko/env/Environment'
-import alcaeus from 'alcaeus/Factory'
+import Environment from '@zazuko/env/Environment.js'
+import alcaeus from 'alcaeus/Factory.js'
 import $rdf from '@rdfine/env'
 import FetchFactory from '@rdfjs/fetch-lite/Factory.js'
 

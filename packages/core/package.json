@@ -20,7 +20,7 @@
     "@rdfjs/term-map": "^2.0.1",
     "@rdfjs/types": "^1.1.0",
     "@rdfjs-elements/lit-helpers": "^0.3.8",
-    "@tpluscode/rdfine": "^0.7.7",
+    "@tpluscode/rdfine": "^0.7.9",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@vocabulary/dash": "^1.0.3",
     "@zazuko/env-core": "^1.1.1",

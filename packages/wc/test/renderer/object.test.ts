@@ -1,9 +1,9 @@
-import { ObjectActions, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
-import { objectRenderer } from '@shaperone/testing/renderer'
+import { ObjectActions, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import { objectRenderer } from '@shaperone/testing/renderer.js'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
-import { emptyGroupState, testObjectState, testPropertyState } from '@shaperone/testing/models/form'
+import { emptyGroupState, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { expect } from '@open-wc/testing'
-import { blankNode } from '@shaperone/testing/nodeFactory'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { sinon } from '@shaperone/testing'
 import { renderObject } from '../../renderer/object.js'
 

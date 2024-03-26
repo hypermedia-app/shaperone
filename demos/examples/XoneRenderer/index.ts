@@ -1,4 +1,4 @@
-import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates'
+import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates.js'
 import { html } from '@hydrofoil/shaperone-wc'
 import { LogicalConstraint } from '@hydrofoil/shaperone-core/models/forms'
 import type { Shape } from '@rdfine/shacl'

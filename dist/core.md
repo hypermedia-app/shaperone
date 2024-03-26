@@ -28,7 +28,7 @@ Any editor annotated this way will automatically get a score equal `100` without
 At the minimum, a `render` function is required to complete a component. For example, here's a simple `dash:BooleanSelectEditor`, rendered as HTML native elements with lit-html:
 
 ```typescript
-import { booleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { booleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { html } from 'lit-html'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
@@ -56,13 +56,13 @@ All DASH components export an interface for their shared and instance state. By 
 The snippets below propose an extension to the `nativeBooleanSelect` which adds an optional label to display on the "empty option"
 
 ```typescript
-import { booleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { booleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { html } from 'lit-html'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { literal } from '@rdf-esm/data-model'
 
 // extend the component interface using module augmentation
-declare module '@hydrofoil/shaperone-core/components' {
+declare module '@hydrofoil/shaperone-core/components.js' {
     interface BooleanSelectEditor {
         emptyOptionLabel: string
     }
@@ -106,7 +106,7 @@ The core Enum Select Editor is implemented to initialize the choices to display 
 Implementors wishing to create a custom component only need to provide the actual `render` function.
 
 ```typescript
-import { enumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { enumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { html } from '@hydrofoil/shaperone-wc'
 
 export const enumSelectEditor: EnumSelectEditor = {

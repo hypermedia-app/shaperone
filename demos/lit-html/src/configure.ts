@@ -122,7 +122,7 @@ export const configureRenderer = (() => {
         const {
           AccordionGroupingRenderer,
           AccordionFocusNodeRenderer,
-        } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion')
+        } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion.js')
 
         strategy.group = AccordionGroupingRenderer
         focusNodeTemplate = AccordionFocusNodeRenderer
@@ -130,7 +130,7 @@ export const configureRenderer = (() => {
         const {
           TabsGroupRenderer,
           TabsFocusNodeRenderer,
-        } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs')
+        } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs.js')
 
         strategy.group = TabsGroupRenderer
         focusNodeTemplate = TabsFocusNodeRenderer

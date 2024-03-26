@@ -19,10 +19,10 @@
     "@hydrofoil/shaperone-wc": "^0.7.13",
     "@rdfine/shacl": "^0.10.5",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
-    "@shoelace-style/shoelace": ">=2.0.0-beta.77 < 3",
+    "@shoelace-style/shoelace": "^2.15.0",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "is-graph-pointer": "^2.1.0",
-    "lit": "^2",
+    "lit": "^3",
     "p-debounce": "^4"
   },
   "devDependencies": {

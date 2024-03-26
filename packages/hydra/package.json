@@ -15,7 +15,7 @@
     "@hydrofoil/shaperone-core": "^0.11.0",
     "@rdfine/hydra": "^0.10.5",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
-    "@tpluscode/rdfine": "^0.7.7",
+    "@tpluscode/rdfine": "^0.7.9",
     "alcaeus": "^3.0.0",
     "clownface-shacl-path": "^2.1.0"
   },

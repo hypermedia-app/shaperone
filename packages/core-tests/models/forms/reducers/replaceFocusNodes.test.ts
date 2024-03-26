@@ -6,7 +6,7 @@ import { testStore } from '@shaperone/testing/models/form.js'
 import { createFocusNodeState } from '@hydrofoil/shaperone-core/models/forms/reducers/replaceFocusNodes.js'
 import { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { FocusNode } from '@hydrofoil/shaperone-core/index'
+import { FocusNode } from '@hydrofoil/shaperone-core/index.js'
 import { initialiseFocusNode } from '@hydrofoil/shaperone-core/models/forms/lib/stateBuilder.js'
 
 describe('models/forms/reducers/replaceFocusNodes', () => {

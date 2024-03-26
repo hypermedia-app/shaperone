@@ -1,9 +1,9 @@
 import { aTimeout, expect, fixture } from '@open-wc/testing'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { InstancesSelectEditor, InstancesSelect } from '@hydrofoil/shaperone-core/components'
+import { InstancesSelectEditor, InstancesSelect } from '@hydrofoil/shaperone-core/components.js'
 import { Select } from '@material/mwc-select'
-import { ListItem } from '@material/mwc-list/mwc-list-item'
+import { ListItem } from '@material/mwc-list/mwc-list-item.js'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { instancesSelectEditor } from '../../components.js'
 

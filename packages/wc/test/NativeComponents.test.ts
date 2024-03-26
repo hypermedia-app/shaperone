@@ -3,7 +3,7 @@ import { expect, fixture } from '@open-wc/testing'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { RenderFunc } from '@hydrofoil/shaperone-core/models/components'
-import { blankNode } from '@shaperone/testing/nodeFactory'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import * as components from '../NativeComponents.js'
 import { Render } from '../index.js'
 

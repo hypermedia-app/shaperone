@@ -1,7 +1,7 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
-import { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField'
+import { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField.js'
 import { SlInput } from '@shoelace-style/shoelace'
 import { textField } from '../../components.js'
 

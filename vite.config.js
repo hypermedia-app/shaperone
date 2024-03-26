@@ -20,7 +20,7 @@ export default defineConfig({
   optimizeDeps: {
     esbuildOptions: {
       plugins: [
-        <any>NodeGlobalsPolyfillPlugin({
+        NodeGlobalsPolyfillPlugin({
           process: true,
           buffer: true,
         }),
@@ -30,7 +30,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [
-        rollupNodePolyFill() as any,
+        rollupNodePolyFill(),
       ],
     },
   },
