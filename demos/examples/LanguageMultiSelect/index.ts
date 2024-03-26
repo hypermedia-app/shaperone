@@ -3,15 +3,19 @@ import $rdf from '@zazuko/env/web.js'
 import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, rdfs } from '@tpluscode/rdf-ns-builders'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
-import { sort } from '@hydrofoil/shaperone-core/lib/components'
-import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env'
+import { sort } from '@hydrofoil/shaperone-core/lib/components.js'
+import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 
 const editor = $rdf.namedNode('http://example.com/LanguageMultiSelect')
 
 export const component: (theme: 'lumo' | 'material') => Lazy<MultiEditorComponent> = theme => ({
   editor,
   async lazyRender() {
-    await import(/* @vite-ignore */`multiselect-combo-box/theme/${theme}/multiselect-combo-box`)
+    if (theme === 'material') {
+      await import(/* @vite-ignore */'multiselect-combo-box/theme/material/multiselect-combo-box.js')
+    } else {
+      await import(/* @vite-ignore */'multiselect-combo-box/theme/lumo/multiselect-combo-box.js')
+    }
 
     return ({ property }, { update }) => {
       const languages = property.shape.in

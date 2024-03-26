@@ -93,8 +93,8 @@ export const configureRenderer = (() => {
       previousNesting = nesting
 
       if (nesting === 'always one') {
-        const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer')
-        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components')
+        const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer.js')
+        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components.js')
 
         renderer.setTemplates({
           form: topmostFocusNodeFormRenderer(initialStrategy.form),

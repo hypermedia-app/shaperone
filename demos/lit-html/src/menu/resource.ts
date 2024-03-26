@@ -5,7 +5,7 @@ import { State } from '../state/models/resource.js'
 import { Menu } from '../menu.js'
 
 const resourceMenuItem = (() => {
-  import('@vaadin/vaadin-combo-box/vaadin-combo-box')
+  import('@vaadin/vaadin-combo-box/vaadin-combo-box.js')
 
   const comboBox = document.createElement('vaadin-combo-box')
   comboBox.addEventListener('selected-item-changed', (e: any) => {

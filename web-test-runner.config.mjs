@@ -11,6 +11,9 @@ const immer = {
 
     return undefined
   },
+  transform(context) {
+    return context.body.replace('{ produce }', 'produce')
+  },
 }
 
 const nanoid = {

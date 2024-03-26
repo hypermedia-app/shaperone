@@ -2,32 +2,40 @@
 export const snapshots = {};
 
 snapshots["wc-vaadin/components/enumSelect renders an vaadin-select"] = 
-`<vaadin-select-text-field tabindex="0">
-  <slot
-    name="prefix"
-    slot="prefix"
-  >
-  </slot>
-  <slot
-    name="helper"
-    slot="helper"
-  >
-  </slot>
-  <div
-    part="value"
-    slot=""
-  >
+`<div class="vaadin-select-container">
+  <div part="label">
+    <slot name="label">
+    </slot>
+    <span
+      aria-hidden="true"
+      part="required-indicator"
+    >
+    </span>
   </div>
-  <div
-    aria-expanded="false"
-    aria-haspopup="listbox"
-    aria-label="Toggle"
-    part="toggle-button"
-    role="button"
-    slot="suffix"
-  >
+  <vaadin-input-container part="input-field">
+    <slot
+      name="prefix"
+      slot="prefix"
+    >
+    </slot>
+    <slot name="value">
+    </slot>
+    <div
+      aria-hidden="true"
+      part="toggle-button"
+      slot="suffix"
+    >
+    </div>
+  </vaadin-input-container>
+  <div part="helper-text">
+    <slot name="helper">
+    </slot>
   </div>
-</vaadin-select-text-field>
+  <div part="error-message">
+    <slot name="error-message">
+    </slot>
+  </div>
+</div>
 <vaadin-select-overlay>
   <vaadin-list-box
     aria-orientation="vertical"
@@ -55,32 +63,40 @@ snapshots["wc-vaadin/components/enumSelect renders an vaadin-select"] =
 /* end snapshot wc-vaadin/components/enumSelect renders an vaadin-select */
 
 snapshots["wc-vaadin/components/enumSelect renders empty vaadin-select when there are no choices"] = 
-`<vaadin-select-text-field tabindex="0">
-  <slot
-    name="prefix"
-    slot="prefix"
-  >
-  </slot>
-  <slot
-    name="helper"
-    slot="helper"
-  >
-  </slot>
-  <div
-    part="value"
-    slot=""
-  >
+`<div class="vaadin-select-container">
+  <div part="label">
+    <slot name="label">
+    </slot>
+    <span
+      aria-hidden="true"
+      part="required-indicator"
+    >
+    </span>
   </div>
-  <div
-    aria-expanded="false"
-    aria-haspopup="listbox"
-    aria-label="Toggle"
-    part="toggle-button"
-    role="button"
-    slot="suffix"
-  >
+  <vaadin-input-container part="input-field">
+    <slot
+      name="prefix"
+      slot="prefix"
+    >
+    </slot>
+    <slot name="value">
+    </slot>
+    <div
+      aria-hidden="true"
+      part="toggle-button"
+      slot="suffix"
+    >
+    </div>
+  </vaadin-input-container>
+  <div part="helper-text">
+    <slot name="helper">
+    </slot>
   </div>
-</vaadin-select-text-field>
+  <div part="error-message">
+    <slot name="error-message">
+    </slot>
+  </div>
+</div>
 <vaadin-select-overlay>
   <vaadin-list-box
     aria-orientation="vertical"

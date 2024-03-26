@@ -24,7 +24,7 @@ declare module '@hydrofoil/shaperone-core/components.js' {
 
 type Item = [GraphPointer, string]
 
-type CollectionDataProvider = ComboBoxDataProvider & {
+type CollectionDataProvider = ComboBoxDataProvider<Item> & {
   component: InstancesSelectEditor
   renderParams: SingleEditorRenderParams<InstancesSelect | AutoComplete>
 }
