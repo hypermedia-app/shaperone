@@ -56,7 +56,7 @@ describe('wc-shoelace/components/enumSelect', () => {
     const result = await fixture<SlSelect>(component.render(params, actions))
 
     // then
-    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
+    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
   })
 
   context('property $rdf.ns.sh1:clearable true', () => {

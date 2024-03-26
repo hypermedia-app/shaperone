@@ -1,7 +1,7 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import { expect, fixture } from '@open-wc/testing'
-import { SlSelect } from '@shoelace-style/shoelace'
+import { expect, fixture, nextFrame } from '@open-wc/testing'
+import { SlButton, SlSelect } from '@shoelace-style/shoelace'
 import { InstancesSelect } from '@hydrofoil/shaperone-core/lib/components/instancesSelect.js'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { instancesSelect } from '../../components/instancesSelect.js'
@@ -53,7 +53,7 @@ describe('wc-shoelace/components/instancesSelect', () => {
     const result = await fixture<SlSelect>(component.render(params, actions))
 
     // then
-    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
+    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
   })
 
   context('property $rdf.ns.sh1:clearable true', () => {
@@ -83,7 +83,7 @@ describe('wc-shoelace/components/instancesSelect', () => {
         },
         object: graph.namedNode('A'),
         componentState: {
-          choices: [
+          instances: [
             graph.namedNode('A'),
             graph.namedNode('B'),
             graph.namedNode('C'),
@@ -93,9 +93,10 @@ describe('wc-shoelace/components/instancesSelect', () => {
 
       // when
       const result = await fixture<SlSelect>(component.render(params, actions))
-      result.renderRoot.querySelector<HTMLButtonElement>('.select__clear')?.click()
+      result.renderRoot.querySelector<SlButton>('[part=clear-button]')!.click()
 
       // then
+      await nextFrame()
       expect(actions.clear).to.have.been.called
     })
   })

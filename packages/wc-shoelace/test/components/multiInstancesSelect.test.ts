@@ -1,5 +1,5 @@
 import { html, MultiEditorComponent } from '@hydrofoil/shaperone-wc'
-import { expect, fixture } from '@open-wc/testing'
+import { expect, fixture, nextFrame } from '@open-wc/testing'
 import { SlButton, SlSelect } from '@shoelace-style/shoelace'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
@@ -28,6 +28,7 @@ describe('wc-shoelace/components/multiInstancesSelect', () => {
     result.renderRoot.querySelector<SlButton>('[part=clear-button]')!.click()
 
     // then
+    await nextFrame()
     expect(actions.update).to.have.been.calledWith(
       sinon.match([]),
     )
@@ -74,7 +75,7 @@ describe('wc-shoelace/components/multiInstancesSelect', () => {
     const result = await fixture<SlSelect>(component.render(params, actions))
 
     // then
-    const itemLabels = [...result.querySelectorAll('sl-menu-item')]
+    const itemLabels = [...result.querySelectorAll('sl-option')]
       .map(item => item.textContent)
     expect(itemLabels).to.contain.all.members(['Ą', 'Ż'])
   })

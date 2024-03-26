@@ -95,7 +95,7 @@ describe('wc-shoelace/components/autocomplete', () => {
     const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
 
     // then
-    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
+    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
   })
 
   it('uses form settings for selected label', async () => {
