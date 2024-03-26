@@ -1,9 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
-import ns from '@rdf-esm/namespace'
-import { fromPointer } from '@rdfine/shacl/lib/NodeShape'
+import $rdf from '@shaperone/testing/env.js'
 import { sh, dash, dcterms } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { testEditor, testStore } from '@shaperone/testing/models/form.js'
@@ -12,17 +9,20 @@ import {
   initialiseObjectState,
   initialisePropertyShape,
 } from '@hydrofoil/shaperone-core/models/forms/lib/stateBuilder.js'
-import { loadMixins } from '@hydrofoil/shaperone-core'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
   let store: Store
 
-  before(loadMixins)
+  before(async () => {
+    await setEnv($rdf)
+  })
+
   beforeEach(() => {
     ({ store } = testStore())
   })
@@ -32,10 +32,10 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
   describe('initialiseFocusNode', () => {
     it('positions explicitly selected shape at the head of shapes array', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
-      const nestedShape = fromPointer(graph.namedNode(ex.nestedNode))
-      const otherShape = fromPointer(graph.namedNode(ex.otherNode))
+      const nestedShape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.nestedNode))
+      const otherShape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.otherNode))
 
       // when
       const state = initialiseFocusNode({
@@ -54,10 +54,10 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('does not reposition selected shape in shapes array', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
-      const nestedShape = fromPointer(graph.namedNode(ex.nestedNode))
-      const otherShape = fromPointer(graph.namedNode(ex.otherNode))
+      const nestedShape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.nestedNode))
+      const otherShape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.otherNode))
 
       // when
       const state = initialiseFocusNode({
@@ -76,10 +76,10 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('does not reset selected editor of same object if it still matches', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
         .addOut(ex.foo, 'bar')
-      const shape = fromPointer(graph.namedNode(ex.shape), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.shape), {
         property: [{
           types: [sh.PropertyShape],
           name: 'foo',
@@ -118,10 +118,10 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('resets selected editor if it no longer matches', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
         .addOut(ex.foo, 'bar')
-      const shape = fromPointer(graph.namedNode(ex.shape), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.shape), {
         property: [{
           types: [sh.PropertyShape],
           name: 'foo',
@@ -154,9 +154,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('does not reset selected multi editor', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
-      const shape = fromPointer(graph.namedNode(ex.shape), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.shape), {
         property: [{
           types: [sh.PropertyShape],
           name: 'foo',
@@ -183,9 +183,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('does not reset selection of single editors', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
-      const shape = fromPointer(graph.namedNode(ex.shape), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.namedNode(ex.shape), {
         property: [{
           types: [sh.PropertyShape],
           name: 'foo',
@@ -217,10 +217,10 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('sets canRemove=false when object count equals sh:minCount', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
         .addOut(schema.age, 21)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: schema.age,
           types: [sh.PropertyShape],
@@ -244,10 +244,10 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('sets canRemove=false when object count is less than sh:minCount', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
         .addOut(schema.age, 21)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: schema.age,
           types: [sh.PropertyShape],
@@ -271,9 +271,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('does not add the preferred editor second time', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo).addOut(ex.foo, 'bar')
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
@@ -310,9 +310,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('adds a object states to property with sh:minCount > 0', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
@@ -336,9 +336,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('combines all property shapes from logical constraints', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Person)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: dcterms.identifier,
           types: [sh.PropertyShape],
@@ -394,9 +394,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('adds logical constraint groups to focus node state', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Person)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         or: [{
           types: [sh.NodeShape],
           property: {
@@ -438,9 +438,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('provides pointers to logical constraints a property may be part of', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Person)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         or: [{
           types: [sh.NodeShape],
           property: {
@@ -468,9 +468,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('combines all property shapes from logical constraints, defined without wrapping node shape', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Person)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: dcterms.identifier,
           types: [sh.PropertyShape],
@@ -511,9 +511,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('sets hidden state to false by default', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
@@ -536,9 +536,9 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('sets hidden state when property is dash:hidden', () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const focusNode = graph.node(ex.Foo)
-      const shape = fromPointer(graph.blankNode(), {
+      const shape = $rdf.rdfine.sh.NodeShape(graph.blankNode(), {
         property: [{
           path: ex.foo,
           types: [sh.PropertyShape],
@@ -564,8 +564,8 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
   describe('initialisePropertyShape', () => {
     it('selects lower-score multi-editor if it is the best match with available component', () => {
       // given
-      const shapeGraph = cf({ dataset: $rdf.dataset() })
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const shapeGraph = $rdf.clownface()
+      const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(shapeGraph.blankNode(), {
         path: ex.foo,
       })
@@ -597,8 +597,8 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
   describe('initialiseObjectState', () => {
     it('sets editorSwitchDisabled flag according to option', () => {
       // given
-      const shapeGraph = cf({ dataset: $rdf.dataset() })
-      const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
+      const shapeGraph = $rdf.clownface()
+      const dataGraph = $rdf.clownface().literal(5)
       const shape = propertyShape(shapeGraph.blankNode(), {
         path: ex.foo,
       })
@@ -620,8 +620,8 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
 
     it('selects lower-score editor if it is the best match with available component', () => {
       // given
-      const shapeGraph = cf({ dataset: $rdf.dataset() })
-      const dataGraph = cf({ dataset: $rdf.dataset() }).literal(5)
+      const shapeGraph = $rdf.clownface()
+      const dataGraph = $rdf.clownface().literal(5)
       const shape = propertyShape(shapeGraph.blankNode(), {
         path: ex.foo,
       })

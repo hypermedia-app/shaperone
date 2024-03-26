@@ -1,8 +1,7 @@
-import $rdf from '@rdf-esm/data-model'
 import { dash, rdf, xsd } from '@tpluscode/rdf-ns-builders'
-import sh1 from './ns.js'
+import { ShaperoneEnvironment } from './env.js'
 
-export default [
-  $rdf.quad(sh1.InstancesMultiSelectEditor, rdf.type, dash.MultiEditor),
-  $rdf.quad(dash.DetailsEditor, sh1.implicitDefaultValue, $rdf.literal('true', xsd.boolean)),
-]
+export default ($rdf: ShaperoneEnvironment) => ([
+  $rdf.quad($rdf.ns.sh1.InstancesMultiSelectEditor, rdf.type, dash.MultiEditor),
+  $rdf.quad(dash.DetailsEditor, $rdf.ns.sh1.implicitDefaultValue, $rdf.literal('true', xsd.boolean)),
+])

@@ -1,11 +1,12 @@
 import { rdf } from '@tpluscode/rdf-ns-builders'
-import { GraphPointer } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import { PropertyShape } from '@rdfine/shacl'
 import {
   ComponentInstance,
   SingleEditorComponent,
   SingleEditorRenderParams,
-} from '../../../models/components/index'
+} from '../../../models/components/index.js'
+import { ShaperoneEnvironment } from '../../../env.js'
 
 export interface State extends ComponentInstance {
   instances?: GraphPointer[]
@@ -20,6 +21,7 @@ export interface Editor<S extends State> extends SingleEditorComponent<S> {
    * @param params
    */
   loadInstance(params: {
+    env: ShaperoneEnvironment
     property: PropertyShape
     value: GraphPointer
   }): Promise<GraphPointer | null>
@@ -36,7 +38,7 @@ export interface Editor<S extends State> extends SingleEditorComponent<S> {
    */
   shouldLoad(params: SingleEditorRenderParams<State>): boolean
 
-  sort(shape: PropertyShape): (left: GraphPointer, right: GraphPointer) => number
+  sort(shape: PropertyShape, env: ShaperoneEnvironment): (left: GraphPointer, right: GraphPointer) => number
 }
 
 export function shouldLoad({ componentState }: SingleEditorRenderParams<State>): boolean {
@@ -61,14 +63,14 @@ export async function loadChoices({ property }: SingleEditorRenderParams<State>)
 }
 
 export const init: SingleEditorComponent<State>['init'] = function (this: Editor<State>, params) {
-  const { componentState, updateComponentState } = params
+  const { componentState, updateComponentState, env } = params
   if (this.shouldLoad(params) && !componentState.loading) {
     updateComponentState({
       loading: true,
     });
     (async () => {
       const pointers = await this.loadChoices(params)
-      const instances = pointers.sort(this.sort(params.property.shape))
+      const instances = pointers.sort(this.sort(params.property.shape, env))
 
       updateComponentState({
         instances,

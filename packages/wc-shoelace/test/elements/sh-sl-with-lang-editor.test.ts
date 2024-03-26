@@ -1,5 +1,5 @@
 import { expect, fixture, html } from '@open-wc/testing'
-import type { ShSlWithLangEditor } from '../../elements/sh-sl-with-lang-editor'
+import type { ShSlWithLangEditor } from '../../elements/sh-sl-with-lang-editor.js'
 import '../../elements/sh-sl-with-lang-editor.js'
 
 describe('wc-shoelace/elements/sh-sl-with-lang-editor', () => {

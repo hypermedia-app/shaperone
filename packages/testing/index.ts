@@ -5,14 +5,12 @@ import {
 } from '@hydrofoil/shaperone-core/models/components/index.js'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
-import clownface, { GraphPointer, MultiPointer } from 'clownface'
+import type { GraphPointer, MultiPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
-import { NamedNode } from 'rdf-js'
+import type { NamedNode } from '@rdfjs/types'
 import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
 import { FocusNode } from '@hydrofoil/shaperone-core'
-import $rdf from '@rdf-esm/dataset'
-import { rdfs } from '@tpluscode/rdf-ns-builders'
-import namespace from '@rdf-esm/namespace'
+import $rdf from './env.js'
 import { propertyShape } from './util.js'
 import { sinon } from './sinon.js'
 import { objectRenderer, propertyRenderer } from './renderer.js'
@@ -20,7 +18,7 @@ import { objectRenderer, propertyRenderer } from './renderer.js'
 export { sinon } from './sinon.js'
 export type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial.js'
 
-export const ex = namespace('http://example.com/')
+export const ex = $rdf.namespace('http://example.com/')
 
 interface EditorTestParams<T> {
   focusNode?: FocusNode
@@ -38,12 +36,12 @@ interface MultiEditorTestParams<T> extends EditorTestParams<T> {
   objects: GraphPointer[]
 }
 
-interface MultiEditorTestFixture<T> {
+interface MultiEditorTestFixture<T extends ComponentInstance> {
   params: MultiEditorRenderParams<T>
   actions: MultiEditorActions
 }
 
-interface SingleEditorTestFixture<T>{
+interface SingleEditorTestFixture<T extends ComponentInstance>{
   params: SingleEditorRenderParams<T>
   actions: SingleEditorActions
 }
@@ -55,7 +53,7 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
 ): MultiEditorTestFixture<T> | SingleEditorTestFixture<T> {
   const { componentState } = arg
 
-  const focusNode = arg.focusNode || clownface({ dataset: $rdf.dataset() }).blankNode()
+  const focusNode = arg.focusNode || $rdf.clownface().blankNode()
 
   const property: PropertyState = {
     canAdd: true,
@@ -81,8 +79,9 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
 
     return <MultiEditorTestFixture<T>>{
       params: {
+        env: $rdf,
         form: {
-          labelProperties: [rdfs.label],
+          labelProperties: [$rdf.ns.rdfs.label],
           shouldEnableEditorChoice: () => true,
         },
         focusNode,
@@ -121,8 +120,9 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
 
   return <SingleEditorTestFixture<T>>{
     params: {
+      env: $rdf,
       form: {
-        labelProperties: [rdfs.label],
+        labelProperties: [$rdf.ns.rdfs.label],
         shouldEnableEditorChoice: () => true,
       },
       focusNode,

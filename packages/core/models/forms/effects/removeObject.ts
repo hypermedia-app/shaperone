@@ -1,5 +1,5 @@
-import type { Store } from '../../../state'
-import { RemoveObjectParams } from '../reducers/removeObject'
+import type { Store } from '../../../state/index.js'
+import { RemoveObjectParams } from '../reducers/removeObject.js'
 import { syncProperties } from './lib/syncProperties.js'
 
 export function removeObject(store: Store) {

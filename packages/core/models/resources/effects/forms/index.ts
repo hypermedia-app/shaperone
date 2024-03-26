@@ -1,11 +1,11 @@
-import type { Store } from '../../../../state'
-import addFormField from './addFormField'
-import setObjectValue from './setObjectValue'
-import clearValue from './clearValue'
-import removeObject from './removeObject'
-import replaceObject from './setPropertyObjects'
-import createFocusNodeState from './createFocusNodeState'
-import { preventMutatingReadOnlyProperty } from './lib'
+import type { Store } from '../../../../state/index.js'
+import addFormField from './addFormField.js'
+import setObjectValue from './setObjectValue.js'
+import clearValue from './clearValue.js'
+import removeObject from './removeObject.js'
+import replaceObject from './setPropertyObjects.js'
+import createFocusNodeState from './createFocusNodeState.js'
+import { preventMutatingReadOnlyProperty } from './lib/index.js'
 
 export default function (store: Store) {
   const objectEffects = {

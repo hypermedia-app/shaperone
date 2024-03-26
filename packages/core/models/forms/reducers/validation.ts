@@ -1,17 +1,17 @@
 import type { GraphPointer } from 'clownface'
-import { ValidationReport } from '@rdfine/shacl'
-import produce from 'immer'
-import { fromPointer } from '@rdfine/shacl/lib/ValidationReport'
+import type { ValidationReport } from '@rdfine/shacl'
+import { produce } from 'immer'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { BaseParams, formStateReducer } from '../../index.js'
-import type { FormState, ValidationResultState } from '../index'
+import type { FormState, ValidationResultState } from '../index.js'
+import env from '../../../env.js'
 
 export interface ValidationReportParams extends BaseParams {
   report: GraphPointer<any> | ValidationReport
 }
 
 export const validationReport = formStateReducer((state: FormState, { report }: ValidationReportParams) => produce(state, (draft) => {
-  const reportObj = '_context' in report ? fromPointer(report) : report
+  const reportObj = '_context' in report ? env().rdfine.sh.ValidationReport(report) : report
 
   draft.validationReport = reportObj.pointer
   draft.hasErrors = false

@@ -1,12 +1,10 @@
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, fixture, nextFrame } from '@open-wc/testing'
-import { SlSelect } from '@shoelace-style/shoelace/dist/shoelace'
-import { EnumSelect } from '@hydrofoil/shaperone-core/lib/components/enumSelect'
-import sh1 from '@hydrofoil/shaperone-core/ns.js'
+import { SlSelect } from '@shoelace-style/shoelace'
+import { EnumSelect } from '@hydrofoil/shaperone-core/lib/components/enumSelect.js'
 import { schema } from '@tpluscode/rdf-ns-builders'
-import { enumSelect } from '../../components/enumSelect'
+import { enumSelect } from '../../components/enumSelect.js'
 
 describe('wc-shoelace/components/enumSelect', () => {
   let component: EnumSelect
@@ -20,7 +18,7 @@ describe('wc-shoelace/components/enumSelect', () => {
 
   it('is disabled when dash:readOnly true', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const {
       params,
       actions,
@@ -40,7 +38,7 @@ describe('wc-shoelace/components/enumSelect', () => {
 
   it('uses form settings for display labels', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const {
       params,
       actions,
@@ -58,20 +56,20 @@ describe('wc-shoelace/components/enumSelect', () => {
     const result = await fixture<SlSelect>(component.render(params, actions))
 
     // then
-    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
+    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
   })
 
-  context('property sh1:clearable true', () => {
+  context('property $rdf.ns.sh1:clearable true', () => {
     it('makes select clearable', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const {
         params,
         actions,
       } = editorTestParams<EnumSelect>({
         property: {
           readOnly: true,
-          [sh1.clearable.value]: true,
+          [$rdf.ns.sh1.clearable.value]: true,
         },
         object: graph.literal(''),
       })
@@ -85,13 +83,13 @@ describe('wc-shoelace/components/enumSelect', () => {
 
     it('clears value when cleared', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const {
         params,
         actions,
       } = editorTestParams<EnumSelect>({
         property: {
-          [sh1.clearable.value]: true,
+          [$rdf.ns.sh1.clearable.value]: true,
         },
         object: graph.literal('B'),
         componentState: {

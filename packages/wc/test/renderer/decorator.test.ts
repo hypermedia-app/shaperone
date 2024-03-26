@@ -1,8 +1,8 @@
 import { html, css } from 'lit'
 import { expect } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
-import { decorate } from '../../renderer/decorator'
-import { FocusNodeTemplate } from '../../templates'
+import { decorate } from '../../renderer/decorator.js'
+import { FocusNodeTemplate } from '../../templates.js'
 
 describe('@hydrofoil/shaperone-wc/components/decorator', () => {
   describe('.loadDependencies', () => {

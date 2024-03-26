@@ -1,11 +1,11 @@
-import { Term } from 'rdf-js'
-import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
-import $rdf from '@rdf-esm/data-model'
+import type { Term } from '@rdfjs/types'
+import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import type { PropertyShape } from '@rdfine/shacl/lib/PropertyShape'
-import type { Dispatch } from '../../../../state'
-import type { FocusNode } from '../../../../index'
-import type { State } from '../../index'
-import type { EditorsState } from '../../../editors'
+import type { Dispatch } from '../../../../state/index.js'
+import type { FocusNode } from '../../../../index.js'
+import type { State } from '../../index.js'
+import type { EditorsState } from '../../../editors/index.js'
+import env from '../../../../env.js'
 
 interface Params {
   dispatch: Dispatch
@@ -27,7 +27,7 @@ export function syncProperties({ forms, editors, form, focusNode, dispatch, prop
     ?.objects.map(obj => obj.object?.term).filter(Boolean) as Term[] || []
 
   const propertiesToSync = focusNodeState?.properties
-    .filter(prop => prop.shape.pointer.has(sh.equals, path.id).has(dash.hidden, $rdf.literal('true', xsd.boolean)).terms.length > 0)
+    .filter(prop => prop.shape.pointer.has(sh.equals, path.id).has(dash.hidden, env().constant.TRUE).terms.length > 0)
     .map(({ shape }) => shape) || []
 
   for (const syncedProperty of propertiesToSync) {

@@ -6,9 +6,9 @@ Extends Shaperone forms with Hydra hypermedia awareness
 
 ```js
 import shaperoneHydra from '@hydrofoil/shaperone-hydra'
-import * as configure from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 
-shaperoneHydra(configure)
+shaperoneHydra(configure())
 ```
 
 ## Usage

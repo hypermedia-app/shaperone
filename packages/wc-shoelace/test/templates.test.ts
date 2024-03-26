@@ -5,7 +5,7 @@ import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { dash, sh } from '@tpluscode/rdf-ns-builders'
 import { sinon } from '@shaperone/testing'
 import * as template from '../templates.js'
-import { settings } from '../settings'
+import { settings } from '../settings.js'
 
 describe('wc-shoelace/templates', () => {
   describe('property', () => {
@@ -61,9 +61,8 @@ describe('wc-shoelace/templates', () => {
         el.querySelector('button')?.click()
 
         // then
-        expect(renderer.actions.addObject).to.have.been.calledWith(sinon.match({
-          overrides,
-        }))
+        const addObject = renderer.actions.addObject as sinon.SinonStub
+        expect(addObject.firstCall.firstArg).to.have.property('overrides', overrides)
       })
 
       it('applies defaults to component state', async () => {

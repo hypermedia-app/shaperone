@@ -1,7 +1,7 @@
 import { css, html, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 
-import './wc-menu'
+import './wc-menu.js'
 import '@material/mwc-icon/mwc-icon'
 import '@material/mwc-list/mwc-list-item'
 import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'

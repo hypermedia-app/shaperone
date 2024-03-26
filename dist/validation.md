@@ -7,8 +7,10 @@ The Shaperone core library does not perform validation on its own and instead re
 `@hydrofoil/shaperone-rdf-validate-shacl` provides the default validation choice, which can be configured using the usual way:
 
 ```typescript
-import { validation } from '@hydrofoil/shaperone-wc/configure'
+import rdf from '@zazuko/env'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
+
+const { validation } = configure(rdf)
 
 validation.setValidator(validate)
 ```
@@ -19,9 +21,12 @@ Provide an async function as shown below
 
 ```typescript
 import type { DatasetCore } from 'rdf-js'
-import { validation } from '@hydrofoil/shaperone-wc/configure'
+import rdf from '@zazuko/env'
+import { configure } from '@hydrofoil/shaperone-wc/configure'
 import clownface, { GraphPointer } from 'clownface'
 import createReport from './lib/my-validator'
+
+const { validation } = configure(rdf)
 
 async function validate(shapes: DatasetCore, data: DatasetCore): Promise<GraphPointer> {
     return createReport(shapes, data)

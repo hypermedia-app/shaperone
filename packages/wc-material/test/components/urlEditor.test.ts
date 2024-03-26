@@ -1,10 +1,9 @@
 import { fixture, expect } from '@open-wc/testing'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { TextField } from '@material/mwc-textfield'
 import { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { urlEditor } from '../../components'
+import { urlEditor } from '../../components.js'
 
 describe('wc-material/components/urlEditor', () => {
   let render: Render
@@ -15,7 +14,7 @@ describe('wc-material/components/urlEditor', () => {
 
   it('renders field[type=url]', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
@@ -29,7 +28,7 @@ describe('wc-material/components/urlEditor', () => {
 
   it('renders field[type=url]', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })

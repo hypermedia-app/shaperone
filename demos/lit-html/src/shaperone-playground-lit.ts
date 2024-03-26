@@ -13,12 +13,12 @@ import '@hydrofoil/shaperone-wc/shaperone-form'
 import '@rdfjs-elements/rdf-editor'
 import '@github/clipboard-copy-element'
 import { connect } from '@captaincodeman/rdx'
-import { Quad } from 'rdf-js'
-import { store, State, Dispatch } from './state/store'
-import { shapeMenu } from './menu/shape'
-import { resourceMenu } from './menu/resource'
-import { formMenu } from './menu/formMenu'
-import { configureRenderer, selectComponents } from './configure'
+import type { Quad } from '@rdfjs/types'
+import { store, State, Dispatch } from './state/store.js'
+import { shapeMenu } from './menu/shape.js'
+import { resourceMenu } from './menu/resource.js'
+import { formMenu } from './menu/formMenu.js'
+import { configureRenderer, selectComponents } from './configure.js'
 
 interface RdfEditor {
   serialized: string
@@ -147,8 +147,8 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
       </h2>
       <vaadin-select id="lang" slot="navbar"
                      value="${this.playground.language}"
-                     @value-changed="${(e: any) => store().dispatch.playground.switchLanguage(e.detail.value)}">
-        <template>
+                     @value-changed="${(e: any) => store().dispatch.playground.switchLanguage(e.detail.value)}"
+                     .renderer="${(root: HTMLElement) => render(html`
           <vaadin-list-box>
             <vaadin-item value="en">🇬🇧</vaadin-item>
             <vaadin-item value="de">🇩🇪</vaadin-item>
@@ -156,7 +156,7 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
             <vaadin-item value="fr">🇫🇷</vaadin-item>
             <vaadin-item value="pl">🇵🇱</vaadin-item>
           </vaadin-list-box>
-        </template>
+      `, root)}">
       </vaadin-select>
       <vaadin-button slot="navbar" @click="${this.__reset}">Reset</vaadin-button>
       <vaadin-button slot="navbar" @click="${this.__share}" id="share-button">

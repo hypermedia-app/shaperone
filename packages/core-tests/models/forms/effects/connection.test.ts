@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import clownface from 'clownface'
-import * as $rdf from '@rdf-esm/dataset'
+import $rdf from '@zazuko/env/web.js'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { connect } from '@hydrofoil/shaperone-core/models/forms/effects/connection.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -16,7 +15,7 @@ describe('models/forms/effects/connect', () => {
 
   it('initializes state if there was already a root resource pointer', () => {
     // given
-    const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('foo')
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).namedNode('foo')
     store.getState().resources.get(form)!.rootPointer = focusNode
 
     // when

@@ -1,12 +1,12 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import ns from '@rdf-esm/namespace'
+import $rdf from '@zazuko/env/web.js'
 import { rdf } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors.js'
 import { addMatchers } from '@hydrofoil/shaperone-core/models/editors/reducers/addMatchers.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/editors/reducers/addMatchers', () => {
   it('add any editor to all editors', () => {

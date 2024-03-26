@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { dash, rdf, owl, rdfs, schema, foaf } from '@tpluscode/rdf-ns-builders'
-import clownface, { GraphPointer } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import promise from 'promise-the-world'
 import { sinon } from '@shaperone/testing'
-import { BlankNode } from 'rdf-js'
+import type { BlankNode } from '@rdfjs/types'
 import { objectRenderer } from '@shaperone/testing/renderer.js'
 import { testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { enumSelect, InstancesSelect, instancesSelect, EnumSelect } from '@hydrofoil/shaperone-core/components.js'
@@ -13,6 +13,7 @@ import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/sha
 import { propertyShape } from '@shaperone/testing/util.js'
 import type { SinonStubbedInstance } from 'sinon'
 import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components/index.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 
 describe('components', () => {
   describe('enumSelect', () => {
@@ -23,6 +24,10 @@ describe('components', () => {
     let focusNode: GraphPointer<BlankNode>
     let actions: SinonStubbedInstance<SingleEditorActions>
 
+    before(() => {
+      setEnv($rdf)
+    })
+
     beforeEach(() => {
       form = {
         labelProperties: [rdfs.label],
@@ -31,9 +36,9 @@ describe('components', () => {
         },
       }
       updateComponentState = sinon.spy()
-      focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-      property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
-      value = testObjectState(clownface({ dataset: $rdf.dataset() }).blankNode())
+      focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      property = testPropertyState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
+      value = testObjectState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
     })
 
     it('is dash:EnumSelectEditor', () => {
@@ -43,7 +48,7 @@ describe('components', () => {
     describe('.init', () => {
       it('returns true if already has choices', () => {
         // given
-        const graph = clownface({ dataset: $rdf.dataset() })
+        const graph = $rdf.clownface({ dataset: $rdf.dataset() })
 
         // when
         const result = enumSelect.init?.(<any>{
@@ -76,7 +81,7 @@ describe('components', () => {
         const deferred = promise.defer()
         enumSelect.loadChoices = async () => {
           deferred.resolve('')
-          const instances = clownface({ dataset: $rdf.dataset() })
+          const instances = $rdf.clownface({ dataset: $rdf.dataset() })
           return [
             instances.node(rdfs.Class).addOut(rdfs.label, 'Class'),
             instances.node(schema.Person).addOut(rdfs.label, 'Person'),
@@ -92,6 +97,7 @@ describe('components', () => {
 
         // when
         enumSelect.init?.({
+          env: $rdf,
           form,
           value,
           componentState: {},
@@ -100,7 +106,7 @@ describe('components', () => {
           property,
           renderer,
         }, actions)
-        await deferred
+        await deferred.promise
 
         // then
         expect(updateComponentState).to.have.been.calledWith(sinon.match({
@@ -119,7 +125,7 @@ describe('components', () => {
 
     it('sets objects of sh:in to component state', async () => {
       // given
-      const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).namedNode('fn')
       const property = propertyShape({
         in: [$rdf.literal('foo'), $rdf.blankNode('bar'), $rdf.namedNode('baz')],
       })
@@ -154,9 +160,9 @@ describe('components', () => {
         },
       }
       updateComponentState = sinon.spy()
-      focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
-      property = testPropertyState(clownface({ dataset: $rdf.dataset() }).blankNode())
-      value = testObjectState(clownface({ dataset: $rdf.dataset() }).blankNode())
+      focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
+      property = testPropertyState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
+      value = testObjectState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
     })
 
     it('is dash:InstancesSelectEditor', () => {
@@ -166,7 +172,7 @@ describe('components', () => {
     describe('.init', () => {
       it('returns true if already has choices', () => {
         // given
-        const graph = clownface({ dataset: $rdf.dataset() })
+        const graph = $rdf.clownface({ dataset: $rdf.dataset() })
         const componentState = {
           instances: [
             graph.literal('foo').addOut(rdfs.label, 'foo'),
@@ -200,7 +206,7 @@ describe('components', () => {
         const deferred = promise.defer()
         instancesSelect.loadChoices = async () => {
           deferred.resolve('')
-          const instances = clownface({ dataset: $rdf.dataset() })
+          const instances = $rdf.clownface({ dataset: $rdf.dataset() })
           return [
             instances.node(rdfs.Class).addOut(rdfs.label, 'Class'),
             instances.node(schema.Person).addOut(rdfs.label, 'Person'),
@@ -216,6 +222,7 @@ describe('components', () => {
 
         // when
         instancesSelect.init?.({
+          env: $rdf,
           form,
           value,
           updateComponentState,
@@ -244,10 +251,10 @@ describe('components', () => {
     describe('.loadInstance', () => {
       it('returns pointer from the shapes graph', async () => {
         // given
-        const value = clownface({ dataset: $rdf.dataset() }).namedNode('foo')
+        const value = $rdf.clownface({ dataset: $rdf.dataset() }).namedNode('foo')
 
         // when
-        const pointer = await instancesSelect.loadInstance({ property: property.shape, value })
+        const pointer = await instancesSelect.loadInstance({ env: $rdf, property: property.shape, value })
 
         // then
         expect(pointer?.dataset).to.eq(property.shape.pointer.dataset)

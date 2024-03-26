@@ -1,14 +1,13 @@
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { expect, fixture } from '@open-wc/testing'
 import { TextFieldElement } from '@vaadin/vaadin-text-field'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { urlEditor } from '../../components/url-editor'
+import { urlEditor } from '../../components/url-editor.js'
 
 describe('wc-vaadin/components/url-editor', () => {
   it('renders text field', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const { params, actions } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })
@@ -17,14 +16,14 @@ describe('wc-vaadin/components/url-editor', () => {
     const element = await fixture(urlEditor(params, actions))
 
     // then
-    expect(element).to.equalSnapshot({
+    await expect(element).to.equalSnapshot({
       ignoreAttributes: ['aria-labelledby'],
     })
   })
 
   it('renders field[type=url]', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const { params, actions } = editorTestParams({
       object: graph.namedNode('foo-bar'),
     })

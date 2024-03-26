@@ -1,15 +1,13 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { sinon } from '@shaperone/testing'
-import ns from '@rdf-esm/namespace'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { pushFocusNode } from '@hydrofoil/shaperone-core/models/forms/effects/pushFocusNode.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/forms/reducers/pushFocusNode', () => {
   let store: Store
@@ -21,7 +19,7 @@ describe('core/models/forms/reducers/pushFocusNode', () => {
 
   it('dispatches initialization of new node state', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const property = propertyShape(graph.namedNode(ex.propertyShape))
 
     // when

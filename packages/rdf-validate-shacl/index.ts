@@ -3,6 +3,9 @@ import type { Options } from 'rdf-validate-shacl'
 import type { Validator } from '@hydrofoil/shaperone-core/models/validation'
 
 interface Validate extends Validator {
+  /**
+   * @deprecated It is recommended to use the default factory managed by Shaperone
+   */
   with<T extends RDF.DataFactory & RDF.DatasetCoreFactory>(factory: Options<T>): Validator
 }
 

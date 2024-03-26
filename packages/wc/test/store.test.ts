@@ -1,6 +1,6 @@
-import { addPlugin } from '@hydrofoil/shaperone-core/store'
+import { addPlugin } from '@hydrofoil/shaperone-core/store.js'
 import { expect } from '@open-wc/testing'
-import { store } from '../store'
+import { store } from '../store.js'
 
 describe('wc/store', () => {
   context('with plugins', () => {

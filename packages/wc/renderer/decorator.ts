@@ -6,7 +6,7 @@
  */
 
 import { css } from 'lit'
-import type { RenderTemplate } from '../templates'
+import type { RenderTemplate } from '../templates.js'
 
 export interface Decorate<Template extends RenderTemplate> {
   (template: Template): Template

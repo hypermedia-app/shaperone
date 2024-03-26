@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
-import clownface, { AnyContext, AnyPointer } from 'clownface'
-import $rdf from 'rdf-ext'
-import type DatasetExt from 'rdf-ext/lib/Dataset'
+import type { AnyContext, AnyPointer } from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
@@ -9,10 +8,12 @@ import { testStore } from '@shaperone/testing/models/form.js'
 import setObjectValue from '@hydrofoil/shaperone-core/models/resources/effects/forms/setObjectValue.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util.js'
+import { Dataset } from '@zazuko/env/lib/Dataset.js'
+import toCanonical from 'rdf-dataset-ext/toCanonical.js'
 
 describe('models/resources/effects/forms/setObject', () => {
   let store: Store
-  let graph: AnyPointer<AnyContext, DatasetExt>
+  let graph: AnyPointer<AnyContext, Dataset>
   let form: symbol
 
   describe('focus node in default graph', () => {
@@ -90,7 +91,7 @@ describe('models/resources/effects/forms/setObject', () => {
       const object = {
         object: focusNode.out(sh.path).toArray().shift(),
       }
-      const shapesGraph = clownface({ dataset: $rdf.dataset() })
+      const shapesGraph = $rdf.clownface()
       const property = propertyShape(shapesGraph.blankNode(), {
         path: sh.path,
       })
@@ -106,9 +107,9 @@ describe('models/resources/effects/forms/setObject', () => {
       })
 
       // then
-      const expected = clownface({ dataset: $rdf.dataset() }).namedNode('propertyShape')
+      const expected = $rdf.clownface().namedNode('propertyShape')
       expected.addOut(sh.path, schema.name)
-      expect(focusNode.dataset.toCanonical()).to.eq(expected.dataset.toCanonical())
+      expect(toCanonical(focusNode.dataset)).to.eq(toCanonical(expected.dataset))
     })
 
     it('replaces one subgraph with another', () => {
@@ -123,11 +124,11 @@ describe('models/resources/effects/forms/setObject', () => {
       const object = {
         object: focusNode.out(sh.path).toArray().shift(),
       }
-      const shapesGraph = clownface({ dataset: $rdf.dataset() })
+      const shapesGraph = $rdf.clownface()
       const property = propertyShape(shapesGraph.blankNode(), {
         path: sh.path,
       })
-      const newValue = clownface({ dataset: $rdf.dataset() })
+      const newValue = $rdf.clownface()
         .blankNode()
         .addList(sh.alternativePath, [schema.knows, schema.name])
 
@@ -141,9 +142,9 @@ describe('models/resources/effects/forms/setObject', () => {
       })
 
       // then
-      const expected = clownface({ dataset: $rdf.dataset() }).namedNode('propertyShape')
+      const expected = $rdf.clownface().namedNode('propertyShape')
       expected.addOut(sh.path, path => path.addList(sh.alternativePath, [schema.knows, schema.name]))
-      expect(focusNode.dataset.toCanonical()).to.eq(expected.dataset.toCanonical())
+      expect(toCanonical(focusNode.dataset)).to.eq(toCanonical(expected.dataset))
     })
 
     it('does not remove subgraph if used multiple times in the data graph', () => {
@@ -158,7 +159,7 @@ describe('models/resources/effects/forms/setObject', () => {
       const object = {
         object: focusNode.out(schema.employmentUnit).toArray().shift(),
       }
-      const shapesGraph = clownface({ dataset: $rdf.dataset() })
+      const shapesGraph = $rdf.clownface()
       const property = propertyShape(shapesGraph.blankNode(), {
         path: schema.employmentUnit,
       })
@@ -174,12 +175,12 @@ describe('models/resources/effects/forms/setObject', () => {
       })
 
       // then
-      const expected = clownface({ dataset: $rdf.dataset() }).namedNode('fn')
+      const expected = $rdf.clownface().namedNode('fn')
         .addOut(schema.address, (location) => {
           location.addOut(schema.streetAddress, 'Wisteria Lane')
         })
         .addOut(schema.employmentUnit, $rdf.namedNode('external-id'))
-      expect(focusNode.dataset.toCanonical()).to.eq(expected.dataset.toCanonical())
+      expect(toCanonical(focusNode.dataset)).to.eq(toCanonical(expected.dataset))
     })
   })
 
@@ -198,11 +199,11 @@ describe('models/resources/effects/forms/setObject', () => {
       const object = {
         object: focusNode.out(sh.path).toArray().shift(),
       }
-      const shapesGraph = clownface({ dataset: $rdf.dataset() })
+      const shapesGraph = $rdf.clownface()
       const property = propertyShape(shapesGraph.blankNode(), {
         path: sh.path,
       })
-      const newValue = clownface({ dataset: $rdf.dataset() })
+      const newValue = $rdf.clownface()
         .blankNode()
         .addOut(sh.inversePath, schema.knows)
 
@@ -216,12 +217,12 @@ describe('models/resources/effects/forms/setObject', () => {
       })
 
       // then
-      const expected = clownface({
+      const expected = $rdf.clownface({
         dataset: $rdf.dataset(),
         graph: namedGraph,
       }).namedNode('propertyShape')
       expected.addOut(sh.path, path => path.addOut(sh.inversePath, schema.knows))
-      expect(focusNode.dataset.toCanonical()).to.eq(expected.dataset.toCanonical())
+      expect(toCanonical(focusNode.dataset)).to.eq(toCanonical(expected.dataset))
     })
   })
 })

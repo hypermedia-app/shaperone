@@ -1,9 +1,9 @@
 import { createModel } from '@captaincodeman/rdx'
 import { css, CSSResult, CSSResultArray } from 'lit'
 import deepmerge from 'concat-merge'
-import type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial'
-import { templates, RenderTemplates } from '../templates'
-import type { State } from '../store'
+import type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial.js'
+import { templates, RenderTemplates } from '../templates.js'
+import type { State } from '../store.js'
 
 export interface RendererState {
   templates: RenderTemplates

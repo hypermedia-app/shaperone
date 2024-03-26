@@ -1,17 +1,13 @@
 import type { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
-import { NamedNode } from 'rdf-js'
-import RdfResource from '@tpluscode/rdfine/RdfResource'
-import type { EditorsState } from '../../editors'
-import type { ComponentsState } from '../../components'
-import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index'
-import { FocusNode } from '../../../index'
+import type { NamedNode } from '@rdfjs/types'
+import type { EditorsState } from '../../editors/index.js'
+import type { ComponentsState } from '../../components/index.js'
+import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index.js'
+import { FocusNode } from '../../../index.js'
 import { byShOrder } from '../../../lib/order.js'
 import { canAddObject, canRemoveObject, combineProperties } from './property.js'
-import PropertyShapeEx from '../../shapes/lib/PropertyShape.js'
 import { nextid } from './objectid.js'
-
-RdfResource.factory.addMixin(PropertyShapeEx)
 
 interface InitPropertyObjectShapeParams {
   shape: PropertyShape

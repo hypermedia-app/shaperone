@@ -1,8 +1,7 @@
 import { esbuildPlugin } from '@web/dev-server-esbuild';
-import rdfjs from 'rdfjs-eds-plugin'
 import { fromRollup } from '@web/dev-server-rollup'
 import commonjs from '@rollup/plugin-commonjs'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const immer = {
   resolveImport({ source }) {
@@ -11,6 +10,9 @@ const immer = {
     }
 
     return undefined
+  },
+  transform(context) {
+    return context.body.replace('{ produce }', 'produce')
   },
 }
 
@@ -48,7 +50,6 @@ const config = {
   plugins: [
     esbuildPlugin({ ts: true, js: true, target: 'auto' }),
     nodeResolveFix,
-    rdfjs,
     immer,
     nanoid,
     fromRollup(commonjs)({

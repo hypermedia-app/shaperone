@@ -1,8 +1,8 @@
-import clownface, { GraphPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
-import { BlankNode, Term } from 'rdf-js'
-import { SetObjectParams } from '../reducers/updateObject'
-import type { Store } from '../../../state'
+import type { GraphPointer } from 'clownface'
+import type { BlankNode, Term } from '@rdfjs/types'
+import { SetObjectParams } from '../reducers/updateObject.js'
+import type { Store } from '../../../state/index.js'
+import $rdf from '../../../env.js'
 
 function rewrite(prefix: string, original: GraphPointer): GraphPointer {
   function prefixBlank(term: BlankNode | Term) {
@@ -10,10 +10,10 @@ function rewrite(prefix: string, original: GraphPointer): GraphPointer {
       return term
     }
 
-    return $rdf.blankNode(`${prefix}_${term.value}`)
+    return $rdf().blankNode(`${prefix}_${term.value}`)
   }
 
-  const newPointer = clownface({ dataset: $rdf.dataset() })
+  const newPointer = $rdf().clownface()
     .node(prefixBlank(original.term))
   for (const { subject, predicate, object } of original.dataset) {
     newPointer.node(prefixBlank(subject))

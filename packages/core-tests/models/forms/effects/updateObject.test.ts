@@ -1,8 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import clownface from 'clownface'
 import type * as sinon from 'sinon'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { testStore, testObjectState } from '@shaperone/testing/models/form.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -20,8 +19,8 @@ describe('models/forms/effects/updateObject', () => {
   it('forwards term value directly to setObject reducer', () => {
     // given
     const newValue = $rdf.literal('bar')
-    const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('foo')
-    const shapesGraph = clownface({ dataset: $rdf.dataset() })
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).namedNode('foo')
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(shapesGraph.blankNode(), {
       path: schema.name,
     })
@@ -46,11 +45,11 @@ describe('models/forms/effects/updateObject', () => {
 
   it('rewrites dataset value', () => {
     // given
-    const newValue = clownface({ dataset: $rdf.dataset() })
+    const newValue = $rdf.clownface({ dataset: $rdf.dataset() })
       .blankNode()
       .addOut(schema.identifier, 'bar')
-    const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('foo')
-    const shapesGraph = clownface({ dataset: $rdf.dataset() })
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).namedNode('foo')
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(shapesGraph.blankNode(), {
       path: schema.name,
     })
@@ -73,11 +72,11 @@ describe('models/forms/effects/updateObject', () => {
 
   it('throws if value is pointer to same dataset', () => {
     // given
-    const focusNode = clownface({ dataset: $rdf.dataset() }).namedNode('foo')
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).namedNode('foo')
     const newValue = focusNode
       .blankNode()
       .addOut(schema.identifier, 'bar')
-    const shapesGraph = clownface({ dataset: $rdf.dataset() })
+    const shapesGraph = $rdf.clownface({ dataset: $rdf.dataset() })
     const property = propertyShape(shapesGraph.blankNode(), {
       path: schema.name,
     })

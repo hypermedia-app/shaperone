@@ -1,9 +1,8 @@
 import { expect, fixture } from '@open-wc/testing'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams } from '@shaperone/testing'
-import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components'
+import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { enumSelectEditor } from '../../components.js'
 
@@ -19,7 +18,7 @@ describe('wc-vaadin/components/enumSelect', () => {
 
   it('renders an vaadin-select', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal(''),
       componentState: {
@@ -34,12 +33,12 @@ describe('wc-vaadin/components/enumSelect', () => {
     const result = await fixture(component.render(params, actions))
 
     // then
-    expect(result).shadowDom.to.equalSnapshot()
+    await expect(result).shadowDom.to.equalSnapshot()
   })
 
   it('renders empty vaadin-select when there are no choices', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal(''),
     })
@@ -48,12 +47,12 @@ describe('wc-vaadin/components/enumSelect', () => {
     const result = await fixture(component.render(params, actions))
 
     // then
-    expect(result).shadowDom.to.equalSnapshot()
+    await expect(result).shadowDom.to.equalSnapshot()
   })
 
   it('sets selection to current object', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<EnumSelect>({
       object: graph.literal('bar'),
       componentState: {

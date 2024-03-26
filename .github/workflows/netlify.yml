@@ -1,6 +1,10 @@
 name: Netlify
 
-on: push
+on:
+  pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
   Deploy:
@@ -8,12 +12,12 @@ jobs:
     env:
       NETLIFY_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 18
 
-      - run: yarn install --ci
+      - run: npm ci
 
       - uses: nelonoel/branch-name@v1.0.1
 
@@ -24,7 +28,7 @@ jobs:
         run: npx json -I -f dist/variables.json -e "this.playground='https://$DOMAIN/playground'"
 
       - name: Publish preview
-        uses: tpluscode/action-netlify-deploy@nvm
+        uses: jsmrcaga/action-netlify-deploy@v2.1.0
         if: env.NETLIFY_TOKEN
         with:
           NETLIFY_AUTH_TOKEN: ${{ env.NETLIFY_TOKEN }}
@@ -33,12 +37,12 @@ jobs:
           build_directory: dist
           deploy_alias: ${{ env.BRANCH_NAME }}
           NETLIFY_DEPLOY_TO_PROD: ${{ env.BRANCH_NAME == 'master' }}
+          monorepo_package: "@hydrofoil/shaperone-playground"
 
-      - name: Status check
-        uses: Sibz/github-status-action@v1.1.1
-        if: env.NETLIFY_TOKEN
+      - uses: exercism/pr-commenter-action@v1.4.0
         with:
-          authToken: ${{ secrets.GITHUB_TOKEN }}
-          context: Netlify Site
-          state: success
-          target_url: https://${{ env.BRANCH_NAME }}--shaperone.netlify.app
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          template-variables: |
+            {
+              "url": "${{ env.NETLIFY_PREVIEW_URL }}"
+            }

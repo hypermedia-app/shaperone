@@ -1,12 +1,11 @@
-import clownface from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { RecursivePartial } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { selectEditor } from '@hydrofoil/shaperone-core/models/forms/reducers/selectEditor.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
-import { FocusNode } from '@hydrofoil/shaperone-core/index'
+import { FocusNode } from '@hydrofoil/shaperone-core/index.js'
 import { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { propertyShape } from '@shaperone/testing/util.js'
 
@@ -21,7 +20,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
 
   beforeEach(() => {
     ({ form, store } = testStore())
-    focusNode = clownface({ dataset: $rdf.dataset() }).blankNode('baz')
+    focusNode = $rdf.clownface().blankNode('baz')
     formState = store.getState().forms.get(form)!
   })
 

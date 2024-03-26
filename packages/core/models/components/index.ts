@@ -5,13 +5,14 @@
 
 /* eslint-disable no-use-before-define */
 import { createModel } from '@captaincodeman/rdx'
-import type { NamedNode, Term } from 'rdf-js'
+import type { NamedNode, Term } from '@rdfjs/types'
 import type { GraphPointer } from 'clownface'
-import reducers from './reducers'
-import type { FormSettings, PropertyObjectState, PropertyState } from '../forms/index'
-import type { Store } from '../../state'
-import type { FocusNode } from '../../index'
-import type { ObjectRenderer, PropertyRenderer } from '../../renderer'
+import reducers from './reducers.js'
+import type { FormSettings, PropertyObjectState, PropertyState } from '../forms/index.js'
+import type { Store } from '../../state/index.js'
+import type { FocusNode } from '../../index.js'
+import type { ObjectRenderer, PropertyRenderer } from '../../renderer.js'
+import { ShaperoneEnvironment } from '../../env.js'
 
 export interface ComponentInstance extends Record<string, any> {
   ready?: boolean
@@ -22,6 +23,7 @@ export interface UpdateComponentState<T extends ComponentInstance = ComponentIns
 }
 
 export interface RenderParams<T extends ComponentInstance = ComponentInstance> {
+  env: ShaperoneEnvironment
   form: FormSettings
   focusNode: FocusNode
   property: PropertyState
@@ -141,7 +143,7 @@ export type DecoratedComponent<TRenderResult, TComponent extends Component = Any
 
 export interface ComponentDecorator<T extends Component = AnyComponent | Lazy<AnyComponent>, TRenderResult = any> {
   applicableTo(component: Component): boolean
-  decorate(component: T): DecoratedComponent<TRenderResult, T>
+  decorate(component: T, env: ShaperoneEnvironment): DecoratedComponent<TRenderResult, T>
 }
 
 export interface ComponentsState {
@@ -150,7 +152,7 @@ export interface ComponentsState {
 }
 
 export const components = createModel({
-  state: <ComponentsState>{
+  state: <ComponentsState><any>{
     components: {},
     decorators: [],
   },

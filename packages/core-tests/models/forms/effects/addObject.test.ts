@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@zazuko/env/web.js'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
@@ -23,7 +22,7 @@ describe('models/forms/effects/addObject', () => {
   it('adds form field with matched editors', () => {
     // given
     const property = propertyShape()
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     const editors: SingleEditorMatch[] = [{
       term: dash.TextFieldEditor,
       score: 5,
@@ -41,19 +40,20 @@ describe('models/forms/effects/addObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+    const spy = dispatch.forms.addFormField as sinon.SinonSpy
+    expect(spy.firstCall.firstArg).to.containSubset({
       form,
       property,
       focusNode,
       editors,
       selectedEditor: dash.TextFieldEditor,
-    }))
+    })
   })
 
   it('sets overrides to state', () => {
     // given
     const property = propertyShape()
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     const editors: SingleEditorMatch[] = [{
       term: dash.TextFieldEditor,
       score: 5,
@@ -81,7 +81,7 @@ describe('models/forms/effects/addObject', () => {
     const property = propertyShape({
       editor: dash.FooEditor,
     })
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     store.getState().editors.matchSingleEditors = () => [{
       term: dash.TextFieldEditor,
       score: 5,
@@ -98,12 +98,13 @@ describe('models/forms/effects/addObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+    const spy = dispatch.forms.addFormField as sinon.SinonSpy
+    expect(spy.firstCall.firstArg).to.containSubset({
       form,
       property,
       focusNode,
       selectedEditor: dash.FooEditor,
-    }))
+    })
   })
 
   context('with overrides', () => {
@@ -112,7 +113,7 @@ describe('models/forms/effects/addObject', () => {
       const property = propertyShape({
         editor: dash.FooEditor,
       })
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       store.getState().editors.matchSingleEditors = () => [{
         term: dash.TextFieldEditor,
         score: 5,
@@ -140,7 +141,7 @@ describe('models/forms/effects/addObject', () => {
       const property = propertyShape({
         editor: dash.FooEditor,
       })
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       store.getState().editors.matchSingleEditors = () => [{
         term: dash.TextFieldEditor,
         score: 5,
@@ -171,7 +172,7 @@ describe('models/forms/effects/addObject', () => {
       const property = propertyShape({
         editor: dash.FooEditor,
       })
-      const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       store.getState().editors.matchSingleEditors = () => [{
         term: dash.TextFieldEditor,
         score: 5,

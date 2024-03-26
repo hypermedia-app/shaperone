@@ -1,9 +1,10 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { ComponentInstance, SingleEditorComponent } from '../../models/components'
+import { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
 import { FocusNode } from '../../index.js'
 import { CoreComponent, sort } from '../components.js'
+import { ShaperoneEnvironment } from '../../env.js'
 
 /**
  * Represents the state of an enum select component
@@ -26,7 +27,7 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
     property: PropertyShape
   }): Promise<GraphPointer[]>
 
-  sort(shape: PropertyShape): (left: GraphPointer, right: GraphPointer) => number
+  sort(shape: PropertyShape, env: ShaperoneEnvironment): (left: GraphPointer, right: GraphPointer) => number
 }
 
 /**
@@ -36,14 +37,14 @@ export interface EnumSelectEditor extends SingleEditorComponent<EnumSelect> {
  */
 export const enumSelect: CoreComponent<EnumSelectEditor> = {
   editor: dash.EnumSelectEditor,
-  init({ focusNode, property, componentState, updateComponentState }) {
+  init({ env, focusNode, property, componentState, updateComponentState }) {
     if (!componentState.choices && !componentState.loading) {
       updateComponentState({
         loading: true,
       });
       (async () => {
         const pointers = await this.loadChoices({ focusNode, property: property.shape })
-        const choices = pointers.sort(this.sort(property.shape))
+        const choices = pointers.sort(this.sort(property.shape, env))
 
         updateComponentState({
           choices,

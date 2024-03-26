@@ -1,4 +1,4 @@
-import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates'
+import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates.js'
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit/directives/repeat.js'
 import { styleMap } from 'lit/directives/style-map.js'
@@ -9,7 +9,7 @@ export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { fo
   const { actions } = renderer
 
   function renderTab(group: PropertyGroupState) {
-    return html`<mwc-tab .label="${localizedLabel(group.group, { fallback: 'Ungrouped properties' })}"
+    return html`<mwc-tab .label="${localizedLabel(group.group, { fallback: 'Ungrouped properties' }) as any}"
                          @MDCTab:interacted="${() => actions.selectGroup(group.group)}"></mwc-tab>`
   }
 
@@ -21,8 +21,8 @@ export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { fo
 }
 
 TabsFocusNodeRenderer.loadDependencies = () => [
-  import('@material/mwc-tab-bar/mwc-tab-bar'),
-  import('@material/mwc-tab/mwc-tab'),
+  import('@material/mwc-tab-bar/mwc-tab-bar.js'),
+  import('@material/mwc-tab/mwc-tab.js'),
 ]
 
 export const TabsGroupRenderer: GroupTemplate = function (renderer, { properties }) {

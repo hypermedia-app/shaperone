@@ -1,5 +1,5 @@
-import type { Store } from '../../../../state'
-import setRoot from './setRoot'
+import type { Store } from '../../../../state/index.js'
+import setRoot from './setRoot.js'
 
 export default (store: Store) => ({
   'resources/setRoot': setRoot(store),

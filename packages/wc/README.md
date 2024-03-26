@@ -9,14 +9,17 @@ This example shows the element used with the default lit renderer
 
 ```typescript
 import '@hypermedia-app/shaperone-form/shaperone-form.js'
+import Environment from '@zazuko/env/Environment.js'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { html } from '@hypermedia-app/shaperone-form'
-import { Hydra } from 'alcaeus/web'
-import { dataset, blankNode } from '@rdf-esm/dataset'
+import alcaeus from 'alcaeus/Factory.js'
+import parent from '@zazuko/env/web.js'
 
-const shapes = await Hydra.loadResource('http://example.com/api/shape')
-const resource = clownface({
-   dataset: dataset(),
-}).blankNode()
+const env = new Environment([alcaeus()], { parent })
+configure(env)
+
+const shapes = await env.hydra.loadResource('http://example.com/api/shape')
+const resource = rdf.clownface().blankNode()
 
 const formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`
 ```
@@ -35,9 +38,10 @@ Check the main documentation page for instructions on customizing the form's ren
 |---------------------|----------------------|-----------|--------------------------------------------------|-------------------|--------------------------------------------------|
 | `components`        | `components`         | readonly  | `ComponentsState`                                |                   | Gets the state of the editor components          |
 | `editors`           | `editors`            | readonly  | `EditorsState`                                   |                   | Gets the state of the DASH editors model         |
+| `env`               |                      | readonly  | `Environment<any>`                               |                   | Gets the RDF/JS environment                      |
 | `isValid`           |                      | readonly  | `boolean`                                        |                   | Gets a value indicating if there are any `sh:Violation` violation results |
 | `noEditorSwitches`  | `no-editor-switches` |           | `boolean`                                        | false             | Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered |
-| `renderer`          |                      |           | `Renderer<TemplateResult<ResultType>>`           | "DefaultRenderer" | Gets or sets the renderer implementation         |
+| `renderer`          |                      |           | `Renderer<UncompiledTemplateResult<ResultType>>` | "DefaultRenderer" | Gets or sets the renderer implementation         |
 | `rendererOptions`   | `rendererOptions`    | readonly  | `RendererState`                                  |                   | Gets the state of the renderer                   |
 | `resource`          |                      |           | `GraphPointer<BlankNode \| NamedNode<string>, DatasetCore<Quad, Quad>> \| undefined` |                   | Gets or sets the resource graph as graph pointer |
 | `shapes`            |                      |           | `DatasetCore<Quad, Quad> \| AnyPointer<AnyContext, DatasetCore<Quad, Quad>> \| undefined` |                   | Gets or sets the shapes graph                    |

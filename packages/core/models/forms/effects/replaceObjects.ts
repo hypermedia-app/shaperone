@@ -1,8 +1,8 @@
 import { PropertyShape } from '@rdfine/shacl'
-import { Term } from 'rdf-js'
-import { FocusNode } from '../../../index'
-import { BaseParams } from '../../index'
-import type { Store } from '../../../state'
+import type { Term } from '@rdfjs/types'
+import { FocusNode } from '../../../index.js'
+import { BaseParams } from '../../index.js'
+import type { Store } from '../../../state/index.js'
 
 export function replaceObjects(store: Store) {
   const dispatch = store.getDispatch()

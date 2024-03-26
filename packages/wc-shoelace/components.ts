@@ -2,10 +2,9 @@ import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
 import { html } from 'lit'
-import rdf from '@rdfjs/data-model'
 import isGraphPointer from 'is-graph-pointer'
 import type { GraphPointer } from 'clownface'
-import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect'
+import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
 
 export { autocomplete } from './components/autocomplete.js'
 export { enumSelect } from './components/enumSelect.js'
@@ -18,7 +17,7 @@ interface EditorState extends ComponentInstance {
 export const textField: Lazy<SingleEditorComponent<EditorState>> = {
   editor: dash.TextFieldEditor,
   async lazyRender() {
-    const { inputRenderer } = await import('./renderer/input')
+    const { inputRenderer } = await import('./renderer/input.js')
 
     return inputRenderer()
   },
@@ -32,8 +31,8 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
   editor: dash.TextFieldWithLangEditor,
   async lazyRender() {
     const [{ inputRenderer }] = await Promise.all([
-      import('./renderer/input'),
-      import('./elements/sh-sl-with-lang-editor'),
+      import('./renderer/input.js'),
+      import('./elements/sh-sl-with-lang-editor.js'),
     ])
 
     function extractLanguage(ptr: GraphPointer | undefined) {
@@ -42,7 +41,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
 
     return function (object, actions) {
       function valueChanged(value: string) {
-        actions.update(rdf.literal(value, object.componentState.language))
+        actions.update(object.env.literal(value, object.componentState.language))
       }
 
       function languageChanged(e: any) {
@@ -52,7 +51,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
         }
 
         if (isGraphPointer.isGraphPointer(object.value.object)) {
-          actions.update(rdf.literal(object.value.object.value, language))
+          actions.update(object.env.literal(object.value.object.value, language))
         } else {
           object.updateComponentState({ language })
         }
@@ -72,7 +71,7 @@ export const textFieldWithLang: Lazy<SingleEditorComponent<TextFieldWithLang>> =
 export const uri: Lazy<SingleEditorComponent> = {
   editor: dash.URIEditor,
   async lazyRender() {
-    const { inputRenderer } = await import('./renderer/input')
+    const { inputRenderer } = await import('./renderer/input.js')
 
     return inputRenderer({ type: 'url' })
   },
@@ -81,7 +80,7 @@ export const uri: Lazy<SingleEditorComponent> = {
 export const details: Lazy<SingleEditorComponent> = {
   editor: dash.DetailsEditor,
   async lazyRender() {
-    const { render } = await import('./renderer/details')
+    const { render } = await import('./renderer/details.js')
     return render
   },
 }

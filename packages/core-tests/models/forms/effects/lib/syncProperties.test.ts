@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { dash, foaf, schema, sh } from '@tpluscode/rdf-ns-builders'
@@ -26,8 +25,8 @@ describe('models/forms/effects/lib/syncProperties', () => {
 
   it('syncs property which is dash:hidden and has sh:equals to given property', () => {
     // given
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
-    const shapesGraph = cf({ dataset: $rdf.dataset() })
+    const focusNode = $rdf.clownface().blankNode()
+    const shapesGraph = $rdf.clownface()
     const property = propertyShape(shapesGraph.blankNode(), {
       path: foaf.givenName,
     })

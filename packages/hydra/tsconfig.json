@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig",
+  "files": [
+    "components.ts",
+    "index.ts"
+  ],
+  "include": [
+    "../core/components.ts"
+  ]
+}

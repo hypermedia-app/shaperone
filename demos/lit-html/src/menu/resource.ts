@@ -1,11 +1,11 @@
-import TermSet from '@rdf-esm/term-set'
 import { MultiselectComboBox } from 'multiselect-combo-box/multiselect-combo-box'
-import prefixes from '@zazuko/rdf-vocabularies/prefixes'
-import { State } from '../state/models/resource'
-import { Menu } from '../menu'
+import prefixes from '@zazuko/prefixes/prefixes'
+import rdf from '@zazuko/env/web.js'
+import { State } from '../state/models/resource.js'
+import { Menu } from '../menu.js'
 
 const resourceMenuItem = (() => {
-  import('@vaadin/vaadin-combo-box/vaadin-combo-box')
+  import('@vaadin/vaadin-combo-box/vaadin-combo-box.js')
 
   const comboBox = document.createElement('vaadin-combo-box')
   comboBox.addEventListener('selected-item-changed', (e: any) => {
@@ -28,7 +28,7 @@ const resourceMenuItem = (() => {
 
   return (state: State) => {
     const pointers = state.graph?.in().filter(node => ['NamedNode', 'BlankNode'].includes(node.term.termType))
-    const terms = new TermSet(pointers?.map(node => node.term))
+    const terms = rdf.termSet(pointers?.map(node => node.term))
 
     comboBox.items = [...terms].map(node => node.value)
     comboBox.selectedItem = state.pointer?.value || ''

@@ -1,12 +1,11 @@
 import { expect } from '@open-wc/testing'
 import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 import { sinon } from '@shaperone/testing'
-import { propertyShape } from '@shaperone/testing/util'
-import clownface from 'clownface'
-import $rdf from '@rdf-esm/dataset'
-import { NamedNode } from 'rdf-js'
-import * as instancesSelector from '../../../lib/components/instancesSelector'
-import { hydraCollectionProperty, hydraSearchProperty } from './_support'
+import { propertyShape } from '@shaperone/testing/util.js'
+import $rdf from '@shaperone/testing/env.js'
+import type { NamedNode } from '@rdfjs/types'
+import * as instancesSelector from '../../../lib/components/instancesSelector.js'
+import { hydraCollectionProperty, hydraSearchProperty } from './_support.js'
 
 describe('hydra/lib/components/instancesSelector', () => {
   describe('matcher', () => {
@@ -29,7 +28,7 @@ describe('hydra/lib/components/instancesSelector', () => {
     it('returns 1 if property shape has named node hydra:collection', () => {
       // given
       const property = hydraCollectionProperty()
-      const value = clownface({ dataset: $rdf.dataset() }).blankNode()
+      const value = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
       const result = instancesSelector.matcher.decorate(matcher)(property.shape, value)
@@ -41,7 +40,7 @@ describe('hydra/lib/components/instancesSelector', () => {
     it('returns 1 if property shape has hydra:search', () => {
       // given
       const property = hydraSearchProperty()
-      const value = clownface({ dataset: $rdf.dataset() }).blankNode()
+      const value = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
       const result = instancesSelector.matcher.decorate(matcher)(property.shape, value)
@@ -55,7 +54,7 @@ describe('hydra/lib/components/instancesSelector', () => {
       const shape = propertyShape({
         [hydra.collection.value]: $rdf.blankNode(),
       })
-      const value = clownface({ dataset: $rdf.dataset() }).blankNode()
+      const value = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
       instancesSelector.matcher.decorate(matcher)(shape, value)
@@ -67,7 +66,7 @@ describe('hydra/lib/components/instancesSelector', () => {
     it('calls decorated matcher otherwise', () => {
       // given
       const shape = propertyShape()
-      const value = clownface({ dataset: $rdf.dataset() }).blankNode()
+      const value = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
 
       // when
       instancesSelector.matcher.decorate(matcher)(shape, value)

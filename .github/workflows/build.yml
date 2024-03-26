@@ -6,33 +6,33 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 14
-      - run: yarn install --ci
+          node-version: 18
+      - run: npm ci
       - run: yarn lint
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 14
-      - run: yarn install --ci
+          node-version: 18
+      - run: npm ci
       - run: yarn tsc --noEmit
       - run: yarn build
-      - run: yarn prerelease
+      - run: npx wsrun -m prepack --noEmit
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 14
-      - run: yarn install --ci
+          node-version: 18
+      - run: npm ci
       - run: yarn test
       - name: Codecov
         uses: codecov/codecov-action@v3

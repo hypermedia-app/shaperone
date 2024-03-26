@@ -11,7 +11,6 @@ snapshots['wc-vaadin/components/url-editor renders text field'] =
 >
   <input
     aria-invalid="true"
-    aria-labelledby="vaadin-text-field-input-9"
     invalid=""
     required=""
     slot="input"
@@ -21,3 +20,33 @@ snapshots['wc-vaadin/components/url-editor renders text field'] =
 </vaadin-text-field>
 `
 /* end snapshot wc-vaadin/components/url-editor renders text field */
+snapshots["wc-vaadin/components/url-editor renders text field"] = 
+`<vaadin-text-field
+  auto-validate=""
+  has-value=""
+  required=""
+>
+  <input
+    aria-describedby=""
+    id="vaadin-text-field-0"
+    required=""
+    slot="input"
+    type="text"
+    value="foo-bar"
+  >
+  <label
+    for="vaadin-text-field-0"
+    id="label-vaadin-text-field-0"
+    slot="label"
+  >
+  </label>
+  <div
+    hidden=""
+    id="error-message-vaadin-text-field-0"
+    slot="error-message"
+  >
+  </div>
+</vaadin-text-field>
+`;
+/* end snapshot wc-vaadin/components/url-editor renders text field */
+

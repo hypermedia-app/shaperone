@@ -9,10 +9,9 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import { NodeKindEnum } from '@rdfine/shacl'
 import { dash, sh, xsd, rdf } from '@tpluscode/rdf-ns-builders'
-import { literal } from '@rdf-esm/data-model'
-import type { BlankNode, Literal, NamedNode } from 'rdf-js'
-import { GraphPointer } from 'clownface'
-import type { SingleEditor } from './models/editors'
+import type { BlankNode, Literal, NamedNode } from '@rdfjs/types'
+import type { GraphPointer } from 'clownface'
+import type { SingleEditor } from './models/editors/index.js'
 import { isString } from './lib/datatypes.js'
 
 /**
@@ -47,7 +46,7 @@ export const textField: SingleEditor = {
  */
 export const textFieldWithLang: SingleEditor = {
   term: dash.TextFieldWithLangEditor,
-  match(shape: PropertyShape, value: GraphPointer) {
+  match(shape: PropertyShape, value: GraphPointer, env) {
     const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
     const singleLine = shape.pointer.out(dash.singleLine).term
 
@@ -62,7 +61,7 @@ export const textFieldWithLang: SingleEditor = {
     }
 
     if (
-      !singleLine?.equals(booleanFalse) &&
+      !singleLine?.equals(env.constant.FALSE) &&
       shape.permitsDatatype(rdf.langString)
     ) {
       return 5
@@ -71,9 +70,6 @@ export const textFieldWithLang: SingleEditor = {
     return 0
   },
 }
-
-const booleanTrue = literal('true', xsd.boolean)
-const booleanFalse = literal('false', xsd.boolean)
 
 /**
  * Matcher for `dash:TextAreaEditor`
@@ -85,14 +81,14 @@ const booleanFalse = literal('false', xsd.boolean)
  */
 export const textArea: SingleEditor = {
   term: dash.TextAreaEditor,
-  match(shape: PropertyShape, value) {
+  match(shape: PropertyShape, value, env) {
     const singleLine = shape.pointer.out(dash.singleLine).term
 
     if (isString(value.term)) {
-      if (singleLine?.equals(booleanTrue)) {
+      if (singleLine?.equals(env.constant.TRUE)) {
         return 0
       }
-      if (singleLine?.equals(booleanFalse) || value.value.includes('\n')) {
+      if (singleLine?.equals(env.constant.FALSE) || value.value.includes('\n')) {
         return 20
       }
 
@@ -117,15 +113,15 @@ export const textArea: SingleEditor = {
  */
 export const textAreaWithLang: SingleEditor = {
   term: dash.TextAreaWithLangEditor,
-  match(shape: PropertyShape, value: GraphPointer) {
+  match(shape: PropertyShape, value: GraphPointer, env) {
     const singleLine = shape.pointer.out(dash.singleLine).term
     const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
 
-    if (singleLine?.equals(booleanTrue)) {
+    if (singleLine?.equals(env.constant.TRUE)) {
       return 0
     }
 
-    if (singleLine?.equals(booleanFalse) && valueDatatype?.equals(rdf.langString)) {
+    if (singleLine?.equals(env.constant.FALSE) && valueDatatype?.equals(rdf.langString)) {
       return 15
     }
 

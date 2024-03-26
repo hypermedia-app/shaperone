@@ -1,10 +1,9 @@
 import type { AnyPointer } from 'clownface'
-import $rdf from '@rdf-esm/dataset'
-import clownface from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
 import sinon from 'sinon'
 import { matchMultiEditors, matchSingleEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match.js'
 import { EditorsState, MultiEditor, SingleEditor, MatcherDecorator, Editor } from '@hydrofoil/shaperone-core/models/editors'
-import type { RecursivePartial } from '..'
+import type { RecursivePartial } from '../index.js'
 
 interface Initializer {
   metadata?: (metadata: AnyPointer) => AnyPointer
@@ -46,7 +45,7 @@ export function testEditorsState({
     multiEditors,
     decorators,
     allEditors: { ...singleEditors, ...multiEditors },
-    metadata: metadata(clownface({ dataset: $rdf.dataset() })),
+    metadata: metadata($rdf.clownface()),
     matchSingleEditors: sinon.stub().callsFake(matchSingleEditors),
     matchMultiEditors: sinon.stub().callsFake(matchMultiEditors),
   }

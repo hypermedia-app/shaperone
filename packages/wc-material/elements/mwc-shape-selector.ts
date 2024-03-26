@@ -2,9 +2,9 @@ import { html, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
 import type { NodeShape } from '@rdfine/shacl'
-import { SelectableMenuMixin } from './SelectableMenuMixin'
+import { SelectableMenuMixin } from './SelectableMenuMixin.js'
 
-import './wc-menu'
+import './wc-menu.js'
 import '@material/mwc-list/mwc-list-item'
 
 @customElement('mwc-shape-selector')

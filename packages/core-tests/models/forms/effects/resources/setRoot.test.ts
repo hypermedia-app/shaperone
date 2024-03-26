@@ -1,14 +1,12 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
-import ns from '@rdf-esm/namespace'
+import $rdf from '@shaperone/testing/env.js'
 import { sinon } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
 import setRoot from '@hydrofoil/shaperone-core/models/forms/effects/resources/setRoot.js'
 import type { Store } from '@hydrofoil/shaperone-core/state'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('models/forms/effects/resources/setRoot', () => {
   let store: Store
@@ -20,7 +18,7 @@ describe('models/forms/effects/resources/setRoot', () => {
 
   it('pushes first focus node', () => {
     // given
-    const rootPointer = cf({ dataset: $rdf.dataset() }).node(ex.Foo)
+    const rootPointer = $rdf.clownface().node(ex.Foo)
 
     // when
     setRoot(store)({
@@ -37,7 +35,7 @@ describe('models/forms/effects/resources/setRoot', () => {
 
   it('does nothing if the resource is same pointer', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const initialFoo = graph.node(ex.Foo)
     const initialBar = graph.node(ex.Bar)
     store.getState().forms.get(form)!.focusStack = [initialFoo, initialBar]
@@ -54,11 +52,11 @@ describe('models/forms/effects/resources/setRoot', () => {
 
   it('replaces current stack when resource changes', () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
     const initialFoo = graph.node(ex.Foo)
     const initialBar = graph.node(ex.Bar)
     store.getState().forms.get(form)!.focusStack = [initialFoo, initialBar]
-    const rootPointer = cf({ dataset: $rdf.dataset() }).node(ex.Baz)
+    const rootPointer = $rdf.clownface().node(ex.Baz)
 
     // when
     setRoot(store)({
@@ -67,10 +65,11 @@ describe('models/forms/effects/resources/setRoot', () => {
     })
 
     // then
-    expect(store.getDispatch().forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
+    const spy = store.getDispatch().forms.createFocusNodeState as sinon.SinonSpy
+    expect(spy.firstCall.firstArg).to.containSubset({
       form,
       focusNode: rootPointer,
       replaceStack: true,
-    }))
+    })
   })
 })

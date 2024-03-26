@@ -1,5 +1,5 @@
-import { GraphPointer } from 'clownface'
-import type { Store } from '../../../../state'
+import type { GraphPointer } from 'clownface'
+import type { Store } from '../../../../state/index.js'
 import * as updateObject from '../../../forms/reducers/updateObject.js'
 import { notify } from '../../lib/notify.js'
 import { deleteOrphanedSubgraphs } from '../../../../lib/graph.js'

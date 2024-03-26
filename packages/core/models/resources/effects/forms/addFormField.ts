@@ -1,6 +1,6 @@
-import type { Store } from '../../../../state'
+import type { Store } from '../../../../state/index.js'
 import { notify } from '../../lib/notify.js'
-import { Params } from '../../../forms/reducers/addFormField'
+import { Params } from '../../../forms/reducers/addFormField.js'
 import { defaultValue } from '../../lib/objectValue.js'
 
 export default function (store: Store) {

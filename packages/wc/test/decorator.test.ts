@@ -5,12 +5,11 @@ import {
   Lazy,
 } from '@hydrofoil/shaperone-core/models/components'
 import { expect, fixture, html } from '@open-wc/testing'
-import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/lib/decorate'
+import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/lib/decorate.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { editorTestParams } from '@shaperone/testing'
-import clownface from 'clownface'
-import { dataset } from '@rdf-esm/dataset'
-import { SingleEditorComponent } from '../index'
+import $rdf from '@shaperone/testing/env.js'
+import { SingleEditorComponent } from '../index.js'
 
 describe('core/models/components/lib/decorate', () => {
   describe('decorateComponent', () => {
@@ -38,7 +37,7 @@ describe('core/models/components/lib/decorate', () => {
 
     beforeEach(() => {
       ({ actions, params } = editorTestParams({
-        object: clownface({ dataset: dataset() }).blankNode(),
+        object: $rdf.clownface().blankNode(),
       }))
     })
 
@@ -52,7 +51,7 @@ describe('core/models/components/lib/decorate', () => {
           },
         }
         // when
-        const decorated = decorateComponent(component, decorator)
+        const decorated = decorateComponent(component, decorator, $rdf)
         const result = await fixture(decorated.render(params, actions))
 
         // then
@@ -70,7 +69,7 @@ describe('core/models/components/lib/decorate', () => {
           },
         }
         // when
-        const decorated = decorateComponent(component, decorator)
+        const decorated = decorateComponent(component, decorator, $rdf)
         const result = await fixture(decorated.render(params, actions))
 
         // then
@@ -89,7 +88,7 @@ describe('core/models/components/lib/decorate', () => {
           },
         }
         // when
-        const decorated = decorateComponent(component, decorator)
+        const decorated = decorateComponent(component, decorator, $rdf)
         const initialized = {
           ...decorated,
           render: await decorated.lazyRender(),
@@ -113,7 +112,7 @@ describe('core/models/components/lib/decorate', () => {
           },
         }
         // when
-        const decorated = decorateComponent(component, decorator)
+        const decorated = decorateComponent(component, decorator, $rdf)
         const initialized = {
           ...decorated,
           render: await decorated.lazyRender(),

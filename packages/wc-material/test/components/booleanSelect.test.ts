@@ -1,12 +1,10 @@
-import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { Select } from '@material/mwc-select'
-import { ListItem } from '@material/mwc-list/mwc-list-item'
-import { booleanSelectEditor } from '../../components'
+import { ListItem } from '@material/mwc-list/mwc-list-item.js'
+import { booleanSelectEditor } from '../../components.js'
 
 describe('wc-material/components/booleanSelect', () => {
   let booleanSelect: BooleanSelectEditor
@@ -20,10 +18,10 @@ describe('wc-material/components/booleanSelect', () => {
 
   it('renders a mwc-select with selected value', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal('true'),
-      datatype: xsd.boolean,
+      datatype: $rdf.ns.xsd.boolean,
     })
 
     // when
@@ -35,10 +33,10 @@ describe('wc-material/components/booleanSelect', () => {
 
   it('clears when selecting empty', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal('true'),
-      datatype: xsd.boolean,
+      datatype: $rdf.ns.xsd.boolean,
     })
     const element = await fixture<Select>(booleanSelect.render(params, actions))
 
@@ -51,10 +49,10 @@ describe('wc-material/components/booleanSelect', () => {
 
   it('update when selection changes', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal(''),
-      datatype: xsd.boolean,
+      datatype: $rdf.ns.xsd.boolean,
     })
     const element = await fixture<Select>(booleanSelect.render(params, actions))
 
@@ -66,17 +64,17 @@ describe('wc-material/components/booleanSelect', () => {
       value: 'true',
       termType: 'Literal',
       datatype: {
-        ...xsd.boolean,
+        ...$rdf.ns.xsd.boolean,
       },
     }))
   })
 
   it('does not run any action on first render', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
       object: graph.literal('foobar'),
-      datatype: xsd.boolean,
+      datatype: $rdf.ns.xsd.boolean,
     })
 
     // when

@@ -1,12 +1,12 @@
-import { testFocusNode, testPropertyState, testObjectState } from '@shaperone/testing/models/form'
+import { testFocusNode, testPropertyState, testObjectState } from '@shaperone/testing/models/form.js'
 import { sinon } from '@shaperone/testing'
-import { FormRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { FormRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { FocusNode } from '@hydrofoil/shaperone-core'
 import { fixture, html, expect } from '@open-wc/testing'
 import { Dispatch } from '@hydrofoil/shaperone-core/state'
-import { any, blankNode } from '@shaperone/testing/nodeFactory'
-import { formRenderer } from '@shaperone/testing/renderer'
-import { renderFocusNode } from '../../renderer/focusNode'
+import { any, blankNode } from '@shaperone/testing/nodeFactory.js'
+import { formRenderer } from '@shaperone/testing/renderer.js'
+import { renderFocusNode } from '../../renderer/focusNode.js'
 
 describe('wc/renderer/focusNode', () => {
   let focusNode: FocusNode
@@ -28,27 +28,19 @@ describe('wc/renderer/focusNode', () => {
 
     // then
     expect(result.textContent).to.eq('Loading')
-    expect(dispatch.createFocusNodeState).to.have.been.calledWith(sinon.match({
-      focusNode: sinon.match({
-        term: focusNode.term,
-      }),
-    }))
+    expect(dispatch.createFocusNodeState.firstCall.firstArg).to.have.deep.property('focusNode', focusNode)
   })
 
   it('dispatches to create node when previous node was from different dataset', async () => {
     // given
     renderer.context.templates.initialising = () => html`Loading`
-    renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node(focusNode))
+    renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node(focusNode.term))
 
     // when
     await fixture(html`<div>${renderFocusNode.call(renderer, { focusNode })}</div>`)
 
     // then
-    expect(dispatch.createFocusNodeState).to.have.been.calledWith(sinon.match({
-      focusNode: sinon.match({
-        term: focusNode.term,
-      }),
-    }))
+    expect(dispatch.createFocusNodeState.firstCall.firstArg).to.have.deep.property('focusNode', focusNode)
   })
 
   it('calls render template', async () => {
@@ -63,7 +55,7 @@ describe('wc/renderer/focusNode', () => {
     // then
     expect(result.textContent).to.eq('Focus node')
     expect(renderer.context.templates.focusNode).to.have.been.calledWith(sinon.match({
-      focusNode: childState,
+      focusNode: sinon.match.same(childState),
     }))
   })
 

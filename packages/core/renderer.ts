@@ -5,19 +5,24 @@
 
 import type { NodeShape, Shape } from '@rdfine/shacl'
 import { PropertyGroup } from '@rdfine/shacl'
-import { NamedNode, Term } from 'rdf-js'
+import type { NamedNode, Term } from '@rdfjs/types'
 import type { GraphPointer, MultiPointer } from 'clownface'
-import type { EditorsState } from './models/editors'
-import type { FormState } from './models/forms'
-import type { ComponentsState } from './models/components'
-import type { Dispatch } from './state'
-import { FocusNode } from './index'
-import { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from './models/forms'
+import type { EditorsState } from './models/editors/index.js'
+import type { FormState } from './models/forms/index.js'
+import type { ComponentsState } from './models/components/index.js'
+import type { Dispatch } from './state/index.js'
+import { FocusNode } from './index.js'
+import { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from './models/forms/index.js'
+import { ShaperoneEnvironment } from './env.js'
 
 /**
  * Base input parameters passed to the {@link Renderer}
  */
 export interface RenderContext {
+  /**
+   * The RDF/JS environment
+   */
+  env: ShaperoneEnvironment
   /**
    * The unique symbol of the form
    */

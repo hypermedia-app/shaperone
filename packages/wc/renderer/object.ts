@@ -1,6 +1,6 @@
-import { PropertyRenderer, ObjectRenderer, ObjectActions } from '@hydrofoil/shaperone-core/renderer'
-import { NamedNode } from 'rdf-js'
-import { renderEditor } from './editor'
+import { PropertyRenderer, ObjectRenderer, ObjectActions } from '@hydrofoil/shaperone-core/renderer.js'
+import type { NamedNode } from '@rdfjs/types'
+import { renderEditor } from './editor.js'
 
 export const renderObject: PropertyRenderer['renderObject'] = function ({ object }) {
   const { dispatch, form, templates } = this.context

@@ -1,7 +1,7 @@
-import type { Store } from '../../../../state'
-import type { ClearValueParams } from '../../../forms/reducers/updateObject'
+import type { Store } from '../../../../state/index.js'
+import type { ClearValueParams } from '../../../forms/reducers/updateObject.js'
 import { notify } from '../../lib/notify.js'
-import { PropertyObjectState } from '../../../forms'
+import { PropertyObjectState } from '../../../forms/index.js'
 import { deleteOrphanedSubgraphs } from '../../../../lib/graph.js'
 
 type Params = Omit<ClearValueParams, 'object'> & {

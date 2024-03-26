@@ -6,11 +6,28 @@
  */
 
 import CoreMetadata from '@hydrofoil/shaperone-core/metadata.js'
-import { store } from './store'
+import { RequiredEnvironment, setEnv } from '@hydrofoil/shaperone-core/env.js'
+import onetime from 'onetime'
+import { store } from './store.js'
 
-export const { components } = store().dispatch
-export const { renderer } = store().dispatch
-export const { editors } = store().dispatch
-export const { validation } = store().dispatch
+const { components } = store().dispatch
+const { renderer } = store().dispatch
+const { editors } = store().dispatch
+const { validation } = store().dispatch
 
-editors.addMetadata(CoreMetadata)
+const setEnvOnce = onetime(setEnv)
+
+export function configure(env?: RequiredEnvironment) {
+  if (env) {
+    setEnvOnce(env)
+  }
+
+  editors.addMetadata(CoreMetadata)
+
+  return {
+    components,
+    renderer,
+    editors,
+    validation,
+  }
+}

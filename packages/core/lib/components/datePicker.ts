@@ -1,5 +1,5 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { ComponentInstance, SingleEditorComponent } from '../../models/components'
+import { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
 import { CoreComponent } from '../components.js'
 
 /**

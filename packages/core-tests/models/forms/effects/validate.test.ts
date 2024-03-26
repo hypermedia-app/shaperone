@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { testStore, testFocusNodeState } from '@shaperone/testing/models/form.js'
 import { sinon } from '@shaperone/testing'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -17,7 +16,7 @@ describe('@hydrofoil/shaperone-core/models/forms/effects/validate', () => {
 
   it('calls validator and dispatches report update', async () => {
     // given
-    const focusNode = cf({ dataset: $rdf.dataset() }).namedNode('foo')
+    const focusNode = $rdf.clownface().namedNode('foo')
     store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode)
     const validationResult = {
       term: $rdf.blankNode(),

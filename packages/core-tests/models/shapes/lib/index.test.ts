@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
-import clownface from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { rdf, schema, rdfs } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import { matchShapes } from '@hydrofoil/shaperone-core/models/shapes/lib/index.js'
@@ -8,7 +7,7 @@ import { nodeShape } from '@shaperone/testing/util.js'
 
 describe('models/shapes/lib', () => {
   describe('matchShapes', () => {
-    const focusNode = clownface({ dataset: $rdf.dataset() })
+    const focusNode = $rdf.clownface()
       .namedNode('john')
       .addOut(rdf.type, schema.Person)
       .addOut(schema.alumniOf, $rdf.namedNode('UCLA'))

@@ -1,0 +1,131 @@
+diff --git a/node_modules/@captaincodeman/rdx/typings/combineReducers.d.ts b/node_modules/@captaincodeman/rdx/typings/combineReducers.d.ts
+index 3cc6e19..b774140 100644
+--- a/node_modules/@captaincodeman/rdx/typings/combineReducers.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/combineReducers.d.ts
+@@ -1,3 +1,3 @@
+-import { Reducer, Reducers, State } from './store'
++import { Reducer, Reducers, State } from './store.js'
+ 
+ export declare function combineReducers<R extends Reducers>(reducers: R): Reducer<State<R>>
+diff --git a/node_modules/@captaincodeman/rdx/typings/compat.d.ts b/node_modules/@captaincodeman/rdx/typings/compat.d.ts
+index 4fdf169..92de614 100644
+--- a/node_modules/@captaincodeman/rdx/typings/compat.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/compat.d.ts
+@@ -1,4 +1,4 @@
+-import { Store } from "./store"
++import { Store } from "./store.js"
+ import { Middleware } from "redux"
+ 
+ export function applyMiddleware<S, M1>(store: Store<S>,
+diff --git a/node_modules/@captaincodeman/rdx/typings/connect.d.ts b/node_modules/@captaincodeman/rdx/typings/connect.d.ts
+index a4b8984..eab2c68 100644
+--- a/node_modules/@captaincodeman/rdx/typings/connect.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/connect.d.ts
+@@ -1,4 +1,4 @@
+-import { Store } from './store'
++import { Store } from './store.js'
+ 
+ export interface DispatchMap { [key: string]: <T extends CustomEvent>(event: T) => void }
+ 
+diff --git a/node_modules/@captaincodeman/rdx/typings/devtools.d.ts b/node_modules/@captaincodeman/rdx/typings/devtools.d.ts
+index c0005e7..74f21e0 100644
+--- a/node_modules/@captaincodeman/rdx/typings/devtools.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/devtools.d.ts
+@@ -1,3 +1,3 @@
+-import { Store } from './store'
++import { Store } from './store.js'
+ 
+ export declare function devtools<T extends Store>(store: T, options?: any): T
+diff --git a/node_modules/@captaincodeman/rdx/typings/index.d.ts b/node_modules/@captaincodeman/rdx/typings/index.d.ts
+index 158be11..6f6bb42 100644
+--- a/node_modules/@captaincodeman/rdx/typings/index.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/index.d.ts
+@@ -1,10 +1,10 @@
+-export * from './combineReducers'
+-export * from './connect'
+-export * from './devtools'
+-export * from './model'
+-export * from './models'
+-export { Plugin, Plugins, Config, createStore, StoreState, StoreDispatch} from './modelStore'
+-export * from './persist'
+-export * from './routing'
+-export * from './store'
+-export * from './thunk'
++export * from './combineReducers.js'
++export * from './connect.js'
++export * from './devtools.js'
++export * from './model.js'
++export * from './models.js'
++export { Plugin, Plugins, Config, createStore, StoreState, StoreDispatch} from './modelStore.js'
++export * from './persist.js'
++export * from './routing.js'
++export * from './store.js'
++export * from './thunk.js'
+diff --git a/node_modules/@captaincodeman/rdx/typings/model.d.ts b/node_modules/@captaincodeman/rdx/typings/model.d.ts
+index 53a298b..559b157 100644
+--- a/node_modules/@captaincodeman/rdx/typings/model.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/model.d.ts
+@@ -1,4 +1,4 @@
+-import { GetState } from "./store"
++import { GetState } from "./store.js"
+ 
+ export type ReducerFn<S, P = any> = (state: S, payload: P) => S
+ 
+diff --git a/node_modules/@captaincodeman/rdx/typings/modelStore.d.ts b/node_modules/@captaincodeman/rdx/typings/modelStore.d.ts
+index 0169eeb..52e7b22 100644
+--- a/node_modules/@captaincodeman/rdx/typings/modelStore.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/modelStore.d.ts
+@@ -1,6 +1,6 @@
+-import { Model } from './model'
+-import { Models, ModelsDispatch, ModelsState } from './models'
+-import { Store, Dispatch } from './store'
++import { Model } from './model.js'
++import { Models, ModelsDispatch, ModelsState } from './models.js'
++import { Store, Dispatch } from './store.js'
+ 
+ export interface Plugin<M extends Model = Model> {
+   // if the plugin adds any state to the store, it can define it's own model
+diff --git a/node_modules/@captaincodeman/rdx/typings/models.d.ts b/node_modules/@captaincodeman/rdx/typings/models.d.ts
+index 204cea4..eea0dcc 100644
+--- a/node_modules/@captaincodeman/rdx/typings/models.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/models.d.ts
+@@ -1,4 +1,4 @@
+-import { Model, ModelDispatch } from './model'
++import { Model, ModelDispatch } from './model.js'
+ 
+ interface Models {
+   [name: string]: Model
+diff --git a/node_modules/@captaincodeman/rdx/typings/persist.d.ts b/node_modules/@captaincodeman/rdx/typings/persist.d.ts
+index 7ee8e2c..073bd3a 100644
+--- a/node_modules/@captaincodeman/rdx/typings/persist.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/persist.d.ts
+@@ -1,4 +1,4 @@
+-import { Action, Store } from './store'
++import { Action, Store } from './store.js'
+ 
+ export interface PersistOptions<S> {
+   // name sets the state key to use, useful in development to avoid conflict
+diff --git a/node_modules/@captaincodeman/rdx/typings/routing.d.ts b/node_modules/@captaincodeman/rdx/typings/routing.d.ts
+index 5fdbfe7..0a3d20e 100644
+--- a/node_modules/@captaincodeman/rdx/typings/routing.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/routing.d.ts
+@@ -1,7 +1,7 @@
+ import { Result, Matcher } from "@captaincodeman/router"
+ 
+-import { Model } from "./model"
+-import { Plugin } from './modelStore'
++import { Model } from "./model.js"
++import { Plugin } from './modelStore.js'
+ 
+ type RoutingReducers = {
+   change: (state: any, payload: RoutingState) => RoutingState
+diff --git a/node_modules/@captaincodeman/rdx/typings/thunk.d.ts b/node_modules/@captaincodeman/rdx/typings/thunk.d.ts
+index dbb61d3..d808af1 100644
+--- a/node_modules/@captaincodeman/rdx/typings/thunk.d.ts
++++ b/node_modules/@captaincodeman/rdx/typings/thunk.d.ts
+@@ -1,4 +1,4 @@
+-import { Dispatch, GetState, Store } from './store'
++import { Dispatch, GetState, Store } from './store.js'
+ 
+ export type ThunkAction = <S>(dispatch: Dispatch, getState: GetState<S>) => void
+ 

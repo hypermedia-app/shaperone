@@ -1,9 +1,9 @@
-import { NamedNode } from 'rdf-js'
+import type { NamedNode } from '@rdfjs/types'
 import type { PropertyShape } from '@rdfine/shacl'
-import produce from 'immer'
+import { produce } from 'immer'
 import { BaseParams, formStateReducer } from '../../index.js'
-import { FocusNode } from '../../../index'
-import type { FormState, PropertyObjectState } from '../index'
+import { FocusNode } from '../../../index.js'
+import type { FormState, PropertyObjectState } from '../index.js'
 
 export interface SelectEditorParams extends BaseParams {
   focusNode: FocusNode

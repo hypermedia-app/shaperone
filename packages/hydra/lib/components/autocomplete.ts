@@ -10,16 +10,16 @@ import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 export const matcher: MatcherDecorator = {
   term: dash.AutoCompleteEditor,
   decorate({ match }) {
-    return function (shape, value) {
+    return function (shape, value, env) {
       if (shape.pointer.out(hydra.collection).term?.termType === 'NamedNode') {
         return 1
       }
       if (shape.pointer.out(hydra.search).term) {
         return 1
       }
-      return match(shape, value)
+      return match(shape, value, env)
     }
   },
 }
 
-export { decorator } from './searchDecorator'
+export { decorator } from './searchDecorator.js'

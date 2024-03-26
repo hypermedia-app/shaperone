@@ -1,5 +1,5 @@
-import type { Store } from '../../../state'
-import { BaseParams } from '../../index'
+import type { Store } from '../../../state/index.js'
+import { BaseParams } from '../../index.js'
 
 export function createFocusNodeState(store: Store) {
   const dispatch = store.getDispatch()

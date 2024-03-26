@@ -1,7 +1,6 @@
 import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
-import clownface from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { RecursivePartial } from '@shaperone/testing'
 import { testObjectState, testStore } from '@shaperone/testing/models/form.js'
 import { removeObject } from '@hydrofoil/shaperone-core/models/forms/reducers/removeObject.js'
@@ -20,7 +19,7 @@ describe('models/forms/reducers/removeObject', () => {
 
   beforeEach(() => {
     ({ form, store } = testStore())
-    focusNode = clownface({ dataset: $rdf.dataset() }).blankNode()
+    focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
     formState = store.getState().forms.get(form)!
   })
 

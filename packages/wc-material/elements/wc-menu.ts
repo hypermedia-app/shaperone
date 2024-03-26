@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit'
 import { customElement, query } from 'lit/decorators.js'
-import type { Menu } from '@material/mwc-menu/mwc-menu'
+import type { Menu } from '@material/mwc-menu/mwc-menu.js'
 import type { WcMenuButton } from 'wc-menu-button'
 
 import '@material/mwc-menu/mwc-menu'

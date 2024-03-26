@@ -21,11 +21,11 @@ The `matcher` decorator returns score `1` if a property shape has `hydra:collect
 They will both fall back to standard behavior when no Hydra terms are used on a Property Shape.
 
 ```typescript
-import * as configure from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure'
 import shaperoneHydra from '@hydrofoil/shaperone-hydra'
 import { Hydra } from 'alcaeus/web'
 
-shaperoneHydra(configure, { client: Hydra })
+shaperoneHydra(configure())
 ```
 
 > [!TIP]
@@ -273,7 +273,7 @@ For that, `hydra:search` template is used as above, with one variable mapped to 
 To support this, a component implementing `dash:InstanceSelectEditor` must manually fetch the filtered collection when search is performed. This is done by passing an optional `string` parameter to the functions `shouldLoad` and `loadChoices`.
 
 ```typescript
-import { instancesSelect } from '@hydrofoil/shaperone-core/components'
+import { instancesSelect } from '@hydrofoil/shaperone-core/components.js'
 import { html } from '@hydrofoil/shaperone-wc'
 
 export const instancesSelectEditorWithFreeText: InstancesSelectEditor = {

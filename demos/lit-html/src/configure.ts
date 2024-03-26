@@ -1,28 +1,30 @@
 import type { Component } from '@hydrofoil/shaperone-core'
-import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents'
-import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components'
-import * as LanguageSelect from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect'
-import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating'
-import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating'
-import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip'
-import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components'
-import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components'
-import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings'
-import { components, editors, renderer, validation } from '@hydrofoil/shaperone-wc/configure'
+import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents.js'
+import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components.js'
+import * as LanguageSelect from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect/index.js'
+import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating/index.js'
+import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating/index.js'
+import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip.js'
+import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components.js'
+import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components.js'
+import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings.js'
+import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates'
-import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer'
-import { instancesSelector } from '@hydrofoil/shaperone-hydra/components'
+import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates.js'
+import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer/index.js'
+import shaperoneHydra from '@hydrofoil/shaperone-hydra'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
-import $rdf from 'rdf-ext'
-import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer'
+import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer/index.js'
 import { errorSummary } from '@hydrofoil/shaperone-playground-examples/ErrorSummary/index.js'
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
-import { ComponentsState } from './state/models/components'
-import { RendererState } from './state/models/renderer'
+import $rdf from './env.js'
+import { ComponentsState } from './state/models/components.js'
+import { RendererState } from './state/models/renderer.js'
 
 setBasePath('https://unpkg.com/@shoelace-style/shoelace/dist')
 shoelaceSettings.hoist = false
+
+const { editors, components, validation, renderer } = configure($rdf)
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },
@@ -31,16 +33,15 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
   shoelace: { ...nativeComponents, ...shoelaceComponents, starRating },
 }
 
-editors.addMetadata([...LanguageSelect.metadata(), ...StarRating.metadata()])
+editors.addMetadata(env => [...LanguageSelect.metadata(env), ...StarRating.metadata(env)])
 editors.addMatchers({
   languages: LanguageSelect.matcher,
   starRating: StarRating.matcher,
 })
-editors.decorate(instancesSelector.matcher)
-components.decorate(instancesSelector.decorator())
+shaperoneHydra({ editors, components })
 components.decorate(DescriptionTooltip)
 
-validation.setValidator(validate.with({ factory: $rdf }))
+validation.setValidator(validate)
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native
@@ -92,8 +93,8 @@ export const configureRenderer = (() => {
       previousNesting = nesting
 
       if (nesting === 'always one') {
-        const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer')
-        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components')
+        const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer.js')
+        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components.js')
 
         renderer.setTemplates({
           form: topmostFocusNodeFormRenderer(initialStrategy.form),
@@ -121,7 +122,7 @@ export const configureRenderer = (() => {
         const {
           AccordionGroupingRenderer,
           AccordionFocusNodeRenderer,
-        } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion')
+        } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion.js')
 
         strategy.group = AccordionGroupingRenderer
         focusNodeTemplate = AccordionFocusNodeRenderer
@@ -129,7 +130,7 @@ export const configureRenderer = (() => {
         const {
           TabsGroupRenderer,
           TabsFocusNodeRenderer,
-        } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs')
+        } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs.js')
 
         strategy.group = TabsGroupRenderer
         focusNodeTemplate = TabsFocusNodeRenderer

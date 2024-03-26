@@ -1,3 +1,13 @@
 {
-  "extends": "../../tsconfig"
+  "extends": "../../tsconfig",
+  "files": [
+    "components.ts",
+    "index.ts",
+    "metadata.ts",
+    "ns.ts",
+    "store.ts",
+    "lib/property.ts",
+    "lib/RecursivePartial.ts"
+  ],
+  "include": []
 }

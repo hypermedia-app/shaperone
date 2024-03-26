@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import { sinon } from '@shaperone/testing'
 import { NodeShape } from '@rdfine/shacl'
@@ -19,7 +18,7 @@ describe('models/forms/effects/selectShape', () => {
   it('creates state with selected shape', () => {
     // given
     const shape = {} as NodeShape
-    const focusNode = cf({ dataset: $rdf.dataset() }).blankNode()
+    const focusNode = $rdf.clownface().blankNode()
 
     // when
     selectShape(store)({

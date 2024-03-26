@@ -1,19 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@zazuko/env/web.js'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
-import ns from '@rdf-esm/namespace'
 import { SingleEditorMatch } from '@hydrofoil/shaperone-core/models/editors'
-import { testPropertyState, testObjectState, emptyGroupState, testFocusNode } from '@shaperone/testing/models/form'
+import { testPropertyState, testObjectState, emptyGroupState, testFocusNode } from '@shaperone/testing/models/form.js'
 import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { List } from '@material/mwc-list/mwc-list'
-import { focusNodeRenderer, objectRenderer, propertyRenderer } from '@shaperone/testing/renderer'
-import { ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer'
-import { blankNode } from '@shaperone/testing/nodeFactory'
-import * as render from '../../renderer/index'
+import { List } from '@material/mwc-list/mwc-list.js'
+import { focusNodeRenderer, objectRenderer, propertyRenderer } from '@shaperone/testing/renderer.js'
+import { ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
+import * as render from '../../renderer/index.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('wc-material/renderer', () => {
   describe('focusNode', () => {
@@ -25,7 +23,7 @@ describe('wc-material/renderer', () => {
 
     it('does not render shape selector when there is only one shape', async () => {
       // given
-      const focusNode = cf({ dataset: $rdf.dataset() })
+      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() })
         .node(ex.Foo)
         .addOut(rdfs.label, 'Foo')
       const renderer = focusNodeRenderer({ focusNode })
@@ -210,7 +208,7 @@ describe('wc-material/renderer', () => {
 
     it('renders every object', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       property.objects = [
         testObjectState(graph.literal('foo')),
         testObjectState(graph.literal('bar')),

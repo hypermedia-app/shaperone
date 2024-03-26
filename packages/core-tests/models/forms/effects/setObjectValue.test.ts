@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import cf from 'clownface'
-import $rdf from 'rdf-ext'
+import $rdf from '@shaperone/testing/env.js'
 import { dash, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { testStore, testFocusNodeState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
@@ -18,8 +17,8 @@ describe('models/forms/effects/setObjectValue', () => {
 
   it('dispatches update of property linked by sh:equals', () => {
     // given
-    const focusNode = cf({ dataset: $rdf.dataset() }).namedNode('foo')
-    const shapesGraph = cf({ dataset: $rdf.dataset() })
+    const focusNode = $rdf.clownface().namedNode('foo')
+    const shapesGraph = $rdf.clownface()
     const property = propertyShape(shapesGraph.blankNode(), {
       path: schema.name,
     })

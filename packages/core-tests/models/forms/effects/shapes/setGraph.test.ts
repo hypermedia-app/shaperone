@@ -1,15 +1,12 @@
 import { describe, it } from 'mocha'
-import { expect } from 'chai'
-import $rdf from 'rdf-ext'
-import cf from 'clownface'
+import $rdf from '@shaperone/testing/env.js'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
-import ns from '@rdf-esm/namespace'
-import { sinon } from '@shaperone/testing'
+import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
 import setGraph from '@hydrofoil/shaperone-core/models/forms/effects/shapes/setGraph.js'
 import { Store } from '@hydrofoil/shaperone-core/state'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('models/forms/effects/shapes/setGraph', () => {
   let store: Store
@@ -21,8 +18,8 @@ describe('models/forms/effects/shapes/setGraph', () => {
 
   it('creates focus nodes state for focus stack', () => {
     // given
-    const resourceGraph = cf({ dataset: $rdf.dataset() })
-    const shapesGraph = cf({ dataset: $rdf.dataset() })
+    const resourceGraph = $rdf.clownface()
+    const shapesGraph = $rdf.clownface()
     shapesGraph.node(ex.Shape).addOut(rdf.type, sh.Shape).addOut(sh.targetNode, [ex.Foo, ex.Bar])
     const formState = store.getState().forms.get(form)!
     formState.focusStack = [
@@ -37,11 +34,10 @@ describe('models/forms/effects/shapes/setGraph', () => {
     })
 
     // then
-    formState.focusStack.forEach((focusNode) => {
-      expect(store.getDispatch().forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
-        form,
-        focusNode,
-      }))
-    })
+    const spy = store.getDispatch().forms.createFocusNodeState as sinon.SinonSpy
+    expect(spy.getCalls().map(c => c.firstArg)).to.containSubset([
+      { form, focusNode: resourceGraph.node(ex.Foo) },
+      { form, focusNode: resourceGraph.node(ex.Bar) },
+    ])
   })
 })

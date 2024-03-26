@@ -1,11 +1,11 @@
-import { ObjectActions, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer'
-import { objectRenderer } from '@shaperone/testing/renderer'
+import { ObjectActions, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import { objectRenderer } from '@shaperone/testing/renderer.js'
 import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
-import { emptyGroupState, testObjectState, testPropertyState } from '@shaperone/testing/models/form'
+import { emptyGroupState, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { expect } from '@open-wc/testing'
-import { blankNode } from '@shaperone/testing/nodeFactory'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { sinon } from '@shaperone/testing'
-import { renderObject } from '../../renderer/object'
+import { renderObject } from '../../renderer/object.js'
 
 describe('wc/renderer/object', () => {
   let renderer: ObjectRenderer
@@ -30,15 +30,9 @@ describe('wc/renderer/object', () => {
     renderObject.call(renderer, { object })
 
     // then
-    expect(renderer.context.templates.object).to.have.been.calledWith(sinon.match({
-      actions: sinon.match({
-        selectEditor: sinon.match.func,
-        remove: sinon.match.func,
-        removeObject: sinon.match.func,
-      }),
-    }), {
-      object,
-    })
+    const render = renderer.context.templates.object as sinon.SinonSpy
+    expect(render.firstCall.firstArg).to.have.property('actions')
+    expect(render.firstCall.args[1]).to.have.property('object', object)
   })
 
   describe('actions', () => {

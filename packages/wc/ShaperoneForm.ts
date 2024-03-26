@@ -1,22 +1,19 @@
+/* eslint-disable lit/no-classfield-shadowing */
 import { LitElement, css, html, PropertyValues, TemplateResult } from 'lit'
 import { property } from 'lit/decorators.js'
-import { DatasetCore } from 'rdf-js'
+import type { DatasetCore } from '@rdfjs/types'
 import type { FormState, ValidationResultState } from '@hydrofoil/shaperone-core/models/forms'
-import { FocusNode, loadMixins } from '@hydrofoil/shaperone-core'
+import { FocusNode } from '@hydrofoil/shaperone-core'
 import { connect } from '@captaincodeman/rdx'
 import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer, GraphPointer } from 'clownface'
-import RdfResourceImpl from '@tpluscode/rdfine'
 import { NodeShape } from '@rdfine/shacl'
-import { Renderer } from '@hydrofoil/shaperone-core/renderer'
-import clownface from 'clownface'
-import { dataset } from '@rdf-esm/dataset'
-import { ensureEventTarget } from './lib/eventTarget'
-import { store, State } from './store'
-import DefaultRenderer from './renderer'
-import * as NativeComponents from './NativeComponents'
-
-store().dispatch.components.pushComponents(NativeComponents)
+import { Renderer } from '@hydrofoil/shaperone-core/renderer.js'
+import getEnv, { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
+import { ensureEventTarget } from './lib/eventTarget.js'
+import { store, State } from './store.js'
+import DefaultRenderer from './renderer/index.js'
+import * as NativeComponents from './NativeComponents.js'
 
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes dataset')
@@ -50,14 +47,17 @@ export const id: (form: any) => symbol = (() => {
  *
  * ```typescript
  * import '@hypermedia-app/shaperone-form/shaperone-form.js'
+ * import Environment from '@zazuko/env/Environment.js'
+ * import { configure } from '@hydrofoil/shaperone-wc/configure.js'
  * import { html } from '@hypermedia-app/shaperone-form'
- * import { Hydra } from 'alcaeus/web'
- * import { dataset, blankNode } from '@rdf-esm/dataset'
+ * import alcaeus from 'alcaeus/Factory.js'
+ * import parent from '@zazuko/env/web.js'
  *
- * const shapes = await Hydra.loadResource('http://example.com/api/shape')
- * const resource = clownface({
- *   dataset: dataset(),
- * }).blankNode()
+ * const env = new Environment([alcaeus()], { parent })
+ * configure(env)
+ *
+ * const shapes = await env.hydra.loadResource('http://example.com/api/shape')
+ * const resource = rdf.clownface().blankNode()
  *
  * const formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`
  * ```
@@ -87,6 +87,15 @@ export class ShaperoneForm extends connect(store(), LitElement) {
 
   @property({ type: Array })
   private [shapes]: NodeShape[] = []
+
+  /**
+   * Gets the RDF/JS environment
+   *
+   * @readonly
+   */
+  get env(): ShaperoneEnvironment {
+    return getEnv()
+  }
 
   /**
    * Gets the state of the DASH editors model
@@ -125,12 +134,13 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     this[notify] = (detail: any) => {
       this.dispatchEvent(new CustomEvent('changed', { detail }))
     }
-    this.resource = clownface({ dataset: dataset() }).namedNode('')
+    this.resource = this.env.clownface().namedNode('')
   }
 
   async connectedCallback() {
+    store().dispatch.components.pushComponents(NativeComponents)
+
     await ensureEventTarget()
-    await loadMixins()
 
     store().dispatch.editors.loadDash()
     store().dispatch.forms.connect({
@@ -184,7 +194,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    */
   get value(): RdfResource | null {
     if (this.resource) {
-      return RdfResourceImpl.factory.createEntity(this.resource)
+      return this.env.rdfine().factory.createEntity(this.resource)
     }
 
     return null
@@ -239,6 +249,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       <style>${this.rendererOptions.styles}</style>
       <section part="form">
       ${this.renderer.render({
+    env: this.env,
     form: id(this),
     editors: this.editors,
     state: this.state,

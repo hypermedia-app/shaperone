@@ -1,13 +1,11 @@
 import { expect, fixture } from '@open-wc/testing'
 import { dash, rdfs, schema } from '@tpluscode/rdf-ns-builders'
-import cf from 'clownface'
-import $rdf from '@rdf-esm/dataset'
+import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import { AutoComplete } from '@hydrofoil/shaperone-core/components'
+import { AutoComplete } from '@hydrofoil/shaperone-core/components.js'
 import { SlIconButton } from '@shoelace-style/shoelace'
-import sh1 from '@hydrofoil/shaperone-core/ns'
 import { autocomplete, AutoCompleteEditor } from '../../components/autocomplete.js'
-import { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete'
+import { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete.js'
 
 describe('wc-shoelace/components/autocomplete', () => {
   let component: AutoCompleteEditor
@@ -25,8 +23,8 @@ describe('wc-shoelace/components/autocomplete', () => {
 
   it('uses rdfs:label as default display property of selected item', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
-    const selected = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
+    const selected = $rdf.clownface({ dataset: $rdf.dataset() })
       .blankNode()
       .addOut(rdfs.label, 'Selected Label')
     const { params, actions } = editorTestParams<AutoComplete>({
@@ -45,7 +43,7 @@ describe('wc-shoelace/components/autocomplete', () => {
 
   it('is readonly when dash:readOnly true', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<AutoComplete>({
       property: {
         readOnly: true,
@@ -62,7 +60,7 @@ describe('wc-shoelace/components/autocomplete', () => {
 
   it('sets loading attribute', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<AutoComplete>({
       object: graph.literal(''),
       componentState: {
@@ -79,7 +77,7 @@ describe('wc-shoelace/components/autocomplete', () => {
 
   it('uses form settings for item labels', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const {
       params,
       actions,
@@ -97,12 +95,12 @@ describe('wc-shoelace/components/autocomplete', () => {
     const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
 
     // then
-    expect(result.querySelector('sl-menu-item')?.textContent).to.eq('Ą')
+    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
   })
 
   it('uses form settings for selected label', async () => {
     // given
-    const graph = cf({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const selected = graph.namedNode('http://example.com/A').addOut(schema.name, 'Ą')
     const {
       params,
@@ -125,10 +123,10 @@ describe('wc-shoelace/components/autocomplete', () => {
   context('property sh1:clearable true', () => {
     it('clears selection when icon clicked', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams<AutoComplete>({
         property: {
-          [sh1.clearable.value]: true,
+          [$rdf.ns.sh1.clearable.value]: true,
         },
         componentState: {
           instances: [
@@ -151,10 +149,10 @@ describe('wc-shoelace/components/autocomplete', () => {
 
     it('does not show clear button when there is no value', async () => {
       // given
-      const graph = cf({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams<AutoComplete>({
         property: {
-          [sh1.clearable.value]: true,
+          [$rdf.ns.sh1.clearable.value]: true,
         },
         componentState: {
           instances: [

@@ -26,10 +26,11 @@ export const matcher: SingleEditor = {
 Once an editor is created it needs to be added to shaperone. It is done globally so that it will be available to all forms in the application.
 
 ```typescript
-import { editors } from '@hydrofoil/shaperone-wc/configure'
+import rdf from '@zazuko/env'
+import { configure } from '@hydrofoil/shaperone-wc/configure'
 import * as StarRating from './components/StarRating'
 
-editors.addMatchers({
+configure(rdf).editors.addMatchers({
   starRating: StarRating.matcher,
 })
 ```
@@ -82,10 +83,10 @@ export const preferTextArea = (properties = multilineProperties): MatcherDecorat
 To use the decorator in an application, pass it to the shaperone configuration object.
 
 ```typescript
-import { editors } from '@hydrofoil/shaperone-wc/configure'
+import { configure } from '@hydrofoil/shaperone-wc/configure'
 import { preferTextArea } from './matcher-decorators'
 
-editors.decorate(preferTextArea())
+configure().editors.decorate(preferTextArea())
 ```
 
 > [!TIP]

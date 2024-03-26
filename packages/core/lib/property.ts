@@ -3,15 +3,15 @@
  * @module @hydrofoil/shaperone-core/lib/property
  */
 
-import { Term } from 'rdf-js'
+import type { Term } from '@rdfjs/types'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { literal, namedNode } from '@rdf-esm/data-model'
-import type { PropertyState } from '../models/forms'
+import type { PropertyState } from '../models/forms/index.js'
+import { ShaperoneEnvironment } from '../env.js'
 
-export function createTerm(property: Pick<PropertyState, 'shape' | 'datatype'>, value: string): Term {
+export function createTerm(env: ShaperoneEnvironment, property: Pick<PropertyState, 'shape' | 'datatype'>, value: string): Term {
   if (property.shape.nodeKind?.equals(sh.IRI)) {
-    return namedNode(value)
+    return env.namedNode(value)
   }
 
-  return literal(value, property.datatype)
+  return env.literal(value, property.datatype)
 }

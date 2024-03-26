@@ -1,13 +1,11 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import $rdf from 'rdf-ext'
-import ns from '@rdf-esm/namespace'
-import { quad, literal } from '@rdf-esm/data-model'
+import $rdf from '@zazuko/env/web.js'
 import { dash, rdf, rdfs } from '@tpluscode/rdf-ns-builders'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors.js'
 import { addMetadata } from '@hydrofoil/shaperone-core/models/editors/reducers/addMetadata.js'
 
-const ex = ns('http://example.com/')
+const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/editors/reducers/addMetadata', () => {
   it('merges datasets', () => {
@@ -20,9 +18,9 @@ describe('core/models/editors/reducers/addMetadata', () => {
 
     // when
     const dataset = $rdf.dataset([
-      quad(ex.Bar, rdf.type, dash.Editor),
+      $rdf.quad(ex.Bar, rdf.type, dash.Editor),
     ])
-    const after = addMetadata(before, dataset)
+    const after = addMetadata(before, () => dataset)
 
     // then
     expect(after.metadata.dataset).to.have.property('size', 2)
@@ -44,10 +42,10 @@ describe('core/models/editors/reducers/addMetadata', () => {
 
     // when
     const dataset = $rdf.dataset([
-      quad(ex.Foo, rdfs.label, literal('Foo editor')),
-      quad(ex.Bar, rdfs.label, literal('Bar editor')),
+      $rdf.quad(ex.Foo, rdfs.label, $rdf.literal('Foo editor')),
+      $rdf.quad(ex.Bar, rdfs.label, $rdf.literal('Bar editor')),
     ])
-    const after = addMetadata(before, dataset)
+    const after = addMetadata(before, () => dataset)
 
     // expect
     expect(after.allEditors[ex.Foo.value]?.meta?.out(rdfs.label).value).to.eq('Foo editor')

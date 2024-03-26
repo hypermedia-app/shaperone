@@ -1,3 +1,3 @@
-import { ShaperoneForm } from './ShaperoneForm'
+import { ShaperoneForm } from './ShaperoneForm.js'
 
 customElements.define('shaperone-form', ShaperoneForm)

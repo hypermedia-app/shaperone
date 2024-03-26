@@ -4,7 +4,7 @@
  */
 
 import { createModel } from '@captaincodeman/rdx'
-import { DatasetCore, Term } from 'rdf-js'
+import type { DatasetCore, Term } from '@rdfjs/types'
 import { setValidator } from './reducers/setValidator.js'
 
 /**

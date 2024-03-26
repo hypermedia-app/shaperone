@@ -1,19 +1,20 @@
-import produce from 'immer'
-import { NamedNode } from 'rdf-js'
+import { produce } from 'immer'
+import type { NamedNode } from '@rdfjs/types'
 import type {
   ComponentsState,
   ComponentState,
   RenderFunc,
   ComponentDecorator,
   Component,
-} from '.'
+} from './index.js'
 import { decorateComponent } from './lib/decorate.js'
+import env, { ShaperoneEnvironment } from '../../env.js'
 
 type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 
-export function decorate<T extends _Component>(decorators: ComponentDecorator<T>[], component: T): T {
+export function decorate<T extends _Component>(decorators: ComponentDecorator<T>[], component: T, env: ShaperoneEnvironment): T {
   const applicable = decorators.filter(({ applicableTo }) => applicableTo(component))
-  return applicable.reduce((component: any, decorator: any) => decorateComponent(component, decorator), component)
+  return applicable.reduce((component: any, decorator: any) => decorateComponent(component, decorator, env), component)
 }
 
 export default {
@@ -57,7 +58,7 @@ export default {
 
         if (shouldAddComponent) {
           newComponents.components[component.editor.value] = {
-            ...decorate(components.decorators, component),
+            ...decorate(components.decorators, component, env()),
             loading: false,
           }
         }
@@ -71,7 +72,7 @@ export default {
         if (decorator.applicableTo(component)) {
           draft.components[key] = {
             ...component,
-            ...decorate(draft.decorators, component),
+            ...decorate(draft.decorators, component, env()),
           }
         }
       }

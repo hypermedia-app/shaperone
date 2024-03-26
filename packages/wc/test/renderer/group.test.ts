@@ -1,12 +1,12 @@
-import { GroupRenderer } from '@hydrofoil/shaperone-core/renderer'
+import { GroupRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
-import { groupRenderer } from '@shaperone/testing/renderer'
-import { emptyGroupState, testPropertyState } from '@shaperone/testing/models/form'
-import { blankNode } from '@shaperone/testing/nodeFactory'
+import { groupRenderer } from '@shaperone/testing/renderer.js'
+import { emptyGroupState, testPropertyState } from '@shaperone/testing/models/form.js'
+import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { expect } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
-import { fromPointer } from '@rdfine/shacl/lib/PropertyGroup'
-import { renderGroup } from '../../renderer/group'
+import $rdf from '@shaperone/testing/env.js'
+import { renderGroup } from '../../renderer/group.js'
 
 describe('wc/renderer/group', () => {
   let renderer: GroupRenderer
@@ -23,7 +23,7 @@ describe('wc/renderer/group', () => {
 
   it('renders properties of given group', () => {
     // given
-    const groupShape = fromPointer(blankNode())
+    const groupShape = $rdf.rdfine.sh.PropertyGroup(blankNode())
     group.group = groupShape
     const withGroup = testPropertyState(blankNode(), {
       name: 'with-group',
@@ -42,14 +42,13 @@ describe('wc/renderer/group', () => {
     renderGroup.call(renderer, { group })
 
     // then
-    expect(renderer.context.templates.group).to.have.been.calledWith(sinon.match.object, {
-      properties: sinon.match.array.deepEquals([withGroup]),
-    })
+    const groupSpy = renderer.context.templates.group as sinon.SinonStub
+    expect(groupSpy.firstCall.args[1]).to.have.property('properties').deep.equals([withGroup])
   })
 
   it('renders properties without group if not selected', () => {
     // given
-    const groupShape = fromPointer(blankNode())
+    const groupShape = $rdf.rdfine.sh.PropertyGroup(blankNode())
     const withGroup = testPropertyState(blankNode(), {
       name: 'with-group',
       shape: {
@@ -68,9 +67,8 @@ describe('wc/renderer/group', () => {
     renderGroup.call(renderer, { group })
 
     // then
-    expect(renderer.context.templates.group).to.have.been.calledWith(sinon.match.object, {
-      properties: sinon.match.array.deepEquals([noGroup]),
-    })
+    const groupSpy = renderer.context.templates.group as sinon.SinonStub
+    expect(groupSpy.firstCall.args[1]).to.have.property('properties').deep.equals([noGroup])
   })
 
   it('does not render hidden properties', () => {
@@ -84,8 +82,7 @@ describe('wc/renderer/group', () => {
     renderGroup.call(renderer, { group })
 
     // then
-    expect(renderer.context.templates.group).to.have.been.calledWith(sinon.match.object, {
-      properties: sinon.match.array.deepEquals([]),
-    })
+    const groupSpy = renderer.context.templates.group as sinon.SinonStub
+    expect(groupSpy.firstCall.args[1]).to.have.property('properties').with.length(0)
   })
 })
