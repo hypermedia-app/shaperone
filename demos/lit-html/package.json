@@ -6,6 +6,7 @@
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "prebuild": "rimraf ../../dist/playground",
     "build": "vite build",
