@@ -1,5 +1,18 @@
 # @hydrofoil/shaperone-core
 
+## 0.12.0
+
+### Minor Changes
+
+- e76afd5: Changes to `@hydrofoil/shaperone-wc/configure`:
+  - It is now required to call `env.use($rdf)`
+  - `editors.addMetadata` now takes a function `(env: ShaperoneEnvironment) => DatasetCore | Iterable<Quad>`
+
+### Patch Changes
+
+- e76afd5: Update RDF/JS-related dependencies (closes #300)
+- e76afd5: Use a centralised RDF/JS Environment. Component implementors are encouraged to use the `env` parameter passed to the render function.
+
 ## 0.11.0
 
 ### Minor Changes
