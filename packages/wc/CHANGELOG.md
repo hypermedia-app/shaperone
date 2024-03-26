@@ -1,5 +1,20 @@
 # @hydrofoil/shaperone-wc
 
+## 0.8.0
+
+### Minor Changes
+
+- 3f39f4f: Configuration objects must be retrieved by calling `configure` first
+- e76afd5: Use a centralised RDF/JS Environment
+
+### Patch Changes
+
+- e76afd5: Update RDF/JS-related dependencies (closes #300)
+- Updated dependencies [e76afd5]
+- Updated dependencies [e76afd5]
+- Updated dependencies [e76afd5]
+  - @hydrofoil/shaperone-core@0.12.0
+
 ## 0.7.13
 
 ### Patch Changes

@@ -1,5 +1,28 @@
 # @hydrofoil/shaperone-playground
 
+## 0.2.0
+
+### Minor Changes
+
+- e76afd5: Use a centralised RDF/JS Environment
+
+### Patch Changes
+
+- e76afd5: Update RDF/JS-related dependencies (closes #300)
+- Updated dependencies [e76afd5]
+- Updated dependencies [e76afd5]
+- Updated dependencies [2c11065]
+- Updated dependencies [3f39f4f]
+- Updated dependencies [e76afd5]
+- Updated dependencies [f87e0bd]
+  - @hydrofoil/shaperone-rdf-validate-shacl@1.1.0
+  - @hydrofoil/shaperone-playground-examples@0.3.0
+  - @hydrofoil/shaperone-hydra@0.4.0
+  - @hydrofoil/shaperone-wc@0.8.0
+  - @hydrofoil/shaperone-wc-material@0.6.0
+  - @hydrofoil/shaperone-wc-shoelace@0.4.0
+  - @hydrofoil/shaperone-wc-vaadin@0.5.0
+
 ## 0.1.85
 
 ### Patch Changes
