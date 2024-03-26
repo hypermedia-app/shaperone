@@ -47,14 +47,17 @@ export const id: (form: any) => symbol = (() => {
  *
  * ```typescript
  * import '@hypermedia-app/shaperone-form/shaperone-form.js'
+ * import Environment from '@zazuko/env/Environment.js'
+ * import { configure } from '@hydrofoil/shaperone-wc/configure.js'
  * import { html } from '@hypermedia-app/shaperone-form'
- * import { Hydra } from 'alcaeus/web'
- * import { dataset, blankNode } from '@rdf-esm/dataset'
+ * import alcaeus from 'alcaeus/Factory.js'
+ * import parent from '@zazuko/env/web.js'
  *
- * const shapes = await Hydra.loadResource('http://example.com/api/shape')
- * const resource = clownface({
- *   dataset: dataset(),
- * }).blankNode()
+ * const env = new Environment([alcaeus()], { parent })
+ * configure(env)
+ *
+ * const shapes = await env.hydra.loadResource('http://example.com/api/shape')
+ * const resource = rdf.clownface().blankNode()
  *
  * const formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`
  * ```
