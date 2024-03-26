@@ -1,4 +1,4 @@
-import produce from 'immer'
+import { produce } from 'immer'
 import type { PropertyShape } from '@rdfine/shacl'
 import type { Term } from '@rdfjs/types'
 import type { FormState } from '../index.js'
@@ -11,7 +11,7 @@ export interface MultiEditorParams extends BaseParams {
   editor?: Term
 }
 
-export const selectMultiEditor = formStateReducer((state: FormState, { focusNode, property, editor }: MultiEditorParams) => produce.default(state, (state) => {
+export const selectMultiEditor = formStateReducer((state: FormState, { focusNode, property, editor }: MultiEditorParams) => produce(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
@@ -21,7 +21,7 @@ export const selectMultiEditor = formStateReducer((state: FormState, { focusNode
   }
 }))
 
-export const selectSingleEditors = formStateReducer((state: FormState, { focusNode, property }: MultiEditorParams) => produce.default(state, (state) => {
+export const selectSingleEditors = formStateReducer((state: FormState, { focusNode, property }: MultiEditorParams) => produce(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 

@@ -1,8 +1,8 @@
-import produce from 'immer'
+import { produce } from 'immer'
 import type { EditorsState, MatcherDecorator } from '../index.js'
 
 export function decorate(editors: EditorsState, decorator: MatcherDecorator): EditorsState {
-  return produce.default(editors, (draft) => {
+  return produce(editors, (draft) => {
     const decorators = editors.decorators[decorator.term.value] || []
     draft.decorators[decorator.term.value] = [
       ...decorators,

@@ -1,4 +1,4 @@
-import produce from 'immer'
+import { produce } from 'immer'
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import type { Editor, EditorsState, MultiEditor, SingleEditor } from '../index.js'
 
@@ -12,7 +12,7 @@ function decorate<T extends Editor>(decorators: EditorsState['decorators'], edit
 }
 
 export function addMatchers(state: EditorsState, editors: Record<string, AnyEditor> | AnyEditor[]): EditorsState {
-  return produce.default(state, (draft) => {
+  return produce(state, (draft) => {
     const editorsArray = Array.isArray(editors) ? editors : Object.values(editors)
 
     for (const editor of editorsArray) {

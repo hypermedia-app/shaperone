@@ -1,6 +1,6 @@
 import type { NamedNode } from '@rdfjs/types'
 import type { PropertyShape } from '@rdfine/shacl'
-import produce from 'immer'
+import { produce } from 'immer'
 import { BaseParams, formStateReducer } from '../../index.js'
 import { FocusNode } from '../../../index.js'
 import type { FormState, PropertyObjectState } from '../index.js'
@@ -12,7 +12,7 @@ export interface SelectEditorParams extends BaseParams {
   editor: NamedNode
 }
 
-export const selectEditor = formStateReducer((state: FormState, { focusNode, property, object, editor }: SelectEditorParams) => produce.default(state, (state) => {
+export const selectEditor = formStateReducer((state: FormState, { focusNode, property, object, editor }: SelectEditorParams) => produce(state, (state) => {
   const focusNodeState = state.focusNodes[focusNode.value]
   const propertyState = focusNodeState.properties.find(p => p.shape.equals(property))
 
