@@ -23,7 +23,7 @@ jobs:
       - run: npm ci
       - run: yarn tsc --noEmit
       - run: yarn build
-      - run: yarn prerelease
+      - run: npx wsrun -m prepack --noEmit
 
   test:
     runs-on: ubuntu-latest
