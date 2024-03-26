@@ -1,5 +1,16 @@
 # @hydrofoil/shaperone-rdf-validate-shacl
 
+## 1.1.0
+
+### Minor Changes
+
+- e76afd5: Deprecated `validate.with`
+- e76afd5: Use a centralised RDF/JS Environment
+
+### Patch Changes
+
+- e76afd5: Update RDF/JS-related dependencies (closes #300)
+
 ## 1.0.4
 
 ### Patch Changes

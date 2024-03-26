@@ -1,5 +1,19 @@
 # @shaperone/testing
 
+## 0.1.0
+
+### Minor Changes
+
+- e76afd5: Use a centralised RDF/JS Environment
+
+### Patch Changes
+
+- e76afd5: Update RDF/JS-related dependencies (closes #300)
+- Updated dependencies [e76afd5]
+- Updated dependencies [e76afd5]
+- Updated dependencies [e76afd5]
+  - @hydrofoil/shaperone-core@0.12.0
+
 ## 0.0.10
 
 ### Patch Changes

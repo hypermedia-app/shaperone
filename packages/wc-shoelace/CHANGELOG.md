@@ -1,5 +1,23 @@
 # @hydrofoil/shaperone-wc-shoelace
 
+## 0.4.0
+
+### Minor Changes
+
+- 2c11065: Updated shoelace to v2.15
+- e76afd5: Use a centralised RDF/JS Environment
+
+### Patch Changes
+
+- e76afd5: Update RDF/JS-related dependencies (closes #300)
+- Updated dependencies [e76afd5]
+- Updated dependencies [e76afd5]
+- Updated dependencies [3f39f4f]
+- Updated dependencies [e76afd5]
+- Updated dependencies [e76afd5]
+  - @hydrofoil/shaperone-core@0.12.0
+  - @hydrofoil/shaperone-wc@0.8.0
+
 ## 0.3.2
 
 ### Patch Changes
