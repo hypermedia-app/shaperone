@@ -1,5 +1,13 @@
 # @hydrofoil/shaperone-hydra
 
+## 0.4.1
+
+### Patch Changes
+
+- 40dd516: Build: fixes some incorrect imports in generated d.ts files
+- Updated dependencies [40dd516]
+  - @hydrofoil/shaperone-core@0.12.1
+
 ## 0.4.0
 
 ### Minor Changes
