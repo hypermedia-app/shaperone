@@ -1,5 +1,19 @@
 # @hydrofoil/shaperone-playground
 
+## 0.2.1
+
+### Patch Changes
+
+- 40dd516: Build: fixes some incorrect imports in generated d.ts files
+- Updated dependencies [40dd516]
+  - @hydrofoil/shaperone-playground-examples@0.3.1
+  - @hydrofoil/shaperone-hydra@0.4.1
+  - @hydrofoil/shaperone-rdf-validate-shacl@1.1.1
+  - @hydrofoil/shaperone-wc@0.8.1
+  - @hydrofoil/shaperone-wc-material@0.6.1
+  - @hydrofoil/shaperone-wc-shoelace@0.4.1
+  - @hydrofoil/shaperone-wc-vaadin@0.5.1
+
 ## 0.2.0
 
 ### Minor Changes

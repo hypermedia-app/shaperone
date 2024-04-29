@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-core-tests
 
+## 0.1.1
+
+### Patch Changes
+
+- 40dd516: Build: fixes some incorrect imports in generated d.ts files
+
 ## 0.1.0
 
 ### Minor Changes

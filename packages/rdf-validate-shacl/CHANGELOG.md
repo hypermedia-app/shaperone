@@ -1,5 +1,11 @@
 # @hydrofoil/shaperone-rdf-validate-shacl
 
+## 1.1.1
+
+### Patch Changes
+
+- 40dd516: Build: fixes some incorrect imports in generated d.ts files
+
 ## 1.1.0
 
 ### Minor Changes
