@@ -18,10 +18,15 @@ const { validation } = store().dispatch
 
 const setEnvOnce = onetime(setEnv)
 
-export function configure(env?: RequiredEnvironment) {
+export async function configure(env?: RequiredEnvironment) {
   if (env) {
-    setEnvOnce(env)
+    await setEnvOnce(env)
+  } else {
+    const zazukoEnv = await import('@zazuko/env/web.js')
+    await setEnvOnce(zazukoEnv.default)
   }
+
+  await import('./lib/shaperone-form.js')
 
   editors.addMetadata(CoreMetadata)
 

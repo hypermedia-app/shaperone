@@ -32,15 +32,7 @@ export type ShaperoneEnvironment = DerivedEnvironment<
 Environment<Sh1NamespaceFactory | RdfineFactory | ShFactory | ConstantsFactory>,
 RequiredEnvironment>
 
-let instance: ShaperoneEnvironment | undefined
-
-export default function getEnv(): ShaperoneEnvironment {
-  if (!instance) {
-    throw new Error('Environment not initialized')
-  }
-
-  return instance
-}
+let instance: ShaperoneEnvironment
 
 export function setEnv(parent: RequiredEnvironment) {
   let newEnv: ShaperoneEnvironment
@@ -62,3 +54,5 @@ export function setEnv(parent: RequiredEnvironment) {
 function isShaperoneEnvironment(env: RequiredEnvironment): env is ShaperoneEnvironment {
   return 'sh1' in env.ns
 }
+
+export default () => instance

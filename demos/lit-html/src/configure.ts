@@ -25,7 +25,7 @@ import type { RendererState } from './state/models/renderer.js'
 setBasePath('https://unpkg.com/@shoelace-style/shoelace/dist')
 shoelaceSettings.hoist = false
 
-const { editors, components, validation, renderer } = configure($rdf)
+const { editors, components, validation, renderer } = await configure($rdf)
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },
