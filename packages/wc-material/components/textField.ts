@@ -1,11 +1,11 @@
 import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes.js'
 import { html } from 'lit'
 import '@material/mwc-textfield/mwc-textfield'
-import { Render } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import type { Term } from '@rdfjs/types'
-import { TextFieldType } from '@material/mwc-textfield/mwc-textfield-base.js'
+import type { TextFieldType } from '@material/mwc-textfield/mwc-textfield-base.js'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly.js'
-import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
+import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import { validity } from '../directives/validity.js'
 
 function getType(datatype: ReturnType<typeof numericDatatype> | undefined): TextFieldType {

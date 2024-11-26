@@ -1,9 +1,9 @@
 import { fixture, expect } from '@open-wc/testing'
 import $rdf from '@shaperone/testing/env.js'
 import { xsd } from '@tpluscode/rdf-ns-builders'
-import { Render } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams } from '@shaperone/testing'
-import { TextField } from '@material/mwc-textfield'
+import type { TextField } from '@material/mwc-textfield'
 import { textField } from '../../components.js'
 
 describe('wc-material/components/textField', () => {

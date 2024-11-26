@@ -1,4 +1,5 @@
-import { html, Render, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { Render, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
 import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes.js'
 import '@vaadin/vaadin-text-field/vaadin-text-field'

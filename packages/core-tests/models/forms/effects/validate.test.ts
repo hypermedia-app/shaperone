@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { testStore, testFocusNodeState } from '@shaperone/testing/models/form.js'
 import { sinon } from '@shaperone/testing'
-import { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state'
 import { validate } from '@hydrofoil/shaperone-core/models/forms/effects/validate.js'
 
 describe('@hydrofoil/shaperone-core/models/forms/effects/validate', () => {

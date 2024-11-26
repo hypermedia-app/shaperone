@@ -1,5 +1,5 @@
 import type { Store } from '../../../state/index.js'
-import { BaseParams } from '../../index.js'
+import type { BaseParams } from '../../index.js'
 import env from '../../../env.js'
 
 export function validate(store: Store) {

@@ -1,4 +1,5 @@
-import { html, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
 import '@shoelace-style/shoelace/dist/components/details/details.js'
 import graphPointer from 'is-graph-pointer'
 import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'

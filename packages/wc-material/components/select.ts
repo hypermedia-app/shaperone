@@ -3,14 +3,14 @@ import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import '@material/mwc-select/mwc-select'
 import '@material/mwc-list/mwc-list-item'
-import {
+import type {
   BooleanSelectEditor,
   EnumSelectEditor,
   InstancesSelectEditor,
 } from '@hydrofoil/shaperone-core/components.js'
-import { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
+import type { SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import type { GraphPointer } from 'clownface'
-import { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { FormSettings, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'

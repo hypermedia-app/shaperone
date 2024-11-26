@@ -4,10 +4,10 @@ import { rdf } from '@tpluscode/rdf-ns-builders'
 import { defaultValue } from '../../lib/objectValue.js'
 import { notify } from '../../lib/notify.js'
 import type { Store } from '../../../../state/index.js'
-import { Params } from '../../../forms/reducers/replaceFocusNodes.js'
-import { EditorsState } from '../../../editors/index.js'
-import { PropertyObjectState, PropertyState } from '../../../forms/index.js'
-import { FocusNode } from '../../../../index.js'
+import type { Params } from '../../../forms/reducers/replaceFocusNodes.js'
+import type { EditorsState } from '../../../editors/index.js'
+import type { PropertyObjectState, PropertyState } from '../../../forms/index.js'
+import type { FocusNode } from '../../../../index.js'
 
 interface SetDefault {
   (params: {

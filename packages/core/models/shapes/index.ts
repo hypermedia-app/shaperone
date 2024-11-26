@@ -1,5 +1,5 @@
 import { createModel } from '@captaincodeman/rdx'
-import { NodeShape } from '@rdfine/shacl'
+import type { NodeShape } from '@rdfine/shacl'
 import type { AnyPointer } from 'clownface'
 import { setGraph } from './reducers.js'
 import { emptyState } from './lib/index.js'

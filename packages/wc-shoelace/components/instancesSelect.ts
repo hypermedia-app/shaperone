@@ -1,4 +1,4 @@
-import { Lazy } from '@hydrofoil/shaperone-core'
+import type { Lazy } from '@hydrofoil/shaperone-core'
 import * as Core from '@hydrofoil/shaperone-core/components.js'
 
 export const instancesSelect: Lazy<Core.InstancesSelectEditor> = {

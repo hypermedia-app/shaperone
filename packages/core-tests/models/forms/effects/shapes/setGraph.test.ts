@@ -4,7 +4,7 @@ import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
 import setGraph from '@hydrofoil/shaperone-core/models/forms/effects/shapes/setGraph.js'
-import { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state'
 
 const ex = $rdf.namespace('http://example.com/')
 

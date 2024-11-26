@@ -8,7 +8,8 @@ import type {
   Component,
 } from './index.js'
 import { decorateComponent } from './lib/decorate.js'
-import env, { ShaperoneEnvironment } from '../../env.js'
+import type { ShaperoneEnvironment } from '../../env.js'
+import env from '../../env.js'
 
 type _Component = Omit<ComponentState, 'loading' | 'loadingFailed'>
 

@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js'
 import './wc-menu.js'
 import '@material/mwc-icon/mwc-icon'
 import '@material/mwc-list/mwc-list-item'
-import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 
 @customElement('mwc-property-menu')
 export class MwcPropertyMenu extends LitElement {

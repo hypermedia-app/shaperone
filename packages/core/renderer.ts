@@ -3,17 +3,15 @@
  * @module @hydrofoil/shaperone-core/renderer
  */
 
-import type { NodeShape, Shape } from '@rdfine/shacl'
-import { PropertyGroup } from '@rdfine/shacl'
+import type { NodeShape, Shape, PropertyGroup } from '@rdfine/shacl'
 import type { NamedNode, Term } from '@rdfjs/types'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import type { EditorsState } from './models/editors/index.js'
-import type { FormState } from './models/forms/index.js'
+import type { FormState, FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from './models/forms/index.js'
 import type { ComponentsState } from './models/components/index.js'
 import type { Dispatch } from './state/index.js'
-import { FocusNode } from './index.js'
-import { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from './models/forms/index.js'
-import { ShaperoneEnvironment } from './env.js'
+import type { FocusNode } from './index.js'
+import type { ShaperoneEnvironment } from './env.js'
 
 /**
  * Base input parameters passed to the {@link Renderer}

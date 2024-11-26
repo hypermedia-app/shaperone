@@ -1,7 +1,7 @@
-import { NodeShape } from '@rdfine/shacl'
+import type { NodeShape } from '@rdfine/shacl'
 import { rdf, sh, rdfs } from '@tpluscode/rdf-ns-builders'
 import TermMap from '@rdfjs/term-map'
-import { FocusNode } from '../../../index.js'
+import type { FocusNode } from '../../../index.js'
 import type { ShapeState } from '../index.js'
 
 const scores = new TermMap([

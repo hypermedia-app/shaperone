@@ -4,7 +4,7 @@ import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testEditor } from '@shaperone/testing/models/form.js'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors.js'
 import { decorate } from '@hydrofoil/shaperone-core/models/editors/reducers/decorate.js'
-import { MatcherDecorator, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
+import type { MatcherDecorator, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
 
 describe('core/models/editors/reducers/decorate', () => {
   it('creates decorator array for editor', () => {

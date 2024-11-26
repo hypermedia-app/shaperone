@@ -1,9 +1,9 @@
 import $rdf from '@shaperone/testing/env.js'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
-import { Render } from '@hydrofoil/shaperone-wc'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams } from '@shaperone/testing'
-import { TextField } from '@material/mwc-textfield'
+import type { TextField } from '@material/mwc-textfield'
 import { dateTimePicker, datePicker } from '../../components.js'
 
 describe('wc-material/components/date', () => {

@@ -1,8 +1,9 @@
 import { produce } from 'immer'
 import type { Shape } from '@rdfine/shacl'
-import { BaseParams, formStateReducer } from '../../index.js'
+import type { BaseParams } from '../../index.js'
+import { formStateReducer } from '../../index.js'
 import type { FormState } from '../index.js'
-import { FocusNode } from '../../../index.js'
+import type { FocusNode } from '../../../index.js'
 
 export interface ToggleParams extends BaseParams {
   focusNode: FocusNode

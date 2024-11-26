@@ -1,10 +1,11 @@
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
-import { FocusNode } from '../../index.js'
-import { CoreComponent, sort } from '../components.js'
-import { ShaperoneEnvironment } from '../../env.js'
+import type { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
+import type { FocusNode } from '../../index.js'
+import type { CoreComponent } from '../components.js'
+import { sort } from '../components.js'
+import type { ShaperoneEnvironment } from '../../env.js'
 
 /**
  * Represents the state of an enum select component

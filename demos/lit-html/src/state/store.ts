@@ -1,4 +1,5 @@
-import { createStore, devtools, ModelStore, StoreDispatch, StoreState, persist } from '@captaincodeman/rdx'
+import type { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
+import { createStore, devtools, persist } from '@captaincodeman/rdx'
 import { config } from './config.js'
 
 export type State = StoreState<typeof config>

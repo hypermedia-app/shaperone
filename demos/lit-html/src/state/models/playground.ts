@@ -1,8 +1,8 @@
 import { createModel } from '@captaincodeman/rdx'
 import { setLanguages } from '@rdfjs-elements/lit-helpers'
 import type { Store } from '../store.js'
-import { ComponentsState } from './components.js'
-import { RendererState } from './renderer.js'
+import type { ComponentsState } from './components.js'
+import type { RendererState } from './renderer.js'
 
 export interface State {
   sharePopup: boolean

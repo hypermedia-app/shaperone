@@ -3,9 +3,9 @@ import {
 } from '@hydrofoil/shaperone-core/components.js'
 import * as select from '@hydrofoil/shaperone-core/lib/components/base/instancesSelect.js'
 import sh1 from '@hydrofoil/shaperone-core/ns.js'
-import { Lazy, MultiEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { Lazy, MultiEditorComponent } from '@hydrofoil/shaperone-wc'
 import type { GraphPointer } from 'clownface'
-import { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
+import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
 
 export interface InstancesMultiSelect extends ComponentInstance {
   instances?: GraphPointer[]

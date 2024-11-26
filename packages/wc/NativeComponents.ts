@@ -9,22 +9,24 @@
  * @module @hydrofoil/shaperone-wc/NativeComponents
  */
 
-import {
-  instancesSelect,
-  enumSelect,
+import type {
   EnumSelectEditor,
   InstancesSelectEditor,
   TextFieldEditor,
   TextAreaEditor,
+  DatePickerEditor,
+  DateTimePickerEditor,
+  URIEditor,
+  BooleanSelectEditor,
+} from '@hydrofoil/shaperone-core/components.js'
+import {
+  instancesSelect,
+  enumSelect,
   textField,
   textArea,
   datePicker,
-  DatePickerEditor,
-  DateTimePickerEditor,
   dateTimePicker,
   uri,
-  URIEditor,
-  BooleanSelectEditor,
   booleanSelect,
 } from '@hydrofoil/shaperone-core/components.js'
 import type { Lazy } from './index.js'

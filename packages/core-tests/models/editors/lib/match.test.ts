@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha'
-import { PropertyShape } from '@rdfine/shacl'
+import type { PropertyShape } from '@rdfine/shacl'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import type { NamedNode } from '@rdfjs/types'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
-import { Editor, EditorsState, MultiEditor } from '@hydrofoil/shaperone-core/models/editors'
+import type { Editor, EditorsState, MultiEditor } from '@hydrofoil/shaperone-core/models/editors'
 import { matchSingleEditors, matchMultiEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 

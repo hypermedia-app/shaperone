@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha'
 import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
-import { sinon } from '@shaperone/testing'
-import { NodeShape } from '@rdfine/shacl'
+import type { sinon } from '@shaperone/testing'
+import type { NodeShape } from '@rdfine/shacl'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { selectShape } from '@hydrofoil/shaperone-core/models/forms/effects/selectShape.js'
-import { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state'
 
 describe('models/forms/effects/selectShape', () => {
   let store: Store

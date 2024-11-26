@@ -1,6 +1,6 @@
 import type { GraphPointer } from 'clownface'
 import type { BlankNode, Term } from '@rdfjs/types'
-import { SetObjectParams } from '../reducers/updateObject.js'
+import type { SetObjectParams } from '../reducers/updateObject.js'
 import type { Store } from '../../../state/index.js'
 import $rdf from '../../../env.js'
 
