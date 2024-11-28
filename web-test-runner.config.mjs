@@ -1,7 +1,6 @@
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fromRollup } from '@web/dev-server-rollup'
 import commonjs from '@rollup/plugin-commonjs'
-import fs from 'node:fs'
 
 const immer = {
   resolveImport({ source }) {
@@ -16,26 +15,6 @@ const immer = {
   },
 }
 
-const nanoid = {
-  resolveImport({ source }) {
-    if (/nanoid/.test(source)) {
-      return '/node_modules/nanoid/index.browser.js'
-    }
-
-    return undefined
-  },
-}
-
-const nodeResolveFix = {
-  serve(context) {
-    if (context.path.includes('node_modules') && context.path.endsWith('.ts')) {
-      const path = `.${context.request.url}`.replace(/\.ts$/,'.js')
-      const body = fs.readFileSync(path)
-      return { body, type: 'js' };
-    }
-  }
-}
-
 const config = {
   groups: [
     { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
@@ -45,13 +24,13 @@ const config = {
     { name: 'wc-shoelace', files: 'packages/wc-shoelace/test/**/*.test.ts' },
   ],
   coverage: true,
-  nodeResolve: true,
+  nodeResolve: {
+    exportConditions: ['browser', 'module', 'import', 'default'],
+  },
   concurrency: 1,
   plugins: [
-    esbuildPlugin({ ts: true, js: true, target: 'auto' }),
-    nodeResolveFix,
+    esbuildPlugin({ ts: true, js: true, target: 'auto', tsconfig: 'tsconfig.json' }),
     immer,
-    nanoid,
     fromRollup(commonjs)({
       exclude: [
         '**/node_modules/@open-wc/**/*',
