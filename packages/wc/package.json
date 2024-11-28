@@ -27,7 +27,7 @@
     "@tpluscode/rdfine": "^0.7.9",
     "@zazuko/env": "^2.1.0",
     "concat-merge": "^1.0.3",
-    "lit": "^2.0.0",
+    "lit": "^3",
     "onetime": "^5.1.2"
   },
   "devDependencies": {
