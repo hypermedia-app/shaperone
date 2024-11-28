@@ -70,5 +70,8 @@
     "ts-sinon": {
       "sinon": "19.0.2"
     }
+  },
+  "dependencies": {
+    "@web/test-runner-puppeteer": "^0.17.0"
   }
 }
