@@ -27,7 +27,7 @@ jobs:
           DOMAIN: ${{ env.BRANCH_NAME == 'master' && 'forms.hypermedia.app' || format('{0}--shaperone.netlify.app', env.BRANCH_NAME) }}
         run: npx json -I -f dist/variables.json -e "this.playground='https://$DOMAIN/playground'"
 
-      - run: npx i -g netlify-cli@17.36.1
+      - run: npm i -g netlify-cli@17.36.1
 
       - name: Publish preview
         uses: jsmrcaga/action-netlify-deploy@v2.3.0
