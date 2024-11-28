@@ -5,10 +5,17 @@ import $rdf from '../lib/env.js'
 import stringToStream from 'string-to-stream'
 import { Description, Stories, Subtitle, Title } from '@storybook/blocks'
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+import process from "process";
+import { Buffer } from "buffer";
+import EventEmitter from "events";
 
 SyntaxHighlighter.registerLanguage('turtle', turtle)
 
 setBasePath('/shoelace/dist');
+
+window.Buffer = Buffer;
+window.process = process;
+window.EventEmitter = EventEmitter;
 
 const preview = {
   tags: ['autodocs'],
