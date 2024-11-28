@@ -1,0 +1,8 @@
+PREFIX schema: <http://schema.org/>
+BASE <http://example.org/>
+
+<john>
+  a schema:Person ;
+  schema:givenName "John" ;
+  schema:familyName "Doe" ;
+.

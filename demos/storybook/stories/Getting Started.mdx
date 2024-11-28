@@ -1,0 +1,104 @@
+import env from '../../../packages/core/env.ts?raw'
+import { Markdown } from '@storybook/blocks'
+
+# Getting Started
+
+## Preparation
+
+To start using `shaperone`, first install the Web Component library:
+
+```shell
+npm install @hydrofoil/shaperone-wc
+```
+
+Then, import the library in your project and call the `configure` function:
+
+```javascript
+import { configure } from '@hydrofoil/shaperone-wc';
+
+configure()
+```
+
+This function registers the custom element `shaperone-form` and set up the necessary [RDF/JS Environment](https://rdf.js.org/).
+
+In later examples, it is used to customise the form's appearance and behaviour.
+
+## Using the form in a page
+
+To render a form and then set its `shapes` and (optionally) `resource` properties.
+
+The `shapes` can be an instance of [`DatasetCore`](https://rdf.js.org/dataset-spec/#datasetcore-interface) or a
+[Clownface](https://npm.im/clownface) object.
+
+The `resource` property must be a Clownface pointer to a [specific node in graph](https://zazuko.github.io/clownface/#/context?id=a-single-pointer).
+
+```html
+<shaperone-form></shaperone-form>
+
+<script type="module">
+import rdf from '@zazuko/env/web.js'
+
+const form = document.querySelector('shaperone-form')
+
+form.shapes = await rdf.fetch('/shapes.ttl').dataset()
+form.resource = rdf.clownface().node('http://example.com/resource')
+</script>
+```
+
+To retrieve the form's data, listen for the `changed` event:
+
+```ts
+import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
+
+let form: ShaperoneForm
+
+form.addEventListener('changed', (event: CustomEvent) => {
+  // event.detail.focusNode is a pointer to the current focus node
+
+  const dataset = event.detail.focusNode.dataset
+})
+```
+
+# Advanced configuration
+
+## Replace the RDF/JS environment
+
+```javascript
+import { configure } from '@hydrofoil/shaperone-wc'
+import Environment from '@rdfjs/environment/Environment.js'
+
+const env = new Environment([
+    //... add your own factories here
+])
+
+configure(env)
+```
+
+The minimum requirement is to provide an environment that implements the `MinimalEnvironment` type:
+
+<Markdown>
+  {`
+  \`\`\`ts
+  ${env.split('\n').slice(env.split('\n').findIndex(line => line.includes('type MinimalEnvironment')), env.split('\n').findIndex((line, index, arr) => index >= arr.findIndex(line => line.includes('type MiminalEnvironment')) && line.includes('>')) + 1).join('\n')}
+  \`\`\`
+  `}
+</Markdown>
+
+If not provided, the environment `@zazuko/env/web.js` is used.
+
+## Customise the form
+
+The `configure` function is async and its return value can be used to customise the form further.
+
+```javascript
+import { configure } from '@hydrofoil/shaperone-wc'
+
+const {
+  renderer,   // Change the form's appearance
+  components, // Add or repalce editor implementations
+  editors,    // Modify the editors' metadata and priorities
+  validation  // Set up validation
+} = await configure()
+```
+
+See the in-depth pages on the left for more information on how to customise the form.

@@ -23,7 +23,8 @@
       {
         "name": "ts-lit-plugin"
       }
-    ]
+    ],
+    "jsx": "react"
   },
   "include": [
     "packages",
