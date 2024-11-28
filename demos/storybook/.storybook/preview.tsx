@@ -11,7 +11,7 @@ import EventEmitter from "events";
 
 SyntaxHighlighter.registerLanguage('turtle', turtle)
 
-setBasePath('/shoelace/dist');
+setBasePath(window.CONFIG_TYPE === 'DEVELOPMENT' ? '/shoelace/dist' : '/storybook/shoelace/dist');
 
 window.Buffer = Buffer;
 window.process = process;
