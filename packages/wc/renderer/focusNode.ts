@@ -6,7 +6,7 @@ import { renderGroup } from './group.js'
 export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focusNode, shape }): TemplateResult {
   const { dispatch, form, templates, state } = this.context
 
-  const focusNodeState = focusNode.value && state.focusNodes[focusNode.value]
+  const focusNodeState = focusNode.term && state.focusNodes[focusNode.value]
   if (!focusNodeState || focusNodeState.focusNode.dataset !== focusNode.dataset) {
     dispatch.forms.createFocusNodeState({
       ...this.context,
