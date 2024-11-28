@@ -10,7 +10,9 @@ import { id } from '../ShaperoneForm.js'
 import { configure } from '../configure.js'
 
 describe('shaperone-form', () => {
-  before(configure)
+  before(async () => {
+    await configure()
+  })
 
   beforeEach(() => {
     setEnv(rdf)

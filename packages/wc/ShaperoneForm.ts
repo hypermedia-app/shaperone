@@ -137,7 +137,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     this[notify] = (detail: any) => {
       this.dispatchEvent(new CustomEvent('changed', { detail }))
     }
-    this.resource = this.env.clownface().blankNode()
+    this.resource = this.env.clownface().namedNode('')
   }
 
   async connectedCallback() {

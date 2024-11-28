@@ -32,7 +32,7 @@ const meta: Meta = {
 export default meta
 
 /**
- * Without setting the data graph, the form will be empty and a blank node used for focus node.
+ * Without setting the data graph, the form will be empty and a `<>` IRI used for focus node.
  */
 export const EmptyDataGraph: Story = {
   name: 'Empty data graph',
