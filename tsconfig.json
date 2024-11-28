@@ -9,6 +9,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": false,
     "esModuleInterop": true,
     "strict": true,
     "strictNullChecks": true,
