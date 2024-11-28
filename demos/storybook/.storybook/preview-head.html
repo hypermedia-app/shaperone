@@ -1,2 +1,12 @@
 <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
 <link rel="stylesheet" href="/shoelace/cdn/themes/light.css" />
+
+<script type="module">
+  import process from "process";
+  import { Buffer } from "buffer";
+  import EventEmitter from "events";
+
+  window.Buffer = Buffer;
+  window.process = process;
+  window.EventEmitter = EventEmitter;
+</script>
