@@ -4,7 +4,7 @@
  */
 
 import type { CSSResult, TemplateResult, CSSResultGroup } from 'lit'
-import { html } from 'lit'
+import { css, html } from 'lit'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { repeat } from 'lit/directives/repeat.js'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
@@ -142,12 +142,67 @@ export const templates: RenderTemplates = {
     return html`${repeat(properties, property => renderer.renderProperty({ property }))}`
   },
   property(renderer, { property }): TemplateResult {
-    return html`${repeat(property.objects, object => html`<div class="field">
+    const objects = html`${repeat(property.objects, object => html`<div class="field">
     <label for="${property.shape.id.value}">${localizedLabel(property.shape, { property: sh.name })}</label>
     ${renderer.renderObject({ object })}</div>`)}`
+
+    const addRow = property.canAdd
+      ? html`<div class="field add-object">
+        <label for="${property.shape.id.value}">${localizedLabel(property.shape, { property: sh.name })}</label>
+        <button class="add-object" @click=${(e: MouseEvent) => {
+    renderer.actions.addObject()
+    e.preventDefault()
+  }}>+ ${localizedLabel(property.shape, { property: sh.name })}</button>
+      </div>`
+      : ''
+
+    return html`<div class="property">${objects}${addRow}</div>`
   },
   object(renderer): TemplateResult {
-    return renderer.renderEditor()
+    const removeButton = html`
+      <button class="remove-object"
+              ?hidden="${!renderer.property.canRemove}"
+              @click=${(e: MouseEvent) => {
+    renderer.property.canRemove && renderer.actions.removeObject(renderer.object)
+    e.preventDefault()
+  }}>×</button>`
+
+    return html`<div class="editor">
+      ${renderer.renderEditor()}
+      ${removeButton}
+    </div>`
   },
   initialising: () => html`Initialising form`,
 }
+
+templates.property.styles = css`
+  .field {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .field label {
+    display: inline-block;
+    width: 125px;
+  }
+
+  .field:not(:first-child) label {
+    visibility: hidden;
+    display: inline-block;
+  }
+
+  .field button {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 1px;
+    padding: 2px 4px;
+  }
+
+  .field button[hidden] {
+    visibility: hidden;
+  }
+
+  .field button:hover {
+    border-color: black;
+  }
+`
