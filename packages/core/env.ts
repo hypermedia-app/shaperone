@@ -13,7 +13,7 @@ import Sh1NamespaceFactory from './lib/env/NamespaceFactory.js'
 import ConstantsFactory from './lib/env/ConstantsFactory.js'
 import deps from './lib/mixins.js'
 
-export type MiminalEnvironment = Environment<
+export type MinimalEnvironment = Environment<
 ClownfaceFactory |
 DataFactory |
 DatasetCoreFactory |
@@ -21,7 +21,7 @@ NsBuildersFactory |
 TermMapFactory>
 
 export interface Requirements {
-  _core: MiminalEnvironment
+  _core: MinimalEnvironment
 }
 
 type ValuesArray<R extends Record<string, any>> = R[keyof R][];
