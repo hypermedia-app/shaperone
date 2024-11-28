@@ -7,9 +7,11 @@ import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import { store } from '../store.js'
 import type { ShaperoneForm } from '../ShaperoneForm.js'
 import { id } from '../ShaperoneForm.js'
-import '../shaperone-form.js'
+import { configure } from '../configure.js'
 
 describe('shaperone-form', () => {
+  before(configure)
+
   beforeEach(() => {
     setEnv(rdf)
   })

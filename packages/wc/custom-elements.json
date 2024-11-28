@@ -31,16 +31,6 @@
           "name": "state",
           "description": "Gets the internal state of the form element",
           "type": "FormState"
-        },
-        {
-          "name": "shapes",
-          "description": "Gets or sets the shapes graph",
-          "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
-        },
-        {
-          "name": "resource",
-          "description": "Gets or sets the resource graph as graph pointer",
-          "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
         }
       ],
       "properties": [
@@ -108,13 +98,11 @@
         },
         {
           "name": "shapes",
-          "attribute": "shapes",
           "description": "Gets or sets the shapes graph",
           "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
         },
         {
           "name": "resource",
-          "attribute": "resource",
           "description": "Gets or sets the resource graph as graph pointer",
           "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
         }
