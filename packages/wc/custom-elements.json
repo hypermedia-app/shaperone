@@ -37,7 +37,7 @@
         {
           "name": "renderer",
           "description": "Gets or sets the renderer implementation",
-          "type": "Renderer<UncompiledTemplateResult<ResultType>>",
+          "type": "Renderer<TemplateResult<ResultType>>",
           "default": "\"DefaultRenderer\""
         },
         {

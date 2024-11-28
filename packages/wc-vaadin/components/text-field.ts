@@ -1,7 +1,7 @@
 import type { Render, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { html } from '@hydrofoil/shaperone-wc'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
-import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes.js'
+import { numericDatatypeKind } from '@hydrofoil/shaperone-core/lib/datatypes.js'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 import '@vaadin/vaadin-text-field/vaadin-number-field'
 import '@vaadin/vaadin-text-field/vaadin-integer-field'
@@ -17,8 +17,8 @@ export const textField: Render<SingleEditorComponent> = function ({ env, value, 
     '.readonly': !!property.shape.readOnly,
   }
 
-  const datatype = numericDatatype(property.datatype)
-  if (env.ns.xsd.decimal.equals(datatype) || env.ns.xsd.float.equals(datatype) || env.ns.xsd.double.equals(datatype)) {
+  const datatype = numericDatatypeKind(property.datatype)
+  if (datatype === 'decimal') {
     return html`<vaadin-number-field ${spread(props)} has-controls></vaadin-number-field>`
   }
 

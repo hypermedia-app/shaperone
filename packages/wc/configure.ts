@@ -23,7 +23,7 @@ export async function configure(env?: RequiredEnvironment) {
     setEnvOnce(env)
   } else {
     const zazukoEnv = await import('@zazuko/env/web.js')
-    setEnvOnce(zazukoEnv.default)
+    setEnvOnce(zazukoEnv.default as unknown as RequiredEnvironment)
   }
 
   await import('./lib/shaperone-form.js')

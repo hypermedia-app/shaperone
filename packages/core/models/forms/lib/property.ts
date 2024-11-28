@@ -63,7 +63,7 @@ export function combineProperties(shape: Shape): { properties: PropertyShape[]; 
       logicalConstraints.or.push({
         term: constraint,
         component: sh.OrConstraintComponent,
-        shapes: [...list].filter(isResource).map((ptr: any) => env.rdfine.sh.Shape(ptr)),
+        shapes: [...list].filter(isResource).map((ptr: any) => env().rdfine.sh.Shape(ptr)),
       })
     }
   }
@@ -75,7 +75,7 @@ export function combineProperties(shape: Shape): { properties: PropertyShape[]; 
       logicalConstraints.xone.push({
         term: constraint,
         component: sh.XoneConstraintComponent,
-        shapes: [...list].filter(isResource).map((ptr: any) => env.rdfine.sh.Shape(ptr)),
+        shapes: [...list].filter(isResource).map((ptr: any) => env().rdfine.sh.Shape(ptr)),
       })
     }
   }

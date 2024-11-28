@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: yarn tsc --noEmit
+      - run: yarn tsc --noEmit --project tsconfig.build.json
       - run: yarn build
       - run: npx wsrun -m prepack --noEmit
 
