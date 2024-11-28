@@ -13,8 +13,8 @@
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@zazuko/env": "^2.1.0",
     "deepmerge": "^4.2.2",
-    "sinon": "^17.0.1",
-    "ts-sinon": "^2.0.1"
+    "sinon": "^19.0.2",
+    "ts-sinon": "^2.0.2"
   },
   "devDependencies": {
     "@types/sinon": "^17.0.3"
