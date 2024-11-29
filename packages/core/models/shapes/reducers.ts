@@ -35,8 +35,10 @@ export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: Se
   if ('match' in shapesGraph) {
     // new dataset
     const pointer = env().clownface({ dataset: shapesGraph })
+    const shapes = findShapes(pointer)
     draft.shapesGraph = pointer
-    draft.shapes = findShapes(pointer)
+    draft.shapes = shapes
+    draft.preferredRootShape = getPreferredShape(pointer, shapes)
     return
   }
 
