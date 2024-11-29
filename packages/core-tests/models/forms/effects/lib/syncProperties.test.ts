@@ -1,13 +1,13 @@
 import { describe, it } from 'mocha'
 import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
-import { sinon } from '@shaperone/testing'
+import type { sinon } from '@shaperone/testing'
 import { dash, foaf, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
-import { Dispatch, Store } from '@hydrofoil/shaperone-core/state'
+import type { Dispatch, Store } from '@hydrofoil/shaperone-core/state'
 import { syncProperties } from '@hydrofoil/shaperone-core/models/forms/effects/lib/syncProperties.js'
-import { EditorsState } from '@hydrofoil/shaperone-core/models/editors'
-import { State } from '@hydrofoil/shaperone-core/models/forms'
+import type { EditorsState } from '@hydrofoil/shaperone-core/models/editors'
+import type { State } from '@hydrofoil/shaperone-core/models/forms'
 import { nodeShape, propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/lib/syncProperties', () => {

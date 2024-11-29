@@ -1,6 +1,6 @@
 import $rdf from '@shaperone/testing/env.js'
 import { expect, fixture } from '@open-wc/testing'
-import { TextFieldElement } from '@vaadin/vaadin-text-field'
+import type { TextFieldElement } from '@vaadin/vaadin-text-field'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components/url-editor.js'
 

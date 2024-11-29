@@ -1,8 +1,8 @@
-import { MultiselectComboBox } from 'multiselect-combo-box/multiselect-combo-box'
+import type { MultiselectComboBox } from 'multiselect-combo-box/multiselect-combo-box'
 import prefixes from '@zazuko/prefixes/prefixes'
 import rdf from '@zazuko/env/web.js'
-import { State } from '../state/models/resource.js'
-import { Menu } from '../menu.js'
+import type { State } from '../state/models/resource.js'
+import type { Menu } from '../menu.js'
 
 const resourceMenuItem = (() => {
   import('@vaadin/vaadin-combo-box/vaadin-combo-box.js')

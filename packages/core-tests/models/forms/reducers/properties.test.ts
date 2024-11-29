@@ -4,9 +4,9 @@ import { expect } from 'chai'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { hideProperty, showProperty } from '@hydrofoil/shaperone-core/models/forms/reducers/properties.js'
-import { Store } from '@hydrofoil/shaperone-core/state'
-import { FocusNode } from '@hydrofoil/shaperone-core/index.js'
-import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { FocusNode } from '@hydrofoil/shaperone-core/index.js'
+import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 
 describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
   let store: Store

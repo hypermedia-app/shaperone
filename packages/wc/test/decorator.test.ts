@@ -1,4 +1,4 @@
-import {
+import type {
   ComponentDecorator,
   SingleEditorActions,
   SingleEditorRenderParams,
@@ -9,7 +9,7 @@ import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/l
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { editorTestParams } from '@shaperone/testing'
 import $rdf from '@shaperone/testing/env.js'
-import { SingleEditorComponent } from '../index.js'
+import type { SingleEditorComponent } from '../index.js'
 
 describe('core/models/components/lib/decorate', () => {
   describe('decorateComponent', () => {

@@ -1,9 +1,10 @@
-import { html, TemplateResult } from 'lit'
-import { PropertyTemplate, ObjectTemplate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import type { TemplateResult } from 'lit'
+import { html } from 'lit'
+import type { PropertyTemplate, ObjectTemplate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates.js'
 import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { settings } from './settings.js'
 
 interface AddObject {

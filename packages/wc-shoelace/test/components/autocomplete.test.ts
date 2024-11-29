@@ -2,10 +2,11 @@ import { expect, fixture } from '@open-wc/testing'
 import { dash, rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import { AutoComplete } from '@hydrofoil/shaperone-core/components.js'
-import { SlIconButton } from '@shoelace-style/shoelace'
-import { autocomplete, AutoCompleteEditor } from '../../components/autocomplete.js'
-import { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete.js'
+import type { AutoComplete } from '@hydrofoil/shaperone-core/components.js'
+import type { SlIconButton } from '@shoelace-style/shoelace'
+import type { AutoCompleteEditor } from '../../components/autocomplete.js'
+import { autocomplete } from '../../components/autocomplete.js'
+import type { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete.js'
 
 describe('wc-shoelace/components/autocomplete', () => {
   let component: AutoCompleteEditor

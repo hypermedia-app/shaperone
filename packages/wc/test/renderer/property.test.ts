@@ -1,11 +1,12 @@
-import { PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import type { PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { propertyRenderer } from '@shaperone/testing/renderer.js'
 import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
 import { emptyGroupState, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
-import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { expect } from '@open-wc/testing'
-import { ex, sinon } from '@shaperone/testing'
-import { Dispatch } from '@hydrofoil/shaperone-core/state'
+import type { sinon } from '@shaperone/testing'
+import { ex } from '@shaperone/testing'
+import type { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { renderProperty } from '../../renderer/property.js'
 
 describe('wc/renderer/property', () => {

@@ -1,4 +1,4 @@
-import { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import type { FocusNodeTemplate, GroupTemplate } from '@hydrofoil/shaperone-wc/templates.js'
 import { html } from '@hydrofoil/shaperone-wc'
 import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'

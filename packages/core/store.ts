@@ -1,4 +1,4 @@
-import { Plugins, Plugin } from '@captaincodeman/rdx'
+import type { Plugins, Plugin } from '@captaincodeman/rdx'
 
 const plugins: Plugins = {}
 

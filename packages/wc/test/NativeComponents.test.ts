@@ -2,10 +2,10 @@ import { dash, xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { RenderFunc } from '@hydrofoil/shaperone-core/models/components'
+import type { RenderFunc } from '@hydrofoil/shaperone-core/models/components'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import * as components from '../NativeComponents.js'
-import { Render } from '../index.js'
+import type { Render } from '../index.js'
 
 describe('NativeComponents', () => {
   const supportedEditors = $rdf.termSet([

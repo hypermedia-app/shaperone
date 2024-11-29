@@ -1,7 +1,7 @@
 import { fixture, expect } from '@open-wc/testing'
 import $rdf from '@shaperone/testing/env.js'
-import { TextField } from '@material/mwc-textfield'
-import { Render } from '@hydrofoil/shaperone-wc'
+import type { TextField } from '@material/mwc-textfield'
+import type { Render } from '@hydrofoil/shaperone-wc'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components.js'
 

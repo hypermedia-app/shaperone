@@ -1,4 +1,4 @@
-import { SetObjectParams } from '../reducers/updateObject.js'
+import type { SetObjectParams } from '../reducers/updateObject.js'
 import type { Store } from '../../../state/index.js'
 import { syncProperties } from './lib/syncProperties.js'
 

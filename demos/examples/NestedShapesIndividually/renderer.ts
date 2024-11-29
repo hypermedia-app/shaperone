@@ -1,4 +1,5 @@
-import { decorate, FormTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import type { FormTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import { decorate } from '@hydrofoil/shaperone-wc/templates.js'
 import { html, css } from '@hydrofoil/shaperone-wc'
 
 export const topmostFocusNodeFormRenderer = decorate((form: FormTemplate): FormTemplate => {

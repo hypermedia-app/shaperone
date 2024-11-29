@@ -1,5 +1,5 @@
 import type { GraphPointer, MultiPointer } from 'clownface'
-import { Constructor } from '@tpluscode/rdfine'
+import type { Constructor } from '@tpluscode/rdfine'
 import type { PropertyShape } from '@rdfine/shacl'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { shrink } from '@zazuko/prefixes/shrink'

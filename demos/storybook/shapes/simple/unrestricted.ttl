@@ -1,0 +1,26 @@
+PREFIX ex: <http://example.org/>
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+# Like first-last.ttl, but without the minCount and maxCount constraints
+ex:TestShape
+  a sh:NodeShape ;
+  sh:targetClass schema:Person ;
+  sh:property
+    [
+      sh:name "First Name" ;
+      sh:path schema:givenName ;
+      dash:editor dash:TextFieldEditor ;
+    ],
+    [
+      sh:name "Last Name" ;
+      sh:path schema:familyName ;
+      dash:editor dash:TextFieldEditor ;
+    ],
+    [
+      sh:name "Occupation" ;
+      sh:path schema:jobTitle ;
+      dash:editor dash:TextFieldEditor ;
+    ] ;
+.

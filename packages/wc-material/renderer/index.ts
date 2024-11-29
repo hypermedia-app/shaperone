@@ -1,6 +1,7 @@
 import { css, html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
-import { FocusNodeTemplate, ObjectTemplate, PropertyTemplate, decorate } from '@hydrofoil/shaperone-wc/templates.js'
+import type { FocusNodeTemplate, ObjectTemplate, PropertyTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import { decorate } from '@hydrofoil/shaperone-wc/templates.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 

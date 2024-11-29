@@ -1,6 +1,6 @@
 ignore:
   - demos
-  - test-setup.js
+  - packages/core-tests/test-setup.js
   - karma.conf.js
   - types
   - packages/*/test

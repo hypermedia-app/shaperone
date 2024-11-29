@@ -1,7 +1,7 @@
 import type { Store } from '../../../../state/index.js'
-import { SetShapesGraphParams } from '../../../shapes/reducers.js'
+import type { SetShapesGraphParams } from '../../../shapes/reducers.js'
 import { matchShapes } from '../../../shapes/lib/index.js'
-import { ShapeState } from '../../../shapes/index.js'
+import type { ShapeState } from '../../../shapes/index.js'
 
 export default function setGraph(store: Store) {
   const dispatch = store.getDispatch()

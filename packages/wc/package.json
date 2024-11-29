@@ -25,14 +25,14 @@
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@tpluscode/rdfine": "^0.7.9",
+    "@zazuko/env": "^2.1.0",
     "concat-merge": "^1.0.3",
-    "lit": "^2.0.0",
+    "lit": "^3",
     "onetime": "^5.1.2"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.2.2",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
-    "@zazuko/env": "^2.1.0",
     "@shaperone/testing": "*",
     "api-viewer-element": "^0.5"
   },

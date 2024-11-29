@@ -4,7 +4,7 @@ import type {
   MultiEditorComponent,
   SingleEditorComponent,
 } from '../index.js'
-import { ShaperoneEnvironment } from '../../../env.js'
+import type { ShaperoneEnvironment } from '../../../env.js'
 
 function decorateRender<TRenderResult>(component: DecoratedComponent<TRenderResult>) {
   const { _decorateRender } = component

@@ -1,5 +1,5 @@
 import type { Store } from '../../../state/index.js'
-import { Params } from '../reducers/selectShape.js'
+import type { Params } from '../reducers/selectShape.js'
 
 export function selectShape(store: Store) {
   const dispatch = store.getDispatch()

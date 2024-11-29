@@ -5,9 +5,9 @@ import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
 import setPropertyObjects from '@hydrofoil/shaperone-core/models/resources/effects/forms/setPropertyObjects.js'
-import { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state'
 import { propertyShape } from '@shaperone/testing/util.js'
-import { Dataset } from '@zazuko/env/lib/Dataset.js'
+import type { Dataset } from '@zazuko/env/lib/Dataset.js'
 import toCanonical from 'rdf-dataset-ext/toCanonical.js'
 
 describe('models/resources/effects/forms/setPropertyObjects', () => {

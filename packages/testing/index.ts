@@ -1,15 +1,15 @@
-import {
+import type {
   SingleEditorActions,
   SingleEditorRenderParams,
   ComponentInstance, MultiEditorActions, MultiEditorRenderParams,
 } from '@hydrofoil/shaperone-core/models/components/index.js'
-import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import type { NamedNode } from '@rdfjs/types'
 import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
-import { FocusNode } from '@hydrofoil/shaperone-core'
+import type { FocusNode } from '@hydrofoil/shaperone-core'
 import $rdf from './env.js'
 import { propertyShape } from './util.js'
 import { sinon } from './sinon.js'

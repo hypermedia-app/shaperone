@@ -2,7 +2,7 @@ import $rdf from '@zazuko/env/web.js'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { expect, fixture } from '@open-wc/testing'
 import { editorTestParams, sinon } from '@shaperone/testing'
-import { SelectElement } from '@vaadin/vaadin-select'
+import type { SelectElement } from '@vaadin/vaadin-select'
 import { booleanSelect } from '../../components/booleanSelect.js'
 
 describe('wc-vaadin/components/booleanSelect', () => {

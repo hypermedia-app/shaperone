@@ -1,5 +1,6 @@
-import { html, Render } from '@hydrofoil/shaperone-wc'
-import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
+import type { Render } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
+import type { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
 import '@vaadin/vaadin-select'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
 import { render } from 'lit'

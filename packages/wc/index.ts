@@ -28,3 +28,5 @@ export type MultiEditorComponent<TState extends ComponentInstance = ComponentIns
  * Function interface for declaring a component's `.render` function which returns a [lit](https://lit.dev/) template result
  */
 export type Render<TComponent extends Component = Component> = Core.RenderComponent<TComponent, TemplateResult>
+
+export { configure } from './configure.js'

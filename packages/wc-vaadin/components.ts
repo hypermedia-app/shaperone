@@ -5,17 +5,19 @@
  * @module @hydrofoil/shaperone-wc-vaadin/components
  */
 
-import { Lazy } from '@hydrofoil/shaperone-core'
-import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { Lazy } from '@hydrofoil/shaperone-core'
+import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import {
+import type {
   AutoCompleteEditor,
-  booleanSelect,
   BooleanSelectEditor,
-  enumSelect,
   EnumSelectEditor,
-  instancesSelect,
   InstancesSelectEditor,
+} from '@hydrofoil/shaperone-core/components.js'
+import {
+  booleanSelect,
+  enumSelect,
+  instancesSelect,
 } from '@hydrofoil/shaperone-core/components.js'
 
 /**

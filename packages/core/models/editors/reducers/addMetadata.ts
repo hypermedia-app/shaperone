@@ -1,7 +1,8 @@
 import type { DatasetCore, Quad } from '@rdfjs/types'
 import type { AnyPointer } from 'clownface'
 import type { Editor, EditorsState } from '../index.js'
-import env, { ShaperoneEnvironment } from '../../../env.js'
+import type { ShaperoneEnvironment } from '../../../env.js'
+import env from '../../../env.js'
 
 type AllEditors = EditorsState['allEditors']
 type MultiEditors = EditorsState['multiEditors']

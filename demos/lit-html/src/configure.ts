@@ -10,7 +10,8 @@ import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components
 import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings.js'
 import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { Decorate, RenderTemplate, templates } from '@hydrofoil/shaperone-wc/templates.js'
+import type { Decorate, RenderTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import { templates } from '@hydrofoil/shaperone-wc/templates.js'
 import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer/index.js'
 import shaperoneHydra from '@hydrofoil/shaperone-hydra'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
@@ -18,13 +19,13 @@ import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer/ind
 import { errorSummary } from '@hydrofoil/shaperone-playground-examples/ErrorSummary/index.js'
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 import $rdf from './env.js'
-import { ComponentsState } from './state/models/components.js'
-import { RendererState } from './state/models/renderer.js'
+import type { ComponentsState } from './state/models/components.js'
+import type { RendererState } from './state/models/renderer.js'
 
 setBasePath('https://unpkg.com/@shoelace-style/shoelace/dist')
 shoelaceSettings.hoist = false
 
-const { editors, components, validation, renderer } = configure($rdf)
+const { editors, components, validation, renderer } = await configure($rdf)
 
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },

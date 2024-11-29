@@ -1,5 +1,6 @@
 import type { SlInput } from '@shoelace-style/shoelace'
-import { html, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
 
 interface InputRenderer {

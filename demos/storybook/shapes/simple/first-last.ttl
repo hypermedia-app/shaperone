@@ -1,0 +1,24 @@
+PREFIX ex: <http://example.org/>
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ex:PersonShape
+  a sh:NodeShape ;
+  sh:targetClass schema:Person ;
+  sh:property
+    [
+      sh:name "First Name" ;
+      sh:path schema:givenName ;
+      dash:editor dash:TextFieldEditor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ],
+    [
+      sh:name "Last Name" ;
+      sh:path schema:familyName ;
+      dash:editor dash:TextFieldEditor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+.

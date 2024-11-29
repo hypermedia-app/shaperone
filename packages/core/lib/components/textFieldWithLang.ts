@@ -1,6 +1,6 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
-import { CoreComponent } from '../components.js'
+import type { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
+import type { CoreComponent } from '../components.js'
 
 /**
  * Instance state of text field with lang component

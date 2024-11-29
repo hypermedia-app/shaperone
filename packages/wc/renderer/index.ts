@@ -3,10 +3,11 @@
  * @module @hydrofoil/shaperone-wc/renderer
  */
 
-import { html, TemplateResult } from 'lit'
-import { FocusNode } from '@hydrofoil/shaperone-core'
-import { FormRenderer, Renderer } from '@hydrofoil/shaperone-core/renderer.js'
-import { RenderTemplates } from '../templates.js'
+import type { TemplateResult } from 'lit'
+import { html } from 'lit'
+import type { FocusNode } from '@hydrofoil/shaperone-core'
+import type { FormRenderer, Renderer } from '@hydrofoil/shaperone-core/renderer.js'
+import type { RenderTemplates } from '../templates.js'
 import { renderFocusNode } from './focusNode.js'
 
 declare module '@hydrofoil/shaperone-core/renderer.js' {

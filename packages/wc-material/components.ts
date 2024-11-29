@@ -5,9 +5,10 @@
  * @module @hydrofoil/shaperone-wc-material/components
  */
 
-import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import { booleanSelect, BooleanSelectEditor, enumSelect, EnumSelectEditor, instancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { BooleanSelectEditor, EnumSelectEditor, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import { booleanSelect, enumSelect, instancesSelect } from '@hydrofoil/shaperone-core/components.js'
 
 /**
  * Renders an [mwc-textfield](https://material-components.github.io/material-components-web-components/demos/textfield/)

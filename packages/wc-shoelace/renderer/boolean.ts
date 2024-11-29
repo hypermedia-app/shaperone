@@ -1,6 +1,7 @@
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js'
-import { html, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
-import { SlCheckbox } from '@shoelace-style/shoelace'
+import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
+import type { SlCheckbox } from '@shoelace-style/shoelace'
 
 export const render: SingleEditorComponent['render'] = ({ env: { constant: { TRUE, FALSE } }, value, property }, { update }) => {
   function onChecked(e: Event) {

@@ -1,4 +1,5 @@
-import { SingleEditorComponent, html } from '@hydrofoil/shaperone-wc'
+import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { isResource } from 'is-graph-pointer'
 

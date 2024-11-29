@@ -1,8 +1,8 @@
 import { html, render } from 'lit'
-import { ComponentsState } from '../state/models/components.js'
-import { RendererState } from '../state/models/renderer.js'
+import type { ComponentsState } from '../state/models/components.js'
+import type { RendererState } from '../state/models/renderer.js'
 import { componentSets } from '../configure.js'
-import { Menu } from '../menu.js'
+import type { Menu } from '../menu.js'
 
 function componentsMenu(components: ComponentsState): Menu {
   return {

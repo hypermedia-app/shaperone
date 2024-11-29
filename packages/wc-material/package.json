@@ -28,7 +28,7 @@
     "@material/mwc-textfield": "^0.25",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
-    "lit": "^2.0.0",
+    "lit": "^3",
     "wc-menu-button": "^3.1"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",

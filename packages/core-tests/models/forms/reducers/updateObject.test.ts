@@ -2,7 +2,8 @@ import { describe, it } from 'mocha'
 import $rdf from '@zazuko/env/web.js'
 import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
-import { RecursivePartial, sinon } from '@shaperone/testing'
+import type { RecursivePartial } from '@shaperone/testing'
+import { sinon } from '@shaperone/testing'
 import { testObjectState, testStore } from '@shaperone/testing/models/form.js'
 import {
   clearValue,
@@ -10,8 +11,8 @@ import {
   initObjectValue,
   setPropertyObjects,
 } from '@hydrofoil/shaperone-core/models/forms/reducers/updateObject.js'
-import { Store } from '@hydrofoil/shaperone-core/state'
-import { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 

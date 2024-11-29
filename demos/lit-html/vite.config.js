@@ -1,14 +1,17 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies,import/no-relative-packages */
+import topLevelAwait from 'vite-plugin-top-level-await'
 import { defineConfig, mergeConfig } from 'vite'
-// eslint-disable-next-line import/no-relative-packages
 import config from '../../vite.config.js'
 
 export default defineConfig(({ command }) => {
   if (command === 'build') {
     return mergeConfig(config, {
       base: '/playground/',
+      plugins: [topLevelAwait()],
     })
   }
 
-  return config
+  return mergeConfig(config, {
+    plugins: [topLevelAwait()],
+  })
 })

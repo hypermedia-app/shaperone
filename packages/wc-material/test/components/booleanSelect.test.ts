@@ -1,9 +1,9 @@
-import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { expect, fixture } from '@open-wc/testing'
-import { Select } from '@material/mwc-select'
-import { ListItem } from '@material/mwc-list/mwc-list-item.js'
+import type { Select } from '@material/mwc-select'
+import type { ListItem } from '@material/mwc-list/mwc-list-item.js'
 import { booleanSelectEditor } from '../../components.js'
 
 describe('wc-material/components/booleanSelect', () => {

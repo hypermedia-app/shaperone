@@ -1,6 +1,8 @@
-import { ElementPart, noChange } from 'lit'
-import { Directive, directive, PartInfo, PartType } from 'lit/directive.js'
-import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
+import type { ElementPart } from 'lit'
+import { noChange } from 'lit'
+import type { PartInfo } from 'lit/directive.js'
+import { Directive, directive, PartType } from 'lit/directive.js'
+import type { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 
 class ValidityDirective extends Directive {
   constructor(partInfo: PartInfo) {
