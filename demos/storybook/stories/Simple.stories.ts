@@ -63,6 +63,10 @@ export const DataGraph: Story = {
   render,
 }
 
+/**
+ * Properties without `sh:minCount` or `sh:maxCount` constraints let users
+ * add and remove values.
+ */
 export const UnrestrictedProperties: Story = {
   name: 'Unrestricted property counts',
   args: {
