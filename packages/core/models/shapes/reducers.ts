@@ -44,16 +44,17 @@ export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: Se
   const newAnyPointer = shapesGraph !== state.shapesGraph && (!shapesGraph.term || !state.shapesGraph?.term)
 
   const shapes = findShapes(shapesGraph)
-  draft.shapes = shapes
   if (newDataset || newAnyPointer) {
     // pointer to a different dataset
     draft.shapesGraph = shapesGraph
+    draft.shapes = shapes
     draft.preferredRootShape = getPreferredShape(shapesGraph, shapes)
     return
   }
 
   if (shapesGraph.term && !shapesGraph.term.equals(state.shapesGraph?.term)) {
     // same dataset, changed pointer
+    draft.shapes = shapes
     draft.preferredRootShape = getPreferredShape(shapesGraph, shapes)
   }
 }), emptyState)
