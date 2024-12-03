@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../../state/effectsPlugin.ts" />
 import type { PropertyShape } from '@rdfine/shacl'
 import type { Store } from '../../../state/index.js'
 import type { FocusNode } from '../../../index.js'
