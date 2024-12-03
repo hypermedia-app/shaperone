@@ -3,7 +3,7 @@
   "files": [
     "index.ts",
     "configure.ts",
-    "shaperone-form.ts",
+    "lib/shaperone-form.ts",
     "lib/spread.ts",
     "components/index.ts"
   ],
