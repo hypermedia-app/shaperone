@@ -10,6 +10,7 @@
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@hydrofoil/shaperone-wc": "^0.8.0",
+    "@hydrofoil/shaperone-wc-shoelace": "^0.4.1",
     "@rdfjs/fetch-lite": "^3.3.0",
     "@rdfjs-elements/rdf-snippet": "^0.4.5",
     "@rdfjs-elements/formats-pretty": "^0.6.7",

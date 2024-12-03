@@ -1,18 +1,15 @@
 import type { Meta, StoryObj as Story } from '@storybook/web-components'
-import { configure } from '@hydrofoil/shaperone-wc'
 import firstLast from '../shapes/simple/first-last.ttl?raw'
 import unrestricted from '../shapes/simple/unrestricted.ttl?raw'
 import johnDoe from '../data/simple/john-doe.ttl?raw'
 import datatypes from '../shapes/simple/datatypes.ttl?raw'
 import { render } from './render.js'
 
-const config = configure()
-
 /**
  * The examples below demonstrate the basic usage of the `shaperone-form` component, without any customisation.
  */
 const meta: Meta = {
-  component: 'my-component',
+  component: 'shaperone-form',
   argTypes: {
     focusNode: {
       control: 'text',
@@ -22,6 +19,9 @@ const meta: Meta = {
     },
     prefixes: {
       control: 'text',
+    },
+    debug: {
+      control: 'boolean',
     },
   },
   args: {
@@ -39,10 +39,8 @@ export const EmptyDataGraph: Story = {
   args: {
     shapes: firstLast,
     shape: 'http://example.org/PersonShape',
+    debug: true
   },
-  loaders: [
-    async () => ({ config }),
-  ],
   render,
 }
 
@@ -57,9 +55,6 @@ export const DataGraph: Story = {
     data: johnDoe,
     focusNode: 'http://example.org/john',
   },
-  loaders: [
-    async () => ({ config }),
-  ],
   render,
 }
 
@@ -74,9 +69,6 @@ export const UnrestrictedProperties: Story = {
     data: johnDoe,
     focusNode: 'http://example.org/john',
   },
-  loaders: [
-    async () => ({ config }),
-  ],
   render,
 }
 
@@ -89,8 +81,5 @@ export const Datatypes: Story = {
     shapes: datatypes,
     prefixes: 'schema,xsd,rdf',
   },
-  loaders: [
-    async () => ({ config }),
-  ],
   render,
 }

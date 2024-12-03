@@ -10,16 +10,17 @@ interface Args {
   prefixes?: string
   shapes?: string
   data?: string
+  debug?: boolean
 }
 
-const render: ArgsStoryFn<WebComponentsRenderer, Args> = function ({ focusNode, prefixes, ...raw }: Args, { loaded: { shapes, data } }) {
+const render: ArgsStoryFn<WebComponentsRenderer, Args> = function ({ focusNode, prefixes, debug, ...raw }: Args, { loaded: { shapes, data, configure } }) {
   let resource: GraphPointer | undefined
   if (focusNode) {
     resource = data.namedNode(focusNode)
   }
   return html`
     <shaperone-demo .prefixes="${prefixes}" .shapesGraph="${raw.shapes}" .dataGraph="${raw.data}">
-      <shaperone-form .shapes="${shapes}" .resource="${resource}"></shaperone-form>
+      <shaperone-form .shapes="${shapes}" .resource="${resource}" .configure="${configure}" ?debug="${debug}"></shaperone-form>
     </shaperone-demo>`
 }
 

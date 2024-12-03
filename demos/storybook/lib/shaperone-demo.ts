@@ -72,7 +72,7 @@ customElements.define('shaperone-demo', class extends LitElement {
       this.dataGraph = rdf.dataset.toCanonical(focusNode.dataset)
     }
 
-    this.form.addEventListener('changed', (event: CustomEvent) => {
+    this.form.addEventListener('changed', (event: any) => {
       setDataGraph(event.detail.focusNode)
     })
   }
