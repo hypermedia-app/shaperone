@@ -9,8 +9,7 @@ import '@vaadin/vaadin-item/vaadin-item.js'
 import '@material/mwc-icon/mwc-icon.js'
 import '@vaadin-component-factory/vcf-tooltip'
 import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
-import '@hydrofoil/shaperone-wc/shaperone-form'
-import '@rdfjs-elements/rdf-editor'
+import '@rdfjs-elements/rdf-editor/rdf-editor.js'
 import '@github/clipboard-copy-element'
 import { connect } from '@captaincodeman/rdx'
 import type { Quad } from '@rdfjs/types'
@@ -334,10 +333,10 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   mapState(state: State) {
-    selectComponents(state.componentsSettings.components)
-    configureRenderer.switchLayout(state.rendererSettings)
-    configureRenderer.switchNesting(state.rendererSettings)
-    configureRenderer.setLabs(state.rendererSettings)
+    this.form.configure(selectComponents(state.componentsSettings.components))
+    this.form.configure(configureRenderer.switchLayout(state.rendererSettings))
+    this.form.configure(configureRenderer.switchNesting(state.rendererSettings))
+    this.form.configure(configureRenderer.setLabs(state.rendererSettings))
 
     return {
       components: state.componentsSettings,

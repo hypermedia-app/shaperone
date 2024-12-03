@@ -25,7 +25,7 @@ export interface ConfigCallback {
     renderer: typeof renderer
     editors: typeof editors
     validation: typeof validation
-  }): void
+  }): void | Promise<void>
 }
 
 export async function configure(): Promise<void>
@@ -50,7 +50,7 @@ export async function configure(first?: RequiredEnvironment | ConfigCallback, se
   components.pushComponents(nativeComponents)
   await editors.loadDash()
 
-  userConfigure?.({ components, renderer, editors, validation })
+  await userConfigure?.({ components, renderer, editors, validation })
 
   await import('./lib/shaperone-form.js')
 }
