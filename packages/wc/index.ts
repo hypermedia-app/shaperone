@@ -6,7 +6,9 @@
 import type { TemplateResult } from 'lit'
 import type * as Core from '@hydrofoil/shaperone-core'
 import type { Component, ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
-import './ShaperoneForm.js'
+
+export { configure } from './configure.js'
+export type { ConfigCallback } from './configure.js'
 
 export type { ShaperoneForm } from './ShaperoneForm.js'
 export { html, css, render } from 'lit'

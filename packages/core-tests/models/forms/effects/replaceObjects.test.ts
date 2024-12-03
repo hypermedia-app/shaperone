@@ -9,15 +9,14 @@ import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/replaceObjects', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('dispatches setPropertyObjects with pointers from resource graph', () => {
     // given
-    const dataset = store.getState().resources.get(form)?.graph.dataset
+    const { dataset } = store.getState().resources.graph
     const property = propertyShape()
     const focusNode = $rdf.clownface().blankNode()
     const terms = [
@@ -28,7 +27,6 @@ describe('models/forms/effects/replaceObjects', () => {
 
     // when
     replaceObjects(store)({
-      form,
       property,
       focusNode,
       terms,
@@ -36,7 +34,7 @@ describe('models/forms/effects/replaceObjects', () => {
 
     // then
     const dispatch = store.getDispatch()
-    const [call] = (dispatch.forms.setPropertyObjects as sinon.SinonStub).getCalls()
+    const [call] = (dispatch.form.setPropertyObjects as sinon.SinonStub).getCalls()
     expect(call.lastArg.objects.dataset === dataset)
   })
 })

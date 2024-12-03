@@ -11,7 +11,6 @@ import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/models/forms/reducers/selectEditor', () => {
   let store: Store
-  let form: symbol
   let focusNode: FocusNode
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
@@ -19,9 +18,9 @@ describe('core/models/forms/reducers/selectEditor', () => {
   }
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
     focusNode = $rdf.clownface().blankNode('baz')
-    formState = store.getState().forms.get(form)!
+    formState = store.getState().form
   })
 
   it('updates object state', () => {
@@ -37,8 +36,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
     }
 
     // when
-    const afterState = selectEditor(store.getState().forms, {
-      form,
+    const afterState = selectEditor(store.getState().form, {
       property,
       editor: dash.TextFieldEditor,
       focusNode,
@@ -55,7 +53,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
     })
 
     // then
-    expect(afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects[0].selectedEditor)
+    expect(afterState.focusNodes[focusNode.value].properties[0].objects[0].selectedEditor)
       .to.deep.eq(dash.TextFieldEditor)
   })
 
@@ -72,8 +70,7 @@ describe('core/models/forms/reducers/selectEditor', () => {
     }
 
     // when
-    const afterState = selectEditor(store.getState().forms, {
-      form,
+    const afterState = selectEditor(store.getState().form, {
       property,
       editor: dash.TextFieldEditor,
       focusNode,
@@ -90,6 +87,6 @@ describe('core/models/forms/reducers/selectEditor', () => {
     })
 
     // then
-    expect(afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects[0].componentState).to.deep.eq({})
+    expect(afterState.focusNodes[focusNode.value].properties[0].objects[0].componentState).to.deep.eq({})
   })
 })

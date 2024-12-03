@@ -8,6 +8,7 @@ import type { NamedNode } from '@rdfjs/types'
 import type { NodeKind, NodeShape, PropertyGroup, PropertyShape, Shape, ValidationResult } from '@rdfine/shacl'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import type { sh } from '@tpluscode/rdf-ns-builders'
+import { rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import effects from './effects/index.js'
 import { addFormField } from './reducers/addFormField.js'
 import { popFocusNode } from './reducers/popFocusNode.js'
@@ -17,7 +18,6 @@ import { selectGroup } from './reducers/selectGroup.js'
 import { selectShape } from './reducers/selectShape.js'
 import { truncateFocusNodes } from './reducers/truncateFocusNodes.js'
 import * as objects from './reducers/updateObject.js'
-import * as connection from './reducers/connection.js'
 import * as editors from './reducers/editors.js'
 import * as multiEditors from './reducers/multiEditors.js'
 import * as validation from './reducers/validation.js'
@@ -144,7 +144,7 @@ export interface FormState extends FormSettings, ValidationState {
   validationReport?: GraphPointer
 }
 
-export type State = Map<symbol, FormState>
+export type State = FormState
 
 const reducers = {
   addFormField,
@@ -155,7 +155,6 @@ const reducers = {
   selectShape,
   truncateFocusNodes,
   ...objects,
-  ...connection,
   ...editors,
   ...multiEditors,
   createFocusNodeState,
@@ -163,8 +162,15 @@ const reducers = {
   ...validation,
 }
 
-export const forms = createModel({
-  state: <State> new Map(),
+export const form = createModel({
+  state: <FormState> {
+    focusNodes: {},
+    focusStack: [],
+    shouldEnableEditorChoice: () => true,
+    labelProperties: [rdfs.label, schema.name],
+    validationResults: [],
+    hasErrors: false,
+  },
   reducers,
   effects(store: Store) {
     return {

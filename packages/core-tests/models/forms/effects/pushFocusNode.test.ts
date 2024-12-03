@@ -9,10 +9,9 @@ import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/pushFocusNode', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('uses sh:node as preferred shape', () => {
@@ -26,14 +25,13 @@ describe('models/forms/effects/pushFocusNode', () => {
 
     // when
     pushFocusNode(store)({
-      form,
       property,
       focusNode,
     })
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
+    expect(dispatch.form.createFocusNodeState).to.have.been.calledWith(sinon.match({
       shape: {
         id: $rdf.namedNode('preferredShape'),
       },
@@ -48,14 +46,13 @@ describe('models/forms/effects/pushFocusNode', () => {
 
     // when
     pushFocusNode(store)({
-      form,
       property,
       focusNode,
     })
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
+    expect(dispatch.form.createFocusNodeState).to.have.been.calledWith(sinon.match({
       appendToStack: true,
     }))
   })

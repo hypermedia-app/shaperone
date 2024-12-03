@@ -10,11 +10,11 @@ import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 
 describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
   let store: Store
-  let form: symbol
+
   let focusNode: FocusNode
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
     focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
   })
 
@@ -22,15 +22,15 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
     it('hides property shape itself', () => {
       // given
       const property = testPropertyState()
-      store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      store.getState().form.focusNodes = testFocusNodeState(focusNode, {
         properties: [property],
       })
 
       // when
-      const after = hideProperty(store.getState().forms, { form, focusNode, shape: property.shape })
+      const after = hideProperty(store.getState().form, { focusNode, shape: property.shape })
 
       // then
-      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].hidden).to.be.true
+      expect(after.focusNodes[focusNode.value].properties[0].hidden).to.be.true
     })
 
     it('hides property shapes of given node shape', () => {
@@ -39,15 +39,15 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
         .addOut(sh.property)
         .addOut(sh.property)
         .addOut(sh.property)
-      store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      store.getState().form.focusNodes = testFocusNodeState(focusNode, {
         properties: shape.out(sh.property).map((node: any) => testPropertyState(node)),
       })
 
       // when
-      const after = hideProperty(store.getState().forms, { form, focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
+      const after = hideProperty(store.getState().form, { focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
 
       // then
-      expect(after.get(form)?.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => shape.hidden)
+      expect(after.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => shape.hidden)
     })
   })
 
@@ -57,15 +57,15 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
       const property = testPropertyState(blankNode(), {
         hidden: true,
       })
-      store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      store.getState().form.focusNodes = testFocusNodeState(focusNode, {
         properties: [property],
       })
 
       // when
-      const after = showProperty(store.getState().forms, { form, focusNode, shape: property.shape })
+      const after = showProperty(store.getState().form, { focusNode, shape: property.shape })
 
       // then
-      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].hidden).to.be.false
+      expect(after.focusNodes[focusNode.value].properties[0].hidden).to.be.false
     })
 
     it('show property shapes of given node shape', () => {
@@ -74,15 +74,15 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
         .addOut(sh.property)
         .addOut(sh.property)
         .addOut(sh.property)
-      store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+      store.getState().form.focusNodes = testFocusNodeState(focusNode, {
         properties: shape.out(sh.property).map((node: any) => testPropertyState(node, { hidden: true })),
       })
 
       // when
-      const after = showProperty(store.getState().forms, { form, focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
+      const after = showProperty(store.getState().form, { focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
 
       // then
-      expect(after.get(form)?.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => !shape.hidden)
+      expect(after.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => !shape.hidden)
     })
   })
 })

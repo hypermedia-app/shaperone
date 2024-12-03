@@ -24,15 +24,15 @@ declare module '@hydrofoil/shaperone-core/renderer.js' {
 
 export default <Renderer<TemplateResult>>{
   render(context): TemplateResult {
-    const { form, editors, state, components, templates, dispatch } = context
+    const { editors, state, components, templates, dispatch } = context
 
-    if (!form || !editors || !state || !components) {
+    if (!editors || !state || !components) {
       return html``
     }
 
     const actions = {
-      truncateFocusNodes: (focusNode: FocusNode) => dispatch.forms.truncateFocusNodes({ form, focusNode }),
-      popFocusNode: () => dispatch.forms.popFocusNode({ form }),
+      truncateFocusNodes: (focusNode: FocusNode) => dispatch.form.truncateFocusNodes({ focusNode }),
+      popFocusNode: () => dispatch.form.popFocusNode(),
     }
 
     const renderer: FormRenderer = {

@@ -5,7 +5,7 @@ import type { GraphPointer } from 'clownface'
 import type { ComponentState, MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-core/models/components'
 
 export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function () {
-  const { dispatch, env, form, state, components, templates } = this.context
+  const { dispatch, env, state, components, templates } = this.context
   const { property, focusNode } = this
 
   function update(termsOrStrings : Array<Term | string>) {
@@ -13,8 +13,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
       ? createTerm(env, property, termOrString)
       : termOrString))
 
-    dispatch.forms.replaceObjects({
-      form,
+    dispatch.form.replaceObjects({
       focusNode: focusNode.focusNode,
       property: property.shape,
       terms,
@@ -22,8 +21,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
   }
 
   function updateComponentState(newState: Record<string, any>) {
-    dispatch.forms.updateComponentState({
-      form,
+    dispatch.form.updateComponentState({
       focusNode: focusNode.focusNode,
       property: property.shape,
       newState,
@@ -73,7 +71,7 @@ export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function
 }
 
 export const renderEditor: ObjectRenderer['renderEditor'] = function () {
-  const { dispatch, env, form, state, components, templates } = this.context
+  const { dispatch, env, state, components, templates } = this.context
   const { property, focusNode, object } = this
 
   function update(termOrString: GraphPointer | Term | string) {
@@ -81,8 +79,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
       ? createTerm(env, property, termOrString)
       : termOrString
 
-    dispatch.forms.updateObject({
-      form,
+    dispatch.form.updateObject({
       focusNode: focusNode.focusNode,
       property: property.shape,
       object,
@@ -92,13 +89,12 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
 
   function focusOnObjectNode() {
     if (object.object?.term.termType === 'NamedNode' || object.object?.term.termType === 'BlankNode') {
-      dispatch.forms.pushFocusNode({ form, focusNode: object.object as any, property: property.shape })
+      dispatch.form.pushFocusNode({ focusNode: object.object as any, property: property.shape })
     }
   }
 
   function clear() {
-    dispatch.forms.clearValue({
-      form,
+    dispatch.form.clearValue({
       focusNode: focusNode.focusNode,
       property: property.shape,
       object,
@@ -106,8 +102,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   }
 
   function remove() {
-    dispatch.forms.removeObject({
-      form,
+    dispatch.form.removeObject({
       focusNode: focusNode.focusNode,
       property: property.shape,
       object,
@@ -115,8 +110,7 @@ export const renderEditor: ObjectRenderer['renderEditor'] = function () {
   }
 
   function updateComponentState(newState: Record<string, any>) {
-    dispatch.forms.updateComponentState({
-      form,
+    dispatch.form.updateComponentState({
       focusNode: focusNode.focusNode,
       property: property.shape,
       object,

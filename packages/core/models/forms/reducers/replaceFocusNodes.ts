@@ -1,15 +1,13 @@
 import { produce } from 'immer'
-import type { BaseParams } from '../../index.js'
-import { formStateReducer } from '../../index.js'
 import { initialiseFocusNode } from '../lib/stateBuilder.js'
 import type { FormState } from '../index.js'
 import { matchShapes } from '../../shapes/lib/index.js'
 
 type StackAction = {appendToStack?: true} | {replaceStack?: true}
 
-export type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction & BaseParams
+export type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction
 
-export const createFocusNodeState = formStateReducer((state: FormState, { focusNode, ...rest }: Params) => produce(state, (draft) => {
+export const createFocusNodeState = (state: FormState, { focusNode, ...rest }: Params) => produce(state, (draft) => {
   let { shapes } = rest
 
   if ('appendToStack' in rest && rest.appendToStack) {
@@ -28,4 +26,4 @@ export const createFocusNodeState = formStateReducer((state: FormState, { focusN
     ...rest,
     shapes,
   }, state.focusNodes[focusNode.value])
-}))
+})

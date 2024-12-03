@@ -12,11 +12,10 @@ import { propertyShape } from '@shaperone/testing/util.js'
 describe('models/resources/effects/forms/removeObject', () => {
   let store: Store
   let graph: AnyPointer
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore());
-    ({ graph } = store.getState().resources.get(form)!)
+    store = testStore();
+    ({ graph } = store.getState().resources)
   })
 
   it("removes object's value from dataset", () => {
@@ -32,7 +31,6 @@ describe('models/resources/effects/forms/removeObject', () => {
 
     // when
     removeObject(store)({
-      form,
       focusNode,
       object,
       property,
@@ -60,7 +58,6 @@ describe('models/resources/effects/forms/removeObject', () => {
 
     // when
     removeObject(store)({
-      form,
       focusNode,
       object,
       property,
@@ -81,7 +78,6 @@ describe('models/resources/effects/forms/removeObject', () => {
 
     // when
     removeObject(store)({
-      form,
       focusNode,
       object,
       property,

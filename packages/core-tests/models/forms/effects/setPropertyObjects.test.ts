@@ -9,10 +9,9 @@ import { nodeShape, propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/setPropertyObjects', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('dispatches update of property linked by sh:equals', () => {
@@ -27,20 +26,19 @@ describe('models/forms/effects/setPropertyObjects', () => {
       path: schema.givenName,
       [sh.equals.value]: schema.name,
     })
-    store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    store.getState().form.focusNodes = testFocusNodeState(focusNode, {
       shape: nodeShape(shapesGraph.blankNode()),
       properties: [testPropertyState(property.pointer), testPropertyState(synced.pointer)],
     })
 
     // when
     setPropertyObjects(store)({
-      form,
       focusNode,
       property,
     })
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.setPropertyObjects).to.have.been.called
+    expect(dispatch.form.setPropertyObjects).to.have.been.called
   })
 })

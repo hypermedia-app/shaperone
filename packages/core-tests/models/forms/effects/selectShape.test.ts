@@ -9,10 +9,9 @@ import type { Store } from '@hydrofoil/shaperone-core/state'
 
 describe('models/forms/effects/selectShape', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('creates state with selected shape', () => {
@@ -22,14 +21,13 @@ describe('models/forms/effects/selectShape', () => {
 
     // when
     selectShape(store)({
-      form,
       focusNode,
       shape,
     })
 
     // then
     const dispatch = store.getDispatch()
-    const [call] = (dispatch.forms.createFocusNodeState as sinon.SinonStub).getCalls()
+    const [call] = (dispatch.form.createFocusNodeState as sinon.SinonStub).getCalls()
     expect(call.lastArg.shape === shape)
   })
 })

@@ -41,7 +41,7 @@ describe('wc/renderer/property', () => {
 
   describe('actions', () => {
     let actions: PropertyActions
-    let dispatch: sinon.SinonStubbedInstance<Dispatch['forms']>
+    let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
     beforeEach(() => {
       const render = renderer.context.templates.property as sinon.SinonSpy
@@ -49,7 +49,7 @@ describe('wc/renderer/property', () => {
       renderProperty.call(renderer, { property })
 
       actions = render.firstCall.firstArg.actions
-      dispatch = renderer.context.dispatch.forms as any
+      dispatch = renderer.context.dispatch.form as any
     })
 
     describe('removeObject', () => {

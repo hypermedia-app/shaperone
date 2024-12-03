@@ -13,26 +13,24 @@ describe('core/models/forms/reducers/editors', () => {
       // given
       const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape.pointer, {
-                objects: [
-                  testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: undefined }),
-                  testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: true }),
-                ],
-              })],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [testPropertyState(shape.pointer, {
+              objects: [
+                testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: undefined }),
+                testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: true }),
+              ],
+            })],
+          }),
         },
       })
 
       // when
-      const after = toggleSwitching(state, { form, switchingEnabled: false })
+      const after = toggleSwitching(state, { switchingEnabled: false })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.objects).to.containAll<PropertyObjectState>(o => o.editorSwitchDisabled === true)
     })
 
@@ -40,26 +38,24 @@ describe('core/models/forms/reducers/editors', () => {
       // given
       const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
       const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape.pointer, {
-                objects: [
-                  testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: undefined }),
-                  testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: true }),
-                ],
-              })],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [testPropertyState(shape.pointer, {
+              objects: [
+                testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: undefined }),
+                testObjectState(focusNode.literal('foo'), { editorSwitchDisabled: true }),
+              ],
+            })],
+          }),
         },
       })
 
       // when
-      const after = toggleSwitching(state, { form, switchingEnabled: true })
+      const after = toggleSwitching(state, { switchingEnabled: true })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.objects).to.containAll<PropertyObjectState>(o => o.editorSwitchDisabled === false)
     })
   })
@@ -74,19 +70,16 @@ describe('core/models/forms/reducers/editors', () => {
           foo: 'bar',
         },
       })
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [property],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [property],
+          }),
         },
       })
 
       // when
       const after = updateComponentState(state, {
-        form,
         focusNode,
         property: property.shape,
         newState: {
@@ -95,7 +88,7 @@ describe('core/models/forms/reducers/editors', () => {
       })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.componentState).to.deep.equal({
         foo: 'bar',
         bar: { bar: 'baz' },
@@ -114,19 +107,16 @@ describe('core/models/forms/reducers/editors', () => {
       const property = testPropertyState(shape.pointer, {
         objects: [object],
       })
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [property],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [property],
+          }),
         },
       })
 
       // when
       const after = updateComponentState(state, {
-        form,
         focusNode,
         property: property.shape,
         object,
@@ -136,7 +126,7 @@ describe('core/models/forms/reducers/editors', () => {
       })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.objects[0].componentState).to.deep.equal({
         foo: 'bar',
         bar: { bar: 'baz' },
@@ -152,22 +142,18 @@ describe('core/models/forms/reducers/editors', () => {
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'))],
       })
-      const { state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [property],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [property],
+          }),
         },
       })
       testState(state, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [property],
-            }),
-          },
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [property],
+          }),
         },
       })
       const editors = testEditorsState({
@@ -180,8 +166,7 @@ describe('core/models/forms/reducers/editors', () => {
       const after = recalculateEditors(state, { editors })
 
       // then
-      const objects = [...after.values()]
-        .flatMap(form => Object.values(form.focusNodes))
+      const objects = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
         .flatMap(property => property.objects)
       expect(objects).to.containAll<PropertyObjectState>(object => dash.TextFieldEditor.equals(object.selectedEditor))
@@ -194,13 +179,11 @@ describe('core/models/forms/reducers/editors', () => {
       const property = testPropertyState(shape.pointer, {
         objects: [testObjectState(focusNode.literal('foo'))],
       })
-      const { state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [property],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [property],
+          }),
         },
       })
       const editors = testEditorsState({
@@ -213,8 +196,7 @@ describe('core/models/forms/reducers/editors', () => {
       const after = recalculateEditors(state, { editors })
 
       // then
-      const properties = [...after.values()]
-        .flatMap(form => Object.values(form.focusNodes))
+      const properties = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
       expect(properties).to.containAll<PropertyState>(prop => dash.TextFieldEditor.equals(prop.selectedEditor))
     })
@@ -227,13 +209,11 @@ describe('core/models/forms/reducers/editors', () => {
         objects: [testObjectState(focusNode.literal('foo'))],
         selectedEditor: dash.FooEditor,
       })
-      const { state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [property],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [property],
+          }),
         },
       })
       const editors = testEditorsState({
@@ -246,8 +226,7 @@ describe('core/models/forms/reducers/editors', () => {
       const after = recalculateEditors(state, { editors })
 
       // then
-      const properties = [...after.values()]
-        .flatMap(form => Object.values(form.focusNodes))
+      const properties = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
       expect(properties).to.containAll<PropertyState>(prop => property.selectedEditor === prop.selectedEditor)
     })
@@ -261,13 +240,11 @@ describe('core/models/forms/reducers/editors', () => {
           selectedEditor: dash.TextFieldEditor,
         })],
       })
-      const { state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [property],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [property],
+          }),
         },
       })
       const editors = testEditorsState({
@@ -280,8 +257,7 @@ describe('core/models/forms/reducers/editors', () => {
       const after = recalculateEditors(state, { editors })
 
       // then
-      const objects = [...after.values()]
-        .flatMap(form => Object.values(form.focusNodes))
+      const objects = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
         .flatMap(prop => prop.objects)
       expect(objects).to.containAll<PropertyObjectState>(obj => obj.selectedEditor?.value === dash.TextFieldEditor.value)

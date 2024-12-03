@@ -37,6 +37,8 @@ Check the main documentation page for instructions on customizing the form's ren
 | Property            | Attribute            | Modifiers | Type                                             | Default           | Description                                      |
 |---------------------|----------------------|-----------|--------------------------------------------------|-------------------|--------------------------------------------------|
 | `components`        | `components`         | readonly  | `ComponentsState`                                |                   | Gets the state of the editor components          |
+| `debug`             | `debug`              |           | `boolean`                                        | false             |                                                  |
+| `dispatch`          |                      |           | `ModelsDispatch<Models> & Dispatch`              |                   |                                                  |
 | `editors`           | `editors`            | readonly  | `EditorsState`                                   |                   | Gets the state of the DASH editors model         |
 | `env`               |                      | readonly  | `Environment<any>`                               |                   | Gets the RDF/JS environment                      |
 | `isValid`           |                      | readonly  | `boolean`                                        |                   | Gets a value indicating if there are any `sh:Violation` violation results |
@@ -52,10 +54,10 @@ Check the main documentation page for instructions on customizing the form's ren
 
 ## Methods
 
-| Method      | Type                             | Description                                      |
-|-------------|----------------------------------|--------------------------------------------------|
-| `mapEvents` | `((): DispatchMap) \| undefined` |                                                  |
-| `validate`  | `(): void`                       | Triggers validation of the current resource against the shapes graph |
+| Method      | Type                                      | Description                                      |
+|-------------|-------------------------------------------|--------------------------------------------------|
+| `configure` | `(fn: ConfigCallback \| undefined): void` |                                                  |
+| `validate`  | `(): void`                                | Triggers validation of the current resource against the shapes graph |
 
 ## Events
 

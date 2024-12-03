@@ -14,12 +14,11 @@ import toCanonical from 'rdf-dataset-ext/toCanonical.js'
 describe('models/resources/effects/forms/setObject', () => {
   let store: Store
   let graph: AnyPointer<AnyContext, Dataset>
-  let form: symbol
 
   describe('focus node in default graph', () => {
     beforeEach(() => {
-      ({ form, store } = testStore({ factory: $rdf }));
-      ({ graph } = store.getState().resources.get(form) as any)
+      store = testStore({ factory: $rdf });
+      ({ graph } = store.getState().resources as any)
     })
 
     it('removes old value from graph', () => {
@@ -36,7 +35,6 @@ describe('models/resources/effects/forms/setObject', () => {
 
       // when
       setObjectValue(store)({
-        form,
         focusNode,
         object,
         newValue,
@@ -64,7 +62,6 @@ describe('models/resources/effects/forms/setObject', () => {
 
       // when
       setObjectValue(store)({
-        form,
         focusNode,
         newValue,
         property,
@@ -99,7 +96,6 @@ describe('models/resources/effects/forms/setObject', () => {
 
       // when
       setObjectValue(store)({
-        form,
         focusNode,
         newValue,
         property,
@@ -134,7 +130,6 @@ describe('models/resources/effects/forms/setObject', () => {
 
       // when
       setObjectValue(store)({
-        form,
         focusNode,
         newValue,
         property,
@@ -167,7 +162,6 @@ describe('models/resources/effects/forms/setObject', () => {
 
       // when
       setObjectValue(store)({
-        form,
         focusNode,
         newValue,
         property,
@@ -188,8 +182,8 @@ describe('models/resources/effects/forms/setObject', () => {
     const namedGraph = $rdf.namedNode('named-graph')
 
     beforeEach(() => {
-      ({ form, store } = testStore({ factory: $rdf, graph: namedGraph }));
-      ({ graph } = store.getState().resources.get(form) as any)
+      store = testStore({ factory: $rdf, graph: namedGraph });
+      ({ graph } = store.getState().resources as any)
     })
 
     it("adds quads to focus node's graph", () => {
@@ -209,7 +203,6 @@ describe('models/resources/effects/forms/setObject', () => {
 
       // when
       setObjectValue(store)({
-        form,
         focusNode,
         newValue,
         property,

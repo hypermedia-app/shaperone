@@ -2,7 +2,6 @@
 import type { GraphPointer } from 'clownface'
 import { rdf } from '@tpluscode/rdf-ns-builders'
 import { defaultValue } from '../../lib/objectValue.js'
-import { notify } from '../../lib/notify.js'
 import type { Store } from '../../../../state/index.js'
 import type { Params } from '../../../forms/reducers/replaceFocusNodes.js'
 import type { EditorsState } from '../../../editors/index.js'
@@ -12,7 +11,6 @@ import type { FocusNode } from '../../../../index.js'
 interface SetDefault {
   (params: {
     editors: EditorsState
-    form: symbol
     property: PropertyState
     object: PropertyObjectState
     focusNode: FocusNode
@@ -29,7 +27,7 @@ interface SetNestedClass {
 export default function createFocusNodeState(store: Store) {
   const dispatch = store.getDispatch()
 
-  const setDefault: SetDefault = ({ editors, form, property, object, focusNode, previousDefault }) => {
+  const setDefault: SetDefault = ({ editors, property, object, focusNode, previousDefault }) => {
     if (object.object) {
       return { shouldNotify: false }
     }
@@ -51,8 +49,7 @@ export default function createFocusNodeState(store: Store) {
     }
 
     focusNode.addOut(predicate, value)
-    dispatch.forms.initObjectValue({
-      form,
+    dispatch.form.initObjectValue({
       focusNode,
       property: property.shape,
       object,
@@ -73,15 +70,15 @@ export default function createFocusNodeState(store: Store) {
     return false
   }
 
-  return function ({ form, focusNode }: Pick<Params, 'form' | 'focusNode'>) {
+  return function ({ focusNode }: Pick<Params, 'focusNode'>) {
     const { editors } = store.getState()
 
-    for (const property of store.getState().forms.get(form)?.focusNodes[focusNode.value].properties || []) {
+    for (const property of store.getState().form.focusNodes[focusNode.value]?.properties || []) {
       let shouldNotify = false
       let previousDefault: GraphPointer | undefined
       for (const object of property.objects) {
         const result = setDefault({
-          property, object, focusNode, editors, previousDefault, form,
+          property, object, focusNode, editors, previousDefault,
         })
 
         previousDefault = result.value || previousDefault
@@ -91,11 +88,9 @@ export default function createFocusNodeState(store: Store) {
       }
 
       if (shouldNotify) {
-        notify({
-          form,
+        dispatch.form.notify({
           focusNode,
           property: property.shape,
-          store,
         })
       }
     }

@@ -4,11 +4,11 @@ import type { NodeShape, PropertyGroup, Shape } from '@rdfine/shacl'
 import { renderGroup } from './group.js'
 
 export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focusNode, shape }): TemplateResult {
-  const { dispatch, form, templates, state } = this.context
+  const { dispatch, templates, state } = this.context
 
   const focusNodeState = focusNode.value && state.focusNodes[focusNode.value]
   if (!focusNodeState || focusNodeState.focusNode.dataset !== focusNode.dataset) {
-    dispatch.forms.createFocusNodeState({
+    dispatch.form.createFocusNodeState({
       ...this.context,
       ...this.context.state,
       focusNode,
@@ -19,26 +19,25 @@ export const renderFocusNode: FormRenderer['renderFocusNode'] = function ({ focu
 
   const actions = {
     ...this.actions,
-    selectGroup: (group: PropertyGroup | undefined) => dispatch.forms.selectGroup({ form, focusNode, group }),
-    selectShape: (shape: NodeShape) => dispatch.forms.selectShape({ form, focusNode, shape }),
-    hideProperty: (shape: Shape) => dispatch.forms.hideProperty({ form, focusNode, shape }),
-    showProperty: (shape: Shape) => dispatch.forms.showProperty({ form, focusNode, shape }),
+    selectGroup: (group: PropertyGroup | undefined) => dispatch.form.selectGroup({ focusNode, group }),
+    selectShape: (shape: NodeShape) => dispatch.form.selectShape({ focusNode, shape }),
+    hideProperty: (shape: Shape) => dispatch.form.hideProperty({ focusNode, shape }),
+    showProperty: (shape: Shape) => dispatch.form.showProperty({ focusNode, shape }),
     clearProperty: (shape: Shape) => {
       const property = focusNodeState.properties
         .find(property => property.shape.equals(shape))
 
       property?.objects.forEach((object) => {
         const args = {
-          form,
           focusNode,
           property: property.shape,
           object,
         }
 
         if (property.canRemove) {
-          dispatch.forms.removeObject(args)
+          dispatch.form.removeObject(args)
         } else {
-          dispatch.forms.clearValue(args)
+          dispatch.form.clearValue(args)
         }
       })
     },

@@ -14,15 +14,15 @@ import { propertyShape } from '@shaperone/testing/util.js'
 describe('models/resources/effects/forms/createFocusNodeState', () => {
   let store: Store
   let graph: AnyPointer
-  let form: symbol
+
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
   }
 
   beforeEach(() => {
-    ({ form, store } = testStore())
-    formState = store.getState().forms.get(form)!;
-    ({ graph } = store.getState().resources.get(form)!)
+    store = testStore()
+    formState = store.getState().form;
+    ({ graph } = store.getState().resources)
   })
 
   it('ensures defaultValue added to graph and object without default', () => {
@@ -44,13 +44,12 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
     // when
     createFocusNodeState(store)({
-      form,
       focusNode,
     })
 
     // then
     expect(focusNode.out(schema.name).term).to.deep.eq($rdf.literal('default name'))
-    expect(store.getDispatch().forms.initObjectValue).to.have.been.called
+    expect(store.getDispatch().form.initObjectValue).to.have.been.called
   })
 
   it('only populates first object state without value if it is the same dafault', () => {
@@ -71,12 +70,11 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
     // when
     createFocusNodeState(store)({
-      form,
       focusNode,
     })
 
     // then
-    expect(store.getDispatch().forms.initObjectValue).to.have.been.calledOnce
+    expect(store.getDispatch().form.initObjectValue).to.have.been.calledOnce
   })
 
   it('does nothing if default value is already amongst objects', () => {
@@ -97,12 +95,11 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
     // when
     createFocusNodeState(store)({
-      form,
       focusNode,
     })
 
     // then
-    expect(store.getDispatch().forms.initObjectValue).not.to.have.been.called
+    expect(store.getDispatch().form.initObjectValue).not.to.have.been.called
   })
 
   describe('when property has sh:class', () => {
@@ -128,7 +125,6 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
       // when
       createFocusNodeState(store)({
-        form,
         focusNode,
       })
 
@@ -158,7 +154,6 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
       // when
       createFocusNodeState(store)({
-        form,
         focusNode,
       })
 
