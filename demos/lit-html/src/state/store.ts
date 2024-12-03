@@ -1,5 +1,5 @@
 import type { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
-import { createStore, devtools, persist } from '@captaincodeman/rdx'
+import { createStore, persist } from '@captaincodeman/rdx'
 import { config } from './config.js'
 
 export type State = StoreState<typeof config>
@@ -44,11 +44,5 @@ export const store = (() => {
     },
   })
 
-  return () => {
-    if (window.Shaperone?.DEBUG === true) {
-      return devtools(store)
-    }
-
-    return store
-  }
+  return () => store
 })()

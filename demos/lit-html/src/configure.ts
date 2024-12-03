@@ -8,6 +8,7 @@ import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/Des
 import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components.js'
 import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components.js'
 import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings.js'
+import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
 import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import type { Decorate, RenderTemplate } from '@hydrofoil/shaperone-wc/templates.js'
@@ -25,8 +26,6 @@ import type { RendererState } from './state/models/renderer.js'
 setBasePath('https://unpkg.com/@shoelace-style/shoelace/dist')
 shoelaceSettings.hoist = false
 
-const { editors, components, validation, renderer } = await configure($rdf)
-
 export const componentSets: Record<ComponentsState['components'], Record<string, Component>> = {
   native: { ...nativeComponents, starRating },
   material: { ...nativeComponents, ...mwcComponents, languages: LanguageSelect.component('material'), starRating },
@@ -34,21 +33,46 @@ export const componentSets: Record<ComponentsState['components'], Record<string,
   shoelace: { ...nativeComponents, ...shoelaceComponents, starRating },
 }
 
-editors.addMetadata(env => [...LanguageSelect.metadata(env), ...StarRating.metadata(env)])
-editors.addMatchers({
-  languages: LanguageSelect.matcher,
-  starRating: StarRating.matcher,
-})
-shaperoneHydra({ editors, components })
-components.decorate(DescriptionTooltip)
+function * focusNodeDecorators(labs: RendererState['labs']) {
+  if (labs?.xone) {
+    yield xone.focusNode
+  }
+  if (labs?.errorSummary) {
+    yield errorSummary
+  }
+  yield MaterialRenderStrategy.focusNode
+}
 
-validation.setValidator(validate)
+let focusNodeTemplate = templates.focusNode
+
+const initialRenderStrategy = {
+  ...templates,
+  ...MaterialRenderStrategy,
+  focusNode: [...focusNodeDecorators({})].reduce(combineDecorators, focusNodeTemplate),
+}
+
+configure($rdf, ({ editors, components, validation, renderer }) => {
+  editors.addMetadata(env => [...LanguageSelect.metadata(env), ...StarRating.metadata(env)])
+  editors.addMatchers({
+    languages: LanguageSelect.matcher,
+    starRating: StarRating.matcher,
+  })
+  shaperoneHydra({
+    editors,
+    components,
+  })
+  components.decorate(DescriptionTooltip)
+
+  validation.setValidator(validate)
+
+  renderer.setTemplates(initialRenderStrategy)
+})
 
 export const selectComponents = (() => {
   let currentComponents = componentSets.native
   let previousComponents: ComponentsState['components'] | undefined
 
-  return (name: ComponentsState['components']) => {
+  return (name: ComponentsState['components']): ConfigCallback => ({ components }) => {
     if (previousComponents === name) return
     previousComponents = name
 
@@ -64,91 +88,77 @@ function combineDecorators<Template extends RenderTemplate>(combined: Template, 
 }
 
 export const configureRenderer = (() => {
-  function * focusNodeDecorators(labs: RendererState['labs']) {
-    if (labs?.xone) {
-      yield xone.focusNode
-    }
-    if (labs?.errorSummary) {
-      yield errorSummary
-    }
-    yield MaterialRenderStrategy.focusNode
-  }
-
-  let focusNodeTemplate = templates.focusNode
-
-  const initialStrategy = {
-    ...templates,
-    ...MaterialRenderStrategy,
-    focusNode: [...focusNodeDecorators({})].reduce(combineDecorators, focusNodeTemplate),
-  }
-
-  renderer.setTemplates(initialStrategy)
-
   let previousNesting: RendererState['nesting']
   let previousGrouping: RendererState['grouping']
   let previousLabs: RendererState['labs']
 
   return {
-    async switchNesting({ nesting }: RendererState) {
-      if (previousNesting === nesting) return
-      previousNesting = nesting
+    switchNesting({ nesting }: RendererState): ConfigCallback {
+      return async ({ renderer, components }) => {
+        if (previousNesting === nesting) return
+        previousNesting = nesting
 
-      if (nesting === 'always one') {
-        const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer.js')
-        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components.js')
+        if (nesting === 'always one') {
+          const { topmostFocusNodeFormRenderer } = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/renderer.js')
+          const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/NestedShapesIndividually/components.js')
+
+          renderer.setTemplates({
+            form: topmostFocusNodeFormRenderer(initialRenderStrategy.form),
+          })
+          components.pushComponents(nestingComponents)
+        } else if (nesting === 'inline') {
+          const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/InlineNestedShapes')
+          components.pushComponents(nestingComponents)
+        } else {
+          renderer.setTemplates({ form: initialRenderStrategy.form })
+          components.removeComponents([dash.DetailsEditor])
+        }
+      }
+    },
+
+    switchLayout({ grouping, labs }: RendererState): ConfigCallback {
+      return async ({ renderer }) => {
+        if (previousGrouping === grouping) return
+        previousGrouping = grouping
+
+        const strategy = {
+          focusNode: initialRenderStrategy.focusNode,
+          group: initialRenderStrategy.group,
+        }
+
+        if (grouping === 'vaadin accordion') {
+          const {
+            AccordionGroupingRenderer,
+            AccordionFocusNodeRenderer,
+          } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion.js')
+
+          strategy.group = AccordionGroupingRenderer
+          focusNodeTemplate = AccordionFocusNodeRenderer
+        } else if (grouping === 'material tabs') {
+          const {
+            TabsGroupRenderer,
+            TabsFocusNodeRenderer,
+          } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs.js')
+
+          strategy.group = TabsGroupRenderer
+          focusNodeTemplate = TabsFocusNodeRenderer
+        }
+
+        strategy.focusNode = [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate)
+        renderer.setTemplates(strategy)
+      }
+    },
+
+    setLabs({ labs }: RendererState): ConfigCallback {
+      return ({ renderer }) => {
+        if (JSON.stringify(previousLabs) === JSON.stringify(labs)) return
+
+        previousLabs = labs
 
         renderer.setTemplates({
-          form: topmostFocusNodeFormRenderer(initialStrategy.form),
+          focusNode: [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate),
         })
-        components.pushComponents(nestingComponents)
-      } else if (nesting === 'inline') {
-        const nestingComponents = await import('@hydrofoil/shaperone-playground-examples/InlineNestedShapes')
-        components.pushComponents(nestingComponents)
-      } else {
-        renderer.setTemplates({ form: initialStrategy.form })
-        components.removeComponents([dash.DetailsEditor])
       }
-    },
-
-    async switchLayout({ grouping, labs }: RendererState) {
-      if (previousGrouping === grouping) return
-      previousGrouping = grouping
-
-      const strategy = {
-        focusNode: initialStrategy.focusNode,
-        group: initialStrategy.group,
-      }
-
-      if (grouping === 'vaadin accordion') {
-        const {
-          AccordionGroupingRenderer,
-          AccordionFocusNodeRenderer,
-        } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion.js')
-
-        strategy.group = AccordionGroupingRenderer
-        focusNodeTemplate = AccordionFocusNodeRenderer
-      } else if (grouping === 'material tabs') {
-        const {
-          TabsGroupRenderer,
-          TabsFocusNodeRenderer,
-        } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs.js')
-
-        strategy.group = TabsGroupRenderer
-        focusNodeTemplate = TabsFocusNodeRenderer
-      }
-
-      strategy.focusNode = [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate)
-      renderer.setTemplates(strategy)
-    },
-
-    async setLabs({ labs }: RendererState) {
-      if (JSON.stringify(previousLabs) === JSON.stringify(labs)) return
-
-      previousLabs = labs
-
-      renderer.setTemplates({
-        focusNode: [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate),
-      })
     },
   }
 })()

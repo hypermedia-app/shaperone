@@ -333,10 +333,10 @@ export class ShaperonePlayground extends connect(store(), LitElement) {
   }
 
   mapState(state: State) {
-    selectComponents(state.componentsSettings.components)
-    configureRenderer.switchLayout(state.rendererSettings)
-    configureRenderer.switchNesting(state.rendererSettings)
-    configureRenderer.setLabs(state.rendererSettings)
+    this.form.configure(selectComponents(state.componentsSettings.components))
+    this.form.configure(configureRenderer.switchLayout(state.rendererSettings))
+    this.form.configure(configureRenderer.switchNesting(state.rendererSettings))
+    this.form.configure(configureRenderer.setLabs(state.rendererSettings))
 
     return {
       components: state.componentsSettings,

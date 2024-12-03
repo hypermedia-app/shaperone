@@ -10,10 +10,9 @@ const ex = $rdf.namespace('http://example.com/')
 
 describe('models/forms/effects/shapes/setGraph', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('creates focus nodes state for focus stack', () => {
@@ -21,23 +20,20 @@ describe('models/forms/effects/shapes/setGraph', () => {
     const resourceGraph = $rdf.clownface()
     const shapesGraph = $rdf.clownface()
     shapesGraph.node(ex.Shape).addOut(rdf.type, sh.Shape).addOut(sh.targetNode, [ex.Foo, ex.Bar])
-    const formState = store.getState().forms.get(form)!
+    const formState = store.getState().form
     formState.focusStack = [
       resourceGraph.node(ex.Foo),
       resourceGraph.node(ex.Bar),
     ]
 
     // when
-    setGraph(store)({
-      form,
-      shapesGraph: shapesGraph.dataset,
-    })
+    setGraph(store)()
 
     // then
-    const spy = store.getDispatch().forms.createFocusNodeState as sinon.SinonSpy
+    const spy = store.getDispatch().form.createFocusNodeState as sinon.SinonSpy
     expect(spy.getCalls().map(c => c.firstArg)).to.containSubset([
-      { form, focusNode: resourceGraph.node(ex.Foo) },
-      { form, focusNode: resourceGraph.node(ex.Bar) },
+      { focusNode: resourceGraph.node(ex.Foo) },
+      { focusNode: resourceGraph.node(ex.Bar) },
     ])
   })
 })

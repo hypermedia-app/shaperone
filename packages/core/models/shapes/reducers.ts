@@ -3,13 +3,10 @@ import type { AnyPointer } from 'clownface'
 import { produce } from 'immer'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import type { NodeShape } from '@rdfine/shacl'
-import type { BaseParams } from '../index.js'
-import { formStateReducer } from '../index.js'
 import type { ShapeState } from './index.js'
-import { emptyState } from './lib/index.js'
 import env from '../../env.js'
 
-export interface SetShapesGraphParams extends BaseParams {
+export interface SetShapesGraphParams {
   shapesGraph: DatasetCore | AnyPointer
 }
 
@@ -31,7 +28,7 @@ function getPreferredShape(pointer: AnyPointer, shapes: NodeShape[]) {
   return undefined
 }
 
-export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce(state, (draft) => {
+export const setGraph = (state: ShapeState, { shapesGraph }: SetShapesGraphParams) => produce(state, (draft) => {
   if ('match' in shapesGraph) {
     // new dataset
     const pointer = env().clownface({ dataset: shapesGraph })
@@ -59,4 +56,4 @@ export const setGraph = formStateReducer((state: ShapeState, { shapesGraph }: Se
     draft.shapes = shapes
     draft.preferredRootShape = getPreferredShape(shapesGraph, shapes)
   }
-}), emptyState)
+})

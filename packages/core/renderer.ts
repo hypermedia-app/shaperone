@@ -22,10 +22,6 @@ export interface RenderContext {
    */
   env: ShaperoneEnvironment
   /**
-   * The unique symbol of the form
-   */
-  form: symbol
-  /**
    * Editors model
    */
   editors: EditorsState

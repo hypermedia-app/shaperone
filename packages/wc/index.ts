@@ -6,7 +6,9 @@
 import type { TemplateResult } from 'lit'
 import type * as Core from '@hydrofoil/shaperone-core'
 import type { Component, ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
-import './ShaperoneForm.js'
+
+export { configure } from './configure.js'
+export type { ConfigCallback } from './configure.js'
 
 export type { ShaperoneForm } from './ShaperoneForm.js'
 export { html, css, render } from 'lit'
@@ -28,5 +30,3 @@ export type MultiEditorComponent<TState extends ComponentInstance = ComponentIns
  * Function interface for declaring a component's `.render` function which returns a [lit](https://lit.dev/) template result
  */
 export type Render<TComponent extends Component = Component> = Core.RenderComponent<TComponent, TemplateResult>
-
-export { configure } from './configure.js'

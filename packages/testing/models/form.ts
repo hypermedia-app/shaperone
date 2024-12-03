@@ -6,20 +6,14 @@ import rdf from '@shaperone/testing/env.js'
 import type { DatasetCoreFactory, NamedNode, DefaultGraph } from '@rdfjs/types'
 import type * as Form from '@hydrofoil/shaperone-core/models/forms'
 import type { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
-import type { MultiEditor, SingleEditor } from '@hydrofoil/shaperone-core/models/editors'
+import type { MultiEditor } from '@hydrofoil/shaperone-core/models/editors'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
 import type { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
-import { ChangeNotifier } from '@hydrofoil/shaperone-core/models/resources/lib/notify.js'
 import type { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
 import type { RecursivePartial } from '../index.js'
 import { blankNode } from '../nodeFactory.js'
 
-interface Initializer {
-  singleEditors?: SingleEditor[]
-  form?: RecursivePartial<Form.FormState>
-}
-
-let num = 0
+type Initializer = RecursivePartial<Form.FormState>
 
 export const emptyGroupState = () => ({
   group: undefined,
@@ -27,19 +21,12 @@ export const emptyGroupState = () => ({
   selected: true,
 })
 
-export function testFormState(addToState?: Form.State, initializer: Initializer = {}) {
-  num += 1
-  const form = Symbol(num)
-
-  const state = addToState || <Form.State> new Map()
-
-  state.set(form, deepmerge<Form.FormState>({
+export function testFormState(initializer: Initializer = {}): Form.FormState {
+  return deepmerge<Form.FormState>({
     focusStack: [],
     focusNodes: {},
     shouldEnableEditorChoice: () => false,
-  }, (initializer.form || {}) as any, { clone: false }))
-
-  return { form, state }
+  }, (initializer || {}) as any, { clone: false })
 }
 
 export function testFocusNodeState(focusNode: FocusNode, initializer: Partial<Form.FocusNodeState> = {}): Record<string, Form.FocusNodeState> {
@@ -114,11 +101,11 @@ interface TestStore {
   graph?: NamedNode | DefaultGraph
 }
 
-export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestStore = {}): { form: symbol; store: Store } {
-  const { form, state: forms } = testFormState()
+export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestStore = {}): Store {
+  const form = testFormState()
   const dispatch = {
     env: new Proxy({}, spyHandler),
-    forms: new Proxy({}, spyHandler),
+    form: new Proxy({}, spyHandler),
     shapes: new Proxy({}, spyHandler),
     editors: new Proxy({}, spyHandler),
     resources: new Proxy({}, spyHandler),
@@ -128,17 +115,16 @@ export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestSto
   const resourcesState: ResourceState = {
     rootPointer: rdf.clownface({ dataset: factory.dataset(), graph }).blankNode(),
     get graph() {
-      return this.rootPointer.any()
+      return this.rootPointer!.any()
     },
-    changeNotifier: sinon.createStubInstance(ChangeNotifier),
   }
   const shapesState: ShapeState = {
     shapes: [],
     shapesGraph: rdf.clownface({ dataset: factory.dataset() }),
   }
   const state: State = {
-    shapes: new Map([[form, shapesState]]),
-    resources: new Map([[form, resourcesState]]),
+    shapes: shapesState,
+    resources: resourcesState,
     editors: {
       singleEditors: {},
       allEditors: {},
@@ -148,7 +134,7 @@ export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestSto
       matchMultiEditors: () => [],
       matchSingleEditors: () => [],
     },
-    forms,
+    form,
     components: {
       components: {},
       decorators: [],
@@ -157,10 +143,8 @@ export function testStore({ graph = rdf.defaultGraph(), factory = rdf }: TestSto
   }
 
   return {
-    form,
-    store: {
-      getDispatch: (): Dispatch => dispatch,
-      getState: () => state,
-    },
+    getDispatch: (): Dispatch => dispatch,
+    getState: () => state,
+    dispatchEvent: sinon.stub(),
   }
 }

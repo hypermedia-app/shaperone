@@ -31,6 +31,11 @@
           "name": "state",
           "description": "Gets the internal state of the form element",
           "type": "FormState"
+        },
+        {
+          "name": "debug",
+          "type": "boolean",
+          "default": "false"
         }
       ],
       "properties": [
@@ -105,6 +110,16 @@
           "name": "resource",
           "description": "Gets or sets the resource graph as graph pointer",
           "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "dispatch",
+          "type": "ModelsDispatch<Models> & Dispatch"
+        },
+        {
+          "name": "debug",
+          "attribute": "debug",
+          "type": "boolean",
+          "default": "false"
         }
       ],
       "events": [

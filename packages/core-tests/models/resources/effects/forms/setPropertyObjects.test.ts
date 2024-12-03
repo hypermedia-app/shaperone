@@ -13,11 +13,10 @@ import toCanonical from 'rdf-dataset-ext/toCanonical.js'
 describe('models/resources/effects/forms/setPropertyObjects', () => {
   let store: Store
   let graph: AnyPointer<AnyContext, Dataset>
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore({ factory: $rdf }));
-    ({ graph } = store.getState().resources.get(form) as any)
+    store = testStore({ factory: $rdf });
+    ({ graph } = store.getState().resources as any)
   })
 
   it('removes old values from graph and inserts new', () => {
@@ -31,7 +30,6 @@ describe('models/resources/effects/forms/setPropertyObjects', () => {
 
     // when
     setPropertyObjects(store)({
-      form,
       focusNode,
       property,
       objects,
@@ -61,7 +59,6 @@ describe('models/resources/effects/forms/setPropertyObjects', () => {
 
     // when
     setPropertyObjects(store)({
-      form,
       focusNode,
       property,
       objects,

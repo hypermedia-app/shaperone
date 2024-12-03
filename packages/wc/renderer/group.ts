@@ -26,7 +26,7 @@ function onlySingleProperty(property: PropertyState) {
 }
 
 export const renderGroup: FocusNodeRenderer['renderGroup'] = function ({ group }) {
-  const { dispatch, form, templates } = this.context
+  const { dispatch, templates } = this.context
   const { focusNode } = this
 
   const properties = focusNode.properties
@@ -35,7 +35,7 @@ export const renderGroup: FocusNodeRenderer['renderGroup'] = function ({ group }
     .filter(onlySingleProperty)
   const actions = {
     ...this.actions,
-    selectGroup: () => dispatch.forms.selectGroup({ form, focusNode: focusNode.focusNode, group: group?.group }),
+    selectGroup: () => dispatch.form.selectGroup({ focusNode: focusNode.focusNode, group: group?.group }),
   }
 
   const context: GroupRenderer = {

@@ -13,37 +13,32 @@ const { stubInterface } = tsSinon as any as {
   stubInterface: typeof TsSinon.stubInterface
 }
 
-export const formRenderer = (): sinon.SinonStubbedInstance<Renderer.FormRenderer> => {
-  const { form, state } = testFormState()
-
-  return {
-    actions: {
-      popFocusNode: sinon.spy(),
-      truncateFocusNodes: sinon.spy(),
+export const formRenderer = (): sinon.SinonStubbedInstance<Renderer.FormRenderer> => ({
+  actions: {
+    popFocusNode: sinon.spy(),
+    truncateFocusNodes: sinon.spy(),
+  },
+  context: {
+    env: rdf,
+    editors: testEditorsState(),
+    state: testFormState(),
+    components: {
+      components: {},
+      decorators: [],
     },
-    context: {
-      env: rdf,
-      form,
-      editors: testEditorsState(),
-      state: state.get(form)!,
-      components: {
-        components: {},
-        decorators: [],
-      },
-      shapes: [],
-      dispatch: {
-        components: stubInterface<RenderContext['dispatch']['components']>(),
-        editors: stubInterface<RenderContext['dispatch']['editors']>(),
-        forms: stubInterface<RenderContext['dispatch']['forms']>(),
-        resources: stubInterface<RenderContext['dispatch']['resources']>(),
-        shapes: stubInterface<RenderContext['dispatch']['shapes']>(),
-        validation: stubInterface<RenderContext['dispatch']['validation']>(),
-      },
-      templates: stubInterface<RenderContext['templates']>(),
+    shapes: [],
+    dispatch: {
+      components: stubInterface<RenderContext['dispatch']['components']>(),
+      editors: stubInterface<RenderContext['dispatch']['editors']>(),
+      form: stubInterface<RenderContext['dispatch']['form']>(),
+      resources: stubInterface<RenderContext['dispatch']['resources']>(),
+      shapes: stubInterface<RenderContext['dispatch']['shapes']>(),
+      validation: stubInterface<RenderContext['dispatch']['validation']>(),
     },
-    renderFocusNode: sinon.stub(),
-  }
-}
+    templates: stubInterface<RenderContext['templates']>(),
+  },
+  renderFocusNode: sinon.stub(),
+})
 
 type TestFocusNode = { focusNode: FocusNode | FocusNodeState }
 

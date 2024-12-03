@@ -1,14 +1,13 @@
 import type { Store } from '../../../../state/index.js'
-import { notify } from '../../lib/notify.js'
 import type { Params } from '../../../forms/reducers/addFormField.js'
 import { defaultValue } from '../../lib/objectValue.js'
 
 export default function (store: Store) {
   const dispatch = store.getDispatch()
 
-  return function ({ form, focusNode, property, selectedEditor, overrides }: Pick<Params, 'form' | 'focusNode' | 'property' | 'selectedEditor' | 'overrides'>): void {
+  return function ({ focusNode, property, selectedEditor, overrides }: Pick<Params, 'focusNode' | 'property' | 'selectedEditor' | 'overrides'>): void {
     const { resources, editors } = store.getState()
-    const state = resources.get(form)
+    const state = resources
 
     if (!state?.graph) {
       return
@@ -22,15 +21,12 @@ export default function (store: Store) {
     }
 
     state.graph.node(focusNode).addOut(predicate, pointer)
-    notify({
-      store,
-      form,
+    dispatch.form.notify({
       property,
       focusNode,
     })
 
-    dispatch.forms.setDefaultValue({
-      form,
+    dispatch.form.setDefaultValue({
       focusNode,
       property,
       value: pointer.toArray()[0],

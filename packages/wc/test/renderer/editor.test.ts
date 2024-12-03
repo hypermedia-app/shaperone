@@ -29,7 +29,7 @@ describe('wc/renderer/editor', () => {
 
     describe('action', () => {
       let actions: MultiEditorActions
-      let dispatch: sinon.SinonStubbedInstance<Dispatch['forms']>
+      let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
       beforeEach(async () => {
         property.selectedEditor = editor
@@ -42,7 +42,7 @@ describe('wc/renderer/editor', () => {
 
         await fixture(html`<div>${renderMultiEditor.call(renderer)}</div>`)
         actions = render.firstCall.lastArg
-        dispatch = renderer.context.dispatch.forms as any
+        dispatch = renderer.context.dispatch.form as any
       })
 
       describe('update', () => {
@@ -264,7 +264,7 @@ describe('wc/renderer/editor', () => {
 
     describe('action', () => {
       let actions: SingleEditorActions
-      let dispatch: sinon.SinonStubbedInstance<Dispatch['forms']>
+      let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
       beforeEach(async () => {
         object.selectedEditor = editor
@@ -277,7 +277,7 @@ describe('wc/renderer/editor', () => {
 
         await fixture(html`<div>${renderEditor.call(renderer)}</div>`)
         actions = render.firstCall.lastArg
-        dispatch = renderer.context.dispatch.forms as any
+        dispatch = renderer.context.dispatch.form as any
       })
 
       describe('update', () => {

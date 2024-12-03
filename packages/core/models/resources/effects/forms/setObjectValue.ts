@@ -1,7 +1,6 @@
 import type { GraphPointer } from 'clownface'
 import type { Store } from '../../../../state/index.js'
 import type * as updateObject from '../../../forms/reducers/updateObject.js'
-import { notify } from '../../lib/notify.js'
 import { deleteOrphanedSubgraphs } from '../../../../lib/graph.js'
 
 type Params = Omit<updateObject.SetObjectParams, 'object'> & {
@@ -11,9 +10,9 @@ type Params = Omit<updateObject.SetObjectParams, 'object'> & {
 }
 
 export default function (store: Store) {
-  return function ({ form, focusNode, property, object, newValue }: Params) {
+  return function ({ focusNode, property, object, newValue }: Params) {
     const { resources } = store.getState()
-    const state = resources.get(form)
+    const state = resources
     const pathProperty = property.getPathProperty(true).id
     if (!state?.graph) {
       return
@@ -39,9 +38,7 @@ export default function (store: Store) {
 
     focusNodePointer.addOut(pathProperty, newValue)
 
-    notify({
-      store,
-      form,
+    store.getDispatch().form.notify({
       property,
       focusNode,
     })

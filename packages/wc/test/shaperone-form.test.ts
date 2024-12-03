@@ -6,7 +6,6 @@ import type { FocusNode } from '@hydrofoil/shaperone-core'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import { store } from '../store.js'
 import type { ShaperoneForm } from '../ShaperoneForm.js'
-import { id } from '../ShaperoneForm.js'
 import { configure } from '../configure.js'
 
 describe('shaperone-form', () => {
@@ -38,12 +37,11 @@ describe('shaperone-form', () => {
     const form = await fixture(html`<shaperone-form .shapes="${shape.pointer}" .resource="${resource}"></shaperone-form>`)
 
     // when
-    store().dispatch.forms.setObjectValue({
-      form: id(form),
+    store().dispatch.form.setObjectValue({
       focusNode: resource,
       newValue: rdf.literal('new'),
       property: shape.property[0],
-      object: store().state.forms.get(id(form))!.focusNodes[resource.value].properties[0].objects[0],
+      object: store().state.form.focusNodes[resource.value].properties[0].objects[0],
     })
     const foo = await oneEvent(form, 'changed')
 

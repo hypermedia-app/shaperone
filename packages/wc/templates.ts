@@ -4,7 +4,7 @@
  */
 
 import type { CSSResult, TemplateResult, CSSResultGroup } from 'lit'
-import { css, html } from 'lit'
+import { html } from 'lit'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { repeat } from 'lit/directives/repeat.js'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
