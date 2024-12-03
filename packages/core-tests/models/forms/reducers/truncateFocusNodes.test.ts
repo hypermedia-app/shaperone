@@ -9,7 +9,6 @@ import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 
 describe('core/models/forms/reducers/truncateFocusNodes', () => {
   let store: Store
-  let form: symbol
   let focusNode: FocusNode
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
@@ -17,9 +16,9 @@ describe('core/models/forms/reducers/truncateFocusNodes', () => {
   }
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
     focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode('baz')
-    formState = store.getState().forms.get(form)!
+    formState = store.getState().form
   })
 
   it('removes all states', () => {
@@ -34,13 +33,11 @@ describe('core/models/forms/reducers/truncateFocusNodes', () => {
     }
 
     // when
-    const afterState = truncateFocusNodes(store.getState().forms, {
-      form,
-    })
+    const afterState = truncateFocusNodes(store.getState().form, {})
 
     // then
-    expect(afterState.get(form)?.focusStack).to.have.length(0)
-    expect(Object.values(afterState.get(form)!.focusNodes)).to.have.length(0)
+    expect(afterState.focusStack).to.have.length(0)
+    expect(Object.values(afterState.focusNodes)).to.have.length(0)
   })
 
   it('leaves stack', () => {
@@ -55,13 +52,12 @@ describe('core/models/forms/reducers/truncateFocusNodes', () => {
     }
 
     // when
-    const afterState = truncateFocusNodes(store.getState().forms, {
-      form,
+    const afterState = truncateFocusNodes(store.getState().form, {
       focusNode: focusNode.blankNode('bar'),
     })
 
     // then
-    expect(afterState.get(form)?.focusStack).to.have.length(1)
-    expect(afterState.get(form)?.focusStack[0].value).to.eq('foo')
+    expect(afterState.focusStack).to.have.length(1)
+    expect(afterState.focusStack[0].value).to.eq('foo')
   })
 })

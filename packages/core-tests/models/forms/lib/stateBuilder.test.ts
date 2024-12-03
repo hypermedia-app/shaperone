@@ -19,12 +19,12 @@ const ex = $rdf.namespace('http://example.com/')
 describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
   let store: Store
 
-  before(async () => {
-    await setEnv($rdf)
+  before(() => {
+    setEnv($rdf)
   })
 
   beforeEach(() => {
-    ({ store } = testStore())
+    store = testStore()
   })
 
   const shouldEnableEditorChoice = () => true

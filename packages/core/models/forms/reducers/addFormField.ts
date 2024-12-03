@@ -3,14 +3,12 @@ import type { NamedNode } from '@rdfjs/types'
 import type { MultiPointer } from 'clownface'
 import type { FocusNode } from '../../../index.js'
 import { objectStateProducer } from '../objectStateProducer.js'
-import type { BaseParams } from '../../index.js'
-import { formStateReducer } from '../../index.js'
 import { canAddObject, canRemoveObject } from '../lib/property.js'
 import type { SingleEditorMatch } from '../../editors/index.js'
 import { nextid } from '../lib/objectid.js'
 import env from '../../../env.js'
 
-export interface Params extends BaseParams {
+export interface Params {
   focusNode: FocusNode
   property: PropertyShape
   editors: SingleEditorMatch[]
@@ -19,7 +17,7 @@ export interface Params extends BaseParams {
   componentState: Record<string, unknown> | undefined
 }
 
-export const addFormField = formStateReducer(objectStateProducer<Params>((state, {
+export const addFormField = objectStateProducer<Params>((state, {
   property,
   editors,
   selectedEditor,
@@ -44,4 +42,4 @@ export const addFormField = formStateReducer(objectStateProducer<Params>((state,
   })
   currentProperty.canRemove = !!currentProperty.selectedEditor || canRemoveObject(property, currentProperty.objects.length)
   currentProperty.canAdd = !!currentProperty.selectedEditor || canAddObject(property, currentProperty.objects.length)
-}))
+})

@@ -14,7 +14,7 @@ describe('models/editors/lib/match', () => {
   let shape: PropertyShape
 
   beforeEach(() => {
-    ({ editors } = testStore().store.getState())
+    ({ editors } = testStore().getState())
     shape = propertyShape()
   })
 

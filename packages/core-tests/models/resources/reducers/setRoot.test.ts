@@ -11,15 +11,14 @@ describe('core/models/resources/reducers/setRoot', () => {
     // given
     const dataset = $rdf.dataset()
     const graph = $rdf.clownface({ dataset })
-    const { form, store } = testStore()
+    const store = testStore()
 
     // when
     const after = setRoot(store.getState().resources, {
-      form,
       rootPointer: graph.node(ex.Foo),
     })
 
     // then
-    expect(after.get(form)?.graph === graph)
+    expect(after.graph === graph)
   })
 })

@@ -5,10 +5,9 @@ import { dash } from '@tpluscode/rdf-ns-builders'
 import graphPointer from 'is-graph-pointer'
 import type { Store } from '../../../state/index.js'
 import type { FocusNode } from '../../../index.js'
-import type { BaseParams } from '../../index.js'
 import type { SingleEditorMatch } from '../../editors/index.js'
 
-export interface AddObject extends BaseParams {
+export interface AddObject {
   focusNode: FocusNode
   property: PropertyShape
   overrides?: MultiPointer
@@ -17,9 +16,9 @@ export interface AddObject extends BaseParams {
 
 export function addObject(store: Store) {
   const dispatch = store.getDispatch()
-  return function ({ form, property, focusNode, overrides, componentState }: AddObject) {
+  return function ({ property, focusNode, overrides, componentState }: AddObject) {
     const { editors: editorsState, resources } = store.getState()
-    const graph = resources.get(form)?.graph
+    const graph = resources?.graph
     if (!graph) {
       return
     }
@@ -54,8 +53,7 @@ export function addObject(store: Store) {
       }
     }
 
-    dispatch.forms.addFormField({
-      form,
+    dispatch.form.addFormField({
       property,
       focusNode,
       editors,

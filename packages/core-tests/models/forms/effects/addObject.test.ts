@@ -13,10 +13,9 @@ import { blankNode } from '@shaperone/testing/nodeFactory.js'
 
 describe('models/forms/effects/addObject', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('adds form field with matched editors', () => {
@@ -32,7 +31,6 @@ describe('models/forms/effects/addObject', () => {
 
     // when
     addObject(store)({
-      form,
       property,
       focusNode,
       overrides: undefined,
@@ -40,9 +38,8 @@ describe('models/forms/effects/addObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    const spy = dispatch.forms.addFormField as sinon.SinonSpy
+    const spy = dispatch.form.addFormField as sinon.SinonSpy
     expect(spy.firstCall.firstArg).to.containSubset({
-      form,
       property,
       focusNode,
       editors,
@@ -64,7 +61,6 @@ describe('models/forms/effects/addObject', () => {
 
     // when
     addObject(store)({
-      form,
       property,
       focusNode,
       overrides,
@@ -72,7 +68,7 @@ describe('models/forms/effects/addObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.addFormField).to.have.been
+    expect(dispatch.form.addFormField).to.have.been
       .calledWith(sinon.match(({ overrides }) => sh.IRI.equals(overrides.out(sh.nodeKind).term)))
   })
 
@@ -90,7 +86,6 @@ describe('models/forms/effects/addObject', () => {
 
     // when
     addObject(store)({
-      form,
       property,
       focusNode,
       overrides: undefined,
@@ -98,9 +93,8 @@ describe('models/forms/effects/addObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    const spy = dispatch.forms.addFormField as sinon.SinonSpy
+    const spy = dispatch.form.addFormField as sinon.SinonSpy
     expect(spy.firstCall.firstArg).to.containSubset({
-      form,
       property,
       focusNode,
       selectedEditor: dash.FooEditor,
@@ -123,7 +117,6 @@ describe('models/forms/effects/addObject', () => {
 
       // when
       addObject(store)({
-        form,
         property,
         focusNode,
         overrides,
@@ -131,7 +124,7 @@ describe('models/forms/effects/addObject', () => {
 
       // then
       const dispatch = store.getDispatch()
-      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+      expect(dispatch.form.addFormField).to.have.been.calledWith(sinon.match({
         selectedEditor: dash.BarEditor,
       }))
     })
@@ -151,7 +144,6 @@ describe('models/forms/effects/addObject', () => {
 
       // when
       addObject(store)({
-        form,
         property,
         focusNode,
         overrides,
@@ -159,7 +151,7 @@ describe('models/forms/effects/addObject', () => {
 
       // then
       const dispatch = store.getDispatch()
-      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+      expect(dispatch.form.addFormField).to.have.been.calledWith(sinon.match({
         editors: sinon.match.some(sinon.match({
           term: dash.BarEditor,
           score: null,
@@ -186,7 +178,6 @@ describe('models/forms/effects/addObject', () => {
 
       // when
       addObject(store)({
-        form,
         property,
         focusNode,
         overrides,
@@ -194,7 +185,7 @@ describe('models/forms/effects/addObject', () => {
 
       // then
       const dispatch = store.getDispatch()
-      expect(dispatch.forms.addFormField).to.have.been.calledWith(sinon.match({
+      expect(dispatch.form.addFormField).to.have.been.calledWith(sinon.match({
         editors: sinon.match.has('length', 3)
           .and(sinon.match(([first]: [SingleEditorMatch]) => first.term.equals(dash.BarEditor) && first.score === null)),
       }))

@@ -1,5 +1,4 @@
 import type { Store } from '../../../../state/index.js'
-import type { SetShapesGraphParams } from '../../../shapes/reducers.js'
 import { matchShapes } from '../../../shapes/lib/index.js'
 import type { ShapeState } from '../../../shapes/index.js'
 
@@ -7,12 +6,11 @@ export default function setGraph(store: Store) {
   const dispatch = store.getDispatch()
   let previousShapes: ShapeState | undefined
 
-  return ({ form }: SetShapesGraphParams) => {
-    const { editors, forms, shapes, components } = store.getState()
-    const formState = forms.get(form)
-    const shapesState = shapes.get(form)
-    const graph = store.getState().resources.get(form)?.graph
-    if (!graph || !formState) {
+  return () => {
+    const { editors, form, shapes, components } = store.getState()
+    const shapesState = shapes
+    const graph = store.getState().resources?.graph
+    if (!graph) {
       return
     }
 
@@ -21,15 +19,14 @@ export default function setGraph(store: Store) {
     }
 
     previousShapes = shapesState
-    formState.focusStack.forEach((focusNode) => {
-      dispatch.forms.createFocusNodeState({
-        form,
+    form.focusStack.forEach((focusNode) => {
+      dispatch.form.createFocusNodeState({
         focusNode,
         editors,
         components,
         shape: shapesState?.preferredRootShape,
-        shapes: matchShapes(shapes.get(form)?.shapes).to(focusNode),
-        shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
+        shapes: matchShapes(shapes?.shapes).to(focusNode),
+        shouldEnableEditorChoice: form.shouldEnableEditorChoice,
       })
     })
   }

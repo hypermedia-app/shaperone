@@ -12,15 +12,15 @@ import { propertyShape } from '@shaperone/testing/util.js'
 describe('models/resources/effects/forms/addFormField', () => {
   let store: Store
   let graph: AnyPointer
-  let form: symbol
+
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
   }
 
   beforeEach(() => {
-    ({ form, store } = testStore())
-    formState = store.getState().forms.get(form)!;
-    ({ graph } = store.getState().resources.get(form)!)
+    store = testStore()
+    formState = store.getState().form
+    graph = store.getState().resources.graph!
   })
 
   it('adds sh:defaultValue to graph', () => {
@@ -37,7 +37,6 @@ describe('models/resources/effects/forms/addFormField', () => {
 
     // when
     addFormField(store)({
-      form,
       focusNode,
       property,
       selectedEditor: undefined,
@@ -61,7 +60,6 @@ describe('models/resources/effects/forms/addFormField', () => {
 
     // when
     addFormField(store)({
-      form,
       focusNode,
       property,
       selectedEditor: undefined,
@@ -87,7 +85,6 @@ describe('models/resources/effects/forms/addFormField', () => {
 
       // when
       addFormField(store)({
-        form,
         focusNode,
         property,
         selectedEditor: undefined,

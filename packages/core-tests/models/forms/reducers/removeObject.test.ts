@@ -11,16 +11,16 @@ import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/reducers/removeObject', () => {
   let store: Store
-  let form: symbol
+
   let focusNode: FocusNode
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
   }
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
     focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
-    formState = store.getState().forms.get(form)!
+    formState = store.getState().form
   })
 
   it('removes state objects with matching key', () => {
@@ -43,15 +43,14 @@ describe('models/forms/reducers/removeObject', () => {
     }
 
     // when
-    const afterState = removeObject(store.getState().forms, {
-      form,
+    const afterState = removeObject(store.getState().form, {
       focusNode,
       object,
       property,
     })
 
     // then
-    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
+    const afterProperty = afterState.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.objects).to.have.length(1)
     expect(afterProperty?.objects[0].key).to.eq('foo')
   })
@@ -77,15 +76,14 @@ describe('models/forms/reducers/removeObject', () => {
     }
 
     // when
-    const afterState = removeObject(store.getState().forms, {
-      form,
+    const afterState = removeObject(store.getState().form, {
       focusNode,
       object,
       property,
     })
 
     // then
-    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
+    const afterProperty = afterState.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.canRemove).to.eq(true)
   })
 
@@ -110,15 +108,14 @@ describe('models/forms/reducers/removeObject', () => {
     }
 
     // when
-    const afterState = removeObject(store.getState().forms, {
-      form,
+    const afterState = removeObject(store.getState().form, {
       focusNode,
       object,
       property,
     })
 
     // then
-    const afterProperty = afterState.get(form)?.focusNodes[focusNode.value].properties[0]
+    const afterProperty = afterState.focusNodes[focusNode.value].properties[0]
     expect(afterProperty?.canAdd).to.eq(true)
   })
 })

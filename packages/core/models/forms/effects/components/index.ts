@@ -4,7 +4,7 @@ function resetComponents(store: Store) {
   const dispatch = store.getDispatch()
 
   return () => {
-    dispatch.forms.resetComponents()
+    dispatch.form.resetComponents()
   }
 }
 

@@ -11,29 +11,27 @@ describe('core/models/forms/reducers/selectGroup', () => {
     // given
     const graph = $rdf.clownface()
     const focusNode = graph.node(ex.FocusNode)
-    const { form, state } = testState(undefined, {
-      form: {
-        focusNodes: {
-          ...testFocusNodeState(focusNode, {
-            groups: [{
-              selected: true,
-              group: $rdf.rdfine.sh.PropertyGroup(graph.node(ex.Group0)),
-              order: 0,
-            }, {
-              selected: true,
-              group: $rdf.rdfine.sh.PropertyGroup(graph.node(ex.Group1)),
-              order: 1,
-            }],
-          }),
-        },
+    const state = testState({
+      focusNodes: {
+        ...testFocusNodeState(focusNode, {
+          groups: [{
+            selected: true,
+            group: $rdf.rdfine.sh.PropertyGroup(graph.node(ex.Group0)),
+            order: 0,
+          }, {
+            selected: true,
+            group: $rdf.rdfine.sh.PropertyGroup(graph.node(ex.Group1)),
+            order: 1,
+          }],
+        }),
       },
     })
 
     // when
-    const next = selectGroup(state, { form, focusNode, group: $rdf.rdfine.sh.PropertyGroup(graph.node(ex.Group1)) })
+    const next = selectGroup(state, { focusNode, group: $rdf.rdfine.sh.PropertyGroup(graph.node(ex.Group1)) })
 
     // then
-    const focusNodeState = next.get(form)!.focusNodes[ex.FocusNode.value]
+    const focusNodeState = next.focusNodes[ex.FocusNode.value]
     expect(focusNodeState.groups[0].selected).to.be.false
     expect(focusNodeState.groups[1].selected).to.be.true
   })

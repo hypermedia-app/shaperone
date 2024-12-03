@@ -2,7 +2,6 @@ import type { NodeShape } from '@rdfine/shacl'
 import { rdf, sh, rdfs } from '@tpluscode/rdf-ns-builders'
 import TermMap from '@rdfjs/term-map'
 import type { FocusNode } from '../../../index.js'
-import type { ShapeState } from '../index.js'
 
 const scores = new TermMap([
   [sh.targetNode, 20],
@@ -50,11 +49,5 @@ export function matchShapes(shapes: NodeShape[] = []): { to: (focusNode: FocusNo
         .sort((left, right) => right[1] - left[1])
         .map(([shape]) => shape)
     },
-  }
-}
-
-export function emptyState(): ShapeState {
-  return {
-    shapes: [],
   }
 }

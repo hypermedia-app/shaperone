@@ -10,10 +10,9 @@ const ex = $rdf.namespace('http://example.com/')
 
 describe('models/forms/effects/resources/setRoot', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('pushes first focus node', () => {
@@ -22,13 +21,11 @@ describe('models/forms/effects/resources/setRoot', () => {
 
     // when
     setRoot(store)({
-      form,
       rootPointer,
     })
 
     // then
-    expect(store.getDispatch().forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
-      form,
+    expect(store.getDispatch().form.createFocusNodeState).to.have.been.calledWith(sinon.match({
       replaceStack: true,
     }))
   })
@@ -38,16 +35,15 @@ describe('models/forms/effects/resources/setRoot', () => {
     const graph = $rdf.clownface()
     const initialFoo = graph.node(ex.Foo)
     const initialBar = graph.node(ex.Bar)
-    store.getState().forms.get(form)!.focusStack = [initialFoo, initialBar]
+    store.getState().form.focusStack = [initialFoo, initialBar]
 
     // when
     setRoot(store)({
-      form,
       rootPointer: initialFoo,
     })
 
     // then
-    expect(store.getDispatch().forms.createFocusNodeState).not.to.have.been.called
+    expect(store.getDispatch().form.createFocusNodeState).not.to.have.been.called
   })
 
   it('replaces current stack when resource changes', () => {
@@ -55,19 +51,17 @@ describe('models/forms/effects/resources/setRoot', () => {
     const graph = $rdf.clownface()
     const initialFoo = graph.node(ex.Foo)
     const initialBar = graph.node(ex.Bar)
-    store.getState().forms.get(form)!.focusStack = [initialFoo, initialBar]
+    store.getState().form.focusStack = [initialFoo, initialBar]
     const rootPointer = $rdf.clownface().node(ex.Baz)
 
     // when
     setRoot(store)({
-      form,
       rootPointer,
     })
 
     // then
-    const spy = store.getDispatch().forms.createFocusNodeState as sinon.SinonSpy
+    const spy = store.getDispatch().form.createFocusNodeState as sinon.SinonSpy
     expect(spy.firstCall.firstArg).to.containSubset({
-      form,
       focusNode: rootPointer,
       replaceStack: true,
     })

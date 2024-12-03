@@ -1,20 +1,18 @@
 import type { NodeShape } from '@rdfine/shacl'
 import { produce } from 'immer'
-import type { BaseParams } from '../../index.js'
-import { formStateReducer } from '../../index.js'
 import type { FocusNode } from '../../../index.js'
 import type { FormState } from '../index.js'
 
-export interface Params extends BaseParams {
+export interface Params {
   focusNode: FocusNode
   shape: NodeShape
 }
 
-export const selectShape = formStateReducer((state: FormState, { focusNode, shape }: Params) => produce(state, (draft) => {
+export const selectShape = (state: FormState, { focusNode, shape }: Params) => produce(state, (draft) => {
   const current = draft.focusNodes[focusNode.value]
   if (!current || current.shape?.equals(shape)) {
     return
   }
 
   draft.focusNodes[focusNode.value].shape = shape
-}))
+})

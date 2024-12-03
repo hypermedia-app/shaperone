@@ -4,14 +4,14 @@ import { renderObject } from './object.js'
 import { renderMultiEditor } from './editor.js'
 
 export const renderProperty: GroupRenderer['renderProperty'] = function ({ property }) {
-  const { dispatch, form, templates } = this.context
+  const { dispatch, templates } = this.context
   const { focusNode } = this
 
-  const actionParams = { form, focusNode: focusNode.focusNode, property: property.shape }
+  const actionParams = { focusNode: focusNode.focusNode, property: property.shape }
 
   const propertyActions: PropertyActions = {
     addObject: (arg = {}) => {
-      dispatch.forms.addObject({ ...arg, ...actionParams })
+      dispatch.form.addObject({ ...arg, ...actionParams })
     },
     removeObject: (arg) => {
       let object: PropertyObjectState | undefined
@@ -23,14 +23,14 @@ export const renderProperty: GroupRenderer['renderProperty'] = function ({ prope
       }
 
       if (object) {
-        dispatch.forms.removeObject({
+        dispatch.form.removeObject({
           ...actionParams,
           object,
         })
       }
     },
-    selectMultiEditor: () => dispatch.forms.selectMultiEditor(actionParams),
-    selectSingleEditors: () => dispatch.forms.selectSingleEditors(actionParams),
+    selectMultiEditor: () => dispatch.form.selectMultiEditor(actionParams),
+    selectSingleEditors: () => dispatch.form.selectSingleEditors(actionParams),
   }
 
   const context: PropertyRenderer = {

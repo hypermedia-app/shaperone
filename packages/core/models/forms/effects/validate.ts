@@ -1,22 +1,20 @@
 import type { Store } from '../../../state/index.js'
-import type { BaseParams } from '../../index.js'
 import env from '../../../env.js'
 
 export function validate(store: Store) {
   const dispatch = store.getDispatch()
 
-  return async function ({ form }: BaseParams) {
+  return async function () {
     const { shapes, resources, validation } = store.getState()
-    const data = resources.get(form)?.graph.dataset
-    const shapesGraph = shapes.get(form)?.shapesGraph?.dataset
+    const data = resources.graph?.dataset
+    const shapesGraph = shapes?.shapesGraph?.dataset
     if (!data || !shapesGraph || !validation.validator) {
       return
     }
 
     const report = env().clownface(await validation.validator(shapesGraph, data))
 
-    dispatch.forms.validationReport({
-      form,
+    dispatch.form.validationReport({
       report,
     })
   }

@@ -4,7 +4,7 @@ function recalculateEditors(store: Store) {
   const dispatch = store.getDispatch()
 
   return () => {
-    dispatch.forms.recalculateEditors({ editors: store.getState().editors })
+    dispatch.form.recalculateEditors({ editors: store.getState().editors })
   }
 }
 

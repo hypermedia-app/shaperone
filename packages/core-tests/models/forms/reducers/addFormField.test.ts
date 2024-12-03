@@ -18,10 +18,10 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, store } = testStore()
-    const { forms } = store.getState()
+    const store = testStore()
+    const { form } = store.getState()
 
-    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    form.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
         canRemove: true,
         canAdd: true,
@@ -33,8 +33,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // when
-    const after = addFormField(forms, {
-      form,
+    const after = addFormField(form, {
       property,
       focusNode,
       editors: [],
@@ -44,7 +43,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after
     expect(fooState.properties[0].canRemove).to.eq(false)
   })
 
@@ -56,10 +55,10 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, store } = testStore()
-    const { forms } = store.getState()
+    const store = testStore()
+    const { form } = store.getState()
 
-    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    form.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
         canRemove: true,
         canAdd: false,
@@ -71,8 +70,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // when
-    const after = addFormField(forms, {
-      form,
+    const after = addFormField(form, {
       property,
       focusNode,
       editors: [],
@@ -82,7 +80,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after
     expect(fooState.properties[0].canRemove).to.eq(false)
   })
 
@@ -94,10 +92,10 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, store } = testStore()
-    const { forms } = store.getState()
+    const store = testStore()
+    const { form } = store.getState()
 
-    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    form.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
         canRemove: true,
         canAdd: false,
@@ -109,8 +107,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // when
-    const after = addFormField(forms, {
-      form,
+    const after = addFormField(form, {
       property,
       focusNode,
       editors: [],
@@ -120,7 +117,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after
     expect(fooState.properties[0].canRemove).to.eq(true)
   })
 
@@ -131,10 +128,10 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, store } = testStore()
-    const { forms } = store.getState()
+    const store = testStore()
+    const { form } = store.getState()
 
-    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    form.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
         canRemove: true,
         canAdd: true,
@@ -146,8 +143,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // when
-    const after = addFormField(forms, {
-      form,
+    const after = addFormField(form, {
       property,
       focusNode,
       editors: [],
@@ -157,7 +153,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after
     expect(fooState.properties[0].objects[0].editorSwitchDisabled).to.be.true
   })
 
@@ -168,10 +164,10 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, store } = testStore()
-    const { forms } = store.getState()
+    const store = testStore()
+    const { form } = store.getState()
 
-    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    form.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
         canRemove: true,
         canAdd: true,
@@ -184,8 +180,7 @@ describe('core/models/forms/reducers/addObject', () => {
     const overrides = blankNode().addOut($rdf.ns.sh.nodeKind, $rdf.ns.sh.IRIOrLiteral)
 
     // when
-    const after = addFormField(forms, {
-      form,
+    const after = addFormField(form, {
       property,
       focusNode,
       editors: [],
@@ -195,7 +190,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after
     expect(fooState.properties[0].objects[0].nodeKind).to.deep.eq($rdf.ns.sh.IRIOrLiteral)
   })
 
@@ -206,10 +201,10 @@ describe('core/models/forms/reducers/addObject', () => {
       path: ex.prop,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, store } = testStore()
-    const { forms } = store.getState()
+    const store = testStore()
+    const { form } = store.getState()
 
-    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    form.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
         canRemove: true,
         canAdd: true,
@@ -222,8 +217,7 @@ describe('core/models/forms/reducers/addObject', () => {
     const overrides = blankNode()
 
     // when
-    const after = addFormField(forms, {
-      form,
+    const after = addFormField(form, {
       property,
       focusNode,
       editors: [],
@@ -233,7 +227,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after
     expect(fooState.properties[0].objects[0].overrides).to.eq(overrides)
   })
 
@@ -245,10 +239,10 @@ describe('core/models/forms/reducers/addObject', () => {
       editor: dash.FooEditor,
     })
     const focusNode = graph.node(ex.FocusNode)
-    const { form, store } = testStore()
-    const { forms } = store.getState()
+    const store = testStore()
+    const { form } = store.getState()
 
-    forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    form.focusNodes = testFocusNodeState(focusNode, {
       properties: [testPropertyState(focusNode.blankNode(), {
         canRemove: true,
         canAdd: true,
@@ -260,8 +254,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // when
-    const after = addFormField(forms, {
-      form,
+    const after = addFormField(form, {
       property,
       focusNode,
       editors: [{
@@ -279,7 +272,7 @@ describe('core/models/forms/reducers/addObject', () => {
     })
 
     // then
-    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after.get(form)!
+    const { focusNodes: { [ex.FocusNode.value]: fooState } } = after
     expect(fooState.properties[0].objects[0].selectedEditor).to.deep.eq(dash.FooEditor)
     expect(fooState.properties[0].objects[0].editors[0].term).to.deep.eq(dash.FooEditor)
     expect(fooState.properties[0].objects[0].editors[1].term).to.deep.eq(dash.TextFieldEditor)

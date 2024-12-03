@@ -11,11 +11,10 @@ import { propertyShape } from '@shaperone/testing/util.js'
 describe('models/resources/effects/forms/clearValue', () => {
   let store: Store
   let graph: AnyPointer
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore());
-    ({ graph } = store.getState().resources.get(form)!)
+    store = testStore()
+    graph = store.getState().resources.graph!
   })
 
   it('removes value from graph', () => {
@@ -31,7 +30,6 @@ describe('models/resources/effects/forms/clearValue', () => {
 
     // when
     clearValue(store)({
-      form,
       focusNode,
       object,
       property,
@@ -59,7 +57,6 @@ describe('models/resources/effects/forms/clearValue', () => {
 
     // when
     clearValue(store)({
-      form,
       focusNode,
       object,
       property,

@@ -20,15 +20,14 @@ const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/forms/reducers/updateObject', () => {
   let store: Store
-  let form: symbol
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
     focusStack: FormState['focusStack']
   }
 
   beforeEach(() => {
-    ({ form, store } = testStore())
-    formState = store.getState().forms.get(form)!
+    store = testStore()
+    formState = store.getState().form
   })
 
   describe('setPropertyObjects', () => {
@@ -55,16 +54,15 @@ describe('core/models/forms/reducers/updateObject', () => {
       }
 
       // when
-      const after = setPropertyObjects(store.getState().forms, {
+      const after = setPropertyObjects(store.getState().form, {
         focusNode,
-        form,
         property,
         editors: store.getState().editors,
         objects: graph.node([$rdf.literal('bar1'), $rdf.literal('bar2'), $rdf.literal('bar3')]),
       })
 
       // then
-      const { focusNodes: { [focusNode.value]: focusNodeState } } = after.get(form)!
+      const { focusNodes: { [focusNode.value]: focusNodeState } } = after
       const values = focusNodeState.properties[0].objects.map(os => os.object?.value)
       expect(values).to.have.length(3)
       expect(values).to.include.members(['bar1', 'bar2', 'bar3'])
@@ -88,16 +86,15 @@ describe('core/models/forms/reducers/updateObject', () => {
       }
 
       // when
-      const after = setPropertyObjects(store.getState().forms, {
+      const after = setPropertyObjects(store.getState().form, {
         focusNode,
-        form,
         property,
-        editors: testStore().store.getState().editors,
+        editors: testStore().getState().editors,
         objects: graph.node([$rdf.literal('foo'), $rdf.literal('bar')]),
       })
 
       // then
-      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canAdd).to.be.false
+      expect(after.focusNodes[focusNode.value].properties[0].canAdd).to.be.false
     })
 
     it('sets canRemove flag when min reached', () => {
@@ -118,16 +115,15 @@ describe('core/models/forms/reducers/updateObject', () => {
       }
 
       // when
-      const after = setPropertyObjects(store.getState().forms, {
+      const after = setPropertyObjects(store.getState().form, {
         focusNode,
-        form,
         property,
-        editors: testStore().store.getState().editors,
+        editors: testStore().getState().editors,
         objects: graph.node([$rdf.literal('foo')]),
       })
 
       // then
-      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canRemove).to.be.false
+      expect(after.focusNodes[focusNode.value].properties[0].canRemove).to.be.false
     })
 
     it('sets canAdd/canRemove flags to true', () => {
@@ -150,17 +146,16 @@ describe('core/models/forms/reducers/updateObject', () => {
       }
 
       // when
-      const after = setPropertyObjects(store.getState().forms, {
+      const after = setPropertyObjects(store.getState().form, {
         focusNode,
-        form,
         property,
-        editors: testStore().store.getState().editors,
+        editors: testStore().getState().editors,
         objects: graph.node([$rdf.literal('foo'), $rdf.literal('bar')]),
       })
 
       // then
-      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canAdd).to.be.true
-      expect(after.get(form)?.focusNodes[focusNode.value].properties[0].canRemove).to.be.true
+      expect(after.focusNodes[focusNode.value].properties[0].canAdd).to.be.true
+      expect(after.focusNodes[focusNode.value].properties[0].canRemove).to.be.true
     })
   })
 
@@ -184,8 +179,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
       // when
       const value = graph.literal('bar')
-      initObjectValue(store.getState().forms, {
-        form,
+      initObjectValue(store.getState().form, {
         focusNode,
         editors,
         object,
@@ -217,8 +211,7 @@ describe('core/models/forms/reducers/updateObject', () => {
 
       // when
       const value = graph.literal('bar')
-      const afterState = initObjectValue(store.getState().forms, {
-        form,
+      const afterState = initObjectValue(store.getState().form, {
         focusNode,
         editors: store.getState().editors,
         object,
@@ -227,7 +220,7 @@ describe('core/models/forms/reducers/updateObject', () => {
       })
 
       // then
-      const objectAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects[0]
+      const objectAfter = afterState.focusNodes[focusNode.value].properties[0].objects[0]
       expect(objectAfter?.object?.term).to.deep.eq($rdf.literal('bar'))
     })
   })
@@ -254,16 +247,15 @@ describe('core/models/forms/reducers/updateObject', () => {
 
       // when
       const value = graph.literal('foo', 'bar')
-      const afterState = setDefaultValue(store.getState().forms, {
+      const afterState = setDefaultValue(store.getState().form, {
         focusNode,
         property,
-        form,
         editors: store.getState().editors,
         value,
       })
 
       // then
-      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      const objectsAfter = afterState.focusNodes[focusNode.value].properties[0].objects
       expect(objectsAfter?.[1].object?.term).to.deep.equal($rdf.literal('10'))
       expect(objectsAfter?.[0].object?.term).to.deep.equal($rdf.literal('foo', 'bar'))
     })
@@ -296,16 +288,15 @@ describe('core/models/forms/reducers/updateObject', () => {
 
       // when
       const value = graph.literal('foo', 'bar')
-      const afterState = setDefaultValue(store.getState().forms, {
+      const afterState = setDefaultValue(store.getState().form, {
         focusNode,
         property,
-        form,
         editors,
         value,
       })
 
       // then
-      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      const objectsAfter = afterState.focusNodes[focusNode.value].properties[0].objects
       expect(objectsAfter?.[1].selectedEditor?.value).to.deep.equal(dash.FooEditor.value)
       expect(objectsAfter?.[0].selectedEditor).to.deep.equal(dash.BarEditor)
     })
@@ -336,16 +327,15 @@ describe('core/models/forms/reducers/updateObject', () => {
 
       // when
       const value = graph.literal('foo', 'bar')
-      const afterState = setDefaultValue(store.getState().forms, {
+      const afterState = setDefaultValue(store.getState().form, {
         focusNode,
         property,
-        form,
         editors,
         value,
       })
 
       // then
-      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      const objectsAfter = afterState.focusNodes[focusNode.value].properties[0].objects
       expect(objectsAfter?.[0].selectedEditor).to.deep.equal(dash.BazEditor)
     })
   })
@@ -367,15 +357,14 @@ describe('core/models/forms/reducers/updateObject', () => {
       }
 
       // when
-      const afterState = clearValue(store.getState().forms, {
+      const afterState = clearValue(store.getState().form, {
         focusNode,
         property,
-        form,
         object,
       })
 
       // then
-      const objectsAfter = afterState.get(form)?.focusNodes[focusNode.value].properties[0].objects
+      const objectsAfter = afterState.focusNodes[focusNode.value].properties[0].objects
       expect(objectsAfter?.[0].object).to.be.undefined
     })
   })

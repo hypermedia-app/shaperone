@@ -10,10 +10,9 @@ import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/updateObject', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('forwards term value directly to setObject reducer', () => {
@@ -28,7 +27,6 @@ describe('models/forms/effects/updateObject', () => {
 
     // when
     updateObject(store)({
-      form,
       focusNode,
       property,
       object,
@@ -37,8 +35,8 @@ describe('models/forms/effects/updateObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.setObjectValue).to.have.been.calledOnce
-    expect(dispatch.forms.setObjectValue).to.have.been.calledWithMatch({
+    expect(dispatch.form.setObjectValue).to.have.been.calledOnce
+    expect(dispatch.form.setObjectValue).to.have.been.calledWithMatch({
       newValue,
     })
   })
@@ -57,7 +55,6 @@ describe('models/forms/effects/updateObject', () => {
 
     // when
     updateObject(store)({
-      form,
       focusNode,
       property,
       object,
@@ -65,7 +62,7 @@ describe('models/forms/effects/updateObject', () => {
     })
 
     // then
-    const setObjectValue = store.getDispatch().forms.setObjectValue as sinon.SinonSpy
+    const setObjectValue = store.getDispatch().form.setObjectValue as sinon.SinonSpy
     expect(setObjectValue).to.have.been.calledOnce
     expect(setObjectValue.firstCall.firstArg.newValue.value).not.to.eq(newValue.value)
   })
@@ -84,7 +81,6 @@ describe('models/forms/effects/updateObject', () => {
 
     // when
     expect(() => updateObject(store)({
-      form,
       focusNode,
       property,
       object,
@@ -93,6 +89,6 @@ describe('models/forms/effects/updateObject', () => {
 
     // then
     const dispatch = store.getDispatch()
-    expect(dispatch.forms.setObjectValue).not.to.have.been.called
+    expect(dispatch.form.setObjectValue).not.to.have.been.called
   })
 })

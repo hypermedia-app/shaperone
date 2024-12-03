@@ -12,14 +12,13 @@ import { nodeShape, propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/lib/syncProperties', () => {
   let store: Store
-  let form: symbol
   let editors: EditorsState
-  let forms: State
+  let form: State
   let dispatch: Dispatch
 
   beforeEach(() => {
-    ({ form, store } = testStore());
-    ({ forms, editors } = store.getState())
+    store = testStore();
+    ({ form, editors } = store.getState())
     dispatch = store.getDispatch()
   })
 
@@ -41,7 +40,7 @@ describe('models/forms/effects/lib/syncProperties', () => {
       [sh.equals.value]: foaf.givenName,
     })
 
-    store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode, {
+    store.getState().form.focusNodes = testFocusNodeState(focusNode, {
       shape: nodeShape(shapesGraph.blankNode()),
       properties: [
         testPropertyState(property.pointer),
@@ -51,10 +50,10 @@ describe('models/forms/effects/lib/syncProperties', () => {
     })
 
     // when
-    syncProperties({ forms, editors, form, dispatch, property, focusNode })
+    syncProperties({ form, editors, dispatch, property, focusNode })
 
     // then
-    const spy = dispatch.forms.setPropertyObjects as sinon.SinonSpy
+    const spy = dispatch.form.setPropertyObjects as sinon.SinonSpy
     expect(spy).to.have.been.calledTwice
     expect(spy.getCalls().map(call => call.lastArg.property.id)).to.deep.equal([
       synced1.id,

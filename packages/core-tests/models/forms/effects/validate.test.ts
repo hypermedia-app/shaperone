@@ -8,16 +8,15 @@ import { validate } from '@hydrofoil/shaperone-core/models/forms/effects/validat
 
 describe('@hydrofoil/shaperone-core/models/forms/effects/validate', () => {
   let store: Store
-  let form: symbol
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('calls validator and dispatches report update', async () => {
     // given
     const focusNode = $rdf.clownface().namedNode('foo')
-    store.getState().forms.get(form)!.focusNodes = testFocusNodeState(focusNode)
+    store.getState().form.focusNodes = testFocusNodeState(focusNode)
     const validationResult = {
       term: $rdf.blankNode(),
       dataset: $rdf.dataset(),
@@ -25,13 +24,11 @@ describe('@hydrofoil/shaperone-core/models/forms/effects/validate', () => {
     store.getState().validation.validator = sinon.stub().resolves(validationResult)
 
     // when
-    await validate(store)({
-      form,
-    })
+    await validate(store)()
 
     // then
     const dispatch = store.getDispatch()
     expect(store.getState().validation.validator).to.have.been.called
-    expect(dispatch.forms.validationReport).to.have.been.called
+    expect(dispatch.form.validationReport).to.have.been.called
   })
 })

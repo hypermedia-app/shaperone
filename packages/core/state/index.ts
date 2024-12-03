@@ -1,6 +1,6 @@
 import type { StoreDispatch, StoreState } from '@captaincodeman/rdx'
 import type { ModelStore } from '@captaincodeman/rdx/typings/model.js'
-import type { forms } from '../models/forms/index.js'
+import type { form } from '../models/forms/index.js'
 import type { editors } from '../models/editors/index.js'
 import type { components } from '../models/components/index.js'
 import type { resources } from '../models/resources/index.js'
@@ -9,7 +9,7 @@ import type { validation } from '../models/validation/index.js'
 
 interface Config {
   models: {
-    forms: typeof forms
+    form: typeof form
     editors: typeof editors
     resources: typeof resources
     shapes: typeof shapes

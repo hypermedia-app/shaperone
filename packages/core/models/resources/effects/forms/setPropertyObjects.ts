@@ -1,14 +1,13 @@
 import type * as updateObject from '../../../forms/reducers/updateObject.js'
 import type { Store } from '../../../../state/index.js'
-import { notify } from '../../lib/notify.js'
 import { deleteOrphanedSubgraphs } from '../../../../lib/graph.js'
 
-type Params = Pick<updateObject.ReplaceObjectsParams, 'form' | 'focusNode' | 'property' | 'objects'>
+type Params = Pick<updateObject.ReplaceObjectsParams, 'focusNode' | 'property' | 'objects'>
 
 export default function (store: Store) {
-  return function ({ form, focusNode, property, objects }: Params) {
+  return function ({ focusNode, property, objects }: Params) {
     const { resources } = store.getState()
-    const state = resources.get(form)
+    const state = resources
     const pathProperty = property.getPathProperty(true).id
 
     const currentValues = state?.graph?.node(focusNode).out(pathProperty)
@@ -19,9 +18,7 @@ export default function (store: Store) {
       deleteOrphanedSubgraphs(currentValues.toArray())
     }
 
-    notify({
-      store,
-      form,
+    store.getDispatch().form.notify({
       property,
       focusNode,
     })

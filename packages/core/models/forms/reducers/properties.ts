@@ -1,11 +1,9 @@
 import { produce } from 'immer'
 import type { Shape } from '@rdfine/shacl'
-import type { BaseParams } from '../../index.js'
-import { formStateReducer } from '../../index.js'
 import type { FormState } from '../index.js'
 import type { FocusNode } from '../../../index.js'
 
-export interface ToggleParams extends BaseParams {
+export interface ToggleParams {
   focusNode: FocusNode
   shape: Shape
 }
@@ -21,6 +19,6 @@ function setHidden(hidden: boolean) {
   })
 }
 
-export const showProperty = formStateReducer(setHidden(false))
+export const showProperty = setHidden(false)
 
-export const hideProperty = formStateReducer(setHidden(true))
+export const hideProperty = setHidden(true)

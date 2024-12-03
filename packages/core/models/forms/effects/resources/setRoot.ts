@@ -9,27 +9,25 @@ function samePointers(left: GraphPointer, right?: GraphPointer) {
 export default function (store: Store) {
   const dispatch = store.getDispatch()
 
-  return ({ form, rootPointer }: setRoot.Params) => {
-    const { forms, editors, shapes, resources, components } = store.getState()
-    const formState = forms.get(form)
-    const graph = resources.get(form)?.graph
-    const shapesState = shapes.get(form)
-    if (!graph || !formState) {
+  return ({ rootPointer }: setRoot.Params) => {
+    const { form, editors, shapes, resources, components } = store.getState()
+    const { graph } = resources
+    const shapesState = shapes
+    if (!graph) {
       return
     }
 
-    if (samePointers(rootPointer, formState.focusStack[0])) {
+    if (samePointers(rootPointer, form.focusStack[0])) {
       return
     }
 
-    if (!formState.focusStack.length || rootPointer.value !== formState.focusStack[0].value) {
-      dispatch.forms.truncateFocusNodes({ form, focusNode: rootPointer })
-      dispatch.forms.createFocusNodeState({
-        form,
+    if (!form.focusStack.length || rootPointer.value !== form.focusStack[0].value) {
+      dispatch.form.truncateFocusNodes({ focusNode: rootPointer })
+      dispatch.form.createFocusNodeState({
         focusNode: rootPointer,
         editors,
         components,
-        shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
+        shouldEnableEditorChoice: form.shouldEnableEditorChoice,
         shapes: shapesState?.shapes || [],
         shape: shapesState?.preferredRootShape,
         replaceStack: true,
@@ -37,17 +35,16 @@ export default function (store: Store) {
       return
     }
 
-    for (const currentFocusNode of formState.focusStack) {
+    for (const currentFocusNode of form.focusStack) {
       const focusNode = rootPointer.node(currentFocusNode)
       if (!focusNode.out().values) break
 
-      dispatch.forms.createFocusNodeState({
-        form,
+      dispatch.form.createFocusNodeState({
         focusNode,
         editors,
         components,
         shapes: shapesState?.shapes || [],
-        shouldEnableEditorChoice: formState.shouldEnableEditorChoice,
+        shouldEnableEditorChoice: form.shouldEnableEditorChoice,
       })
     }
   }

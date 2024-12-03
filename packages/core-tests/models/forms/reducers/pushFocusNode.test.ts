@@ -11,10 +11,8 @@ const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/forms/reducers/pushFocusNode', () => {
   let store: Store
-  let form: symbol
-
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
   })
 
   it('dispatches initialization of new node state', () => {
@@ -24,15 +22,13 @@ describe('core/models/forms/reducers/pushFocusNode', () => {
 
     // when
     pushFocusNode(store)({
-      form,
       focusNode: graph.node(ex.FocusNode),
       property,
     })
 
     // then
-    expect(store.getDispatch().forms.createFocusNodeState).to.have.been.calledWith(sinon.match({
+    expect(store.getDispatch().form.createFocusNodeState).to.have.been.calledWith(sinon.match({
       appendToStack: true,
-      form,
     }))
   })
 })
