@@ -6,7 +6,8 @@
  */
 
 import CoreMetadata from '@hydrofoil/shaperone-core/metadata.js'
-import { RequiredEnvironment, setEnv } from '@hydrofoil/shaperone-core/env.js'
+import type { RequiredEnvironment } from '@hydrofoil/shaperone-core/env.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import onetime from 'onetime'
 import { store } from './store.js'
 

@@ -1,6 +1,8 @@
-import { Directive, PartInfo, PartType, directive } from 'lit/directive.js'
-import { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
-import { ElementPart, noChange } from 'lit'
+import type { PartInfo } from 'lit/directive.js'
+import { Directive, PartType, directive } from 'lit/directive.js'
+import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { ElementPart } from 'lit'
+import { noChange } from 'lit'
 
 class ReadonlyDirective extends Directive {
   constructor(partInfo: PartInfo) {

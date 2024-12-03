@@ -1,10 +1,12 @@
-import { html, MultiEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { MultiEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
 import { expect, fixture, nextFrame } from '@open-wc/testing'
-import { SlButton, SlSelect } from '@shoelace-style/shoelace'
+import type { SlButton, SlSelect } from '@shoelace-style/shoelace'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { schema } from '@tpluscode/rdf-ns-builders'
-import { InstancesMultiSelect, instancesMultiSelectEditor } from '../../component-extras.js'
+import type { InstancesMultiSelect } from '../../component-extras.js'
+import { instancesMultiSelectEditor } from '../../component-extras.js'
 
 describe('wc-shoelace/components/multiInstancesSelect', () => {
   let component: MultiEditorComponent

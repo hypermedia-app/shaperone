@@ -1,4 +1,5 @@
-import { LitElement, css, html, TemplateResult } from 'lit'
+import type { LitElement, TemplateResult } from 'lit'
+import { css, html } from 'lit'
 import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import type{ GraphPointer } from 'clownface'

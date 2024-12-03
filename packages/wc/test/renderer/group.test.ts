@@ -1,10 +1,10 @@
-import { GroupRenderer } from '@hydrofoil/shaperone-core/renderer.js'
-import { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
+import type { GroupRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import type { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
 import { groupRenderer } from '@shaperone/testing/renderer.js'
 import { emptyGroupState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { expect } from '@open-wc/testing'
-import { sinon } from '@shaperone/testing'
+import type { sinon } from '@shaperone/testing'
 import $rdf from '@shaperone/testing/env.js'
 import { renderGroup } from '../../renderer/group.js'
 

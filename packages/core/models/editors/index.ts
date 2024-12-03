@@ -8,7 +8,7 @@ import { addMetadata } from './reducers/addMetadata.js'
 import { decorate } from './reducers/decorate.js'
 import { matchSingleEditors, matchMultiEditors } from './lib/match.js'
 import { loadDash } from './effects/index.js'
-import { ShaperoneEnvironment } from '../../env.js'
+import type { ShaperoneEnvironment } from '../../env.js'
 
 interface EditorBase {
   term: NamedNode

@@ -1,14 +1,14 @@
 import { objectRenderer, propertyRenderer } from '@shaperone/testing/renderer.js'
-import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import type { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { fixture, expect, html } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
 import { emptyGroupState, testFocusNode, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
-import { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { xsd, sh } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
-import { MultiEditorActions, SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
+import type { MultiEditorActions, SingleEditorActions } from '@hydrofoil/shaperone-core/models/components'
 import rdf from '@zazuko/env/web.js'
-import { Dispatch } from '@hydrofoil/shaperone-core/state'
+import type { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { renderMultiEditor, renderEditor } from '../../renderer/editor.js'
 
 describe('wc/renderer/editor', () => {

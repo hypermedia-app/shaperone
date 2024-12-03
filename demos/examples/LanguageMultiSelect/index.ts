@@ -1,10 +1,11 @@
-import { MultiEditorComponent, html } from '@hydrofoil/shaperone-wc'
+import type { MultiEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
 import $rdf from '@zazuko/env/web.js'
-import { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
+import type { MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
 import { vcard, rdfs } from '@tpluscode/rdf-ns-builders'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
 import { sort } from '@hydrofoil/shaperone-core/lib/components.js'
-import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
+import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 
 const editor = $rdf.namedNode('http://example.com/LanguageMultiSelect')
 

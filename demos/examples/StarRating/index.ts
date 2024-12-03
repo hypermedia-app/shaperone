@@ -1,11 +1,12 @@
 import type { IconDefinition } from '@fortawesome/fontawesome-common-types'
 import type { IconName } from '@fortawesome/fontawesome-svg-core'
-import { html, SingleEditor, Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { SingleEditor, Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { html } from '@hydrofoil/shaperone-wc'
 import type { UpdateComponentState } from '@hydrofoil/shaperone-core/models/components'
 import { schema, xsd } from '@tpluscode/rdf-ns-builders'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import type { PropertyShape } from '@rdfine/shacl'
-import { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
+import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import rdf from '@zazuko/env/web.js'
 
 export interface StarRating {

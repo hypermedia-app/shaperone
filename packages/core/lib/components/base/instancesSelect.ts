@@ -1,12 +1,12 @@
 import { rdf } from '@tpluscode/rdf-ns-builders'
 import type { GraphPointer } from 'clownface'
-import { PropertyShape } from '@rdfine/shacl'
-import {
+import type { PropertyShape } from '@rdfine/shacl'
+import type {
   ComponentInstance,
   SingleEditorComponent,
   SingleEditorRenderParams,
 } from '../../../models/components/index.js'
-import { ShaperoneEnvironment } from '../../../env.js'
+import type { ShaperoneEnvironment } from '../../../env.js'
 
 export interface State extends ComponentInstance {
   instances?: GraphPointer[]

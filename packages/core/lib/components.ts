@@ -1,7 +1,7 @@
 import type { GraphPointer } from 'clownface'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
-import { PropertyShape } from '@rdfine/shacl'
+import type { PropertyShape } from '@rdfine/shacl'
 import type { SingleEditorComponent } from '../models/components/index.js'
 import env from '../env.js'
 

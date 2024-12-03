@@ -2,7 +2,7 @@ import { expect, fixture } from '@open-wc/testing'
 import $rdf from '@shaperone/testing/env.js'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams } from '@shaperone/testing'
-import { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { enumSelectEditor } from '../../components.js'
 

@@ -1,8 +1,8 @@
-import { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
+import type { PropertyRenderer, ObjectRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import type { Term } from '@rdfjs/types'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
 import type { GraphPointer } from 'clownface'
-import { ComponentState, MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-core/models/components'
+import type { ComponentState, MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-core/models/components'
 
 export const renderMultiEditor: PropertyRenderer['renderMultiEditor'] = function () {
   const { dispatch, env, form, state, components, templates } = this.context

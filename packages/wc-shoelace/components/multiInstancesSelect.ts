@@ -1,5 +1,5 @@
 import type { GraphPointer } from 'clownface'
-import { SlSelect } from '@shoelace-style/shoelace'
+import type { SlSelect } from '@shoelace-style/shoelace'
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import type { MultiEditorComponent } from '@hydrofoil/shaperone-wc'

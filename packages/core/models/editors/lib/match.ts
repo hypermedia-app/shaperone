@@ -2,7 +2,8 @@ import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
 import type { NamedNode } from '@rdfjs/types'
 import type { EditorsState, SingleEditor, SingleEditorMatch, MultiEditor, Editor, MultiEditorMatch } from '../index.js'
-import env, { ShaperoneEnvironment } from '../../../env.js'
+import type { ShaperoneEnvironment } from '../../../env.js'
+import env from '../../../env.js'
 
 function toDefined<T extends Editor>(arr: Map<NamedNode, T>, next: T | undefined): Map<NamedNode, T> {
   return !next ? arr : arr.set(next.term, next)

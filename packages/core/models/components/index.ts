@@ -12,7 +12,7 @@ import type { FormSettings, PropertyObjectState, PropertyState } from '../forms/
 import type { Store } from '../../state/index.js'
 import type { FocusNode } from '../../index.js'
 import type { ObjectRenderer, PropertyRenderer } from '../../renderer.js'
-import { ShaperoneEnvironment } from '../../env.js'
+import type { ShaperoneEnvironment } from '../../env.js'
 
 export interface ComponentInstance extends Record<string, any> {
   ready?: boolean

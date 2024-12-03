@@ -1,4 +1,5 @@
-import { decorate, FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import type { FocusNodeTemplate } from '@hydrofoil/shaperone-wc/templates.js'
+import { decorate } from '@hydrofoil/shaperone-wc/templates.js'
 import { html } from '@hydrofoil/shaperone-wc'
 import type { ValidationResult } from '@rdfine/shacl'
 import { shrink } from '@zazuko/prefixes/shrink'

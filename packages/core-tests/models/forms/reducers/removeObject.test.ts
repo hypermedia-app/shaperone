@@ -1,12 +1,12 @@
 import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
-import { RecursivePartial } from '@shaperone/testing'
+import type { RecursivePartial } from '@shaperone/testing'
 import { testObjectState, testStore } from '@shaperone/testing/models/form.js'
 import { removeObject } from '@hydrofoil/shaperone-core/models/forms/reducers/removeObject.js'
-import { Store } from '@hydrofoil/shaperone-core/state'
-import { FocusNode } from '@hydrofoil/shaperone-core'
-import { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { FocusNode } from '@hydrofoil/shaperone-core'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/reducers/removeObject', () => {

@@ -1,4 +1,5 @@
-import { css, html, LitElement, TemplateResult } from 'lit'
+import type { TemplateResult } from 'lit'
+import { css, html, LitElement } from 'lit'
 import { customElement, property, query } from 'lit/decorators.js'
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js'
 

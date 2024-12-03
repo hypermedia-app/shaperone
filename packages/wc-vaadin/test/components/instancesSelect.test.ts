@@ -3,7 +3,7 @@ import $rdf from '@shaperone/testing/env.js'
 import '@vaadin/vaadin-select/vaadin-select'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components.js'
-import { ComboBoxElement } from '@vaadin/vaadin-combo-box'
+import type { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { instancesSelectEditor } from '../../components.js'
 
 describe('wc-vaadin/components/instancesSelect', () => {

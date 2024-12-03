@@ -1,4 +1,4 @@
-import { PropertyGroup } from '@rdfine/shacl'
+import type { PropertyGroup } from '@rdfine/shacl'
 
 export function byShOrder(left: PropertyGroup, right: PropertyGroup) {
   const leftOrder = left.order || 0

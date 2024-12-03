@@ -1,10 +1,10 @@
-import { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import type { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
 import { html } from 'lit'
 import isGraphPointer from 'is-graph-pointer'
 import type { GraphPointer } from 'clownface'
-import { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
+import type { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
 
 export { autocomplete } from './components/autocomplete.js'
 export { enumSelect } from './components/enumSelect.js'

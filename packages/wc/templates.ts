@@ -3,8 +3,9 @@
  * @module @hydrofoil/shaperone-wc/templates
  */
 
-import { CSSResult, html, TemplateResult, CSSResultGroup } from 'lit'
-import { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { CSSResult, TemplateResult, CSSResultGroup } from 'lit'
+import { html } from 'lit'
+import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
 import { repeat } from 'lit/directives/repeat.js'
 import type { FocusNodeRenderer, FormRenderer, GroupRenderer, ObjectRenderer, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import type { NamedNode } from '@rdfjs/types'

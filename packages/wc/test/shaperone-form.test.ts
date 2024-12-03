@@ -2,10 +2,11 @@ import { html } from 'lit'
 import { fixture, oneEvent, expect } from '@open-wc/testing'
 import rdf from '@shaperone/testing/env.js'
 import { propertyShape } from '@shaperone/testing/util.js'
-import { FocusNode } from '@hydrofoil/shaperone-core'
+import type { FocusNode } from '@hydrofoil/shaperone-core'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import { store } from '../store.js'
-import { id, ShaperoneForm } from '../ShaperoneForm.js'
+import type { ShaperoneForm } from '../ShaperoneForm.js'
+import { id } from '../ShaperoneForm.js'
 import '../shaperone-form.js'
 
 describe('shaperone-form', () => {

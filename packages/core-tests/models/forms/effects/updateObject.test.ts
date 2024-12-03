@@ -4,7 +4,7 @@ import type * as sinon from 'sinon'
 import $rdf from '@shaperone/testing/env.js'
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { testStore, testObjectState } from '@shaperone/testing/models/form.js'
-import { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state'
 import { updateObject } from '@hydrofoil/shaperone-core/models/forms/effects/updateObject.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 

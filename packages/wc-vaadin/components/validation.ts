@@ -1,4 +1,4 @@
-import { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
+import type { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 
 export function validity(value: PropertyObjectState): Record<string, any> {
   return {

@@ -1,6 +1,7 @@
 import { produce } from 'immer'
-import { formStateReducer, BaseParams } from '../../index.js'
-import { FocusNode } from '../../../index.js'
+import type { BaseParams } from '../../index.js'
+import { formStateReducer } from '../../index.js'
+import type { FocusNode } from '../../../index.js'
 import type { FormState } from '../index.js'
 
 export interface Params extends BaseParams {
