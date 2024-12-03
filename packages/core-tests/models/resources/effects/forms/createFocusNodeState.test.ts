@@ -21,8 +21,8 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
   beforeEach(() => {
     store = testStore()
-    formState = store.getState().form;
-    ({ graph } = store.getState().resources)
+    formState = store.getState().form
+    graph = store.getState().resources.graph!
   })
 
   it('ensures defaultValue added to graph and object without default', () => {

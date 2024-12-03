@@ -13,8 +13,8 @@ describe('models/resources/effects/forms/clearValue', () => {
   let graph: AnyPointer
 
   beforeEach(() => {
-    store = testStore();
-    ({ graph } = store.getState().resources)
+    store = testStore()
+    graph = store.getState().resources.graph!
   })
 
   it('removes value from graph', () => {

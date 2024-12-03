@@ -16,7 +16,7 @@ describe('models/forms/effects/replaceObjects', () => {
 
   it('dispatches setPropertyObjects with pointers from resource graph', () => {
     // given
-    const { dataset } = store.getState().resources.graph
+    const { dataset } = store.getState().resources.graph!
     const property = propertyShape()
     const focusNode = $rdf.clownface().blankNode()
     const terms = [

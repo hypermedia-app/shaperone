@@ -14,8 +14,8 @@ describe('models/resources/effects/forms/removeObject', () => {
   let graph: AnyPointer
 
   beforeEach(() => {
-    store = testStore();
-    ({ graph } = store.getState().resources)
+    store = testStore()
+    graph = store.getState().resources.graph!
   })
 
   it("removes object's value from dataset", () => {

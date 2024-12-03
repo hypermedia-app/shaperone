@@ -149,13 +149,6 @@ describe('core/models/forms/reducers/editors', () => {
           }),
         },
       })
-      testState(state, {
-        focusNodes: {
-          ...testFocusNodeState(focusNode, {
-            properties: [property],
-          }),
-        },
-      })
       const editors = testEditorsState({
         matchSingleEditors: () => [{
           term: dash.TextFieldEditor,

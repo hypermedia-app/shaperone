@@ -19,8 +19,8 @@ describe('models/resources/effects/forms/addFormField', () => {
 
   beforeEach(() => {
     store = testStore()
-    formState = store.getState().form;
-    ({ graph } = store.getState().resources)
+    formState = store.getState().form
+    graph = store.getState().resources.graph!
   })
 
   it('adds sh:defaultValue to graph', () => {
