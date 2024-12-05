@@ -9,12 +9,13 @@ import process from "process";
 import { Buffer } from "buffer";
 import EventEmitter from "events";
 import * as Shaperone from '@hydrofoil/shaperone-wc'
+import onetime from 'onetime'
+
+const configure = onetime(() => Shaperone.configure())
 
 SyntaxHighlighter.registerLanguage('turtle', turtle)
 
 setBasePath(window.CONFIG_TYPE === 'DEVELOPMENT' ? '/shoelace/dist' : '/storybook/shoelace/dist');
-
-Shaperone.configure()
 
 window.Buffer = Buffer;
 window.process = process;
@@ -71,6 +72,7 @@ const preview = {
     return {
       shapes,
       data,
+      _: configure()
     }
   }],
 }
