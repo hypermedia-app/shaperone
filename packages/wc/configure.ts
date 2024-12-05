@@ -49,8 +49,6 @@ export async function configure(first?: RequiredEnvironment | ConfigCallback, se
     setEnvOnce(zazukoEnv.default as unknown as RequiredEnvironment)
   }
 
-  await import('./lib/shaperone-form.js')
-
   editors.addMetadata(CoreMetadata)
   components.pushComponents(nativeComponents)
   await editors.loadDash()

@@ -53,10 +53,6 @@ export function connect<T extends Constructor<Connectable & LitElement>, S>(
 
     connectedCallback() {
       super.connectedCallback()
-      this[store].addEventListener('changed', ({ detail }: any) => {
-        this.dispatchEvent(new CustomEvent('changed', { detail }))
-      })
-
       this[addEventListeners]()
       this[addStateSubscription]()
     }
