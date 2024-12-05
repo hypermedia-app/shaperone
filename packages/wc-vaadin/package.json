@@ -17,6 +17,7 @@
   "dependencies": {
     "@hydrofoil/shaperone-wc": "^0.8.1",
     "@hydrofoil/shaperone-core": "^0.12.1",
+    "@open-wc/lit-helpers": "^0.7.0",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@vaadin/vaadin-accordion": "^22",

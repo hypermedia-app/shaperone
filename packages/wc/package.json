@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@hydrofoil/shaperone-core": "^0.12.1",
+    "@open-wc/lit-helpers": "^0.7.0",
     "@rdfine/shacl": "^0.10.5",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@tpluscode/rdf-ns-builders": "^4.3.0",

@@ -26,6 +26,7 @@
     "@material/mwc-select": "^0.25",
     "@material/mwc-textarea": "^0.25",
     "@material/mwc-textfield": "^0.25",
+    "@open-wc/lit-helpers": "^0.7.0",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "lit": "^3",
