@@ -19,7 +19,7 @@ interface InitPropertyObjectShapeParams {
 export function initialiseObjectState({ shape, editors, components, shouldEnableEditorChoice }: InitPropertyObjectShapeParams, previous: PropertyState | undefined) {
   return (object?: GraphPointer): PropertyObjectState => {
     const matchedEditors = editors.matchSingleEditors({ shape, object })
-    let selectedEditor = matchedEditors.filter(editor => components.components[editor.term.value])[0]?.term
+    let selectedEditor = matchedEditors.filter(editor => components.components[editor.term.value])[0]?.term || matchedEditors[0]?.term
 
     const previousObject = previous?.objects?.find(o => o.object?.term.equals(object?.term))
     if (previousObject?.selectedEditor && matchedEditors.some(e => e.term.equals(previousObject.selectedEditor))) {
