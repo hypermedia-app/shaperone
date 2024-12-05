@@ -20,7 +20,7 @@ const render: ArgsStoryFn<WebComponentsRenderer, Args> = function ({ focusNode, 
   }
   return html`
     <shaperone-demo .prefixes="${prefixes}" .shapesGraph="${raw.shapes}" .dataGraph="${raw.data}">
-      <shaperone-form .shapes="${shapes}" .resource="${resource}" .configure="${configure}" ?debug="${debug}"></shaperone-form>
+      <shaperone-form .shapes="${shapes}" .resource="${resource}" .configuration="${configure}" ?debug="${debug}"></shaperone-form>
     </shaperone-demo>`
 }
 

@@ -22,6 +22,7 @@ const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes dataset')
 const shapes: unique symbol = Symbol('shapes')
 const ready: unique symbol = Symbol('ready')
+const configuration: unique symbol = Symbol('configuration')
 
 /**
  * A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).
@@ -60,6 +61,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
   private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
   private [ready]: boolean = false
+  private [configuration]: ConfigCallback | undefined
 
   static get styles() {
     return [css`
@@ -149,6 +151,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
   /**
    * Gets or sets the resource graph as graph pointer
    */
+  @property({ type: Object })
   get resource(): FocusNode | undefined {
     return this[resourceSymbol]
   }
@@ -197,6 +200,7 @@ export class ShaperoneForm extends connect(store, LitElement) {
   /**
    * Gets or sets the shapes graph
    */
+  @property({ type: Object })
   get shapes(): AnyPointer | DatasetCore | undefined {
     return this[shapesSymbol]
   }
@@ -208,6 +212,17 @@ export class ShaperoneForm extends connect(store, LitElement) {
     this.dispatch.shapes.setGraph({
       shapesGraph,
     })
+  }
+
+  set configuration(value: ConfigCallback | undefined) {
+    this.configure(value)
+
+    this[configuration] = value
+  }
+
+  @property({ type: Object })
+  get configuration(): ConfigCallback | undefined {
+    return this[configuration]
   }
 
   configure(fn: ConfigCallback | undefined) {
@@ -266,6 +281,14 @@ export class ShaperoneForm extends connect(store, LitElement) {
       rendererOptions: state.renderer,
       editors: state.editors,
       components: state.components,
+    }
+  }
+
+  mapEvents() {
+    return {
+      changed: ({ detail }: any) => {
+        this.dispatchEvent(new CustomEvent('changed', { detail }))
+      },
     }
   }
 }

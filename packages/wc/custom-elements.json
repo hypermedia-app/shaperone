@@ -33,6 +33,20 @@
           "type": "FormState"
         },
         {
+          "name": "shapes",
+          "description": "Gets or sets the shapes graph",
+          "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "configuration",
+          "type": "ConfigCallback | undefined"
+        },
+        {
+          "name": "resource",
+          "description": "Gets or sets the resource graph as graph pointer",
+          "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
           "name": "debug",
           "type": "boolean",
           "default": "false"
@@ -103,11 +117,18 @@
         },
         {
           "name": "shapes",
+          "attribute": "shapes",
           "description": "Gets or sets the shapes graph",
           "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
         },
         {
+          "name": "configuration",
+          "attribute": "configuration",
+          "type": "ConfigCallback | undefined"
+        },
+        {
           "name": "resource",
+          "attribute": "resource",
           "description": "Gets or sets the resource graph as graph pointer",
           "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
         },
