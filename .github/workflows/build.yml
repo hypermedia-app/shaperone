@@ -30,7 +30,7 @@ jobs:
       - run: npm ci
       - run: yarn tsc --noEmit --project tsconfig.build.json
       - run: yarn build
-      - run: npx wsrun -m prepack --noEmit
+      - run: npx wsrun -m prepack
 
   core-tests:
     runs-on: ubuntu-latest
