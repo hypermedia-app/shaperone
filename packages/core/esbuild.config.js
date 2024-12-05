@@ -1,4 +1,4 @@
-import p from './package.json' assert { type: 'json' }
+import p from './package.json' with { type: 'json' }
 
 export default {
   entryPoints: [
