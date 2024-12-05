@@ -39,7 +39,6 @@ export const EmptyDataGraph: Story = {
   args: {
     shapes: firstLast,
     shape: 'http://example.org/PersonShape',
-    debug: true
   },
   render,
 }
