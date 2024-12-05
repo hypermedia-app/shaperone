@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "exclude": [
-    "demos/storybook"
+    "demos/storybook",
+    "packages/rdx"
   ]
 }
