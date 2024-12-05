@@ -5,8 +5,10 @@ export interface Params {
   rootPointer: FocusNode
 }
 
-export function setRoot(instance: State, { rootPointer }: Params) {
-  instance.rootPointer = rootPointer
-  instance.graph = rootPointer.any()
-  return instance
+export function setRoot(state: State, { rootPointer }: Params) {
+  return {
+    ...state,
+    rootPointer,
+    graph: rootPointer.any(),
+  }
 }

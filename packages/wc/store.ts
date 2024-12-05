@@ -4,14 +4,13 @@
  */
 
 import type { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
-import { createStore, devtools } from '@captaincodeman/rdx'
 import { editors } from '@hydrofoil/shaperone-core/models/editors/index.js'
 import { components } from '@hydrofoil/shaperone-core/models/components/index.js'
 import { form } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { resources } from '@hydrofoil/shaperone-core/models/resources/index.js'
 import { shapes } from '@hydrofoil/shaperone-core/models/shapes/index.js'
 import { validation } from '@hydrofoil/shaperone-core/models/validation/index.js'
-import { getPlugins } from '@hydrofoil/shaperone-core/store.js'
+import { getPlugins, createStore, devtools } from '@hydrofoil/shaperone-core/store.js'
 import { renderer } from './renderer/model.js'
 
 const config = {

@@ -1,4 +1,4 @@
-import { createModel } from '@captaincodeman/rdx'
+import { createModel } from '@hydrofoil/shaperone-core/store.js'
 import type { CSSResult, CSSResultArray } from 'lit'
 import { css } from 'lit'
 import deepmerge from 'concat-merge'

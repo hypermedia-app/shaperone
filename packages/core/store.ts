@@ -1,6 +1,8 @@
 import type { Plugins, Plugin } from '@captaincodeman/rdx'
 import { EffectsPlugin } from './state/effectsPlugin.js'
 
+export { createModel, createStore, devtools } from '@captaincodeman/rdx'
+
 const plugins: Plugins = {}
 
 export function getPlugins() {

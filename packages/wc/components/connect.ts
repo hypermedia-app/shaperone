@@ -5,7 +5,7 @@
 
 /* eslint-disable guard-for-in,no-restricted-syntax,symbol-description */
 import type { Connectable, Store, Constructor, DispatchMap } from '@captaincodeman/rdx'
-import { devtools } from '@captaincodeman/rdx'
+import { devtools } from '@hydrofoil/shaperone-core/store.js'
 import { property } from 'lit/decorators.js'
 import type { LitElement, PropertyValues } from 'lit'
 

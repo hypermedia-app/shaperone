@@ -10,7 +10,9 @@
     "custom-elements.json"
   ],
   "scripts": {
-    "prepack": "tsc",
+    "build:js": "esbuild-c",
+    "build:types": "tsc",
+    "prepack": "run-p build:js build:types",
     "analyze": "run-p analyze:*",
     "analyze:wc": "wca --format json --outFile ./custom-elements.json",
     "analyze:readme": "wca --outFile ./README.md",
@@ -19,7 +21,6 @@
     "build": "vite build --outDir ../../../dist/shaperone-form"
   },
   "dependencies": {
-    "@captaincodeman/rdx": "^1.0.0-rc.8",
     "@hydrofoil/shaperone-core": "^0.12.1",
     "@rdfine/shacl": "^0.10.5",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
@@ -31,10 +32,12 @@
     "onetime": "^5.1.2"
   },
   "devDependencies": {
+    "@captaincodeman/rdx": "^1.0.0-rc.8",
     "@open-wc/testing": "^3.2.2",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@shaperone/testing": "*",
-    "api-viewer-element": "^0.5"
+    "api-viewer-element": "^0.5",
+    "esbuild-c": "^0.1.34"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
@@ -42,5 +45,16 @@
   "private": false,
   "publishConfig": {
     "access": "public"
+  },
+  "esbuild": {
+    "entryPoints": [
+      "*.ts",
+      "lib/**/*.ts",
+      "components/**/*.ts",
+      "renderer/**/*.ts"
+    ],
+    "format": "esm",
+    "platform": "browser",
+    "outdir": "."
   }
 }

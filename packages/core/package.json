@@ -9,10 +9,11 @@
     "**/*.d.ts"
   ],
   "scripts": {
-    "prepack": "tsc"
+    "build:js": "esbuild-c",
+    "build:types": "tsc",
+    "prepack": "run-p build:js build:types"
   },
   "dependencies": {
-    "@captaincodeman/rdx": "^1.0.0-rc.8",
     "@rdfine/dash": "^0.4.5",
     "@rdfine/rdfs": "^0.8.5",
     "@rdfine/shacl": "^0.10.5",
@@ -30,6 +31,10 @@
     "immer": "^9.0.15",
     "is-graph-pointer": "^2.1.0",
     "nanoid": "^5.0.6"
+  },
+  "devDependencies": {
+    "@captaincodeman/rdx": "^1.0.0-rc.8",
+    "esbuild-c": "^0.1.34"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

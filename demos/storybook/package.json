@@ -26,6 +26,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "@zazuko/env": "^2",
     "lit": "^3",
+    "onetime": "^7.0.0",
     "react-syntax-highlighter": "^15.6.1",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "storybook": "^8.4.5",

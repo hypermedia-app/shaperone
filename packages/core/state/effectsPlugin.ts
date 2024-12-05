@@ -9,8 +9,7 @@ import type { ActionEvent, Dispatch, EffectFn, Model, Models, ModelsDispatch, Mo
 import { stateEvent } from '@captaincodeman/rdx'
 
 declare module '@captaincodeman/rdx/typings/model.d.ts' {
-  interface ModelStore {
-    dispatchEvent: (event: CustomEvent) => boolean
+  interface ModelStore extends Pick<EventTarget, 'dispatchEvent'> {
   }
 }
 
