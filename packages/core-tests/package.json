@@ -4,7 +4,7 @@
   "version": "0.1.1",
   "type": "module",
   "scripts": {
-    "test": "mocha \"**/*.ts\""
+    "test": "mocha \"**/*.ts\" --exclude \"node_modules/**/*.ts\""
   },
   "devDependencies": {
     "@hydrofoil/shaperone-core": "*",
@@ -12,24 +12,23 @@
     "@shaperone/testing": "*",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@zazuko/env": "^2.1.0",
-    "chai": "^4.2.0",
-    "mocha": "^10.0.0",
-    "@types/chai": "^4.2.11",
-    "@types/chai-subset": "^1.3.3",
-    "@types/chai-quantifiers": "^1.0.0",
-    "@types/mocha": "^9.1.1",
+    "chai": "^5",
+    "mocha": "^11.0.0",
+    "@types/chai": "^5",
+    "@types/chai-subset": "^1.3.5",
+    "@types/mocha": "^10.0.10",
     "@types/sinon-chai": "^3.2.4",
     "autoesm": "^1.0.5",
-    "chai-snapshot-matcher": "^1.0.6",
+    "chai-snapshot-matcher": "^2.0.3",
     "chai-subset": "^1.6.0",
-    "chai-quantifiers": "^1.0.10",
+    "chai-quantifiers": "^1.0.18",
     "deepmerge": "^4.2.2",
     "promise-the-world": "^1.0.1",
     "rdf-dataset-ext": "^1.1.0"
   },
   "mocha": {
     "require": [
-      "./test-setup.js"
+      "./test-setup.ts"
     ],
     "loader": "ts-node/esm/transpile-only"
   }

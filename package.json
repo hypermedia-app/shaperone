@@ -24,6 +24,7 @@
     "@tpluscode/eslint-config": "^0.5.0",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
+    "@web/test-runner-puppeteer": "^0.17.0",
     "@web/dev-server-esbuild": "^0.4.4",
     "@web/dev-server-rollup": "^0.6.4",
     "@web/test-runner": "^0.19",
@@ -42,9 +43,9 @@
     "standard": "^17.0.0",
     "ts-lit-plugin": "^2.0.2",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.25.12",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.14",
+    "typedoc": "^0.27.3",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
     "web-component-analyzer": "^1.1.6",
     "wsrun": "^5.2.4"
   },
@@ -60,8 +61,5 @@
     "ts-sinon": {
       "sinon": "19.0.2"
     }
-  },
-  "dependencies": {
-    "@web/test-runner-puppeteer": "^0.17.0"
   }
 }

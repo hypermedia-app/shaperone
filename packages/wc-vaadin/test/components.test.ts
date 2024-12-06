@@ -27,7 +27,7 @@ describe('wc-vaadin/components', () => {
       let property: PropertyState
       let value: PropertyObjectState
       let updateComponentState: UpdateComponentState
-      let actions: SinonStubbedInstance<SingleEditorActions>
+      const actions: SinonStubbedInstance<SingleEditorActions> = {} as any
 
       beforeEach(() => {
         focusNode = $rdf.clownface().blankNode()
