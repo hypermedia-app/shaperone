@@ -1,0 +1,30 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:property
+    [
+      sh:name "Name" ;
+      sh:path schema:name ;
+      sh:datatype rdf:langString ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ],
+    [
+      sh:name "Base Salary" ;
+      sh:path schema:baseSalary ;
+      sh:datatype xsd:decimal ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ],
+    [
+      sh:name "Age" ;
+      sh:path schema:age ;
+      sh:datatype xsd:integer ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+.

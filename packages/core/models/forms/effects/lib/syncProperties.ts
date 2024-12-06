@@ -9,20 +9,19 @@ import env from '../../../../env.js'
 
 interface Params {
   dispatch: Dispatch
-  forms: State
+  form: State
   editors: EditorsState
   property: PropertyShape
-  form: symbol
   focusNode: FocusNode
 }
 
-export function syncProperties({ forms, editors, form, focusNode, dispatch, property }: Params) {
+export function syncProperties({ form, editors, focusNode, dispatch, property }: Params) {
   const path = property.getPathProperty()
   if (!path) {
     return
   }
 
-  const focusNodeState = forms.get(form)?.focusNodes[focusNode.value]
+  const focusNodeState = form.focusNodes[focusNode.value]
   const objectTerms = focusNodeState?.properties.find(p => p.shape.equals(property))
     ?.objects.map(obj => obj.object?.term).filter(Boolean) as Term[] || []
 
@@ -31,8 +30,7 @@ export function syncProperties({ forms, editors, form, focusNode, dispatch, prop
     .map(({ shape }) => shape) || []
 
   for (const syncedProperty of propertiesToSync) {
-    dispatch.forms.setPropertyObjects({
-      form,
+    dispatch.form.setPropertyObjects({
       focusNode,
       property: syncedProperty,
       objects: focusNode.node(objectTerms),

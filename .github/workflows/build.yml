@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -15,26 +17,49 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, "lts/*"]
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: yarn tsc --noEmit
+      - run: yarn tsc --noEmit --project tsconfig.build.json
       - run: yarn build
-      - run: npx wsrun -m prepack --noEmit
+      - run: npx wsrun -m prepack
 
-  test:
+  core-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v4
         with:
           node-version: 18
       - run: npm ci
-      - run: yarn test
+      - run: yarn test:core
       - name: Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  wtr-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: yarn test:web --puppeteer
+      - name: Codecov
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

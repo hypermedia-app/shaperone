@@ -7,7 +7,7 @@
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "wsrun -m build",
     "test": "run-p test:*",
-    "test:core": "c8 --all -o coverage/core --reporter=lcov mocha --recursive 'packages/core-tests/**/*.test.ts'",
+    "test:core": "c8 --all -o coverage/core --reporter=lcov npm run -w @hydrofoil/shaperone-core-tests test",
     "test:web": "web-test-runner",
     "release": "changeset publish",
     "docs": "docsify serve ./dist",
@@ -28,7 +28,6 @@
     "@web/dev-server-rollup": "^0.6.4",
     "@web/test-runner": "^0.19",
     "c8": "^7.1.2",
-    "chai-snapshot-matcher": "^1.0.6",
     "docsify-cli": "^4.4.1",
     "es-dev-commonjs-transformer": "^0.2.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -52,15 +51,6 @@
   "resolutions": {
     "@polymer/polymer": "3.4.1"
   },
-  "mocha": {
-    "watch-files": [
-      "./**/*.ts"
-    ],
-    "require": [
-      "test-setup.js"
-    ],
-    "loader": "ts-node/esm/transpile-only"
-  },
   "lint-staged": {
     "*.{js,ts}": [
       "eslint --fix --quiet"
@@ -70,5 +60,8 @@
     "ts-sinon": {
       "sinon": "19.0.2"
     }
+  },
+  "dependencies": {
+    "@web/test-runner-puppeteer": "^0.17.0"
   }
 }

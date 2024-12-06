@@ -38,9 +38,5 @@ describe('wc/store', () => {
       expect(s.state).to.have.property('foo')
       expect(s.state).to.have.property('bar')
     })
-
-    it('returns same instance', () => {
-      expect(store()).to.eq(store())
-    })
   })
 })

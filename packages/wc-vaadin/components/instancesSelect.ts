@@ -8,7 +8,7 @@ import '@vaadin/vaadin-combo-box/vaadin-combo-box'
 import type { ComboBoxDataProvider } from '@vaadin/vaadin-combo-box'
 import type { GraphPointer } from 'clownface'
 import type { ComboBoxElement } from '@vaadin/vaadin-combo-box'
-import { spread } from '@hydrofoil/shaperone-wc/lib/spread.js'
+import { spread } from '@open-wc/lit-helpers'
 import { getLocalizedLabel } from '@rdfjs-elements/lit-helpers'
 import { validity } from './validation.js'
 

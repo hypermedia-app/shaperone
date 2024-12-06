@@ -1,15 +1,15 @@
-import { numericDatatype } from '@hydrofoil/shaperone-core/lib/datatypes.js'
+import { numericDatatypeKind } from '@hydrofoil/shaperone-core/lib/datatypes.js'
 import { html } from 'lit'
 import '@material/mwc-textfield/mwc-textfield'
 import type { Render } from '@hydrofoil/shaperone-wc'
-import type { Term } from '@rdfjs/types'
+import type { NamedNode, Term } from '@rdfjs/types'
 import type { TextFieldType } from '@material/mwc-textfield/mwc-textfield-base.js'
 import { readOnly } from '@hydrofoil/shaperone-wc/components/readonly.js'
 import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import { validity } from '../directives/validity.js'
 
-function getType(datatype: ReturnType<typeof numericDatatype> | undefined): TextFieldType {
-  if (numericDatatype(datatype)) {
+function getType(datatype: NamedNode | undefined): TextFieldType {
+  if (numericDatatypeKind(datatype)) {
     return 'number'
   }
 

@@ -1,18 +1,14 @@
 import type { State } from '../index.js'
-import type { BaseParams } from '../../index.js'
 import type { FocusNode } from '../../../index.js'
-import { createState } from '../lib/state.js'
 
-export interface Params extends BaseParams {
+export interface Params {
   rootPointer: FocusNode
 }
 
-export function setRoot(map: State, { form, rootPointer }: Params) {
-  const instance = map.get(form)
-  if (instance) {
-    instance.rootPointer = rootPointer
-    return map
+export function setRoot(state: State, { rootPointer }: Params) {
+  return {
+    ...state,
+    rootPointer,
+    graph: rootPointer.any(),
   }
-
-  return map.set(form, createState(rootPointer))
 }

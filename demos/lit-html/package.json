@@ -46,7 +46,7 @@
     "@zazuko/env": "^2.1.0",
     "@zazuko/prefixes": "^2.2.0",
     "alcaeus": "^3.0.0",
-    "lit": "^2.0.0",
+    "lit": "^3.0.0",
     "multiselect-combo-box": "^3.0.0-alpha.2",
     "nanoid": "^5.0.6"
   },
@@ -56,6 +56,7 @@
     "process": "^0.11.10",
     "rimraf": "^3.0.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "vite-plugin-top-level-await": "^1.4.4"
   }
 }

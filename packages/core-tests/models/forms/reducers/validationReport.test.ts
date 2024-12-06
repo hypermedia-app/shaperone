@@ -18,64 +18,60 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/validation', () => {
   describe('validationReport', () => {
     it('sets report pointer to state', () => {
       // given
-      const { form, state } = testFormState()
+      const state = testFormState()
 
       // when
-      const after = validationReport(state, { form, report })
+      const after = validationReport(state, { report })
 
       // then
-      expect(after.get(form)?.validationReport).to.be.ok
+      expect(after.validationReport).to.be.ok
     })
 
     it('clears validation state properties if there are not results', () => {
       // given
-      const { form, state } = testFormState(undefined, {
-        form: {
+      const state = testFormState({
+        hasErrors: true,
+        validationResults: [{}],
+        focusNodes: testFocusNodeState(namedNode(''), {
           hasErrors: true,
-          validationResults: [{}],
-          focusNodes: testFocusNodeState(namedNode(''), {
+          validationResults: [{} as any],
+          properties: [testPropertyState(blankNode(), {
             hasErrors: true,
             validationResults: [{} as any],
-            properties: [testPropertyState(blankNode(), {
+            objects: [testObjectState(blankNode(), {
               hasErrors: true,
               validationResults: [{} as any],
-              objects: [testObjectState(blankNode(), {
-                hasErrors: true,
-                validationResults: [{} as any],
-              })],
             })],
-          }),
-        },
+          })],
+        }),
       })
 
       // when
-      const after = validationReport(state, { form, report })
+      const after = validationReport(state, { report })
 
       // then
-      expect(after.get(form)?.hasErrors).to.be.false
-      expect(after.get(form)?.validationResults).to.have.length(0)
-      expect(after.get(form)?.focusNodes[''].hasErrors).to.be.false
-      expect(after.get(form)?.focusNodes[''].validationResults).to.have.length(0)
-      expect(after.get(form)?.focusNodes[''].properties[0].hasErrors).to.be.false
-      expect(after.get(form)?.focusNodes[''].properties[0].validationResults).to.have.length(0)
-      expect(after.get(form)?.focusNodes[''].properties[0].objects[0].hasErrors).to.be.false
-      expect(after.get(form)?.focusNodes[''].properties[0].objects[0].validationResults).to.have.length(0)
+      expect(after.hasErrors).to.be.false
+      expect(after.validationResults).to.have.length(0)
+      expect(after.focusNodes[''].hasErrors).to.be.false
+      expect(after.focusNodes[''].validationResults).to.have.length(0)
+      expect(after.focusNodes[''].properties[0].hasErrors).to.be.false
+      expect(after.focusNodes[''].properties[0].validationResults).to.have.length(0)
+      expect(after.focusNodes[''].properties[0].objects[0].hasErrors).to.be.false
+      expect(after.focusNodes[''].properties[0].objects[0].validationResults).to.have.length(0)
     })
 
     it('sets validation result to object and its parents', () => {
       // given
-      const { form, state } = testFormState(undefined, {
-        form: {
-          focusNodes: testFocusNodeState(namedNode(''), {
-            properties: [testPropertyState(blankNode(), {
-              shape: propertyShape({
-                path: namedNode('prop'),
-              }),
-              objects: [testObjectState(blankNode()
-                .literal('obj'))],
-            })],
-          }),
-        },
+      const state = testFormState({
+        focusNodes: testFocusNodeState(namedNode(''), {
+          properties: [testPropertyState(blankNode(), {
+            shape: propertyShape({
+              path: namedNode('prop'),
+            }),
+            objects: [testObjectState(blankNode()
+              .literal('obj'))],
+          })],
+        }),
       })
       report.addOut(sh.result, (result) => {
         result
@@ -86,46 +82,46 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/validation', () => {
       })
 
       // when
-      const after = validationReport(state, { form, report })
+      const after = validationReport(state, { report })
 
       // then
-      expect(after.get(form)?.hasErrors).to.be.true
-      expect(after.get(form)?.validationResults).to.have.length(1)
-      expect(after.get(form)?.validationResults[0].matchedTo).to.eq('object')
-      expect(after.get(form)?.focusNodes[''].hasErrors).to.be.true
-      expect(after.get(form)?.focusNodes[''].validationResults).to.have.length(1)
-      expect(after.get(form)?.focusNodes[''].properties[0].hasErrors).to.be.true
-      expect(after.get(form)?.focusNodes[''].properties[0].validationResults).to.have.length(1)
-      expect(after.get(form)?.focusNodes[''].properties[0].objects[0].hasErrors).to.be.true
-      expect(after.get(form)?.focusNodes[''].properties[0].objects[0].validationResults).to.have.length(1)
+      expect(after.hasErrors).to.be.true
+      expect(after.validationResults).to.have.length(1)
+      expect(after.validationResults[0].matchedTo).to.eq('object')
+      expect(after.focusNodes[''].hasErrors).to.be.true
+      expect(after.focusNodes[''].validationResults).to.have.length(1)
+      expect(after.focusNodes[''].properties[0].hasErrors).to.be.true
+      expect(after.focusNodes[''].properties[0].validationResults).to.have.length(1)
+      expect(after.focusNodes[''].properties[0].objects[0].hasErrors).to.be.true
+      expect(after.focusNodes[''].properties[0].objects[0].validationResults).to.have.length(1)
     })
 
     it('assumes default severity is sh:Violation', () => {
       // given
-      const { form, state } = testFormState()
+      const state = testFormState()
       report.addOut(sh.result, (result) => {
         result.addOut(sh.focusNode, namedNode(''))
       })
 
       // when
-      const after = validationReport(state, { form, report })
+      const after = validationReport(state, { report })
 
       // then
-      expect(after.get(form)?.hasErrors).to.be.true
+      expect(after.hasErrors).to.be.true
     })
 
     it('does not set .hasErrors if severity is not sh:Violation', () => {
       // given
-      const { form, state } = testFormState()
+      const state = testFormState()
       report.addOut(sh.result, (result) => {
         result.addOut(sh.resultSeverity, sh.Warning)
       })
 
       // when
-      const after = validationReport(state, { form, report })
+      const after = validationReport(state, { report })
 
       // then
-      expect(after.get(form)?.hasErrors).to.be.false
+      expect(after.hasErrors).to.be.false
     })
   })
 })

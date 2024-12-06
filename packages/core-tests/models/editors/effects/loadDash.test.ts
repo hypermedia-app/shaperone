@@ -8,7 +8,7 @@ describe('models/editors/effects/loadDash', () => {
   let store: Store
 
   beforeEach(() => {
-    ({ store } = testStore())
+    store = testStore()
   })
 
   it('does not add metadata twice', async () => {

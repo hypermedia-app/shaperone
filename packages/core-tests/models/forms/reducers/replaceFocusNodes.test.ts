@@ -11,7 +11,6 @@ import type { initialiseFocusNode } from '@hydrofoil/shaperone-core/models/forms
 
 describe('models/forms/reducers/replaceFocusNodes', () => {
   let store: Store
-  let form: symbol
   let focusNode: FocusNode
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
@@ -19,9 +18,9 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
   }
 
   beforeEach(() => {
-    ({ form, store } = testStore())
+    store = testStore()
     focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode('baz')
-    formState = store.getState().forms.get(form)!
+    formState = store.getState().form
   })
 
   function commonParams(): Parameters<typeof initialiseFocusNode>[0] {
@@ -43,14 +42,12 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
       ]
 
       // when
-      const afterState = createFocusNodeState(store.getState().forms, {
-        form,
+      const afterForm = createFocusNodeState(store.getState().form, {
         ...commonParams(),
         replaceStack: true,
       })
 
       // then
-      const afterForm = afterState.get(form)
       expect(afterForm?.focusStack).to.have.length(1)
       expect(afterForm?.focusStack[0].term).to.deep.eq(focusNode.term)
     })
@@ -63,14 +60,12 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
       ]
 
       // when
-      const afterState = createFocusNodeState(store.getState().forms, {
-        form,
+      const afterForm = createFocusNodeState(store.getState().form, {
         ...commonParams(),
         appendToStack: true,
       })
 
       // then
-      const afterForm = afterState.get(form)
       expect(afterForm?.focusStack).to.have.length(3)
       expect(afterForm?.focusStack.map(fn => fn.term)).to.deep.contain.ordered.members([
         $rdf.blankNode('foo'),

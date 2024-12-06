@@ -15,6 +15,14 @@ const immer = {
   },
 }
 
+const rdx = {
+  resolveImport({ source }) {
+    if(/@captaincodeman\/rdx/.test(source)) {
+      return '/packages/rdx/src/index.ts'
+    }
+  }
+}
+
 const config = {
   groups: [
     { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
@@ -25,12 +33,14 @@ const config = {
   ],
   coverage: true,
   nodeResolve: {
-    exportConditions: ['browser', 'module', 'import', 'default'],
+    browser: true,
+    modulePaths: ['packages'],
   },
   concurrency: 1,
   plugins: [
     esbuildPlugin({ ts: true, js: true, target: 'auto', tsconfig: 'tsconfig.json' }),
     immer,
+    rdx,
     fromRollup(commonjs)({
       exclude: [
         '**/node_modules/@open-wc/**/*',

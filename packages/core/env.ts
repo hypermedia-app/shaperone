@@ -13,7 +13,7 @@ import Sh1NamespaceFactory from './lib/env/NamespaceFactory.js'
 import ConstantsFactory from './lib/env/ConstantsFactory.js'
 import deps from './lib/mixins.js'
 
-export type MiminalEnvironment = Environment<
+export type MinimalEnvironment = Environment<
 ClownfaceFactory |
 DataFactory |
 DatasetCoreFactory |
@@ -21,7 +21,7 @@ NsBuildersFactory |
 TermMapFactory>
 
 export interface Requirements {
-  _core: MiminalEnvironment
+  _core: MinimalEnvironment
 }
 
 type ValuesArray<R extends Record<string, any>> = R[keyof R][];
@@ -32,15 +32,7 @@ export type ShaperoneEnvironment = DerivedEnvironment<
 Environment<Sh1NamespaceFactory | RdfineFactory | ShFactory | ConstantsFactory>,
 RequiredEnvironment>
 
-let instance: ShaperoneEnvironment | undefined
-
-export default function getEnv(): ShaperoneEnvironment {
-  if (!instance) {
-    throw new Error('Environment not initialized')
-  }
-
-  return instance
-}
+let instance: ShaperoneEnvironment
 
 export function setEnv(parent: RequiredEnvironment) {
   let newEnv: ShaperoneEnvironment
@@ -62,3 +54,5 @@ export function setEnv(parent: RequiredEnvironment) {
 function isShaperoneEnvironment(env: RequiredEnvironment): env is ShaperoneEnvironment {
   return 'sh1' in env.ns
 }
+
+export default () => instance

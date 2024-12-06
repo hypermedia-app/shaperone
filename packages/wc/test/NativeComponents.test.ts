@@ -4,6 +4,7 @@ import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import type { RenderFunc } from '@hydrofoil/shaperone-core/models/components'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
+import { shrink } from '@zazuko/prefixes'
 import * as components from '../NativeComponents.js'
 import type { Render } from '../index.js'
 
@@ -22,7 +23,7 @@ describe('NativeComponents', () => {
   for (const editor of supportedEditors) {
     const component = Object.values(components).find(c => c.editor.equals(editor))
 
-    describe(editor.value, () => {
+    describe(shrink(editor.value), () => {
       let render: RenderFunc<any, any, any>
 
       before(async () => {
@@ -91,7 +92,7 @@ describe('NativeComponents', () => {
     })
   }
 
-  describe(dash.URIEditor.value, () => {
+  describe(shrink(dash.URIEditor.value), () => {
     let render: Render
     before(async () => {
       render = await components.uriEditor.lazyRender()
@@ -99,7 +100,7 @@ describe('NativeComponents', () => {
 
     it('updates with NamedNode', async () => {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
@@ -118,7 +119,7 @@ describe('NativeComponents', () => {
     })
   })
 
-  describe(dash.BooleanSelectEditor.value, () => {
+  describe(shrink(dash.BooleanSelectEditor.value), () => {
     let render: Render
     before(async () => {
       render = await components.nativeBooleanSelect.lazyRender()
@@ -131,7 +132,7 @@ describe('NativeComponents', () => {
 
     it('clears when selecting empty <option>', async () => {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams({
         object: graph.literal('true'),
         datatype: xsd.boolean,
@@ -147,7 +148,7 @@ describe('NativeComponents', () => {
 
     it('sets correct selection', async () => {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
       const { params, actions } = editorTestParams({
         object: graph.literal('false'),
         datatype: xsd.boolean,
@@ -179,6 +180,43 @@ describe('NativeComponents', () => {
           ...xsd.boolean,
         },
       }))
+    })
+  })
+
+  describe(shrink(dash.TextFieldEditor.value), () => {
+    let render: Render
+    before(async () => {
+      render = await components.textFieldEditor.lazyRender()
+    })
+
+    it('renders input[type=number] when object is xsd:integer literal', async () => {
+      // given
+      const graph = $rdf.clownface()
+      const { params, actions } = editorTestParams({
+        object: graph.literal('10', xsd.integer),
+        datatype: xsd.integer,
+      })
+
+      // when
+      const input = await fixture(render(params, actions))
+
+      // then
+      await expect(input).dom.to.equalSnapshot()
+    })
+
+    it('renders input[type=number] when object is xsd:decimal literal', async () => {
+      // given
+      const graph = $rdf.clownface()
+      const { params, actions } = editorTestParams({
+        object: graph.literal('10.2', xsd.decimal),
+        datatype: xsd.decimal,
+      })
+
+      // when
+      const input = await fixture(render(params, actions))
+
+      // then
+      await expect(input).dom.to.equalSnapshot()
     })
   })
 })

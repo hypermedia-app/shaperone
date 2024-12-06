@@ -35,9 +35,9 @@ export function updateObject(store: Store) {
 
       const prefix = arg.focusNode.blankNode().value
       const newValue = rewrite(prefix, pointer)
-      dispatch.forms.setObjectValue({ newValue, ...rest })
+      dispatch.form.setObjectValue({ newValue, ...rest })
     } else {
-      dispatch.forms.setObjectValue(arg)
+      dispatch.form.setObjectValue(arg)
     }
   }
 }

@@ -13,6 +13,8 @@ jobs:
       NETLIFY_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -21,14 +23,16 @@ jobs:
 
       - uses: nelonoel/branch-name@v1.0.1
 
-      - run: npx typedoc
+      - run: npx typedoc --tsconfig tsconfig.build.json
       - name: Docsify variables
         env:
           DOMAIN: ${{ env.BRANCH_NAME == 'master' && 'forms.hypermedia.app' || format('{0}--shaperone.netlify.app', env.BRANCH_NAME) }}
         run: npx json -I -f dist/variables.json -e "this.playground='https://$DOMAIN/playground'"
 
+      - run: npm i -g netlify-cli@17.36.1
+
       - name: Publish preview
-        uses: jsmrcaga/action-netlify-deploy@v2.1.0
+        uses: jsmrcaga/action-netlify-deploy@v2.3.0
         if: env.NETLIFY_TOKEN
         with:
           NETLIFY_AUTH_TOKEN: ${{ env.NETLIFY_TOKEN }}

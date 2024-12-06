@@ -1,5 +1,8 @@
 {
   "extends": "../../tsconfig",
+  "compilerOptions": {
+    "emitDeclarationOnly": true
+  },
   "files": [
     "components.ts",
     "index.ts",

@@ -1,21 +1,35 @@
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import type { ResourceIdentifier } from '@tpluscode/rdfine'
-import type { NamedNode, Term } from '@rdfjs/types'
+import type { Term } from '@rdfjs/types'
+import TermSet from '@rdfjs/term-set'
 
-const numericDatatypes = [
+const integerDatatypes = new TermSet<Term>([
   xsd.int,
   xsd.integer,
-  xsd.double,
-  xsd.float,
-  xsd.decimal,
   xsd.nonNegativeInteger,
   xsd.nonPositiveInteger,
   xsd.positiveInteger,
   xsd.negativeInteger,
-]
+])
 
-export function numericDatatype(datatype: ResourceIdentifier | undefined): NamedNode | undefined {
-  return numericDatatypes.find(dt => datatype?.equals(dt))
+const decimalDatatypes = new TermSet<Term>([
+  xsd.decimal,
+  xsd.double,
+  xsd.float,
+])
+
+export function numericDatatypeKind(datatype: ResourceIdentifier | undefined): 'integer' | 'decimal' | undefined {
+  if (datatype) {
+    if (integerDatatypes.has(datatype)) {
+      return 'integer'
+    }
+
+    if (decimalDatatypes.has(datatype)) {
+      return 'decimal'
+    }
+  }
+
+  return undefined
 }
 
 export function isString(literal?: Term): boolean {

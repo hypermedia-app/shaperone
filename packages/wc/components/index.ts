@@ -7,6 +7,7 @@ import type {
 } from '@hydrofoil/shaperone-core/components.js'
 import { xsd } from '@tpluscode/rdf-ns-builders'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
+import { spread } from '@open-wc/lit-helpers'
 import type { Render } from '../index.js'
 import { getType } from './lib/textFieldType.js'
 import { validity } from './validity.js'
@@ -14,7 +15,7 @@ import { readOnly } from './readonly.js'
 
 export const textField: Render = function ({ property, value }, { update }) {
   return html`<input .value="${value.object?.value || ''}"
-                     type="${getType(property.datatype)}"
+                     ${spread(getType(property.datatype))}
                      ${validity(value)}
                      ${readOnly(property)}
                      @blur="${(e: any) => update(e.target.value)}">`

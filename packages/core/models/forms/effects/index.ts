@@ -7,23 +7,22 @@ import { setPropertyObjects } from './setPropertyObjects.js'
 import { updateObject } from './updateObject.js'
 import { setObjectValue } from './setObjectValue.js'
 import { removeObject } from './removeObject.js'
-import { connect, disconnect } from './connection.js'
 import { validate } from './validate.js'
+import { notify } from './notify.js'
 import { createFocusNodeState } from './createFocusNodeState.js'
 
 export default function (store: Store) {
   return {
     updateObject: updateObject(store),
-    'forms/connect': connect(store),
-    'forms/disconnect': disconnect(store),
     pushFocusNode: pushFocusNode(store),
     addObject: addObject(store),
-    'forms/selectShape': selectShape(store),
+    'form/selectShape': selectShape(store),
     replaceObjects: replaceObjects(store),
-    'forms/setPropertyObjects': setPropertyObjects(store),
-    'forms/setObjectValue': setObjectValue(store),
-    'forms/removeObject': removeObject(store),
+    'form/setPropertyObjects': setPropertyObjects(store),
+    'form/setObjectValue': setObjectValue(store),
+    'form/removeObject': removeObject(store),
     validate: validate(store),
-    'forms/createFocusNodeState': createFocusNodeState(store),
+    'form/createFocusNodeState': createFocusNodeState(store),
+    notify: notify(store),
   }
 }

@@ -1,14 +1,12 @@
 import { produce } from 'immer'
 import type { PropertyShape } from '@rdfine/shacl'
-import type { PropertyObjectState, FormState, State } from '../index.js'
-import type { BaseParams } from '../../index.js'
-import { formStateReducer } from '../../index.js'
+import type { FormState, PropertyObjectState, State } from '../index.js'
 import type { FocusNode } from '../../../index.js'
 import type { EditorsState } from '../../editors/index.js'
 
-type ToggleSwitchingParams = BaseParams & { switchingEnabled: boolean }
+type ToggleSwitchingParams = { switchingEnabled: boolean }
 
-export const toggleSwitching = formStateReducer((state: FormState, { switchingEnabled }: ToggleSwitchingParams) => produce(state, (draft) => {
+export const toggleSwitching = (state: FormState, { switchingEnabled }: ToggleSwitchingParams) => produce(state, (draft) => {
   draft.shouldEnableEditorChoice = () => switchingEnabled
 
   for (const [, focusNode] of Object.entries(draft.focusNodes)) {
@@ -19,16 +17,16 @@ export const toggleSwitching = formStateReducer((state: FormState, { switchingEn
       }
     }
   }
-}))
+})
 
-type UpdateComponentState = BaseParams & {
+type UpdateComponentState = {
   focusNode: FocusNode
   property: PropertyShape
   object?: PropertyObjectState
   newState: Record<string, any>
 }
 
-export const updateComponentState = formStateReducer((state: FormState, { focusNode, property, object, newState }: UpdateComponentState) => produce(state, (draft) => {
+export const updateComponentState = (state: FormState, { focusNode, property, object, newState }: UpdateComponentState) => produce(state, (draft) => {
   const propertyState = draft.focusNodes[focusNode.value].properties.find(p => p.shape.equals(property))
   if (!propertyState) return
 
@@ -45,29 +43,25 @@ export const updateComponentState = formStateReducer((state: FormState, { focusN
       objectState.componentState[key] = value
     }
   }
-}))
+})
 
-export const recalculateEditors = (state: State, { editors }: { editors: EditorsState }) => {
-  for (const [form, formState] of state.entries()) {
-    const newState = produce(formState, (draft: typeof formState) => {
-      for (const focusNode of Object.values(draft.focusNodes)) {
-        for (const property of focusNode.properties) {
-          property.editors = editors.matchMultiEditors({ shape: property.shape })
-          if (!property.selectedEditor) {
-            property.selectedEditor = property.editors[0]?.term
-          }
+export const recalculateEditors = (formState: State, { editors }: { editors: EditorsState }) => produce(formState, (draft: typeof formState) => {
+  for (const focusNode of Object.values(draft.focusNodes)) {
+    for (const property of focusNode.properties) {
+      property.editors = editors.matchMultiEditors({ shape: property.shape })
+      if (!property.selectedEditor) {
+        property.selectedEditor = property.editors[0]?.term
+      }
 
-          for (const object of property.objects) {
-            object.editors = editors.matchSingleEditors({ object: object.object, shape: property.shape })
-            if (!object.selectedEditor) {
-              object.selectedEditor = object.editors[0]?.term
-            }
-          }
+      for (const object of property.objects) {
+        object.editors = editors.matchSingleEditors({
+          object: object.object,
+          shape: property.shape,
+        })
+        if (!object.selectedEditor) {
+          object.selectedEditor = object.editors[0]?.term
         }
       }
-    })
-    state.set(form, newState)
+    }
   }
-
-  return state
-}
+})

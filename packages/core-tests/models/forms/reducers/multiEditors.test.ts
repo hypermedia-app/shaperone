@@ -12,27 +12,24 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape.pointer, {
-                editors: [testEditor(dash.MultiEditor1)],
-              })],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [testPropertyState(shape.pointer, {
+              editors: [testEditor(dash.MultiEditor1)],
+            })],
+          }),
         },
       })
 
       // when
       const after = selectMultiEditor(state, {
-        form,
         focusNode,
         property: shape,
       })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.deep.eq(dash.MultiEditor1)
     })
 
@@ -40,28 +37,25 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape.pointer, {
-                editors: [testEditor(dash.MultiEditor1), testEditor(dash.MultiEditor2)],
-              })],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [testPropertyState(shape.pointer, {
+              editors: [testEditor(dash.MultiEditor1), testEditor(dash.MultiEditor2)],
+            })],
+          }),
         },
       })
 
       // when
       const after = selectMultiEditor(state, {
-        form,
         focusNode,
         property: shape,
         editor: dash.MultiEditor2,
       })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.deep.eq(dash.MultiEditor2)
     })
 
@@ -69,28 +63,25 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape.pointer, {
-                editors: [testEditor(dash.MultiEditor1), testEditor(dash.MultiEditor2)],
-              })],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [testPropertyState(shape.pointer, {
+              editors: [testEditor(dash.MultiEditor1), testEditor(dash.MultiEditor2)],
+            })],
+          }),
         },
       })
 
       // when
       const after = selectMultiEditor(state, {
-        form,
         focusNode,
         property: shape,
         editor: dash.MultiEditor3,
       })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.deep.eq(dash.MultiEditor1)
     })
 
@@ -98,28 +89,25 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape.pointer, {
-                editors: [testEditor(dash.MultiEditor1)],
-                componentState: { foo: 'bar' },
-              })],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [testPropertyState(shape.pointer, {
+              editors: [testEditor(dash.MultiEditor1)],
+              componentState: { foo: 'bar' },
+            })],
+          }),
         },
       })
 
       // when
       const after = selectMultiEditor(state, {
-        form,
         focusNode,
         property: shape,
       })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.componentState).to.deep.eq({})
     })
   })
@@ -129,27 +117,24 @@ describe('core/models/forms/reducers/multiEditors', () => {
       // given
       const focusNode = $rdf.clownface().blankNode()
       const shape = propertyShape(focusNode.blankNode())
-      const { form, state } = testState(undefined, {
-        form: {
-          focusNodes: {
-            ...testFocusNodeState(focusNode, {
-              properties: [testPropertyState(shape.pointer, {
-                selectedEditor: dash.MultiEditor1,
-              })],
-            }),
-          },
+      const state = testState({
+        focusNodes: {
+          ...testFocusNodeState(focusNode, {
+            properties: [testPropertyState(shape.pointer, {
+              selectedEditor: dash.MultiEditor1,
+            })],
+          }),
         },
       })
 
       // when
       const after = selectSingleEditors(state, {
-        form,
         focusNode,
         property: shape,
       })
 
       // then
-      const propertyState = after.get(form)!.focusNodes[focusNode.value].properties[0]
+      const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.be.undefined
     })
   })

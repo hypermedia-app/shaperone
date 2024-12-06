@@ -26,9 +26,10 @@
     "@material/mwc-select": "^0.25",
     "@material/mwc-textarea": "^0.25",
     "@material/mwc-textfield": "^0.25",
+    "@open-wc/lit-helpers": "^0.7.0",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
-    "lit": "^2.0.0",
+    "lit": "^3",
     "wc-menu-button": "^3.1"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
@@ -36,7 +37,7 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@open-wc/testing": "^3.2.2",
+    "@open-wc/testing": "^4.0.0",
     "@rdfine/shacl": "^0.10.5",
     "@zazuko/env": "^2.1.0",
     "@shaperone/testing": "*",

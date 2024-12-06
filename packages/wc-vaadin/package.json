@@ -17,6 +17,7 @@
   "dependencies": {
     "@hydrofoil/shaperone-wc": "^0.8.1",
     "@hydrofoil/shaperone-core": "^0.12.1",
+    "@open-wc/lit-helpers": "^0.7.0",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@vaadin/vaadin-accordion": "^22",
@@ -27,12 +28,12 @@
     "@vaadin/vaadin-item": "^22",
     "@vaadin/vaadin-list-box": "^22",
     "@vaadin/vaadin-text-field": "^22",
-    "lit": "^2.0.0"
+    "lit": "^3"
   },
   "devDependencies": {
     "@types/promise-the-world": "^1.0.0",
     "@zazuko/env": "^2.1.0",
-    "@open-wc/testing": "^3.2.2",
+    "@open-wc/testing": "^4.0.0",
     "@rdfine/shacl": "^0.10.5",
     "@shaperone/testing": "*",
     "@tpluscode/rdf-ns-builders": "^4.3.0",

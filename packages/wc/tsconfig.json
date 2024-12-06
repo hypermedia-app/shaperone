@@ -1,10 +1,12 @@
 {
   "extends": "../../tsconfig",
+  "compilerOptions": {
+    "emitDeclarationOnly": true
+  },
   "files": [
     "index.ts",
     "configure.ts",
-    "shaperone-form.ts",
-    "lib/spread.ts",
+    "lib/shaperone-form.ts",
     "components/index.ts"
   ],
   "include": [

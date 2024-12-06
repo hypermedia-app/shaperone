@@ -9,15 +9,15 @@ import { preventMutatingReadOnlyProperty } from './lib/index.js'
 
 export default function (store: Store) {
   const objectEffects = {
-    'forms/addFormField': addFormField(store),
-    'forms/setObjectValue': setObjectValue(store),
-    'forms/clearValue': clearValue(store),
-    'forms/removeObject': removeObject(store),
-    'forms/setPropertyObjects': replaceObject(store),
+    'form/addFormField': addFormField(store),
+    'form/setObjectValue': setObjectValue(store),
+    'form/clearValue': clearValue(store),
+    'form/removeObject': removeObject(store),
+    'form/setPropertyObjects': replaceObject(store),
   }
 
   return {
     ...[...Object.entries(objectEffects)].reduce((effects, [key, effect]) => ({ ...effects, [key]: preventMutatingReadOnlyProperty<any>(effect) }), {}),
-    'forms/createFocusNodeState': createFocusNodeState(store),
+    'form/createFocusNodeState': createFocusNodeState(store),
   }
 }

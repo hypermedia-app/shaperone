@@ -9,6 +9,9 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "settings": {
+    "import/core-modules": [ "@captaincodeman/rdx" ]
+  },
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": [
       "**/test/**",

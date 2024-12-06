@@ -11,12 +11,12 @@ import { renderFocusNode } from '../../renderer/focusNode.js'
 describe('wc/renderer/focusNode', () => {
   let focusNode: FocusNode
   let renderer: sinon.SinonStubbedInstance<FormRenderer>
-  let dispatch: sinon.SinonStubbedInstance<Dispatch['forms']>
+  let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
   beforeEach(() => {
     focusNode = testFocusNode().focusNode
     renderer = formRenderer()
-    dispatch = renderer.context.dispatch.forms as any
+    dispatch = renderer.context.dispatch.form as any
   })
 
   it('dispatches to create node when there is none', async () => {

@@ -5,7 +5,6 @@ import { property } from 'lit/decorators.js'
 import type { DatasetCore } from '@rdfjs/types'
 import type { FormState, ValidationResultState } from '@hydrofoil/shaperone-core/models/forms'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
-import { connect } from '@captaincodeman/rdx'
 import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import type { NodeShape } from '@rdfine/shacl'
@@ -16,29 +15,14 @@ import { ensureEventTarget } from './lib/eventTarget.js'
 import type { State } from './store.js'
 import { store } from './store.js'
 import DefaultRenderer from './renderer/index.js'
-import * as NativeComponents from './NativeComponents.js'
+import { connect } from './components/connect.js'
+import type { ConfigCallback } from './configure.js'
 
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes dataset')
-const notify: unique symbol = Symbol('notify')
 const shapes: unique symbol = Symbol('shapes')
-
-export const id: (form: any) => symbol = (() => {
-  const map = new WeakMap<any, symbol>()
-  let nextId = 1
-
-  return (form: ShaperoneForm) => {
-    let thisId = map.get(form)
-
-    if (!thisId) {
-      thisId = Symbol(`${form.id || 'form'}-${nextId}`)
-      map.set(form, thisId)
-      nextId += 1
-    }
-
-    return thisId
-  }
-})()
+const ready: unique symbol = Symbol('ready')
+const configuration: unique symbol = Symbol('configuration')
 
 /**
  * A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).
@@ -71,10 +55,13 @@ export const id: (form: any) => symbol = (() => {
  * Such setup will render a very basic and unstyled form using native browser input elements and no specific layout.
  * Check the main documentation page for instructions on customizing the form's rendering.
  */
-export class ShaperoneForm extends connect(store(), LitElement) {
+export class ShaperoneForm extends connect(store, LitElement) {
+  declare dispatch: ReturnType<typeof store>['dispatch']
+
   private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
-  private [notify]: (detail: any) => void
+  private [ready]: boolean = false
+  private [configuration]: ConfigCallback | undefined
 
   static get styles() {
     return [css`
@@ -134,33 +121,18 @@ export class ShaperoneForm extends connect(store(), LitElement) {
 
   constructor() {
     super()
-    this[notify] = (detail: any) => {
-      this.dispatchEvent(new CustomEvent('changed', { detail }))
-    }
     this.resource = this.env.clownface().namedNode('')
   }
 
   async connectedCallback() {
-    store().dispatch.components.pushComponents(NativeComponents)
+    super.connectedCallback()
 
     await ensureEventTarget()
-
-    store().dispatch.editors.loadDash()
-    store().dispatch.forms.connect({
-      form: id(this),
-    })
-
-    super.connectedCallback()
 
     if (this[resourceSymbol]) {
       this.resource = this[resourceSymbol]
     }
     this.shapes = this[shapesSymbol]
-  }
-
-  disconnectedCallback() {
-    store().dispatch.forms.disconnect(id(this))
-    super.disconnectedCallback()
   }
 
   /**
@@ -172,13 +144,14 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   protected updated(_changedProperties: PropertyValues) {
     super.updated(_changedProperties)
     if (_changedProperties.has('noEditorSwitches')) {
-      store().dispatch.forms.toggleSwitching({ form: id(this), switchingEnabled: !this.noEditorSwitches })
+      this.dispatch.form.toggleSwitching({ switchingEnabled: !this.noEditorSwitches })
     }
   }
 
   /**
    * Gets or sets the resource graph as graph pointer
    */
+  @property({ type: Object })
   get resource(): FocusNode | undefined {
     return this[resourceSymbol]
   }
@@ -189,7 +162,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     }
 
     this[resourceSymbol] = rootPointer
-    store().dispatch.resources.setRoot({ form: id(this), rootPointer })
+    this.dispatch.resources.setRoot({ rootPointer })
   }
 
   /**
@@ -227,6 +200,7 @@ export class ShaperoneForm extends connect(store(), LitElement) {
   /**
    * Gets or sets the shapes graph
    */
+  @property({ type: Object })
   get shapes(): AnyPointer | DatasetCore | undefined {
     return this[shapesSymbol]
   }
@@ -235,15 +209,36 @@ export class ShaperoneForm extends connect(store(), LitElement) {
     if (!shapesGraph) return
 
     this[shapesSymbol] = shapesGraph
-    store().dispatch.shapes.setGraph({
-      form: id(this),
+    this.dispatch.shapes.setGraph({
       shapesGraph,
     })
   }
 
+  set configuration(value: ConfigCallback | undefined) {
+    this.configure(value)
+
+    this[configuration] = value
+  }
+
+  @property({ type: Object })
+  get configuration(): ConfigCallback | undefined {
+    return this[configuration]
+  }
+
+  configure(fn: ConfigCallback | undefined) {
+    const { components, renderer, editors, validation } = this.dispatch
+
+    fn?.({
+      components,
+      renderer,
+      editors,
+      validation,
+    })
+  }
+
   render() {
-    if (!this.rendererOptions.ready) {
-      store().dispatch.renderer.loadDependencies()
+    if (!this[ready]) {
+      this.dispatch.renderer.loadDependencies()
 
       return this.rendererOptions.templates.initialising()
     }
@@ -253,11 +248,10 @@ export class ShaperoneForm extends connect(store(), LitElement) {
       <section part="form">
       ${this.renderer.render({
     env: this.env,
-    form: id(this),
     editors: this.editors,
     state: this.state,
     components: this.components,
-    dispatch: store().dispatch,
+    dispatch: this.dispatch,
     templates: this.rendererOptions.templates,
     shapes: this[shapes],
   })}
@@ -272,24 +266,29 @@ export class ShaperoneForm extends connect(store(), LitElement) {
    * Triggers validation of the current resource against the shapes graph
    */
   validate(): void {
-    store().dispatch.forms.validate({
-      form: id(this),
-    })
+    this.dispatch.form.validate()
   }
 
   /**
    * @private
    */
   mapState(state: State) {
-    state.resources.get(id(this))?.changeNotifier.onChange(this[notify])
-
     return {
-      state: state.forms.get(id(this)),
-      [resourceSymbol]: state.forms.get(id(this))?.focusStack[0],
-      [shapes]: state.shapes.get(id(this))?.shapes || [],
+      [ready]: state.renderer.ready,
+      state: state.form,
+      [resourceSymbol]: state.form?.focusStack[0],
+      [shapes]: state.shapes?.shapes || [],
       rendererOptions: state.renderer,
       editors: state.editors,
       components: state.components,
+    }
+  }
+
+  mapEvents() {
+    return {
+      changed: ({ detail }: any) => {
+        this.dispatchEvent(new CustomEvent('changed', { detail }))
+      },
     }
   }
 }
