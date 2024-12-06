@@ -1,5 +1,19 @@
 # @hydrofoil/shaperone-core
 
+## 0.13.0
+
+### Minor Changes
+
+- a20d9c6: Fixed typo in exported type (`MiminalEnvironment` => `MinimalEnvironment`)
+
+### Patch Changes
+
+- 15934de: Fixes setting shapes from dataset
+- 27e95ea: Native components: `xsd:decimal` would not accept decimal point as a valid input.
+- 7d2153f: Improved state management by separating the state of each element instance
+- 0087e5c: `configure` is now async and required to register the element
+- 7467131: When no shape is selected and only one `sh:NodeShape` exists in graph, that shape will be used
+
 ## 0.12.1
 
 ### Patch Changes
