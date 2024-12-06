@@ -7,7 +7,6 @@
     "index.ts",
     "configure.ts",
     "lib/shaperone-form.ts",
-    "lib/spread.ts",
     "components/index.ts"
   ],
   "include": [
