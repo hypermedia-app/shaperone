@@ -130,7 +130,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
 
       // then
       expect(focusNode.out(schema.knows).out(rdf.type).terms)
-        .containAll<Term>(type => type.equals(schema.Person))
+        .containAll((type: Term) => type.equals(schema.Person))
     })
     it('does not add rdf:type to named node children', () => {
       // given

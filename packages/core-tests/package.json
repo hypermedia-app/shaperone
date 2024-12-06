@@ -16,7 +16,6 @@
     "mocha": "^11.0.0",
     "@types/chai": "^5",
     "@types/chai-subset": "^1.3.5",
-    "@types/chai-quantifiers": "^1.0.4",
     "@types/mocha": "^10.0.10",
     "@types/sinon-chai": "^3.2.4",
     "autoesm": "^1.0.5",

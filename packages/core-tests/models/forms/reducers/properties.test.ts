@@ -47,7 +47,7 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
       const after = hideProperty(store.getState().form, { focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
 
       // then
-      expect(after.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => shape.hidden)
+      expect(after.focusNodes[focusNode.value].properties).to.containAll((shape: PropertyState) => shape.hidden)
     })
   })
 
@@ -82,7 +82,7 @@ describe('@hydrofoil/shaperone-core/models/forms/reducers/properties', () => {
       const after = showProperty(store.getState().form, { focusNode, shape: $rdf.rdfine.sh.NodeShape(shape) })
 
       // then
-      expect(after.focusNodes[focusNode.value].properties).to.containAll<PropertyState>(shape => !shape.hidden)
+      expect(after.focusNodes[focusNode.value].properties).to.containAll((shape: PropertyState) => !shape.hidden)
     })
   })
 })

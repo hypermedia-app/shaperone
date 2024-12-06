@@ -31,7 +31,7 @@ describe('core/models/forms/reducers/editors', () => {
 
       // then
       const propertyState = after.focusNodes[focusNode.value].properties[0]
-      expect(propertyState.objects).to.containAll<PropertyObjectState>(o => o.editorSwitchDisabled === true)
+      expect(propertyState.objects).to.containAll((o: PropertyObjectState) => o.editorSwitchDisabled === true)
     })
 
     it('can enable all editor switches', () => {
@@ -56,7 +56,7 @@ describe('core/models/forms/reducers/editors', () => {
 
       // then
       const propertyState = after.focusNodes[focusNode.value].properties[0]
-      expect(propertyState.objects).to.containAll<PropertyObjectState>(o => o.editorSwitchDisabled === false)
+      expect(propertyState.objects).to.containAll((o: PropertyObjectState) => o.editorSwitchDisabled === false)
     })
   })
 
@@ -162,7 +162,7 @@ describe('core/models/forms/reducers/editors', () => {
       const objects = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
         .flatMap(property => property.objects)
-      expect(objects).to.containAll<PropertyObjectState>(object => dash.TextFieldEditor.equals(object.selectedEditor))
+      expect(objects).to.containAll((object: PropertyObjectState) => dash.TextFieldEditor.equals(object.selectedEditor))
     })
 
     it('sets multi editor if matched', () => {
@@ -191,7 +191,7 @@ describe('core/models/forms/reducers/editors', () => {
       // then
       const properties = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
-      expect(properties).to.containAll<PropertyState>(prop => dash.TextFieldEditor.equals(prop.selectedEditor))
+      expect(properties).to.containAll((prop: PropertyState) => dash.TextFieldEditor.equals(prop.selectedEditor))
     })
 
     it('does not change multi editor if previously selected', () => {
@@ -221,7 +221,7 @@ describe('core/models/forms/reducers/editors', () => {
       // then
       const properties = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
-      expect(properties).to.containAll<PropertyState>(prop => property.selectedEditor === prop.selectedEditor)
+      expect(properties).to.containAll((prop: PropertyState) => property.selectedEditor === prop.selectedEditor)
     })
 
     it('does not change object editor if previously selected', () => {
@@ -253,7 +253,7 @@ describe('core/models/forms/reducers/editors', () => {
       const objects = Object.values(after.focusNodes)
         .flatMap(focusNode => focusNode.properties)
         .flatMap(prop => prop.objects)
-      expect(objects).to.containAll<PropertyObjectState>(obj => obj.selectedEditor?.value === dash.TextFieldEditor.value)
+      expect(objects).to.containAll((obj: PropertyObjectState) => obj.selectedEditor?.value === dash.TextFieldEditor.value)
     })
   })
 })
