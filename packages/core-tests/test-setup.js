@@ -1,6 +1,6 @@
 import 'chai-snapshot-matcher'
 import chaiQuantifiers from 'chai-quantifiers'
-import chai from 'chai'
+import * as chai from 'chai'
 import sinonChai from 'sinon-chai'
 import chaiSubset from 'chai-subset'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
