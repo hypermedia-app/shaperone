@@ -4,7 +4,7 @@
   "version": "0.1.1",
   "type": "module",
   "scripts": {
-    "test": "mocha \"**/*.ts\""
+    "test": "mocha \"**/*.ts\" --exclude \"node_modules/**/*.ts\""
   },
   "devDependencies": {
     "@hydrofoil/shaperone-core": "*",
@@ -29,7 +29,7 @@
   },
   "mocha": {
     "require": [
-      "./test-setup.js"
+      "./test-setup.ts"
     ],
     "loader": "ts-node/esm/transpile-only"
   }

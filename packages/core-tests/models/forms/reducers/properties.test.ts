@@ -1,4 +1,3 @@
-/// <reference types="@types/chai-quantifiers" />
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
 import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'

@@ -1,4 +1,3 @@
-/// <reference types="@types/chai-subset" />
 import { describe, it } from 'mocha'
 import $rdf from '@shaperone/testing/env.js'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'

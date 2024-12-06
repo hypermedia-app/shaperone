@@ -3,6 +3,7 @@ import chaiQuantifiers from 'chai-quantifiers'
 import * as chai from 'chai'
 import sinonChai from 'sinon-chai'
 import chaiSubset from 'chai-subset'
+import type { RequiredEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import rdf from '@zazuko/env'
 
@@ -12,6 +13,6 @@ chai.use(chaiSubset)
 
 export const mochaHooks = {
   beforeAll() {
-    setEnv(rdf)
+    setEnv(rdf as unknown as RequiredEnvironment)
   },
 }
