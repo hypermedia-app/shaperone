@@ -23,7 +23,7 @@ describe('components', () => {
     let value: PropertyObjectState<EnumSelect>
     let updateComponentState: sinon.SinonSpy
     let focusNode: GraphPointer<BlankNode>
-    let actions: SinonStubbedInstance<SingleEditorActions>
+    const actions: SinonStubbedInstance<SingleEditorActions> = {} as any
 
     before(() => {
       setEnv($rdf)
@@ -151,7 +151,7 @@ describe('components', () => {
     let value: PropertyObjectState<InstancesSelect>
     let updateComponentState: sinon.SinonSpy
     let focusNode: GraphPointer<BlankNode>
-    let actions: SinonStubbedInstance<SingleEditorActions>
+    const actions: SinonStubbedInstance<SingleEditorActions> = {} as any
 
     beforeEach(() => {
       form = {
