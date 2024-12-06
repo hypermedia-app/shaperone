@@ -42,8 +42,8 @@
     "standard": "^17.0.0",
     "ts-lit-plugin": "^2.0.2",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.25.12",
-    "typescript": "^5.4.3",
+    "typedoc": "^0.27.3",
+    "typescript": "^5.7.2",
     "vite": "^5.2.14",
     "web-component-analyzer": "^1.1.6",
     "wsrun": "^5.2.4"
