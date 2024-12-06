@@ -20,7 +20,7 @@
     "clownface-shacl-path": "^2.1.0"
   },
   "devDependencies": {
-    "@open-wc/testing": "^3.2.2",
+    "@open-wc/testing": "^4.0.0",
     "@shaperone/testing": "0.1.1",
     "@zazuko/env": "^2.1.0"
   },

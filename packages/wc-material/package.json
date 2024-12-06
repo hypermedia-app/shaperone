@@ -37,7 +37,7 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@open-wc/testing": "^3.2.2",
+    "@open-wc/testing": "^4.0.0",
     "@rdfine/shacl": "^0.10.5",
     "@zazuko/env": "^2.1.0",
     "@shaperone/testing": "*",

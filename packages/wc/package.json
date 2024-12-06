@@ -34,9 +34,10 @@
   },
   "devDependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
-    "@open-wc/testing": "^3.2.2",
+    "@open-wc/testing": "^4.0.0",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@shaperone/testing": "*",
+    "@zazuko/prefixes": "^2.2.0",
     "api-viewer-element": "^0.5",
     "esbuild-c": "^0.1.34"
   },
