@@ -17,11 +17,6 @@
           "type": "ComponentsState"
         },
         {
-          "name": "rendererOptions",
-          "description": "Gets the state of the renderer",
-          "type": "RendererState"
-        },
-        {
           "name": "no-editor-switches",
           "description": "Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered",
           "type": "boolean",
@@ -54,6 +49,10 @@
       ],
       "properties": [
         {
+          "name": "registry",
+          "type": "CustomElementRegistry | undefined"
+        },
+        {
           "name": "renderer",
           "description": "Gets or sets the renderer implementation",
           "type": "Renderer<UncompiledTemplateResult<ResultType>>",
@@ -75,12 +74,6 @@
           "attribute": "components",
           "description": "Gets the state of the editor components",
           "type": "ComponentsState"
-        },
-        {
-          "name": "rendererOptions",
-          "attribute": "rendererOptions",
-          "description": "Gets the state of the renderer",
-          "type": "RendererState"
         },
         {
           "name": "noEditorSwitches",

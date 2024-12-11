@@ -9,7 +9,7 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
       sh:name "Category" ;
       sh:path schema:category ;
       dash:editor dash:EnumSelectEditor ;
-      sh:in ( "A" "B" "C" ) ;
+      sh:in ( "RDF" "SPARQL" "HTML" ) ;
       sh:minCount 1 ;
       sh:maxCount 1 ;
     ]
