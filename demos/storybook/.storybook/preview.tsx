@@ -1,3 +1,5 @@
+import '@coreui/coreui/dist/css/coreui.min.css'
+
 import { SyntaxHighlighter } from '@storybook/components'
 import turtle from 'react-syntax-highlighter/dist/esm/languages/prism/turtle.js'
 import { withActions } from '@storybook/addon-actions/decorator'
@@ -24,6 +26,19 @@ window.EventEmitter = EventEmitter;
 const preview = {
   tags: ['autodocs'],
   parameters: {
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: [
+          'Getting Started',
+          'Shaperone anatomy',
+          'Basic Usage',
+          'DASH',
+          ['Introduction'],
+          'Design Systems',
+        ],
+      },
+    },
     controls: {
       disableSaveFromUI: true,
     },
