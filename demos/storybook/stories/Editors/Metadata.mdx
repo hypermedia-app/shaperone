@@ -1,0 +1,35 @@
+import starRatingMetadata from './Metadata.AddMetadata.ts?raw'
+import clownfaceMetadata from './Metadata.AddMetadataClownface.ts?raw'
+import { Markdown } from '@storybook/blocks'
+
+# Editor metadata
+
+The metadata is an RDF graph holding descriptions of [DASH editors](editors/dash.md).
+Out of the box it comes populated with DASH vocabulary itself
+which includes English labels for the default editor types.
+
+## Adding metadata
+
+Given a custom editor or willing to add translations of the DASH editors labels, one would have to add triples to the metadata graph.
+
+The simple way is
+to pass an array of RDF/JS [quads](http://rdf.js.org/data-model-spec/#quad-interface) or a [`DatasetCore`](https://rdf.js.org/dataset-spec/#datasetcore-interface) to the configuration.
+
+<Markdown>
+  {`
+  \`\`\`ts
+${starRatingMetadata}
+  \`\`\`
+  `}
+</Markdown>
+
+A terser alternative is to use [clownface](https://npm.im/clownface) library to ease the buildup of the triples.
+For example, to add custom translations for editors
+
+<Markdown>
+  {`
+  \`\`\`ts
+${clownfaceMetadata}
+  \`\`\`
+  `}
+</Markdown>
