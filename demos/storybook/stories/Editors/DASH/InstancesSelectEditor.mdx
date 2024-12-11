@@ -1,0 +1,17 @@
+import { Stories } from '@storybook/blocks';
+import { CCallout } from '@coreui/react';
+import * as InstanceSelect from './InstancesSelectEditor.stories';
+import { Meta } from '@storybook/blocks'
+
+# InstancesSelectEditor
+
+Similarly to the [enum select](../?path=/docs/dash-enumselecteditor--docs#choice%20of%20iris),
+an "instances selector" presents a dropdown, by default populated with instances of a given `sh:class` found in the shapes graph.
+
+<CCallout color="info">
+  [Hydra integration library](../?path=/docs/extensions-hydra--docs) can be used to extend the functionality of Instances Select editor so that instance data is dereferenced from external resources.
+</CCallout>
+
+<Meta of={InstanceSelect}/>
+
+<Stories />

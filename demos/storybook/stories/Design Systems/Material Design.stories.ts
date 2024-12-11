@@ -3,7 +3,7 @@ import * as materialComponents from '@hydrofoil/shaperone-wc-material/components
 import * as materialRenderer from '@hydrofoil/shaperone-wc-material/renderer/index.js'
 import * as materialTabs from '@hydrofoil/shaperone-wc-material/renderer/tabs.js'
 import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
-import { Grouping, TextEditors } from '../common.js'
+import { defaultMeta, Grouping, TextEditors } from '../common.js'
 
 const configure: ConfigCallback = ({ components, renderer }) => {
   components.pushComponents(materialComponents)
@@ -36,21 +36,7 @@ const configure: ConfigCallback = ({ components, renderer }) => {
  * ```
  */
 const meta: Meta = {
-  component: 'shaperone-form',
-  argTypes: {
-    focusNode: {
-      control: 'text',
-    },
-    shape: {
-      control: 'text',
-    },
-    prefixes: {
-      control: 'text',
-    },
-  },
-  args: {
-    prefixes: 'schema',
-  },
+  ...defaultMeta,
 }
 
 export default meta

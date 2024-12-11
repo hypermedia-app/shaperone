@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/web-components'
 import * as vadin from '@hydrofoil/shaperone-wc-vaadin/components.js'
 import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
-import { TextEditors } from '../common.js'
+import { defaultMeta, TextEditors } from '../common.js'
 
 const configure: ConfigCallback = ({ components }) => {
   components.pushComponents(vadin)
@@ -28,21 +28,7 @@ const configure: ConfigCallback = ({ components }) => {
  * ```
  */
 const meta: Meta = {
-  component: 'shaperone-form',
-  argTypes: {
-    focusNode: {
-      control: 'text',
-    },
-    shape: {
-      control: 'text',
-    },
-    prefixes: {
-      control: 'text',
-    },
-  },
-  args: {
-    prefixes: 'schema',
-  },
+  ...defaultMeta,
 }
 
 export default meta

@@ -8,18 +8,19 @@ import '../lib/shaperone-demo.js'
 interface Args {
   focusNode?: string
   prefixes?: string
+  customPrefixes?: Record<string, string>
   shapes?: string
   data?: string
   debug?: boolean
 }
 
-const render: ArgsStoryFn<WebComponentsRenderer, Args> = function ({ focusNode, prefixes, debug, ...raw }: Args, { loaded: { shapes, data, configure } }) {
+const render: ArgsStoryFn<WebComponentsRenderer, Args> = function ({ focusNode, prefixes, customPrefixes = {}, debug, ...raw }: Args, { loaded: { shapes, data, configure } }) {
   let resource: GraphPointer | undefined
   if (focusNode) {
     resource = data.namedNode(focusNode)
   }
   return html`
-    <shaperone-demo .prefixes="${prefixes}" .shapesGraph="${raw.shapes}" .dataGraph="${raw.data}">
+    <shaperone-demo .prefixes="${prefixes}" .customPrefixes="${customPrefixes}" .shapesGraph="${raw.shapes}" .dataGraph="${raw.data}">
       <shaperone-form .shapes="${shapes}" .resource="${resource}" .configuration="${configure}" ?debug="${debug}"></shaperone-form>
     </shaperone-demo>`
 }

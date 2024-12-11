@@ -1,32 +1,16 @@
-import type { Meta, StoryObj as Story } from '@storybook/web-components'
+import type { StoryObj as Story } from '@storybook/web-components'
 import firstLast from '../shapes/simple/first-last.ttl?raw'
 import unrestricted from '../shapes/simple/unrestricted.ttl?raw'
 import johnDoe from '../data/simple/john-doe.ttl?raw'
 import datatypes from '../shapes/simple/datatypes.ttl?raw'
 import { render } from './render.js'
+import { defaultMeta } from './common.js'
 
 /**
  * The examples below demonstrate the basic usage of the `shaperone-form` component, without any customisation.
  */
-const meta: Meta = {
-  component: 'shaperone-form',
-  argTypes: {
-    focusNode: {
-      control: 'text',
-    },
-    shape: {
-      control: 'text',
-    },
-    prefixes: {
-      control: 'text',
-    },
-    debug: {
-      control: 'boolean',
-    },
-  },
-  args: {
-    prefixes: 'schema',
-  },
+const meta = {
+  ...defaultMeta,
 }
 
 export default meta
