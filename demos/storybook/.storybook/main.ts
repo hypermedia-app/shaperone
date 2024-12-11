@@ -36,7 +36,7 @@ const config: StorybookConfig = {
   staticDirs: [
     '../shapes',
     '../../../node_modules/@shoelace-style/',
-    '../../../dist/_media'
+    '../_media'
   ],
 
   docs: {},
