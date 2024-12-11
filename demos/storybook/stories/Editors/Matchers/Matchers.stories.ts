@@ -1,9 +1,9 @@
 import type { StoryObj as Story } from '@storybook/web-components'
-import { createStory, defaultMeta } from '../common.js'
-import textField from '../../shapes/editors/matchers/star-rating.ttl?raw'
-import starRating from '../../data/rating.ttl?raw'
-import { preferMultiline } from './Matchers.ExtendingMatchers.js'
-import { starRatingMatcher } from './Matchers.AddingMatchers.js'
+import { createStory, defaultMeta } from '../../common.js'
+import textField from '../../../shapes/editors/matchers/star-rating.ttl?raw'
+import starRating from '../../../data/rating.ttl?raw'
+import { preferMultiline } from './ExtendingMatchers.js'
+import { starRatingMatcher } from './AddingMatchers.js'
 
 const meta = { ...defaultMeta }
 
