@@ -12,12 +12,12 @@ class ReadonlyDirective extends Directive {
     }
   }
 
-  render(arg: PropertyState) {
+  render(arg: PropertyState | undefined) {
     return noChange
   }
 
-  update(part: ElementPart, [{ shape }]: Parameters<ReadonlyDirective['render']>) {
-    if (shape.readOnly) {
+  update(part: ElementPart, [state]: Parameters<ReadonlyDirective['render']>) {
+    if (state?.shape.readOnly) {
       part.element.setAttribute('readonly', 'readonly')
       part.element.setAttribute('disabled', 'disabled')
     } else {

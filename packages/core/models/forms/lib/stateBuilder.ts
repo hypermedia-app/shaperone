@@ -32,7 +32,6 @@ export function initialiseObjectState({ shape, editors, components, shouldEnable
       editors: matchedEditors,
       selectedEditor,
       editorSwitchDisabled: !shouldEnableEditorChoice({ object }),
-      componentState: {},
       validationResults: [],
       hasErrors: false,
       nodeKind: undefined,

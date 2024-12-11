@@ -14,7 +14,6 @@ export interface Params {
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   overrides: MultiPointer | undefined
-  componentState: Record<string, unknown> | undefined
 }
 
 export const addFormField = objectStateProducer<Params>((state, {
@@ -22,7 +21,6 @@ export const addFormField = objectStateProducer<Params>((state, {
   editors,
   selectedEditor,
   overrides,
-  componentState = {},
 }, currentProperty) => {
   const nodeKind = overrides?.out(env().ns.sh.nodeKind).term as any
 
@@ -31,10 +29,6 @@ export const addFormField = objectStateProducer<Params>((state, {
     editors,
     selectedEditor,
     editorSwitchDisabled: !state.shouldEnableEditorChoice(),
-    componentState: {
-      ...componentState,
-      ready: false,
-    },
     validationResults: [],
     hasErrors: false,
     nodeKind,

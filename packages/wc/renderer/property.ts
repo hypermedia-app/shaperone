@@ -1,18 +1,14 @@
 import type { GroupRenderer, PropertyActions, PropertyRenderer } from '@hydrofoil/shaperone-core/renderer.js'
 import type { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms'
 import { renderObject } from './object.js'
-import { renderMultiEditor } from './editor.js'
 
 export const renderProperty: GroupRenderer['renderProperty'] = function ({ property }) {
-  const { dispatch, templates } = this.context
+  const { dispatch } = this.context
   const { focusNode } = this
 
   const actionParams = { focusNode: focusNode.focusNode, property: property.shape }
 
   const propertyActions: PropertyActions = {
-    addObject: (arg = {}) => {
-      dispatch.form.addObject({ ...arg, ...actionParams })
-    },
     removeObject: (arg) => {
       let object: PropertyObjectState | undefined
       if ('key' in arg) {
@@ -40,7 +36,6 @@ export const renderProperty: GroupRenderer['renderProperty'] = function ({ prope
       ...propertyActions,
     },
     property,
-    renderMultiEditor,
     renderObject,
   }
 

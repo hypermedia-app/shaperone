@@ -134,8 +134,6 @@ export interface PropertyActions {
 export interface PropertyRenderer<TemplateResult = any> extends GroupRenderer<TemplateResult> {
   actions: GroupRenderer['actions'] & PropertyActions
   property: PropertyState
-  renderMultiEditor(this: PropertyRenderer<TemplateResult>): TemplateResult
-  renderObject(this: PropertyRenderer<TemplateResult>, arg: { object: PropertyObjectState }): TemplateResult
 }
 
 /**
@@ -160,7 +158,6 @@ export interface ObjectActions {
 export interface ObjectRenderer<TemplateResult = any> extends PropertyRenderer<TemplateResult> {
   actions: PropertyRenderer['actions'] & ObjectActions
   object: PropertyObjectState
-  renderEditor(this: ObjectRenderer<TemplateResult>): TemplateResult
 }
 
 /**

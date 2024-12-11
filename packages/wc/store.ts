@@ -13,6 +13,11 @@ import { validation } from '@hydrofoil/shaperone-core/models/validation/index.js
 import { getPlugins, createStore, devtools } from '@hydrofoil/shaperone-core/store.js'
 import { renderer } from './renderer/model.js'
 
+declare module '@hydrofoil/shaperone-core/models/components/index.js' {
+  interface ComponentConstructor extends CustomElementConstructor {
+  }
+}
+
 const config = {
   models: {
     editors,

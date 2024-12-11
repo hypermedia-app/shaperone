@@ -41,17 +41,6 @@ export interface Editor<S extends State> extends SingleEditorComponent<S> {
   sort(shape: PropertyShape, env: ShaperoneEnvironment): (left: GraphPointer, right: GraphPointer) => number
 }
 
-export function shouldLoad({ componentState }: SingleEditorRenderParams<State>): boolean {
-  return !componentState.instances
-}
-
-export async function loadInstance({ property, value }: {
-  property: PropertyShape
-  value: GraphPointer
-}): Promise<GraphPointer | null> {
-  return property.pointer.node(value)
-}
-
 export async function loadChoices({ property }: SingleEditorRenderParams<State>): Promise<GraphPointer[]> {
   if (property.shape.class) {
     return property.shape.pointer.any()

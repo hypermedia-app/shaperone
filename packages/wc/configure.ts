@@ -5,12 +5,13 @@
  * @module @hydrofoil/shaperone-wc/configure
  */
 
+import '@webcomponents/scoped-custom-element-registry'
 import CoreMetadata from '@hydrofoil/shaperone-core/metadata.js'
 import type { RequiredEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import onetime from 'onetime'
 import store from './store.js'
-import * as nativeComponents from './NativeComponents.js'
+import * as native from './NativeComponents.js'
 
 const { components } = store.dispatch
 const { renderer } = store.dispatch
@@ -50,7 +51,8 @@ export async function configure(first?: RequiredEnvironment | ConfigCallback, se
   }
 
   editors.addMetadata(CoreMetadata)
-  components.pushComponents(nativeComponents)
+  components.pushComponents(native.editors)
+  renderer.pushComponents(native.layoutComponents)
   await editors.loadDash()
 
   await userConfigure?.({ components, renderer, editors, validation })

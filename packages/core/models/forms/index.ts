@@ -30,7 +30,6 @@ import shapesEffects from './effects/shapes/index.js'
 import resourcesEffects from './effects/resources/index.js'
 import componentsEffects from './effects/components/index.js'
 import type { Store } from '../../state/index.js'
-import type { ComponentInstance } from '../components/index.js'
 
 export interface ValidationResultState {
   /**
@@ -64,13 +63,12 @@ export interface ValidationState {
   hasErrors: boolean
 }
 
-export interface PropertyObjectState<TState extends ComponentInstance = ComponentInstance> extends ValidationState {
+export interface PropertyObjectState extends ValidationState {
   key: string
   object?: GraphPointer
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
-  componentState: TState
   /**
    * An optional hint set when creating object state which will be used to override what kind of initial value is
    * created for the given object

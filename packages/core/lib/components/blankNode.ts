@@ -1,19 +1,7 @@
-import { dash } from '@tpluscode/rdf-ns-builders/loose'
-import type { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
-import type { CoreComponent } from '../components.js'
+import type { SingleEditorComponent } from '../../models/components/index.js'
 
 /**
- * Instance state of blank node component
+ * An interface for implementing dash:BlankNodeEditor
  */
-export interface BlankNode extends ComponentInstance {
-}
-
-export interface BlankNodeEditor extends SingleEditorComponent<BlankNode> {
-}
-
-/**
- * Extend to implement [DASH blank node editor](http://datashapes.org/forms.html#BlankNodeEditor)
- */
-export const blankNode: CoreComponent<BlankNodeEditor> = {
-  editor: dash.BlankNodeEditor,
+export interface BlankNodeEditor extends SingleEditorComponent {
 }

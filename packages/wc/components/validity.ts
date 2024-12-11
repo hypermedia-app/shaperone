@@ -15,23 +15,26 @@ class ValidityDirective extends Directive {
     }
   }
 
-  render(arg: PropertyObjectState) {
+  render(arg: PropertyObjectState | undefined) {
     return noChange
   }
 
-  update(part: ElementPart, [{ object, validationResults }]: Parameters<ValidityDirective['render']>) {
-    const tb = part.element as HTMLInputElement
+  update(part: ElementPart, [state]: Parameters<ValidityDirective['render']>) {
+    if (state) {
+      const { object, validationResults } = state
+      const tb = part.element as HTMLInputElement
 
-    tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage || 'Value is not valid').join('; '))
-    const isValid = validationResults.length === 0
+      tb.setCustomValidity(validationResults.map(({ result }) => result.resultMessage || 'Value is not valid').join('; '))
+      const isValid = validationResults.length === 0
 
-    if (object?.value !== this.value || this.isValid !== isValid) {
-      this.value = object?.value
+      if (object?.value !== this.value || this.isValid !== isValid) {
+        this.value = object?.value
 
-      tb.reportValidity()
-      if (this.isValid !== isValid) {
-        this.isValid = isValid
-        tb.setAttribute('part', this.isValid ? 'component' : 'component invalid')
+        tb.reportValidity()
+        if (this.isValid !== isValid) {
+          this.isValid = isValid
+          tb.setAttribute('part', this.isValid ? 'component' : 'component invalid')
+        }
       }
     }
 

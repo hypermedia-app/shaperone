@@ -6,25 +6,23 @@
 import type { TemplateResult } from 'lit'
 import { html } from 'lit'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
-import type { FormRenderer, Renderer } from '@hydrofoil/shaperone-core/renderer.js'
-import type { RenderTemplates } from '../templates.js'
-import { renderFocusNode } from './focusNode.js'
-
-declare module '@hydrofoil/shaperone-core/renderer.js' {
-  interface RenderContext {
-    /**
-     * `@hydrofoil/shaperone-wc` extension which simplifies implementation of partial templates
-     * for the base form elements as well any additional UI elements
-     *
-     * @category wc
-     */
-    templates: RenderTemplates
-  }
-}
+import type { Renderer } from '@hydrofoil/shaperone-core/renderer.js'
+import { repeat } from 'lit/directives/repeat.js'
+import type {
+  FocusNodeState,
+  FormState,
+  PropertyGroupState, PropertyObjectState,
+  PropertyState,
+} from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { ifDefined } from 'lit/directives/if-defined.js'
+import type { PropertyGroup } from '@rdfine/shacl'
+import * as staticLit from 'lit/static-html.js'
+import type { Dispatch } from '@hydrofoil/shaperone-core/state/index.js'
+import { getEditorTagName } from '../components/editor.js'
 
 export default <Renderer<TemplateResult>>{
   render(context): TemplateResult {
-    const { editors, state, components, templates, dispatch } = context
+    const { editors, state, components, dispatch } = context
 
     if (!editors || !state || !components) {
       return html``
@@ -35,12 +33,97 @@ export default <Renderer<TemplateResult>>{
       popFocusNode: () => dispatch.form.popFocusNode(),
     }
 
-    const renderer: FormRenderer = {
-      context,
-      actions,
-      renderFocusNode,
+    return html`
+      <sh1-form>
+        ${repeat(context.state.focusStack, renderFocusNode(dispatch, context.state))}
+      </sh1-form>`
+  },
+}
+
+function renderFocusNode(dispatch: Dispatch, form: FormState) {
+  return (focusNode: FocusNode): TemplateResult => {
+    const focusNodeState = form.focusNodes[focusNode.value]
+    return html`
+      <sh1-focus-node .focusNode="${focusNodeState}">
+        ${repeat(focusNodeState.groups, renderGroup(dispatch, focusNodeState))}
+      </sh1-focus-node>`
+  }
+}
+
+function byGroup(group: PropertyGroup | undefined) {
+  return (property: PropertyState) => {
+    if (!group && !property.shape.group) {
+      return true
     }
 
-    return templates.form(renderer)
-  },
+    if (group && property.shape.group) {
+      return group.id.equals(property.shape.group.id)
+    }
+
+    return false
+  }
+}
+
+function onlySingleProperty(property: PropertyState) {
+  if (Array.isArray(property.shape.path)) {
+    return property.shape.path.length === 1
+  }
+
+  return true
+}
+
+function renderGroup(dispatch: Dispatch, focusNode: FocusNodeState) {
+  return (group: PropertyGroupState): TemplateResult => {
+    const properties = focusNode.properties
+      .filter(({ hidden }) => !hidden)
+      .filter(byGroup(group?.group))
+      .filter(onlySingleProperty)
+    return html`
+      <sh1-group slot="${ifDefined(group.group?.id.value)}" .group="${group}">
+        ${repeat(properties, renderProperty(dispatch, focusNode))}
+      </sh1-group>`
+  }
+}
+
+function renderProperty(dispatch: Dispatch, focusNode: FocusNodeState) {
+  return (property: PropertyState) => html`
+    <sh1-property .dispatch="${dispatch}" .focusNode="${focusNode}" .property="${property}">
+      ${repeat(property.objects, renderObject(dispatch, focusNode, property))}
+    </sh1-property>`
+}
+
+function renderObject(dispatch: Dispatch, focusNode: FocusNodeState, property: PropertyState) {
+  return (object: PropertyObjectState) => html`
+    <sh1-object .dispatch="${dispatch}" .focusNode="${focusNode}" .object="${object}" .property="${property}">
+      ${renderEditor(property, object)}
+    </sh1-object>`
+}
+
+function renderEditor(property: PropertyState, object: PropertyObjectState) {
+  const { selectedEditor: editor } = object
+  if (!editor) {
+    return ''
+  }
+
+  function focusOnObjectNode() {
+    if (object.object?.term.termType === 'NamedNode' || object.object?.term.termType === 'BlankNode') {
+      dispatch.form.pushFocusNode({ focusNode: object.object as any, property: property.shape })
+    }
+  }
+
+  function clear() {
+    dispatch.form.clearValue({
+      focusNode: focusNode.focusNode,
+      property: property.shape,
+      object,
+    })
+  }
+
+  const tagName = staticLit.literal`${staticLit.unsafeStatic(getEditorTagName(editor))}`
+  return staticLit.html`<${tagName}
+    class="editor"
+    .property="${property}"
+    .value="${object}"
+    @cleared="${clear}"
+  ></${tagName}>`
 }

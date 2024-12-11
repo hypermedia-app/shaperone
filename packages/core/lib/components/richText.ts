@@ -8,7 +8,7 @@ import type { CoreComponent } from '../components.js'
 export interface RichText extends ComponentInstance {
 }
 
-export interface RichTextEditor extends SingleEditorComponent<RichText> {
+export interface RichTextEditor extends SingleEditorComponent {
 }
 
 /**

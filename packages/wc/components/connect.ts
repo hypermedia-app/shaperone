@@ -25,7 +25,7 @@ export function connect<T extends Constructor<Connectable & LitElement>, S>(
   createStore: () => Store<S>,
   superclass: T,
 ) {
-  class connected extends superclass {
+  class connected extends dispatchingElementMixin(superclass) {
     private [dispatchMap]!: DispatchMap
     private [store]: Store<S>
     private [storeRaw]: Store<S>
@@ -97,4 +97,9 @@ export function connect<T extends Constructor<Connectable & LitElement>, S>(
   }
 
   return connected as Constructor<Connectable> & T
+}
+
+function dispatchingElementMixin<T extends Constructor<LitElement>>(superclass: T) {
+  return class extends superclass {
+  }
 }

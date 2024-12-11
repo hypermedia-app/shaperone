@@ -1,19 +1,7 @@
-import { dash } from '@tpluscode/rdf-ns-builders'
-import type { ComponentInstance, SingleEditorComponent } from '../../models/components/index.js'
-import type { CoreComponent } from '../components.js'
+import type { SingleEditorComponent } from '../../models/components/index.js'
 
 /**
- * Instance state of date picker component
+ * An interface for implementing dash:DatePickerEditor
  */
-export interface DatePicker extends ComponentInstance {
-}
-
-export interface DatePickerEditor extends SingleEditorComponent<DatePicker> {
-}
-
-/**
- * Extend to implement [DASH date picker editor](http://datashapes.org/forms.html#DatePickerEditor)
- */
-export const datePicker: CoreComponent<DatePickerEditor> = {
-  editor: dash.DatePickerEditor,
+export interface DatePickerEditor extends SingleEditorComponent {
 }

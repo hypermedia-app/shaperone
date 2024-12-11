@@ -9,80 +9,27 @@
  * @module @hydrofoil/shaperone-wc/NativeComponents
  */
 
-import type {
-  EnumSelectEditor,
-  InstancesSelectEditor,
-  TextFieldEditor,
-  TextAreaEditor,
-  DatePickerEditor,
-  DateTimePickerEditor,
-  URIEditor,
-  BooleanSelectEditor,
-} from '@hydrofoil/shaperone-core/components.js'
-import {
-  instancesSelect,
-  enumSelect,
-  textField,
-  textArea,
-  datePicker,
-  dateTimePicker,
-  uri,
-  booleanSelect,
-} from '@hydrofoil/shaperone-core/components.js'
-import type { Lazy } from './index.js'
+import BooleanSelect from './elements/BooleanSelect.js'
+import TextField from './elements/TextField.js'
+import TextArea from './elements/TextArea.js'
+import { Sh1Form } from './components/sh1-form.js'
+import { Sh1Object } from './components/sh1-object.js'
+import { Sh1Property } from './components/sh1-property.js'
+import { Sh1FocusNode } from './components/sh1-focus-node.js'
+import EnumSelect from './elements/EnumSelect.js'
+import Sh1Button from './components/sh1-button.js'
 
-export const nativeBooleanSelect: Lazy<BooleanSelectEditor> = {
-  ...booleanSelect,
-  async lazyRender() {
-    return (await import('./components/index.js')).booleanSelect
-  },
-}
+export const editors = [
+  TextField,
+  TextArea,
+  BooleanSelect,
+  EnumSelect,
+]
 
-export const textFieldEditor: Lazy<TextFieldEditor> = {
-  ...textField,
-  async lazyRender() {
-    return (await import('./components/index.js')).textField
-  },
-}
-
-export const textAreaEditor: Lazy<TextAreaEditor> = {
-  ...textArea,
-  async lazyRender() {
-    return (await import('./components/index.js')).textArea
-  },
-}
-
-export const enumSelectEditor: Lazy<EnumSelectEditor> = {
-  ...enumSelect,
-  async lazyRender() {
-    return (await import('./components/index.js')).enumSelect
-  },
-}
-
-export const datePickerEditor: Lazy<DatePickerEditor> = {
-  ...datePicker,
-  async lazyRender() {
-    return (await import('./components/index.js')).datePicker('date')
-  },
-}
-
-export const dateTimePickerEditor: Lazy<DateTimePickerEditor> = {
-  ...dateTimePicker,
-  async lazyRender() {
-    return (await import('./components/index.js')).datePicker('datetime-local')
-  },
-}
-
-export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
-  ...instancesSelect,
-  async lazyRender() {
-    return (await import('./components/index.js')).instancesSelect
-  },
-}
-
-export const uriEditor: Lazy<URIEditor> = {
-  ...uri,
-  async lazyRender() {
-    return (await import('./components/index.js')).uri
-  },
+export const layoutComponents = {
+  form: Sh1Form,
+  focusNode: Sh1FocusNode,
+  property: Sh1Property,
+  object: Sh1Object,
+  button: Sh1Button,
 }

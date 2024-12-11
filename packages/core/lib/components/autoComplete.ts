@@ -1,5 +1,4 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { CoreComponent } from '../components.js'
 import { sort } from '../components.js'
 import * as select from './base/instancesSelect.js'
 import type { State, Editor } from './base/instancesSelect.js'

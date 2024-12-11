@@ -1,9 +1,9 @@
 import type { PropertyRenderer, ObjectRenderer, ObjectActions } from '@hydrofoil/shaperone-core/renderer.js'
 import type { NamedNode } from '@rdfjs/types'
-import { renderEditor } from './editor.js'
+import { html } from 'lit'
 
 export const renderObject: PropertyRenderer['renderObject'] = function ({ object }) {
-  const { dispatch, templates } = this.context
+  const { dispatch, env } = this.context
   const { focusNode, property, actions } = this
 
   const objectActions: ObjectActions = {
@@ -27,8 +27,9 @@ export const renderObject: PropertyRenderer['renderObject'] = function ({ object
       ...objectActions,
     },
     object,
-    renderEditor,
   }
 
-  return templates.object(context, { object })
+  return html`<sh1-object .object="${object}">
+    ${renderEditor(context)}
+  </sh1-object>`
 }
