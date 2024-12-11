@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "storybook dev -p 6006 --no-open",
-    "build": "storybook build -o ../../dist/storybook"
+    "build": "storybook build -o ../../dist/docs"
   },
   "dependencies": {
     "@coreui/react": "^5.4.1",
