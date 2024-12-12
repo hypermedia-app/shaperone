@@ -1,12 +1,12 @@
 import type { Meta, StoryObj as Story } from '@storybook/web-components'
-import type { ConfigCallback } from '@hydrofoil/shaperone-wc'
 import { merge } from 'ts-deepmerge'
+import type { InstanceConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
 import { render } from './render.js'
 import groups from '../shapes/groups.ttl?raw'
 import textEditors from '../shapes/text-editors.ttl?raw'
 
 interface StoryFactory {
-  (configure: ConfigCallback, overrides?: Partial<Omit<Story, 'render' | 'loaders'>>): Story
+  (configure?: InstanceConfigCallback, overrides?: Partial<Omit<Story, 'render' | 'loaders'>>): Story
 }
 
 export const defaultMeta: Meta = {
@@ -50,9 +50,11 @@ interface CreateStory {
   data?: string
   focusNode?: string
   prefixes?: string[]
+  customPrefixes?: Record<string, string>
+  debug?: boolean
 }
 
-export function createStory({ name, prefixes, ...args }: CreateStory) {
+export function createStory({ name, prefixes, customPrefixes, ...args }: CreateStory) {
   const defaults = {
     name,
     args,
@@ -60,6 +62,10 @@ export function createStory({ name, prefixes, ...args }: CreateStory) {
 
   if (prefixes) {
     defaults.args.prefixes = prefixes.join(',')
+  }
+
+  if (customPrefixes) {
+    defaults.args.customPrefixes = customPrefixes
   }
 
   return createStoryObj(defaults)

@@ -15,7 +15,7 @@ DASH is a set of auxiliary specifications by TopQuadrant's SHACL author Holger K
 
 DASH defines two types of editors: `dash:SingleEditor` and `dash:MultiEditor` which represent a user input element of a form.
 
-As the names imply, the former are editors for individual triple object while the latter replaces all values for a given property.
+As the names imply, the former are editors for individual triple's object while the latter replaces all values for a given property.
 
 It also provides a set of instances of the `dash:SingleEditor` type. The table below lists them and indicates which are implemented as [matchers](editors/matchers.md) and [components](components/implement.md) by shaperone. Below you will also find some additional information about some of them.
 
@@ -28,7 +28,7 @@ It also provides a set of instances of the `dash:SingleEditor` type. The table b
 | [`dash:DateTimePickerEditor`](http://datashapes.org/forms.html#DateTimePickerEditor)       | A calendar for selecting date and time                                                         | ✅       | ✅         |
 | [`dash:DetailsEditor`](http://datashapes.org/forms.html#DetailsEditor)                     | A drill-down-style editor for editing child focus nodes                                        | ✅       | ❌         |
 | [`dash:EnumSelectEditor`](http://datashapes.org/forms.html#EnumSelectEditor)               | A dropdown with choices from a closed set of elements                                          | ✅       | 🐲        |
-| [`dash:InstancesSelectEditor`](http://datashapes.org/forms.html#InstancesSelectEditor)     | A dropdown to choose among instances a specific type as indicated by `sh:class` shape property | ✅       | 🐉        |
+| [`dash:InstancesSelectEditor`](http://datashapes.org/forms.html#InstancesSelectEditor)     | A dropdown to choose among instances a specific type as indicated by `sh:class` shape property | ⚠️       | 🐲        |
 | [`dash:RichTextEditor`](http://datashapes.org/forms.html#RichTextEditor)                   | A text editor with formatting, which returns HTML markup                                       | ❌       | ❌         |
 | [`dash:TextAreaEditor`](http://datashapes.org/forms.html#TextAreaEditor)                   | Multiline text box                                                                             | ✅       | ✅         |
 | [`dash:TextFieldEditor`](http://datashapes.org/forms.html#TextFieldEditor)                 | Single line text box                                                                           | ✅       | ✅         |
@@ -37,5 +37,5 @@ It also provides a set of instances of the `dash:SingleEditor` type. The table b
 | [`dash:URIEditor`](http://datashapes.org/forms.html#URIEditor)                             | A text box for typing in URIs                                                                  | ✅       | ✅         |
 
 <CCallout color="info">
-Most of the default behaviour of components can be easily customized in your application. The [components page](components/implement.md) provides information about necessary implementation steps.
+Most of the default behaviour of components can be customized in your application. The [components page](components/implement.md) provides information about necessary implementation steps.
 </CCallout>

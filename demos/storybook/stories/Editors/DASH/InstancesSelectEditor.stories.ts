@@ -1,7 +1,9 @@
 import type { StoryObj as Story } from '@storybook/web-components'
-import { defaultMeta } from '../../common.js'
-import { render } from '../../render.js'
+import { createStory, defaultMeta } from '../../common.js'
 import instances from '../../../shapes/editors/dash/InstancesSelect/wikidata.ttl?raw'
+import instancesNoLabels from '../../../shapes/editors/dash/InstancesSelect/no-labels.ttl?raw'
+import noLabelsData from '../../../shapes/editors/dash/InstancesSelect/no-labels.data.ttl?raw'
+import { configure as configureFetch } from './InstancesSelectEditor/fetch.js'
 
 const meta = {
   ...defaultMeta,
@@ -9,16 +11,23 @@ const meta = {
 
 export default meta
 
-/**
- * Just as with enum select, `rdfs:label` is used for option text
- */
-export const Wikidata: Story = {
+export const Wikidata: Story = createStory({
   name: 'Resources by sh:class',
-  args: {
-    shapes: instances,
-    customPrefixes: {
-      wd: 'http://www.wikidata.org/entity/',
-    },
+  shapes: instances,
+  prefixes: ['rdfs'],
+  customPrefixes: {
+    wd: 'http://www.wikidata.org/entity/',
   },
-  render,
-}
+})()
+
+export const WikidataNoLabels: Story = createStory({
+  name: 'Resources without labels',
+  shapes: instancesNoLabels,
+  data: noLabelsData,
+  focusNode: 'http://example.org/instance',
+  prefixes: ['rdfs', 'schema'],
+  customPrefixes: {
+    wd: 'http://www.wikidata.org/entity/',
+    ex: 'http://example.org/',
+  },
+})(configureFetch)

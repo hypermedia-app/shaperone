@@ -13,10 +13,7 @@ import onetime from 'onetime'
 import store from './store.js'
 import * as native from './NativeComponents.js'
 
-const { components } = store.dispatch
-const { renderer } = store.dispatch
-const { editors } = store.dispatch
-const { validation } = store.dispatch
+const { components, renderer, editors, validation } = store.dispatch
 
 const setEnvOnce = onetime(setEnv)
 

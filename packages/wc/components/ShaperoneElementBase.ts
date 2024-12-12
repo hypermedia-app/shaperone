@@ -1,7 +1,8 @@
 import { LitElement } from 'lit'
 import { ScopedElementsMixin } from '@open-wc/scoped-elements/lit-element.js'
+import type { CustomEventTarget } from './events.js'
 
-export default class extends ScopedElementsMixin(LitElement) {
+export default class extends ScopedElementsMixin(LitElement) implements CustomEventTarget {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   get registry() {

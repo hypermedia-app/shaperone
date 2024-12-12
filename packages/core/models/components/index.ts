@@ -8,7 +8,7 @@ import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from '@rdfjs/types'
 import type { GraphPointer } from 'clownface'
 import reducers from './reducers.js'
-import type { PropertyObjectState } from '../forms/index.js'
+import type { FocusNodeState, PropertyObjectState, PropertyState } from '../forms/index.js'
 import type { ObjectRenderer, PropertyRenderer } from '../../renderer.js'
 import type { ShaperoneEnvironment } from '../../env.js'
 
@@ -35,6 +35,9 @@ export interface MultiEditorActions {
 export interface Component {
   env: ShaperoneEnvironment
   clear(): void
+  property: PropertyState
+  value: PropertyObjectState
+  focusNode: FocusNodeState
 }
 
 export interface SingleEditorComponent extends Component {
@@ -44,22 +47,25 @@ export interface SingleEditorComponent extends Component {
 export interface MultiEditorComponent extends Component {
 }
 
-export interface RenderFunc<Params, Actions, TRenderResult> {
-  (params: Params, actions: Actions): TRenderResult
+export interface ComponentConstructor<T extends Component = Component> {
+  editor: NamedNode
+  new(): T
 }
 
-export interface ComponentConstructor {
-  editor: NamedNode
-  new(): Component
+export interface ComponentDecorator<T extends Component = Component> {
+  applicableTo(component: ComponentConstructor): boolean
+  decorate(component: ComponentConstructor<T>): ComponentConstructor<T>
 }
 
 export interface ComponentsState {
   components: Record<string, ComponentConstructor>
+  decorators: ComponentDecorator[]
 }
 
 export const components = createModel({
-  state: <ComponentsState><any>{
+  state: <ComponentsState>{
     components: {},
+    decorators: [],
   },
   reducers,
 })

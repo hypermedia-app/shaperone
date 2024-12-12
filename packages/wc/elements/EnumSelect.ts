@@ -1,25 +1,37 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
+import type { PropertyValues } from 'lit'
 import { html } from 'lit'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { repeat } from 'lit/directives/repeat.js'
-import { property } from 'lit/decorators.js'
-import type { GraphPointer } from 'clownface'
 import { sort } from '@hydrofoil/shaperone-core/lib/components.js'
-import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/lib/components/enumSelect.js'
+import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { NamedNode } from '@rdfjs/types'
+import type { GraphPointer } from 'clownface'
+import { property } from 'lit/decorators.js'
 import { SingleEditorBase } from './SingleEditorBase.js'
-import { validity } from '../components/validity.js'
-import { readOnly } from '../components/readonly.js'
+import { validity } from './lib/validity.js'
+import { readOnly } from './lib/readonly.js'
+
+const choices = Symbol('choices')
 
 export default class extends SingleEditorBase implements EnumSelectEditor {
-  static readonly editor = dash.EnumSelectEditor
+  private [choices]: GraphPointer[] = []
 
-  @property({ type: Array })
-  public choices: GraphPointer[] = []
+  static readonly editor: NamedNode = dash.EnumSelectEditor
 
-  connectedCallback() {
-    super.connectedCallback()
+  @property({ type: Array, state: true })
+  get choices() {
+    return this[choices]
+  }
 
-    this.setChoices()
+  set choices(value: GraphPointer[]) {
+    this[choices] = value.sort(sort(this.property.shape))
+  }
+
+  protected updated(_changedProperties: PropertyValues) {
+    if (this.shouldLoadChoices(_changedProperties)) {
+      this.setChoices()
+    }
   }
 
   protected render(): unknown {
@@ -32,19 +44,26 @@ export default class extends SingleEditorBase implements EnumSelectEditor {
     </select>`
   }
 
-  private selectionChanged(e: any) {
+  selectionChanged(e: any) {
     const chosen = this.choices[(e.target).selectedIndex - 1]
     if (chosen) {
       this.setValue(chosen.term)
     }
   }
 
-  private async setChoices() {
-    const pointers: GraphPointer[] = await this.loadChoices()
-    this.choices = pointers.sort(sort(this.property.shape))
+  protected shouldLoadChoices(_changedProperties: PropertyValues) {
+    if (!_changedProperties.has('property')) {
+      return false
+    }
+
+    const propertyAfter = this.property
+    const propertyBefore: typeof propertyAfter | undefined = _changedProperties.get('property')
+
+    return !propertyAfter.shape.id.equals(propertyBefore?.shape.id)
   }
 
-  async loadChoices(): Promise<GraphPointer[]> {
-    return this.property.shape.pointer.node(this.property.shape.in).toArray()
+  setChoices() {
+    const property = this.property.shape
+    this.choices = property.pointer.node(property.in).toArray()
   }
 }

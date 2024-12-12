@@ -5,30 +5,112 @@
  * @module @hydrofoil/shaperone-core/components
  */
 
-export type { AutoComplete, AutoCompleteEditor } from './lib/components/autoComplete.js'
-export { autoComplete } from './lib/components/autoComplete.js'
-export type { BlankNode, BlankNodeEditor } from './lib/components/blankNode.js'
-export { blankNode } from './lib/components/blankNode.js'
-export type { BooleanSelect } from './lib/components/booleanSelect.js'
-export type { DatePickerEditor, DatePicker } from './lib/components/datePicker.js'
-export { datePicker } from './lib/components/datePicker.js'
-export type { DateTimePicker, DateTimePickerEditor } from './lib/components/dateTimePicker.js'
-export { dateTimePicker } from './lib/components/dateTimePicker.js'
-export type { Details, DetailsEditor } from './lib/components/details.js'
-export { details } from './lib/components/details.js'
-export type { EnumSelect, EnumSelectEditor } from './lib/components/enumSelect.js'
-export { enumSelect } from './lib/components/enumSelect.js'
-export type { InstancesSelect, InstancesSelectEditor } from './lib/components/instancesSelect.js'
-export { instancesSelect } from './lib/components/instancesSelect.js'
-export type { RichTextEditor, RichText } from './lib/components/richText.js'
-export { richText } from './lib/components/richText.js'
-export type { TextArea } from './lib/components/textArea.js'
-export { textArea } from './lib/components/textArea.js'
-export type { TextAreaWithLang, TextAreaWithLangEditor } from './lib/components/textAreaWithLang.js'
-export { textAreaWithLang } from './lib/components/textAreaWithLang.js'
-export type { TextField, TextFieldEditor } from './lib/components/textField.js'
-export { textField } from './lib/components/textField.js'
-export type { TextFieldWithLang, TextFieldWithLangEditor } from './lib/components/textFieldWithLang.js'
-export { textFieldWithLang } from './lib/components/textFieldWithLang.js'
-export { uri } from './lib/components/uri.js'
-export type { URIEditor, URI } from './lib/components/uri.js'
+import type { GraphPointer } from 'clownface'
+import type { PropertyShape } from '@rdfine/shacl'
+import type { SingleEditorComponent } from './models/components/index.js'
+import type { FocusNode } from './index.js'
+
+export type { ComponentDecorator } from './models/components/index.js'
+
+/**
+ * An interface for implementing dash:BlankNodeEditor
+ */
+export interface BlankNodeEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:BooleanSelectEditor
+ */
+export interface BooleanSelectEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:DatePickerEditor
+ */
+export interface DatePickerEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:DateTimePickerEditor
+ */
+export interface DateTimePickerEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:DetailsEditor
+ */
+export interface DetailsEditor extends SingleEditorComponent {
+}
+
+export interface LoadChoicesArgs {
+  focusNode: FocusNode
+  property: PropertyShape
+}
+
+/**
+ * An interface for implementing dash:EnumSelectEditor
+ */
+export interface EnumSelectEditor extends SingleEditorComponent {
+  choices: GraphPointer[]
+
+  /**
+   * Sets the values for the component
+   */
+  setChoices(): void
+}
+
+/**
+ * An interface for implementing dash:InstancesSelectEditor
+ */
+export interface InstancesSelectEditor extends EnumSelectEditor {
+  /**
+   * Asynchronously loads an instance selected in the editor
+   *
+   * Implementors may choose to implement and call it if the Shapes Graph does not contain full representations
+   * @param params
+   */
+  loadInstances?(...params: GraphPointer[]): void
+}
+
+/**
+ * An interface for implementing dash:AutoCompleteEditor
+ */
+export interface AutoCompleteEditor extends InstancesSelectEditor {
+  freetextQuery?: string
+}
+
+/**
+ * An interface for implementing dash:RichTextEditor
+ */
+export interface RichTextEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:TextAreaEditor
+ */
+export interface TextAreaEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:TextAreaWithLangEditor
+ */
+export interface TextAreaWithLangEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:TextFieldEditor
+ */
+export interface TextFieldEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:TextFieldWithLangEditor
+ */
+export interface TextFieldWithLangEditor extends SingleEditorComponent {
+}
+
+/**
+ * An interface for implementing dash:URIEditor
+ */
+export interface URIEditor extends SingleEditorComponent {
+}

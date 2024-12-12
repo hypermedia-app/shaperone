@@ -16,9 +16,9 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
     ] ;
 .
 
-wd:Q184478 a wd:Q3918 ; rdfs:label "University of California" .
-wd:Q1860208 a wd:Q3918 ; rdfs:label "National University of Ireland" .
-wd:Q49108 a wd:Q3918 ; rdfs:label "Massachusetts Institute of Technology" .
-wd:Q34433 a wd:Q3918 ; rdfs:label "University of Oxford" .
-wd:Q35794 a wd:Q3918 ; rdfs:label "University of Cambridge" .
-wd:Q13371 a wd:Q3918 ; rdfs:label "Harvard University" .
+wd:Q184478 a wd:Q3918 .
+wd:Q1860208 a wd:Q3918 .
+wd:Q49108 a wd:Q3918 .
+wd:Q34433 a wd:Q3918 .
+wd:Q35794 a wd:Q3918 .
+wd:Q13371 a wd:Q3918 .

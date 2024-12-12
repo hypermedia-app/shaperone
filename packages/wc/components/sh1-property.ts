@@ -1,4 +1,5 @@
 import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { PropertyValues } from 'lit'
 import { css, html } from 'lit'
 import { property } from 'lit/decorators.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
@@ -36,9 +37,13 @@ export class Sh1Property extends ShaperoneElementBase {
   @property({ type: Object })
   private property!: PropertyState
 
-  @property({ type: Boolean, reflect: true, attribute: 'can-add' })
-  get canAdd() {
-    return this.property.canAdd
+  @property({ type: Boolean, reflect: true, attribute: 'can-add', state: true })
+  private canAdd = false
+
+  protected updated(_changedProperties: PropertyValues) {
+    if (_changedProperties.has('property')) {
+      this.canAdd = this.property.canAdd
+    }
   }
 
   render() {

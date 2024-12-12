@@ -1,6 +1,4 @@
 import { css, html } from 'lit'
-import type { GraphPointer } from 'clownface'
-import type { Term } from '@rdfjs/types'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
 import { property } from 'lit/decorators.js'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
@@ -27,14 +25,13 @@ export class Sh1Object extends ShaperoneElementBase {
   @property({ type: Object })
   private property!: PropertyState
 
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
-    const shadowRoot = super.createRenderRoot()
+  constructor() {
+    super()
 
-    shadowRoot.addEventListener('value-changed', (e: any) => {
-      const termOrString: GraphPointer | Term | string = e.detail.value
-      const value = typeof termOrString === 'string'
-        ? createTerm(this.property, termOrString)
-        : termOrString
+    this.addEventListener('value-changed', (e) => {
+      const value = typeof e.detail.value === 'string'
+        ? createTerm(this.property, e.detail.value)
+        : e.detail.value
 
       this.dispatch?.form.updateObject({
         focusNode: this.focusNode.focusNode,
@@ -44,7 +41,13 @@ export class Sh1Object extends ShaperoneElementBase {
       })
     })
 
-    return shadowRoot
+    this.addEventListener('cleared', () => {
+      this.dispatch?.form.clearValue({
+        focusNode: this.focusNode.focusNode,
+        property: this.property.shape,
+        object: this.object,
+      })
+    })
   }
 
   render() {

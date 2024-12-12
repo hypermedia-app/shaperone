@@ -95,11 +95,11 @@ function renderProperty(dispatch: Dispatch, focusNode: FocusNodeState) {
 function renderObject(dispatch: Dispatch, focusNode: FocusNodeState, property: PropertyState) {
   return (object: PropertyObjectState) => html`
     <sh1-object .dispatch="${dispatch}" .focusNode="${focusNode}" .object="${object}" .property="${property}">
-      ${renderEditor(property, object)}
+      ${renderEditor(dispatch, focusNode, property, object)}
     </sh1-object>`
 }
 
-function renderEditor(property: PropertyState, object: PropertyObjectState) {
+function renderEditor(dispatch: Dispatch, focusNode: FocusNodeState, property: PropertyState, object: PropertyObjectState) {
   const { selectedEditor: editor } = object
   if (!editor) {
     return ''
@@ -111,19 +111,11 @@ function renderEditor(property: PropertyState, object: PropertyObjectState) {
     }
   }
 
-  function clear() {
-    dispatch.form.clearValue({
-      focusNode: focusNode.focusNode,
-      property: property.shape,
-      object,
-    })
-  }
-
   const tagName = staticLit.literal`${staticLit.unsafeStatic(getEditorTagName(editor))}`
   return staticLit.html`<${tagName}
     class="editor"
     .property="${property}"
+    .focusNode="${focusNode}"
     .value="${object}"
-    @cleared="${clear}"
   ></${tagName}>`
 }

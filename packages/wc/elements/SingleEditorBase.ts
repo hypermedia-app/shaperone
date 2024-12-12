@@ -4,19 +4,20 @@ import { property } from 'lit/decorators.js'
 import type { SingleEditorComponent } from '@hydrofoil/shaperone-core/models/components/index.js'
 import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import type { Term } from '@rdfjs/types'
+import type { CustomEventTarget } from '../components/events.js'
 
 /**
  * Inherit to implement a `dash:SingleEditor` component rendered as Web Components using [lit](https://lit.dev/)
  */
-export abstract class SingleEditorBase extends LitElement implements SingleEditorComponent {
+export abstract class SingleEditorBase extends LitElement implements SingleEditorComponent, CustomEventTarget {
   @property({ type: Object })
-  protected value!: PropertyObjectState
+  public value!: PropertyObjectState
 
   @property({ type: Object })
-  protected property!: PropertyState
+  public property!: PropertyState
 
   @property({ type: Object })
-  protected focusNode!: FocusNodeState
+  public focusNode!: FocusNodeState
 
   @property({ type: Object })
   public env!: ShaperoneEnvironment
@@ -31,6 +32,8 @@ export abstract class SingleEditorBase extends LitElement implements SingleEdito
   }
 
   clear() {
-    this.dispatchEvent(new CustomEvent('cleared'))
+    this.dispatchEvent(new CustomEvent('cleared', {
+      bubbles: true,
+    }))
   }
 }

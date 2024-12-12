@@ -1,10 +1,11 @@
 import { html } from 'lit'
 import { dash, xsd } from '@tpluscode/rdf-ns-builders'
-import { validity } from '../components/validity.js'
-import { readOnly } from '../components/readonly.js'
+import type { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import { validity } from './lib/validity.js'
+import { readOnly } from './lib/readonly.js'
 import { SingleEditorBase } from './SingleEditorBase.js'
 
-export default class extends SingleEditorBase {
+export default class extends SingleEditorBase implements BooleanSelectEditor {
   static readonly editor = dash.BooleanSelectEditor
 
   protected render() {
