@@ -1,5 +1,27 @@
 # @hydrofoil/shaperone-wc-vaadin
 
+## 0.5.2
+
+### Patch Changes
+
+- e430f48: Updated core package
+- f204d55: Updated `lit` to v3
+- afb2beb: Replace directive `spread` with one from `@open-wc/lit-helpers`
+- Updated dependencies [a20d9c6]
+- Updated dependencies [7d2153f]
+- Updated dependencies [15934de]
+- Updated dependencies [f204d55]
+- Updated dependencies [afb2beb]
+- Updated dependencies [27e95ea]
+- Updated dependencies [7c0401f]
+- Updated dependencies [7d2153f]
+- Updated dependencies [0087e5c]
+- Updated dependencies [7467131]
+- Updated dependencies [7d2153f]
+- Updated dependencies [d8c3b9c]
+  - @hydrofoil/shaperone-core@0.13.0
+  - @hydrofoil/shaperone-wc@0.9.0
+
 ## 0.5.1
 
 ### Patch Changes
