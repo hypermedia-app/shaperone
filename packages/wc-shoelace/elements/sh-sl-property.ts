@@ -1,10 +1,11 @@
-import type { TemplateResult } from 'lit'
 import { css, html, LitElement } from 'lit'
-import { customElement, property, query } from 'lit/decorators.js'
-import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js'
+import { property, query } from 'lit/decorators.js'
+import type { PropertyElement } from '@hydrofoil/shaperone-wc/components/index.js'
+import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
+import { sh } from '@tpluscode/rdf-ns-builders'
 
-@customElement('sh-sl-property')
-export class ShSlProperty extends LitElement {
+export class ShSlProperty extends LitElement implements PropertyElement {
   static get styles() {
     return css`
       :host {
@@ -35,17 +36,11 @@ export class ShSlProperty extends LitElement {
     `
   }
 
-  @property({ type: Boolean })
-  public canAddValue?: boolean
+  @property({ type: Object })
+  public focusNode!: FocusNodeState
 
-  @property({ type: String })
-  public label?: string
-
-  @property({ type: String })
-  public helpText?: string
-
-  @property({ type: String })
-  public addIcon?: string
+  @property({ type: Object })
+  public property!: PropertyState
 
   @property({ type: Boolean })
   private __slotEmpty = true
@@ -54,27 +49,16 @@ export class ShSlProperty extends LitElement {
   private __slot!: HTMLSlotElement
 
   render() {
-    let addRow: TemplateResult = html``
-    if (this.canAddValue) {
-      addRow = html`<slot name="add-object">
-        <sl-icon-button style="font-size: 1.75em"
-                        name="${this.addIcon || 'plus-square'}"
-                        label="Add value"
-                        @click="${() => this.dispatchEvent(new Event('added'))}"
-        ></sl-icon-button>
-      </slot>`
-    }
-
     let helpText: any = ''
-    if (this.helpText) {
-      helpText = html`<p id="help-text">${this.helpText}</p>`
+    if (this.property.shape.description) {
+      helpText = html`<p id="help-text">${localizedLabel(this.property.shape, { property: sh.description })}</p>`
     }
 
     return html`
-      <p id="label">${this.label}</p>
+      <p id="label">${localizedLabel(this.property.shape, { property: sh.name })}</p>
       <slot class="${this.__slotEmpty ? 'empty' : ''}" @slotchange="${this.__hasAssignedElements}"></slot>
       ${helpText}
-      ${addRow}
+      <slot name="add-object"></slot>
     `
   }
 

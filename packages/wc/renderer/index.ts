@@ -18,6 +18,8 @@ import { ifDefined } from 'lit/directives/if-defined.js'
 import type { PropertyGroup } from '@rdfine/shacl'
 import * as staticLit from 'lit/static-html.js'
 import type { Dispatch } from '@hydrofoil/shaperone-core/state/index.js'
+import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
+import { sh } from '@tpluscode/rdf-ns-builders'
 import { getEditorTagName } from '../components/editor.js'
 
 export default <Renderer<TemplateResult>>{
@@ -86,17 +88,45 @@ function renderGroup(dispatch: Dispatch, focusNode: FocusNodeState) {
 }
 
 function renderProperty(dispatch: Dispatch, focusNode: FocusNodeState) {
-  return (property: PropertyState) => html`
-    <sh1-property .dispatch="${dispatch}" .focusNode="${focusNode}" .property="${property}">
-      ${repeat(property.objects, renderObject(dispatch, focusNode, property))}
-    </sh1-property>`
+  return (property: PropertyState) => {
+    function addObject() {
+      dispatch.form.addObject({
+        focusNode: focusNode.focusNode,
+        property: property.shape,
+      })
+    }
+
+    let addButton = html``
+    if (property.canAdd) {
+      addButton = html`<sh1-button slot="add-object" @click="${addObject}">
+        + ${localizedLabel(property.shape, { property: sh.name })}
+      </sh1-button>`
+    }
+
+    return html`
+      <sh1-property .dispatch="${dispatch}" .focusNode="${focusNode}" .property="${property}">
+        ${repeat(property.objects, renderObject(dispatch, focusNode, property))}
+        ${addButton}
+      </sh1-property>`
+  }
 }
 
 function renderObject(dispatch: Dispatch, focusNode: FocusNodeState, property: PropertyState) {
-  return (object: PropertyObjectState) => html`
-    <sh1-object .dispatch="${dispatch}" .focusNode="${focusNode}" .object="${object}" .property="${property}">
-      ${renderEditor(dispatch, focusNode, property, object)}
-    </sh1-object>`
+  return (object: PropertyObjectState) => {
+    function removeObject() {
+      dispatch.form.removeObject({
+        focusNode: focusNode.focusNode,
+        property: property.shape,
+        object,
+      })
+    }
+
+    return html`
+      <sh1-object .dispatch="${dispatch}" .focusNode="${focusNode}" .object="${object}" .property="${property}">
+        ${renderEditor(dispatch, focusNode, property, object)}
+        <sh1-button slot="remove-object" ?hidden="${!property.canRemove}" @click=${removeObject}>×</sh1-button>
+      </sh1-object>`
+  }
 }
 
 function renderEditor(dispatch: Dispatch, focusNode: FocusNodeState, property: PropertyState, object: PropertyObjectState) {

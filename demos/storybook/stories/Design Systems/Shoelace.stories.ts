@@ -1,12 +1,17 @@
 import type { Meta } from '@storybook/web-components'
-import * as shoelace from '@hydrofoil/shaperone-wc-shoelace/components.js'
-import * as templates from '@hydrofoil/shaperone-wc-shoelace/templates.js'
+import * as editors from '@hydrofoil/shaperone-wc-shoelace/components.js'
+import { button, focusNode, object, property } from '@hydrofoil/shaperone-wc-shoelace/templates.js'
 import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
 import { defaultMeta, Grouping, TextEditors } from '../common.js'
 
 const configure: ConfigCallback = ({ components, renderer }) => {
-  components.pushComponents(shoelace)
-  renderer.setTemplates(templates)
+  components.pushComponents(editors)
+  renderer.pushComponents({
+    'focus-node': focusNode,
+    button,
+    object,
+    property,
+  })
 }
 
 /**

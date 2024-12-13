@@ -63,17 +63,8 @@ export class Sh1Object extends ShaperoneElementBase {
           .object="${this.object}"
         ></dash-text-field>
       </slot>
-      <slot name="actions">
-        <sh1-button ?hidden="${!this.property.canRemove}" @click=${this.removeObject}>×</sh1-button>
+      <slot name="remove-object">
       </slot>
     `
-  }
-
-  removeObject() {
-    this.dispatch?.form.removeObject({
-      focusNode: this.focusNode.focusNode,
-      property: this.property.shape,
-      object: this.object,
-    })
   }
 }

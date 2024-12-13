@@ -1,28 +1,8 @@
-import type { Lazy, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
-import { dash } from '@tpluscode/rdf-ns-builders'
-import type { ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
-import { html } from 'lit'
-import isGraphPointer from 'is-graph-pointer'
-import type { GraphPointer } from 'clownface'
-import type { BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
+import '@shoelace-style/shoelace/dist/components/skeleton/skeleton.js'
 
-export { autocomplete } from './components/autocomplete.js'
-export { enumSelect } from './components/enumSelect.js'
-export { instancesSelect } from './components/instancesSelect.js'
+export { TextField } from './editors/TextField.js'
 
-interface EditorState extends ComponentInstance {
-  noLabel?: boolean
-}
-
-export const textField: Lazy<SingleEditorComponent<EditorState>> = {
-  editor: dash.TextFieldEditor,
-  async lazyRender() {
-    const { inputRenderer } = await import('./renderer/input.js')
-
-    return inputRenderer()
-  },
-}
-
+/*
 interface TextFieldWithLang extends ComponentInstance {
   language?: string
 }
@@ -92,3 +72,4 @@ export const boolean: Lazy<BooleanSelectEditor> = {
     return render
   },
 }
+*/

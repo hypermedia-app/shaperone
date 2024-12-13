@@ -17,12 +17,7 @@ export default {
       const addedArray = Array.isArray(toAdd) ? toAdd : Object.values(toAdd)
 
       for (const component of addedArray) {
-        const previous = components.components[component.editor.value]
-        const shouldAddComponent = !previous
-
-        if (shouldAddComponent) {
-          newComponents.components[component.editor.value] = decorate(components.decorators, component)
-        }
+        newComponents.components[component.editor.value] = decorate(components.decorators, component)
       }
     })
   },

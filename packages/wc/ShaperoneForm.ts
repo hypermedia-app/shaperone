@@ -1,5 +1,5 @@
 /* eslint-disable lit/no-classfield-shadowing */
-import type { PropertyValues, TemplateResult } from 'lit'
+import type { PropertyValues } from 'lit'
 import { LitElement, css, html } from 'lit'
 import { property } from 'lit/decorators.js'
 import type { DatasetCore } from '@rdfjs/types'
@@ -8,7 +8,6 @@ import type { FocusNode } from '@hydrofoil/shaperone-core'
 import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import type { NodeShape } from '@rdfine/shacl'
-import type { Renderer } from '@hydrofoil/shaperone-core/renderer.js'
 import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import getEnv from '@hydrofoil/shaperone-core/env.js'
 import { ScopedElementsMixin } from '@open-wc/scoped-elements/lit-element.js'
@@ -66,7 +65,7 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
   private [configuration]: ConfigCallback | undefined
   private [registry]: CustomElementRegistry | undefined
-  private [registerElements]: (state: State) => void
+  private [registerElements]: () => void
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -90,10 +89,7 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
     `]
   }
 
-  /**
-   * Gets or sets the renderer implementation
-   */
-  renderer: Renderer<TemplateResult> = DefaultRenderer
+  renderer!: State['renderer']
 
   @property({ type: Array })
   private [shapes]: NodeShape[] = []
@@ -134,7 +130,9 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
   constructor() {
     super()
     this.resource = this.env.clownface().namedNode('')
-    this[registerElements] = onetime(({ components, renderer }: State) => {
+    this[registerElements] = onetime(() => {
+      const { components, renderer } = this
+
       for (const ctor of Object.values(components.components)) {
         this.shadowRoot!.customElements!.define(getEditorTagName(ctor.editor), ctor)
       }
@@ -258,9 +256,11 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
   }
 
   render() {
+    this[registerElements]()
+
     return html`
       <section part="form">
-      ${this.renderer.render({
+      ${DefaultRenderer.render({
     env: this.env,
     editors: this.editors,
     state: this.state,
@@ -286,14 +286,13 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
    * @private
    */
   mapState(state: State) {
-    this[registerElements](state)
-
     return {
       state: state.form,
       [resourceSymbol]: state.form?.focusStack[0],
       [shapes]: state.shapes?.shapes || [],
       editors: state.editors,
       components: state.components,
+      renderer: state.renderer,
     }
   }
 
