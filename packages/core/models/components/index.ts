@@ -10,7 +10,6 @@ import type { GraphPointer } from 'clownface'
 import reducers from './reducers.js'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '../forms/index.js'
 import type { ObjectRenderer, PropertyRenderer } from '../../renderer.js'
-import type { ShaperoneEnvironment } from '../../env.js'
 
 export interface SingleEditorRenderParams {
   value: PropertyObjectState
@@ -32,15 +31,15 @@ export interface MultiEditorActions {
   update(newValues: Array<Term | string>): void
 }
 
-export interface Component {
+export interface Component<T extends Term = Term> {
   clear(): void
   property: PropertyState
-  value: PropertyObjectState
+  value: PropertyObjectState<T>
   focusNode: FocusNodeState
 }
 
-export interface SingleEditorComponent extends Component {
-  setValue(value: Term): void
+export interface SingleEditorComponent<T extends Term = Term> extends Component<T> {
+  setValue(value: T): void
 }
 
 export interface MultiEditorComponent extends Component {

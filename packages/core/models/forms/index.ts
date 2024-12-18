@@ -4,7 +4,7 @@
  */
 
 import { createModel } from '@captaincodeman/rdx'
-import type { NamedNode } from '@rdfjs/types'
+import type { NamedNode, Term } from '@rdfjs/types'
 import type { NodeKind, NodeShape, PropertyGroup, PropertyShape, Shape, ValidationResult } from '@rdfine/shacl'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import type { sh } from '@tpluscode/rdf-ns-builders'
@@ -63,9 +63,9 @@ export interface ValidationState {
   hasErrors: boolean
 }
 
-export interface PropertyObjectState extends ValidationState {
+export interface PropertyObjectState<T extends Term = Term> extends ValidationState {
   key: string
-  object?: GraphPointer
+  object?: GraphPointer<T>
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean

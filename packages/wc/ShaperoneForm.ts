@@ -1,5 +1,5 @@
 /* eslint-disable lit/no-classfield-shadowing */
-import type { PropertyValues } from 'lit'
+import type { PropertyValues, TemplateResult } from 'lit'
 import { LitElement, css, html } from 'lit'
 import { property } from 'lit/decorators.js'
 import type { DatasetCore } from '@rdfjs/types'
@@ -12,6 +12,7 @@ import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import getEnv from '@hydrofoil/shaperone-core/env.js'
 import { ScopedElementsMixin } from '@open-wc/scoped-elements/lit-element.js'
 import onetime from 'onetime'
+import type { Renderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { ensureEventTarget } from './lib/eventTarget.js'
 import type { State } from './store.js'
 import { store } from './store.js'
@@ -26,6 +27,7 @@ const shapes: unique symbol = Symbol('shapes')
 const registerElements: unique symbol = Symbol('register elements')
 const configuration: unique symbol = Symbol('configuration')
 const registry: unique symbol = Symbol('custom elements registry')
+const renderer: unique symbol = Symbol('renderer')
 
 /**
  * A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).
@@ -94,6 +96,8 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
   @property({ type: Array })
   private [shapes]: NodeShape[] = []
 
+  private [renderer]: Renderer<TemplateResult>
+
   /**
    * Gets the RDF/JS environment
    *
@@ -129,6 +133,7 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
 
   constructor() {
     super()
+    this[renderer] = new DefaultRenderer(this.dispatch)
     this[registerElements] = onetime(() => {
       const { components, renderer } = this
 
@@ -274,12 +279,11 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
 
     return html`
       <section part="form">
-      ${DefaultRenderer.render({
+      ${this[renderer]?.render({
     env: this.env,
     editors: this.editors,
     state: this.state,
     components: this.components,
-    dispatch: this.dispatch,
     shapes: this[shapes],
   })}
       </section>

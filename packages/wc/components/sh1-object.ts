@@ -1,12 +1,13 @@
 import { css, html, LitElement } from 'lit'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
-import { property } from 'lit/decorators.js'
+import { property, state } from 'lit/decorators.js'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { Dispatch } from '@hydrofoil/shaperone-core/state/index.js'
 import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
 
 export class Sh1Object extends FindParentCustomElementRegistry(LitElement) {
-  dispatch: Dispatch | undefined
+  @state()
+  private dispatch: Dispatch | undefined
 
   static get styles() {
     return css`
@@ -28,28 +29,50 @@ export class Sh1Object extends FindParentCustomElementRegistry(LitElement) {
   constructor() {
     super()
 
-    this.addEventListener('value-changed', (e) => {
-      const value = typeof e.detail.value === 'string'
-        ? createTerm(this.property, e.detail.value)
-        : e.detail.value
+    this.addEventListener('value-changed', this.onValueChanged.bind(this))
+    this.addEventListener('cleared', this.onCleared.bind(this))
+    this.addEventListener('remove-object', this.onRemoved.bind(this))
+    this.addEventListener('editor-selected', this.onEditorSelected.bind(this))
+  }
 
-      this.dispatch?.form.updateObject({
-        focusNode: this.focusNode.focusNode,
-        property: this.property.shape,
-        object: this.object,
-        newValue: value,
-      })
+  private onRemoved() {
+    this.dispatch?.form.removeObject({
+      focusNode: this.focusNode.focusNode,
+      property: this.property.shape,
+      object: this.object,
+    })
+  }
 
-      e.stopPropagation()
+  private onEditorSelected({ detail: { editor } }: HTMLElementEventMap['editor-selected']) {
+    this.dispatch?.form.selectEditor({
+      focusNode: this.focusNode.focusNode,
+      property: this.property.shape,
+      object: this.object,
+      editor,
+    })
+  }
+
+  private onCleared() {
+    this.dispatch?.form.clearValue({
+      focusNode: this.focusNode.focusNode,
+      property: this.property.shape,
+      object: this.object,
+    })
+  }
+
+  private onValueChanged(e: HTMLElementEventMap['value-changed']) {
+    const value = typeof e.detail.value === 'string'
+      ? createTerm(this.property, e.detail.value)
+      : e.detail.value
+
+    this.dispatch?.form.updateObject({
+      focusNode: this.focusNode.focusNode,
+      property: this.property.shape,
+      object: this.object,
+      newValue: value,
     })
 
-    this.addEventListener('cleared', () => {
-      this.dispatch?.form.clearValue({
-        focusNode: this.focusNode.focusNode,
-        property: this.property.shape,
-        object: this.object,
-      })
-    })
+    e.stopPropagation()
   }
 
   render() {

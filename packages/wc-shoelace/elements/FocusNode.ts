@@ -7,11 +7,11 @@ import { ShoelaceLoader } from './ShoelaceLoader.js'
 
 export default class extends ShoelaceLoader(FocusNodeElement) {
   get groups() {
-    return this.focusNode.groups
+    return this.focusNode?.groups
   }
 
   renderWhenReady() {
-    if (this.groups.length === 1) {
+    if (!this.groups || this.groups.length === 1) {
       return html`
           <slot></slot>`
     }

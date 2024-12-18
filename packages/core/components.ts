@@ -7,6 +7,7 @@
 
 import type { GraphPointer } from 'clownface'
 import type { NodeShape } from '@rdfine/shacl'
+import type { BlankNode, NamedNode } from '@rdfjs/types'
 import type { SingleEditorComponent } from './models/components/index.js'
 
 export type { ComponentConstructor, ComponentDecorator, SingleEditorComponent, MultiEditorComponent } from './models/components/index.js'
@@ -38,8 +39,8 @@ export interface DateTimePickerEditor extends SingleEditorComponent {
 /**
  * An interface for implementing dash:DetailsEditor
  */
-export interface DetailsEditor extends SingleEditorComponent {
-  nodeShape: NodeShape
+export interface DetailsEditor extends SingleEditorComponent<NamedNode | BlankNode> {
+  nodeShape?: NodeShape
 }
 
 /**

@@ -1,5 +1,6 @@
 import type { NamedNode } from '@rdfjs/types'
 import type { GraphPointer } from 'clownface'
+import type { NodeShape, PropertyGroup, Shape } from '@rdfine/shacl'
 
 export interface CustomEventTarget {
   addEventListener<K extends keyof HTMLElementEventMap>(
@@ -22,5 +23,35 @@ declare global {
     'value-changed': CustomEvent<{
       value: GraphPointer | NamedNode | string
     }>
+
+    'group-selected': CustomEvent<{
+      group: PropertyGroup
+    }>
+
+    'shape-selected': CustomEvent<{
+      shape: NodeShape
+    }>
+
+    'property-hidden': CustomEvent<{
+      shape: Shape
+    }>
+
+    'property-shown': CustomEvent<{
+      shape: Shape
+    }>
+
+    'property-cleared': CustomEvent<{
+      shape: Shape
+    }>
+
+    'editor-selected': CustomEvent<{
+      editor: NamedNode
+    }>
+
+    'remove-object': CustomEvent<{
+      editor: NamedNode
+    }>
+
+    'add-object': Event
   }
 }

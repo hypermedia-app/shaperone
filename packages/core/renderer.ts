@@ -9,7 +9,6 @@ import type { GraphPointer, MultiPointer } from 'clownface'
 import type { EditorsState } from './models/editors/index.js'
 import type { FormState, FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from './models/forms/index.js'
 import type { ComponentsState } from './models/components/index.js'
-import type { Dispatch } from './state/index.js'
 import type { FocusNode } from './index.js'
 import type { ShaperoneEnvironment } from './env.js'
 
@@ -34,11 +33,7 @@ export interface RenderContext {
    */
   components: ComponentsState
   /**
-   * Object containing all possible function to change the state of the form, editors and components
-   */
-  dispatch: Dispatch
-  /**
-   * Shapes found in the shapes grah
+   * Shapes found in the shapes graph
    */
   shapes: NodeShape[]
 }

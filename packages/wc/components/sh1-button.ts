@@ -1,6 +1,10 @@
 import { css, html, LitElement } from 'lit'
+import { property } from 'lit/decorators.js'
+import type { CustomEventTarget } from './events.js'
 
-export default class extends LitElement {
+type ButtonKind = 'add-object' | 'remove-object'
+
+export default class extends LitElement implements CustomEventTarget {
   static get styles() {
     return css`
       button {
@@ -13,6 +17,22 @@ export default class extends LitElement {
       button:hover {
         border-color: black;
       }`
+  }
+
+  @property({ type: String })
+  public kind: ButtonKind | undefined
+
+  constructor() {
+    super()
+
+    this.addEventListener('click', () => {
+      if (this.kind) {
+        this.dispatchEvent(new CustomEvent(this.kind, {
+          bubbles: true,
+          composed: true,
+        }))
+      }
+    })
   }
 
   render() {
