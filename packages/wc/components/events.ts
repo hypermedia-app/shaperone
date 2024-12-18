@@ -19,10 +19,8 @@ export interface CustomEventTarget {
 
 declare global {
   interface HTMLElementEventMap {
-    'value-changed': {
-      detail: {
-        value: GraphPointer | NamedNode | string
-      }
-    }
+    'value-changed': CustomEvent<{
+      value: GraphPointer | NamedNode | string
+    }>
   }
 }

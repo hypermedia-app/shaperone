@@ -1,6 +1,7 @@
-import { css, html, LitElement } from 'lit'
+import { css, html } from 'lit'
+import { ObjectElement } from '@hydrofoil/shaperone-wc/components/index.js'
 
-export default class extends LitElement {
+export default class extends ObjectElement {
   static get styles() {
     return css`
       :host {

@@ -1,0 +1,30 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:targetClass schema:Thing ;
+  sh:property
+    [
+      sh:name "nested resource" ;
+      sh:path schema:value ;
+      dash:editor dash:DetailsEditor ;
+      sh:node <ChildShape> ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+.
+
+<ChildShape>
+  a sh:NodeShape ;
+  sh:property
+    [
+      sh:name "name" ;
+      sh:path rdfs:label ;
+      dash:editor dash:TextFieldEditor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+.

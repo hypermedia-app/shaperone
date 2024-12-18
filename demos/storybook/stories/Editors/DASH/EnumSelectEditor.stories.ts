@@ -1,8 +1,7 @@
 import type { Meta, StoryObj as Story } from '@storybook/web-components'
-import { render } from '../../render.js'
 import enumStrings from '../../../shapes/editors/dash/EnumSelect/strings.ttl?raw'
 import enumIris from '../../../shapes/editors/dash/EnumSelect/iris.ttl?raw'
-import { defaultMeta } from '../../common.js'
+import { createStory, defaultMeta } from '../../common.js'
 
 /**
  * The enum selector is typically rendered as a dropdown menu with a set of choices
@@ -21,13 +20,10 @@ export default meta
 /**
  * Values can be provided as literals. Their face value will be used as the option text.
  */
-export const Literals: Story = {
+export const Literals: Story = createStory({
   name: 'Choice of literals',
-  args: {
-    shapes: enumStrings,
-  },
-  render,
-}
+  shapes: enumStrings,
+})()
 
 /**
  * Values can also be provided as resources.
@@ -35,13 +31,10 @@ export const Literals: Story = {
  *
  * Missing labels will be rendered as the IRI itself.
  */
-export const Resources: Story = {
+export const Resources: Story = createStory({
   name: 'Choice of IRIs',
-  args: {
-    shapes: enumIris,
-    customPrefixes: {
-      lexvo: 'http://lexvo.org/id/iso639-1/',
-    },
+  shapes: enumIris,
+  customPrefixes: {
+    lexvo: 'http://lexvo.org/id/iso639-1/',
   },
-  render,
-}
+})()

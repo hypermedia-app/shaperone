@@ -88,7 +88,6 @@ export function initialisePropertyShape(params: InitPropertyShapeParams, previou
     canRemove,
     canAdd,
     datatype,
-    componentState: {},
     hidden,
     validationResults: [],
     hasErrors: false,

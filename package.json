@@ -46,7 +46,7 @@
     "typedoc": "^0.27.3",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
-    "web-component-analyzer": "^1.1.6",
+    "web-component-analyzer": "^2.0.0",
     "wsrun": "^5.2.4"
   },
   "resolutions": {
@@ -58,6 +58,7 @@
     ]
   },
   "overrides": {
+    "lit": "^3",
     "ts-sinon": {
       "sinon": "19.0.2"
     }

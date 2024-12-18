@@ -31,6 +31,7 @@
     "@webcomponents/scoped-custom-element-registry": "^0.0.9",
     "@zazuko/env": "^2.1.0",
     "concat-merge": "^1.0.3",
+    "is-graph-pointer": "^2.1.0",
     "lit": "^3",
     "onetime": "^5.1.2"
   },

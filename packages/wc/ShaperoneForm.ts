@@ -129,18 +129,32 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
 
   constructor() {
     super()
-    this.resource = this.env.clownface().namedNode('')
     this[registerElements] = onetime(() => {
       const { components, renderer } = this
 
+      const tryDefine = (tagName: string, ctor: CustomElementConstructor) => {
+        try {
+          this.shadowRoot!.customElements!.define(tagName, ctor)
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn(`Failed to define ${ctor} as ${tagName}`, e)
+        }
+      }
+
       for (const ctor of Object.values(components.components)) {
-        this.shadowRoot!.customElements!.define(getEditorTagName(ctor.editor), ctor)
+        tryDefine(getEditorTagName(ctor.editor), ctor)
       }
 
       for (const [name, ctor] of Object.entries(renderer.layoutElements)) {
-        this.shadowRoot!.customElements!.define(`sh1-${name}`, ctor)
+        tryDefine(`sh1-${name}`, ctor)
       }
     })
+  }
+
+  protected firstUpdated(_changedProperties: PropertyValues) {
+    if (!this.resource) {
+      this.resource = this.env.clownface().namedNode('')
+    }
   }
 
   async connectedCallback() {
@@ -288,7 +302,6 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
   mapState(state: State) {
     return {
       state: state.form,
-      [resourceSymbol]: state.form?.focusStack[0],
       [shapes]: state.shapes?.shapes || [],
       editors: state.editors,
       components: state.components,

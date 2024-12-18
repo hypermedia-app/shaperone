@@ -16,7 +16,6 @@ export const selectMultiEditor = (state: FormState, { focusNode, property, edito
 
   if (propertyState) {
     propertyState.selectedEditor = propertyState.editors.find(({ term }) => term.equals(editor))?.term || propertyState.editors[0]?.term
-    propertyState.componentState = {}
   }
 })
 

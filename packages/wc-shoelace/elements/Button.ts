@@ -1,7 +1,7 @@
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js'
 import { html, LitElement } from 'lit'
 
-export class Button extends LitElement {
+export default class Button extends LitElement {
   render() {
     let name = 'plus-square'
     if (this.slot === 'remove-object') {

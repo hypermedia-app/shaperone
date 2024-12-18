@@ -37,7 +37,7 @@ export const editors: Array<ComponentConstructor> = [
 
 export const layoutComponents = {
   form: Sh1Form,
-  focusNode: Sh1FocusNode,
+  'focus-node': Sh1FocusNode,
   property: Sh1Property,
   object: Sh1Object,
   button: Sh1Button,

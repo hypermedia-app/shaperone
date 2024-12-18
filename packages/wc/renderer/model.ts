@@ -1,8 +1,14 @@
 import { createModel } from '@hydrofoil/shaperone-core/store.js'
+import type { FocusNodeElement, ObjectElement, PropertyElement } from '../components/index.js'
 
-type LayoutElementConstructor = new (...args: any[]) => HTMLElement
+type Constructor<T> = new (...args: any[]) => T
 
-type LayoutElements = Record<string, LayoutElementConstructor>
+export interface LayoutElements {
+  object: Constructor<ObjectElement>
+  property: Constructor<PropertyElement>
+  'focus-node': Constructor<FocusNodeElement>
+  [key: string]: CustomElementConstructor
+}
 
 export interface RendererState {
   layoutElements: LayoutElements

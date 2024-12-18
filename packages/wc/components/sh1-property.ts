@@ -1,12 +1,12 @@
 import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
-import { css, html } from 'lit'
+import { css, html, LitElement } from 'lit'
 import { property } from 'lit/decorators.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import ShaperoneElementBase from './ShaperoneElementBase.js'
 import type { PropertyElement } from './index.js'
+import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
 
-export class Sh1Property extends ShaperoneElementBase implements PropertyElement {
+export class Sh1Property extends FindParentCustomElementRegistry(LitElement) implements PropertyElement {
   static get styles() {
     return css`
       :host {

@@ -80,7 +80,7 @@ const preview = {
     if (args.data) {
       data = $rdf.clownface({
         dataset: await $rdf.dataset()
-          .import($rdf.formats.parsers.import('text/turtle', stringToStream(args.data))!),
+          .import($rdf.formats.parsers.import('text/turtle', stringToStream(args.data.toString()))!),
       })
     }
 

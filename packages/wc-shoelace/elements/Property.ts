@@ -1,11 +1,10 @@
-import { css, html, LitElement } from 'lit'
+import { css, html } from 'lit'
 import { property, query } from 'lit/decorators.js'
-import type { PropertyElement } from '@hydrofoil/shaperone-wc/components/index.js'
-import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { PropertyElement } from '@hydrofoil/shaperone-wc/components/index.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 
-export class ShSlProperty extends LitElement implements PropertyElement {
+export default class extends PropertyElement {
   static get styles() {
     return css`
       :host {
@@ -35,12 +34,6 @@ export class ShSlProperty extends LitElement implements PropertyElement {
       }
     `
   }
-
-  @property({ type: Object })
-  public focusNode!: FocusNodeState
-
-  @property({ type: Object })
-  public property!: PropertyState
 
   @property({ type: Boolean })
   private __slotEmpty = true

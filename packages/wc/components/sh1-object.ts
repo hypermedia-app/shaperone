@@ -1,11 +1,11 @@
-import { css, html } from 'lit'
+import { css, html, LitElement } from 'lit'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
 import { property } from 'lit/decorators.js'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { Dispatch } from '@hydrofoil/shaperone-core/state/index.js'
-import ShaperoneElementBase from './ShaperoneElementBase.js'
+import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
 
-export class Sh1Object extends ShaperoneElementBase {
+export class Sh1Object extends FindParentCustomElementRegistry(LitElement) {
   dispatch: Dispatch | undefined
 
   static get styles() {
@@ -39,6 +39,8 @@ export class Sh1Object extends ShaperoneElementBase {
         object: this.object,
         newValue: value,
       })
+
+      e.stopPropagation()
     })
 
     this.addEventListener('cleared', () => {

@@ -1,10 +1,3 @@
-import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
-
-export interface PropertyElement {
-  property: PropertyState
-  focusNode: FocusNodeState
-}
-
-export interface FocusNodeElement {
-  focusNode: FocusNodeState
-}
+export { Sh1Property as PropertyElement } from './sh1-property.js'
+export { Sh1Object as ObjectElement } from './sh1-object.js'
+export { Sh1FocusNode as FocusNodeElement } from './sh1-focus-node.js'

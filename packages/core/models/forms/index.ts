@@ -24,7 +24,7 @@ import * as validation from './reducers/validation.js'
 import * as properties from './reducers/properties.js'
 import type { FocusNode } from '../../index.js'
 import type { SingleEditorMatch, MultiEditorMatch } from '../editors/index.js'
-import { createFocusNodeState } from './reducers/replaceFocusNodes.js'
+import { replaceFocusNodeState } from './reducers/replaceFocusNodes.js'
 import editorsEffects from './effects/editors/index.js'
 import shapesEffects from './effects/shapes/index.js'
 import resourcesEffects from './effects/resources/index.js'
@@ -75,7 +75,7 @@ export interface PropertyObjectState extends ValidationState {
    */
   nodeKind: NodeKind | undefined
   /**
-   * A pointer to additional shape constraints passed to `addFormField`. For example, that could be a pointer on of
+   * A pointer to additional shape constraints passed to `addFormField`. For example, that could be a pointer one of
    * the properties `sh:in`
    */
   overrides: MultiPointer | undefined
@@ -105,7 +105,6 @@ export interface PropertyState extends ValidationState {
   name: string
   editors: MultiEditorMatch[]
   selectedEditor: NamedNode | undefined
-  componentState: Record<string, any>
   objects: PropertyObjectState[]
   canAdd: boolean
   canRemove: boolean
@@ -155,7 +154,7 @@ const reducers = {
   ...objects,
   ...editors,
   ...multiEditors,
-  createFocusNodeState,
+  replaceFocusNodeState,
   ...properties,
   ...validation,
 }

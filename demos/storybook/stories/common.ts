@@ -1,12 +1,13 @@
 import type { Meta, StoryObj as Story } from '@storybook/web-components'
 import { merge } from 'ts-deepmerge'
-import type { InstanceConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
+import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
+import type { TurtleTemplateResult } from '@tpluscode/rdf-string'
 import { render } from './render.js'
 import groups from '../shapes/groups.ttl?raw'
-import textEditors from '../shapes/text-editors.ttl?raw'
+import {NamedNode} from "@rdfjs/types";
 
 interface StoryFactory {
-  (configure?: InstanceConfigCallback, overrides?: Partial<Omit<Story, 'render' | 'loaders'>>): Story
+  (configure?: ConfigCallback, overrides?: Partial<Omit<Story, 'render' | 'loaders'>>): Story
 }
 
 export const defaultMeta: Meta = {
@@ -37,18 +38,11 @@ export const Grouping = createStoryObj({
   },
 })
 
-export const TextEditors = createStoryObj({
-  name: 'Text editors',
-  args: {
-    shapes: textEditors,
-  },
-})
-
 interface CreateStory {
   name?: string
   shapes?: string
-  data?: string
-  focusNode?: string
+  data?: string | TurtleTemplateResult
+  focusNode?: string | NamedNode
   prefixes?: string[]
   customPrefixes?: Record<string, string>
   debug?: boolean

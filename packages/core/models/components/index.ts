@@ -33,7 +33,6 @@ export interface MultiEditorActions {
 }
 
 export interface Component {
-  env: ShaperoneEnvironment
   clear(): void
   property: PropertyState
   value: PropertyObjectState
@@ -49,6 +48,7 @@ export interface MultiEditorComponent extends Component {
 
 export interface ComponentConstructor<T extends Component = Component> {
   editor: NamedNode
+  extends?: NamedNode
   new(): T
 }
 

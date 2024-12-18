@@ -22,6 +22,5 @@ export const selectEditor = (state: FormState, { focusNode, property, object, ed
   const found = propertyState.objects.find(o => o.key === object.key)
   if (found) {
     found.selectedEditor = editor
-    found.componentState = {}
   }
 })
