@@ -5,15 +5,21 @@
   "type": "module",
   "scripts": {
     "start": "storybook dev -p 6006 --no-open",
-    "build": "storybook build -o ../../dist/storybook"
+    "build": "storybook build -o ../../dist/docs"
   },
   "dependencies": {
+    "@coreui/react": "^5.4.1",
+    "@coreui/coreui": "^5.2.0",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@hydrofoil/shaperone-core": "^0.12.1",
     "@hydrofoil/shaperone-wc": "^0.8.0",
+    "@hydrofoil/shaperone-wc-material": "^0.6.1",
     "@hydrofoil/shaperone-wc-shoelace": "^0.4.1",
+    "@hydrofoil/shaperone-wc-vaadin": "^0.5.1",
     "@rdfjs/fetch-lite": "^3.3.0",
     "@rdfjs-elements/rdf-snippet": "^0.4.5",
     "@rdfjs-elements/formats-pretty": "^0.6.7",
+    "@shaperone/testing": "*",
     "@shoelace-style/shoelace": "^2.15.0",
     "@storybook/addon-actions": "^8.4.5",
     "@storybook/addon-essentials": "^8.4.5",
@@ -23,16 +29,22 @@
     "@storybook/components": "^8.4.5",
     "@storybook/web-components": "^8.4.5",
     "@storybook/web-components-vite": "^8.4.5",
+    "@tpluscode/rdf-ns-builders": "^4.3.0",
+    "@tpluscode/rdf-string": "^1.3.4",
     "@vitejs/plugin-react": "^4.3.3",
     "@zazuko/env": "^2",
     "lit": "^3",
     "onetime": "^7.0.0",
     "react-syntax-highlighter": "^15.6.1",
+    "remark-gfm": "^4.0.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
+    "sparql-http-client": "^3.0.1",
     "storybook": "^8.4.5",
-    "string-to-stream": "^3.0.1"
+    "string-to-stream": "^3.0.1",
+    "ts-deepmerge": "^7"
   },
   "devDependencies": {
-    "@types/react-syntax-highlighter": "^15.5.13"
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/sparql-http-client": "^3"
   }
 }

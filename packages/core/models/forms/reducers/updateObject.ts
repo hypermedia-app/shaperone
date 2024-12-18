@@ -44,7 +44,6 @@ export const setPropertyObjects = objectStateProducer<ReplaceObjectsParams>((dra
       object,
       editors: suitableEditors,
       selectedEditor: suitableEditors[0]?.term,
-      componentState: {},
       validationResults: [],
       hasErrors: false,
       nodeKind: undefined,
@@ -94,16 +93,6 @@ export const setDefaultValue = objectStateProducer<SetDefaultValueParams>((draft
       } else {
         const suitableEditors = editors.matchSingleEditors({ shape: property, object: value })
         objectState.selectedEditor = suitableEditors[0]?.term
-      }
-    }
-  }
-})
-
-export const resetComponents = (formState: State) => produce(formState, (draft: typeof formState) => {
-  for (const focusNode of Object.values(draft.focusNodes)) {
-    for (const property of focusNode.properties) {
-      for (const object of property.objects) {
-        object.componentState = {}
       }
     }
   }

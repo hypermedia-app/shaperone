@@ -1,8 +1,9 @@
 import type { Environment } from '@rdfjs/environment/Environment.js'
 import type { DerivedEnvironment } from '@zazuko/env-core'
 import E from '@zazuko/env-core'
+import type { DatasetFactoryExt } from '@zazuko/env/lib/DatasetFactoryExt.js'
 import type ClownfaceFactory from 'clownface/Factory.js'
-import type { DataFactory, DatasetCoreFactory } from '@rdfjs/types'
+import type { DataFactory } from '@rdfjs/types'
 import type NsBuildersFactory from '@tpluscode/rdf-ns-builders'
 import type { TermMapFactory } from '@rdfjs/term-map/Factory.js'
 import type { CombinedEnvironment } from '@zazuko/env-core/lib/extend.js'
@@ -16,7 +17,7 @@ import deps from './lib/mixins.js'
 export type MinimalEnvironment = Environment<
 ClownfaceFactory |
 DataFactory |
-DatasetCoreFactory |
+DatasetFactoryExt |
 NsBuildersFactory |
 TermMapFactory>
 

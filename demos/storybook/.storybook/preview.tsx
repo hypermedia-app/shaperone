@@ -1,3 +1,5 @@
+import '@coreui/coreui/dist/css/coreui.min.css'
+
 import { SyntaxHighlighter } from '@storybook/components'
 import turtle from 'react-syntax-highlighter/dist/esm/languages/prism/turtle.js'
 import { withActions } from '@storybook/addon-actions/decorator'
@@ -24,6 +26,19 @@ window.EventEmitter = EventEmitter;
 const preview = {
   tags: ['autodocs'],
   parameters: {
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: [
+          'Getting Started',
+          'Shaperone anatomy',
+          'Basic Usage',
+          'Editors',
+          ['Introduction', '*', 'DASH', ['DASH Forms']],
+          'Design Systems',
+        ],
+      },
+    },
     controls: {
       disableSaveFromUI: true,
     },
@@ -65,7 +80,7 @@ const preview = {
     if (args.data) {
       data = $rdf.clownface({
         dataset: await $rdf.dataset()
-          .import($rdf.formats.parsers.import('text/turtle', stringToStream(args.data))!),
+          .import($rdf.formats.parsers.import('text/turtle', stringToStream(args.data.toString()))!),
       })
     }
 

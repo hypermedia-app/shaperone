@@ -9,7 +9,6 @@ import type { GraphPointer, MultiPointer } from 'clownface'
 import type { EditorsState } from './models/editors/index.js'
 import type { FormState, FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState } from './models/forms/index.js'
 import type { ComponentsState } from './models/components/index.js'
-import type { Dispatch } from './state/index.js'
 import type { FocusNode } from './index.js'
 import type { ShaperoneEnvironment } from './env.js'
 
@@ -34,11 +33,7 @@ export interface RenderContext {
    */
   components: ComponentsState
   /**
-   * Object containing all possible function to change the state of the form, editors and components
-   */
-  dispatch: Dispatch
-  /**
-   * Shapes found in the shapes grah
+   * Shapes found in the shapes graph
    */
   shapes: NodeShape[]
 }
@@ -122,7 +117,7 @@ export interface GroupRenderer<TemplateResult = any> extends FocusNodeRenderer<T
  * State mutation functions available to the {@link PropertyRenderer} (combined with {@link GroupActions})
  */
 export interface PropertyActions {
-  addObject(arg?: { overrides?: MultiPointer; componentState?: Record<string, unknown> }): void
+  addObject(arg?: { overrides?: MultiPointer }): void
   removeObject(object: Term | GraphPointer | PropertyObjectState): void
   selectMultiEditor(): void
   selectSingleEditors(): void
@@ -134,8 +129,6 @@ export interface PropertyActions {
 export interface PropertyRenderer<TemplateResult = any> extends GroupRenderer<TemplateResult> {
   actions: GroupRenderer['actions'] & PropertyActions
   property: PropertyState
-  renderMultiEditor(this: PropertyRenderer<TemplateResult>): TemplateResult
-  renderObject(this: PropertyRenderer<TemplateResult>, arg: { object: PropertyObjectState }): TemplateResult
 }
 
 /**
@@ -160,7 +153,6 @@ export interface ObjectActions {
 export interface ObjectRenderer<TemplateResult = any> extends PropertyRenderer<TemplateResult> {
   actions: PropertyRenderer['actions'] & ObjectActions
   object: PropertyObjectState
-  renderEditor(this: ObjectRenderer<TemplateResult>): TemplateResult
 }
 
 /**

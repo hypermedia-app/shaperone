@@ -5,7 +5,7 @@ import { styleMap } from 'lit/directives/style-map.js'
 import type { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 
-export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { focusNode }) {
+export const focusNode: FocusNodeTemplate = function (renderer, { focusNode }) {
   const { actions } = renderer
 
   function renderTab(group: PropertyGroupState) {
@@ -20,12 +20,12 @@ export const TabsFocusNodeRenderer: FocusNodeTemplate = function (renderer, { fo
     ${repeat(focusNode.groups, group => renderer.renderGroup({ group }))}`
 }
 
-TabsFocusNodeRenderer.loadDependencies = () => [
+focusNode.loadDependencies = () => [
   import('@material/mwc-tab-bar/mwc-tab-bar.js'),
   import('@material/mwc-tab/mwc-tab.js'),
 ]
 
-export const TabsGroupRenderer: GroupTemplate = function (renderer, { properties }) {
+export const group: GroupTemplate = function (renderer, { properties }) {
   const { group } = renderer
 
   const styles = {

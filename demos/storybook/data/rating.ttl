@@ -1,0 +1,7 @@
+PREFIX ex: <http://example.org/>
+PREFIX schema: <http://schema.org/>
+
+ex:rating
+  a schema:AggregateRating ;
+  schema:ratingValue 4.5 ;
+.

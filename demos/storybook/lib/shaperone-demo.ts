@@ -11,6 +11,7 @@ customElements.define('shaperone-demo', class extends LitElement {
   declare shapesGraph: string
   declare splitterPosition: number
   declare prefixes: string
+  declare customPrefixes: Record<string, string>
 
   constructor() {
     super()
@@ -60,6 +61,7 @@ customElements.define('shaperone-demo', class extends LitElement {
       dataGraph: { type: String },
       shapesGraph: { type: String },
       prefixes: { type: String },
+      customPrefixes: { type: Object },
     }
   }
 
@@ -108,6 +110,7 @@ customElements.define('shaperone-demo', class extends LitElement {
                      formats="text/turtle,application/ld+json,application/n-triples"
                      input-format="text/n3"
                      prefixes="${this.prefixes}"
+                     .customPrefixes="${this.customPrefixes}"
                      .input="${this.dataGraph}"></rdf-snippet>
       </fieldset>
     `

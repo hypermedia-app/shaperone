@@ -9,7 +9,7 @@ import type { BooleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-co
 import type { Details, DetailsEditor } from '@hydrofoil/shaperone-core/lib/components/details.js'
 import { sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
-import type { ShSlWithLangEditor } from '../elements/sh-sl-with-lang-editor.js'
+import type { FieldWithLang } from '../elements/FieldWithLang.js'
 import * as components from '../components.js'
 
 describe('wc-shoelace/components', () => {
@@ -62,7 +62,7 @@ describe('wc-shoelace/components', () => {
       })
 
       // when
-      const result = await fixture<ShSlWithLangEditor>(component.render(params, actions))
+      const result = await fixture<FieldWithLang>(component.render(params, actions))
 
       // then
       expect(result.readonly).to.be.true

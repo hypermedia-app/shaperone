@@ -8,7 +8,6 @@ import { addMetadata } from './reducers/addMetadata.js'
 import { decorate } from './reducers/decorate.js'
 import { matchSingleEditors, matchMultiEditors } from './lib/match.js'
 import { loadDash } from './effects/index.js'
-import type { ShaperoneEnvironment } from '../../env.js'
 
 interface EditorBase {
   term: NamedNode
@@ -20,7 +19,7 @@ export interface MultiEditor extends EditorBase {
 }
 
 export interface SingleEditor<T extends Term = Term> extends EditorBase {
-  match: (shape: PropertyShape, value: GraphPointer<T>, env: ShaperoneEnvironment) => number | null
+  match: (shape: PropertyShape, value: GraphPointer<T>) => number | null
 }
 
 export interface MatcherDecorator<T extends Term = Term> extends EditorBase {

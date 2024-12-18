@@ -1,29 +1,19 @@
 import { produce } from 'immer'
-import { initialiseFocusNode } from '../lib/stateBuilder.js'
-import type { FormState } from '../index.js'
-import { matchShapes } from '../../shapes/lib/index.js'
+import type { FocusNodeState, FormState } from '../index.js'
 
 type StackAction = {appendToStack?: true} | {replaceStack?: true}
 
-export type Params = Parameters<typeof initialiseFocusNode>[0] & StackAction
+export type Params = { focusNode: FocusNodeState } & StackAction
 
-export const createFocusNodeState = (state: FormState, { focusNode, ...rest }: Params) => produce(state, (draft) => {
-  let { shapes } = rest
-
+export const replaceFocusNodeState = (state: FormState, { focusNode, ...rest }: Params) => produce(state, (draft) => {
   if ('appendToStack' in rest && rest.appendToStack) {
-    draft.focusStack.push(focusNode)
-    shapes = matchShapes(shapes).to(focusNode)
+    draft.focusStack.push(focusNode.focusNode)
   }
 
   if ('replaceStack' in rest && rest.replaceStack) {
-    draft.focusStack = [focusNode]
-    shapes = matchShapes(shapes).to(focusNode)
+    draft.focusStack = [focusNode.focusNode]
   }
 
-  draft.focusStack = draft.focusStack.map(node => (node.term.equals(focusNode.term) ? focusNode : node))
-  draft.focusNodes[focusNode.value] = initialiseFocusNode({
-    focusNode,
-    ...rest,
-    shapes,
-  }, state.focusNodes[focusNode.value])
+  draft.focusStack = draft.focusStack.map(node => (node.term.equals(focusNode.focusNode.term) ? focusNode.focusNode : node))
+  draft.focusNodes[focusNode.focusNode.value] = focusNode
 })

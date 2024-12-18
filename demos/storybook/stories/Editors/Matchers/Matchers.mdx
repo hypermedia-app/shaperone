@@ -1,0 +1,80 @@
+import { Markdown, Meta, Story } from '@storybook/blocks'
+import * as Matchers from './Matchers.stories'
+import { CCallout } from '@coreui/react'
+import extendingMatchersRaw from './ExtendingMatchers.ts?raw'
+import addingMatchersRaw from './AddingMatchers.ts?raw'
+
+# Editor matchers
+
+Matcher is at its core a function, which returns a score (number or `null`).
+The score is used to determine whether a given editor can be used for a particular RDF value.
+
+Shaperone implements the scoring for all DASH editors according to
+[Section 4.1 of the Form Generation using SHACL and DASH document](https://datashapes.org/forms.html#editors)
+
+## Stories
+
+<Meta of={Matchers} />
+
+### Adding a matcher
+
+A matcher is defined as part of an editor's definition.
+
+For example, the Star Rating component could be implemented to return a positive score for `schema:ratingValue` predicates, as defined by shapes `sh:path`.
+
+<Markdown>
+  {`
+  \`\`\`ts
+  // ./editors.ts
+${addingMatchersRaw}
+  \`\`\`
+  `}
+</Markdown>
+
+
+Then use it in the configuration call:
+
+```js
+import { starRating } from './editors.js'
+import { configure } from '@hydrofoil/shaperone-wc'
+
+configure(({ editors }) => {
+  editors.addMatchers({
+    starRating
+  })
+})
+```
+
+<Story of={Matchers.AddingMatchers} />
+
+### Extending existing matchers
+
+It is possible to modify the scoring for editors by decorating other matchers, such as the built-in [DASH editors](../?path=/docs/editors-dash-dash-forms--docs).
+
+First, implement a `MatcherDecorator`:
+
+<Markdown>
+  {`
+  \`\`\`ts
+  // ./decorators.ts
+${extendingMatchersRaw}
+  \`\`\`
+  `}
+</Markdown>
+
+Then use it in the configuration call:
+
+```js
+import { preferMultiline } from './decorators.js'
+import { configure } from '@hydrofoil/shaperone-wc'
+
+configure(({ editors }) => {
+  editors.decorate(preferMultiline)
+})
+```
+
+<Story of={Matchers.ExtendingMatchers} />
+<br/>
+<CCallout color="info">
+ Multiple matcher decorators of the same editor can be used, and they will be called in the order exact order in which they were added.
+</CCallout>

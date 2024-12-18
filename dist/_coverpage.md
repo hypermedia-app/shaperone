@@ -8,8 +8,7 @@
 - Highly customizable
 - Using modern web technologies
 
-[Get started](overview)
+[Get started](/docs)
 [GitHub](https://github.com/hypermedia-app/shaperone)
 [JS API](/api)
 [`shaperone-form`](/shaperone-form)
-[Playground](/playground)

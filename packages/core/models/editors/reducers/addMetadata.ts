@@ -24,14 +24,12 @@ function updateMeta<T>(metadata: AnyPointer) {
   }
 }
 
-export function addMetadata(state: EditorsState, factory: (env: ShaperoneEnvironment) => DatasetCore | Iterable<Quad>): EditorsState {
-  const moreMeta = factory(env())
+export function addMetadata(state: EditorsState, factory: (env: ShaperoneEnvironment) => AnyPointer | DatasetCore | Iterable<Quad>): EditorsState {
+  const moreMeta = getQuads(factory(env()))
 
   let dataset = state.metadata?.dataset
   if (state.metadata?.dataset) {
     [...moreMeta].forEach(({ subject, predicate, object }) => state.metadata.dataset.add(env().quad(subject, predicate, object)))
-  } else if ('add' in moreMeta) {
-    dataset = moreMeta
   } else {
     dataset = env().dataset([...moreMeta])
   }
@@ -48,4 +46,16 @@ export function addMetadata(state: EditorsState, factory: (env: ShaperoneEnviron
     singleEditors,
     metadata,
   }
+}
+
+function getQuads(data: AnyPointer | DatasetCore | Iterable<Quad>): Iterable<Quad> {
+  if ('dataset' in data) {
+    return data.dataset
+  }
+
+  if ('size' in data) {
+    return data
+  }
+
+  return data
 }

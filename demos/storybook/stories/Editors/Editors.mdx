@@ -1,0 +1,85 @@
+import { CCallout } from '@coreui/react'
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Editors/Introduction" />
+
+# Editors
+
+The editors are composed of four distinct elements which come together when a SHACL Shape is rendered for a specific `FocusNode`.
+
+1. Editor identifier
+2. Editor matchers
+3. Components
+4. Editor metadata
+
+There are also two kinds of editors:
+
+* Single Editors (`dash:SingleEditor`)
+* Multi Editors (`dash:MultiEditor`)
+
+As the name implies, "single editors" are rendered as individual form elements for individual graph objects and update the graph one by one.
+
+Conversely, a "multi editor" is rendered only one for an entire [Property Shape](https://www.w3.org/TR/shacl/#property-shapes) and must update all values at once.
+
+All default editors are "single editors". A multi editor must be implemented separately as a reusable, or app-specific extension. An example of a multi editor could be a multi-select combo box.
+
+<CCallout color="warning">
+  TO DO: multi editor example
+</CCallout>
+
+## Editor identifier
+
+The identifier is simply a URI, represented throughout the code as an [RDF/JS NamedNode](https://rdf.js.org/data-model-spec/#namednode-interface).
+
+Shaperone implements a set of [DASH editors](../?path=/docs/editors-dash-dash-forms--docs),
+whose identifiers are all from the namespace `http://datashapes.org/dash#`.
+
+<CCallout color="info">
+  In your code use `import { dash } from '@tpluscode/rdf-ns-builders'` to access the DASH vocabulary, including code completion of the term names
+</CCallout>
+
+## Editor matchers
+
+Shaperone selects the appropriate editors by applying simple matcher functions to the properties+objects.
+
+First, any possible multi editors are matched against the property. Then single editors are matched against individual objects.
+
+Both kinds of matchers return a numeric score value
+or `null` to indicate how applicable a given editor is for a property/object.
+
+* `score = 0` means that an editor is not applicable
+* The higher a score, the higher the priority for it to be selected
+* `null` indicates that an editor may or may not be applicable
+
+<CCallout color="info">
+  A renderer may offer the users an option to switch the editor for objects and/or properties, if multi editors were matched. This is the default behaviour of renderers provided by shaperone packages.
+</CCallout>
+
+Read the [Matchers page](../?path=/docs/editors-matchers--docs) to learn how to implement matchers for your components or replace the matchers for existing editors.
+
+## Components
+
+Components are the visual representation of editors.
+A component maps the editor identifier to a renderer-specific implementation
+which renders the component and handles user interaction to update the data and control the form.
+
+In the case of `@hydrofoil/shaperone-wc`, components are rendered by `lit-html`
+but can be implemented using any Custom Elements library.
+
+Multiple components can be distributed as visually consistent sets, implementing a cohesive design systems.
+[Shaperone for Web Components](https://npm.im/@hydrofoil/shaperone-wc) comes with a number of such sets:
+
+1. Browser native elements, which are available out of the box with the `shaperone-form` custom element
+2. [Material Design](https://material.io/) elements implemented by [Material Web Components](https://github.com/material-components/material-components-web-components), available via [@hydrofoil/shaperone-wc-material](https://npm.im/@hydrofoil/shaperone-wc-material)
+3. [Sholaces](https://shoelace.style/) elements provided by [@hydrofoil/shaperone-wc-shoelace](https://npm.im/@hydrofoil/shaperone-wc-shoelace)
+3. [Vaadin Components](https://vaadin.com/components/) provided by [@hydrofoil/shaperone-wc-vaadin](https://npm.im/@hydrofoil/shaperone-wc-vaadin)
+
+<CCallout color="info">
+  It is important to note, however, that any combination of components is possible, mixing and matching implementations from different design systems and app-specific alike.
+</CCallout>
+
+## Editor metadata
+
+Editor metadata is an RDF/JS Dataset which contains descriptions of the input elements used on forms.
+Initially, it contains the DASH vocabulary which provides English labels for the default editors.
+It can be extended with additional translations or information about custom editor types.

@@ -89,16 +89,34 @@ If not provided, the environment `@zazuko/env/web.js` is used.
 ## Customise the form
 
 The `configure` function is async and its return value can be used to customise the form further.
+This sets the default appearance and behaviour of the form and must be called before the component is used in a page.
 
 ```javascript
 import { configure } from '@hydrofoil/shaperone-wc'
 
-const {
-  renderer,   // Change the form's appearance
-  components, // Add or repalce editor implementations
-  editors,    // Modify the editors' metadata and priorities
-  validation  // Set up validation
-} = await configure()
+await configure(({ renderer, components, editors, validation }) => {
+  // renderer => Changes the form's appearance
+  // components => Add or repalce editor implementations
+  // editors => Modify the editors' metadata and their priorities
+  // validation => Set up validation
+})
 ```
+
+Individual form instances can be customised by calling the `configure` method on the form instance or setting
+the configuration function to the `configuration` property:
+
+```ts
+import type { ConfigCallback, ShaperoneForm } from '@hydrofoil/shaperone-wc'
+
+const form: ShaperoneForm = document.querySelector('shaperone-form')
+
+const formSetup: ConfigCallback = () => { /* ... */ }
+
+form.configure(formSetup)
+// or
+form.configuration = formSetup
+```
+
+The latter method can be useful when used in using a templating library like [lit-html](https://lit.dev).
 
 See the in-depth pages on the left for more information on how to customise the form.
