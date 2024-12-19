@@ -6,6 +6,7 @@ import { sh } from '@tpluscode/rdf-ns-builders'
 import type { PropertyElement } from './index.js'
 import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
 import type { Dispatch } from '../store.js'
+import { focusNodeChanged, propertyChanged } from '../lib/stateChanged.js'
 
 export class Sh1Property extends FindParentCustomElementRegistry(LitElement) implements PropertyElement {
   static get styles() {
@@ -29,10 +30,10 @@ export class Sh1Property extends FindParentCustomElementRegistry(LitElement) imp
     `
   }
 
-  @property({ type: Object })
+  @property({ type: Object, hasChanged: focusNodeChanged })
   public focusNode!: FocusNodeState
 
-  @property({ type: Object })
+  @property({ type: Object, hasChanged: propertyChanged })
   public property!: PropertyState
 
   @state()

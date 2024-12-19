@@ -4,6 +4,7 @@ import { property, state } from 'lit/decorators.js'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { Dispatch } from '@hydrofoil/shaperone-core/state/index.js'
 import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
+import { focusNodeChanged, propertyChanged, objectChanged } from '../lib/stateChanged.js'
 
 export class Sh1Object extends FindParentCustomElementRegistry(LitElement) {
   @state()
@@ -17,13 +18,13 @@ export class Sh1Object extends FindParentCustomElementRegistry(LitElement) {
     `
   }
 
-  @property({ type: Object })
+  @property({ type: Object, hasChanged: objectChanged })
   private object!: PropertyObjectState
 
-  @property({ type: Object })
+  @property({ type: Object, hasChanged: focusNodeChanged })
   private focusNode!: FocusNodeState
 
-  @property({ type: Object })
+  @property({ type: Object, hasChanged: propertyChanged })
   private property!: PropertyState
 
   constructor() {

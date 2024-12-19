@@ -18,14 +18,12 @@ export default function setGraph(store: Store) {
     }
 
     previousShapes = shapesState
-    const currentNodes = [...form.focusStack]
+    const currentNodes = [...Object.values(form.focusNodes)]
 
-    dispatch.form.truncateFocusNodes({})
-    currentNodes.forEach((focusNode) => {
+    currentNodes.forEach(({ focusNode }) => {
       dispatch.form.createFocusNodeState({
         focusNode,
         shape: shapesState?.preferredRootShape,
-        appendToStack: true,
       })
     })
   }
