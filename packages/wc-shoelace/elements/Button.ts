@@ -1,7 +1,8 @@
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js'
-import { html, LitElement } from 'lit'
+import { html } from 'lit'
+import sh1Button from '@hydrofoil/shaperone-wc/components/sh1-button.js'
 
-export default class Button extends LitElement {
+export default class Button extends sh1Button {
   render() {
     let name = 'plus-square'
     if (this.slot === 'remove-object') {
