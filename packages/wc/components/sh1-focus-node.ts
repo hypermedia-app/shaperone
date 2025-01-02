@@ -69,7 +69,7 @@ export class Sh1FocusNode extends ShaperoneElementBase {
     })
   }
 
-  render() {
+  renderWhenReady() {
     if (!this.focusNode) {
       return html``
     }

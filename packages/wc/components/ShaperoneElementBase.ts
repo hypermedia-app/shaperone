@@ -1,7 +1,8 @@
 import { LitElement } from 'lit'
 import type { CustomEventTarget } from './events.js'
+import { DependencyLoader } from './DependencyLoader.js'
 
-export default abstract class extends LitElement implements CustomEventTarget {
+export default abstract class extends DependencyLoader(LitElement) implements CustomEventTarget {
   attachShadow(init: ShadowRootInit) {
     const registry = findRegistry(this)
 

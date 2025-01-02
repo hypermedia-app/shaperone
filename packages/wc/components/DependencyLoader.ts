@@ -7,6 +7,7 @@ type DependencyMap = Record<string, CustomElementConstructor | Promise<CustomEle
 export interface ComponentWithDependencies {
   dependencies?: DependencyMap | Promise<DependencyMap> | Promise<{ default: DependencyMap }>
   renderWhenReady(): TemplateResult
+  renderSkeleton?(): TemplateResult
 }
 
 type Constructor<T extends LitElement> = new (...args: unknown[]) => T
@@ -42,15 +43,12 @@ export function DependencyLoader<T extends LitElement>(Base: Constructor<T>): Co
     }
 
     render() {
-      if (!this.ready) {
-        return this.renderSkeleton()
+      const { renderSkeleton } = this as ComponentWithDependencies
+      if (!this.ready && renderSkeleton) {
+        return renderSkeleton()
       }
 
       return this.renderWhenReady()
-    }
-
-    renderSkeleton() {
-      throw new Error('Render method not implemented')
     }
 
     renderWhenReady(): TemplateResult {

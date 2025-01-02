@@ -19,10 +19,10 @@ export const renderer = createModel({
     layoutElements: {},
   },
   reducers: {
-    pushComponents(state, layoutElements: LayoutElements) {
+    pushComponents(state, layoutElements: Partial<LayoutElements>) {
       return {
         ...state,
-        layoutElements: {
+        layoutElements: <LayoutElements>{
           ...state.layoutElements,
           ...layoutElements,
         },
