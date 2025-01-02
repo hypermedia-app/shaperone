@@ -6,9 +6,10 @@ import { isResource } from 'is-graph-pointer'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { html } from 'lit'
 import type { NodeShape } from '@rdfine/shacl'
+import type { BlankNode, NamedNode } from '@rdfjs/types'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 
-export default class extends ShoelaceLoader(SingleEditorComponent) implements DetailsEditor {
+export default class extends ShoelaceLoader(SingleEditorComponent<NamedNode | BlankNode>) implements DetailsEditor {
   static editor = dash.DetailsEditor
 
   @property({ type: Object })
@@ -34,8 +35,10 @@ export default class extends ShoelaceLoader(SingleEditorComponent) implements De
     return html`<div>not a resource node</div>`
   }
 
-  * dependencies() {
-    yield import('@shoelace-style/shoelace/dist/components/details/details.js')
+  get dependencies() {
+    return {
+      'sl-details': import('@shoelace-style/shoelace/dist/components/details/details.component.js'),
+    }
   }
 
   private open() {

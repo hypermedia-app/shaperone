@@ -13,11 +13,14 @@ export default class extends ShoelaceLoader(SingleEditorComponent) implements Bo
     return html`<sl-checkbox .indeterminate="${!this.value.object}"
                    .checked="${this.value.object?.term.equals(env().constant.TRUE) || false}"
                    @sl-change="${this.onChecked}"
-                   .disabled="${this.property.shape.readOnly || false}"></sl-checkbox>`
+                   .disabled="${this.property.shape.readOnly || false}"></sl-checkbox>
+    <sh1-focus-node></sh1-focus-node>`
   }
 
-  * dependencies() {
-    yield import('@shoelace-style/shoelace/dist/components/checkbox/checkbox.js')
+  get dependencies() {
+    return {
+      'sl-checkbox': import('@shoelace-style/shoelace/dist/components/checkbox/checkbox.component.js'),
+    }
   }
 
   onChecked(e: Event) {

@@ -140,7 +140,7 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
     }
   }
 
-  * dependencies() {
-    yield import('./AutoCompleteEditor.deps.js')
+  get dependencies() {
+    return import('./AutoCompleteEditor.deps.js')
   }
 }

@@ -1,9 +1,11 @@
-import { state } from 'lit/decorators.js'
 import type { LitElement, TemplateResult } from 'lit'
-import { css, html } from 'lit'
+import { html, css } from 'lit'
+import SlSkeleton from '@shoelace-style/shoelace/dist/components/skeleton/skeleton.component.js'
+
+type DependencyMap = Record<string, CustomElementConstructor | Promise<CustomElementConstructor | { default: CustomElementConstructor }>>
 
 export interface ComponentWithDependencies {
-  dependencies?(): Generator<Promise<unknown>>
+  dependencies?: DependencyMap | Promise<DependencyMap> | Promise<{ default: DependencyMap }>
   renderWhenReady(): TemplateResult
 }
 
@@ -19,33 +21,14 @@ export function ShoelaceLoader<T extends LitElement>(Base: Constructor<T>): Cons
       `
     }
 
-    @state()
-    private ready = false
-
-    connectedCallback() {
-      const { dependencies } = this as ComponentWithDependencies
-
-      if (dependencies) {
-        Promise.all(dependencies()).then(() => {
-          this.ready = true
-        })
-      } else {
-        this.ready = true
+    static get scopedElements() {
+      return {
+        'sl-skeleton': SlSkeleton,
       }
-
-      super.connectedCallback()
     }
 
-    render() {
-      if (!this.ready) {
-        return html`<sl-skeleton effect="sheen"></sl-skeleton>`
-      }
-
-      return this.renderWhenReady()
-    }
-
-    renderWhenReady(): TemplateResult {
-      throw new Error('Render method not implemented')
+    renderSkeleton() {
+      return html`<sl-skeleton effect="sheen"></sl-skeleton>`
     }
   }
 

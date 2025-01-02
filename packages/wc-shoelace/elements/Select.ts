@@ -1,4 +1,3 @@
-
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import type { NamedNode } from '@rdfjs/types'
@@ -49,9 +48,11 @@ function ShoelaceSelect<E extends Constructor<EnumSelect>>(Base: E): E {
       }
     }
 
-    * dependencies() {
-      yield import('@shoelace-style/shoelace/dist/components/option/option.js')
-      yield import('@shoelace-style/shoelace/dist/components/select/select.js')
+    get dependencies() {
+      return {
+        'sl-option': import('@shoelace-style/shoelace/dist/components/option/option.component.js'),
+        'sl-select': import('@shoelace-style/shoelace/dist/components/select/select.component.js'),
+      }
     }
   }
 }

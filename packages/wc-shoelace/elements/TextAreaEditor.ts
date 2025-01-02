@@ -15,7 +15,9 @@ export default class extends ShoelaceLoader(SingleEditorComponent) implements Te
                 @sl-change="${(e: any) => this.setValue(e.target.value)}"></sl-textarea>`
   }
 
-  * dependencies() {
-    yield import('@shoelace-style/shoelace/dist/components/textarea/textarea.js')
+  get dependencies() {
+    return {
+      'sl-textarea': import('@shoelace-style/shoelace/dist/components/textarea/textarea.component.js'),
+    }
   }
 }

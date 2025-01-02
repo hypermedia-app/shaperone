@@ -33,9 +33,11 @@ export default class extends ShoelaceLoader(FocusNodeElement) {
       `
   }
 
-  * dependencies() {
-    yield import('@shoelace-style/shoelace/dist/components/tab-group/tab-group.js')
-    yield import('@shoelace-style/shoelace/dist/components/tab/tab.js')
-    yield import('@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js')
+  get dependencies() {
+    return {
+      'sl-tab-group': import('@shoelace-style/shoelace/dist/components/tab-group/tab-group.component.js'),
+      'sl-tab': import('@shoelace-style/shoelace/dist/components/tab/tab.js'),
+      'sl-tab-panel': import('@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js'),
+    }
   }
 }

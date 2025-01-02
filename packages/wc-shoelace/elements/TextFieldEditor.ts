@@ -13,8 +13,10 @@ export default class extends ShoelaceLoader(SingleEditorComponent) implements Te
     return 'text'
   }
 
-  * dependencies() {
-    yield import('@shoelace-style/shoelace/dist/components/input/input.js')
+  get dependencies() {
+    return {
+      'sl-input': import('@shoelace-style/shoelace/dist/components/input/input.component.js'),
+    }
   }
 
   renderWhenReady() {

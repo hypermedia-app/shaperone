@@ -1,7 +1,7 @@
-import { html, LitElement } from 'lit'
-import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
+import { html } from 'lit'
+import ShaperoneElementBase from './ShaperoneElementBase.js'
 
-export class Sh1Form extends FindParentCustomElementRegistry(LitElement) {
+export class Sh1Form extends ShaperoneElementBase {
   render() {
     return html`
       <slot></slot>`

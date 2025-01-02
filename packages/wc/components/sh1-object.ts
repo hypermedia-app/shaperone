@@ -1,12 +1,12 @@
-import { css, html, LitElement } from 'lit'
+import { css, html } from 'lit'
 import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
 import { property, state } from 'lit/decorators.js'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { Dispatch } from '@hydrofoil/shaperone-core/state/index.js'
-import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
 import { focusNodeChanged, propertyChanged, objectChanged } from '../lib/stateChanged.js'
+import ShaperoneElementBase from './ShaperoneElementBase.js'
 
-export class Sh1Object extends FindParentCustomElementRegistry(LitElement) {
+export class Sh1Object extends ShaperoneElementBase {
   @state()
   private dispatch: Dispatch | undefined
 

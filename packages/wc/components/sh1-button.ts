@@ -1,10 +1,10 @@
-import { css, html, LitElement } from 'lit'
+import { css, html } from 'lit'
 import { property } from 'lit/decorators.js'
-import type { CustomEventTarget } from './events.js'
+import ShaperoneElementBase from './ShaperoneElementBase.js'
 
 type ButtonKind = 'add-object' | 'remove-object'
 
-export default class extends LitElement implements CustomEventTarget {
+export default class extends ShaperoneElementBase {
   static get styles() {
     return css`
       button {

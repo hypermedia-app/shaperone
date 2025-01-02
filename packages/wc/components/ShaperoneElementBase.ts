@@ -1,17 +1,15 @@
-import type { LitElementConstructor } from '@open-wc/scoped-elements/lit-element.js'
+import { LitElement } from 'lit'
 import type { CustomEventTarget } from './events.js'
 
-export default function FindParentCustomElementRegistry<T extends LitElementConstructor>(Base: T): T {
-  return class extends Base implements CustomEventTarget {
-    attachShadow(init: ShadowRootInit) {
-      const registry = findRegistry(this)
+export default abstract class extends LitElement implements CustomEventTarget {
+  attachShadow(init: ShadowRootInit) {
+    const registry = findRegistry(this)
 
-      return super.attachShadow({
-        ...init,
-        registry,
-        customElements: registry,
-      })
-    }
+    return super.attachShadow({
+      ...init,
+      registry,
+      customElements: registry,
+    })
   }
 }
 

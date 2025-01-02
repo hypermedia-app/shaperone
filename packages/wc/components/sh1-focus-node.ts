@@ -1,5 +1,5 @@
 import type { PropertyValues } from 'lit'
-import { html, LitElement } from 'lit'
+import { html } from 'lit'
 import type { FocusNodeState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { property, state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
@@ -7,11 +7,11 @@ import { ifDefined } from 'lit/directives/if-defined.js'
 import type { DetailsEditor } from '@hydrofoil/shaperone-core/components.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
 import type { NodeShape } from '@rdfine/shacl'
-import FindParentCustomElementRegistry from './FindParentCustomElementRegistry.js'
 import type { Dispatch } from '../store.js'
 import { focusNodeChanged } from '../lib/stateChanged.js'
+import ShaperoneElementBase from './ShaperoneElementBase.js'
 
-export class Sh1FocusNode extends FindParentCustomElementRegistry(LitElement) {
+export class Sh1FocusNode extends ShaperoneElementBase {
   @property({ type: Object, hasChanged: focusNodeChanged })
   public focusNode: FocusNodeState | undefined
 

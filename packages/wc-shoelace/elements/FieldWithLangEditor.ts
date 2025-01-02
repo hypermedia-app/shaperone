@@ -125,11 +125,8 @@ export function FieldWithLangMixin<T extends ComponentConstructor<SingleEditorCo
       }
     }
 
-    * dependencies() {
-      yield import('@shoelace-style/shoelace/dist/components/button/button.js')
-      yield import('@shoelace-style/shoelace/dist/components/input/input.js')
-      yield import('@shoelace-style/shoelace/dist/components/select/select.js')
-      yield import('@shoelace-style/shoelace/dist/components/menu-item/menu-item.js')
+    get dependencies() {
+      return import('./FieldWithLangEditor.deps.js')
     }
   }
 
