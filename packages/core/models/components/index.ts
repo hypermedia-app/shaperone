@@ -6,43 +6,23 @@
 /* eslint-disable no-use-before-define */
 import { createModel } from '@captaincodeman/rdx'
 import type { NamedNode, Term } from '@rdfjs/types'
-import type { GraphPointer } from 'clownface'
 import reducers from './reducers.js'
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '../forms/index.js'
-import type { ObjectRenderer, PropertyRenderer } from '../../renderer.js'
 
-export interface SingleEditorRenderParams {
-  value: PropertyObjectState
-  renderer: ObjectRenderer
-}
-
-export interface MultiEditorRenderParams {
-  renderer: PropertyRenderer
-}
-
-export interface SingleEditorActions {
-  update(newValue: GraphPointer | Term | string): void
-  focusOnObjectNode(): void
-  clear(): void
-  remove(): void
-}
-
-export interface MultiEditorActions {
-  update(newValues: Array<Term | string>): void
-}
-
-export interface Component<T extends Term = Term> {
+export interface Component {
   clear(): void
   property: PropertyState
-  value: PropertyObjectState<T>
   focusNode: FocusNodeState
 }
 
-export interface SingleEditorComponent<T extends Term = Term> extends Component<T> {
+export interface SingleEditorComponent<T extends Term = Term> extends Component {
+  value: PropertyObjectState<T>
   setValue(value: T): void
 }
 
-export interface MultiEditorComponent extends Component {
+export interface MultiEditorComponent<T extends Term = Term> extends Component {
+  values: Array<PropertyObjectState<T>>
+  setValues(values: T[]): void
 }
 
 export interface ComponentConstructor<T extends Component = Component> {

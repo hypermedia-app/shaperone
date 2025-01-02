@@ -1,3 +1,4 @@
+
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import type { NamedNode } from '@rdfjs/types'
