@@ -1,5 +1,4 @@
 import { css, html } from 'lit'
-import { property, query } from 'lit/decorators.js'
 import { PropertyElement } from '@hydrofoil/shaperone-wc/components/index.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
@@ -35,12 +34,6 @@ export default class extends PropertyElement {
     `
   }
 
-  @property({ type: Boolean })
-  private __slotEmpty = true
-
-  @query('slot')
-  private __slot!: HTMLSlotElement
-
   render() {
     let helpText: any = ''
     if (this.property.shape.description) {
@@ -49,13 +42,11 @@ export default class extends PropertyElement {
 
     return html`
       <p id="label">${localizedLabel(this.property.shape, { property: sh.name })}</p>
-      <slot class="${this.__slotEmpty ? 'empty' : ''}" @slotchange="${this.__hasAssignedElements}"></slot>
+      <div id="objects">
+        ${this.renderObjects()}
+      </div>
       ${helpText}
-      <slot name="add-object"></slot>
+      ${this.renderAddButton()}
     `
-  }
-
-  __hasAssignedElements() {
-    this.__slotEmpty = this.__slot.assignedElements().length === 0
   }
 }

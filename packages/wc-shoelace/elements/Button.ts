@@ -5,7 +5,7 @@ import { ShoelaceLoader } from './ShoelaceLoader.js'
 export default class Button extends ShoelaceLoader(sh1Button) {
   render() {
     let name = 'plus-square'
-    if (this.slot === 'remove-object') {
+    if (this.kind === 'remove-object') {
       name = 'x-square'
     }
 
@@ -16,7 +16,7 @@ export default class Button extends ShoelaceLoader(sh1Button) {
   }
 
   get label() {
-    return this.slot === 'remove-object' ? 'Remove value' : 'Add value'
+    return this.kind === 'remove-object' ? 'Remove value' : 'Add value'
   }
 
   get dependencies() {

@@ -5,26 +5,9 @@
  * @module @hydrofoil/shaperone-wc-vaadin/components
  */
 
-import type { Lazy } from '@hydrofoil/shaperone-core'
-import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
-import { dash } from '@tpluscode/rdf-ns-builders'
-import type {
-  AutoCompleteEditor,
-  BooleanSelectEditor,
-  EnumSelectEditor,
-  InstancesSelectEditor,
-} from '@hydrofoil/shaperone-core/components.js'
-import {
-  booleanSelect,
-  enumSelect,
-  instancesSelect,
-} from '@hydrofoil/shaperone-core/components.js'
+export { default as BooleanSelect } from './components/BooleanSelectEditor.js'
 
 /**
- * Renders [`vaadin-text-field`](https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement),
- * [`vaadin-number-field`](https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.NumberFieldElement)
- * or [`vaadin-integer-field`](https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.IntegerFieldElement) depending on the Property Shape
- */
 export const textField: Lazy<SingleEditorComponent> = {
   editor: dash.TextFieldEditor,
   lazyRender() {
@@ -32,9 +15,6 @@ export const textField: Lazy<SingleEditorComponent> = {
   },
 }
 
-/**
- * Renders [`vaadin-area-area`](https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextAreaElement)
- */
 export const textArea: Lazy<SingleEditorComponent> = {
   editor: dash.TextAreaEditor,
   lazyRender() {
@@ -42,9 +22,6 @@ export const textArea: Lazy<SingleEditorComponent> = {
   },
 }
 
-/**
- * Renders [`vaadin-select`](https://vaadin.com/components/vaadin-select/html-api/elements/Vaadin.SelectElement) displaying enum values
- */
 export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   ...enumSelect,
   lazyRender() {
@@ -52,9 +29,6 @@ export const enumSelectEditor: Lazy<EnumSelectEditor> = {
   },
 }
 
-/**
- * Renders [`vaadin-select`](https://vaadin.com/components/vaadin-select/html-api/elements/Vaadin.SelectElement) displaying instances.
- */
 export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
   ...instancesSelect,
   init({ env, form, property, value, componentState, updateComponentState }) {
@@ -106,19 +80,6 @@ export const autoComplete: Lazy<AutoCompleteEditor> = {
   editor: dash.AutoCompleteEditor,
 }
 
-/**
- * Renders [`vaadin-select`](https://vaadin.com/components/vaadin-select/html-api/elements/Vaadin.SelectElement) displaying true/false.
- */
-export const booleanSelectEditor: Lazy<BooleanSelectEditor> = {
-  ...booleanSelect,
-  lazyRender() {
-    return import('./components/booleanSelect.js').then(m => m.booleanSelect)
-  },
-}
-
-/**
- * Renders [`vaadin-date-picker`](https://vaadin.com/components/vaadin-date-picker)
- */
 export const datePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DatePickerEditor,
   lazyRender() {
@@ -126,9 +87,6 @@ export const datePicker: Lazy<SingleEditorComponent> = {
   },
 }
 
-/**
- * Renders [`vaadin-date-time-picker`](https://vaadin.com/components/vaadin-date-time-picker)
- */
 export const dateTimePicker: Lazy<SingleEditorComponent> = {
   editor: dash.DateTimePickerEditor,
   lazyRender() {
@@ -136,13 +94,10 @@ export const dateTimePicker: Lazy<SingleEditorComponent> = {
   },
 }
 
-/**
- * Renders a [`vaadin-text-field`](https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement) with an
- * underlying `<input type=url>`
- */
 export const urlEditor: Lazy<SingleEditorComponent> = {
   editor: dash.URIEditor,
   lazyRender() {
     return import('./components/url-editor.js').then(m => m.urlEditor)
   },
 }
+*/

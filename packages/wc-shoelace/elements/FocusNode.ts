@@ -11,14 +11,17 @@ export default class extends ShoelaceLoader(FocusNodeElement) {
   }
 
   renderWhenReady() {
-    if (!this.groups || this.groups.length === 1) {
-      return html`
-          <slot></slot>`
+    if (!this.groups) {
+      return html``
+    }
+
+    if (this.groups?.length === 1) {
+      return html`${this.renderGroup(this.groups[0])}`
     }
 
     return html`
       <sl-tab-group>
-        ${repeat(this.groups, this.renderGroupTab)}
+        ${repeat(this.groups || [], this.renderGroupTab.bind(this))}
       </sl-tab-group>`
   }
 
@@ -28,7 +31,7 @@ export default class extends ShoelaceLoader(FocusNodeElement) {
     return html`
         <sl-tab slot="nav" panel="${groupName}" ?active="${group.selected}">${localizedLabel(group.group)}</sl-tab>
         <sl-tab-panel name="${groupName}" ?active="${group.selected}">
-          <slot name="${groupName}"></slot>
+          ${this.renderGroup(group)}
         </sl-tab-panel>
       `
   }

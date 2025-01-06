@@ -1,22 +1,16 @@
 import type { PropertyValues } from 'lit'
 import { html } from 'lit'
-import type { FocusNodeState } from '@hydrofoil/shaperone-core/models/forms/index.js'
-import { property, state } from 'lit/decorators.js'
+import type { FocusNodeState, PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { property } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
-import { ifDefined } from 'lit/directives/if-defined.js'
 import type { DetailsEditor } from '@hydrofoil/shaperone-core/components.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
 import type { NodeShape } from '@rdfine/shacl'
-import type { Dispatch } from '../store.js'
-import { focusNodeChanged } from '../lib/stateChanged.js'
 import ShaperoneElementBase from './ShaperoneElementBase.js'
 
 export class Sh1FocusNode extends ShaperoneElementBase {
-  @property({ type: Object, hasChanged: focusNodeChanged })
+  @property({ type: Object })
   public focusNode: FocusNodeState | undefined
-
-  @state()
-  private dispatch: Dispatch | undefined
 
   constructor() {
     super()
@@ -69,11 +63,21 @@ export class Sh1FocusNode extends ShaperoneElementBase {
     })
   }
 
-  renderWhenReady() {
+  render() {
+    return this.renderFocusNode()
+  }
+
+  renderFocusNode() {
     if (!this.focusNode) {
       return html``
     }
 
-    return html`${repeat(this.focusNode.groups, group => html`<slot name="${ifDefined(group.group?.id.value)}"></slot>`)}`
+    return html`${repeat(this.focusNode.groups, this.renderGroup.bind(this))}`
+  }
+
+  renderGroup(group: PropertyGroupState) {
+    return html`
+      <sh1-group .focusNode="${this.focusNode}" .group="${group}">
+      </sh1-group>`
   }
 }

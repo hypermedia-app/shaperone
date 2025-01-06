@@ -1,3 +1,6 @@
 {
-  "plugins": ["lit"]
+  "plugins": ["lit"],
+  "rules": {
+    "import/no-extraneous-dependencies": "warn"
+  }
 }

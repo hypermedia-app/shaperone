@@ -11,15 +11,14 @@ import type { NodeShape } from '@rdfine/shacl'
 import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import getEnv from '@hydrofoil/shaperone-core/env.js'
 import { ScopedElementsMixin } from '@open-wc/scoped-elements/lit-element.js'
+import { repeat } from 'lit/directives/repeat.js'
 import onetime from 'onetime'
-import type { Renderer } from '@hydrofoil/shaperone-core/renderer.js'
 import { ensureEventTarget } from './lib/eventTarget.js'
 import type { State } from './store.js'
 import { store } from './store.js'
-import DefaultRenderer from './renderer/index.js'
 import { connect } from './components/connect.js'
 import type { ConfigCallback } from './configure.js'
-import { getEditorTagName } from './components/editor.js'
+import * as scopedElements from './components/scopedElements.js'
 
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes dataset')
@@ -27,7 +26,6 @@ const shapes: unique symbol = Symbol('shapes')
 const registerElements: unique symbol = Symbol('register elements')
 const configuration: unique symbol = Symbol('configuration')
 const registry: unique symbol = Symbol('custom elements registry')
-const renderer: unique symbol = Symbol('renderer')
 
 /**
  * A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).
@@ -67,7 +65,7 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
   private [configuration]: ConfigCallback | undefined
   private [registry]: CustomElementRegistry | undefined
-  private [registerElements]: () => void
+  private [registerElements]: (customElements: CustomElementRegistry | undefined) => void
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -95,8 +93,6 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
 
   @property({ type: Array })
   private [shapes]: NodeShape[] = []
-
-  private [renderer]: Renderer<TemplateResult>
 
   /**
    * Gets the RDF/JS environment
@@ -133,27 +129,7 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
 
   constructor() {
     super()
-    this[renderer] = new DefaultRenderer(this.dispatch)
-    this[registerElements] = onetime(() => {
-      const { components, renderer } = this
-
-      const tryDefine = (tagName: string, ctor: CustomElementConstructor) => {
-        try {
-          this.shadowRoot!.customElements!.define(tagName, ctor)
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.warn(`Failed to define ${ctor} as ${tagName}`, e)
-        }
-      }
-
-      for (const ctor of Object.values(components.components)) {
-        tryDefine(getEditorTagName(ctor.editor), ctor)
-      }
-
-      for (const [name, ctor] of Object.entries(renderer.layoutElements)) {
-        tryDefine(`sh1-${name}`, ctor)
-      }
-    })
+    this[registerElements] = onetime(scopedElements.register.bind(null, this))
   }
 
   protected firstUpdated(_changedProperties: PropertyValues) {
@@ -275,22 +251,23 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
   }
 
   render() {
-    this[registerElements]()
+    this[registerElements](this.shadowRoot!.customElements)
 
     return html`
       <section part="form">
-      ${this[renderer]?.render({
-    env: this.env,
-    editors: this.editors,
-    state: this.state,
-    components: this.components,
-    shapes: this[shapes],
-  })}
+        ${repeat(this.state.focusStack, this.renderFocusNode.bind(this))}
       </section>
       <section part="buttons">
         <slot name="buttons"></slot>
       </section>
     `
+  }
+
+  renderFocusNode(focusNode: FocusNode): TemplateResult {
+    const focusNodeState = this.state.focusNodes[focusNode.value]
+    return html`
+      <sh1-focus-node .focusNode="${focusNodeState}">
+      </sh1-focus-node>`
   }
 
   /**

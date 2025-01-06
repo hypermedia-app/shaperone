@@ -20,14 +20,7 @@
     "@open-wc/lit-helpers": "^0.7.0",
     "@tpluscode/rdf-ns-builders": "^4.3.0",
     "@rdfjs-elements/lit-helpers": "^0.3.9",
-    "@vaadin/vaadin-accordion": "^23",
-    "@vaadin/vaadin-combo-box": "^23",
-    "@vaadin/vaadin-date-picker": "^23",
-    "@vaadin/vaadin-date-time-picker": "^23",
-    "@vaadin/vaadin-select": "^23",
-    "@vaadin/vaadin-item": "^23",
-    "@vaadin/vaadin-list-box": "^23",
-    "@vaadin/vaadin-text-field": "^23",
+    "@vaadin/vaadin": "^23.5.14",
     "lit": "^3"
   },
   "devDependencies": {

@@ -14,3 +14,6 @@ export { SingleEditorBase as SingleEditorComponent } from './elements/SingleEdit
 export { MultiEditorBase as MultiEditorComponent } from './elements/MultiEditorBase.js'
 
 export type { LayoutElements } from './renderer/model.js'
+
+export { ScopedDependencyLoader } from './components/ScopedDependencyLoader.js'
+export { GlobalDependencyLoader } from './components/GlobalDependencyLoader.js'

@@ -25,13 +25,12 @@ export interface MultiEditorComponent<T extends Term = Term> extends Component {
   setValues(values: T[]): void
 }
 
-export interface ComponentConstructor<T extends Component = Component> {
-  editor: NamedNode
+export interface ComponentConstructor<T extends NamedNode = NamedNode> {
+  editor: T
   extends?: NamedNode
-  new(): T
 }
 
-export interface ComponentDecorator<T extends Component = Component> {
+export interface ComponentDecorator<T extends NamedNode = NamedNode> {
   applicableTo(component: ComponentConstructor): boolean
   decorate(component: ComponentConstructor<T>): ComponentConstructor<T>
 }

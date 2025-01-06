@@ -1,6 +1,6 @@
-// import * as editors from './components.js'
+import * as editors from './components.js'
 
-const editors = {}
+export { default as layout } from './layout/index.js'
 
 export {
   editors,

@@ -2,6 +2,7 @@
   "name": "@hydrofoil/shaperone",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "prepare": "husky install; patch-package",
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
@@ -15,7 +16,8 @@
   },
   "workspaces": [
     "packages/*",
-    "demos/*"
+    "demos/examples",
+    "demos/storybook"
   ],
   "devDependencies": {
     "@changesets/cli": "^2.22.0",

@@ -1,10 +1,9 @@
-import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { css, html } from 'lit'
-import { property, state } from 'lit/decorators.js'
+import { property } from 'lit/decorators.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import type { Dispatch } from '../store.js'
-import { focusNodeChanged, propertyChanged } from '../lib/stateChanged.js'
+import { repeat } from 'lit/directives/repeat.js'
 import ShaperoneElementBase from './ShaperoneElementBase.js'
 
 export class Sh1Property extends ShaperoneElementBase {
@@ -23,20 +22,17 @@ export class Sh1Property extends ShaperoneElementBase {
         text-align: end;
       }
 
-      :host(:not([can-add])) slot[name=add-object] {
+      :host(:not([can-add])) #add-object {
         display: none;
       }
     `
   }
 
-  @property({ type: Object, hasChanged: focusNodeChanged })
+  @property({ type: Object })
   public focusNode!: FocusNodeState
 
-  @property({ type: Object, hasChanged: propertyChanged })
+  @property({ type: Object })
   public property!: PropertyState
-
-  @state()
-  protected dispatch!: Dispatch
 
   constructor() {
     super()
@@ -47,21 +43,21 @@ export class Sh1Property extends ShaperoneElementBase {
   }
 
   private onSwitchToMultiEditor() {
-    this.dispatch.form.selectMultiEditor({
+    this.dispatch!.form.selectMultiEditor({
       focusNode: this.focusNode.focusNode,
       property: this.property.shape,
     })
   }
 
   private onSwitchToSingleEditors() {
-    this.dispatch.form.selectSingleEditors({
+    this.dispatch!.form.selectSingleEditors({
       focusNode: this.focusNode.focusNode,
       property: this.property.shape,
     })
   }
 
   private onAddObject() {
-    this.dispatch.form.addObject({
+    this.dispatch!.form.addObject({
       focusNode: this.focusNode.focusNode,
       property: this.property.shape,
     })
@@ -77,10 +73,29 @@ export class Sh1Property extends ShaperoneElementBase {
         </slot>
       </div>
       <div class="objects">
-        <slot></slot>
-        <slot name="add-object">
-        </slot>
+        ${this.renderObjects()}
+        ${this.renderAddButton()}
       </div>
     `
+  }
+
+  renderObjects() {
+    return html`${repeat(this.property.objects, this.renderObject.bind(this))}`
+  }
+
+  renderObject(object: PropertyObjectState) {
+    return html`<sh1-object .focusNode="${this.focusNode}"
+                            .object="${object}"
+                            .property="${this.property}"></sh1-object>`
+  }
+
+  renderAddButton() {
+    if (this.property.canAdd) {
+      return html`<sh1-button slot="add-object" kind="add-object">
+        + ${localizedLabel(this.property.shape, { property: sh.name })}
+      </sh1-button>`
+    }
+
+    return ''
   }
 }

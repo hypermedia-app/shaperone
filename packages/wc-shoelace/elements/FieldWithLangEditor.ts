@@ -87,7 +87,7 @@ export function FieldWithLangMixin<T extends ComponentConstructor<SingleEditorCo
         return html`
           <sl-select label="Language" placeholder="None" class="selector" @sl-change="${this.languageSelected}"
                      .value="${language}" .disabled="${this.readonly}">
-            ${repeat(this.languages, lang => html`<sl-menu-item value="${lang}">${lang}</sl-menu-item>`)}
+            ${repeat(this.languages, lang => html`<sl-option value="${lang}">${lang}</sl-option>`)}
           </sl-select>`
       }
 

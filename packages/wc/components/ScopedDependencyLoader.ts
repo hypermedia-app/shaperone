@@ -12,7 +12,7 @@ export interface ComponentWithDependencies {
 
 type Constructor<T extends LitElement> = new (...args: unknown[]) => T
 
-export function DependencyLoader<T extends LitElement>(Base: Constructor<T>): Constructor<T & ComponentWithDependencies> {
+export function ScopedDependencyLoader<T extends LitElement>(Base: Constructor<T>): Constructor<T & ComponentWithDependencies> {
   class WithDependencies extends ScopedElementsMixin(Base) implements ComponentWithDependencies {
     @state()
     private ready = false
