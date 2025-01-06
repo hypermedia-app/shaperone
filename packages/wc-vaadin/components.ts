@@ -6,6 +6,8 @@
  */
 
 export { default as BooleanSelect } from './components/BooleanSelectEditor.js'
+export { default as DateTimePicker } from './components/DateTimePickerEditor.js'
+export { default as DatePicker } from './components/DatePickerEditor.js'
 
 /**
 export const textField: Lazy<SingleEditorComponent> = {
@@ -78,20 +80,6 @@ export const instancesSelectEditor: Lazy<InstancesSelectEditor> = {
 export const autoComplete: Lazy<AutoCompleteEditor> = {
   ...instancesSelectEditor,
   editor: dash.AutoCompleteEditor,
-}
-
-export const datePicker: Lazy<SingleEditorComponent> = {
-  editor: dash.DatePickerEditor,
-  lazyRender() {
-    return import('./components/date.js').then(m => m.datePicker)
-  },
-}
-
-export const dateTimePicker: Lazy<SingleEditorComponent> = {
-  editor: dash.DateTimePickerEditor,
-  lazyRender() {
-    return import('./components/date.js').then(m => m.dateTimePicker)
-  },
 }
 
 export const urlEditor: Lazy<SingleEditorComponent> = {
