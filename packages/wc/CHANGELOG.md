@@ -1,5 +1,53 @@
 # @hydrofoil/shaperone-wc
 
+## 0.9.0
+
+### Minor Changes
+
+- 7d2153f: Removed the `window.Shaperone.DEBUG` flag in favor of component `debug` property
+- 0087e5c: `configure` is now async and required to register the element
+- 7d2153f: Big change how elements are configured. Global config can be set using the `configure.js` module.
+
+  ```js
+  import { configure } from "@hydrofoil/shaperone-wc";
+
+  await configure(({ components, editors, renderer, validation }) => {});
+  ```
+
+  Additionally, each component can be customised further by providing calling `configure` method of the component.
+
+  ```html
+  <shaperone-form></shaperone-form>
+
+  <script type="module">
+    import { configure } from "@hydrofoil/shaperone-wc";
+
+    // global configuration must always be invoked
+    configure();
+
+    document
+      .querySelector("shaperone-form")
+      .configure(({ components, editors, renderer, validation }) => {});
+  </script>
+  ```
+
+- d8c3b9c: Fixes an issue that the form would not render when the node was `<>` (empty string URI)
+
+### Patch Changes
+
+- f204d55: Updated `lit` to v3
+- afb2beb: Replace directive `spread` with one from `@open-wc/lit-helpers`
+- 27e95ea: Native components: `xsd:decimal` would not accept decimal point as a valid input.
+- 7c0401f: Native templates: The ability to add and remove property values
+- 7d2153f: Improved state management by separating the state of each element instance
+- Updated dependencies [a20d9c6]
+- Updated dependencies [15934de]
+- Updated dependencies [27e95ea]
+- Updated dependencies [7d2153f]
+- Updated dependencies [0087e5c]
+- Updated dependencies [7467131]
+  - @hydrofoil/shaperone-core@0.13.0
+
 ## 0.8.1
 
 ### Patch Changes

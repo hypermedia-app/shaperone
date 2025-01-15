@@ -8,18 +8,15 @@
       "attributes": [
         {
           "name": "editors",
-          "description": "Gets the state of the DASH editors model",
-          "type": "EditorsState"
+          "description": "Gets the state of the DASH editors model"
         },
         {
           "name": "components",
-          "description": "Gets the state of the editor components",
-          "type": "ComponentsState"
+          "description": "Gets the state of the editor components"
         },
         {
           "name": "rendererOptions",
-          "description": "Gets the state of the renderer",
-          "type": "RendererState"
+          "description": "Gets the state of the renderer"
         },
         {
           "name": "no-editor-switches",
@@ -67,20 +64,17 @@
         {
           "name": "editors",
           "attribute": "editors",
-          "description": "Gets the state of the DASH editors model",
-          "type": "EditorsState"
+          "description": "Gets the state of the DASH editors model"
         },
         {
           "name": "components",
           "attribute": "components",
-          "description": "Gets the state of the editor components",
-          "type": "ComponentsState"
+          "description": "Gets the state of the editor components"
         },
         {
           "name": "rendererOptions",
           "attribute": "rendererOptions",
-          "description": "Gets the state of the renderer",
-          "type": "RendererState"
+          "description": "Gets the state of the renderer"
         },
         {
           "name": "noEditorSwitches",
@@ -133,8 +127,7 @@
           "type": "GraphPointer<BlankNode | NamedNode<string>, DatasetCore<Quad, Quad>> | undefined"
         },
         {
-          "name": "dispatch",
-          "type": "ModelsDispatch<Models> & Dispatch"
+          "name": "dispatch"
         },
         {
           "name": "debug",
