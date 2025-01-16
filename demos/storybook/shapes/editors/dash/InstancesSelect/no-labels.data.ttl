@@ -1,0 +1,6 @@
+PREFIX ex: <http://example.org/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix wd: <http://www.wikidata.org/entity/>
+
+ex:instance <http://schema.org/alumniOf> wd:Q184478 .
+

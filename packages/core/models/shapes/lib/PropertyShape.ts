@@ -85,7 +85,7 @@ export default function Mixin<Base extends Constructor<Omit<PropertyShape, keyof
         }, this.env.termSet())
       }
 
-      return this.__orderTypes
+      return this.__orderTypes!
     }
   }
 }

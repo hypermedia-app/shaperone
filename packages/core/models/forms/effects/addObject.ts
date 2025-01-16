@@ -11,12 +11,11 @@ export interface AddObject {
   focusNode: FocusNode
   property: PropertyShape
   overrides?: MultiPointer
-  componentState?: Record<string, unknown>
 }
 
 export function addObject(store: Store) {
   const dispatch = store.getDispatch()
-  return function ({ property, focusNode, overrides, componentState }: AddObject) {
+  return function ({ property, focusNode, overrides }: AddObject) {
     const { editors: editorsState, resources } = store.getState()
     const graph = resources?.graph
     if (!graph) {
@@ -59,7 +58,6 @@ export function addObject(store: Store) {
       editors,
       selectedEditor,
       overrides,
-      componentState,
     })
   }
 }

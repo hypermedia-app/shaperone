@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@captaincodeman/rdx": "^1.0.0-rc.8",
+    "@types/rdfjs__term-set": "^2.0.9",
     "esbuild-c": "^0.1.34"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",

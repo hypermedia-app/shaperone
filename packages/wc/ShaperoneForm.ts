@@ -8,21 +8,24 @@ import type { FocusNode } from '@hydrofoil/shaperone-core'
 import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer, GraphPointer } from 'clownface'
 import type { NodeShape } from '@rdfine/shacl'
-import type { Renderer } from '@hydrofoil/shaperone-core/renderer.js'
 import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import getEnv from '@hydrofoil/shaperone-core/env.js'
+import { ScopedElementsMixin } from '@open-wc/scoped-elements/lit-element.js'
+import { repeat } from 'lit/directives/repeat.js'
+import onetime from 'onetime'
 import { ensureEventTarget } from './lib/eventTarget.js'
 import type { State } from './store.js'
 import { store } from './store.js'
-import DefaultRenderer from './renderer/index.js'
 import { connect } from './components/connect.js'
 import type { ConfigCallback } from './configure.js'
+import * as scopedElements from './components/scopedElements.js'
 
 const resourceSymbol: unique symbol = Symbol('resource')
 const shapesSymbol: unique symbol = Symbol('shapes dataset')
 const shapes: unique symbol = Symbol('shapes')
-const ready: unique symbol = Symbol('ready')
+const registerElements: unique symbol = Symbol('register elements')
 const configuration: unique symbol = Symbol('configuration')
+const registry: unique symbol = Symbol('custom elements registry')
 
 /**
  * A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).
@@ -55,25 +58,38 @@ const configuration: unique symbol = Symbol('configuration')
  * Such setup will render a very basic and unstyled form using native browser input elements and no specific layout.
  * Check the main documentation page for instructions on customizing the form's rendering.
  */
-export class ShaperoneForm extends connect(store, LitElement) {
+export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement)) {
   declare dispatch: ReturnType<typeof store>['dispatch']
 
   private [resourceSymbol]?: FocusNode
   private [shapesSymbol]?: AnyPointer | DatasetCore | undefined
-  private [ready]: boolean = false
   private [configuration]: ConfigCallback | undefined
+  private [registry]: CustomElementRegistry | undefined
+  private [registerElements]: (customElements: CustomElementRegistry | undefined) => void
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  get registry() {
+    return this[registry]
+  }
+
+  set registry(value: CustomElementRegistry | undefined) {
+    this[registry] = value
+  }
 
   static get styles() {
     return [css`
       :host {
         display: block
-      }`]
+      }
+
+      .editor:not(:defined):after {
+        content: 'Missing component for editor'
+      }
+    `]
   }
 
-  /**
-   * Gets or sets the renderer implementation
-   */
-  renderer: Renderer<TemplateResult> = DefaultRenderer
+  renderer!: State['renderer']
 
   @property({ type: Array })
   private [shapes]: NodeShape[] = []
@@ -104,14 +120,6 @@ export class ShaperoneForm extends connect(store, LitElement) {
     components!: State['components']
 
   /**
-   * Gets the state of the renderer
-   *
-   * @readonly
-   */
-  @property({ type: Object })
-    rendererOptions!: State['renderer']
-
-  /**
    * Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered
    *
    * @attr no-editor-switches
@@ -121,7 +129,13 @@ export class ShaperoneForm extends connect(store, LitElement) {
 
   constructor() {
     super()
-    this.resource = this.env.clownface().namedNode('')
+    this[registerElements] = onetime(scopedElements.register.bind(null, this))
+  }
+
+  protected firstUpdated(_changedProperties: PropertyValues) {
+    if (!this.resource) {
+      this.resource = this.env.clownface().namedNode('')
+    }
   }
 
   async connectedCallback() {
@@ -237,29 +251,23 @@ export class ShaperoneForm extends connect(store, LitElement) {
   }
 
   render() {
-    if (!this[ready]) {
-      this.dispatch.renderer.loadDependencies()
-
-      return this.rendererOptions.templates.initialising()
-    }
+    this[registerElements](this.shadowRoot!.customElements)
 
     return html`
-      <style>${this.rendererOptions.styles}</style>
       <section part="form">
-      ${this.renderer.render({
-    env: this.env,
-    editors: this.editors,
-    state: this.state,
-    components: this.components,
-    dispatch: this.dispatch,
-    templates: this.rendererOptions.templates,
-    shapes: this[shapes],
-  })}
+        ${repeat(this.state.focusStack, this.renderFocusNode.bind(this))}
       </section>
       <section part="buttons">
         <slot name="buttons"></slot>
       </section>
     `
+  }
+
+  renderFocusNode(focusNode: FocusNode): TemplateResult {
+    const focusNodeState = this.state.focusNodes[focusNode.value]
+    return html`
+      <sh1-focus-node .focusNode="${focusNodeState}">
+      </sh1-focus-node>`
   }
 
   /**
@@ -274,13 +282,11 @@ export class ShaperoneForm extends connect(store, LitElement) {
    */
   mapState(state: State) {
     return {
-      [ready]: state.renderer.ready,
       state: state.form,
-      [resourceSymbol]: state.form?.focusStack[0],
       [shapes]: state.shapes?.shapes || [],
-      rendererOptions: state.renderer,
       editors: state.editors,
       components: state.components,
+      renderer: state.renderer,
     }
   }
 

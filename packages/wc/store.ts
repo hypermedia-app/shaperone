@@ -11,7 +11,14 @@ import { resources } from '@hydrofoil/shaperone-core/models/resources/index.js'
 import { shapes } from '@hydrofoil/shaperone-core/models/shapes/index.js'
 import { validation } from '@hydrofoil/shaperone-core/models/validation/index.js'
 import { getPlugins, createStore, devtools } from '@hydrofoil/shaperone-core/store.js'
+import type { LitElement } from '@open-wc/scoped-elements/lit-element.js'
 import { renderer } from './renderer/model.js'
+
+declare module '@hydrofoil/shaperone-core/models/components/index.js' {
+  interface ComponentConstructor extends CustomElementConstructor { }
+
+  interface SingleEditorComponent extends LitElement {}
+}
 
 const config = {
   models: {

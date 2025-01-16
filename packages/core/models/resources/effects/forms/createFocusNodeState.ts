@@ -73,12 +73,12 @@ export default function createFocusNodeState(store: Store) {
   return function ({ focusNode }: Pick<Params, 'focusNode'>) {
     const { editors } = store.getState()
 
-    for (const property of store.getState().form.focusNodes[focusNode.value]?.properties || []) {
+    for (const property of store.getState().form.focusNodes[focusNode.focusNode.value]?.properties || []) {
       let shouldNotify = false
       let previousDefault: GraphPointer | undefined
       for (const object of property.objects) {
         const result = setDefault({
-          property, object, focusNode, editors, previousDefault,
+          property, object, focusNode: focusNode.focusNode, editors, previousDefault,
         })
 
         previousDefault = result.value || previousDefault
@@ -89,7 +89,7 @@ export default function createFocusNodeState(store: Store) {
 
       if (shouldNotify) {
         dispatch.form.notify({
-          focusNode,
+          focusNode: focusNode.focusNode,
           property: property.shape,
         })
       }

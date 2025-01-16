@@ -3,30 +3,17 @@
  * @module @hydrofoil/shaperone-wc
  */
 
-import type { TemplateResult } from 'lit'
-import type * as Core from '@hydrofoil/shaperone-core'
-import type { Component, ComponentInstance } from '@hydrofoil/shaperone-core/models/components'
-
 export { configure } from './configure.js'
 export type { ConfigCallback } from './configure.js'
 
 export type { ShaperoneForm } from './ShaperoneForm.js'
-export { html, css, render } from 'lit'
-export type { TemplateResult } from 'lit'
 
-export type { SingleEditor, MultiEditor, Lazy } from '@hydrofoil/shaperone-core'
+export type { SingleEditor, MultiEditor } from '@hydrofoil/shaperone-core'
 
-/**
- * Inherit to implement a `dash:SingleEditor` component rendered as Web Components using [lit](https://lit.dev/)
- */
-export type SingleEditorComponent<TState extends ComponentInstance = ComponentInstance> = Core.SingleEditorComponent<TState, TemplateResult>
+export { SingleEditorBase as SingleEditorComponent } from './elements/SingleEditorBase.js'
+export { MultiEditorBase as MultiEditorComponent } from './elements/MultiEditorBase.js'
 
-/**
- * Inherit to implement a `dash:MultiEditor` component rendered as Web Components using [lit](https://lit.dev/)
- */
-export type MultiEditorComponent<TState extends ComponentInstance = ComponentInstance> = Core.MultiEditorComponent<TState, TemplateResult>
+export type { LayoutElements } from './renderer/model.js'
 
-/**
- * Function interface for declaring a component's `.render` function which returns a [lit](https://lit.dev/) template result
- */
-export type Render<TComponent extends Component = Component> = Core.RenderComponent<TComponent, TemplateResult>
+export { ScopedDependencyLoader } from './components/ScopedDependencyLoader.js'
+export { GlobalDependencyLoader } from './components/GlobalDependencyLoader.js'

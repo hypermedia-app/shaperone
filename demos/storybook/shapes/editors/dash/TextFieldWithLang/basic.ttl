@@ -1,0 +1,15 @@
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:property
+    [
+      sh:name "text field with lang" ;
+      sh:path schema:value ;
+      dash:editor dash:TextFieldWithLangEditor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ]
+.

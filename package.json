@@ -2,6 +2,7 @@
   "name": "@hydrofoil/shaperone",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "prepare": "husky install; patch-package",
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
@@ -15,7 +16,8 @@
   },
   "workspaces": [
     "packages/*",
-    "demos/*"
+    "demos/examples",
+    "demos/storybook"
   ],
   "devDependencies": {
     "@changesets/cli": "^2.22.0",
@@ -24,10 +26,10 @@
     "@tpluscode/eslint-config": "^0.5.0",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
-    "@web/test-runner-puppeteer": "^0.17.0",
     "@web/dev-server-esbuild": "^0.4.4",
     "@web/dev-server-rollup": "^0.6.4",
     "@web/test-runner": "^0.19",
+    "@web/test-runner-puppeteer": "^0.17.0",
     "c8": "^7.1.2",
     "docsify-cli": "^4.4.1",
     "es-dev-commonjs-transformer": "^0.2.0",
@@ -46,7 +48,7 @@
     "typedoc": "^0.27.3",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
-    "web-component-analyzer": "^1.1.6",
+    "web-component-analyzer": "^2.0.0",
     "wsrun": "^5.2.4"
   },
   "resolutions": {
@@ -58,6 +60,7 @@
     ]
   },
   "overrides": {
+    "lit": "^3",
     "ts-sinon": {
       "sinon": "19.0.2"
     }

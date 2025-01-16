@@ -1,8 +1,3 @@
-import type {
-  SingleEditorActions,
-  SingleEditorRenderParams,
-  ComponentInstance, MultiEditorActions, MultiEditorRenderParams,
-} from '@hydrofoil/shaperone-core/models/components/index.js'
 import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer, MultiPointer } from 'clownface'
@@ -36,15 +31,6 @@ interface MultiEditorTestParams<T> extends EditorTestParams<T> {
   objects: GraphPointer[]
 }
 
-interface MultiEditorTestFixture<T extends ComponentInstance> {
-  params: MultiEditorRenderParams<T>
-  actions: MultiEditorActions
-}
-
-interface SingleEditorTestFixture<T extends ComponentInstance>{
-  params: SingleEditorRenderParams<T>
-  actions: SingleEditorActions
-}
 
 export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg?: MultiEditorTestParams<T>): MultiEditorTestFixture<T>
 export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg?: SingleEditorTestParams<T>): SingleEditorTestFixture<T>

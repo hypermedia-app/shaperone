@@ -13,6 +13,7 @@ import type { BlankNode, Literal, NamedNode } from '@rdfjs/types'
 import type { GraphPointer } from 'clownface'
 import type { SingleEditor } from './models/editors/index.js'
 import { isString } from './lib/datatypes.js'
+import env from './env.js'
 
 /**
  * Matcher for `dash:TextFieldEditor`
@@ -46,7 +47,7 @@ export const textField: SingleEditor = {
  */
 export const textFieldWithLang: SingleEditor = {
   term: dash.TextFieldWithLangEditor,
-  match(shape: PropertyShape, value: GraphPointer, env) {
+  match(shape: PropertyShape, value: GraphPointer) {
     const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
     const singleLine = shape.pointer.out(dash.singleLine).term
 
@@ -61,7 +62,7 @@ export const textFieldWithLang: SingleEditor = {
     }
 
     if (
-      !singleLine?.equals(env.constant.FALSE) &&
+      !singleLine?.equals(env().constant.FALSE) &&
       shape.permitsDatatype(rdf.langString)
     ) {
       return 5
@@ -81,14 +82,14 @@ export const textFieldWithLang: SingleEditor = {
  */
 export const textArea: SingleEditor = {
   term: dash.TextAreaEditor,
-  match(shape: PropertyShape, value, env) {
+  match(shape: PropertyShape, value) {
     const singleLine = shape.pointer.out(dash.singleLine).term
 
     if (isString(value.term)) {
-      if (singleLine?.equals(env.constant.TRUE)) {
+      if (singleLine?.equals(env().constant.TRUE)) {
         return 0
       }
-      if (singleLine?.equals(env.constant.FALSE) || value.value.includes('\n')) {
+      if (singleLine?.equals(env().constant.FALSE) || value.value.includes('\n')) {
         return 20
       }
 
@@ -113,15 +114,15 @@ export const textArea: SingleEditor = {
  */
 export const textAreaWithLang: SingleEditor = {
   term: dash.TextAreaWithLangEditor,
-  match(shape: PropertyShape, value: GraphPointer, env) {
+  match(shape: PropertyShape, value: GraphPointer) {
     const singleLine = shape.pointer.out(dash.singleLine).term
     const valueDatatype = (value.term.termType === 'Literal' && value.term?.datatype) || null
 
-    if (singleLine?.equals(env.constant.TRUE)) {
+    if (singleLine?.equals(env().constant.TRUE)) {
       return 0
     }
 
-    if (singleLine?.equals(env.constant.FALSE) && valueDatatype?.equals(rdf.langString)) {
+    if (singleLine?.equals(env().constant.FALSE) && valueDatatype?.equals(rdf.langString)) {
       return 15
     }
 
