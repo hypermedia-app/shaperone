@@ -1,0 +1,19 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:property
+    [
+      sh:name "rdfs:label" ;
+      sh:path rdfs:label ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ],
+    [
+      sh:name "rdfs:comment" ;
+      sh:path rdfs:comment ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ]
+.
