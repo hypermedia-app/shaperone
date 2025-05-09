@@ -42,7 +42,8 @@
     "@shaperone/testing": "*",
     "@zazuko/prefixes": "^2.2.0",
     "api-viewer-element": "^0.5",
-    "esbuild-c": "^0.1.34"
+    "esbuild-c": "^0.1.34",
+    "mocha-chai-rdf": "^0.1.10"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",
   "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",

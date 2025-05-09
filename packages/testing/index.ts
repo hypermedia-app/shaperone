@@ -1,4 +1,4 @@
-import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
@@ -7,38 +7,44 @@ import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
 import $rdf from './env.js'
 import { propertyShape } from './util.js'
-import { sinon } from './sinon.js'
-import { objectRenderer, propertyRenderer } from './renderer.js'
 
 export { sinon } from './sinon.js'
 export type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial.js'
 
 export const ex = $rdf.namespace('http://example.com/')
 
-interface EditorTestParams<T> {
+interface EditorTestParams {
   focusNode?: FocusNode
   property?: Initializer<PropertyShape>
-  componentState?: T
 }
 
-interface SingleEditorTestParams<T> extends EditorTestParams<T> {
+interface SingleEditorTestParams extends EditorTestParams {
   object?: GraphPointer
   datatype?: NamedNode
   overrides?: MultiPointer
 }
 
-interface MultiEditorTestParams<T> extends EditorTestParams<T> {
+interface MultiEditorTestParams extends EditorTestParams {
   objects: GraphPointer[]
 }
 
+export interface SingleEditorTestFixture {
+  value: PropertyObjectState
+  property: PropertyState
+  focusNode: FocusNodeState
+}
 
-export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg?: MultiEditorTestParams<T>): MultiEditorTestFixture<T>
-export function editorTestParams<T extends ComponentInstance = ComponentInstance>(arg?: SingleEditorTestParams<T>): SingleEditorTestFixture<T>
-export function editorTestParams<T extends ComponentInstance = ComponentInstance>(
-  arg: SingleEditorTestParams<T> | MultiEditorTestParams<T> = {},
-): MultiEditorTestFixture<T> | SingleEditorTestFixture<T> {
-  const { componentState } = arg
+export interface MultiEditorTestFixture {
+  values: PropertyObjectState[]
+  property: PropertyState
+  focusNode: FocusNodeState
+}
 
+export function editorTestParams(arg?: MultiEditorTestParams): MultiEditorTestFixture
+export function editorTestParams(arg?: SingleEditorTestParams): SingleEditorTestFixture
+export function editorTestParams(
+  arg: SingleEditorTestParams | MultiEditorTestParams = {},
+): MultiEditorTestFixture | SingleEditorTestFixture {
   const focusNode = arg.focusNode || $rdf.clownface().blankNode()
 
   const property: PropertyState = {
@@ -49,7 +55,6 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
     editors: [],
     selectedEditor: undefined,
     shape: propertyShape(focusNode.blankNode(), arg.property),
-    componentState: {},
     hidden: false,
     validationResults: [],
     hasErrors: false,
@@ -57,38 +62,23 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
 
   if ('objects' in arg) {
     const { objects } = arg
-    property.objects = objects?.map(toState) || []
-    const renderer = propertyRenderer({
-      property,
-      focusNode,
-    })
+    const values = objects?.map(toState) || []
 
-    return <MultiEditorTestFixture<T>>{
-      params: {
-        env: $rdf,
-        form: {
-          labelProperties: [$rdf.ns.rdfs.label],
-          shouldEnableEditorChoice: () => true,
-        },
+    return <MultiEditorTestFixture>{
+      focusNode: {
         focusNode,
-        property,
-        updateComponentState: sinon.spy(),
-        renderer,
-        componentState: componentState || {} as T,
       },
-      actions: {
-        update: sinon.spy(),
-      },
+      property,
+      values,
     }
   }
   const { object, datatype, overrides } = arg
 
-  const value: PropertyObjectState<T> = {
+  const value: PropertyObjectState = {
     key: nextid(),
     editors: [],
     selectedEditor: undefined,
     object,
-    componentState: componentState || {} as T,
     validationResults: [],
     hasErrors: false,
     nodeKind: undefined,
@@ -98,32 +88,12 @@ export function editorTestParams<T extends ComponentInstance = ComponentInstance
   property.objects = [value]
   property.datatype = datatype
 
-  const renderer = objectRenderer({
-    object: value,
-    property,
-    focusNode,
-  })
-
-  return <SingleEditorTestFixture<T>>{
-    params: {
-      env: $rdf,
-      form: {
-        labelProperties: [$rdf.ns.rdfs.label],
-        shouldEnableEditorChoice: () => true,
-      },
+  return <SingleEditorTestFixture>{
+    focusNode: {
       focusNode,
-      property,
-      value,
-      componentState: value.componentState,
-      updateComponentState: sinon.spy(),
-      renderer,
     },
-    actions: {
-      update: sinon.spy(),
-      clear: sinon.spy(),
-      focusOnObjectNode: sinon.spy(),
-      remove: sinon.spy(),
-    },
+    property,
+    value,
   }
 }
 
@@ -133,7 +103,6 @@ function toState(object: GraphPointer): PropertyObjectState {
     editors: [],
     selectedEditor: undefined,
     object,
-    componentState: {} as any,
     validationResults: [],
     hasErrors: false,
     nodeKind: undefined,
