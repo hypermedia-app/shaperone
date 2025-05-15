@@ -13,7 +13,6 @@
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@hydrofoil/shaperone-core": "^0.12.1",
     "@hydrofoil/shaperone-wc": "^0.8.0",
-    "@hydrofoil/shaperone-wc-material": "^0.6.1",
     "@hydrofoil/shaperone-wc-shoelace": "^0.4.1",
     "@hydrofoil/shaperone-wc-vaadin": "^0.5.1",
     "@rdfjs/fetch-lite": "^3.3.0",

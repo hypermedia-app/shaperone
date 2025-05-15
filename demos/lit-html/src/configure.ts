@@ -1,6 +1,5 @@
 import type { Component } from '@hydrofoil/shaperone-core'
 import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents.js'
-import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components.js'
 import * as LanguageSelect from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect/index.js'
 import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating/index.js'
 import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating/index.js'
@@ -11,9 +10,6 @@ import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/s
 import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
 import { configure } from '@hydrofoil/shaperone-wc/configure.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { Decorate, RenderTemplate } from '@hydrofoil/shaperone-wc/templates.js'
-import { templates } from '@hydrofoil/shaperone-wc/templates.js'
-import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer/index.js'
 import shaperoneHydra from '@hydrofoil/shaperone-hydra'
 import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
 import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer/index.js'
@@ -134,14 +130,6 @@ export const configureRenderer = (() => {
 
           strategy.group = AccordionGroupingRenderer
           focusNodeTemplate = AccordionFocusNodeRenderer
-        } else if (grouping === 'material tabs') {
-          const {
-            TabsGroupRenderer,
-            TabsFocusNodeRenderer,
-          } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs.js')
-
-          strategy.group = TabsGroupRenderer
-          focusNodeTemplate = TabsFocusNodeRenderer
         }
 
         strategy.focusNode = [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate)
