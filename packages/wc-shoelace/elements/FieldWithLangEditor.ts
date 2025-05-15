@@ -10,6 +10,8 @@ import env from '@hydrofoil/shaperone-core/env.js'
 type LitElementConstructor = new (...args: any[]) => LitElement
 
 export function FieldWithLangMixin<T extends ComponentConstructor<SingleEditorComponent> & LitElementConstructor>(Base: T): T {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   class FieldWithLang extends Base {
     static get styles() {
       return css`

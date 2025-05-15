@@ -3,7 +3,6 @@ import { css, html } from 'lit'
 import { property } from 'lit/decorators.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { repeat } from 'lit/directives/repeat.js'
 import ShaperoneElementBase from './ShaperoneElementBase.js'
 
 export class Sh1Property extends ShaperoneElementBase {
@@ -80,7 +79,7 @@ export class Sh1Property extends ShaperoneElementBase {
   }
 
   renderObjects() {
-    return html`${repeat(this.property.objects, this.renderObject.bind(this))}`
+    return html`${this.property.objects.map(this.renderObject.bind(this))}`
   }
 
   renderObject(object: PropertyObjectState) {

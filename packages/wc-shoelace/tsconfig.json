@@ -1,9 +1,7 @@
 {
   "extends": "../../tsconfig",
   "files": [
-    "component-extras.ts",
-    "components.ts",
-    "templates.ts"
+    "components.ts"
   ],
   "include": [
     "components",

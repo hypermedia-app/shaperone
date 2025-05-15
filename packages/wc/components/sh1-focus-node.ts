@@ -72,7 +72,7 @@ export class Sh1FocusNode extends ShaperoneElementBase {
       return html``
     }
 
-    return html`${repeat(this.focusNode.groups, this.renderGroup.bind(this))}`
+    return html`${this.focusNode.groups.map(this.renderGroup.bind(this))}`
   }
 
   renderGroup(group: PropertyGroupState) {

@@ -1,5 +1,6 @@
 import { state } from 'lit/decorators.js'
 import type { LitElement, TemplateResult } from 'lit'
+import type { LitElementConstructor } from '@open-wc/scoped-elements/lit-element.js'
 import { ScopedElementsMixin } from '@open-wc/scoped-elements/lit-element.js'
 
 type DependencyMap = Record<string, CustomElementConstructor | Promise<CustomElementConstructor | { default: CustomElementConstructor }>>
@@ -12,7 +13,7 @@ export interface ComponentWithDependencies {
 
 type Constructor<T extends LitElement> = new (...args: unknown[]) => T
 
-export function ScopedDependencyLoader<T extends LitElement>(Base: Constructor<T>): Constructor<T & ComponentWithDependencies> {
+export function ScopedDependencyLoader<T extends LitElement>(Base: LitElementConstructor): Constructor<T & ComponentWithDependencies> {
   class WithDependencies extends ScopedElementsMixin(Base) implements ComponentWithDependencies {
     @state()
     private ready = false
@@ -56,5 +57,5 @@ export function ScopedDependencyLoader<T extends LitElement>(Base: Constructor<T
     }
   }
 
-  return WithDependencies
+  return WithDependencies as unknown as Constructor<T & ComponentWithDependencies>
 }

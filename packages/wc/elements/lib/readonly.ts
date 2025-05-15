@@ -1,6 +1,6 @@
 import type { PartInfo } from 'lit/directive.js'
 import { Directive, PartType, directive } from 'lit/directive.js'
-import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { ElementPart } from 'lit'
 import { noChange } from 'lit'
 

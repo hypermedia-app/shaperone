@@ -1,5 +1,6 @@
 import { state } from 'lit/decorators.js'
 import type { LitElement, TemplateResult } from 'lit'
+import type { LitElementConstructor } from '@open-wc/scoped-elements/lit-element.js'
 
 export interface ComponentWithDependencies {
   dependencies?(): Generator<Promise<unknown>>
@@ -9,7 +10,7 @@ export interface ComponentWithDependencies {
 
 type Constructor<T extends LitElement> = new (...args: unknown[]) => T
 
-export function GlobalDependencyLoader<T extends LitElement>(Base: Constructor<T>): Constructor<T & ComponentWithDependencies> {
+export function GlobalDependencyLoader<T extends LitElement>(Base: LitElementConstructor): Constructor<T & ComponentWithDependencies> {
   class WithDependencies extends Base implements ComponentWithDependencies {
     @state()
     private ready = false
@@ -44,5 +45,5 @@ export function GlobalDependencyLoader<T extends LitElement>(Base: Constructor<T
     }
   }
 
-  return WithDependencies
+  return WithDependencies as unknown as Constructor<T & ComponentWithDependencies>
 }

@@ -1,7 +1,6 @@
 import { html } from 'lit'
 import { FocusNodeElement } from '@hydrofoil/shaperone-wc/components/index.js'
 import type { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms/index.js'
-import { repeat } from 'lit/directives/repeat.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 
@@ -21,7 +20,7 @@ export default class extends ShoelaceLoader(FocusNodeElement) {
 
     return html`
       <sl-tab-group>
-        ${repeat(this.groups || [], this.renderGroupTab.bind(this))}
+        ${(this.groups || []).map(this.renderGroupTab.bind(this))}
       </sl-tab-group>`
   }
 

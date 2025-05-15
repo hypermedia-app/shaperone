@@ -20,9 +20,9 @@ export class Sh1Group extends ShaperoneElementBase {
     const properties = this.focusNode?.properties
       .filter(({ hidden }) => !hidden)
       .filter(byGroup(this.group?.group))
-      .filter(onlySingleProperty)
+      .filter(onlySingleProperty) || []
 
-    return html`${repeat(properties || [], this.renderProperty.bind(this))}`
+    return html`${properties.map(this.renderProperty.bind(this))}`
   }
 
   renderProperty(property: PropertyState) {

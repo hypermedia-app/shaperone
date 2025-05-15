@@ -14,6 +14,8 @@ import { ShoelaceLoader } from './ShoelaceLoader.js'
 type Constructor<T> = new (...args: any[]) => T
 
 function ShoelaceSelect<E extends Constructor<EnumSelect>>(Base: E): E {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return class extends ShoelaceLoader(Base) {
     private get clearable() {
       return this.property.shape.getBoolean(sh1.clearable)
