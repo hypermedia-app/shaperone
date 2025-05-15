@@ -30,6 +30,7 @@ import shapesEffects from './effects/shapes/index.js'
 import resourcesEffects from './effects/resources/index.js'
 import componentsEffects from './effects/components/index.js'
 import type { Store } from '../../state/index.js'
+import { setChildNodeState } from './reducers/setChildNodeState.js'
 
 export interface ValidationResultState {
   /**
@@ -125,6 +126,7 @@ export interface FocusNodeState extends ValidationState {
   properties: PropertyState[]
   groups: PropertyGroupState[]
   logicalConstraints: LogicalConstraints
+  parentShape: Term | undefined
 }
 
 export interface FormSettings {
@@ -134,6 +136,7 @@ export interface FormSettings {
 
 export interface FormState extends FormSettings, ValidationState {
   focusNodes: Record<string, FocusNodeState>
+  detailNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
   /**
    * Gets a pointer to the `sh:ValidationReport` instance
@@ -157,11 +160,13 @@ const reducers = {
   replaceFocusNodeState,
   ...properties,
   ...validation,
+  setChildNodeState,
 }
 
 export const form = createModel({
   state: <FormState> {
     focusNodes: {},
+    detailNodes: {},
     focusStack: [],
     shouldEnableEditorChoice: () => true,
     labelProperties: [rdfs.label, schema.name],

@@ -10,11 +10,12 @@ import { removeObject } from './removeObject.js'
 import { validate } from './validate.js'
 import { notify } from './notify.js'
 import { replaceFocusNodeState } from './replaceFocusNodeState.js'
-import { createFocusNodeState } from './createFocusNodeState.js'
+import { createFocusNodeState, createDetailsNodeState } from './createFocusNodeState.js'
 
 export default function (store: Store) {
   return {
     createFocusNodeState: createFocusNodeState(store),
+    createDetailsNodeState: createDetailsNodeState(store),
     updateObject: updateObject(store),
     pushFocusNode: pushFocusNode(store),
     addObject: addObject(store),

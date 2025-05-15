@@ -36,6 +36,8 @@ export class Sh1Object extends ShaperoneElementBase {
     this.addEventListener('cleared', this.onCleared.bind(this))
     this.addEventListener('remove-object', this.onRemoved.bind(this))
     this.addEventListener('editor-selected', this.onEditorSelected.bind(this))
+    this.addEventListener('init-object-state', e => this.initDetailsEditor(e.detail))
+    this.addEventListener('property-updated', this.onPropertyUpdated.bind(this))
   }
 
   private onRemoved() {
@@ -55,6 +57,12 @@ export class Sh1Object extends ShaperoneElementBase {
     })
   }
 
+  private onPropertyUpdated({ detail }: HTMLElementEventMap['property-updated']) {
+    if (this.object.key !== detail.object) {
+      this.requestUpdate()
+    }
+  }
+
   private onCleared() {
     this.dispatch?.form.clearValue({
       focusNode: this.focusNode.focusNode,
@@ -70,12 +78,33 @@ export class Sh1Object extends ShaperoneElementBase {
 
     this.dispatch?.form.updateObject({
       focusNode: this.focusNode.focusNode,
+      parentShape: this.focusNode.parentShape,
       property: this.property.shape,
       object: this.object,
       newValue: value,
     })
 
     e.stopPropagation()
+
+    this.dispatchEvent(new CustomEvent('property-updated', {
+      detail: <HTMLElementEventMap['property-updated']['detail']>{
+        focusNode: this.focusNode.focusNode,
+        parentShape: this.focusNode.parentShape,
+        property: this.property.shape.id,
+        object: this.object.key,
+        newValue: value,
+      },
+      composed: true,
+      bubbles: true,
+    }))
+  }
+
+  initDetailsEditor(detail: HTMLElementEventMap['init-object-state']['detail']) {
+    this.dispatch.form.createDetailsNodeState({
+      propertyShape: detail.propertyShape,
+      focusNode: detail.focusNode,
+      shape: detail.shape,
+    })
   }
 
   render() {
@@ -112,12 +141,10 @@ export class Sh1Object extends ShaperoneElementBase {
 
       let focusNodeState: FocusNodeState | undefined
       if (this.object.object) {
-        focusNodeState = this.form!.state.focusNodes[this.object.object.value]
+        focusNodeState = this.form!.state.detailNodes[`${this.property.shape.id.value}/${this.object.object.value}`]
       }
 
-      return html`<dash-details ${spread(componentBindings)} .nodeShape="${detailsShape}">
-        <sh1-focus-node .focusNode="${focusNodeState}">
-        </sh1-focus-node>
+      return html`<dash-details ${spread(componentBindings)} .nodeShape="${detailsShape}" .objectNode="${focusNodeState}">
       </dash-details>`
     }
 

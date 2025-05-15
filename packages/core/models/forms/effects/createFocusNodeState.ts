@@ -1,4 +1,5 @@
 import type { NodeShape } from '@rdfine/shacl'
+import type { Term } from '@rdfjs/types'
 import type { Store } from '../../../state/index.js'
 import type { FocusNode } from '../../../index.js'
 import { initialiseFocusNode } from '../lib/stateBuilder.js'
@@ -27,5 +28,31 @@ export function createFocusNodeState(store: Store) {
     }, state.focusNodes[focusNode.value])
 
     dispatch.form.replaceFocusNodeState({ focusNode: focusNodeState, ...rest })
+  }
+}
+
+export interface CreateDetailsNodeStateParams {
+  propertyShape: Term
+  focusNode: FocusNode
+  shape: NodeShape
+}
+
+export function createDetailsNodeState(store: Store) {
+  const dispatch = store.getDispatch()
+
+  return ({ propertyShape, focusNode, shape } : CreateDetailsNodeStateParams) => {
+    const { form, editors, shapes, components } = store.getState()
+
+    const state = initialiseFocusNode({
+      focusNode,
+      editors,
+      shapes: matchShapes(shapes.shapes).to(focusNode),
+      components,
+      shouldEnableEditorChoice: form.shouldEnableEditorChoice,
+      shape,
+      parentShape: propertyShape,
+    }, form.detailNodes[`${propertyShape.value}/${focusNode.value}`])
+
+    dispatch.form.setChildNodeState({ propertyShape, focusNode, state })
   }
 }

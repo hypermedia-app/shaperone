@@ -1,10 +1,9 @@
 import type { Term } from '@rdfjs/types'
 import type { PropertyShape } from '@rdfine/shacl'
-import { produce } from 'immer'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import graphPointer from 'is-graph-pointer'
-import type { PropertyObjectState, State } from '../index.js'
+import type { PropertyObjectState } from '../index.js'
 import type { FocusNode } from '../../../index.js'
 import type { EditorsState } from '../../editors/index.js'
 import { nextid } from '../lib/objectid.js'
@@ -16,6 +15,7 @@ export interface SetObjectParams {
   property: PropertyShape
   object: PropertyObjectState
   newValue: Term | GraphPointer
+  parentShape?: Term
 }
 
 export interface ReplaceObjectsParams {
@@ -26,11 +26,9 @@ export interface ReplaceObjectsParams {
 }
 
 export const setObjectValue = objectStateProducer<SetObjectParams>((draft, { focusNode, object, newValue }, propertyState) => {
-  const focusNodeState = draft.focusNodes[focusNode.value]
-
   const objectState = propertyState.objects.find(o => o.key === object.key)
   if (objectState) {
-    objectState.object = focusNodeState.focusNode.node(newValue)
+    objectState.object = focusNode.node(newValue)
   }
 })
 
