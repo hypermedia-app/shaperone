@@ -8,6 +8,7 @@ type DependencyMap = Record<string, CustomElementConstructor | Promise<CustomEle
 export interface ComponentWithDependencies {
   dependencies?: DependencyMap | Promise<DependencyMap> | Promise<{ default: DependencyMap }>
   renderWhenReady(): TemplateResult
+  renderSkeleton(): TemplateResult
 }
 
 type Constructor<T extends LitElement> = new (...args: unknown[]) => T
@@ -22,10 +23,12 @@ export function ShoelaceLoader<T extends LitElement>(Base: Constructor<T>): Cons
       `
     }
 
-    static get scopedElements() {
-      return {
-        'sl-skeleton': SlSkeleton,
+    attachShadow(init: ShadowRootInit) {
+      const shadowRoot = super.attachShadow(init)
+      if (!shadowRoot.customElements?.get('sl-skeleton')) {
+        shadowRoot.customElements?.define('sl-skeleton', SlSkeleton)
       }
+      return shadowRoot
     }
 
     renderSkeleton() {
