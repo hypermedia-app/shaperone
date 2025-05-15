@@ -4,11 +4,12 @@ import type {
   ComponentsState,
   ComponentConstructor,
   ComponentDecorator,
+  Component,
 } from './index.js'
 
-export function decorate<T extends NamedNode>(decorators: ComponentDecorator<T>[], component: ComponentConstructor<T>): ComponentConstructor<T> {
+export function decorate<T extends NamedNode>(decorators: ComponentDecorator<Component, T>[], component: ComponentConstructor<Component, T>): ComponentConstructor<Component, T> {
   const applicable = decorators.filter(({ applicableTo }) => applicableTo(component))
-  return applicable.reduce((component: any, { decorate }: ComponentDecorator<T>) => decorate(component), component)
+  return applicable.reduce((component: any, { decorate }: ComponentDecorator<Component, T>) => decorate(component), component)
 }
 
 export default {
@@ -21,7 +22,7 @@ export default {
       }
     })
   },
-  decorate<T extends NamedNode>(components: ComponentsState, decorator: ComponentDecorator<T>) {
+  decorate<T extends NamedNode>(components: ComponentsState, decorator: ComponentDecorator<Component, T>) {
     return produce(components, (draft) => {
       draft.decorators.push(decorator)
       for (const [key, component] of Object.entries(components.components)) {
