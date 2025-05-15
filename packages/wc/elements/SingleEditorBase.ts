@@ -1,7 +1,6 @@
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
 import type { SingleEditorComponent } from '@hydrofoil/shaperone-core/components.js'
-import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import type { Term } from '@rdfjs/types'
 import { LitElement } from 'lit'
 import type { CustomEventTarget } from '../components/events.js'
@@ -18,9 +17,6 @@ export class SingleEditorBase<T extends Term = Term> extends LitElement implemen
 
   @property({ type: Object })
   public focusNode!: FocusNodeState
-
-  @property({ type: Object })
-  public env!: ShaperoneEnvironment
 
   setValue(value: Term | string) {
     this.dispatchEvent(new CustomEvent('value-changed', {

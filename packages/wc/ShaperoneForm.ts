@@ -3,7 +3,7 @@ import type { PropertyValues, TemplateResult } from 'lit'
 import { LitElement, css, html } from 'lit'
 import { property } from 'lit/decorators.js'
 import type { DatasetCore } from '@rdfjs/types'
-import type { FormState, ValidationResultState } from '@hydrofoil/shaperone-core/models/forms'
+import type { FormState, ValidationResultState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
 import type { RdfResource } from '@tpluscode/rdfine'
 import type { AnyPointer, GraphPointer } from 'clownface'
@@ -11,7 +11,6 @@ import type { NodeShape } from '@rdfine/shacl'
 import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
 import getEnv from '@hydrofoil/shaperone-core/env.js'
 import { ScopedElementsMixin } from '@open-wc/scoped-elements/lit-element.js'
-import { repeat } from 'lit/directives/repeat.js'
 import onetime from 'onetime'
 import { ensureEventTarget } from './lib/eventTarget.js'
 import type { State } from './store.js'
@@ -255,7 +254,7 @@ export class ShaperoneForm extends ScopedElementsMixin(connect(store, LitElement
 
     return html`
       <section part="form">
-        ${repeat(this.state.focusStack, this.renderFocusNode.bind(this))}
+        ${this.state.focusStack.map(this.renderFocusNode.bind(this))}
       </section>
       <section part="buttons">
         <slot name="buttons"></slot>
