@@ -3,7 +3,7 @@ import type { GraphPointer } from 'clownface'
 import { rdf } from '@tpluscode/rdf-ns-builders'
 import { defaultValue } from '../../lib/objectValue.js'
 import type { Store } from '../../../../state/index.js'
-import type { Params } from '../../../forms/reducers/replaceFocusNodes.js'
+import type { Params } from '../../../forms/effects/createFocusNodeState.js'
 import type { EditorsState } from '../../../editors/index.js'
 import type { PropertyObjectState, PropertyState } from '../../../forms/index.js'
 import type { FocusNode } from '../../../../index.js'
@@ -73,12 +73,12 @@ export default function createFocusNodeState(store: Store) {
   return function ({ focusNode }: Pick<Params, 'focusNode'>) {
     const { editors } = store.getState()
 
-    for (const property of store.getState().form.focusNodes[focusNode.focusNode.value]?.properties || []) {
+    for (const property of store.getState().form.focusNodes[focusNode.value]?.properties || []) {
       let shouldNotify = false
       let previousDefault: GraphPointer | undefined
       for (const object of property.objects) {
         const result = setDefault({
-          property, object, focusNode: focusNode.focusNode, editors, previousDefault,
+          property, object, focusNode, editors, previousDefault,
         })
 
         previousDefault = result.value || previousDefault
@@ -89,7 +89,7 @@ export default function createFocusNodeState(store: Store) {
 
       if (shouldNotify) {
         dispatch.form.notify({
-          focusNode: focusNode.focusNode,
+          focusNode,
           property: property.shape,
         })
       }
