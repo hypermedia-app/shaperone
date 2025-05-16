@@ -58,7 +58,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: yarn test:web --puppeteer
+      - run: yarn test:web
       - name: Codecov
         uses: codecov/codecov-action@v4
         with:

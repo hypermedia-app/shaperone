@@ -1,6 +1,7 @@
-import { esbuildPlugin } from '@web/dev-server-esbuild';
+import { esbuildPlugin } from '@web/dev-server-esbuild'
 import { fromRollup } from '@web/dev-server-rollup'
 import commonjs from '@rollup/plugin-commonjs'
+import { puppeteerLauncher } from '@web/test-runner-puppeteer'
 
 const immer = {
   resolveImport({ source }) {
@@ -52,6 +53,13 @@ const config = {
 };
 
 if (process.env.CI) {
+  config.browsers = [
+    puppeteerLauncher({
+      launchOptions: {
+        args: ['--no-sandbox'],
+      },
+    }),
+  ]
   delete config.concurrency
 }
 
