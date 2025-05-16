@@ -27,7 +27,6 @@ const config = {
   groups: [
     { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
     { name: 'wc', files: 'packages/wc/test/**/*.test.ts' },
-    { name: 'wc-material', files: 'packages/wc-material/test/**/*.test.ts' },
     { name: 'wc-vaadin', files: 'packages/wc-vaadin/test/**/*.test.ts' },
     { name: 'wc-shoelace', files: 'packages/wc-shoelace/test/**/*.test.ts' },
   ],
