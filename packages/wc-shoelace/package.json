@@ -19,14 +19,14 @@
     "@rdfine/shacl": "^0.10.5",
     "@rdfjs-elements/lit-helpers": "^0.3.7",
     "@shoelace-style/shoelace": "^2.15.0",
-    "@tpluscode/rdf-ns-builders": "^4.3.0",
+    "@tpluscode/rdf-ns-builders": "^5",
     "is-graph-pointer": "^2.1.0",
     "lit": "^3",
     "p-debounce": "^4"
   },
   "devDependencies": {
     "@open-wc/testing": "^4.0.0",
-    "@zazuko/env": "^2.1.0",
+    "@zazuko/env": "^3",
     "@shaperone/testing": "*"
   },
   "repository": "https://github.com/hypermedia-app/shaperone",

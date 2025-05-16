@@ -8,13 +8,13 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@tpluscode/rdf-ns-builders": "^4.3.0",
+    "@tpluscode/rdf-ns-builders": "^5",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@hydrofoil/shaperone-core": "0.12.1",
     "@hydrofoil/shaperone-wc": "0.8.1",
-    "@zazuko/env": "^2.1.0",
-    "@rdfjs-elements/lit-helpers": "^0.3.7",
+    "@zazuko/env": "^3",
+    "@rdfjs-elements/lit-helpers": "^0.3.9",
     "@zazuko/prefixes": "^2.2.0",
     "is-graph-pointer": "^2",
     "lit": "^2.0.0"

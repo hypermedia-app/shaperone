@@ -8,10 +8,10 @@
   },
   "devDependencies": {
     "@hydrofoil/shaperone-core": "*",
-    "@rdfine/shacl": "^0.10.5",
+    "@rdfine/shacl": "^0.10.6",
     "@shaperone/testing": "*",
-    "@tpluscode/rdf-ns-builders": "^4.3.0",
-    "@zazuko/env": "^2.1.0",
+    "@tpluscode/rdf-ns-builders": "^5",
+    "@zazuko/env": "^3.0.0",
     "chai": "^5",
     "mocha": "^11.0.0",
     "@types/chai": "^5",
@@ -28,8 +28,8 @@
   },
   "mocha": {
     "require": [
+      "tsx",
       "./test-setup.ts"
-    ],
-    "loader": "ts-node/esm/transpile-only"
+    ]
   }
 }
