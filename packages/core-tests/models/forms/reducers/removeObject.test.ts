@@ -4,9 +4,9 @@ import $rdf from '@shaperone/testing/env.js'
 import type { RecursivePartial } from '@shaperone/testing'
 import { testObjectState, testStore } from '@shaperone/testing/models/form.js'
 import { removeObject } from '@hydrofoil/shaperone-core/models/forms/reducers/removeObject.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/reducers/removeObject', () => {

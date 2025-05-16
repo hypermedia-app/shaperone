@@ -1,10 +1,9 @@
 import { describe, it } from 'mocha'
 import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
-import type { sinon } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { replaceObjects } from '@hydrofoil/shaperone-core/models/forms/effects/replaceObjects.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/replaceObjects', () => {

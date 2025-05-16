@@ -2,16 +2,15 @@ import { beforeEach, describe, it } from 'mocha'
 import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import type { RecursivePartial } from '@shaperone/testing'
-import { testStore } from '@shaperone/testing/models/form.js'
-import { createFocusNodeState } from '@hydrofoil/shaperone-core/models/forms/reducers/replaceFocusNodes.js'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
-import type { Store } from '@hydrofoil/shaperone-core/state'
-import type { FocusNode } from '@hydrofoil/shaperone-core/index.js'
-import type { initialiseFocusNode } from '@hydrofoil/shaperone-core/models/forms/lib/stateBuilder.js'
+import { testFocusNodeState, testStore } from '@shaperone/testing/models/form.js'
+import { replaceFocusNodeState } from '@hydrofoil/shaperone-core/models/forms/reducers/replaceFocusNodes.js'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
+import type { AnyPointer } from 'clownface'
 
 describe('models/forms/reducers/replaceFocusNodes', () => {
   let store: Store
-  let focusNode: FocusNode
+  let graph: AnyPointer
   let formState: {
     focusNodes: RecursivePartial<FormState['focusNodes']>
     focusStack: FormState['focusStack']
@@ -19,49 +18,39 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
 
   beforeEach(() => {
     store = testStore()
-    focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode('baz')
+    graph = $rdf.clownface()
     formState = store.getState().form
   })
-
-  function commonParams(): Parameters<typeof initialiseFocusNode>[0] {
-    return {
-      focusNode,
-      shapes: [],
-      components: store.getState().components,
-      editors: store.getState().editors,
-      shouldEnableEditorChoice: () => true,
-    }
-  }
 
   describe('createFocusNodeState', () => {
     it('replaces existing stack given parameter', () => {
       // given
       formState.focusStack = [
-        focusNode.blankNode('foo'),
-        focusNode.blankNode('bar'),
+        graph.blankNode('foo'),
+        graph.blankNode('bar'),
       ]
 
       // when
-      const afterForm = createFocusNodeState(store.getState().form, {
-        ...commonParams(),
+      const afterForm = replaceFocusNodeState(store.getState().form, {
+        focusNode: testFocusNodeState(graph.blankNode('baz')).baz,
         replaceStack: true,
       })
 
       // then
       expect(afterForm?.focusStack).to.have.length(1)
-      expect(afterForm?.focusStack[0].term).to.deep.eq(focusNode.term)
+      expect(afterForm?.focusStack[0].term).to.deep.eq($rdf.blankNode('baz'))
     })
 
     it('appends to stack given parameter', () => {
       // given
       formState.focusStack = [
-        focusNode.blankNode('foo'),
-        focusNode.blankNode('bar'),
+        graph.blankNode('foo'),
+        graph.blankNode('bar'),
       ]
 
       // when
-      const afterForm = createFocusNodeState(store.getState().form, {
-        ...commonParams(),
+      const afterForm = replaceFocusNodeState(store.getState().form, {
+        focusNode: testFocusNodeState(graph.blankNode('baz')).baz,
         appendToStack: true,
       })
 
@@ -70,7 +59,7 @@ describe('models/forms/reducers/replaceFocusNodes', () => {
       expect(afterForm?.focusStack.map(fn => fn.term)).to.deep.contain.ordered.members([
         $rdf.blankNode('foo'),
         $rdf.blankNode('bar'),
-        focusNode.term,
+        $rdf.blankNode('baz'),
       ])
     })
   })

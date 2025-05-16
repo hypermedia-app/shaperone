@@ -4,10 +4,10 @@ import { expect } from 'chai'
 import type { sinon } from '@shaperone/testing'
 import { dash, foaf, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
-import type { Dispatch, Store } from '@hydrofoil/shaperone-core/state'
+import type { Dispatch, Store } from '@hydrofoil/shaperone-core/state/index.js'
 import { syncProperties } from '@hydrofoil/shaperone-core/models/forms/effects/lib/syncProperties.js'
-import type { EditorsState } from '@hydrofoil/shaperone-core/models/editors'
-import type { State } from '@hydrofoil/shaperone-core/models/forms'
+import type { EditorsState } from '@hydrofoil/shaperone-core/models/editors/index.js'
+import type { State } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { nodeShape, propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/lib/syncProperties', () => {

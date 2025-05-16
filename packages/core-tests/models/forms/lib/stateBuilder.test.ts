@@ -9,7 +9,7 @@ import {
   initialiseObjectState,
   initialisePropertyShape,
 } from '@hydrofoil/shaperone-core/models/forms/lib/stateBuilder.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
@@ -572,7 +572,6 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
       const { components, editors } = store.getState()
       components.components[ex.lowerMatch.value] = {
         editor: ex.lowerMatch,
-        loading: false,
       }
       editors.matchMultiEditors = () => [
         { term: ex.higherMatch, score: 20 },
@@ -628,7 +627,6 @@ describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
       const { components, editors } = store.getState()
       components.components[ex.lowerMatch.value] = {
         editor: ex.lowerMatch,
-        loading: false,
       }
       editors.matchSingleEditors = () => [
         { term: ex.higherMatch, score: 10 },

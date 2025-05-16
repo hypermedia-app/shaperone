@@ -3,9 +3,9 @@ import { expect } from 'chai'
 import type { RecursivePartial } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { truncateFocusNodes } from '@hydrofoil/shaperone-core/models/forms/reducers/truncateFocusNodes.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core/index.js'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 
 describe('core/models/forms/reducers/truncateFocusNodes', () => {
   let store: Store

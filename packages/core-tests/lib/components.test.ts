@@ -5,13 +5,8 @@ import { expect } from 'chai'
 import { ex } from '@shaperone/testing'
 import { rdfs, schema, skos } from '@tpluscode/rdf-ns-builders'
 import rdf from '@shaperone/testing/env.js'
-import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 
 describe('core/lib/components', () => {
-  before(async () => {
-    await setEnv(rdf)
-  })
-
   describe('sort', () => {
     it('sorts by rdf:label by default', () => {
       // given

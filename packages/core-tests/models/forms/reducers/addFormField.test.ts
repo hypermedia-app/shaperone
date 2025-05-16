@@ -39,7 +39,6 @@ describe('core/models/forms/reducers/addObject', () => {
       editors: [],
       selectedEditor: undefined,
       overrides: undefined,
-      componentState: undefined,
     })
 
     // then
@@ -76,7 +75,6 @@ describe('core/models/forms/reducers/addObject', () => {
       editors: [],
       selectedEditor: undefined,
       overrides: undefined,
-      componentState: undefined,
     })
 
     // then
@@ -113,7 +111,6 @@ describe('core/models/forms/reducers/addObject', () => {
       editors: [],
       selectedEditor: undefined,
       overrides: undefined,
-      componentState: undefined,
     })
 
     // then
@@ -149,7 +146,6 @@ describe('core/models/forms/reducers/addObject', () => {
       editors: [],
       selectedEditor: undefined,
       overrides: undefined,
-      componentState: undefined,
     })
 
     // then
@@ -186,7 +182,6 @@ describe('core/models/forms/reducers/addObject', () => {
       editors: [],
       selectedEditor: undefined,
       overrides,
-      componentState: undefined,
     })
 
     // then
@@ -223,7 +218,6 @@ describe('core/models/forms/reducers/addObject', () => {
       editors: [],
       selectedEditor: undefined,
       overrides,
-      componentState: undefined,
     })
 
     // then
@@ -268,7 +262,6 @@ describe('core/models/forms/reducers/addObject', () => {
       }],
       selectedEditor: dash.FooEditor,
       overrides: undefined,
-      componentState: undefined,
     })
 
     // then

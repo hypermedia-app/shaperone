@@ -4,9 +4,9 @@ import { dash } from '@tpluscode/rdf-ns-builders'
 import type { RecursivePartial } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
 import { selectEditor } from '@hydrofoil/shaperone-core/models/forms/reducers/selectEditor.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core/index.js'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import type { FormState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/models/forms/reducers/selectEditor', () => {
@@ -44,7 +44,6 @@ describe('core/models/forms/reducers/selectEditor', () => {
         key: 'test',
         editors: [],
         selectedEditor: undefined,
-        componentState: {},
         validationResults: [],
         hasErrors: false,
         nodeKind: undefined,
@@ -55,38 +54,5 @@ describe('core/models/forms/reducers/selectEditor', () => {
     // then
     expect(afterState.focusNodes[focusNode.value].properties[0].objects[0].selectedEditor)
       .to.deep.eq(dash.TextFieldEditor)
-  })
-
-  it('resets component state', () => {
-    // given
-    const property = propertyShape()
-    formState.focusNodes[focusNode.value] = {
-      properties: [{
-        shape: property,
-        objects: [{
-          key: 'test',
-        }],
-      }],
-    }
-
-    // when
-    const afterState = selectEditor(store.getState().form, {
-      property,
-      editor: dash.TextFieldEditor,
-      focusNode,
-      object: {
-        key: 'test',
-        editors: [],
-        selectedEditor: undefined,
-        componentState: { foo: 'bar' },
-        validationResults: [],
-        hasErrors: false,
-        nodeKind: undefined,
-        overrides: undefined,
-      },
-    })
-
-    // then
-    expect(afterState.focusNodes[focusNode.value].properties[0].objects[0].componentState).to.deep.eq({})
   })
 })

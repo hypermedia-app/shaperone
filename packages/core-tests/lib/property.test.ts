@@ -17,7 +17,7 @@ describe('core/lib/property', () => {
       }
 
       // when
-      const term = createTerm($rdf, property, 'http://foo/bar')
+      const term = createTerm(property, 'http://foo/bar')
 
       // then
       expect(term.value).to.equal('http://foo/bar')
@@ -32,7 +32,7 @@ describe('core/lib/property', () => {
       }
 
       // when
-      const term = createTerm($rdf, property, '41')
+      const term = createTerm(property, '41')
 
       // then
       expect(term).to.deep.equal($rdf.literal('41', xsd.int))

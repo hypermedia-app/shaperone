@@ -2,9 +2,9 @@ import { describe, it } from 'mocha'
 import $rdf from '@shaperone/testing/env.js'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
-import { testStore } from '@shaperone/testing/models/form.js'
+import { testFocusNodeState, testStore } from '@shaperone/testing/models/form.js'
 import setGraph from '@hydrofoil/shaperone-core/models/forms/effects/shapes/setGraph.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
+import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
 
 const ex = $rdf.namespace('http://example.com/')
 
@@ -21,10 +21,10 @@ describe('models/forms/effects/shapes/setGraph', () => {
     const shapesGraph = $rdf.clownface()
     shapesGraph.node(ex.Shape).addOut(rdf.type, sh.Shape).addOut(sh.targetNode, [ex.Foo, ex.Bar])
     const formState = store.getState().form
-    formState.focusStack = [
-      resourceGraph.node(ex.Foo),
-      resourceGraph.node(ex.Bar),
-    ]
+    formState.focusNodes = {
+      ...testFocusNodeState(resourceGraph.namedNode(ex.Foo)),
+      ...testFocusNodeState(resourceGraph.namedNode(ex.Bar)),
+    }
 
     // when
     setGraph(store)()

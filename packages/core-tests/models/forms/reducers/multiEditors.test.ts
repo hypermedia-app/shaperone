@@ -84,32 +84,6 @@ describe('core/models/forms/reducers/multiEditors', () => {
       const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.selectedEditor).to.deep.eq(dash.MultiEditor1)
     })
-
-    it('resets component state', () => {
-      // given
-      const focusNode = $rdf.clownface().blankNode()
-      const shape = propertyShape(focusNode.blankNode())
-      const state = testState({
-        focusNodes: {
-          ...testFocusNodeState(focusNode, {
-            properties: [testPropertyState(shape.pointer, {
-              editors: [testEditor(dash.MultiEditor1)],
-              componentState: { foo: 'bar' },
-            })],
-          }),
-        },
-      })
-
-      // when
-      const after = selectMultiEditor(state, {
-        focusNode,
-        property: shape,
-      })
-
-      // then
-      const propertyState = after.focusNodes[focusNode.value].properties[0]
-      expect(propertyState.componentState).to.deep.eq({})
-    })
   })
 
   describe('selectSingleEditors', () => {
