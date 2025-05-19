@@ -10,7 +10,6 @@ export const urlEditor: Render = function ({ env, value, property }, { update })
     required: true,
     '?auto-validate': true,
     ...validity(value),
-    '.readonly': !!property.shape.readOnly,
   }
 
   return html`<vaadin-text-field ${spread(props)}>

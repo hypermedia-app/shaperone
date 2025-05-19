@@ -7,10 +7,10 @@ import { sinon } from '@shaperone/testing'
 import * as template from '../templates.js'
 import { settings } from '../settings.js'
 
-describe('wc-shoelace/templates', () => {
-  describe('property', () => {
-    context('with custom add-object template', () => {
-      it('renders the custom template to section', async () => {
+describe('wc-shoelace/templates', function () {
+  describe('property', function () {
+    context('with custom add-object template', function () {
+      it('renders the custom template to section', async function () {
         // given
         const focusNode = blankNode()
         const property = testPropertyState()
@@ -31,7 +31,7 @@ describe('wc-shoelace/templates', () => {
         expect(el.querySelector('section[slot=add-object]')).lightDom.to.eq('<foo-bar></foo-bar>')
       })
 
-      it('forwards overrides to action', async () => {
+      it('forwards overrides to action', async function () {
         // given
         const focusNode = blankNode()
         const property = testPropertyState()
@@ -65,7 +65,7 @@ describe('wc-shoelace/templates', () => {
         expect(addObject.firstCall.firstArg).to.have.property('overrides', overrides)
       })
 
-      it('applies defaults to component state', async () => {
+      it('applies defaults to component state', async function () {
         // given
         const focusNode = blankNode()
         const property = testPropertyState()

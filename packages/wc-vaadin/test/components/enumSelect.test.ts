@@ -6,17 +6,17 @@ import type { EnumSelect, EnumSelectEditor } from '@hydrofoil/shaperone-core/com
 import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { enumSelectEditor } from '../../components.js'
 
-describe('wc-vaadin/components/enumSelect', () => {
+describe('wc-vaadin/components/enumSelect', function () {
   let component: EnumSelectEditor
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     component = {
       ...enumSelectEditor,
       render: await enumSelectEditor.lazyRender(),
     }
   })
 
-  it('renders an vaadin-select', async () => {
+  it('renders an vaadin-select', async function () {
     // given
     const graph = $rdf.clownface()
     const { params, actions } = editorTestParams<EnumSelect>({
@@ -36,7 +36,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     await expect(result).shadowDom.to.equalSnapshot()
   })
 
-  it('renders empty vaadin-select when there are no choices', async () => {
+  it('renders empty vaadin-select when there are no choices', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
@@ -50,7 +50,7 @@ describe('wc-vaadin/components/enumSelect', () => {
     await expect(result).shadowDom.to.equalSnapshot()
   })
 
-  it('sets selection to current object', async () => {
+  it('sets selection to current object', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<EnumSelect>({

@@ -2,10 +2,10 @@ import { expect, fixture, html } from '@open-wc/testing'
 import type { FieldWithLang } from '../../elements/FieldWithLang.js'
 import '../../elements/FieldWithLang.js'
 
-describe('wc-shoelace/elements/sh-sl-with-lang-editor', () => {
-  context('when readonly', () => {
-    context('given language choices', () => {
-      it('disables select when readonly', async () => {
+describe('wc-shoelace/elements/sh-sl-with-lang-editor', function () {
+  context('when readonly', function () {
+    context('given language choices', function () {
+      it('disables select when readonly', async function () {
         // given
         const languages = ['en', 'de', 'pl']
 
@@ -17,8 +17,8 @@ describe('wc-shoelace/elements/sh-sl-with-lang-editor', () => {
       })
     })
 
-    context('without language choices', () => {
-      it('disables input when readonly', async () => {
+    context('without language choices', function () {
+      it('disables input when readonly', async function () {
         // when
         const el = await fixture<FieldWithLang>(html`<sh-sl-with-lang-editor readonly></sh-sl-with-lang-editor>`)
 

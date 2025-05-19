@@ -6,17 +6,17 @@ import type { InstancesSelect, InstancesSelectEditor } from '@hydrofoil/shaperon
 import type { ComboBoxElement } from '@vaadin/vaadin-combo-box'
 import { instancesSelectEditor } from '../../components.js'
 
-describe('wc-vaadin/components/instancesSelect', () => {
+describe('wc-vaadin/components/instancesSelect', function () {
   let component: InstancesSelectEditor
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     component = {
       ...instancesSelectEditor,
       render: await instancesSelectEditor.lazyRender(),
     }
   })
 
-  it('renders an vaadin-select', async () => {
+  it('renders an vaadin-select', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
@@ -30,7 +30,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
     expect(result.tagName).to.eq('VAADIN-COMBO-BOX')
   })
 
-  it('sets selection to current object', async () => {
+  it('sets selection to current object', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
@@ -45,7 +45,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
     expect(result.selectedItem[0].value).to.eq('bar')
   })
 
-  it('updates form when value changes', async () => {
+  it('updates form when value changes', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
@@ -63,7 +63,7 @@ describe('wc-vaadin/components/instancesSelect', () => {
     }))
   })
 
-  it('does not load when template', async () => {
+  it('does not load when template', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({

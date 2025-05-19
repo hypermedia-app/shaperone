@@ -2,9 +2,9 @@ import { addPlugin } from '@hydrofoil/shaperone-core/store.js'
 import { expect } from '@open-wc/testing'
 import { store } from '../store.js'
 
-describe('wc/store', () => {
-  context('with plugins', () => {
-    before(() => {
+describe('wc/store', function () {
+  context('with plugins', function () {
+    before(function () {
       addPlugin({
         foo: {
           model: {
@@ -23,14 +23,14 @@ describe('wc/store', () => {
       })
     })
 
-    after(() => {
+    after(function () {
       addPlugin({
         foo: undefined,
         bar: undefined,
       })
     })
 
-    it('creates store with plugins', () => {
+    it('creates store with plugins', function () {
       // when
       const s = store()
 

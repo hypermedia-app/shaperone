@@ -3,7 +3,7 @@ import type {
   SingleEditorActions,
   SingleEditorRenderParams,
   Lazy,
-} from '@hydrofoil/shaperone-core/models/components'
+} from '@hydrofoil/shaperone-core/models/components/index.js'
 import { expect, fixture, html } from '@open-wc/testing'
 import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/lib/decorate.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
@@ -11,8 +11,8 @@ import { editorTestParams } from '@shaperone/testing'
 import $rdf from '@shaperone/testing/env.js'
 import type { SingleEditorComponent } from '../index.js'
 
-describe('core/models/components/lib/decorate', () => {
-  describe('decorateComponent', () => {
+describe('core/models/components/lib/decorate', function () {
+  describe('decorateComponent', function () {
     let actions: SingleEditorActions
     let params: SingleEditorRenderParams
 
@@ -35,14 +35,14 @@ describe('core/models/components/lib/decorate', () => {
       },
     }
 
-    beforeEach(() => {
+    beforeEach(function () {
       ({ actions, params } = editorTestParams({
         object: $rdf.clownface().blankNode(),
       }))
     })
 
-    describe('decorating non-lazy component', () => {
-      it('wraps the render function', async () => {
+    describe('decorating non-lazy component', function () {
+      it('wraps the render function', async function () {
         // given
         const component: TestComponent = {
           editor: dash.Foo,
@@ -59,7 +59,7 @@ describe('core/models/components/lib/decorate', () => {
         expect(result.textContent).to.eq('real render')
       })
 
-      it('keeps component context', async () => {
+      it('keeps component context', async function () {
         // given
         const component: TestComponent = {
           editor: dash.Foo,
@@ -78,8 +78,8 @@ describe('core/models/components/lib/decorate', () => {
       })
     })
 
-    describe('decorating lazy component', () => {
-      it('wraps the render function', async () => {
+    describe('decorating lazy component', function () {
+      it('wraps the render function', async function () {
         // given
         const component: Lazy<SingleEditorComponent> = {
           editor: dash.Foo,
@@ -100,7 +100,7 @@ describe('core/models/components/lib/decorate', () => {
         expect(result.textContent).to.eq('real render')
       })
 
-      it('keeps component render context', async () => {
+      it('keeps component render context', async function () {
         // given
         const component: Lazy<TestComponent> = {
           editor: dash.Foo,

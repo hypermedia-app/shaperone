@@ -9,12 +9,12 @@ import { ex } from '@shaperone/testing'
 import type { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { renderProperty } from '../../renderer/property.js'
 
-describe('wc/renderer/property', () => {
+describe('wc/renderer/property', function () {
   let renderer: PropertyRenderer
   let property: PropertyState
   let fooObject: PropertyObjectState
 
-  beforeEach(() => {
+  beforeEach(function () {
     const focusNode = blankNode()
     const group = emptyGroupState()
     property = testPropertyState()
@@ -30,7 +30,7 @@ describe('wc/renderer/property', () => {
     })
   })
 
-  it('calls property template', async () => {
+  it('calls property template', async function () {
     // when
     renderProperty.call(renderer, { property })
 
@@ -39,11 +39,11 @@ describe('wc/renderer/property', () => {
     expect(render.firstCall.args[1]).to.have.property('property', property)
   })
 
-  describe('actions', () => {
+  describe('actions', function () {
     let actions: PropertyActions
     let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
-    beforeEach(() => {
+    beforeEach(function () {
       const render = renderer.context.templates.property as sinon.SinonSpy
 
       renderProperty.call(renderer, { property })
@@ -52,8 +52,8 @@ describe('wc/renderer/property', () => {
       dispatch = renderer.context.dispatch.form as any
     })
 
-    describe('removeObject', () => {
-      it('dispatches action when called with term', () => {
+    describe('removeObject', function () {
+      it('dispatches action when called with term', function () {
         // given
         const object = ex.foo
 
@@ -64,7 +64,7 @@ describe('wc/renderer/property', () => {
         expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
       })
 
-      it('dispatches action when called with pointer', () => {
+      it('dispatches action when called with pointer', function () {
         // given
         const object = namedNode(ex.foo)
 
@@ -75,7 +75,7 @@ describe('wc/renderer/property', () => {
         expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
       })
 
-      it('dispatches action when called with state object', () => {
+      it('dispatches action when called with state object', function () {
         // when
         actions.removeObject(fooObject)
 
@@ -83,7 +83,7 @@ describe('wc/renderer/property', () => {
         expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
       })
 
-      it('does not dispatch action when object is not found', () => {
+      it('does not dispatch action when object is not found', function () {
         // given
         const object = namedNode(ex.baz)
 
@@ -95,8 +95,8 @@ describe('wc/renderer/property', () => {
       })
     })
 
-    describe('addObject', () => {
-      it('called with pointer overrides, forwards them to dispatch', () => {
+    describe('addObject', function () {
+      it('called with pointer overrides, forwards them to dispatch', function () {
         // given
         const overrides = blankNode()
 
@@ -107,7 +107,7 @@ describe('wc/renderer/property', () => {
         expect(dispatch.addObject.firstCall.args[0].overrides).to.eq(overrides)
       })
 
-      it('called with componentState, forwards it to dispatch', () => {
+      it('called with componentState, forwards it to dispatch', function () {
         // given
         const componentState = {}
 

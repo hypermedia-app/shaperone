@@ -4,9 +4,9 @@ import { expect, fixture } from '@open-wc/testing'
 import { editorTestParams } from '@shaperone/testing'
 import { dateTimePicker, datePicker } from '../../components/date.js'
 
-describe('wc-vaadin/components/date', () => {
-  describe('datePicker', () => {
-    it('renders a vaadin-date-picker', async () => {
+describe('wc-vaadin/components/date', function () {
+  describe('datePicker', function () {
+    it('renders a vaadin-date-picker', async function () {
       // given
       const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams({
@@ -22,8 +22,8 @@ describe('wc-vaadin/components/date', () => {
     })
   })
 
-  describe('dateTimePicker', () => {
-    it('renders a vaadin-date-time-picker', async () => {
+  describe('dateTimePicker', function () {
+    it('renders a vaadin-date-time-picker', async function () {
       // given
       const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams({

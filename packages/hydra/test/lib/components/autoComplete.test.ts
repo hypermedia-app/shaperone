@@ -7,25 +7,25 @@ import type { NamedNode } from '@rdfjs/types'
 import * as autoComplete from '../../../lib/components/autocomplete.js'
 import { hydraCollectionProperty, hydraSearchProperty } from './_support.js'
 
-describe('hydra/lib/components/autoComplete', () => {
-  describe('matcher', () => {
+describe('hydra/lib/components/autoComplete', function () {
+  describe('matcher', function () {
     let matcher: {
       term: NamedNode
       match: sinon.SinonStub
     }
 
-    beforeEach(() => {
+    beforeEach(function () {
       matcher = {
         term: dash.AutoCompleteEditor,
         match: sinon.stub(),
       }
     })
 
-    it('applies to Auto Complete', () => {
+    it('applies to Auto Complete', function () {
       expect(matcher.term).to.deep.eq(dash.AutoCompleteEditor)
     })
 
-    it('returns 1 if property shape has named node hydra:collection', () => {
+    it('returns 1 if property shape has named node hydra:collection', function () {
       // given
       const property = hydraCollectionProperty()
       const value = $rdf.clownface().blankNode()
@@ -37,7 +37,7 @@ describe('hydra/lib/components/autoComplete', () => {
       expect(result).to.eq(1)
     })
 
-    it('returns 1 if property shape has hydra:search', () => {
+    it('returns 1 if property shape has hydra:search', function () {
       // given
       const property = hydraSearchProperty()
       const value = $rdf.clownface().blankNode()
@@ -49,7 +49,7 @@ describe('hydra/lib/components/autoComplete', () => {
       expect(result).to.eq(1)
     })
 
-    it('calls decorated matcher if hydra:collection is not named node', () => {
+    it('calls decorated matcher if hydra:collection is not named node', function () {
       // given
       const shape = propertyShape({
         [hydra.collection.value]: $rdf.blankNode(),
@@ -63,7 +63,7 @@ describe('hydra/lib/components/autoComplete', () => {
       expect(matcher.match).to.have.been.called
     })
 
-    it('calls decorated matcher otherwise', () => {
+    it('calls decorated matcher otherwise', function () {
       // given
       const shape = propertyShape()
       const value = $rdf.clownface().blankNode()

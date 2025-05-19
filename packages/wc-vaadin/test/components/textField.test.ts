@@ -7,9 +7,9 @@ import { textField } from '../../components/text-field.js'
 
 const datatytpes = [xsd.double, xsd.float, xsd.decimal, xsd.integer]
 
-describe('wc-vaadin/components/text-field', () => {
+describe('wc-vaadin/components/text-field', function () {
   datatytpes.forEach((datatype) => {
-    it(`renders correct input for datatype ${shrink(datatype.value)}`, async () => {
+    it(`renders correct input for datatype ${shrink(datatype.value)}`, async function () {
       // given
       const graph = $rdf.clownface()
       const { params, actions } = editorTestParams({

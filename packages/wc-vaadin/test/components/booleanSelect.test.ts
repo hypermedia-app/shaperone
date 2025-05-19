@@ -5,8 +5,8 @@ import { editorTestParams, sinon } from '@shaperone/testing'
 import type { SelectElement } from '@vaadin/vaadin-select'
 import { booleanSelect } from '../../components/booleanSelect.js'
 
-describe('wc-vaadin/components/booleanSelect', () => {
-  it('renders a vaadin-select with selected value', async () => {
+describe('wc-vaadin/components/booleanSelect', function () {
+  it('renders a vaadin-select with selected value', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
@@ -21,7 +21,7 @@ describe('wc-vaadin/components/booleanSelect', () => {
     expect(element.value).to.equal('true')
   })
 
-  it('clears when selecting empty', async () => {
+  it('clears when selecting empty', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
@@ -38,7 +38,7 @@ describe('wc-vaadin/components/booleanSelect', () => {
     expect(actions.clear).to.have.been.calledOnce
   })
 
-  it('update when selection changes', async () => {
+  it('update when selection changes', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({

@@ -7,11 +7,11 @@ import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import type { sinon } from '@shaperone/testing'
 import { renderObject } from '../../renderer/object.js'
 
-describe('wc/renderer/object', () => {
+describe('wc/renderer/object', function () {
   let renderer: ObjectRenderer
   let object: PropertyObjectState
 
-  beforeEach(() => {
+  beforeEach(function () {
     object = testObjectState()
     const focusNode = blankNode()
     const group = emptyGroupState()
@@ -25,7 +25,7 @@ describe('wc/renderer/object', () => {
     })
   })
 
-  it('calls object template', () => {
+  it('calls object template', function () {
     // when
     renderObject.call(renderer, { object })
 
@@ -35,10 +35,10 @@ describe('wc/renderer/object', () => {
     expect(render.firstCall.args[1]).to.have.property('object', object)
   })
 
-  describe('actions', () => {
+  describe('actions', function () {
     let actions: ObjectActions
 
-    beforeEach(() => {
+    beforeEach(function () {
       const render = renderer.context.templates.object as sinon.SinonSpy
 
       renderObject.call(renderer, { object })
@@ -46,8 +46,8 @@ describe('wc/renderer/object', () => {
       actions = render.firstCall.firstArg.actions
     })
 
-    describe('remove', () => {
-      it('calls property action with self as parameter', () => {
+    describe('remove', function () {
+      it('calls property action with self as parameter', function () {
         // when
         actions.remove()
 

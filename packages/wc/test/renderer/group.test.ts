@@ -8,11 +8,11 @@ import type { sinon } from '@shaperone/testing'
 import $rdf from '@shaperone/testing/env.js'
 import { renderGroup } from '../../renderer/group.js'
 
-describe('wc/renderer/group', () => {
+describe('wc/renderer/group', function () {
   let renderer: GroupRenderer
   let group: PropertyGroupState
 
-  beforeEach(() => {
+  beforeEach(function () {
     const focusNode = blankNode()
     group = emptyGroupState()
     renderer = groupRenderer({
@@ -21,7 +21,7 @@ describe('wc/renderer/group', () => {
     })
   })
 
-  it('renders properties of given group', () => {
+  it('renders properties of given group', function () {
     // given
     const groupShape = $rdf.rdfine.sh.PropertyGroup(blankNode())
     group.group = groupShape
@@ -46,7 +46,7 @@ describe('wc/renderer/group', () => {
     expect(groupSpy.firstCall.args[1]).to.have.property('properties').deep.equals([withGroup])
   })
 
-  it('renders properties without group if not selected', () => {
+  it('renders properties without group if not selected', function () {
     // given
     const groupShape = $rdf.rdfine.sh.PropertyGroup(blankNode())
     const withGroup = testPropertyState(blankNode(), {
@@ -71,7 +71,7 @@ describe('wc/renderer/group', () => {
     expect(groupSpy.firstCall.args[1]).to.have.property('properties').deep.equals([noGroup])
   })
 
-  it('does not render hidden properties', () => {
+  it('does not render hidden properties', function () {
     // given
     renderer.focusNode.properties = [
       testPropertyState(blankNode(), { hidden: true }),

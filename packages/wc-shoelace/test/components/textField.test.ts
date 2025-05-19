@@ -5,17 +5,17 @@ import type { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/c
 import type { SlInput } from '@shoelace-style/shoelace'
 import { textField } from '../../components.js'
 
-describe('wc-shoelace/components/textField', () => {
+describe('wc-shoelace/components/textField', function () {
   let component: TextField
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     component = {
       ...textField,
       render: await textField.lazyRender(),
     }
   })
 
-  it('is readonly when dash:readOnly true', async () => {
+  it('is readonly when dash:readOnly true', async function () {
     // given
     const graph = $rdf.clownface()
     const { params, actions } = editorTestParams<TextFieldEditor>({

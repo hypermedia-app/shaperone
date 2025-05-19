@@ -132,6 +132,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
       expect(focusNode.out(schema.knows).out(rdf.type).terms)
         .containAll((type: Term) => type.equals(schema.Person))
     })
+
     it('does not add rdf:type to named node children', () => {
       // given
       const focusNode = graph.blankNode()

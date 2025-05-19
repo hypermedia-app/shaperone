@@ -4,8 +4,8 @@ import type { TextFieldElement } from '@vaadin/vaadin-text-field'
 import { editorTestParams, sinon } from '@shaperone/testing'
 import { urlEditor } from '../../components/url-editor.js'
 
-describe('wc-vaadin/components/url-editor', () => {
-  it('renders text field', async () => {
+describe('wc-vaadin/components/url-editor', function () {
+  it('renders text field', async function () {
     // given
     const graph = $rdf.clownface()
     const { params, actions } = editorTestParams({
@@ -21,7 +21,7 @@ describe('wc-vaadin/components/url-editor', () => {
     })
   })
 
-  it('renders field[type=url]', async () => {
+  it('renders field[type=url]', async function () {
     // given
     const graph = $rdf.clownface()
     const { params, actions } = editorTestParams({

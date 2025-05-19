@@ -2,50 +2,38 @@ import { expect, fixture } from '@open-wc/testing'
 import { dash, rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import type { AutoComplete } from '@hydrofoil/shaperone-core/components.js'
 import type { SlIconButton } from '@shoelace-style/shoelace'
-import type { AutoCompleteEditor } from '../../components/autocomplete.js'
-import { autocomplete } from '../../components/autocomplete.js'
-import type { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete.js'
+import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
+import { AutoComplete } from '../../components.js'
 
-describe('wc-shoelace/components/autocomplete', () => {
-  let component: AutoCompleteEditor
+describe('wc-shoelace/components/autocomplete', function () {
+  beforeEach(defineComponent(AutoComplete, { awaitEvent: 'sh1-ready' }))
 
-  beforeEach(async () => {
-    component = {
-      ...autocomplete,
-      render: await autocomplete.lazyRender(),
-    }
+  it('implements dash:AutoCompleteEditor', function () {
+    expect(AutoComplete.editor).to.deep.eq(dash.AutoCompleteEditor)
   })
 
-  it('implements dash:AutoCompleteEditor', () => {
-    expect(autocomplete.editor).to.deep.eq(dash.AutoCompleteEditor)
-  })
-
-  it('uses rdfs:label as default display property of selected item', async () => {
+  it('uses rdfs:label as default display property of selected item', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const selected = $rdf.clownface({ dataset: $rdf.dataset() })
       .blankNode()
       .addOut(rdfs.label, 'Selected Label')
-    const { params, actions } = editorTestParams<AutoComplete>({
+    const params = editorTestParams({
       object: graph.literal(''),
-      componentState: {
-        selected,
-      },
     })
 
     // when
-    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+    const result = await this.component.render(params)
 
     // then
     expect(result.inputValue).to.eq('Selected Label')
   })
 
-  it('is readonly when dash:readOnly true', async () => {
+  it('is readonly when dash:readOnly true', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<AutoComplete>({
+    const params = editorTestParams({
       property: {
         readOnly: true,
       },
@@ -53,16 +41,16 @@ describe('wc-shoelace/components/autocomplete', () => {
     })
 
     // when
-    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+    const result = await this.component.render(params)
 
     // then
     expect(result.readonly).to.be.true
   })
 
-  it('sets loading attribute', async () => {
+  it('sets loading attribute', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<AutoComplete>({
+    const params = editorTestParams({
       object: graph.literal(''),
       componentState: {
         loading: true,
@@ -70,19 +58,16 @@ describe('wc-shoelace/components/autocomplete', () => {
     })
 
     // when
-    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+    const result = await this.component.render(params)
 
     // then
     expect(result).to.have.attr('loading')
   })
 
-  it('uses form settings for item labels', async () => {
+  it('uses form settings for item labels', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const {
-      params,
-      actions,
-    } = editorTestParams<AutoComplete>({
+    const params = editorTestParams({
       componentState: {
         instances: [
           graph.namedNode('http://example.com/A').addOut(schema.name, 'Ą'),
@@ -99,14 +84,11 @@ describe('wc-shoelace/components/autocomplete', () => {
     expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
   })
 
-  it('uses form settings for selected label', async () => {
+  it('uses form settings for selected label', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const selected = graph.namedNode('http://example.com/A').addOut(schema.name, 'Ą')
-    const {
-      params,
-      actions,
-    } = editorTestParams<AutoComplete>({
+    const params = editorTestParams({
       componentState: {
         selected,
       },
@@ -121,11 +103,11 @@ describe('wc-shoelace/components/autocomplete', () => {
     expect(result.inputValue).to.eq('Ą')
   })
 
-  context('property sh1:clearable true', () => {
-    it('clears selection when icon clicked', async () => {
+  context('property sh1:clearable true', function () {
+    it('clears selection when icon clicked', async function () {
       // given
       const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams<AutoComplete>({
+      const params = editorTestParams({
         property: {
           [$rdf.ns.sh1.clearable.value]: true,
         },
@@ -148,10 +130,10 @@ describe('wc-shoelace/components/autocomplete', () => {
       expect(editor.renderRoot.querySelector('sl-dropdown')).to.have.property('open', false)
     })
 
-    it('does not show clear button when there is no value', async () => {
+    it('does not show clear button when there is no value', async function () {
       // given
       const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams<AutoComplete>({
+      const params = editorTestParams({
         property: {
           [$rdf.ns.sh1.clearable.value]: true,
         },

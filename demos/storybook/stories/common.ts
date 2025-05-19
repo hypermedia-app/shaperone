@@ -2,9 +2,9 @@ import type { Meta, StoryObj as Story } from '@storybook/web-components'
 import { merge } from 'ts-deepmerge'
 import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
 import type { TurtleTemplateResult } from '@tpluscode/rdf-string'
+import type { NamedNode } from '@rdfjs/types'
 import { render } from './render.js'
 import groups from '../shapes/groups.ttl?raw'
-import {NamedNode} from "@rdfjs/types";
 
 interface StoryFactory {
   (configure?: ConfigCallback, overrides?: Partial<Omit<Story, 'render' | 'loaders'>>): Story

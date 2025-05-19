@@ -13,9 +13,9 @@ import { objectRenderer } from '@shaperone/testing/renderer.js'
 import type { SinonStubbedInstance } from 'sinon'
 import { instancesSelectEditor } from '../components.js'
 
-describe('wc-vaadin/components', () => {
-  describe('instancesSelectEditor', () => {
-    describe('init', () => {
+describe('wc-vaadin/components', function () {
+  describe('instancesSelectEditor', function () {
+    describe('init', function () {
       const form: FormSettings = {
         labelProperties: [rdfs.label, schema.name, dcterms.title],
         shouldEnableEditorChoice: () => true,
@@ -29,7 +29,7 @@ describe('wc-vaadin/components', () => {
       let updateComponentState: UpdateComponentState
       const actions: SinonStubbedInstance<SingleEditorActions> = {} as any
 
-      beforeEach(() => {
+      beforeEach(function () {
         focusNode = $rdf.clownface().blankNode()
         property = testPropertyState($rdf.clownface().blankNode())
         fetchedInstance = $rdf.clownface().node(ex.Foo)
@@ -43,8 +43,8 @@ describe('wc-vaadin/components', () => {
         })
       })
 
-      describe('.init', () => {
-        it('sets loading state', () => {
+      describe('.init', function () {
+        it('sets loading state', function () {
           // given
           const editor = {
             ...instancesSelectEditor,
@@ -69,7 +69,7 @@ describe('wc-vaadin/components', () => {
           }))
         })
 
-        it('returns true if state is marked ready', () => {
+        it('returns true if state is marked ready', function () {
           // given
           const editor = {
             ...instancesSelectEditor,
@@ -95,7 +95,7 @@ describe('wc-vaadin/components', () => {
           expect(editor.loadInstance).not.to.have.been.called
         })
 
-        it.skip('sets ready flag if loading instance fails', async () => {
+        it.skip('sets ready flag if loading instance fails', async function () {
           // given
           const deferred = promise.defer()
           const editor = {
@@ -122,7 +122,7 @@ describe('wc-vaadin/components', () => {
           }))
         })
 
-        it('fetches named resource if it has no triples in data graph and sets its labels', async () => {
+        it('fetches named resource if it has no triples in data graph and sets its labels', async function () {
           // given
           fetchedInstance
             .addOut(rdfs.label, $rdf.literal('foo', 'de'))
@@ -153,7 +153,7 @@ describe('wc-vaadin/components', () => {
         })
       })
 
-      it('only adds known labels to shapes graph', async () => {
+      it('only adds known labels to shapes graph', async function () {
         // given
         const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
         const property = testPropertyState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
@@ -184,7 +184,7 @@ describe('wc-vaadin/components', () => {
         expect(fooPointer.out().terms).to.have.length(0)
       })
 
-      it('does not attempt fetching blank nodes', async () => {
+      it('does not attempt fetching blank nodes', async function () {
         // given
         const focusNode = $rdf.clownface().blankNode()
         const property = testPropertyState($rdf.clownface().blankNode())

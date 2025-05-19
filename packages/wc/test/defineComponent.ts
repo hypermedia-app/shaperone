@@ -1,11 +1,24 @@
 import type { ComponentConstructor } from '@hydrofoil/shaperone-core/models/components/index.js'
 import * as staticLit from 'lit/static-html.js'
 import { spread } from '@open-wc/lit-helpers'
-import type { TemplateResult } from 'lit'
-import type { MultiEditorTestFixture, SingleEditorTestFixture } from './index.js'
+import type { MultiEditorTestFixture, SingleEditorTestFixture } from '@shaperone/testing'
+import { fixture, oneEvent } from '@open-wc/testing'
+import { getEditorTagName } from '../components/editor.js'
+
+interface Options {
+  awaitEvent?: string
+}
+
+interface ElementSelected<E extends keyof HTMLElementTagNameMap> {
+  element: E
+}
 
 interface Render {
-  (params: SingleEditorTestFixture | MultiEditorTestFixture): TemplateResult
+  <E extends keyof HTMLElementTagNameMap>(params: SingleEditorTestFixture | MultiEditorTestFixture, options: ElementSelected<E>): Promise<{
+    component: Element
+    input: HTMLElementTagNameMap[E]
+  }>
+  (params: SingleEditorTestFixture | MultiEditorTestFixture, options?: undefined): Promise<Element>
 }
 
 declare module 'mocha' {
@@ -16,25 +29,48 @@ declare module 'mocha' {
   }
 }
 
-export function defineComponent(component: ComponentConstructor, tagName: string) {
+export default function (component: ComponentConstructor, { awaitEvent }: Options = {}) {
+  const tagName = getEditorTagName(component.editor)
+
   return function (this: Mocha.Context) {
     if (!customElements.get(tagName)) {
       customElements.define(tagName, component)
     }
 
     const tag = staticLit.literal`${staticLit.unsafeStatic(tagName)}`
-    this.component.render = (params) => {
-      // prepend object properties of params with a dot
-      const bindings = Object.entries(params).reduce((acc, [key, value]) => {
-        if (key === 'object' || key === 'objects') {
-          return acc
+    this.component = {
+      async render(params: SingleEditorTestFixture | MultiEditorTestFixture, options?: Options | ElementSelected<any>): Promise<any> {
+        // prepend object properties of params with a dot
+        const { property, focusNode, ...rest } = params
+        const template = staticLit.html`<${tag} .property="${property}" .focusNode="${focusNode}" ${spread(toBindings(rest))}></${tag}>`
+
+        const result = await fixture(template)
+
+        if (awaitEvent) {
+          await oneEvent(result, awaitEvent)
         }
-        return {
-          ...acc,
-          [`.${key}`]: value,
+
+        if (options && 'element' in options) {
+          return {
+            component: result,
+            input: result.shadowRoot!.querySelector(options.element),
+          }
         }
-      }, {})
-      return staticLit.html`<${tag} ${spread(bindings)}></${tag}>`
+
+        return result
+      },
     }
   }
+}
+
+function toBindings(arg: Record<string, unknown>) {
+  return Object.entries(arg).reduce((acc, [key, value]) => {
+    if (key === 'object' || key === 'objects') {
+      return acc
+    }
+    return {
+      ...acc,
+      [`.${key}`]: value,
+    }
+  }, {})
 }

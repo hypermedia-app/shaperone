@@ -11,6 +11,7 @@ const ex = $rdf.namespace('http://example.com/')
 
 describe('core/models/forms/reducers/pushFocusNode', () => {
   let store: Store
+
   beforeEach(() => {
     store = testStore()
   })

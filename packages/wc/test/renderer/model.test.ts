@@ -3,10 +3,10 @@ import { expect } from '@open-wc/testing'
 import { renderer } from '../../renderer/model.js'
 import { templates } from '../../templates.js'
 
-describe('wc/renderer/model', () => {
-  describe('reducers', () => {
-    describe('setTemplates', () => {
-      it('deep merges new templates with old', () => {
+describe('wc/renderer/model', function () {
+  describe('reducers', function () {
+    describe('setTemplates', function () {
+      it('deep merges new templates with old', function () {
         // given
         const before = {
           templates,

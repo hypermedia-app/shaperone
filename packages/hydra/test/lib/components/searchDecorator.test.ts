@@ -13,8 +13,8 @@ import * as instancesSelector from '../../../lib/components/instancesSelector.js
 import ResourceRepresentation from '../../helpers/alcaeus.js'
 import { hydraCollectionProperty, hydraSearchProperty } from './_support.js'
 
-describe('hydra/lib/components/searchDecorator', () => {
-  describe('decorated', () => {
+describe('hydra/lib/components/searchDecorator', function () {
+  describe('decorated', function () {
     let focusNode: GraphPointer<BlankNode>
     let decorated: InstancesSelectEditor
     let component: InstancesSelectEditor
@@ -22,7 +22,7 @@ describe('hydra/lib/components/searchDecorator', () => {
     let property: PropertyState
     let updateComponentState: UpdateComponentState
 
-    beforeEach(() => {
+    beforeEach(function () {
       value = testObjectState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
       property = testPropertyState($rdf.clownface({ dataset: $rdf.dataset() }).blankNode())
       focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
@@ -39,8 +39,8 @@ describe('hydra/lib/components/searchDecorator', () => {
       updateComponentState = sinon.spy()
     })
 
-    describe('shouldLoad', () => {
-      it('returns false if instances state is initialized and there is no search template', () => {
+    describe('shouldLoad', function () {
+      it('returns false if instances state is initialized and there is no search template', function () {
         // given
         const componentState = { instances: [] }
 
@@ -57,7 +57,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect(result).to.be.false
       })
 
-      it('returns true if instances state is not initialized', () => {
+      it('returns true if instances state is not initialized', function () {
         // when
         const result = decorated.shouldLoad({
           focusNode,
@@ -71,7 +71,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect(result).to.be.true
       })
 
-      it('returns true if expanded search URI has changed', () => {
+      it('returns true if expanded search URI has changed', function () {
         // given
         value.componentState.searchUri = 'foo'
 
@@ -88,7 +88,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect(result).to.be.true
       })
 
-      it('returns false if focus node does not provider variables required by hydra:search', () => {
+      it('returns false if focus node does not provider variables required by hydra:search', function () {
         // given
         property = hydraSearchProperty({
           search: {
@@ -115,7 +115,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect(result).to.be.false
       })
 
-      it('returns true if hydra:search is different than previous', () => {
+      it('returns true if hydra:search is different than previous', function () {
         // given
         property = hydraSearchProperty({
           search: {
@@ -145,7 +145,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect(result).to.be.true
       })
 
-      it('returns false if sh:path does not find any focus nodes', () => {
+      it('returns false if sh:path does not find any focus nodes', function () {
         // given
         property = hydraSearchProperty({
           search: {
@@ -174,8 +174,8 @@ describe('hydra/lib/components/searchDecorator', () => {
       })
     })
 
-    describe('loadChoices', () => {
-      it('sets loading state when API has returned collection', async () => {
+    describe('loadChoices', function () {
+      it('sets loading state when API has returned collection', async function () {
         // given
         const property = hydraCollectionProperty()
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection), {
@@ -202,7 +202,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         }
       })
 
-      it('dedupes simultaneous loading of same resource', async () => {
+      it('dedupes simultaneous loading of same resource', async function () {
         // given
         const property = hydraCollectionProperty()
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
@@ -225,7 +225,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect($rdf.hydra.loadResource).to.have.been.calledOnce
       })
 
-      it('repeats resource call when previous load finished', async () => {
+      it('repeats resource call when previous load finished', async function () {
         // given
         const property = hydraCollectionProperty()
         const collection = $rdf.rdfine.hydra.Collection($rdf.clownface({ dataset: $rdf.dataset(), graph: ex.Collection }).namedNode(ex.Collection))
@@ -248,7 +248,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect($rdf.hydra.loadResource).to.have.been.calledTwice
       })
 
-      it('loads searchable collection when search template has been constructed', async () => {
+      it('loads searchable collection when search template has been constructed', async function () {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
           $rdf.rdfine.hydra.IriTemplate(template, {
@@ -280,7 +280,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
       })
 
-      it('constructs search URL from multiple nodes', async () => {
+      it('constructs search URL from multiple nodes', async function () {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
           $rdf.rdfine.hydra.IriTemplate(template, {
@@ -314,7 +314,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
       })
 
-      it('constructs search URL using sh:path before hydra:property', async () => {
+      it('constructs search URL using sh:path before hydra:property', async function () {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
           $rdf.rdfine.hydra.IriTemplate(template, {
@@ -355,7 +355,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         })
       })
 
-      it('does not load searchable collection when freetextQuery is empty string', async () => {
+      it('does not load searchable collection when freetextQuery is empty string', async function () {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
           $rdf.rdfine.hydra.IriTemplate(template, {
@@ -385,7 +385,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect($rdf.hydra.loadResource).not.to.have.been.called
       })
 
-      it('does not load searchable collection when freetextQuery is too short', async () => {
+      it('does not load searchable collection when freetextQuery is too short', async function () {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
           $rdf.rdfine.hydra.IriTemplate(template, {
@@ -416,7 +416,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect($rdf.hydra.loadResource).not.to.have.been.called
       })
 
-      it('loads searchable collection when freetextQuery has exactly min length', async () => {
+      it('loads searchable collection when freetextQuery has exactly min length', async function () {
         // given
         property.shape.pointer.addOut(hydra.search, (template) => {
           $rdf.rdfine.hydra.IriTemplate(template, {
@@ -447,7 +447,7 @@ describe('hydra/lib/components/searchDecorator', () => {
         expect($rdf.hydra.loadResource).to.have.been.calledWith('http://example.com/foo?q=abc')
       })
 
-      it('does not load if previous search was the same URI', async () => {
+      it('does not load if previous search was the same URI', async function () {
         // given
         const componentState = {
           searchUri: 'foo-bar',

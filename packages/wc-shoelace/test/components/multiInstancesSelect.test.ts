@@ -8,17 +8,17 @@ import { schema } from '@tpluscode/rdf-ns-builders'
 import type { InstancesMultiSelect } from '../../component-extras.js'
 import { instancesMultiSelectEditor } from '../../component-extras.js'
 
-describe('wc-shoelace/components/multiInstancesSelect', () => {
+describe('wc-shoelace/components/multiInstancesSelect', function () {
   let component: MultiEditorComponent
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     component = {
       ...instancesMultiSelectEditor,
       render: await instancesMultiSelectEditor.lazyRender(),
     }
   })
 
-  it('removes triples when cleared', async () => {
+  it('removes triples when cleared', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
@@ -36,7 +36,7 @@ describe('wc-shoelace/components/multiInstancesSelect', () => {
     )
   })
 
-  it('is disabled when dash:readOnly true', async () => {
+  it('is disabled when dash:readOnly true', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams({
@@ -56,7 +56,7 @@ describe('wc-shoelace/components/multiInstancesSelect', () => {
     expect(button?.disabled).to.be.true
   })
 
-  it('uses form settings for display labels', async () => {
+  it('uses form settings for display labels', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const {

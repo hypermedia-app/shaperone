@@ -1,26 +1,21 @@
 import { dash, xsd } from '@tpluscode/rdf-ns-builders'
-import { expect, fixture, oneEvent, chai } from '@open-wc/testing'
+import { expect, oneEvent, chai } from '@open-wc/testing'
 import $rdf from '@shaperone/testing/env.js'
-import type { MultiEditorTestFixture, SingleEditorTestFixture } from '@shaperone/testing'
 import { editorTestParams } from '@shaperone/testing'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 import { shrink } from '@zazuko/prefixes'
-import type { TemplateResult } from 'lit'
-import * as staticLit from 'lit/static-html.js'
-import { spread } from '@open-wc/lit-helpers'
-import type { ComponentConstructor } from '@hydrofoil/shaperone-core/models/components/index.js'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import rdfMatchers from 'mocha-chai-rdf/matchers.js'
 import * as components from '../NativeComponents.js'
-import { getEditorTagName } from '../components/editor.js'
 import URIEditor from '../elements/URIEditor.js'
 import BooleanSelectEditor from '../elements/BooleanSelect.js'
 import TextFieldEditor from '../elements/TextField.js'
+import defineComponent from './defineComponent.js'
 
 chai.use(rdfMatchers)
 
-describe('NativeComponents', () => {
-  before(() => {
+describe('NativeComponents', function () {
+  before(function () {
     setEnv($rdf)
   })
 
@@ -35,49 +30,17 @@ describe('NativeComponents', () => {
     dash.BooleanSelectEditor,
   ])
 
-  interface Render {
-    (params: SingleEditorTestFixture | MultiEditorTestFixture): TemplateResult
-  }
-
-  function define(component: ComponentConstructor): Render {
-    const tagName = getEditorTagName(component.editor)
-    if (!customElements.get(tagName)) {
-      customElements.define(tagName, component)
-    }
-
-    const tag = staticLit.literal`${staticLit.unsafeStatic(tagName)}`
-    return (params) => {
-      // prepend object properties of params with a dot
-      const bindings = Object.entries(params).reduce((acc, [key, value]) => {
-        if (key === 'object' || key === 'objects') {
-          return acc
-        }
-        return {
-          ...acc,
-          [`.${key}`]: value,
-        }
-      }, {})
-      return staticLit.html`<${tag} ${spread(bindings)}></${tag}>`
-    }
-  }
-
   for (const editor of supportedEditors) {
-    const Component = components.editors.find(c => c.editor.equals(editor))
+    const Component = components.editors.find(c => c.editor.equals(editor))!
 
-    describe(shrink(editor.value), () => {
-      let render: Render
+    describe(shrink(editor.value), function () {
+      before(defineComponent(Component))
 
-      before(async () => {
-        if (Component) {
-          render = define(Component)
-        }
-      })
-
-      it('is implemented', () => {
+      it('is implemented', function () {
         expect(Component).to.be.ok
       })
 
-      it('sets native validity', async () => {
+      it('sets native validity', async function () {
         // given
         const graph = $rdf.clownface({ dataset: $rdf.dataset() })
         const params = editorTestParams({
@@ -92,13 +55,13 @@ describe('NativeComponents', () => {
         }]
 
         // when
-        const element = await fixture(render(params))
+        const element = await this.component.render(params)
 
         // then
         await expect(element).shadowDom.to.equalSnapshot()
       })
 
-      it('is not disabled by default', async () => {
+      it('is not disabled by default', async function () {
         // given
         const graph = $rdf.clownface({ dataset: $rdf.dataset() })
         const params = editorTestParams({
@@ -106,13 +69,13 @@ describe('NativeComponents', () => {
         })
 
         // when
-        const element = await fixture(render(params))
+        const element = await this.component.render(params)
 
         // then
         await expect(element).shadowDom.to.equalSnapshot()
       })
 
-      it('sets disabled when it is dash:readOnly', async () => {
+      it('sets disabled when it is dash:readOnly', async function () {
         // given
         const graph = $rdf.clownface({ dataset: $rdf.dataset() })
         const params = editorTestParams({
@@ -123,7 +86,7 @@ describe('NativeComponents', () => {
         })
 
         // when
-        const element = await fixture(render(params))
+        const element = await this.component.render(params)
 
         // then
         await expect(element).shadowDom.to.equalSnapshot()
@@ -131,20 +94,17 @@ describe('NativeComponents', () => {
     })
   }
 
-  describe(shrink(dash.URIEditor.value), () => {
-    let render: Render
-    before(async () => {
-      render = define(URIEditor)
-    })
+  describe(shrink(dash.URIEditor.value), function () {
+    before(defineComponent(URIEditor))
 
-    it('updates with NamedNode', async () => {
+    it('updates with NamedNode', async function () {
       // given
       const graph = $rdf.clownface()
       const params = editorTestParams({
         object: graph.literal(''),
         datatype: xsd.date,
       })
-      const component = await fixture(render(params))
+      const component = await this.component.render(params)
       const input = component.shadowRoot!.querySelector('input')!
 
       // when
@@ -158,25 +118,22 @@ describe('NativeComponents', () => {
     })
   })
 
-  describe(shrink(dash.BooleanSelectEditor.value), () => {
-    let render: Render
-    before(async () => {
-      render = define(BooleanSelectEditor)
-    })
+  describe(shrink(dash.BooleanSelectEditor.value), function () {
+    before(defineComponent(BooleanSelectEditor))
 
     function change(input: HTMLSelectElement, index: number) {
       input.selectedIndex = index
       setTimeout(() => input.dispatchEvent(new Event('change')))
     }
 
-    it('clears when selecting empty <option>', async () => {
+    it('clears when selecting empty <option>', async function () {
       // given
       const graph = $rdf.clownface()
       const params = editorTestParams({
         object: graph.literal('true'),
         datatype: xsd.boolean,
       })
-      const el = await fixture(render(params))
+      const el = await this.component.render(params)
       const input = el.shadowRoot!.querySelector('select')!
 
       // when
@@ -187,7 +144,7 @@ describe('NativeComponents', () => {
       expect(ev).to.be.ok
     })
 
-    it('sets correct selection', async () => {
+    it('sets correct selection', async function () {
       // given
       const graph = $rdf.clownface()
       const params = editorTestParams({
@@ -196,20 +153,20 @@ describe('NativeComponents', () => {
       })
 
       // when
-      const el = await fixture(render(params))
+      const el = await this.component.render(params)
       const input = el.shadowRoot!.querySelector('select')!
 
       // then
       expect(input.selectedOptions.item(0)?.selected).to.be.true
     })
 
-    it('updates when selecting', async () => {
+    it('updates when selecting', async function () {
       // given
       const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const params = editorTestParams({
         object: graph.literal(''),
       })
-      const el = await fixture(render(params))
+      const el = await this.component.render(params)
       const input = el.shadowRoot!.querySelector('select')!
 
       // when
@@ -221,13 +178,10 @@ describe('NativeComponents', () => {
     })
   })
 
-  describe(shrink(dash.TextFieldEditor.value), () => {
-    let render: Render
-    before(async () => {
-      render = define(TextFieldEditor)
-    })
+  describe(shrink(dash.TextFieldEditor.value), function () {
+    before(defineComponent(TextFieldEditor))
 
-    it('renders input[type=number] when object is xsd:integer literal', async () => {
+    it('renders input[type=number] when object is xsd:integer literal', async function () {
       // given
       const graph = $rdf.clownface()
       const params = editorTestParams({
@@ -236,13 +190,13 @@ describe('NativeComponents', () => {
       })
 
       // when
-      const input = await fixture(render(params))
+      const input = await this.component.render(params)
 
       // then
       await expect(input).shadowDom.to.equalSnapshot()
     })
 
-    it('renders input[type=number] when object is xsd:decimal literal', async () => {
+    it('renders input[type=number] when object is xsd:decimal literal', async function () {
       // given
       const graph = $rdf.clownface()
       const params = editorTestParams({
@@ -251,7 +205,7 @@ describe('NativeComponents', () => {
       })
 
       // when
-      const input = await fixture(render(params))
+      const input = await this.component.render(params)
 
       // then
       await expect(input).shadowDom.to.equalSnapshot()

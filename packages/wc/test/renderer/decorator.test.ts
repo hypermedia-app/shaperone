@@ -2,9 +2,9 @@ import { html, css } from 'lit'
 import { expect } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
 
-describe('@hydrofoil/shaperone-wc/components/decorator', () => {
-  describe('.loadDependencies', () => {
-    it('gets combined from base and extension', async () => {
+describe('@hydrofoil/shaperone-wc/components/decorator', function () {
+  describe('.loadDependencies', function () {
+    it('gets combined from base and extension', async function () {
       // given
       const base: FocusNodeTemplate = function () {
         return html``
@@ -27,7 +27,7 @@ describe('@hydrofoil/shaperone-wc/components/decorator', () => {
       expect(decoratedDeps).to.have.been.called
     })
 
-    it('resues base dependencies', async () => {
+    it('resues base dependencies', async function () {
       // given
       const base: FocusNodeTemplate = function () {
         return html``
@@ -43,9 +43,10 @@ describe('@hydrofoil/shaperone-wc/components/decorator', () => {
     })
   })
 
-  describe('.styles', () => {
-    it('get combined from base and extension', async () => {
+  describe('.styles', function () {
+    it('get combined from base and extension', async function () {
       // given
+      debugger
       const base: FocusNodeTemplate = function () {
         return html``
       }
@@ -66,7 +67,7 @@ describe('@hydrofoil/shaperone-wc/components/decorator', () => {
       expect(styles).to.contain('h2')
     })
 
-    it('reuses base styles if defined', async () => {
+    it('reuses base styles if defined', async function () {
       // given
       const base: FocusNodeTemplate = function () {
         return html``

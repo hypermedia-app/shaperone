@@ -1,7 +1,6 @@
 import type { FocusNodeState, PropertyGroupState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
 import { html } from 'lit'
-import { repeat } from 'lit/directives/repeat.js'
 import type { PropertyGroup } from '@rdfine/shacl'
 import ShaperoneElementBase from './ShaperoneElementBase.js'
 

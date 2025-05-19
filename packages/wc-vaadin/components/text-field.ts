@@ -14,7 +14,6 @@ export const textField: Render<SingleEditorComponent> = function ({ env, value, 
     '?auto-validate': true,
     '@blur': (e: any) => update(e.target.value),
     ...validity(value),
-    '.readonly': !!property.shape.readOnly,
   }
 
   const datatype = numericDatatypeKind(property.datatype)

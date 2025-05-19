@@ -6,18 +6,18 @@ import type { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { any, blankNode } from '@shaperone/testing/nodeFactory.js'
 import { formRenderer } from '@shaperone/testing/renderer.js'
 
-describe('wc/renderer/focusNode', () => {
+describe('wc/renderer/focusNode', function () {
   let focusNode: FocusNode
   let renderer: sinon.SinonStubbedInstance<FormRenderer>
   let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
-  beforeEach(() => {
+  beforeEach(function () {
     focusNode = testFocusNode().focusNode
     renderer = formRenderer()
     dispatch = renderer.context.dispatch.form as any
   })
 
-  it('dispatches to create node when there is none', async () => {
+  it('dispatches to create node when there is none', async function () {
     // given
     renderer.context.templates.initialising = () => html`Loading`
 
@@ -29,7 +29,7 @@ describe('wc/renderer/focusNode', () => {
     expect(dispatch.createFocusNodeState.firstCall.firstArg).to.have.deep.property('focusNode', focusNode)
   })
 
-  it('dispatches to create node when previous node was from different dataset', async () => {
+  it('dispatches to create node when previous node was from different dataset', async function () {
     // given
     renderer.context.templates.initialising = () => html`Loading`
     renderer.context.state.focusNodes[focusNode.value] = testFocusNode(any().node(focusNode.term))
@@ -41,7 +41,7 @@ describe('wc/renderer/focusNode', () => {
     expect(dispatch.createFocusNodeState.firstCall.firstArg).to.have.deep.property('focusNode', focusNode)
   })
 
-  it('calls render template', async () => {
+  it('calls render template', async function () {
     // given
     const childState = testFocusNode(focusNode.blankNode())
     renderer.context.state.focusNodes[focusNode.value] = childState
@@ -57,9 +57,9 @@ describe('wc/renderer/focusNode', () => {
     }))
   })
 
-  describe('actions', () => {
-    describe('clearProperty', () => {
-      it('calls remove for every object', async () => {
+  describe('actions', function () {
+    describe('clearProperty', function () {
+      it('calls remove for every object', async function () {
         // given
         const childState = testFocusNode(focusNode.blankNode())
         const property = testPropertyState(blankNode(), {
@@ -79,7 +79,7 @@ describe('wc/renderer/focusNode', () => {
         expect(dispatch.removeObject).to.have.been.called.callCount(3)
       })
 
-      it('calls clearValue when property disallows removing object', async () => {
+      it('calls clearValue when property disallows removing object', async function () {
         // given
         const childState = testFocusNode(focusNode.blankNode())
         const property = testPropertyState(blankNode(), {
@@ -100,7 +100,7 @@ describe('wc/renderer/focusNode', () => {
         expect(dispatch.clearValue).to.have.been.called.callCount(3)
       })
 
-      it('does nothing when property is not found', async () => {
+      it('does nothing when property is not found', async function () {
         // given
         const childState = testFocusNode(focusNode.blankNode())
         const property = testPropertyState(blankNode(), {

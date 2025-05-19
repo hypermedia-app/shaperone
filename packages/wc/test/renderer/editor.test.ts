@@ -11,13 +11,13 @@ import rdf from '@zazuko/env/web.js'
 import type { Dispatch } from '@hydrofoil/shaperone-core/state'
 import { renderMultiEditor, renderEditor } from '../../renderer/editor.js'
 
-describe('wc/renderer/editor', () => {
-  describe('multiEditor', () => {
+describe('wc/renderer/editor', function () {
+  describe('multiEditor', function () {
     const editor = dash.FooEditor
     let renderer: sinon.SinonStubbedInstance<PropertyRenderer>
     let property: PropertyState
 
-    beforeEach(() => {
+    beforeEach(function () {
       const focusNode = testFocusNode()
       property = testPropertyState()
       renderer = propertyRenderer({
@@ -27,11 +27,11 @@ describe('wc/renderer/editor', () => {
       })
     })
 
-    describe('action', () => {
+    describe('action', function () {
       let actions: MultiEditorActions
       let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
-      beforeEach(async () => {
+      beforeEach(async function () {
         property.selectedEditor = editor
         const render = sinon.stub().returns(html`Multi editor`)
         renderer.context.components.components[editor.value] = {
@@ -45,8 +45,8 @@ describe('wc/renderer/editor', () => {
         dispatch = renderer.context.dispatch.form as any
       })
 
-      describe('update', () => {
-        it('sets strings as literals typed with property datatype', () => {
+      describe('update', function () {
+        it('sets strings as literals typed with property datatype', function () {
           // given
           property.datatype = xsd.int
 
@@ -66,7 +66,7 @@ describe('wc/renderer/editor', () => {
           ])
         })
 
-        it('sets strings as named node when property has nodeKind sh:IRI', () => {
+        it('sets strings as named node when property has nodeKind sh:IRI', function () {
           // given
           property.shape.nodeKind = sh.IRI
 
@@ -88,7 +88,7 @@ describe('wc/renderer/editor', () => {
       })
     })
 
-    it('renders "editor missing template" when no editor is selected', async () => {
+    it('renders "editor missing template" when no editor is selected', async function () {
       // given
       renderer.context.templates.editor.notFound = sinon.stub().returns(html`No editor`)
 
@@ -100,7 +100,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('No editor')
     })
 
-    it('renders "component missing template" when editor is not implemented', async () => {
+    it('renders "component missing template" when editor is not implemented', async function () {
       // given
       property.selectedEditor = editor
       renderer.context.templates.component.notFound = sinon.stub().returns(html`No component`)
@@ -114,7 +114,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('No component')
     })
 
-    it('loads lazy component and renders loading template', async () => {
+    it('loads lazy component and renders loading template', async function () {
       // given
       property.selectedEditor = editor
       renderer.context.components.components[editor.value] = {
@@ -132,7 +132,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Please wait')
     })
 
-    it('does not load lazy component if already loading', async () => {
+    it('does not load lazy component if already loading', async function () {
       // given
       property.selectedEditor = editor
       renderer.context.components.components[editor.value] = {
@@ -149,7 +149,7 @@ describe('wc/renderer/editor', () => {
       expect(renderer.context.templates.component.loading).to.have.been.called
     })
 
-    it('renders error template if component failed to load', async () => {
+    it('renders error template if component failed to load', async function () {
       // given
       property.selectedEditor = editor
       const reason = 'Not found'
@@ -171,7 +171,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Failed')
     })
 
-    it('renders component', async () => {
+    it('renders component', async function () {
       // given
       property.selectedEditor = editor
       const render = sinon.stub().returns(html`Multi editor`)
@@ -197,7 +197,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Multi editor')
     })
 
-    it('renders component when init is ready', async () => {
+    it('renders component when init is ready', async function () {
       // given
       property.selectedEditor = editor
       const render = sinon.stub().returns(html`Multi editor`)
@@ -216,7 +216,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Multi editor')
     })
 
-    it('renders "initializing" template when not ready', async () => {
+    it('renders "initializing" template when not ready', async function () {
       // given
       property.selectedEditor = editor
       const init = sinon.stub().returns(false)
@@ -244,13 +244,13 @@ describe('wc/renderer/editor', () => {
     })
   })
 
-  describe('singleEditor', () => {
+  describe('singleEditor', function () {
     const editor = dash.FooEditor
     let renderer: sinon.SinonStubbedInstance<ObjectRenderer>
     let property: PropertyState
     let object: PropertyObjectState
 
-    beforeEach(() => {
+    beforeEach(function () {
       const focusNode = testFocusNode()
       property = testPropertyState()
       object = testObjectState()
@@ -262,11 +262,11 @@ describe('wc/renderer/editor', () => {
       })
     })
 
-    describe('action', () => {
+    describe('action', function () {
       let actions: SingleEditorActions
       let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
 
-      beforeEach(async () => {
+      beforeEach(async function () {
         object.selectedEditor = editor
         const render = sinon.stub().returns(html`Single editor`)
         renderer.context.components.components[editor.value] = {
@@ -280,8 +280,8 @@ describe('wc/renderer/editor', () => {
         dispatch = renderer.context.dispatch.form as any
       })
 
-      describe('update', () => {
-        it('sets string as literal typed with property datatype', () => {
+      describe('update', function () {
+        it('sets string as literal typed with property datatype', function () {
           // given
           property.datatype = xsd.int
 
@@ -293,7 +293,7 @@ describe('wc/renderer/editor', () => {
           expect(newValue).to.have.deep.eq(rdf.literal('foo', xsd.int))
         })
 
-        it('sets strings as named node when property has nodeKind sh:IRI', () => {
+        it('sets strings as named node when property has nodeKind sh:IRI', function () {
           // given
           property.shape.nodeKind = sh.IRI
 
@@ -306,9 +306,9 @@ describe('wc/renderer/editor', () => {
         })
       })
 
-      describe('focusOnObjectNode', () => {
+      describe('focusOnObjectNode', function () {
         [rdf.namedNode('foo'), rdf.blankNode()].forEach((node) => {
-          it(`calls dispatch when object is ${node.termType}`, () => {
+          it(`calls dispatch when object is ${node.termType}`, function () {
             // given
             object.object = renderer.focusNode.focusNode.node(node)
 
@@ -322,7 +322,7 @@ describe('wc/renderer/editor', () => {
         });
 
         [rdf.literal('foo'), rdf.defaultGraph()].forEach((node) => {
-          it(`does not call dispatch when object is ${node.termType}`, () => {
+          it(`does not call dispatch when object is ${node.termType}`, function () {
             // given
             object.object = renderer.focusNode.focusNode.node(node)
 
@@ -335,8 +335,8 @@ describe('wc/renderer/editor', () => {
         })
       })
 
-      describe('remove', () => {
-        it('calls dispatch', () => {
+      describe('remove', function () {
+        it('calls dispatch', function () {
           // when
           actions.remove()
 
@@ -345,8 +345,8 @@ describe('wc/renderer/editor', () => {
         })
       })
 
-      describe('clear', () => {
-        it('calls dispatch', () => {
+      describe('clear', function () {
+        it('calls dispatch', function () {
           // when
           actions.clear()
 
@@ -356,7 +356,7 @@ describe('wc/renderer/editor', () => {
       })
     })
 
-    it('renders "editor missing template" when no editor is selected', async () => {
+    it('renders "editor missing template" when no editor is selected', async function () {
       // given
       renderer.context.templates.editor.notFound = sinon.stub().returns(html`No editor`)
 
@@ -368,7 +368,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('No editor')
     })
 
-    it('renders "component missing template" when editor is not implemented', async () => {
+    it('renders "component missing template" when editor is not implemented', async function () {
       // given
       object.selectedEditor = editor
       renderer.context.templates.component.notFound = sinon.stub().returns(html`No component`)
@@ -382,7 +382,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('No component')
     })
 
-    it('loads lazy component and renders loading template', async () => {
+    it('loads lazy component and renders loading template', async function () {
       // given
       object.selectedEditor = editor
       renderer.context.components.components[editor.value] = {
@@ -400,7 +400,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Please wait')
     })
 
-    it('does not load lazy component if already loading', async () => {
+    it('does not load lazy component if already loading', async function () {
       // given
       object.selectedEditor = editor
       renderer.context.components.components[editor.value] = {
@@ -417,7 +417,7 @@ describe('wc/renderer/editor', () => {
       expect(renderer.context.templates.component.loading).to.have.been.called
     })
 
-    it('renders error template if component failed to load', async () => {
+    it('renders error template if component failed to load', async function () {
       // given
       object.selectedEditor = editor
       const reason = 'Not found'
@@ -439,7 +439,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Failed')
     })
 
-    it('renders "initializing" template when not ready', async () => {
+    it('renders "initializing" template when not ready', async function () {
       // given
       object.selectedEditor = editor
       const init = sinon.stub().returns(false)
@@ -466,7 +466,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Preparing')
     })
 
-    it('renders component', async () => {
+    it('renders component', async function () {
       // given
       object.selectedEditor = editor
       const render = sinon.stub().returns(html`Multi editor`)
@@ -492,7 +492,7 @@ describe('wc/renderer/editor', () => {
       expect(result.textContent).to.equal('Multi editor')
     })
 
-    it('renders component when init is ready', async () => {
+    it('renders component when init is ready', async function () {
       // given
       object.selectedEditor = editor
       const render = sinon.stub().returns(html`Single editor`)

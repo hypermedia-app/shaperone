@@ -8,12 +8,12 @@ import { store } from '../store.js'
 import type { ShaperoneForm } from '../ShaperoneForm.js'
 import { configure } from '../configure.js'
 
-describe('shaperone-form', () => {
-  before(async () => {
+describe('shaperone-form', function () {
+  before(async function () {
     await configure()
   })
 
-  beforeEach(() => {
+  beforeEach(function () {
     setEnv(rdf)
   })
 
@@ -23,7 +23,7 @@ describe('shaperone-form', () => {
     path: rdf.ns.schema.name,
   })]
 
-  it('sets a default resource pointer', async () => {
+  it('sets a default resource pointer', async function () {
     // given
     const form = await fixture<ShaperoneForm>(html`<shaperone-form></shaperone-form>`)
 
@@ -31,7 +31,7 @@ describe('shaperone-form', () => {
     expect(form.resource?.term.equals(rdf.namedNode(''))).to.be.true
   })
 
-  xit('dispatches event when object values change', async () => {
+  xit('dispatches event when object values change', async function () {
     // given
     const resource: FocusNode = rdf.clownface().blankNode()
     const form = await fixture(html`<shaperone-form .shapes="${shape.pointer}" .resource="${resource}"></shaperone-form>`)

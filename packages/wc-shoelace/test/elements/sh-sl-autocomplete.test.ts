@@ -3,8 +3,8 @@ import { namedNode } from '@shaperone/testing/nodeFactory.js'
 import '../../elements/sh-sl-autocomplete.js'
 import type { ShSlAutocomplete } from '../../elements/sh-sl-autocomplete.js'
 
-describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
-  it('has empty property when empty', async () => {
+describe('wc-shoelace/elements/sh-sl-autocomplete', function () {
+  it('has empty property when empty', async function () {
     // when
     const el = await fixture<ShSlAutocomplete>(html`<sh-sl-autocomplete></sh-sl-autocomplete>`)
 
@@ -12,7 +12,7 @@ describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
     expect(el.empty).to.be.true
   })
 
-  it('hides menu when empty', async () => {
+  it('hides menu when empty', async function () {
     // when
     const el = await fixture<ShSlAutocomplete>(html`<sh-sl-autocomplete></sh-sl-autocomplete>`)
 
@@ -20,7 +20,7 @@ describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
     expect(el.renderRoot.querySelector('sl-menu')).attr('hidden').to.eq('')
   })
 
-  it('disables dropdown when readonly', async () => {
+  it('disables dropdown when readonly', async function () {
     // when
     const el = await fixture<ShSlAutocomplete>(html`<sh-sl-autocomplete readonly></sh-sl-autocomplete>`)
 
@@ -28,7 +28,7 @@ describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
     expect(el.renderRoot.querySelector('sl-dropdown')?.disabled).to.be.true
   })
 
-  it('spins the icon when [loading]', async () => {
+  it('spins the icon when [loading]', async function () {
     // when
     const el = await fixture<ShSlAutocomplete>(html`<sh-sl-autocomplete loading></sh-sl-autocomplete>`)
 
@@ -36,7 +36,7 @@ describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
     expect(el.renderRoot.querySelector('sl-input sl-icon')).to.have.style('animation-name', 'spin')
   })
 
-  it('shows clear button when [clearable]', async () => {
+  it('shows clear button when [clearable]', async function () {
     // given
     const value = namedNode('test')
 
@@ -48,7 +48,7 @@ describe('wc-shoelace/elements/sh-sl-autocomplete', () => {
     expect(getComputedStyle(clearButton!).display).not.to.eq('none')
   })
 
-  it('does not show clear button when :not([clearable])', async () => {
+  it('does not show clear button when :not([clearable])', async function () {
     // when
     const el = await fixture<ShSlAutocomplete>(html`<sh-sl-autocomplete></sh-sl-autocomplete>`)
     const clearButton = el.renderRoot.querySelector('#clear')

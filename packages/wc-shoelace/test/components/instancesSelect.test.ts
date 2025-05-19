@@ -6,17 +6,17 @@ import type { InstancesSelect } from '@hydrofoil/shaperone-core/lib/components/i
 import { schema } from '@tpluscode/rdf-ns-builders'
 import { instancesSelect } from '../../components/instancesSelect.js'
 
-describe('wc-shoelace/components/instancesSelect', () => {
+describe('wc-shoelace/components/instancesSelect', function () {
   let component: InstancesSelect
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     component = {
       ...instancesSelect,
       render: await instancesSelect.lazyRender(),
     }
   })
 
-  it('is disabled when dash:readOnly true', async () => {
+  it('is disabled when dash:readOnly true', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const { params, actions } = editorTestParams<InstancesSelect>({
@@ -33,7 +33,7 @@ describe('wc-shoelace/components/instancesSelect', () => {
     expect(result.disabled).to.be.true
   })
 
-  it('uses form settings for display labels', async () => {
+  it('uses form settings for display labels', async function () {
     // given
     const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const {
@@ -56,8 +56,8 @@ describe('wc-shoelace/components/instancesSelect', () => {
     expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
   })
 
-  context('property $rdf.ns.sh1:clearable true', () => {
-    it('makes select clearable', async () => {
+  context('property $rdf.ns.sh1:clearable true', function () {
+    it('makes select clearable', async function () {
       // given
       const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams<InstancesSelect>({
@@ -74,7 +74,7 @@ describe('wc-shoelace/components/instancesSelect', () => {
       expect(result.clearable).to.be.true
     })
 
-    it('clears value when cleared', async () => {
+    it('clears value when cleared', async function () {
       // given
       const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const { params, actions } = editorTestParams<InstancesSelect>({
