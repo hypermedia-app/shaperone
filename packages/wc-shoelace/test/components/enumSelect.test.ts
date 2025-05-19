@@ -1,28 +1,23 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import { expect, fixture, nextFrame } from '@open-wc/testing'
-import type { SlSelect } from '@shoelace-style/shoelace'
-import type { EnumSelect } from '@hydrofoil/shaperone-core/lib/components/enumSelect.js'
+import { expect, oneEvent } from '@open-wc/testing'
 import { schema } from '@tpluscode/rdf-ns-builders'
-import { enumSelect } from '../../components/enumSelect.js'
+import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
+import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import { EnumSelect } from '../../components.js'
 
-describe('wc-shoelace/components/enumSelect', () => {
-  let component: EnumSelect
-
-  beforeEach(async () => {
-    component = {
-      ...enumSelect,
-      render: await enumSelect.lazyRender(),
-    }
+describe('wc-shoelace/components/enumSelect', function () {
+  before(function () {
+    setEnv($rdf)
   })
 
-  it('is disabled when dash:readOnly true', async () => {
+  beforeEach(defineComponent(EnumSelect, { awaitEvent: 'sh1-ready' }))
+
+  it('is disabled when dash:readOnly true', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const {
-      params,
-      actions,
-    } = editorTestParams<EnumSelect>({
+    const graph = $rdf.clownface()
+    const params = editorTestParams({
       property: {
         readOnly: true,
       },
@@ -30,43 +25,42 @@ describe('wc-shoelace/components/enumSelect', () => {
     })
 
     // when
-    const result = await fixture<SlSelect>(component.render(params, actions))
+    const { input } = await this.component.render(params, {
+      element: 'sl-select',
+    })
 
     // then
-    expect(result.disabled).to.be.true
+    expect(input.disabled).to.be.true
   })
 
-  it('uses form settings for display labels', async () => {
+  it('uses form settings for display labels', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const {
-      params,
-      actions,
-    } = editorTestParams<EnumSelect>({
-      componentState: {
-        choices: [
-          graph.namedNode('A').addOut(schema.name, 'Ą'),
-        ],
+    const graph = $rdf.clownface()
+    const params = editorTestParams<EnumSelectEditor>({
+      property: {
+        in: [{
+          id: 'A',
+          [schema.name.value]: 'Ą',
+        }],
       },
       object: graph.namedNode('A'),
+      labelProperties: [schema.name],
     })
-    params.form.labelProperties = [schema.name]
 
     // when
-    const result = await fixture<SlSelect>(component.render(params, actions))
+    const { input } = await this.component.render(params, {
+      element: 'sl-select',
+    })
 
     // then
-    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
+    expect(input.querySelector('sl-option')?.textContent!.trim()).to.eq('Ą')
   })
 
-  context('property $rdf.ns.sh1:clearable true', () => {
-    it('makes select clearable', async () => {
+  context('property $rdf.ns.sh1:clearable true', function () {
+    it('makes select clearable', async function () {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-      const {
-        params,
-        actions,
-      } = editorTestParams<EnumSelect>({
+      const graph = $rdf.clownface()
+      const params = editorTestParams({
         property: {
           readOnly: true,
           [$rdf.ns.sh1.clearable.value]: true,
@@ -75,39 +69,41 @@ describe('wc-shoelace/components/enumSelect', () => {
       })
 
       // when
-      const result = await fixture<SlSelect>(component.render(params, actions))
+      const { input } = await this.component.render(params, {
+        element: 'sl-select',
+      })
 
       // then
-      expect(result.clearable).to.be.true
+      expect(input.clearable).to.be.true
     })
 
-    it('clears value when cleared', async () => {
+    it('clears value when cleared', async function () {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-      const {
-        params,
-        actions,
-      } = editorTestParams<EnumSelect>({
+      const graph = $rdf.clownface()
+      const params = editorTestParams({
         property: {
           [$rdf.ns.sh1.clearable.value]: true,
-        },
-        object: graph.literal('B'),
-        componentState: {
-          choices: [
-            graph.literal('A'),
-            graph.literal('B'),
-            graph.literal('C'),
+          in: [
+            $rdf.literal('A'),
+            $rdf.literal('B'),
+            $rdf.literal('C'),
           ],
         },
+        object: graph.literal('B'),
       })
 
       // when
-      const result = await fixture<SlSelect>(component.render(params, actions))
-      result.renderRoot.querySelector<HTMLButtonElement>('.select__clear')?.click()
-      await nextFrame()
+      const { component, input } = await this.component.render(params, {
+        element: 'sl-select',
+      })
+      setTimeout(() => {
+        input.renderRoot.querySelector<HTMLButtonElement>('.select__clear')?.click()
+      })
+
+      const cleared = await oneEvent(component, 'cleared')
 
       // then
-      expect(actions.clear).to.have.been.called
+      expect(cleared).to.be.ok
     })
   })
 })

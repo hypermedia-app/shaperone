@@ -1,0 +1,27 @@
+import type { Component } from '@hydrofoil/shaperone-core'
+import { LitElement } from 'lit'
+import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { property } from 'lit/decorators.js'
+import type { NamedNode } from '@rdfjs/types'
+
+export abstract class ComponentBase extends LitElement implements Component {
+  @property({ type: Object })
+  public property!: PropertyState
+
+  @property({ type: Object })
+  public focusNode!: FocusNodeState
+
+  @property({ type: Array })
+  public labelProperties: NamedNode[] = []
+
+  get readonly() {
+    return this.property.shape.readOnly || false
+  }
+
+  clear() {
+    this.dispatchEvent(new CustomEvent('cleared', {
+      bubbles: true,
+      composed: true,
+    }))
+  }
+}

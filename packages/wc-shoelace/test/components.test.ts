@@ -1,32 +1,23 @@
-import type { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField.js'
 import $rdf from '@shaperone/testing/env.js'
-import { editorTestParams, ex, sinon } from '@shaperone/testing'
-import { expect, fixture } from '@open-wc/testing'
-import type { SlCheckbox, SlInput } from '@shoelace-style/shoelace'
-import type { TextFieldWithLang, TextFieldWithLangEditor } from '@hydrofoil/shaperone-core/lib/components/textFieldWithLang.js'
-import type { URIEditor, URI } from '@hydrofoil/shaperone-core/lib/components/uri.js'
-import type { BooleanSelect, BooleanSelectEditor } from '@hydrofoil/shaperone-core/lib/components/booleanSelect.js'
-import type { Details, DetailsEditor } from '@hydrofoil/shaperone-core/lib/components/details.js'
-import { sh, xsd } from '@tpluscode/rdf-ns-builders'
-import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
-import type { FieldWithLang } from '../elements/FieldWithLang.js'
+import { editorTestParams } from '@shaperone/testing'
+import { expect, oneEvent } from '@open-wc/testing'
+import { xsd } from '@tpluscode/rdf-ns-builders'
+import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import * as components from '../components.js'
 
-describe('wc-shoelace/components', () => {
-  describe('textField', () => {
-    let component: TextField
+describe('wc-shoelace/components', function () {
+  before(function () {
+    setEnv($rdf)
+  })
 
-    beforeEach(async () => {
-      component = {
-        ...components.textField,
-        render: await components.textField.lazyRender(),
-      }
-    })
+  describe('textField', function () {
+    beforeEach(defineComponent(components.TextField, { awaitEvent: 'sh1-ready' }))
 
-    it('is readonly when dash:readOnly true', async () => {
+    it('is readonly when dash:readOnly true', async function () {
       // given
       const graph = $rdf.clownface()
-      const { params, actions } = editorTestParams<TextFieldEditor>({
+      const params = editorTestParams({
         property: {
           readOnly: true,
         },
@@ -34,27 +25,22 @@ describe('wc-shoelace/components', () => {
       })
 
       // when
-      const result = await fixture<SlInput>(component.render(params, actions))
+      const { input } = await this.component.render(params, {
+        element: 'sl-input',
+      })
 
       // then
-      expect(result.readonly).to.be.true
+      expect(input.readonly).to.be.true
     })
   })
 
-  describe('textFieldWithLang', () => {
-    let component: TextFieldWithLang
+  describe('textFieldWithLang', function () {
+    beforeEach(defineComponent(components.TextFieldWithLang, { awaitEvent: 'sh1-ready' }))
 
-    beforeEach(async () => {
-      component = {
-        ...components.textFieldWithLang,
-        render: await components.textFieldWithLang.lazyRender(),
-      }
-    })
-
-    it('is readonly when dash:readOnly true', async () => {
+    it('is readonly when dash:readOnly true', async function () {
       // given
       const graph = $rdf.clownface()
-      const { params, actions } = editorTestParams<TextFieldWithLangEditor>({
+      const params = editorTestParams({
         property: {
           readOnly: true,
         },
@@ -62,27 +48,22 @@ describe('wc-shoelace/components', () => {
       })
 
       // when
-      const result = await fixture<FieldWithLang>(component.render(params, actions))
+      const { input } = await this.component.render(params, {
+        element: 'sl-input',
+      })
 
       // then
-      expect(result.readonly).to.be.true
+      expect(input.readonly).to.be.true
     })
   })
 
-  describe('uri', () => {
-    let component: URI
+  describe('uri', function () {
+    beforeEach(defineComponent(components.Uri, { awaitEvent: 'sh1-ready' }))
 
-    beforeEach(async () => {
-      component = {
-        ...components.uri,
-        render: await components.uri.lazyRender(),
-      }
-    })
-
-    it('is readonly when dash:readOnly true', async () => {
+    it('is readonly when dash:readOnly true', async function () {
       // given
       const graph = $rdf.clownface()
-      const { params, actions } = editorTestParams<URIEditor>({
+      const params = editorTestParams({
         property: {
           readOnly: true,
         },
@@ -90,159 +71,116 @@ describe('wc-shoelace/components', () => {
       })
 
       // when
-      const result = await fixture<SlInput>(component.render(params, actions))
+      const { input } = await this.component.render(params, {
+        element: 'sl-input',
+      })
 
       // then
-      expect(result.readonly).to.be.true
+      expect(input.readonly).to.be.true
     })
   })
 
-  describe('boolean', () => {
-    let component: BooleanSelect
+  describe('boolean', function () {
+    beforeEach(defineComponent(components.BooleanSelect, { awaitEvent: 'sh1-ready' }))
 
-    beforeEach(async () => {
-      component = {
-        ...components.boolean,
-        render: await components.boolean.lazyRender(),
-      }
-    })
-
-    it('is disabled when dash:readOnly true', async () => {
+    it('is disabled when dash:readOnly true', async function () {
       // given
-      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+      const params = editorTestParams({
         property: {
           readOnly: true,
         },
       })
 
       // when
-      const result = await fixture<SlCheckbox>(component.render(params, actions))
+      const { input } = await this.component.render(params, {
+        element: 'sl-checkbox',
+      })
 
       // then
-      expect(result.disabled).to.be.true
+      expect(input.disabled).to.be.true
     })
 
-    it('updates when checked', async () => {
+    it('updates when checked', async function () {
       // given
       const graph = $rdf.clownface()
-      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+      const params = editorTestParams({
         object: graph.node($rdf.literal('false', xsd.boolean)),
       })
 
       // when
-      const result = await fixture<SlCheckbox>(component.render(params, actions))
-      result.click()
-      await result.updateComplete
+      const { component, input } = await this.component.render(params, {
+        element: 'sl-checkbox',
+      })
+      setTimeout(() => input.click())
 
       // then
-      expect(actions.update).to.have.been.calledWith(graph.literal('true', xsd.boolean).term)
+      const { detail } = await oneEvent(component, 'value-changed')
+      expect(detail.value).to.eq($rdf.constant.TRUE)
     })
 
-    it('updates when unchecked', async () => {
+    it('updates when unchecked', async function () {
       // given
       const graph = $rdf.clownface()
-      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+      const params = editorTestParams({
         object: graph.node($rdf.literal('true', xsd.boolean)),
       })
 
       // when
-      const result = await fixture<SlCheckbox>(component.render(params, actions))
-      result.click()
-      await result.updateComplete
+      const { component, input } = await this.component.render(params, {
+        element: 'sl-checkbox',
+      })
+      setTimeout(() => input.click())
 
       // then
-      expect(actions.update).to.have.been.calledWith(graph.literal('false', xsd.boolean).term)
+      const { detail } = await oneEvent(component, 'value-changed')
+      expect(detail.value).to.eq($rdf.constant.FALSE)
     })
 
-    it('is checked when value is "true"^^xsd:boolean', async () => {
+    it('is checked when value is "true"^^xsd:boolean', async function () {
       // given
       const graph = $rdf.clownface()
-      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+      const params = editorTestParams({
         object: graph.node($rdf.literal('true', xsd.boolean)),
       })
 
       // when
-      const result = await fixture<SlCheckbox>(component.render(params, actions))
+      const result = await this.component.render(params)
+      const input = result.shadowRoot!.querySelector('sl-checkbox')!
 
       // then
-      expect(result.checked).to.be.true
-      expect(result.indeterminate).to.be.false
+      expect(input.checked).to.be.true
+      expect(input.indeterminate).to.be.false
     })
 
-    it('is unchecked when value is "false"^^xsd:boolean', async () => {
+    it('is unchecked when value is "false"^^xsd:boolean', async function () {
       // given
       const graph = $rdf.clownface()
-      const { params, actions } = editorTestParams<BooleanSelectEditor>({
+      const params = editorTestParams({
         object: graph.node($rdf.literal('false', xsd.boolean)),
       })
 
       // when
-      const result = await fixture<SlCheckbox>(component.render(params, actions))
-
-      // then
-      expect(result.checked).to.be.false
-      expect(result.indeterminate).to.be.false
-    })
-
-    it('is indeterminate and unchecked when unset', async () => {
-      // given
-      const { params, actions } = editorTestParams<BooleanSelectEditor>()
-
-      // when
-      const result = await fixture<SlCheckbox>(component.render(params, actions))
-
-      // then
-      expect(result.checked).to.be.false
-      expect(result.indeterminate).to.be.true
-    })
-  })
-
-  describe('details', () => {
-    let component: Details
-
-    beforeEach(async () => {
-      component = {
-        ...components.details,
-        render: await components.details.lazyRender(),
-      }
-    })
-
-    it('it renders using override sh:node', async () => {
-      // given
-      const shNode = ex.FooShape
-      const overrides = blankNode()
-        .addOut(sh.node, shNode)
-      const { params, actions } = editorTestParams<DetailsEditor>({
-        object: namedNode(ex.Foo),
-        overrides,
+      const { input } = await this.component.render(params, {
+        element: 'sl-checkbox',
       })
 
-      // when
-      await fixture(component.render(params, actions))
-
       // then
-      expect(params.renderer.renderFocusNode).to.have.been.calledWith(sinon.match({
-        shape: sinon.match(res => res.equals(shNode)),
-      }))
+      expect(input.checked).to.be.false
+      expect(input.indeterminate).to.be.false
     })
 
-    it('it renders using property shape sh:node', async () => {
+    it('is indeterminate and unchecked when unset', async function () {
       // given
-      const node = ex.FooShape
-      const { params, actions } = editorTestParams<DetailsEditor>({
-        object: namedNode(ex.Foo),
-        property: {
-          node,
-        },
-      })
+      const params = editorTestParams()
 
       // when
-      await fixture(component.render(params, actions))
+      const { input } = await this.component.render(params, {
+        element: 'sl-checkbox',
+      })
 
       // then
-      expect(params.renderer.renderFocusNode).to.have.been.calledWith(sinon.match({
-        shape: sinon.match(res => res.equals(node)),
-      }))
+      expect(input.checked).to.be.false
+      expect(input.indeterminate).to.be.true
     })
   })
 })

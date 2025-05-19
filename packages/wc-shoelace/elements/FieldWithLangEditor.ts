@@ -1,6 +1,6 @@
 import type { LitElement, PropertyValues } from 'lit'
 import { html, css } from 'lit'
-import { property, state } from 'lit/decorators.js'
+import { state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
 import type { ComponentConstructor, SingleEditorComponent } from '@hydrofoil/shaperone-core/components.js'
 import type { GraphPointer } from 'clownface'
@@ -56,9 +56,6 @@ export function FieldWithLangMixin<T extends ComponentConstructor<SingleEditorCo
 
     @state()
     private literal?: string
-
-    @property({ type: Boolean })
-    public readonly = false
 
     constructor() {
       super()

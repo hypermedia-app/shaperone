@@ -23,7 +23,7 @@ export default class extends ShoelaceLoader(SingleEditorComponent) implements Te
     return html`
       <sl-input .value="${this.value?.object?.value || ''}"
                 type="${this.type}"
-                .readonly="${this.property.shape.readOnly || false}"
+                .readonly="${this.readonly}"
                 @sl-change="${(e: any) => this.setValue(e.target.value)}"></sl-input>`
   }
 }

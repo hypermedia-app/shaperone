@@ -5,6 +5,7 @@ import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import type { NamedNode } from '@rdfjs/types'
 import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
+import type { MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
 import $rdf from './env.js'
 import { propertyShape } from './util.js'
 
@@ -18,13 +19,13 @@ interface EditorTestParams {
   property?: Initializer<PropertyShape>
 }
 
-interface SingleEditorTestParams extends EditorTestParams {
+type SingleEditorTestParams<C extends SingleEditorComponent = SingleEditorComponent> = Partial<Omit<C, 'focusNode' | 'property'>> & EditorTestParams & {
   object?: GraphPointer
   datatype?: NamedNode
   overrides?: MultiPointer
 }
 
-interface MultiEditorTestParams extends EditorTestParams {
+type MultiEditorTestParams<C extends MultiEditorComponent = MultiEditorComponent> = Partial<Omit<C, 'focusNode' | 'property'>> & EditorTestParams & {
   objects: GraphPointer[]
 }
 
@@ -40,10 +41,10 @@ export interface MultiEditorTestFixture {
   focusNode: FocusNodeState
 }
 
-export function editorTestParams(arg?: MultiEditorTestParams): MultiEditorTestFixture
-export function editorTestParams(arg?: SingleEditorTestParams): SingleEditorTestFixture
+export function editorTestParams<C extends MultiEditorComponent = MultiEditorComponent>(arg?: MultiEditorTestParams<C>): MultiEditorTestFixture
+export function editorTestParams<C extends SingleEditorComponent = SingleEditorComponent>(arg?: SingleEditorTestParams<C>): SingleEditorTestFixture
 export function editorTestParams(
-  arg: SingleEditorTestParams | MultiEditorTestParams = {},
+  arg: SingleEditorTestParams<any> | MultiEditorTestParams<any> = {},
 ): MultiEditorTestFixture | SingleEditorTestFixture {
   const focusNode = arg.focusNode || $rdf.clownface().blankNode()
 
@@ -65,6 +66,7 @@ export function editorTestParams(
     const values = objects?.map(toState) || []
 
     return <MultiEditorTestFixture>{
+      ...arg,
       focusNode: {
         focusNode,
       },
@@ -89,6 +91,7 @@ export function editorTestParams(
   property.datatype = datatype
 
   return <SingleEditorTestFixture>{
+    ...arg,
     focusNode: {
       focusNode,
     },

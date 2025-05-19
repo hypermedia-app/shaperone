@@ -11,7 +11,7 @@ export default class extends ShoelaceLoader(SingleEditorComponent) implements Te
   renderWhenReady() {
     return html`
       <sl-textarea .value="${this.value?.object?.value || ''}"
-                .readonly="${this.property.shape.readOnly || false}"
+                .readonly="${this.readonly}"
                 @sl-change="${(e: any) => this.setValue(e.target.value)}"></sl-textarea>`
   }
 

@@ -3,9 +3,12 @@ import { isResource } from 'is-graph-pointer'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { html } from 'lit'
 import DetailsBase from '@hydrofoil/shaperone-wc/elements/Details.js'
+import { dash } from '@tpluscode/rdf-ns-builders'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 
 export default class extends ShoelaceLoader(DetailsBase) {
+  static editor = dash.DetailsEditor
+
   @state()
   private _open: boolean = false
 

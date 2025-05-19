@@ -38,6 +38,7 @@ export function ScopedDependencyLoader<T extends LitElement>(Base: LitElementCon
           }
 
           this.ready = true
+          this.dispatchEvent(new CustomEvent('sh1-ready'))
         })
 
       return shadowRoot

@@ -13,6 +13,8 @@ export interface Component {
   clear(): void
   property: PropertyState
   focusNode: FocusNodeState
+  readonly readonly: boolean
+  labelProperties: NamedNode[]
 }
 
 export interface SingleEditorComponent<T extends Term = Term> extends Component {

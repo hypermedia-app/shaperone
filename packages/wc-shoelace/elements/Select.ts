@@ -1,22 +1,21 @@
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
-import type { NamedNode } from '@rdfjs/types'
 import type { GraphPointer } from 'clownface'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import type { SlSelect } from '@shoelace-style/shoelace'
-import EnumSelect from '@hydrofoil/shaperone-wc/elements/EnumSelect.js'
-import InstancesSelect from '@hydrofoil/shaperone-wc/elements/InstancesSelect.js'
+import EnumSelectBase from '@hydrofoil/shaperone-wc/elements/EnumSelect.js'
+import InstancesSelectBase from '@hydrofoil/shaperone-wc/elements/InstancesSelect.js'
+import type { ComponentConstructor } from '@hydrofoil/shaperone-core/models/components/index.js'
+import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { settings } from '../settings.js'
 import { stop } from '../lib/handlers.js'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 
-type Constructor<T> = new (...args: any[]) => T
-
-function ShoelaceSelect<E extends Constructor<EnumSelect>>(Base: E): E {
+function ShoelaceSelect<E extends ComponentConstructor<EnumSelectEditor>>(Base: E): E {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return class extends ShoelaceLoader(Base) {
+  return class extends ShoelaceLoader<EnumSelectEditor>(Base) {
     private get clearable() {
       return this.property.shape.getBoolean(sh1.clearable)
     }
@@ -30,14 +29,14 @@ function ShoelaceSelect<E extends Constructor<EnumSelect>>(Base: E): E {
                    @sl-clear="${this.clear}"
                    @sl-change=${this.onChange}
                    @sl-hide=${stop}>
-          ${repeat(this.choices, this.renderItem())}
+          ${repeat(this.choices, this.renderItem.bind(this))}
         </sl-select>`
     }
 
-    renderItem(property?: NamedNode | NamedNode[]) {
-      return (item: GraphPointer) => html`
+    renderItem(item: GraphPointer) {
+      return html`
         <sl-option .value=${item.value}>
-          ${localizedLabel(item, { property, fallback: item.value })}
+          ${localizedLabel(item, { property: this.labelProperties, fallback: item.value })}
         </sl-option>`
     }
 
@@ -59,5 +58,5 @@ function ShoelaceSelect<E extends Constructor<EnumSelect>>(Base: E): E {
   }
 }
 
-export const Enum = ShoelaceSelect(EnumSelect)
-export const Select = ShoelaceSelect(InstancesSelect)
+export const EnumSelect = ShoelaceSelect(EnumSelectBase)
+export const InstancesSelect = ShoelaceSelect(InstancesSelectBase)

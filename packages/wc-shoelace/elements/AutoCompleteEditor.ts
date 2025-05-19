@@ -57,9 +57,6 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
   public hoist = true
 
   @property({ type: Boolean })
-  public readonly = false
-
-  @property({ type: Boolean })
   public clearable = false
 
   @property({ type: Boolean, reflect: true })
