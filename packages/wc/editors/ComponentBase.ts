@@ -3,6 +3,7 @@ import { LitElement } from 'lit'
 import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
 import type { NamedNode } from '@rdfjs/types'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 
 export abstract class ComponentBase extends LitElement implements Component {
   @property({ type: Object })
@@ -12,7 +13,7 @@ export abstract class ComponentBase extends LitElement implements Component {
   public focusNode!: FocusNodeState
 
   @property({ type: Array })
-  public labelProperties: NamedNode[] = []
+  public labelProperties: NamedNode[] = [rdfs.label]
 
   get readonly() {
     return this.property.shape.readOnly || false

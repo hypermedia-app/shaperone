@@ -2,7 +2,7 @@ import { state } from 'lit/decorators.js'
 import { isResource } from 'is-graph-pointer'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { html } from 'lit'
-import DetailsBase from '@hydrofoil/shaperone-wc/elements/Details.js'
+import DetailsBase from '@hydrofoil/shaperone-wc/editors/Details.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 

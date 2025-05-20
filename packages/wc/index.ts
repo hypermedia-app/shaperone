@@ -10,8 +10,8 @@ export type { ShaperoneForm } from './ShaperoneForm.js'
 
 export type { SingleEditor, MultiEditor } from '@hydrofoil/shaperone-core'
 
-export { SingleEditorBase as SingleEditorComponent } from './elements/SingleEditorBase.js'
-export { MultiEditorBase as MultiEditorComponent } from './elements/MultiEditorBase.js'
+export { SingleEditorBase as SingleEditorComponent } from './editors/SingleEditorBase.js'
+export { MultiEditorBase as MultiEditorComponent } from './editors/MultiEditorBase.js'
 
 export type { LayoutElements } from './renderer/model.js'
 

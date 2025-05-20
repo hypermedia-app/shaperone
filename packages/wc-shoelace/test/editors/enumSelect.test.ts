@@ -1,7 +1,7 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, oneEvent } from '@open-wc/testing'
-import { schema } from '@tpluscode/rdf-ns-builders'
+import { rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
 import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
@@ -54,6 +54,28 @@ describe('wc-shoelace/components/enumSelect', function () {
 
     // then
     expect(input.querySelector('sl-option')?.textContent!.trim()).to.eq('Ą')
+  })
+
+  it('uses rdfs:label by default', async function () {
+    // given
+    const graph = $rdf.clownface()
+    const params = editorTestParams<EnumSelectEditor>({
+      property: {
+        in: [{
+          id: 'http://lexvo.org/id/iso639-1/en',
+          [rdfs.label.value]: 'English',
+        }],
+      },
+      object: graph.namedNode('http://lexvo.org/id/iso639-1/en'),
+    })
+
+    // when
+    const { input } = await this.component.render(params, {
+      element: 'sl-select',
+    })
+
+    // then
+    expect(input.querySelector('sl-option')?.textContent!.trim()).to.eq('English')
   })
 
   context('property $rdf.ns.sh1:clearable true', function () {
