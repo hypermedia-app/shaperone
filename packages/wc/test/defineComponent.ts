@@ -3,7 +3,9 @@ import * as staticLit from 'lit/static-html.js'
 import { spread } from '@open-wc/lit-helpers'
 import type { MultiEditorTestFixture, SingleEditorTestFixture } from '@shaperone/testing'
 import { fixture, oneEvent } from '@open-wc/testing'
+import type { LitElement } from 'lit'
 import { getEditorTagName } from '../components/editor.js'
+import type { MultiEditorComponent, SingleEditorComponent } from '../index.js'
 
 interface Options {
   awaitEvent?: string
@@ -15,10 +17,11 @@ interface ElementSelected<E extends keyof HTMLElementTagNameMap> {
 
 interface Render {
   <E extends keyof HTMLElementTagNameMap>(params: SingleEditorTestFixture | MultiEditorTestFixture, options: ElementSelected<E>): Promise<{
-    component: Element
+    component: LitElement
     input: HTMLElementTagNameMap[E]
   }>
-  (params: SingleEditorTestFixture | MultiEditorTestFixture, options?: undefined): Promise<Element>
+  <C extends SingleEditorComponent>(params: SingleEditorTestFixture<C>, options?: undefined): Promise<C>
+  <C extends MultiEditorComponent>(params: MultiEditorTestFixture<C>, options?: undefined): Promise<C>
 }
 
 declare module 'mocha' {

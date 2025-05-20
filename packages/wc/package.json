@@ -25,7 +25,7 @@
     "@open-wc/lit-helpers": "^0.7.0",
     "@open-wc/scoped-elements": "^3.0.5",
     "@rdfine/shacl": "^0.10.5",
-    "@rdfjs-elements/lit-helpers": "^0.3.7",
+    "@rdfjs-elements/lit-helpers": "^0.3.11",
     "@tpluscode/rdf-ns-builders": "^5",
     "@tpluscode/rdfine": "^0.7.9",
     "@webcomponents/scoped-custom-element-registry": "^0.0.9",

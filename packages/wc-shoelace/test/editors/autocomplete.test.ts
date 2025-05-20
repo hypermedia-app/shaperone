@@ -1,12 +1,16 @@
-import { expect, fixture } from '@open-wc/testing'
-import { dash, rdfs, schema } from '@tpluscode/rdf-ns-builders'
+import { expect, oneEvent } from '@open-wc/testing'
+import { dash, owl, rdf, rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import type { SlIconButton } from '@shoelace-style/shoelace'
 import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
 import { AutoComplete } from '../../components.js'
 
 describe('wc-shoelace/components/autocomplete', function () {
+  before(function () {
+    setEnv($rdf)
+  })
+
   beforeEach(defineComponent(AutoComplete, { awaitEvent: 'sh1-ready' }))
 
   it('implements dash:AutoCompleteEditor', function () {
@@ -15,46 +19,48 @@ describe('wc-shoelace/components/autocomplete', function () {
 
   it('uses rdfs:label as default display property of selected item', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const selected = $rdf.clownface({ dataset: $rdf.dataset() })
+    const graph = $rdf.clownface()
       .blankNode()
+      .addOut(rdf.type, owl.Thing)
       .addOut(rdfs.label, 'Selected Label')
     const params = editorTestParams({
-      object: graph.literal(''),
+      graph,
+      property: {
+        class: owl.Thing,
+      },
+      object: graph.term,
     })
 
     // when
-    const result = await this.component.render(params)
+    const { input } = await this.component.render(params, {
+      element: 'sl-input',
+    })
 
     // then
-    expect(result.inputValue).to.eq('Selected Label')
+    expect(input.value).to.eq('Selected Label')
   })
 
   it('is readonly when dash:readOnly true', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
     const params = editorTestParams({
       property: {
         readOnly: true,
       },
-      object: graph.literal(''),
     })
 
     // when
-    const result = await this.component.render(params)
+    const { input } = await this.component.render(params, {
+      element: 'sl-dropdown',
+    })
 
     // then
-    expect(result.readonly).to.be.true
+    expect(input.disabled).to.be.true
   })
 
   it('sets loading attribute', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const params = editorTestParams({
-      object: graph.literal(''),
-      componentState: {
-        loading: true,
-      },
+    const params = editorTestParams<AutoComplete>({
+      loading: true,
     })
 
     // when
@@ -66,91 +72,106 @@ describe('wc-shoelace/components/autocomplete', function () {
 
   it('uses form settings for item labels', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const params = editorTestParams({
-      componentState: {
-        instances: [
-          graph.namedNode('http://example.com/A').addOut(schema.name, 'Ą'),
-        ],
+    const graph = $rdf.clownface()
+    graph
+      .namedNode('http://example.com/A')
+      .addOut(rdf.type, owl.Thing)
+      .addOut(schema.name, 'Ą')
+    const params = editorTestParams<AutoComplete>({
+      graph,
+      property: {
+        class: owl.Thing,
       },
-      object: graph.namedNode('http://example.com/A'),
+      labelProperties: [schema.name],
     })
-    params.form.labelProperties = [schema.name]
 
     // when
-    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+    const editor = await this.component.render(params)
+    setTimeout(() => {
+      const input = editor.shadowRoot!.querySelector('sl-input')!
+      input.value = 'Ą'
+      input.dispatchEvent(new CustomEvent('sl-input'))
+    })
+    await oneEvent(editor, 'search-completed')
 
     // then
-    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
+    const menu = editor.shadowRoot!.querySelector('sl-menu')!
+    expect(menu.querySelector('sl-menu-item')?.textContent?.trim()).to.eq('Ą')
   })
 
   it('uses form settings for selected label', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const selected = graph.namedNode('http://example.com/A').addOut(schema.name, 'Ą')
+    const graph = $rdf.clownface()
+    graph
+      .namedNode('http://example.com/A')
+      .addOut(rdf.type, owl.Thing)
+      .addOut(schema.name, 'Ą')
     const params = editorTestParams({
-      componentState: {
-        selected,
+      graph,
+      property: {
+        class: owl.Thing,
       },
-      object: selected,
+      object: $rdf.namedNode('http://example.com/A'),
+      labelProperties: [schema.name],
     })
-    params.form.labelProperties = [schema.name]
 
     // when
-    const result = await fixture<ShSlAutocomplete>(component.render(params, actions))
+    const { input } = await this.component.render(params, {
+      element: 'sl-input',
+    })
 
     // then
-    expect(result.inputValue).to.eq('Ą')
+    expect(input.value).to.eq('Ą')
   })
 
   context('property sh1:clearable true', function () {
     it('clears selection when icon clicked', async function () {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
+      const graph = $rdf.clownface()
+      graph
+        .namedNode('http://example.com/A')
+        .addOut(rdf.type, owl.Thing)
+        .addOut(rdfs.label, 'A')
       const params = editorTestParams({
+        graph,
         property: {
+          class: owl.Thing,
           [$rdf.ns.sh1.clearable.value]: true,
         },
-        componentState: {
-          instances: [
-            graph.literal('A'),
-            graph.literal('B'),
-            graph.literal('C'),
-          ],
-        },
-        object: graph.literal('B'),
+        object: $rdf.namedNode('http://example.com/A'),
       })
 
       // when
-      const editor = await fixture<ShSlAutocomplete>(component.render(params, actions))
-      editor.renderRoot.querySelector<SlIconButton>('#clear')?.click()
+      const { component, input } = await this.component.render(params, {
+        element: 'sl-icon-button',
+      })
+      expect(component.shadowRoot!.querySelector('sl-input')).to.have.property('value', 'A')
+      setTimeout(() => {
+        input.click()
+      })
+      await oneEvent(component, 'cleared')
+      await component.updateComplete
 
       // then
-      expect(actions.clear).to.have.been.calledOnce
-      expect(editor.renderRoot.querySelector('sl-dropdown')).to.have.property('open', false)
+      expect(component.renderRoot.querySelector('sl-dropdown')).to.have.property('open', false)
+      expect(component.renderRoot.querySelector('sl-input')).to.have.property('value', '')
     })
 
     it('does not show clear button when there is no value', async function () {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
       const params = editorTestParams({
         property: {
           [$rdf.ns.sh1.clearable.value]: true,
         },
-        componentState: {
-          instances: [
-            graph.literal('A'),
-          ],
-        },
-        object: undefined,
       })
 
       // when
-      const editor = await fixture<ShSlAutocomplete>(component.render(params, actions))
-      const clearButton = editor.renderRoot.querySelector('#clear')
+      const { input } = await this.component.render(params, {
+        element: 'sl-icon-button',
+      })
 
       // then
-      expect(getComputedStyle(clearButton!).display).to.eq('none')
+      expect(input).to.be.null
     })
   })
 })

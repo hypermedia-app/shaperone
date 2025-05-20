@@ -24,7 +24,7 @@
     "@rdfine/env": "^1.1.3",
     "@rdfine/shacl": "^0.10.5",
     "@rdfjs/fetch-lite": "^3.2.2",
-    "@rdfjs-elements/lit-helpers": "^0.3.7",
+    "@rdfjs-elements/lit-helpers": "^0.3.11",
     "@rdfjs-elements/rdf-editor": "^0.5.7",
     "@tpluscode/rdf-ns-builders": "^5",
     "@tpluscode/rdf-string": "^1.3.4",

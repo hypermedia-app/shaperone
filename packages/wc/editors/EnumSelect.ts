@@ -8,6 +8,7 @@ import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import type { NamedNode } from '@rdfjs/types'
 import type { GraphPointer } from 'clownface'
 import { property } from 'lit/decorators.js'
+import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import { SingleEditorBase } from './SingleEditorBase.js'
 import { validity } from './lib/validity.js'
 import { readOnly } from './lib/readonly.js'
@@ -26,6 +27,10 @@ export default class extends SingleEditorBase implements EnumSelectEditor {
 
   set choices(value: GraphPointer[]) {
     this[choices] = value.sort(sort(this.property.shape))
+  }
+
+  protected get clearable() {
+    return this.property.shape.getBoolean(sh1.clearable)
   }
 
   protected updated(_changedProperties: PropertyValues) {

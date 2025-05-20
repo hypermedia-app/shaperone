@@ -17,7 +17,7 @@
     "@hydrofoil/shaperone-core": "^0.12.1",
     "@hydrofoil/shaperone-wc": "^0.8.1",
     "@rdfine/shacl": "^0.10.5",
-    "@rdfjs-elements/lit-helpers": "^0.3.7",
+    "@rdfjs-elements/lit-helpers": "^0.3.11",
     "@shoelace-style/shoelace": "^2.15.0",
     "@tpluscode/rdf-ns-builders": "^5",
     "is-graph-pointer": "^2.1.0",

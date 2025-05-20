@@ -20,12 +20,15 @@ export default class extends InstancesSelect {
     super.updated(_changedProperties)
 
     if (_changedProperties.has('debounceTimeout')) {
-      this.search = debounce(this.startSearch, this.debounceTimeout)
+      this.search = debounce(async (arg: string) => {
+        await this.startSearch(arg)
+        this.dispatchEvent(new CustomEvent('search-completed'))
+      }, this.debounceTimeout)
     }
   }
 
   startSearch(searchText: string) {
     this.searchText = searchText
-    this.filteredChoices = this.choices.filter(choice => choice.out().values.some(value => value.match(new RegExp(searchText, 'i'))))
+    this.filteredChoices = this.choices.filter(choice => choice.out(this.labelProperties).values.some(value => value.match(new RegExp(searchText, 'i'))))
   }
 }

@@ -16,12 +16,11 @@ describe('wc-shoelace/components/enumSelect', function () {
 
   it('is disabled when dash:readOnly true', async function () {
     // given
-    const graph = $rdf.clownface()
     const params = editorTestParams({
       property: {
         readOnly: true,
       },
-      object: graph.literal(''),
+      object: $rdf.literal(''),
     })
 
     // when
@@ -35,7 +34,6 @@ describe('wc-shoelace/components/enumSelect', function () {
 
   it('uses form settings for display labels', async function () {
     // given
-    const graph = $rdf.clownface()
     const params = editorTestParams<EnumSelectEditor>({
       property: {
         in: [{
@@ -43,7 +41,7 @@ describe('wc-shoelace/components/enumSelect', function () {
           [schema.name.value]: 'Ą',
         }],
       },
-      object: graph.namedNode('A'),
+      object: $rdf.namedNode('A'),
       labelProperties: [schema.name],
     })
 
@@ -58,7 +56,6 @@ describe('wc-shoelace/components/enumSelect', function () {
 
   it('uses rdfs:label by default', async function () {
     // given
-    const graph = $rdf.clownface()
     const params = editorTestParams<EnumSelectEditor>({
       property: {
         in: [{
@@ -66,7 +63,7 @@ describe('wc-shoelace/components/enumSelect', function () {
           [rdfs.label.value]: 'English',
         }],
       },
-      object: graph.namedNode('http://lexvo.org/id/iso639-1/en'),
+      object: $rdf.namedNode('http://lexvo.org/id/iso639-1/en'),
     })
 
     // when
@@ -81,13 +78,12 @@ describe('wc-shoelace/components/enumSelect', function () {
   context('property $rdf.ns.sh1:clearable true', function () {
     it('makes select clearable', async function () {
       // given
-      const graph = $rdf.clownface()
       const params = editorTestParams({
         property: {
           readOnly: true,
           [$rdf.ns.sh1.clearable.value]: true,
         },
-        object: graph.literal(''),
+        object: $rdf.literal(''),
       })
 
       // when
@@ -101,7 +97,6 @@ describe('wc-shoelace/components/enumSelect', function () {
 
     it('clears value when cleared', async function () {
       // given
-      const graph = $rdf.clownface()
       const params = editorTestParams({
         property: {
           [$rdf.ns.sh1.clearable.value]: true,
@@ -111,7 +106,7 @@ describe('wc-shoelace/components/enumSelect', function () {
             $rdf.literal('C'),
           ],
         },
-        object: graph.literal('B'),
+        object: $rdf.literal('B'),
       })
 
       // when

@@ -1,103 +1,104 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import { expect, fixture, nextFrame } from '@open-wc/testing'
-import type { SlButton, SlSelect } from '@shoelace-style/shoelace'
-import type { InstancesSelect } from '@hydrofoil/shaperone-core/lib/components/instancesSelect.js'
-import { schema } from '@tpluscode/rdf-ns-builders'
-import { instancesSelect } from '../../components/instancesSelect.js'
+import { expect, oneEvent } from '@open-wc/testing'
+import type { SlButton } from '@shoelace-style/shoelace'
+import { schema, rdf } from '@tpluscode/rdf-ns-builders'
+import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
+import { InstancesSelect } from '../../components.js'
 
 describe('wc-shoelace/components/instancesSelect', function () {
-  let component: InstancesSelect
-
-  beforeEach(async function () {
-    component = {
-      ...instancesSelect,
-      render: await instancesSelect.lazyRender(),
-    }
+  before(function () {
+    setEnv($rdf)
   })
+
+  beforeEach(defineComponent(InstancesSelect, { awaitEvent: 'sh1-ready' }))
 
   it('is disabled when dash:readOnly true', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const { params, actions } = editorTestParams<InstancesSelect>({
+    const params = editorTestParams({
       property: {
         readOnly: true,
       },
-      object: graph.namedNode(''),
+      object: $rdf.namedNode(''),
     })
 
     // when
-    const result = await fixture<SlSelect>(component.render(params, actions))
+    const { input } = await this.component.render(params, {
+      element: 'sl-select',
+    })
 
     // then
-    expect(result.disabled).to.be.true
+    expect(input.disabled).to.be.true
   })
 
   it('uses form settings for display labels', async function () {
     // given
-    const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-    const {
-      params,
-      actions,
-    } = editorTestParams<InstancesSelect>({
-      componentState: {
-        instances: [
-          graph.namedNode('A').addOut(schema.name, 'Ą'),
-        ],
+    const graph = $rdf.clownface()
+    graph.namedNode('john')
+      .addOut(rdf.type, schema.Person)
+      .addOut(schema.name, 'John Doe')
+    const params = editorTestParams({
+      graph,
+      property: {
+        class: schema.Person,
       },
-      object: graph.namedNode('A'),
+      object: $rdf.namedNode('john'),
+      labelProperties: [schema.name],
     })
-    params.form.labelProperties = [schema.name]
 
     // when
-    const result = await fixture<SlSelect>(component.render(params, actions))
+    const { input } = await this.component.render(params, {
+      element: 'sl-select',
+    })
 
     // then
-    expect(result.querySelector('sl-option')?.textContent).to.eq('Ą')
+    expect(input.querySelector('sl-option')?.textContent!.trim()).to.eq('John Doe')
   })
 
   context('property $rdf.ns.sh1:clearable true', function () {
     it('makes select clearable', async function () {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams<InstancesSelect>({
+      const params = editorTestParams({
         property: {
           [$rdf.ns.sh1.clearable.value]: true,
         },
-        object: graph.namedNode(''),
+        object: $rdf.namedNode(''),
       })
 
       // when
-      const result = await fixture<SlSelect>(component.render(params, actions))
+      const { input } = await this.component.render(params, {
+        element: 'sl-select',
+      })
 
       // then
-      expect(result.clearable).to.be.true
+      expect(input.clearable).to.be.true
     })
 
     it('clears value when cleared', async function () {
       // given
-      const graph = $rdf.clownface({ dataset: $rdf.dataset() })
-      const { params, actions } = editorTestParams<InstancesSelect>({
+      const graph = $rdf.clownface()
+      graph
+        .namedNode('A')
+        .addOut(rdf.type, schema.Person)
+      const params = editorTestParams({
+        graph,
         property: {
+          class: schema.Person,
           [$rdf.ns.sh1.clearable.value]: true,
         },
-        object: graph.namedNode('A'),
-        componentState: {
-          instances: [
-            graph.namedNode('A'),
-            graph.namedNode('B'),
-            graph.namedNode('C'),
-          ],
-        },
+        object: $rdf.namedNode('A'),
       })
 
       // when
-      const result = await fixture<SlSelect>(component.render(params, actions))
-      result.renderRoot.querySelector<SlButton>('[part=clear-button]')!.click()
+      const { component, input } = await this.component.render(params, {
+        element: 'sl-select',
+      })
+      setTimeout(() => input.renderRoot.querySelector<SlButton>('[part=clear-button]')!.click())
 
       // then
-      await nextFrame()
-      expect(actions.clear).to.have.been.called
+      const cleared = await oneEvent(component, 'cleared')
+      expect(cleared).to.be.ok
     })
   })
 })

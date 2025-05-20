@@ -1,8 +1,8 @@
 import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
-import type { GraphPointer, MultiPointer } from 'clownface'
+import type { AnyPointer, MultiPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
-import type { NamedNode } from '@rdfjs/types'
+import type { NamedNode, Term } from '@rdfjs/types'
 import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
 import type { FocusNode } from '@hydrofoil/shaperone-core'
 import type { MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
@@ -15,38 +15,40 @@ export type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePa
 export const ex = $rdf.namespace('http://example.com/')
 
 interface EditorTestParams {
+  graph?: AnyPointer
   focusNode?: FocusNode
   property?: Initializer<PropertyShape>
 }
 
 type SingleEditorTestParams<C extends SingleEditorComponent = SingleEditorComponent> = Partial<Omit<C, 'focusNode' | 'property'>> & EditorTestParams & {
-  object?: GraphPointer
+  object?: Term
   datatype?: NamedNode
   overrides?: MultiPointer
 }
 
 type MultiEditorTestParams<C extends MultiEditorComponent = MultiEditorComponent> = Partial<Omit<C, 'focusNode' | 'property'>> & EditorTestParams & {
-  objects: GraphPointer[]
+  objects: Term[]
 }
 
-export interface SingleEditorTestFixture {
+export interface SingleEditorTestFixture<C extends SingleEditorComponent = SingleEditorComponent> {
   value: PropertyObjectState
   property: PropertyState
   focusNode: FocusNodeState
 }
 
-export interface MultiEditorTestFixture {
+export interface MultiEditorTestFixture<M extends MultiEditorComponent = MultiEditorComponent> {
   values: PropertyObjectState[]
   property: PropertyState
   focusNode: FocusNodeState
 }
 
-export function editorTestParams<C extends MultiEditorComponent = MultiEditorComponent>(arg?: MultiEditorTestParams<C>): MultiEditorTestFixture
-export function editorTestParams<C extends SingleEditorComponent = SingleEditorComponent>(arg?: SingleEditorTestParams<C>): SingleEditorTestFixture
+export function editorTestParams<C extends MultiEditorComponent = MultiEditorComponent>(arg?: MultiEditorTestParams<C>): MultiEditorTestFixture<C>
+export function editorTestParams<C extends SingleEditorComponent = SingleEditorComponent>(arg?: SingleEditorTestParams<C>): SingleEditorTestFixture<C>
 export function editorTestParams(
   arg: SingleEditorTestParams<any> | MultiEditorTestParams<any> = {},
 ): MultiEditorTestFixture | SingleEditorTestFixture {
-  const focusNode = arg.focusNode || $rdf.clownface().blankNode()
+  const graph = arg.graph || $rdf.clownface()
+  const focusNode = arg.focusNode || graph.blankNode()
 
   const property: PropertyState = {
     canAdd: true,
@@ -55,15 +57,15 @@ export function editorTestParams(
     objects: [],
     editors: [],
     selectedEditor: undefined,
-    shape: propertyShape(focusNode.blankNode(), arg.property),
+    shape: propertyShape(graph.blankNode(), arg.property),
     hidden: false,
     validationResults: [],
     hasErrors: false,
   }
 
   if ('objects' in arg) {
-    const { objects } = arg
-    const values = objects?.map(toState) || []
+    const objects = arg.objects as Term[]
+    const values = objects?.map(toState(graph)) || []
 
     return <MultiEditorTestFixture>{
       ...arg,
@@ -80,7 +82,7 @@ export function editorTestParams(
     key: nextid(),
     editors: [],
     selectedEditor: undefined,
-    object,
+    object: object ? graph.node(object) : undefined,
     validationResults: [],
     hasErrors: false,
     nodeKind: undefined,
@@ -100,15 +102,15 @@ export function editorTestParams(
   }
 }
 
-function toState(object: GraphPointer): PropertyObjectState {
-  return {
+function toState(graph: AnyPointer) {
+  return (object: Term): PropertyObjectState => ({
     key: nextid(),
     editors: [],
     selectedEditor: undefined,
-    object,
+    object: graph.node(object),
     validationResults: [],
     hasErrors: false,
     nodeKind: undefined,
     overrides: undefined,
-  }
+  })
 }

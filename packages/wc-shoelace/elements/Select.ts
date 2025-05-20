@@ -2,24 +2,18 @@ import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import type { GraphPointer } from 'clownface'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import type { SlSelect } from '@shoelace-style/shoelace'
 import EnumSelectBase from '@hydrofoil/shaperone-wc/editors/EnumSelect.js'
 import InstancesSelectBase from '@hydrofoil/shaperone-wc/editors/InstancesSelect.js'
 import type { ComponentConstructor } from '@hydrofoil/shaperone-core/models/components/index.js'
-import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
 import { settings } from '../settings.js'
 import { stop } from '../lib/handlers.js'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 
-function ShoelaceSelect<E extends ComponentConstructor<EnumSelectEditor>>(Base: E): E {
+function ShoelaceSelect<E extends ComponentConstructor<EnumSelectBase>>(Base: E): E {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return class extends ShoelaceLoader<EnumSelectEditor>(Base) {
-    private get clearable() {
-      return this.property.shape.getBoolean(sh1.clearable)
-    }
-
+  return class extends ShoelaceLoader<EnumSelectBase>(Base) {
     render() {
       return html`
         <sl-select ?clearable="${this.clearable}"

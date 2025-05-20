@@ -50,14 +50,8 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
     `
   }
 
-  @property({ type: String })
-  public inputValue = ''
-
   @property({ type: Boolean })
   public hoist = true
-
-  @property({ type: Boolean })
-  public clearable = false
 
   @property({ type: Boolean, reflect: true })
   public loading?: boolean
@@ -80,7 +74,7 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
 
     return html`<sl-dropdown @sl-hide=${stop} @sl-show="${stop}" ?hoist="${this.hoist}" .disabled="${this.readonly}">
       <sl-input slot="trigger" autocomplete="off"
-                .value=${localizedLabel(this.selected, { fallback })}
+                .value=${localizedLabel(this.selected, { property: this.labelProperties, fallback })}
                 @keydown="${this._inputKeyDown}"
                 @sl-focus="${() => { this._hasFocus = true }}"
                 @sl-blur="${() => { this._hasFocus = false }}"
@@ -97,7 +91,7 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
                placeholder="Missing data!"
                @sl-select=${this.onItemSelected}>
         ${this.filteredChoices.map(item => html`
-      <sl-menu-item .value=${item.value}>${localizedLabel(item, { fallback: item.value })}</sl-menu-item>`)}
+      <sl-menu-item .value=${item.value}>${localizedLabel(item, { property: this.labelProperties, fallback: item.value })}</sl-menu-item>`)}
       </sl-menu>
     </sl-dropdown>
     `
@@ -113,11 +107,16 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
         this._menu.show()
       }
     }
+
+    if (_changedProperties.has('value') && this.value.object) {
+      this.selected = this.choices.filter(choice => choice.term.equals(this.value.object!.term)).shift()
+    }
   }
 
   cleared(e: Event) {
     e.stopPropagation()
     this.clear()
+    this.selected = undefined
   }
 
   async onSearch() {
