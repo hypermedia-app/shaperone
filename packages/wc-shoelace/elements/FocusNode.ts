@@ -1,6 +1,6 @@
 import { html } from 'lit'
-import { FocusNodeElement } from '@hydrofoil/shaperone-wc/components/index.js'
-import type { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { FocusNodeElement } from 'shaperone/components/index.js'
+import type { PropertyGroupState } from '@shaperone/core/models/forms/index.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 

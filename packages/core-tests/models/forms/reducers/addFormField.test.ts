@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import $rdf from '@zazuko/env/web.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
-import { addFormField } from '@hydrofoil/shaperone-core/models/forms/reducers/addFormField.js'
+import { addFormField } from '@shaperone/core/models/forms/reducers/addFormField.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 

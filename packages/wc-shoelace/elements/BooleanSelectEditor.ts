@@ -1,9 +1,9 @@
 import { html } from 'lit'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
-import env from '@hydrofoil/shaperone-core/env.js'
+import type { BooleanSelectEditor } from '@shaperone/core/components.js'
+import env from '@shaperone/core/env.js'
 import type { SlCheckbox } from '@shoelace-style/shoelace'
-import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { SingleEditorComponent } from 'shaperone'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 
 export default class extends ShoelaceLoader(SingleEditorComponent) implements BooleanSelectEditor {

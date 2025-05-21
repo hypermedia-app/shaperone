@@ -1,4 +1,4 @@
-import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors'
+import type { MatcherDecorator } from '@shaperone/core/models/editors'
 import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 
 /**

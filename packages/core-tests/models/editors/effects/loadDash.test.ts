@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
-import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
-import { loadDash } from '@hydrofoil/shaperone-core/models/editors/effects/index.js'
+import type { Store } from '@shaperone/core/state/index.js'
+import { loadDash } from '@shaperone/core/models/editors/effects/index.js'
 
 describe('models/editors/effects/loadDash', () => {
   let store: Store

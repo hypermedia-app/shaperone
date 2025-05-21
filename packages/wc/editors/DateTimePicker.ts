@@ -1,5 +1,5 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { DateTimePickerEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { DateTimePickerEditor } from '@shaperone/core/components.js'
 import { html } from 'lit'
 import { SingleEditorBase } from './SingleEditorBase.js'
 import { validity } from './lib/validity.js'

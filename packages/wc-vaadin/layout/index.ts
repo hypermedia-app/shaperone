@@ -1,4 +1,4 @@
-import type { LayoutElements } from '@hydrofoil/shaperone-wc'
+import type { LayoutElements } from 'shaperone'
 import PropertyElement from './property.js'
 import GroupElement from './group.js'
 

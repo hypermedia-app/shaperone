@@ -63,15 +63,15 @@ Components are the visual representation of editors.
 A component maps the editor identifier to a renderer-specific implementation
 which renders the component and handles user interaction to update the data and control the form.
 
-In the case of `@hydrofoil/shaperone-wc`, components are rendered by `lit-html`
+In the case of `shaperone`, components are rendered by `lit-html`
 but can be implemented using any Custom Elements library.
 
 Multiple components can be distributed as visually consistent sets, implementing a cohesive design systems.
-[Shaperone for Web Components](https://npm.im/@hydrofoil/shaperone-wc) comes with a number of such sets:
+[Shaperone for Web Components](https://npm.im/shaperone) comes with a number of such sets:
 
 1. Browser native elements, which are available out of the box with the `shaperone-form` custom element
-3. [Sholaces](https://shoelace.style/) elements provided by [@hydrofoil/shaperone-wc-shoelace](https://npm.im/@hydrofoil/shaperone-wc-shoelace)
-3. [Vaadin Components](https://vaadin.com/components/) provided by [@hydrofoil/shaperone-wc-vaadin](https://npm.im/@hydrofoil/shaperone-wc-vaadin)
+3. [Sholaces](https://shoelace.style/) elements provided by [@shaperone/shoelace](https://npm.im/@shaperone/shoelace)
+3. [Vaadin Components](https://vaadin.com/components/) provided by [@shaperone/vaadin](https://npm.im/@shaperone/vaadin)
 
 <CCallout color="info">
   It is important to note, however, that any combination of components is possible, mixing and matching implementations from different design systems and app-specific alike.

@@ -3,10 +3,10 @@ import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { testStore, testFocusNodeState } from '@shaperone/testing/models/form.js'
 import { sinon } from '@shaperone/testing'
-import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
-import { validate } from '@hydrofoil/shaperone-core/models/forms/effects/validate.js'
+import type { Store } from '@shaperone/core/state/index.js'
+import { validate } from '@shaperone/core/models/forms/effects/validate.js'
 
-describe('@hydrofoil/shaperone-core/models/forms/effects/validate', () => {
+describe('@shaperone/core/models/forms/effects/validate', () => {
   let store: Store
 
   beforeEach(() => {

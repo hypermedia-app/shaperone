@@ -3,8 +3,8 @@ import $rdf from '@shaperone/testing/env.js'
 import { rdf, sh } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import { testFocusNodeState, testStore } from '@shaperone/testing/models/form.js'
-import setGraph from '@hydrofoil/shaperone-core/models/forms/effects/shapes/setGraph.js'
-import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
+import setGraph from '@shaperone/core/models/forms/effects/shapes/setGraph.js'
+import type { Store } from '@shaperone/core/state/index.js'
 
 const ex = $rdf.namespace('http://example.com/')
 

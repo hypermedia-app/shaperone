@@ -2,7 +2,7 @@
  * Exports base implementation of come components so that they can be easily completed by adding the `render` or `lazyRender` method
  *
  * @packageDocumentation
- * @module @hydrofoil/shaperone-core/components
+ * @module @shaperone/core/components
  */
 
 import type { GraphPointer } from 'clownface'

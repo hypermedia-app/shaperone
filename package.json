@@ -8,7 +8,7 @@
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "build": "wsrun -m build",
     "test": "run-p test:*",
-    "test:core": "c8 --all -o coverage/core --reporter=lcov npm run -w @hydrofoil/shaperone-core-tests test",
+    "test:core": "c8 --all -o coverage/core --reporter=lcov npm run -w @shaperone/core-tests test",
     "test:web": "web-test-runner",
     "release": "changeset publish",
     "docs": "docsify serve ./dist",

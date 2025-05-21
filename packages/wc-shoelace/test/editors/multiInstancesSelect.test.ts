@@ -1,5 +1,5 @@
-import type { MultiEditorComponent } from '@hydrofoil/shaperone-wc'
-import { html } from '@hydrofoil/shaperone-wc'
+import type { MultiEditorComponent } from 'shaperone'
+import { html } from 'shaperone'
 import { expect, fixture, nextFrame } from '@open-wc/testing'
 import type { SlButton, SlSelect } from '@shoelace-style/shoelace'
 import $rdf from '@shaperone/testing/env.js'

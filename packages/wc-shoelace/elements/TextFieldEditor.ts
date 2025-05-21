@@ -1,5 +1,5 @@
-import { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
-import type { TextFieldEditor } from '@hydrofoil/shaperone-core/components.js'
+import { SingleEditorComponent } from 'shaperone'
+import type { TextFieldEditor } from '@shaperone/core/components.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { html } from 'lit'
 import type SlInput from '@shoelace-style/shoelace/dist/components/input/input.component.js'

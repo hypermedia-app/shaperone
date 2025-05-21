@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-wc-vaadin
+# @shaperone/vaadin
 
 ## 0.5.1
 

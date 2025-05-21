@@ -1,5 +1,5 @@
 import { css } from 'lit'
-import { ObjectElement } from '@hydrofoil/shaperone-wc/components/index.js'
+import { ObjectElement } from 'shaperone/components/index.js'
 
 export default class extends ObjectElement {
   static get styles() {

@@ -1,20 +1,20 @@
 /**
  * @packageDocumentation
- * @module @hydrofoil/shaperone-wc/store
+ * @module shaperone/store
  */
 
 import type { ModelStore, StoreDispatch, StoreState } from '@captaincodeman/rdx'
-import { editors } from '@hydrofoil/shaperone-core/models/editors/index.js'
-import { components } from '@hydrofoil/shaperone-core/models/components/index.js'
-import { form } from '@hydrofoil/shaperone-core/models/forms/index.js'
-import { resources } from '@hydrofoil/shaperone-core/models/resources/index.js'
-import { shapes } from '@hydrofoil/shaperone-core/models/shapes/index.js'
-import { validation } from '@hydrofoil/shaperone-core/models/validation/index.js'
-import { getPlugins, createStore, devtools } from '@hydrofoil/shaperone-core/store.js'
+import { editors } from '@shaperone/core/models/editors/index.js'
+import { components } from '@shaperone/core/models/components/index.js'
+import { form } from '@shaperone/core/models/forms/index.js'
+import { resources } from '@shaperone/core/models/resources/index.js'
+import { shapes } from '@shaperone/core/models/shapes/index.js'
+import { validation } from '@shaperone/core/models/validation/index.js'
+import { getPlugins, createStore, devtools } from '@shaperone/core/store.js'
 import type { LitElement } from '@open-wc/scoped-elements/lit-element.js'
 import { renderer } from './renderer/model.js'
 
-declare module '@hydrofoil/shaperone-core/models/components/index.js' {
+declare module '@shaperone/core/models/components/index.js' {
   interface ComponentConstructor extends CustomElementConstructor { }
 
   interface SingleEditorComponent extends LitElement {}

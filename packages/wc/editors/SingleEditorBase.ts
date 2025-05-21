@@ -1,6 +1,6 @@
-import type { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { PropertyObjectState } from '@shaperone/core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
-import type { SingleEditorComponent } from '@hydrofoil/shaperone-core/components.js'
+import type { SingleEditorComponent } from '@shaperone/core/components.js'
 import type { Term } from '@rdfjs/types'
 import type { CustomEventTarget } from '../components/events.js'
 import { ComponentBase } from './ComponentBase.js'

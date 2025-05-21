@@ -1,6 +1,6 @@
 /**
  * @packageDocumentation
- * @module @hydrofoil/shaperone-core/models/components
+ * @module @shaperone/core/models/components
  */
 
 /* eslint-disable no-use-before-define */

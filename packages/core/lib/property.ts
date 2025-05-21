@@ -1,6 +1,6 @@
 /**
  * @packageDocumentation
- * @module @hydrofoil/shaperone-core/lib/property
+ * @module @shaperone/core/lib/property
  */
 
 import type { Term } from '@rdfjs/types'

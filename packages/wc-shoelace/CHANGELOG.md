@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-wc-shoelace
+# @shaperone/shoelace
 
 ## 0.4.1
 

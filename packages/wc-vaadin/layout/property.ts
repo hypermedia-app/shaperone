@@ -1,4 +1,4 @@
-import { PropertyElement } from '@hydrofoil/shaperone-wc/components/index.js'
+import { PropertyElement } from 'shaperone/components/index.js'
 import { css, html } from 'lit'
 
 export default class extends PropertyElement {

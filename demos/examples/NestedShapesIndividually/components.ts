@@ -1,6 +1,6 @@
 import { dash, rdfs, schema } from '@tpluscode/rdf-ns-builders'
-import type { SingleEditorComponent } from '@hydrofoil/shaperone-wc'
-import { html } from '@hydrofoil/shaperone-wc'
+import type { SingleEditorComponent } from 'shaperone'
+import { html } from 'shaperone'
 import type { GraphPointer } from 'clownface'
 
 function label(object?: GraphPointer) {

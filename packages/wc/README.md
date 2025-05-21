@@ -10,7 +10,7 @@ This example shows the element used with the default lit renderer
 ```typescript
 import '@hypermedia-app/shaperone-form/shaperone-form.js'
 import Environment from '@zazuko/env/Environment.js'
-import { configure } from '@hydrofoil/shaperone-wc/configure.js'
+import { configure } from 'shaperone/configure.js'
 import { html } from '@hypermedia-app/shaperone-form'
 import alcaeus from 'alcaeus/Factory.js'
 import parent from '@zazuko/env/web.js'

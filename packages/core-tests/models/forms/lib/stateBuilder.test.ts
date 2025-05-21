@@ -8,15 +8,15 @@ import {
   initialiseFocusNode,
   initialiseObjectState,
   initialisePropertyShape,
-} from '@hydrofoil/shaperone-core/models/forms/lib/stateBuilder.js'
-import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
+} from '@shaperone/core/models/forms/lib/stateBuilder.js'
+import type { Store } from '@shaperone/core/state/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
-import { setEnv } from '@hydrofoil/shaperone-core/env.js'
+import { setEnv } from '@shaperone/core/env.js'
 
 const ex = $rdf.namespace('http://example.com/')
 
-describe('@hydrofoil/shaperone-core/models/forms/lib/stateBuilder', () => {
+describe('@shaperone/core/models/forms/lib/stateBuilder', () => {
   let store: Store
 
   before(() => {

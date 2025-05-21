@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { rdf, rdfs, sh } from '@tpluscode/rdf-ns-builders'
 import { testStore } from '@shaperone/testing/models/form.js'
-import { setGraph } from '@hydrofoil/shaperone-core/models/shapes/reducers.js'
+import { setGraph } from '@shaperone/core/models/shapes/reducers.js'
 
 const ex = $rdf.namespace('http://example.com/')
 

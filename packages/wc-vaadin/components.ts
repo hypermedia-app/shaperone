@@ -2,7 +2,7 @@
  * [DASH components](http://datashapes.org/forms.html) implemented using [Vaadin Web Components](https://vaadin.com/components/)
  *
  * @packageDocumentation
- * @module @hydrofoil/shaperone-wc-vaadin/components
+ * @module @shaperone/vaadin/components
  */
 
 export { default as BooleanSelect } from './components/BooleanSelectEditor.js'

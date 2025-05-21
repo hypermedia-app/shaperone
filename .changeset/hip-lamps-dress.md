@@ -1,5 +1,5 @@
 ---
-"@hydrofoil/shaperone-rdf-validate-shacl": patch
+"@shaperone/rdf-validate-shacl": patch
 ---
 
 Updated `rdf-validate-shacl`

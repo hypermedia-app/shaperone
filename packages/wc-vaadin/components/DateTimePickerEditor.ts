@@ -1,9 +1,9 @@
-import { GlobalDependencyLoader, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { GlobalDependencyLoader, SingleEditorComponent } from 'shaperone'
 import { spread } from '@open-wc/lit-helpers'
 import { dash, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { html } from 'lit'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import env from '@hydrofoil/shaperone-core/env.js'
+import env from '@shaperone/core/env.js'
 import { validity } from './validation.js'
 
 export default class extends GlobalDependencyLoader(SingleEditorComponent) {

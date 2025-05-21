@@ -3,8 +3,8 @@ import { editorTestParams } from '@shaperone/testing'
 import { expect, oneEvent } from '@open-wc/testing'
 import type { SlButton } from '@shoelace-style/shoelace'
 import { schema, rdf } from '@tpluscode/rdf-ns-builders'
-import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
-import { setEnv } from '@hydrofoil/shaperone-core/env.js'
+import defineComponent from 'shaperone/test/defineComponent.js'
+import { setEnv } from '@shaperone/core/env.js'
 import { InstancesSelect } from '../../components.js'
 
 describe('wc-shoelace/components/instancesSelect', function () {

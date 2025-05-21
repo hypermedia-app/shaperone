@@ -4,8 +4,8 @@ import $rdf from '@shaperone/testing/env.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testFocusNodeState, testObjectState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form.js'
 import { testEditorsState } from '@shaperone/testing/models/editors.js'
-import { recalculateEditors, toggleSwitching } from '@hydrofoil/shaperone-core/models/forms/reducers/editors.js'
-import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import { recalculateEditors, toggleSwitching } from '@shaperone/core/models/forms/reducers/editors.js'
+import type { PropertyObjectState, PropertyState } from '@shaperone/core/models/forms/index.js'
 
 describe('core/models/forms/reducers/editors', () => {
   describe('toggleSwitching', () => {

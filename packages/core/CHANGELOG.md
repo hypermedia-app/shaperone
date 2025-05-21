@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-core
+# @shaperone/core
 
 ## 0.12.1
 

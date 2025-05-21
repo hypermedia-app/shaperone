@@ -1,16 +1,16 @@
-import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState, PropertyObjectState, PropertyState } from '@shaperone/core/models/forms/index.js'
 import type { PropertyShape } from '@rdfine/shacl'
 import type { AnyPointer, MultiPointer } from 'clownface'
 import type { Initializer } from '@tpluscode/rdfine/RdfResource'
 import type { NamedNode, Term } from '@rdfjs/types'
-import { nextid } from '@hydrofoil/shaperone-core/models/forms/lib/objectid.js'
-import type { FocusNode } from '@hydrofoil/shaperone-core'
-import type { MultiEditorComponent, SingleEditorComponent } from '@hydrofoil/shaperone-wc'
+import { nextid } from '@shaperone/core/models/forms/lib/objectid.js'
+import type { FocusNode } from '@shaperone/core'
+import type { MultiEditorComponent, SingleEditorComponent } from 'shaperone'
 import $rdf from './env.js'
 import { propertyShape } from './util.js'
 
 export { sinon } from './sinon.js'
-export type { RecursivePartial } from '@hydrofoil/shaperone-core/lib/RecursivePartial.js'
+export type { RecursivePartial } from '@shaperone/core/lib/RecursivePartial.js'
 
 export const ex = $rdf.namespace('http://example.com/')
 

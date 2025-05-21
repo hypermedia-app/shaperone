@@ -1,5 +1,5 @@
 ---
-"@hydrofoil/shaperone-wc-vaadin": minor
+"@shaperone/vaadin": minor
 ---
 
 Updated to vaadin 23

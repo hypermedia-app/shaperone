@@ -1,9 +1,9 @@
 import { dash } from '@tpluscode/rdf-ns-builders'
 import { property } from 'lit/decorators.js'
 import type { NodeShape } from '@rdfine/shacl'
-import type { FocusNodeState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState } from '@shaperone/core/models/forms/index.js'
 import type { BlankNode, NamedNode } from '@rdfjs/types'
-import type { DetailsEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { DetailsEditor } from '@shaperone/core/components.js'
 import type { PropertyValues } from 'lit'
 import { SingleEditorComponent } from '../index.js'
 

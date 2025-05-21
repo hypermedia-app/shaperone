@@ -1,5 +1,5 @@
-import type { MultiEditorComponent } from '@hydrofoil/shaperone-core'
-import type { PropertyObjectState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { MultiEditorComponent } from '@shaperone/core'
+import type { PropertyObjectState } from '@shaperone/core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
 import type { Term } from '@rdfjs/types'
 import type { CustomEventTarget } from '../components/events.js'

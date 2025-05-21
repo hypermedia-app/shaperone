@@ -1,6 +1,6 @@
 /**
  * @packageDocumentation
- * @module @hydrofoil/shaperone-core
+ * @module @shaperone/core
  */
 
 import type { BlankNode, NamedNode } from '@rdfjs/types'

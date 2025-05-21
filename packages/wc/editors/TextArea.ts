@@ -1,6 +1,6 @@
 import { html } from 'lit'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { TextAreaEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { TextAreaEditor } from '@shaperone/core/components.js'
 import { SingleEditorBase } from './SingleEditorBase.js'
 import { validity } from './lib/validity.js'
 

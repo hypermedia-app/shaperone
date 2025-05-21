@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-hydra
+# @shaperone/hydra
 
 ## 0.4.1
 

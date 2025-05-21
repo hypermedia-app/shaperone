@@ -1,7 +1,7 @@
 import type { LitElement, TemplateResult } from 'lit'
 import { html, css } from 'lit'
 import SlSkeleton from '@shoelace-style/shoelace/dist/components/skeleton/skeleton.component.js'
-import { ScopedDependencyLoader } from '@hydrofoil/shaperone-wc'
+import { ScopedDependencyLoader } from 'shaperone'
 
 type DependencyMap = Record<string, CustomElementConstructor | Promise<CustomElementConstructor | { default: CustomElementConstructor }>>
 

@@ -1,5 +1,5 @@
 {
-  "name": "@hydrofoil/shaperone-wc",
+  "name": "shaperone",
   "version": "0.8.1",
   "description": "Web Component rendering SHACL forms",
   "main": "index.js",
@@ -21,7 +21,7 @@
     "build": "vite build --outDir ../../../dist/shaperone-form"
   },
   "dependencies": {
-    "@hydrofoil/shaperone-core": "^0.12.1",
+    "@shaperone/core": "^0.12.1",
     "@open-wc/lit-helpers": "^0.7.0",
     "@open-wc/scoped-elements": "^3.0.5",
     "@rdfine/shacl": "^0.10.5",

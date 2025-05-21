@@ -1,5 +1,5 @@
 {
-  "name": "@hydrofoil/shaperone-core-tests",
+  "name": "@shaperone/core-tests",
   "private": true,
   "version": "0.1.1",
   "type": "module",
@@ -7,7 +7,7 @@
     "test": "mocha \"**/*.ts\" --exclude \"node_modules/**/*.ts\""
   },
   "devDependencies": {
-    "@hydrofoil/shaperone-core": "*",
+    "@shaperone/core": "*",
     "@rdfine/shacl": "^0.10.6",
     "@shaperone/testing": "*",
     "@tpluscode/rdf-ns-builders": "^5",

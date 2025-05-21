@@ -1,7 +1,7 @@
 import { html } from 'lit'
 import { dash, xsd } from '@tpluscode/rdf-ns-builders'
-import type { BooleanSelectEditor } from '@hydrofoil/shaperone-core/components.js'
-import env from '@hydrofoil/shaperone-core/env.js'
+import type { BooleanSelectEditor } from '@shaperone/core/components.js'
+import env from '@shaperone/core/env.js'
 import { validity } from './lib/validity.js'
 import { SingleEditorBase } from './SingleEditorBase.js'
 

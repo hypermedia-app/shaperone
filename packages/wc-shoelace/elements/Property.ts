@@ -1,5 +1,5 @@
 import { css, html } from 'lit'
-import { PropertyElement } from '@hydrofoil/shaperone-wc/components/index.js'
+import { PropertyElement } from 'shaperone/components/index.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
 

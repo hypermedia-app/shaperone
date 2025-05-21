@@ -1,9 +1,9 @@
-import { Sh1FocusNode } from '@hydrofoil/shaperone-wc/components/sh1-focus-node.js'
+import { Sh1FocusNode } from 'shaperone/components/sh1-focus-node.js'
 import { html } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
-import type { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { PropertyGroupState } from '@shaperone/core/models/forms/index.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
-import { GlobalDependencyLoader } from '@hydrofoil/shaperone-wc'
+import { GlobalDependencyLoader } from 'shaperone'
 
 export default class AccordionFocusNode extends GlobalDependencyLoader(Sh1FocusNode) {
   * dependencies() {

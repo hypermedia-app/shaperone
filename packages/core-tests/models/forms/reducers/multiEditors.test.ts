@@ -3,7 +3,7 @@ import $rdf from '@shaperone/testing/env.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
 import { testEditor, testFocusNodeState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form.js'
-import { selectMultiEditor, selectSingleEditors } from '@hydrofoil/shaperone-core/models/forms/reducers/multiEditors.js'
+import { selectMultiEditor, selectSingleEditors } from '@shaperone/core/models/forms/reducers/multiEditors.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/models/forms/reducers/multiEditors', () => {

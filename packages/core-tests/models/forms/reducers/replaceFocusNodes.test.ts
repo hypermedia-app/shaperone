@@ -3,9 +3,9 @@ import $rdf from '@shaperone/testing/env.js'
 import { expect } from 'chai'
 import type { RecursivePartial } from '@shaperone/testing'
 import { testFocusNodeState, testStore } from '@shaperone/testing/models/form.js'
-import { replaceFocusNodeState } from '@hydrofoil/shaperone-core/models/forms/reducers/replaceFocusNodes.js'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms/index.js'
-import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
+import { replaceFocusNodeState } from '@shaperone/core/models/forms/reducers/replaceFocusNodes.js'
+import type { FormState } from '@shaperone/core/models/forms/index.js'
+import type { Store } from '@shaperone/core/state/index.js'
 import type { AnyPointer } from 'clownface'
 
 describe('models/forms/reducers/replaceFocusNodes', () => {

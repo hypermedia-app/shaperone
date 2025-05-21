@@ -1,11 +1,11 @@
 ---
-"@hydrofoil/shaperone-wc": minor
+"shaperone": minor
 ---
 
 Big change how elements are configured. Global config can be set using the `configure.js` module. 
 
 ```js
-import { configure } from '@hydrofoil/shaperone-wc'
+import { configure } from 'shaperone'
 
 await configure(({ components, editors, renderer, validation }) => {
   
@@ -18,7 +18,7 @@ Additionally, each component can be customised further by providing calling `con
 <shaperone-form></shaperone-form>
 
 <script type="module">
-  import { configure } from '@hydrofoil/shaperone-wc'
+  import { configure } from 'shaperone'
   
   // global configuration must always be invoked 
   configure()

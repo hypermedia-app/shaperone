@@ -1,6 +1,6 @@
 ---
-"@hydrofoil/shaperone-core": major
-"@hydrofoil/shaperone-wc": major
+"@shaperone/core": major
+"shaperone": major
 ---
 
 Refactored the whole component model

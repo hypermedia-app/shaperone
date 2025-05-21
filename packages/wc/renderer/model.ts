@@ -1,4 +1,4 @@
-import { createModel } from '@hydrofoil/shaperone-core/store.js'
+import { createModel } from '@shaperone/core/store.js'
 import type { FocusNodeElement, ObjectElement, PropertyElement, PropertyGroupElement } from '../components/index.js'
 
 type Constructor<T> = new (...args: any[]) => T

@@ -3,9 +3,9 @@ import type {
   SingleEditorActions,
   SingleEditorRenderParams,
   Lazy,
-} from '@hydrofoil/shaperone-core/models/components/index.js'
+} from '@shaperone/core/models/components/index.js'
 import { expect, fixture, html } from '@open-wc/testing'
-import { decorateComponent } from '@hydrofoil/shaperone-core/models/components/lib/decorate.js'
+import { decorateComponent } from '@shaperone/core/models/components/lib/decorate.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { editorTestParams } from '@shaperone/testing'
 import $rdf from '@shaperone/testing/env.js'

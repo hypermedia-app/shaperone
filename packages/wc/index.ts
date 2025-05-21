@@ -1,6 +1,6 @@
 /**
  * @packageDocumentation
- * @module @hydrofoil/shaperone-wc
+ * @module shaperone
  */
 
 export { configure } from './configure.js'
@@ -8,7 +8,7 @@ export type { ConfigCallback } from './configure.js'
 
 export type { ShaperoneForm } from './ShaperoneForm.js'
 
-export type { SingleEditor, MultiEditor } from '@hydrofoil/shaperone-core'
+export type { SingleEditor, MultiEditor } from '@shaperone/core'
 
 export { SingleEditorBase as SingleEditorComponent } from './editors/SingleEditorBase.js'
 export { MultiEditorBase as MultiEditorComponent } from './editors/MultiEditorBase.js'

@@ -1,8 +1,8 @@
 import { testFocusNode, testPropertyState, testObjectState } from '@shaperone/testing/models/form.js'
 import { sinon } from '@shaperone/testing'
-import type { FocusNode } from '@hydrofoil/shaperone-core'
+import type { FocusNode } from '@shaperone/core'
 import { fixture, html, expect } from '@open-wc/testing'
-import type { Dispatch } from '@hydrofoil/shaperone-core/state'
+import type { Dispatch } from '@shaperone/core/state'
 import { any, blankNode } from '@shaperone/testing/nodeFactory.js'
 import { formRenderer } from '@shaperone/testing/renderer.js'
 

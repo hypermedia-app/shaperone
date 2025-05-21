@@ -1,5 +1,5 @@
-import type { ConfigCallback } from '@hydrofoil/shaperone-wc'
-import { editors, layout } from '@hydrofoil/shaperone-wc-vaadin'
+import type { ConfigCallback } from 'shaperone'
+import { editors, layout } from '@shaperone/vaadin'
 
 export const configure: ConfigCallback = ({ components, renderer }) => {
   components.pushComponents(editors)

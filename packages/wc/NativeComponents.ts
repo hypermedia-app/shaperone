@@ -6,10 +6,10 @@
  * - `<select>`
  *
  * @packageDocumentation
- * @module @hydrofoil/shaperone-wc/NativeComponents
+ * @module shaperone/NativeComponents
  */
 
-import type { ComponentConstructor } from '@hydrofoil/shaperone-core/models/components/index.js'
+import type { ComponentConstructor } from '@shaperone/core/models/components/index.js'
 import BooleanSelect from './editors/BooleanSelect.js'
 import TextField from './editors/TextField.js'
 import TextArea from './editors/TextArea.js'

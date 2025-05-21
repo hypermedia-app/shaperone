@@ -1,5 +1,5 @@
 ---
-"@hydrofoil/shaperone-hydra": patch
+"@shaperone/hydra": patch
 ---
 
 Update `alcaeus` to v3.0.2

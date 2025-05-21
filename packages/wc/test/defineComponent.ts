@@ -1,4 +1,4 @@
-import type { ComponentConstructor } from '@hydrofoil/shaperone-core/models/components/index.js'
+import type { ComponentConstructor } from '@shaperone/core/models/components/index.js'
 import * as staticLit from 'lit/static-html.js'
 import { spread } from '@open-wc/lit-helpers'
 import type { MultiEditorTestFixture, SingleEditorTestFixture } from '@shaperone/testing'

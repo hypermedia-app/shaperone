@@ -1,4 +1,4 @@
-import type { SingleEditor } from '@hydrofoil/shaperone-core'
+import type { SingleEditor } from '@shaperone/core'
 import $rdf from '@zazuko/env/web.js'
 
 const starRating = $rdf.namedNode('http://example.com/starRating')

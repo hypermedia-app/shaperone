@@ -1,4 +1,4 @@
-import type { FocusNodeState, PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState, PropertyObjectState, PropertyState } from '@shaperone/core/models/forms/index.js'
 import { css, html } from 'lit'
 import { property } from 'lit/decorators.js'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'

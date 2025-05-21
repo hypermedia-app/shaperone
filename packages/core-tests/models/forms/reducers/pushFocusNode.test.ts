@@ -3,8 +3,8 @@ import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { sinon } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
-import { pushFocusNode } from '@hydrofoil/shaperone-core/models/forms/effects/pushFocusNode.js'
-import type { Store } from '@hydrofoil/shaperone-core/state/index.js'
+import { pushFocusNode } from '@shaperone/core/models/forms/effects/pushFocusNode.js'
+import type { Store } from '@shaperone/core/state/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 const ex = $rdf.namespace('http://example.com/')

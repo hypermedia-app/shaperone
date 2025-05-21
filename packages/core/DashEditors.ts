@@ -3,7 +3,7 @@
  *
  * While most editors try to be true to the DASH specification, some may slightly differ
  * @packageDocumentation
- * @module @hydrofoil/shaperone-core/DashEditors
+ * @module @shaperone/core/DashEditors
  */
 
 import type { PropertyShape } from '@rdfine/shacl'

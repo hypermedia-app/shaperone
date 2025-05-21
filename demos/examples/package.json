@@ -1,5 +1,5 @@
 {
-  "name": "@hydrofoil/shaperone-playground-examples",
+  "name": "@shaperone/playground-examples",
   "version": "0.3.1",
   "main": "index.js",
   "repository": "https://github.com/hypermedia-app/shaperone",
@@ -11,8 +11,8 @@
     "@tpluscode/rdf-ns-builders": "^5",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@hydrofoil/shaperone-core": "0.12.1",
-    "@hydrofoil/shaperone-wc": "0.8.1",
+    "@shaperone/core": "0.12.1",
+    "shaperone": "0.8.1",
     "@zazuko/env": "^3",
     "@rdfjs-elements/lit-helpers": "^0.3.11",
     "@zazuko/prefixes": "^2.2.0",

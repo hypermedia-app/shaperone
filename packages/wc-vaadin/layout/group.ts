@@ -1,7 +1,7 @@
-import { PropertyGroupElement } from '@hydrofoil/shaperone-wc/components/index.js'
+import { PropertyGroupElement } from 'shaperone/components/index.js'
 import type { TemplateResult } from 'lit'
 import { html } from 'lit'
-import { GlobalDependencyLoader } from '@hydrofoil/shaperone-wc'
+import { GlobalDependencyLoader } from 'shaperone'
 
 const responsiveSteps = [
   // Use one column by default

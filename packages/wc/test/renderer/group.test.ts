@@ -1,5 +1,5 @@
-import type { GroupRenderer } from '@hydrofoil/shaperone-core/renderer.js'
-import type { PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms'
+import type { GroupRenderer } from '@shaperone/core/renderer.js'
+import type { PropertyGroupState } from '@shaperone/core/models/forms'
 import { groupRenderer } from '@shaperone/testing/renderer.js'
 import { emptyGroupState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'

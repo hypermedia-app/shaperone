@@ -1,5 +1,5 @@
 import { describe } from 'mocha'
-import { sort } from '@hydrofoil/shaperone-core/lib/components.js'
+import { sort } from '@shaperone/core/lib/components.js'
 import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
 import { expect } from 'chai'
 import { ex } from '@shaperone/testing'

@@ -2,10 +2,10 @@ import type { LitElement, PropertyValues } from 'lit'
 import { html, css } from 'lit'
 import { state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
-import type { ComponentConstructor, SingleEditorComponent } from '@hydrofoil/shaperone-core/components.js'
+import type { ComponentConstructor, SingleEditorComponent } from '@shaperone/core/components.js'
 import type { GraphPointer } from 'clownface'
 import { isLiteral } from 'is-graph-pointer'
-import env from '@hydrofoil/shaperone-core/env.js'
+import env from '@shaperone/core/env.js'
 
 type LitElementConstructor = new (...args: any[]) => LitElement
 

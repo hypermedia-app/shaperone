@@ -1,6 +1,6 @@
 import type { TemplateResult } from 'lit'
-import { html } from '@hydrofoil/shaperone-wc'
-import type { ComponentDecorator } from '@hydrofoil/shaperone-core/models/components'
+import { html } from 'shaperone'
+import type { ComponentDecorator } from '@shaperone/core/models/components'
 import type { PropertyShape } from '@rdfine/shacl'
 
 function wrap(shape: PropertyShape, result: TemplateResult) {

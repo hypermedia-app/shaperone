@@ -1,6 +1,6 @@
-# @hydrofoil/shaperone-rdf-validate-shacl
+# @shaperone/rdf-validate-shacl
 
-SHACL validation support for @hydrofoil/shaperone. Using [rdf-validate-shacl](https://npm.im/rdf-validate-shacl)
+SHACL validation support for shaperone. Using [rdf-validate-shacl](https://npm.im/rdf-validate-shacl)
 
 ## Configuration
 
@@ -12,7 +12,7 @@ The exported function has an optional parameter which allows configuring the und
 
 ```typescript
 import $rdf from 'rdf-ext'
-import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
+import { validate } from '@shaperone/rdf-validate-shacl'
 
 validate.with({
   factory: $rdf,

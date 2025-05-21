@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-rdf-validate-shacl
+# @shaperone/rdf-validate-shacl
 
 ## 1.1.1
 

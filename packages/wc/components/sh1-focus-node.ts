@@ -1,5 +1,5 @@
 import { html } from 'lit'
-import type { FocusNodeState, PropertyGroupState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState, PropertyGroupState } from '@shaperone/core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
 import ShaperoneElementBase from './ShaperoneElementBase.js'
 

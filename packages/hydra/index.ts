@@ -1,10 +1,10 @@
 import type { StoreDispatch } from '@captaincodeman/rdx'
-import type { editors } from '@hydrofoil/shaperone-core/models/editors'
-import type { components } from '@hydrofoil/shaperone-core/models/components'
+import type { editors } from '@shaperone/core/models/editors'
+import type { components } from '@shaperone/core/models/components'
 import type { HydraEnvironment } from 'alcaeus-core'
 import { autocomplete, instancesSelector, multiInstanceSelector } from './components.js'
 
-declare module '@hydrofoil/shaperone-core/env.js' {
+declare module '@shaperone/core/env.js' {
   interface Requirements {
     hydra: HydraEnvironment
   }

@@ -1,5 +1,5 @@
 import { html } from 'lit'
-import sh1Button from '@hydrofoil/shaperone-wc/components/sh1-button.js'
+import sh1Button from 'shaperone/components/sh1-button.js'
 import { ShoelaceLoader } from './ShoelaceLoader.js'
 
 export default class Button extends ShoelaceLoader(sh1Button) {

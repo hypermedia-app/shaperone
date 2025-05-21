@@ -2,7 +2,7 @@ import { html, css } from 'lit'
 import { expect } from '@open-wc/testing'
 import { sinon } from '@shaperone/testing'
 
-describe('@hydrofoil/shaperone-wc/components/decorator', function () {
+describe('shaperone/components/decorator', function () {
   describe('.loadDependencies', function () {
     it('gets combined from base and extension', async function () {
       // given

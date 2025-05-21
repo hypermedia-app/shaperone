@@ -2,9 +2,9 @@ import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
 import { expect, oneEvent } from '@open-wc/testing'
 import { rdfs, schema } from '@tpluscode/rdf-ns-builders'
-import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
-import { setEnv } from '@hydrofoil/shaperone-core/env.js'
-import type { EnumSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import defineComponent from 'shaperone/test/defineComponent.js'
+import { setEnv } from '@shaperone/core/env.js'
+import type { EnumSelectEditor } from '@shaperone/core/components.js'
 import { EnumSelect } from '../../components.js'
 
 describe('wc-shoelace/components/enumSelect', function () {

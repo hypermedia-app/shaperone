@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-wc
+# shaperone
 
 ## 0.8.1
 

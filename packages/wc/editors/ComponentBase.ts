@@ -1,6 +1,6 @@
-import type { Component } from '@hydrofoil/shaperone-core'
+import type { Component } from '@shaperone/core'
 import { LitElement } from 'lit'
-import type { FocusNodeState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState, PropertyState } from '@shaperone/core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
 import type { NamedNode } from '@rdfjs/types'
 import { rdfs } from '@tpluscode/rdf-ns-builders'

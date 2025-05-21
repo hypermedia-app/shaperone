@@ -4,7 +4,7 @@ import '@rdfjs-elements/rdf-snippet/rdf-snippet.js'
 import { css, html, LitElement } from 'lit'
 import type { AnyPointer } from 'clownface'
 import rdf from '@zazuko/env'
-import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
+import type { ShaperoneForm } from 'shaperone'
 
 customElements.define('shaperone-demo', class extends LitElement {
   declare dataGraph: string

@@ -1,10 +1,10 @@
-import type { InstanceConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
+import type { InstanceConfigCallback } from 'shaperone/configure.js'
 import SparqlClient from 'sparql-http-client/ParsingClient.js'
-import type { ComponentDecorator, InstancesSelectEditor } from '@hydrofoil/shaperone-core/components.js'
-import type { ComponentConstructor } from '@hydrofoil/shaperone-core/models/components/index.js'
+import type { ComponentDecorator, InstancesSelectEditor } from '@shaperone/core/components.js'
+import type { ComponentConstructor } from '@shaperone/core/models/components/index.js'
 import type { GraphPointer } from 'clownface'
 import type { PropertyValues } from 'lit'
-import env from '@hydrofoil/shaperone-core/env.js'
+import env from '@shaperone/core/env.js'
 
 const wikidata = new SparqlClient({
   endpointUrl: 'https://query.wikidata.org/sparql',

@@ -2,13 +2,13 @@
  * Exports configuration objects used to set up shaperone
  *
  * @packageDocumentation
- * @module @hydrofoil/shaperone-wc/configure
+ * @module shaperone/configure
  */
 
 import '@webcomponents/scoped-custom-element-registry'
-import CoreMetadata from '@hydrofoil/shaperone-core/metadata.js'
-import type { RequiredEnvironment } from '@hydrofoil/shaperone-core/env.js'
-import { setEnv } from '@hydrofoil/shaperone-core/env.js'
+import CoreMetadata from '@shaperone/core/metadata.js'
+import type { RequiredEnvironment } from '@shaperone/core/env.js'
+import { setEnv } from '@shaperone/core/env.js'
 import onetime from 'onetime'
 import store from './store.js'
 import * as native from './NativeComponents.js'

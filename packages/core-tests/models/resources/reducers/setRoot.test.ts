@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { testStore } from '@shaperone/testing/models/form.js'
-import { setRoot } from '@hydrofoil/shaperone-core/models/resources/reducers/setRoot.js'
+import { setRoot } from '@shaperone/core/models/resources/reducers/setRoot.js'
 
 const ex = $rdf.namespace('http://example.com/')
 

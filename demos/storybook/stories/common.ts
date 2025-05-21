@@ -1,6 +1,6 @@
 import type { Meta, StoryObj as Story } from '@storybook/web-components'
 import { merge } from 'ts-deepmerge'
-import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
+import type { ConfigCallback } from 'shaperone/configure.js'
 import type { TurtleTemplateResult } from '@tpluscode/rdf-string'
 import type { NamedNode } from '@rdfjs/types'
 import { render } from './render.js'

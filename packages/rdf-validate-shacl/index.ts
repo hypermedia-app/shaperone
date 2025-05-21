@@ -1,6 +1,6 @@
 import type * as RDF from '@rdfjs/types'
 import type { Options } from 'rdf-validate-shacl'
-import type { Validator } from '@hydrofoil/shaperone-core/models/validation'
+import type { Validator } from '@shaperone/core/models/validation'
 
 interface Validate extends Validator {
   /**

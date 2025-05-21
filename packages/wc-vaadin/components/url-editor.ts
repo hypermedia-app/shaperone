@@ -1,5 +1,5 @@
-import type { Render } from '@hydrofoil/shaperone-wc'
-import { html } from '@hydrofoil/shaperone-wc'
+import type { Render } from 'shaperone'
+import { html } from 'shaperone'
 import { spread } from '@open-wc/lit-helpers'
 import '@vaadin/vaadin-text-field/vaadin-text-field'
 import { validity } from './validation.js'

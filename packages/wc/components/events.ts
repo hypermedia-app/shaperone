@@ -1,7 +1,7 @@
 import type { NamedNode, Term } from '@rdfjs/types'
 import type { GraphPointer } from 'clownface'
 import type { NodeShape, PropertyGroup, Shape } from '@rdfine/shacl'
-import type { FocusNode } from '@hydrofoil/shaperone-core'
+import type { FocusNode } from '@shaperone/core'
 
 export interface CustomEventTarget {
   addEventListener<K extends keyof HTMLElementEventMap>(

@@ -1,6 +1,6 @@
 /**
  * @packageDocumentation
- * @module @hydrofoil/shaperone-core/models/forms
+ * @module @shaperone/core/models/forms
  */
 
 import { createModel } from '@captaincodeman/rdx'

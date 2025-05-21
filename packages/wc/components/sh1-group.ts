@@ -1,4 +1,4 @@
-import type { FocusNodeState, PropertyGroupState, PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
+import type { FocusNodeState, PropertyGroupState, PropertyState } from '@shaperone/core/models/forms/index.js'
 import { property } from 'lit/decorators.js'
 import { html } from 'lit'
 import type { PropertyGroup } from '@rdfine/shacl'

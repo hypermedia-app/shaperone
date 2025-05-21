@@ -2,8 +2,8 @@ import { expect, oneEvent } from '@open-wc/testing'
 import { dash, owl, rdf, rdfs, schema } from '@tpluscode/rdf-ns-builders'
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
-import { setEnv } from '@hydrofoil/shaperone-core/env.js'
+import defineComponent from 'shaperone/test/defineComponent.js'
+import { setEnv } from '@shaperone/core/env.js'
 import { AutoComplete } from '../../components.js'
 
 describe('wc-shoelace/components/autocomplete', function () {

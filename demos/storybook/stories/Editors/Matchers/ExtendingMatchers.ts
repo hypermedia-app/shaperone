@@ -1,5 +1,5 @@
 import $rdf from '@zazuko/env/web.js'
-import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors/index.js'
+import type { MatcherDecorator } from '@shaperone/core/models/editors/index.js'
 
 const { dash, dcterms, rdfs, schema } = $rdf.ns
 

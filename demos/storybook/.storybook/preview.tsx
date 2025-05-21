@@ -10,7 +10,7 @@ import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.j
 import process from "process";
 import { Buffer } from "buffer";
 import EventEmitter from "events";
-import * as Shaperone from '@hydrofoil/shaperone-wc'
+import * as Shaperone from 'shaperone'
 import onetime from 'onetime'
 
 const configure = onetime(() => Shaperone.configure())

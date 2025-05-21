@@ -1,6 +1,6 @@
 import { dash, rdf } from '@tpluscode/rdf-ns-builders'
 import { html } from 'lit'
-import type { InstancesSelectEditor } from '@hydrofoil/shaperone-core/components.js'
+import type { InstancesSelectEditor } from '@shaperone/core/components.js'
 import type { NamedNode } from '@rdfjs/types'
 import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import type { GraphPointer } from 'clownface'

@@ -1,4 +1,4 @@
-import type { LayoutElements } from '@hydrofoil/shaperone-wc'
+import type { LayoutElements } from 'shaperone'
 import * as editors from './components.js'
 import property from './elements/Property.js'
 import object from './elements/Object.js'

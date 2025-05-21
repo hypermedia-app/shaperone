@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-playground-examples
+# @shaperone/playground-examples
 
 ## 0.3.1
 

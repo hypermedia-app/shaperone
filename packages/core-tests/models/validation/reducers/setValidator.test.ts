@@ -1,9 +1,9 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import type { ValidatorState } from '@hydrofoil/shaperone-core/models/validation/index.js'
-import { setValidator } from '@hydrofoil/shaperone-core/models/validation/reducers/setValidator.js'
+import type { ValidatorState } from '@shaperone/core/models/validation/index.js'
+import { setValidator } from '@shaperone/core/models/validation/reducers/setValidator.js'
 
-describe('@hydrofoil/shaperone-core/models/validation/reducers/setValidator', () => {
+describe('@shaperone/core/models/validation/reducers/setValidator', () => {
   it('gets replaced in state', () => {
     // given
     const before: ValidatorState = {

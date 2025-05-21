@@ -1,5 +1,5 @@
 ---
-"@hydrofoil/shaperone-core": patch
+"@shaperone/core": patch
 ---
 
 Fixes setting shapes from dataset

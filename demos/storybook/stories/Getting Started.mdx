@@ -8,13 +8,13 @@ import { Markdown } from '@storybook/blocks'
 To start using `shaperone`, first install the Web Component library:
 
 ```shell
-npm install @hydrofoil/shaperone-wc
+npm install shaperone
 ```
 
 Then, import the library in your project and call the `configure` function:
 
 ```javascript
-import { configure } from '@hydrofoil/shaperone-wc';
+import { configure } from 'shaperone';
 
 configure()
 ```
@@ -48,7 +48,7 @@ form.resource = rdf.clownface().node('http://example.com/resource')
 To retrieve the form's data, listen for the `changed` event:
 
 ```ts
-import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
+import type { ShaperoneForm } from 'shaperone'
 
 let form: ShaperoneForm
 
@@ -64,7 +64,7 @@ form.addEventListener('changed', (event: CustomEvent) => {
 ## Replace the RDF/JS environment
 
 ```javascript
-import { configure } from '@hydrofoil/shaperone-wc'
+import { configure } from 'shaperone'
 import Environment from '@rdfjs/environment/Environment.js'
 
 const env = new Environment([
@@ -92,7 +92,7 @@ The `configure` function is async and its return value can be used to customise 
 This sets the default appearance and behaviour of the form and must be called before the component is used in a page.
 
 ```javascript
-import { configure } from '@hydrofoil/shaperone-wc'
+import { configure } from 'shaperone'
 
 await configure(({ renderer, components, editors, validation }) => {
   // renderer => Changes the form's appearance
@@ -106,7 +106,7 @@ Individual form instances can be customised by calling the `configure` method on
 the configuration function to the `configuration` property:
 
 ```ts
-import type { ConfigCallback, ShaperoneForm } from '@hydrofoil/shaperone-wc'
+import type { ConfigCallback, ShaperoneForm } from 'shaperone'
 
 const form: ShaperoneForm = document.querySelector('shaperone-form')
 

@@ -36,7 +36,7 @@ Then use it in the configuration call:
 
 ```js
 import { starRating } from './editors.js'
-import { configure } from '@hydrofoil/shaperone-wc'
+import { configure } from 'shaperone'
 
 configure(({ editors }) => {
   editors.addMatchers({
@@ -66,7 +66,7 @@ Then use it in the configuration call:
 
 ```js
 import { preferMultiline } from './decorators.js'
-import { configure } from '@hydrofoil/shaperone-wc'
+import { configure } from 'shaperone'
 
 configure(({ editors }) => {
   editors.decorate(preferMultiline)

@@ -1,4 +1,4 @@
-import { configure } from '@hydrofoil/shaperone-wc'
+import { configure } from 'shaperone'
 import $rdf from '@zazuko/env/web.js'
 
 const { rdf, rdfs, dash } = $rdf.ns

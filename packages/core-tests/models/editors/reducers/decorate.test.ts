@@ -3,8 +3,8 @@ import { expect } from 'chai'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testEditor } from '@shaperone/testing/models/form.js'
 import { testEditorsState as testState } from '@shaperone/testing/models/editors.js'
-import { decorate } from '@hydrofoil/shaperone-core/models/editors/reducers/decorate.js'
-import type { MatcherDecorator, SingleEditor } from '@hydrofoil/shaperone-core/models/editors/index.js'
+import { decorate } from '@shaperone/core/models/editors/reducers/decorate.js'
+import type { MatcherDecorator, SingleEditor } from '@shaperone/core/models/editors/index.js'
 
 describe('core/models/editors/reducers/decorate', () => {
   it('creates decorator array for editor', () => {
