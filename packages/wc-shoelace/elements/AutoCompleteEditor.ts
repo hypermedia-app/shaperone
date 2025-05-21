@@ -44,7 +44,7 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
       }
 
       sl-input sl-icon[slot=suffix] {
-        padding-right: 0;
+        padding: 8px;
         margin-right: var(--sl-input-spacing-medium);
       }
     `
@@ -79,12 +79,7 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
                 @sl-focus="${() => { this._hasFocus = true }}"
                 @sl-blur="${() => { this._hasFocus = false }}"
                 @sl-input="${this.onSearch}">
-        <sl-icon-button id="clear"
-                        name="x-circle-fill"
-                        slot="suffix"
-                        ?hidden="${!this.selected || !this.clearable}"
-                        @click="${this.cleared}"></sl-icon-button>
-        <sl-icon name="${this.loading ? 'arrow-repeat' : 'search'}" slot="suffix"></sl-icon>
+        ${this.renderIcon()}
       </sl-input>
       <sl-menu hoist .value=${this.selected?.value}
                ?hidden="${this.filteredChoices.length === 0}"
@@ -95,6 +90,17 @@ export default class extends ShoelaceLoader(AutoCompleteBase) implements AutoCom
       </sl-menu>
     </sl-dropdown>
     `
+  }
+
+  renderIcon() {
+    if (this.selected) {
+      return html`<sl-icon-button id="clear"
+                                  name="x-circle-fill"
+                                  slot="suffix"
+                                  @click="${this.cleared}"></sl-icon-button>`
+    }
+
+    return html`<sl-icon name="${this.loading ? 'arrow-repeat' : 'search'}" slot="suffix"></sl-icon>`
   }
 
   protected updated(_changedProperties: PropertyValues) {
