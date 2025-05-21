@@ -1,32 +1,27 @@
 import $rdf from '@shaperone/testing/env.js'
 import { editorTestParams } from '@shaperone/testing'
-import { expect, fixture } from '@open-wc/testing'
-import type { TextField, TextFieldEditor } from '@hydrofoil/shaperone-core/lib/components/textField.js'
-import type { SlInput } from '@shoelace-style/shoelace'
-import { textField } from '../../components.js'
+import { expect } from '@open-wc/testing'
+import defineComponent from '@hydrofoil/shaperone-wc/test/defineComponent.js'
+import { setEnv } from '@hydrofoil/shaperone-core/env.js'
+import { TextField } from '../../components.js'
 
 describe('wc-shoelace/components/textField', function () {
-  let component: TextField
-
-  beforeEach(async function () {
-    component = {
-      ...textField,
-      render: await textField.lazyRender(),
-    }
+  before(function () {
+    setEnv($rdf)
   })
+
+  beforeEach(defineComponent(TextField, { awaitEvent: 'sh1-ready' }))
 
   it('is readonly when dash:readOnly true', async function () {
     // given
-    const graph = $rdf.clownface()
-    const { params, actions } = editorTestParams<TextFieldEditor>({
+    const params = editorTestParams({
       property: {
         readOnly: true,
       },
-      object: graph.namedNode(''),
     })
 
     // when
-    const result = await fixture<SlInput>(component.render(params, actions))
+    const result = await this.component.render(params)
 
     // then
     expect(result.readonly).to.be.true
