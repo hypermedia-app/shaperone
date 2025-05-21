@@ -6,7 +6,6 @@ import { localizedLabel } from '@rdfjs-elements/lit-helpers/localizedLabel.js'
 import type { GraphPointer } from 'clownface'
 import { state } from 'lit/decorators.js'
 import { validity } from './lib/validity.js'
-import { readOnly } from './lib/readonly.js'
 import EnumSelect from './EnumSelect.js'
 
 export default class extends EnumSelect implements InstancesSelectEditor {
@@ -16,7 +15,7 @@ export default class extends EnumSelect implements InstancesSelectEditor {
   public selected?: GraphPointer
 
   protected render(): unknown {
-    return html`<select ${readOnly(this.property)} @input="${this.selectionChanged}" required ${validity(this.value)}>
+    return html`<select ?disabled="${this.readonly}" @input="${this.selectionChanged}" required ${validity(this.value)}>
       <option value=""></option>
       ${this.choices.map(pointer => html`
         <option ?selected="${pointer.value === this.value.object?.value}" value="${pointer.value}">

@@ -11,7 +11,6 @@ import { property } from 'lit/decorators.js'
 import sh1 from '@hydrofoil/shaperone-core/ns.js'
 import { SingleEditorBase } from './SingleEditorBase.js'
 import { validity } from './lib/validity.js'
-import { readOnly } from './lib/readonly.js'
 
 const choices = Symbol('choices')
 
@@ -40,7 +39,7 @@ export default class extends SingleEditorBase implements EnumSelectEditor {
   }
 
   protected render(): unknown {
-    return html`<select ${readOnly(this.property)} @input="${this.selectionChanged}" required ${validity(this.value)}>
+    return html`<select ?disabled="${this.readonly}" @input="${this.selectionChanged}" required ${validity(this.value)}>
       <option value=""></option>
       ${repeat(this.choices, pointer => html`
         <option ?selected="${pointer.value === this.value.object?.value}" value="${pointer.value}">
