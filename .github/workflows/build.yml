@@ -53,11 +53,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      group:
-        - shaperone
-        - shoelace
-        - hydra
-        - vaadin
+      matrix:
+        group:
+          - shaperone
+          - shoelace
+          - hydra
+          - vaadin
     steps:
       - uses: actions/checkout@v4
         with:
