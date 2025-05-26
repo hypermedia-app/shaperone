@@ -27,9 +27,9 @@ const rdx = {
 const config = {
   groups: [
     { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
-    { name: 'wc', files: 'packages/wc/test/**/*.test.ts' },
-    { name: 'wc-vaadin', files: 'packages/wc-vaadin/test/**/*.test.ts' },
-    { name: 'wc-shoelace', files: 'packages/wc-shoelace/test/**/*.test.ts' },
+    { name: 'core', files: 'packages/shaperone/test/**/*.test.ts' },
+    { name: 'vaadin', files: 'packages/vaadin/test/**/*.test.ts' },
+    { name: 'shoelace', files: 'packages/shoelace/test/**/*.test.ts' },
   ],
   coverage: true,
   nodeResolve: {
