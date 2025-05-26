@@ -2,6 +2,7 @@ import { esbuildPlugin } from '@web/dev-server-esbuild'
 import { fromRollup } from '@web/dev-server-rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import { puppeteerLauncher } from '@web/test-runner-puppeteer'
+import { polyfill } from '@web/dev-server-polyfill'
 
 const immer = {
   resolveImport({ source }) {
@@ -48,6 +49,9 @@ const config = {
         '**/node_modules/chai-dom/**/*',
         '**/node_modules/sinon-chai/**/*',
       ]
+    }),
+    polyfill({
+      scopedCustomElementRegistry: true,
     }),
   ],
 };

@@ -2,227 +2,32 @@
   "version": "experimental",
   "tags": [
     {
-      "name": "sh-sl-autocomplete",
-      "path": "./elements/sh-sl-autocomplete.ts",
+      "name": "sh1-property",
+      "path": "./test/elements/Property.test.ts",
       "attributes": [
         {
-          "name": "selected",
-          "type": "GraphPointer<Term, DatasetCore<Quad, Quad>> | undefined"
+          "name": "focusNode",
+          "type": "FocusNodeState"
         },
         {
-          "name": "inputValue",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "empty",
-          "type": "boolean",
-          "default": "true"
-        },
-        {
-          "name": "hoist",
-          "type": "boolean",
-          "default": "true"
-        },
-        {
-          "name": "readonly",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "clearable",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "debounce-timeout",
-          "type": "number",
-          "default": "350"
-        },
-        {
-          "name": "loading",
-          "type": "boolean | undefined"
+          "name": "property",
+          "type": "PropertyState"
         }
       ],
       "properties": [
         {
-          "name": "selected",
-          "attribute": "selected",
-          "type": "GraphPointer<Term, DatasetCore<Quad, Quad>> | undefined"
+          "name": "focusNode",
+          "attribute": "focusNode",
+          "type": "FocusNodeState"
         },
         {
-          "name": "inputValue",
-          "attribute": "inputValue",
-          "type": "string",
-          "default": "\"\""
+          "name": "property",
+          "attribute": "property",
+          "type": "PropertyState"
         },
         {
-          "name": "empty",
-          "attribute": "empty",
-          "type": "boolean",
-          "default": "true"
-        },
-        {
-          "name": "hoist",
-          "attribute": "hoist",
-          "type": "boolean",
-          "default": "true"
-        },
-        {
-          "name": "readonly",
-          "attribute": "readonly",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "clearable",
-          "attribute": "clearable",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "debounceTimeout",
-          "attribute": "debounce-timeout",
-          "type": "number",
-          "default": "350"
-        },
-        {
-          "name": "loading",
-          "attribute": "loading",
-          "type": "boolean | undefined"
-        }
-      ],
-      "events": [
-        {
-          "name": "cleared"
-        },
-        {
-          "name": "search"
-        },
-        {
-          "name": "itemSelected"
-        }
-      ]
-    },
-    {
-      "name": "sh-sl-object",
-      "path": "./elements/sh-sl-object.ts",
-      "attributes": [
-        {
-          "name": "canBeRemoved",
-          "type": "boolean | undefined"
-        },
-        {
-          "name": "removeIcon",
-          "type": "string | undefined"
-        }
-      ],
-      "properties": [
-        {
-          "name": "canBeRemoved",
-          "attribute": "canBeRemoved",
-          "type": "boolean | undefined"
-        },
-        {
-          "name": "removeIcon",
-          "attribute": "removeIcon",
-          "type": "string | undefined"
-        }
-      ],
-      "events": [
-        {
-          "name": "removed"
-        }
-      ]
-    },
-    {
-      "name": "sh-sl-property",
-      "path": "./elements/sh-sl-property.ts",
-      "attributes": [
-        {
-          "name": "canAddValue",
-          "type": "boolean | undefined"
-        },
-        {
-          "name": "label",
-          "type": "string | undefined"
-        },
-        {
-          "name": "helpText",
-          "type": "string | undefined"
-        },
-        {
-          "name": "addIcon",
-          "type": "string | undefined"
-        }
-      ],
-      "properties": [
-        {
-          "name": "canAddValue",
-          "attribute": "canAddValue",
-          "type": "boolean | undefined"
-        },
-        {
-          "name": "label",
-          "attribute": "label",
-          "type": "string | undefined"
-        },
-        {
-          "name": "helpText",
-          "attribute": "helpText",
-          "type": "string | undefined"
-        },
-        {
-          "name": "addIcon",
-          "attribute": "addIcon",
-          "type": "string | undefined"
-        }
-      ],
-      "events": [
-        {
-          "name": "added"
-        }
-      ]
-    },
-    {
-      "name": "sh-sl-with-lang-editor",
-      "path": "./elements/sh-sl-with-lang-editor.ts",
-      "attributes": [
-        {
-          "name": "languages",
-          "type": "string[] | undefined"
-        },
-        {
-          "name": "language",
-          "type": "string | undefined"
-        },
-        {
-          "name": "readonly",
-          "type": "boolean",
-          "default": "false"
-        }
-      ],
-      "properties": [
-        {
-          "name": "languages",
-          "attribute": "languages",
-          "type": "string[] | undefined"
-        },
-        {
-          "name": "language",
-          "attribute": "language",
-          "type": "string | undefined"
-        },
-        {
-          "name": "readonly",
-          "attribute": "readonly",
-          "type": "boolean",
-          "default": "false"
-        }
-      ],
-      "events": [
-        {
-          "name": "language-selected"
+          "name": "registry",
+          "type": "CustomElementRegistry | undefined"
         }
       ]
     }

@@ -13,6 +13,7 @@
     "@tpluscode/rdf-ns-builders": "^5",
     "@zazuko/env": "^3",
     "deepmerge": "^4.2.2",
+    "is-graph-pointer": "^2.2.0",
     "sinon": "^19.0.2",
     "ts-sinon": "^2.0.2"
   },
