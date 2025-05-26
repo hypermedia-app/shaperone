@@ -1,0 +1,15 @@
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:property
+    [
+      sh:name "boolean select" ;
+      sh:path schema:value ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      dash:editor dash:BooleanSelectEditor ;
+    ] ;
+.

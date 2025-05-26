@@ -1,6 +1,6 @@
 ---
-"@hydrofoil/shaperone-core": patch
-"@hydrofoil/shaperone-wc": patch
+"@shaperone/core": patch
+"shaperone": patch
 ---
 
 Improved state management by separating the state of each element instance

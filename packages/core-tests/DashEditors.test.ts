@@ -3,7 +3,7 @@ import $rdf from '@shaperone/testing/env.js'
 import { dash, rdf, schema, sh, xsd } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import { NodeKindEnum } from '@rdfine/shacl'
-import * as DashEditors from '@hydrofoil/shaperone-core/DashEditors.js'
+import * as DashEditors from '@shaperone/core/DashEditors.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/DashEditors', () => {

@@ -2,7 +2,7 @@ import { describe } from 'mocha'
 import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { testFocusNodeState, testFormState as testState } from '@shaperone/testing/models/form.js'
-import { selectShape } from '@hydrofoil/shaperone-core/models/forms/reducers/selectShape.js'
+import { selectShape } from '@shaperone/core/models/forms/reducers/selectShape.js'
 
 const ex = $rdf.namespace('http://example.com/')
 

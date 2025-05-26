@@ -1,5 +1,5 @@
 ---
-"@hydrofoil/shaperone-wc": minor
+"shaperone": minor
 ---
 
 Removed the `window.Shaperone.DEBUG` flag in favor of component `debug` property

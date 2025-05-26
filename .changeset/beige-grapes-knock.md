@@ -1,5 +1,5 @@
 ---
-"@hydrofoil/shaperone-core": minor
+"@shaperone/core": minor
 ---
 
 Fixed typo in exported type (`MiminalEnvironment` => `MinimalEnvironment`)

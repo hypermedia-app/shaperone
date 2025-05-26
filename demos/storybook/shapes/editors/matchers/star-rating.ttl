@@ -1,0 +1,16 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:targetClass schema:AggregateRating ;
+  sh:property
+    [
+      sh:name "rating" ;
+      sh:path schema:ratingValue ;
+      sh:datatype xsd:decimal ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+.

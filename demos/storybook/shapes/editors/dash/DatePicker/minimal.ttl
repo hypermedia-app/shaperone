@@ -1,0 +1,14 @@
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX ex: <http://example.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ex:datePicker ;
+    sh:name "date" ;
+    dash:editor dash:DatePickerEditor ;
+                sh:minCount 1 ;
+                sh:maxCount 1 ;
+  ] ;
+.

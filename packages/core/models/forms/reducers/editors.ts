@@ -1,7 +1,5 @@
 import { produce } from 'immer'
-import type { PropertyShape } from '@rdfine/shacl'
 import type { FormState, PropertyObjectState, State } from '../index.js'
-import type { FocusNode } from '../../../index.js'
 import type { EditorsState } from '../../editors/index.js'
 
 type ToggleSwitchingParams = { switchingEnabled: boolean }
@@ -15,32 +13,6 @@ export const toggleSwitching = (state: FormState, { switchingEnabled }: ToggleSw
         const { object } = objectState
         objectState.editorSwitchDisabled = !draft.shouldEnableEditorChoice({ object })
       }
-    }
-  }
-})
-
-type UpdateComponentState = {
-  focusNode: FocusNode
-  property: PropertyShape
-  object?: PropertyObjectState
-  newState: Record<string, any>
-}
-
-export const updateComponentState = (state: FormState, { focusNode, property, object, newState }: UpdateComponentState) => produce(state, (draft) => {
-  const propertyState = draft.focusNodes[focusNode.value].properties.find(p => p.shape.equals(property))
-  if (!propertyState) return
-
-  if (!object) {
-    for (const [key, value] of Object.entries(newState)) {
-      propertyState.componentState[key] = value
-    }
-    return
-  }
-
-  const objectState = propertyState.objects.find(({ key }) => key === object.key)
-  if (objectState) {
-    for (const [key, value] of Object.entries(newState)) {
-      objectState.componentState[key] = value
     }
   }
 })

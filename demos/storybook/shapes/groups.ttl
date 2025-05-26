@@ -1,0 +1,43 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ex: <http://example.org/>
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ex:PersonShape
+  a sh:NodeShape ;
+  sh:targetClass schema:Person ;
+  sh:property
+    [
+      sh:name "First Name" ;
+      sh:path schema:givenName ;
+      dash:editor dash:TextFieldEditor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:group ex:NameGroup ;
+    ],
+    [
+      sh:name "Last Name" ;
+      sh:path schema:familyName ;
+      dash:editor dash:TextFieldEditor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:group ex:NameGroup ;
+    ],
+    [
+      sh:name "Email" ;
+      sh:path schema:email ;
+      dash:editor dash:TextFieldEditor ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:group ex:ContactGroup ;
+    ] ;
+.
+
+ex:NameGroup
+  rdfs:label "Name" ;
+.
+
+ex:ContactGroup
+  rdfs:label "Contact Details" ;
+.

@@ -1,7 +1,7 @@
 /* eslint-disable lit-a11y/click-events-have-key-events */
 import { css, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import { html } from '@hydrofoil/shaperone-wc'
+import { html } from 'shaperone'
 import { repeat } from 'lit/directives/repeat.js'
 import { icon } from '@fortawesome/fontawesome-svg-core'
 import { faStar } from '@fortawesome/free-solid-svg-icons'

@@ -4,13 +4,14 @@ import '@rdfjs-elements/rdf-snippet/rdf-snippet.js'
 import { css, html, LitElement } from 'lit'
 import type { AnyPointer } from 'clownface'
 import rdf from '@zazuko/env'
-import type { ShaperoneForm } from '@hydrofoil/shaperone-wc'
+import type { ShaperoneForm } from 'shaperone'
 
 customElements.define('shaperone-demo', class extends LitElement {
   declare dataGraph: string
   declare shapesGraph: string
   declare splitterPosition: number
   declare prefixes: string
+  declare customPrefixes: Record<string, string>
 
   constructor() {
     super()
@@ -60,6 +61,7 @@ customElements.define('shaperone-demo', class extends LitElement {
       dataGraph: { type: String },
       shapesGraph: { type: String },
       prefixes: { type: String },
+      customPrefixes: { type: Object },
     }
   }
 
@@ -108,6 +110,7 @@ customElements.define('shaperone-demo', class extends LitElement {
                      formats="text/turtle,application/ld+json,application/n-triples"
                      input-format="text/n3"
                      prefixes="${this.prefixes}"
+                     .customPrefixes="${this.customPrefixes}"
                      .input="${this.dataGraph}"></rdf-snippet>
       </fieldset>
     `

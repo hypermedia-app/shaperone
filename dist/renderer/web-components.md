@@ -1,3 +1,0 @@
-# Rendering Web Components
-
-TBD

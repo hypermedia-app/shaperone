@@ -1,0 +1,18 @@
+import type { Render } from 'shaperone'
+import { html } from 'shaperone'
+import '@vaadin/vaadin-text-field/vaadin-text-area'
+import { spread } from '@open-wc/lit-helpers'
+import { validity } from './validation.js'
+
+export const textArea: Render = function ({ env, value, property }, { update }) {
+  return html`
+      <vaadin-text-area
+        .value="${value.object?.value || ''}"
+        required
+        auto-validate
+        @blur="${(e: any) => update(env.literal(e.target.value))}"
+        ${spread(validity(value))}
+        .readonly="${!!property.shape.readOnly}"
+      ></vaadin-text-area>
+    `
+}

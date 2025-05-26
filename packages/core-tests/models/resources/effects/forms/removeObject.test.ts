@@ -5,8 +5,8 @@ import { unit } from '@tpluscode/rdf-ns-builders'
 import { schema } from '@tpluscode/rdf-ns-builders/loose'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
-import removeObject from '@hydrofoil/shaperone-core/models/resources/effects/forms/removeObject.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
+import removeObject from '@shaperone/core/models/resources/effects/forms/removeObject.js'
+import type { Store } from '@shaperone/core/state/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/resources/effects/forms/removeObject', () => {

@@ -1,4 +1,4 @@
-import type { MatcherDecorator } from '@hydrofoil/shaperone-core/models/editors'
+import type { MatcherDecorator } from '@shaperone/core/models/editors'
 import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 
 /**
@@ -10,14 +10,14 @@ import { dash, hydra } from '@tpluscode/rdf-ns-builders'
 export const matcher: MatcherDecorator = {
   term: dash.AutoCompleteEditor,
   decorate({ match }) {
-    return function (shape, value, env) {
+    return function (shape, value) {
       if (shape.pointer.out(hydra.collection).term?.termType === 'NamedNode') {
         return 1
       }
       if (shape.pointer.out(hydra.search).term) {
         return 1
       }
-      return match(shape, value, env)
+      return match(shape, value)
     }
   },
 }

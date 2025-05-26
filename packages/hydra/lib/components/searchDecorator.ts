@@ -1,16 +1,16 @@
 import type { HydraResponse } from 'alcaeus/alcaeus.js'
-import type { ComponentDecorator } from '@hydrofoil/shaperone-core/models/components'
-import type { InstancesSelectEditor } from '@hydrofoil/shaperone-core/lib/components/instancesSelect.js'
-import type { AutoCompleteEditor } from '@hydrofoil/shaperone-core/lib/components/autoComplete.js'
+import type { ComponentDecorator } from '@shaperone/core/models/components'
+import type { InstancesSelectEditor } from '@shaperone/core/lib/components/instancesSelect.js'
+import type { AutoCompleteEditor } from '@shaperone/core/lib/components/autoComplete.js'
 import { dash, hydra, sh } from '@tpluscode/rdf-ns-builders'
 import type { IriTemplate } from '@rdfine/hydra/lib/IriTemplate'
 import type { DatasetCore } from '@rdfjs/types'
 import type { RdfResourceCore } from '@tpluscode/rdfine/RdfResource'
-import type { FocusNode } from '@hydrofoil/shaperone-core'
+import type { FocusNode } from '@shaperone/core'
 import type { MultiPointer } from 'clownface'
 import { findNodes } from 'clownface-shacl-path'
-import type { PropertyState } from '@hydrofoil/shaperone-core/models/forms/index.js'
-import type { ShaperoneEnvironment } from '@hydrofoil/shaperone-core/env.js'
+import type { PropertyState } from '@shaperone/core/models/forms/index.js'
+import type { ShaperoneEnvironment } from '@shaperone/core/env.js'
 
 interface SearchDecoratorState {
   /**
@@ -38,7 +38,7 @@ interface SearchDecoratedEditor {
   searchTemplate?: ({ env, property }: { env: ShaperoneEnvironment; property:PropertyState}) => IriTemplate | undefined
 }
 
-declare module '@hydrofoil/shaperone-core/components.js' {
+declare module '@shaperone/core/components.js' {
   /* eslint-disable @typescript-eslint/no-empty-interface */
 
   interface InstancesSelect extends SearchDecoratorState {

@@ -1,0 +1,34 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<>
+  a sh:NodeShape ;
+  sh:property
+    [
+      sh:name "schema:name" ;
+      sh:path schema:name ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ],
+    [
+      sh:name "schema:description" ;
+      sh:path schema:description ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ],
+    [
+      sh:name "dcterms:description" ;
+      sh:path dcterms:description ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ],
+    [
+      sh:name "rdfs:comment" ;
+      sh:path rdfs:comment ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+.

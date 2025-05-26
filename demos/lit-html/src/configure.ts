@@ -1,21 +1,17 @@
-import type { Component } from '@hydrofoil/shaperone-core'
-import * as nativeComponents from '@hydrofoil/shaperone-wc/NativeComponents.js'
-import * as mwcComponents from '@hydrofoil/shaperone-wc-material/components.js'
+import type { Component } from '@shaperone/core'
+import * as nativeComponents from 'shaperone/NativeComponents.js'
 import * as LanguageSelect from '@hydrofoil/shaperone-playground-examples/LanguageMultiSelect/index.js'
 import * as StarRating from '@hydrofoil/shaperone-playground-examples/StarRating/index.js'
 import { component as starRating } from '@hydrofoil/shaperone-playground-examples/StarRating/index.js'
 import { DescriptionTooltip } from '@hydrofoil/shaperone-playground-examples/DescriptionTooltip.js'
-import * as vaadinComponents from '@hydrofoil/shaperone-wc-vaadin/components.js'
-import * as shoelaceComponents from '@hydrofoil/shaperone-wc-shoelace/components.js'
-import { settings as shoelaceSettings } from '@hydrofoil/shaperone-wc-shoelace/settings.js'
-import type { ConfigCallback } from '@hydrofoil/shaperone-wc/configure.js'
-import { configure } from '@hydrofoil/shaperone-wc/configure.js'
+import * as vaadinComponents from '@shaperone/vaadin/components.js'
+import * as shoelaceComponents from '@shaperone/shoelace/components.js'
+import { settings as shoelaceSettings } from '@shaperone/shoelace/settings.js'
+import type { ConfigCallback } from 'shaperone/configure.js'
+import { configure } from 'shaperone/configure.js'
 import { dash } from '@tpluscode/rdf-ns-builders'
-import type { Decorate, RenderTemplate } from '@hydrofoil/shaperone-wc/templates.js'
-import { templates } from '@hydrofoil/shaperone-wc/templates.js'
-import * as MaterialRenderStrategy from '@hydrofoil/shaperone-wc-material/renderer/index.js'
-import shaperoneHydra from '@hydrofoil/shaperone-hydra'
-import { validate } from '@hydrofoil/shaperone-rdf-validate-shacl'
+import shaperoneHydra from '@shaperone/hydra'
+import { validate } from '@shaperone/rdf-validate-shacl'
 import * as xone from '@hydrofoil/shaperone-playground-examples/XoneRenderer/index.js'
 import { errorSummary } from '@hydrofoil/shaperone-playground-examples/ErrorSummary/index.js'
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
@@ -130,18 +126,10 @@ export const configureRenderer = (() => {
           const {
             AccordionGroupingRenderer,
             AccordionFocusNodeRenderer,
-          } = await import('@hydrofoil/shaperone-wc-vaadin/renderer/accordion.js')
+          } = await import('@shaperone/vaadin/renderer/accordion.js')
 
           strategy.group = AccordionGroupingRenderer
           focusNodeTemplate = AccordionFocusNodeRenderer
-        } else if (grouping === 'material tabs') {
-          const {
-            TabsGroupRenderer,
-            TabsFocusNodeRenderer,
-          } = await import('@hydrofoil/shaperone-wc-material/renderer/tabs.js')
-
-          strategy.group = TabsGroupRenderer
-          focusNodeTemplate = TabsFocusNodeRenderer
         }
 
         strategy.focusNode = [...focusNodeDecorators(labs)].reduce(combineDecorators, focusNodeTemplate)

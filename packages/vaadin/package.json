@@ -1,0 +1,43 @@
+{
+  "name": "@shaperone/vaadin",
+  "version": "0.5.1",
+  "description": "Rendering forms with Vaadin components",
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "**/*.js",
+    "**/*.d.ts"
+  ],
+  "scripts": {
+    "prepack": "tsc",
+    "analyze": "run-p analyze:*",
+    "analyze:wc": "wca --format json --outFile ./custom-elements.json",
+    "analyze:readme": "wca --outFile ./README.md"
+  },
+  "dependencies": {
+    "shaperone": "^0.8.1",
+    "@shaperone/core": "^0.12.1",
+    "@open-wc/lit-helpers": "^0.7.0",
+    "@tpluscode/rdf-ns-builders": "^5",
+    "@rdfjs-elements/lit-helpers": "^0.3.11",
+    "@vaadin/vaadin": "^23.5.14",
+    "lit": "^3"
+  },
+  "devDependencies": {
+    "@types/promise-the-world": "^1.0.0",
+    "@zazuko/env": "^3",
+    "@open-wc/testing": "^4.0.0",
+    "@rdfine/shacl": "^0.10.5",
+    "@shaperone/testing": "*",
+    "@zazuko/prefixes": "^2.2.0",
+    "eslint-plugin-lit": "^1.2.0",
+    "promise-the-world": "^1.0.1"
+  },
+  "repository": "https://github.com/hypermedia-app/shaperone",
+  "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}

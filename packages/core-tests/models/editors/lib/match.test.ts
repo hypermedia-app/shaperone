@@ -5,8 +5,8 @@ import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import type { NamedNode } from '@rdfjs/types'
 import { expect } from 'chai'
 import { testStore } from '@shaperone/testing/models/form.js'
-import type { Editor, EditorsState, MultiEditor } from '@hydrofoil/shaperone-core/models/editors'
-import { matchSingleEditors, matchMultiEditors } from '@hydrofoil/shaperone-core/models/editors/lib/match.js'
+import type { Editor, EditorsState, MultiEditor } from '@shaperone/core/models/editors/index.js'
+import { matchSingleEditors, matchMultiEditors } from '@shaperone/core/models/editors/lib/match.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/editors/lib/match', () => {

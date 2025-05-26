@@ -1,6 +1,6 @@
 ---
-"@hydrofoil/shaperone-core": patch
-"@hydrofoil/shaperone-wc": minor
+"@shaperone/core": patch
+"shaperone": minor
 ---
 
 `configure` is now async and required to register the element

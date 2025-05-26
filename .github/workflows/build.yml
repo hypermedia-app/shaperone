@@ -47,9 +47,18 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: core
 
   wtr-tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        group:
+          - shaperone
+          - shoelace
+          - hydra
+          - vaadin
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,8 +67,9 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: yarn test:web --puppeteer
+      - run: npx wtr --group ${{ matrix.group }}
       - name: Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: ${{ matrix.group }}

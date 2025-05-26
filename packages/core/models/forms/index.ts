@@ -1,10 +1,10 @@
 /**
  * @packageDocumentation
- * @module @hydrofoil/shaperone-core/models/forms
+ * @module @shaperone/core/models/forms
  */
 
 import { createModel } from '@captaincodeman/rdx'
-import type { NamedNode } from '@rdfjs/types'
+import type { NamedNode, Term } from '@rdfjs/types'
 import type { NodeKind, NodeShape, PropertyGroup, PropertyShape, Shape, ValidationResult } from '@rdfine/shacl'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import type { sh } from '@tpluscode/rdf-ns-builders'
@@ -24,13 +24,13 @@ import * as validation from './reducers/validation.js'
 import * as properties from './reducers/properties.js'
 import type { FocusNode } from '../../index.js'
 import type { SingleEditorMatch, MultiEditorMatch } from '../editors/index.js'
-import { createFocusNodeState } from './reducers/replaceFocusNodes.js'
+import { replaceFocusNodeState } from './reducers/replaceFocusNodes.js'
 import editorsEffects from './effects/editors/index.js'
 import shapesEffects from './effects/shapes/index.js'
 import resourcesEffects from './effects/resources/index.js'
 import componentsEffects from './effects/components/index.js'
 import type { Store } from '../../state/index.js'
-import type { ComponentInstance } from '../components/index.js'
+import { setChildNodeState } from './reducers/setChildNodeState.js'
 
 export interface ValidationResultState {
   /**
@@ -64,20 +64,19 @@ export interface ValidationState {
   hasErrors: boolean
 }
 
-export interface PropertyObjectState<TState extends ComponentInstance = ComponentInstance> extends ValidationState {
+export interface PropertyObjectState<T extends Term = Term> extends ValidationState {
   key: string
-  object?: GraphPointer
+  object?: GraphPointer<T>
   editors: SingleEditorMatch[]
   selectedEditor: NamedNode | undefined
   editorSwitchDisabled?: boolean
-  componentState: TState
   /**
    * An optional hint set when creating object state which will be used to override what kind of initial value is
    * created for the given object
    */
   nodeKind: NodeKind | undefined
   /**
-   * A pointer to additional shape constraints passed to `addFormField`. For example, that could be a pointer on of
+   * A pointer to additional shape constraints passed to `addFormField`. For example, that could be a pointer one of
    * the properties `sh:in`
    */
   overrides: MultiPointer | undefined
@@ -107,7 +106,6 @@ export interface PropertyState extends ValidationState {
   name: string
   editors: MultiEditorMatch[]
   selectedEditor: NamedNode | undefined
-  componentState: Record<string, any>
   objects: PropertyObjectState[]
   canAdd: boolean
   canRemove: boolean
@@ -128,6 +126,7 @@ export interface FocusNodeState extends ValidationState {
   properties: PropertyState[]
   groups: PropertyGroupState[]
   logicalConstraints: LogicalConstraints
+  parentShape: Term | undefined
 }
 
 export interface FormSettings {
@@ -137,6 +136,7 @@ export interface FormSettings {
 
 export interface FormState extends FormSettings, ValidationState {
   focusNodes: Record<string, FocusNodeState>
+  detailNodes: Record<string, FocusNodeState>
   focusStack: FocusNode[]
   /**
    * Gets a pointer to the `sh:ValidationReport` instance
@@ -157,14 +157,16 @@ const reducers = {
   ...objects,
   ...editors,
   ...multiEditors,
-  createFocusNodeState,
+  replaceFocusNodeState,
   ...properties,
   ...validation,
+  setChildNodeState,
 }
 
 export const form = createModel({
   state: <FormState> {
     focusNodes: {},
+    detailNodes: {},
     focusStack: [],
     shouldEnableEditorChoice: () => true,
     labelProperties: [rdfs.label, schema.name],

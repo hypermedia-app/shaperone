@@ -1,6 +1,8 @@
-import { esbuildPlugin } from '@web/dev-server-esbuild';
+import { esbuildPlugin } from '@web/dev-server-esbuild'
 import { fromRollup } from '@web/dev-server-rollup'
 import commonjs from '@rollup/plugin-commonjs'
+import { puppeteerLauncher } from '@web/test-runner-puppeteer'
+import { polyfill } from '@web/dev-server-polyfill'
 
 const immer = {
   resolveImport({ source }) {
@@ -26,10 +28,9 @@ const rdx = {
 const config = {
   groups: [
     { name: 'hydra', files: 'packages/hydra/test/**/*.test.ts' },
-    { name: 'wc', files: 'packages/wc/test/**/*.test.ts' },
-    { name: 'wc-material', files: 'packages/wc-material/test/**/*.test.ts' },
-    { name: 'wc-vaadin', files: 'packages/wc-vaadin/test/**/*.test.ts' },
-    { name: 'wc-shoelace', files: 'packages/wc-shoelace/test/**/*.test.ts' },
+    { name: 'shaperone', files: 'packages/shaperone/test/**/*.test.ts' },
+    { name: 'vaadin', files: 'packages/vaadin/test/**/*.test.ts' },
+    { name: 'shoelace', files: 'packages/shoelace/test/**/*.test.ts' },
   ],
   coverage: true,
   nodeResolve: {
@@ -49,10 +50,20 @@ const config = {
         '**/node_modules/sinon-chai/**/*',
       ]
     }),
+    polyfill({
+      scopedCustomElementRegistry: true,
+    }),
   ],
 };
 
 if (process.env.CI) {
+  config.browsers = [
+    puppeteerLauncher({
+      launchOptions: {
+        args: ['--no-sandbox'],
+      },
+    }),
+  ]
   delete config.concurrency
 }
 

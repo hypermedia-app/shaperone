@@ -1,0 +1,122 @@
+import type { PropertyActions, PropertyRenderer } from '@shaperone/core/renderer.js'
+import { propertyRenderer } from '@shaperone/testing/renderer.js'
+import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
+import { emptyGroupState, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
+import type { PropertyObjectState, PropertyState } from '@shaperone/core/models/forms'
+import { expect } from '@open-wc/testing'
+import type { sinon } from '@shaperone/testing'
+import { ex } from '@shaperone/testing'
+import type { Dispatch } from '@shaperone/core/state'
+import { renderProperty } from '../../renderer/property.js'
+
+describe('wc/renderer/property', function () {
+  let renderer: PropertyRenderer
+  let property: PropertyState
+  let fooObject: PropertyObjectState
+
+  beforeEach(function () {
+    const focusNode = blankNode()
+    const group = emptyGroupState()
+    property = testPropertyState()
+
+    fooObject = testObjectState(focusNode.node(ex.foo))
+    property.objects.push(fooObject)
+    property.objects.push(testObjectState(focusNode.node(ex.bar)))
+
+    renderer = propertyRenderer({
+      focusNode,
+      property,
+      group,
+    })
+  })
+
+  it('calls property template', async function () {
+    // when
+    renderProperty.call(renderer, { property })
+
+    // then
+    const render = renderer.context.templates.property as sinon.SinonSpy
+    expect(render.firstCall.args[1]).to.have.property('property', property)
+  })
+
+  describe('actions', function () {
+    let actions: PropertyActions
+    let dispatch: sinon.SinonStubbedInstance<Dispatch['form']>
+
+    beforeEach(function () {
+      const render = renderer.context.templates.property as sinon.SinonSpy
+
+      renderProperty.call(renderer, { property })
+
+      actions = render.firstCall.firstArg.actions
+      dispatch = renderer.context.dispatch.form as any
+    })
+
+    describe('removeObject', function () {
+      it('dispatches action when called with term', function () {
+        // given
+        const object = ex.foo
+
+        // when
+        actions.removeObject(object)
+
+        // then
+        expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
+      })
+
+      it('dispatches action when called with pointer', function () {
+        // given
+        const object = namedNode(ex.foo)
+
+        // when
+        actions.removeObject(object)
+
+        // then
+        expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
+      })
+
+      it('dispatches action when called with state object', function () {
+        // when
+        actions.removeObject(fooObject)
+
+        // then
+        expect(dispatch.removeObject.firstCall.firstArg).to.have.property('object', fooObject)
+      })
+
+      it('does not dispatch action when object is not found', function () {
+        // given
+        const object = namedNode(ex.baz)
+
+        // when
+        actions.removeObject(object)
+
+        // then
+        expect(dispatch.removeObject).not.to.have.been.called
+      })
+    })
+
+    describe('addObject', function () {
+      it('called with pointer overrides, forwards them to dispatch', function () {
+        // given
+        const overrides = blankNode()
+
+        // when
+        actions.addObject({ overrides })
+
+        // then
+        expect(dispatch.addObject.firstCall.args[0].overrides).to.eq(overrides)
+      })
+
+      it('called with componentState, forwards it to dispatch', function () {
+        // given
+        const componentState = {}
+
+        // when
+        actions.addObject({ componentState })
+
+        // then
+        expect(dispatch.addObject.firstCall.firstArg).to.have.property('componentState', componentState)
+      })
+    })
+  })
+})

@@ -3,8 +3,8 @@ import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { dash, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { testFocusNodeState, testPropertyState, testStore } from '@shaperone/testing/models/form.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
-import { removeObject } from '@hydrofoil/shaperone-core/models/forms/effects/removeObject.js'
+import type { Store } from '@shaperone/core/state/index.js'
+import { removeObject } from '@shaperone/core/models/forms/effects/removeObject.js'
 import { nodeShape, propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/forms/effects/removeObject', () => {

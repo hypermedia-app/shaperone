@@ -4,9 +4,9 @@ import $rdf from '@zazuko/env/web.js'
 import type { AnyPointer } from 'clownface'
 import type { RecursivePartial } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
-import addFormField from '@hydrofoil/shaperone-core/models/resources/effects/forms/addFormField.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import addFormField from '@shaperone/core/models/resources/effects/forms/addFormField.js'
+import type { Store } from '@shaperone/core/state/index.js'
+import type { FormState } from '@shaperone/core/models/forms/index.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/resources/effects/forms/addFormField', () => {

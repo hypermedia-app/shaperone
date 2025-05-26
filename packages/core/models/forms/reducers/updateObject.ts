@@ -1,10 +1,9 @@
 import type { Term } from '@rdfjs/types'
 import type { PropertyShape } from '@rdfine/shacl'
-import { produce } from 'immer'
 import type { GraphPointer, MultiPointer } from 'clownface'
 import { dash } from '@tpluscode/rdf-ns-builders'
 import graphPointer from 'is-graph-pointer'
-import type { PropertyObjectState, State } from '../index.js'
+import type { PropertyObjectState } from '../index.js'
 import type { FocusNode } from '../../../index.js'
 import type { EditorsState } from '../../editors/index.js'
 import { nextid } from '../lib/objectid.js'
@@ -16,6 +15,7 @@ export interface SetObjectParams {
   property: PropertyShape
   object: PropertyObjectState
   newValue: Term | GraphPointer
+  parentShape?: Term
 }
 
 export interface ReplaceObjectsParams {
@@ -26,11 +26,9 @@ export interface ReplaceObjectsParams {
 }
 
 export const setObjectValue = objectStateProducer<SetObjectParams>((draft, { focusNode, object, newValue }, propertyState) => {
-  const focusNodeState = draft.focusNodes[focusNode.value]
-
   const objectState = propertyState.objects.find(o => o.key === object.key)
   if (objectState) {
-    objectState.object = focusNodeState.focusNode.node(newValue)
+    objectState.object = focusNode.node(newValue)
   }
 })
 
@@ -44,7 +42,6 @@ export const setPropertyObjects = objectStateProducer<ReplaceObjectsParams>((dra
       object,
       editors: suitableEditors,
       selectedEditor: suitableEditors[0]?.term,
-      componentState: {},
       validationResults: [],
       hasErrors: false,
       nodeKind: undefined,
@@ -94,16 +91,6 @@ export const setDefaultValue = objectStateProducer<SetDefaultValueParams>((draft
       } else {
         const suitableEditors = editors.matchSingleEditors({ shape: property, object: value })
         objectState.selectedEditor = suitableEditors[0]?.term
-      }
-    }
-  }
-})
-
-export const resetComponents = (formState: State) => produce(formState, (draft: typeof formState) => {
-  for (const focusNode of Object.values(draft.focusNodes)) {
-    for (const property of focusNode.properties) {
-      for (const object of property.objects) {
-        object.componentState = {}
       }
     }
   }

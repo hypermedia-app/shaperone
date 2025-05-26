@@ -10,9 +10,9 @@ import {
   setDefaultValue,
   initObjectValue,
   setPropertyObjects,
-} from '@hydrofoil/shaperone-core/models/forms/reducers/updateObject.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+} from '@shaperone/core/models/forms/reducers/updateObject.js'
+import type { Store } from '@shaperone/core/state'
+import type { FormState } from '@shaperone/core/models/forms'
 import { propertyShape } from '@shaperone/testing/util.js'
 import { blankNode } from '@shaperone/testing/nodeFactory.js'
 

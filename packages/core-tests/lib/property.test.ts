@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import $rdf from '@shaperone/testing/env.js'
 import { sh, xsd } from '@tpluscode/rdf-ns-builders'
-import { createTerm } from '@hydrofoil/shaperone-core/lib/property.js'
+import { createTerm } from '@shaperone/core/lib/property.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('core/lib/property', () => {
@@ -17,7 +17,7 @@ describe('core/lib/property', () => {
       }
 
       // when
-      const term = createTerm($rdf, property, 'http://foo/bar')
+      const term = createTerm(property, 'http://foo/bar')
 
       // then
       expect(term.value).to.equal('http://foo/bar')
@@ -32,7 +32,7 @@ describe('core/lib/property', () => {
       }
 
       // when
-      const term = createTerm($rdf, property, '41')
+      const term = createTerm(property, '41')
 
       // then
       expect(term).to.deep.equal($rdf.literal('41', xsd.int))

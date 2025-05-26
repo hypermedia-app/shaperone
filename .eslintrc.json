@@ -31,7 +31,8 @@
     "rules": {
       "no-unused-expressions": "warn",
       "babel/no-unused-expressions": "off",
-      "lit-a11y/accessible-name": "off"
+      "lit-a11y/accessible-name": "off",
+      "prefer-arrow-callback": "off"
     }
   },{
     "files": "packages/core-tests/**/*.ts",

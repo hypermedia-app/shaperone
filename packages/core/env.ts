@@ -1,6 +1,7 @@
 import type { Environment } from '@rdfjs/environment/Environment.js'
 import type { DerivedEnvironment } from '@zazuko/env-core'
 import E from '@zazuko/env-core'
+import type { DatasetFactoryExt } from '@zazuko/env/lib/DatasetFactoryExt.js'
 import type ClownfaceFactory from 'clownface/Factory.js'
 import type { DataFactory, DatasetCoreFactory } from '@rdfjs/types'
 import type NsBuildersFactory from '@tpluscode/rdf-ns-builders'
@@ -29,7 +30,7 @@ type ValuesArray<R extends Record<string, any>> = R[keyof R][];
 export type RequiredEnvironment = CombinedEnvironment<ValuesArray<Requirements>>
 
 export type ShaperoneEnvironment = DerivedEnvironment<
-Environment<Sh1NamespaceFactory | RdfineFactory | ShFactory | ConstantsFactory>,
+Environment<Sh1NamespaceFactory | RdfineFactory | ShFactory | ConstantsFactory | DatasetFactoryExt>,
 RequiredEnvironment>
 
 let instance: ShaperoneEnvironment
@@ -40,7 +41,7 @@ export function setEnv(parent: RequiredEnvironment) {
   if (isShaperoneEnvironment(parent)) {
     newEnv = parent
   } else {
-    newEnv = new E([Sh1NamespaceFactory, ConstantsFactory, RdfineFactory, ShFactory], { parent })
+    newEnv = new E([Sh1NamespaceFactory, ConstantsFactory, RdfineFactory, ShFactory], { parent }) as ShaperoneEnvironment
   }
 
   newEnv.rdfine().factory.addMixin(PropertyShapeEx)

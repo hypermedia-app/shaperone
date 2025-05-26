@@ -1,19 +1,19 @@
 import deepmerge from 'deepmerge'
 import sinon from 'sinon'
 import type { GraphPointer } from 'clownface'
-import type { ResourceNode } from '@tpluscode/rdfine/RdfResource'
+import type { Initializer, ResourceNode } from '@tpluscode/rdfine/RdfResource'
 import rdf from '@shaperone/testing/env.js'
 import type { DatasetCoreFactory, NamedNode, DefaultGraph } from '@rdfjs/types'
-import type * as Form from '@hydrofoil/shaperone-core/models/forms'
-import type { ResourceState } from '@hydrofoil/shaperone-core/models/resources'
-import type { MultiEditor } from '@hydrofoil/shaperone-core/models/editors'
-import type { FocusNode } from '@hydrofoil/shaperone-core'
-import type { Dispatch, State, Store } from '@hydrofoil/shaperone-core/state'
-import type { ShapeState } from '@hydrofoil/shaperone-core/models/shapes'
+import type * as Form from '@shaperone/core/models/forms/index.js'
+import type { ResourceState } from '@shaperone/core/models/resources/index.js'
+import type { MultiEditor } from '@shaperone/core/models/editors/index.js'
+import type { FocusNode } from '@shaperone/core'
+import type { Dispatch, State, Store } from '@shaperone/core/state/index.js'
+import type { ShapeState } from '@shaperone/core/models/shapes/index.js'
+import type { PropertyShape } from '@rdfine/shacl'
+import { isGraphPointer } from 'is-graph-pointer'
 import type { RecursivePartial } from '../index.js'
 import { blankNode } from '../nodeFactory.js'
-
-type Initializer = RecursivePartial<Form.FormState>
 
 export const emptyGroupState = () => ({
   group: undefined,
@@ -21,7 +21,7 @@ export const emptyGroupState = () => ({
   selected: true,
 })
 
-export function testFormState(initializer: Initializer = {}): Form.FormState {
+export function testFormState(initializer: RecursivePartial<Form.FormState> = {}): Form.FormState {
   return deepmerge<Form.FormState>({
     focusStack: [],
     focusNodes: {},
@@ -51,8 +51,10 @@ export function testEditor(term: MultiEditor['term']): MultiEditor {
   }
 }
 
-export function testPropertyState(pointer: ResourceNode = blankNode(), init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
-  const shape = rdf.rdfine.sh.PropertyShape(pointer)
+export function testPropertyState(pointer: ResourceNode | Initializer<PropertyShape> = blankNode(), init: RecursivePartial<Form.PropertyState> = {}): Form.PropertyState {
+  const shape = isGraphPointer(pointer)
+    ? rdf.rdfine.sh.PropertyShape(pointer)
+    : rdf.rdfine.sh.PropertyShape(blankNode(), pointer)
 
   return deepmerge({
     editors: [],

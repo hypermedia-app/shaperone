@@ -1,5 +1,5 @@
 {
-  "name": "@hydrofoil/shaperone-rdf-validate-shacl",
+  "name": "@shaperone/rdf-validate-shacl",
   "version": "1.1.1",
   "type": "module",
   "main": "index.js",
@@ -11,10 +11,7 @@
     "prepack": "tsc"
   },
   "dependencies": {
-    "rdf-validate-shacl": "^0.5.3"
-  },
-  "devDependencies": {
-    "@types/rdf-validate-shacl": "^0.4.6"
+    "rdf-validate-shacl": "^0.6.3"
   },
   "repository": {
     "type": "git",

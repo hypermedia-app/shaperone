@@ -25,10 +25,6 @@ export default function (store: Store) {
       dispatch.form.truncateFocusNodes({ focusNode: rootPointer })
       dispatch.form.createFocusNodeState({
         focusNode: rootPointer,
-        editors,
-        components,
-        shouldEnableEditorChoice: form.shouldEnableEditorChoice,
-        shapes: shapesState?.shapes || [],
         shape: shapesState?.preferredRootShape,
         replaceStack: true,
       })
@@ -41,10 +37,6 @@ export default function (store: Store) {
 
       dispatch.form.createFocusNodeState({
         focusNode,
-        editors,
-        components,
-        shapes: shapesState?.shapes || [],
-        shouldEnableEditorChoice: form.shouldEnableEditorChoice,
       })
     }
   }

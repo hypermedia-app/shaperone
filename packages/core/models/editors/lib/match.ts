@@ -53,7 +53,7 @@ export function matchSingleEditors(this: EditorsState, { shape, ...rest }: { sha
     })
   }
 
-  return [...singleEditors.values()].map(editor => ({ ...editor, score: editor.match(shape, object, env()) }))
+  return [...singleEditors.values()].map(editor => ({ ...editor, score: editor.match(shape, object) }))
     .filter(match => match.score === null || match.score > 0)
     .sort(byScore)
 }

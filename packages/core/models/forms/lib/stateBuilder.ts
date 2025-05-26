@@ -1,6 +1,6 @@
 import type { NodeShape, PropertyShape } from '@rdfine/shacl'
 import type { GraphPointer } from 'clownface'
-import type { NamedNode } from '@rdfjs/types'
+import type { NamedNode, Term } from '@rdfjs/types'
 import type { EditorsState } from '../../editors/index.js'
 import type { ComponentsState } from '../../components/index.js'
 import type { FocusNodeState, PropertyGroupState, PropertyObjectState, PropertyState, ShouldEnableEditorChoice } from '../index.js'
@@ -32,7 +32,6 @@ export function initialiseObjectState({ shape, editors, components, shouldEnable
       editors: matchedEditors,
       selectedEditor,
       editorSwitchDisabled: !shouldEnableEditorChoice({ object }),
-      componentState: {},
       validationResults: [],
       hasErrors: false,
       nodeKind: undefined,
@@ -89,7 +88,6 @@ export function initialisePropertyShape(params: InitPropertyShapeParams, previou
     canRemove,
     canAdd,
     datatype,
-    componentState: {},
     hidden,
     validationResults: [],
     hasErrors: false,
@@ -140,10 +138,11 @@ export interface InitializeParams {
   selectedGroup?: string
   shouldEnableEditorChoice: ShouldEnableEditorChoice
   components: ComponentsState
+  parentShape?: Term
 }
 
 export function initialiseFocusNode(params: InitializeParams, previous: FocusNodeState | undefined): FocusNodeState {
-  let { focusNode, shape } = params
+  let { focusNode, shape, parentShape } = params
 
   if (!params.shape && !params.shapes.length) {
     return {
@@ -154,6 +153,7 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
       validationResults: [],
       hasErrors: false,
       logicalConstraints: { and: [], or: [], xone: [] },
+      parentShape: undefined,
     }
   }
 
@@ -175,5 +175,6 @@ export function initialiseFocusNode(params: InitializeParams, previous: FocusNod
     validationResults: [],
     hasErrors: false,
     logicalConstraints,
+    parentShape,
   }
 }

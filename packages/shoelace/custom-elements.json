@@ -1,0 +1,35 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "sh1-property",
+      "path": "./test/elements/Property.test.ts",
+      "attributes": [
+        {
+          "name": "focusNode",
+          "type": "FocusNodeState"
+        },
+        {
+          "name": "property",
+          "type": "PropertyState"
+        }
+      ],
+      "properties": [
+        {
+          "name": "focusNode",
+          "attribute": "focusNode",
+          "type": "FocusNodeState"
+        },
+        {
+          "name": "property",
+          "attribute": "property",
+          "type": "PropertyState"
+        },
+        {
+          "name": "registry",
+          "type": "CustomElementRegistry | undefined"
+        }
+      ]
+    }
+  ]
+}

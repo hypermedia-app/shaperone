@@ -6,9 +6,9 @@ import { rdf, schema } from '@tpluscode/rdf-ns-builders'
 import type { RecursivePartial } from '@shaperone/testing'
 import { testStore } from '@shaperone/testing/models/form.js'
 import type { Term } from '@rdfjs/types'
-import createFocusNodeState from '@hydrofoil/shaperone-core/models/resources/effects/forms/createFocusNodeState.js'
-import type { Store } from '@hydrofoil/shaperone-core/state'
-import type { FormState } from '@hydrofoil/shaperone-core/models/forms'
+import createFocusNodeState from '@shaperone/core/models/resources/effects/forms/createFocusNodeState.js'
+import type { Store } from '@shaperone/core/state'
+import type { FormState } from '@shaperone/core/models/forms'
 import { propertyShape } from '@shaperone/testing/util.js'
 
 describe('models/resources/effects/forms/createFocusNodeState', () => {
@@ -132,6 +132,7 @@ describe('models/resources/effects/forms/createFocusNodeState', () => {
       expect(focusNode.out(schema.knows).out(rdf.type).terms)
         .containAll((type: Term) => type.equals(schema.Person))
     })
+
     it('does not add rdf:type to named node children', () => {
       // given
       const focusNode = graph.blankNode()

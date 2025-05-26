@@ -10,7 +10,7 @@ coverage/
 dist/api/
 dist/playground/
 dist/shaperone-form/
-dist/storybook/
+dist/docs/
 !types/**/*.d.ts
 *.log
 !*.snap.js

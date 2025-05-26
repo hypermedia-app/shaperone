@@ -5,10 +5,10 @@ import $rdf from '@shaperone/testing/env.js'
 import { testFocusNodeState, testFormState, testObjectState, testPropertyState } from '@shaperone/testing/models/form.js'
 import { blankNode, namedNode } from '@shaperone/testing/nodeFactory.js'
 import { sh } from '@tpluscode/rdf-ns-builders'
-import { validationReport } from '@hydrofoil/shaperone-core/models/forms/reducers/validation.js'
+import { validationReport } from '@shaperone/core/models/forms/reducers/validation.js'
 import { propertyShape } from '@shaperone/testing/util.js'
 
-describe('@hydrofoil/shaperone-core/models/forms/reducers/validation', () => {
+describe('@shaperone/core/models/forms/reducers/validation', () => {
   let report: GraphPointer
 
   beforeEach(() => {

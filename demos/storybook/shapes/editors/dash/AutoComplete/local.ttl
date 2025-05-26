@@ -1,0 +1,24 @@
+PREFIX dash: <http://datashapes.org/dash#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX schema: <http://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+<> a sh:NodeShape ;
+  sh:property
+    [
+      sh:path schema:alumniOf ;
+      sh:class wd:Q3918 ;
+      sh:name "Alma mater" ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      dash:editor dash:AutoCompleteEditor ;
+    ] ;
+.
+
+wd:Q184478 a wd:Q3918 ; rdfs:label "University of California" .
+wd:Q1860208 a wd:Q3918 ; rdfs:label "National University of Ireland" .
+wd:Q49108 a wd:Q3918 ; rdfs:label "Massachusetts Institute of Technology" .
+wd:Q34433 a wd:Q3918 ; rdfs:label "University of Oxford" .
+wd:Q35794 a wd:Q3918 ; rdfs:label "University of Cambridge" .
+wd:Q13371 a wd:Q3918 ; rdfs:label "Harvard University" .

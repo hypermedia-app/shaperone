@@ -4,8 +4,8 @@ import $rdf from '@shaperone/testing/env.js'
 import { dash } from '@tpluscode/rdf-ns-builders/loose'
 import { testFocusNodeState, testObjectState, testPropertyState, testFormState as testState } from '@shaperone/testing/models/form.js'
 import { testEditorsState } from '@shaperone/testing/models/editors.js'
-import { recalculateEditors, toggleSwitching, updateComponentState } from '@hydrofoil/shaperone-core/models/forms/reducers/editors.js'
-import type { PropertyObjectState, PropertyState } from '@hydrofoil/shaperone-core/models/forms'
+import { recalculateEditors, toggleSwitching } from '@shaperone/core/models/forms/reducers/editors.js'
+import type { PropertyObjectState, PropertyState } from '@shaperone/core/models/forms/index.js'
 
 describe('core/models/forms/reducers/editors', () => {
   describe('toggleSwitching', () => {
@@ -57,80 +57,6 @@ describe('core/models/forms/reducers/editors', () => {
       // then
       const propertyState = after.focusNodes[focusNode.value].properties[0]
       expect(propertyState.objects).to.containAll((o: PropertyObjectState) => o.editorSwitchDisabled === false)
-    })
-  })
-
-  describe('updateComponentState', () => {
-    it('merges current and new state for multi editor', () => {
-      // given
-      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
-      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
-      const property = testPropertyState(shape.pointer, {
-        componentState: {
-          foo: 'bar',
-        },
-      })
-      const state = testState({
-        focusNodes: {
-          ...testFocusNodeState(focusNode, {
-            properties: [property],
-          }),
-        },
-      })
-
-      // when
-      const after = updateComponentState(state, {
-        focusNode,
-        property: property.shape,
-        newState: {
-          bar: { bar: 'baz' },
-        },
-      })
-
-      // then
-      const propertyState = after.focusNodes[focusNode.value].properties[0]
-      expect(propertyState.componentState).to.deep.equal({
-        foo: 'bar',
-        bar: { bar: 'baz' },
-      })
-    })
-
-    it('merges current and new state for single editor', () => {
-      // given
-      const focusNode = $rdf.clownface({ dataset: $rdf.dataset() }).blankNode()
-      const shape = $rdf.rdfine.sh.PropertyShape(focusNode.blankNode())
-      const object = testObjectState(focusNode.literal('foo'), {
-        componentState: {
-          foo: 'bar',
-        },
-      })
-      const property = testPropertyState(shape.pointer, {
-        objects: [object],
-      })
-      const state = testState({
-        focusNodes: {
-          ...testFocusNodeState(focusNode, {
-            properties: [property],
-          }),
-        },
-      })
-
-      // when
-      const after = updateComponentState(state, {
-        focusNode,
-        property: property.shape,
-        object,
-        newState: {
-          bar: { bar: 'baz' },
-        },
-      })
-
-      // then
-      const propertyState = after.focusNodes[focusNode.value].properties[0]
-      expect(propertyState.objects[0].componentState).to.deep.equal({
-        foo: 'bar',
-        bar: { bar: 'baz' },
-      })
     })
   })
 

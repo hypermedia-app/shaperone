@@ -1,0 +1,128 @@
+import type {
+  ComponentDecorator,
+  SingleEditorActions,
+  SingleEditorRenderParams,
+  Lazy,
+} from '@shaperone/core/models/components/index.js'
+import { expect, fixture, html } from '@open-wc/testing'
+import { decorateComponent } from '@shaperone/core/models/components/lib/decorate.js'
+import { dash } from '@tpluscode/rdf-ns-builders/loose'
+import { editorTestParams } from '@shaperone/testing'
+import $rdf from '@shaperone/testing/env.js'
+import type { SingleEditorComponent } from '../index.js'
+
+describe('core/models/components/lib/decorate', function () {
+  describe('decorateComponent', function () {
+    let actions: SingleEditorActions
+    let params: SingleEditorRenderParams
+
+    interface TestComponent extends SingleEditorComponent {
+      name?: string
+    }
+
+    const decorator: ComponentDecorator<TestComponent> = {
+      applicableTo: () => true,
+      decorate(component) {
+        return {
+          ...component,
+          class: 'decor',
+          _decorateRender(render) {
+            return function (params, actions) {
+              return html`<div class="${this.class}">${render(params, actions)}</div>`
+            }
+          },
+        }
+      },
+    }
+
+    beforeEach(function () {
+      ({ actions, params } = editorTestParams({
+        object: $rdf.clownface().blankNode(),
+      }))
+    })
+
+    describe('decorating non-lazy component', function () {
+      it('wraps the render function', async function () {
+        // given
+        const component: TestComponent = {
+          editor: dash.Foo,
+          render() {
+            return html`real render`
+          },
+        }
+        // when
+        const decorated = decorateComponent(component, decorator, $rdf)
+        const result = await fixture(decorated.render(params, actions))
+
+        // then
+        expect(result.classList.contains('decor')).to.be.true
+        expect(result.textContent).to.eq('real render')
+      })
+
+      it('keeps component context', async function () {
+        // given
+        const component: TestComponent = {
+          editor: dash.Foo,
+          name: 'World',
+          render() {
+            return html`Hello ${this.name}!`
+          },
+        }
+        // when
+        const decorated = decorateComponent(component, decorator, $rdf)
+        const result = await fixture(decorated.render(params, actions))
+
+        // then
+        expect(result.classList.contains('decor')).to.be.true
+        expect(result.textContent).to.eq('Hello World!')
+      })
+    })
+
+    describe('decorating lazy component', function () {
+      it('wraps the render function', async function () {
+        // given
+        const component: Lazy<SingleEditorComponent> = {
+          editor: dash.Foo,
+          async lazyRender() {
+            return () => html`real render`
+          },
+        }
+        // when
+        const decorated = decorateComponent(component, decorator, $rdf)
+        const initialized = {
+          ...decorated,
+          render: await decorated.lazyRender(),
+        }
+        const result = await fixture(initialized.render(params, actions))
+
+        // then
+        expect(result.classList.contains('decor')).to.be.true
+        expect(result.textContent).to.eq('real render')
+      })
+
+      it('keeps component render context', async function () {
+        // given
+        const component: Lazy<TestComponent> = {
+          editor: dash.Foo,
+          name: 'Lazy World',
+          async lazyRender() {
+            return function () {
+              return html`Hello ${this.name}!`
+            }
+          },
+        }
+        // when
+        const decorated = decorateComponent(component, decorator, $rdf)
+        const initialized = {
+          ...decorated,
+          render: await decorated.lazyRender(),
+        }
+        const result = await fixture(initialized.render(params, actions))
+
+        // then
+        expect(result.classList.contains('decor')).to.be.true
+        expect(result.textContent).to.eq('Hello Lazy World!')
+      })
+    })
+  })
+})

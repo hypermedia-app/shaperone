@@ -1,4 +1,4 @@
-# @hydrofoil/shaperone-core-tests
+# @shaperone/core-tests
 
 ## 0.1.1
 

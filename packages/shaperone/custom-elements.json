@@ -1,0 +1,148 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "shaperone-form",
+      "path": "./lib/shaperone-form.ts",
+      "description": "A custom element which renders a form element using graph description in [SHACL format](http://datashapes.org/forms.html).\nThe underlying value is a graph represented using the [RDF/JS data model specification](https://rdf.js.org/data-model-spec/)\n\n## Usage\n\nThis example shows the element used with the default lit renderer\n\n```typescript\nimport '@hypermedia-app/shaperone-form/shaperone-form.js'\nimport Environment from '@zazuko/env/Environment.js'\nimport { configure } from 'shaperone/configure.js'\nimport { html } from '@hypermedia-app/shaperone-form'\nimport alcaeus from 'alcaeus/Factory.js'\nimport parent from '@zazuko/env/web.js'\n\nconst env = new Environment([alcaeus()], { parent })\nconfigure(env)\n\nconst shapes = await env.hydra.loadResource('http://example.com/api/shape')\nconst resource = rdf.clownface().blankNode()\n\nconst formTemplate = html`<shaperone-form .shapes=${shapes} .resource=${resource}></shaperone-form>`\n```\n\nThe above snippet assumes that shapes get loaded from a remote resource and the form value is initialized with a\nblank node without any properties.\n\nSuch setup will render a very basic and unstyled form using native browser input elements and no specific layout.\nCheck the main documentation page for instructions on customizing the form's rendering.",
+      "attributes": [
+        {
+          "name": "editors",
+          "description": "Gets the state of the DASH editors model",
+          "type": "EditorsState"
+        },
+        {
+          "name": "components",
+          "description": "Gets the state of the editor components",
+          "type": "ComponentsState"
+        },
+        {
+          "name": "no-editor-switches",
+          "description": "Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "resource",
+          "description": "Gets or sets the resource graph as graph pointer",
+          "type": "FocusNode | undefined"
+        },
+        {
+          "name": "shapes",
+          "description": "Gets or sets the shapes graph",
+          "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "configuration",
+          "type": "ConfigCallback | undefined"
+        },
+        {
+          "name": "debug",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "state",
+          "description": "Gets the internal state of the form element",
+          "type": "FormState"
+        }
+      ],
+      "properties": [
+        {
+          "name": "registry",
+          "type": "CustomElementRegistry | undefined"
+        },
+        {
+          "name": "renderer",
+          "type": "RendererState"
+        },
+        {
+          "name": "env",
+          "description": "Gets the RDF/JS environment",
+          "type": "ShaperoneEnvironment"
+        },
+        {
+          "name": "editors",
+          "attribute": "editors",
+          "description": "Gets the state of the DASH editors model",
+          "type": "EditorsState"
+        },
+        {
+          "name": "components",
+          "attribute": "components",
+          "description": "Gets the state of the editor components",
+          "type": "ComponentsState"
+        },
+        {
+          "name": "noEditorSwitches",
+          "attribute": "no-editor-switches",
+          "description": "Disables the ability to change object editors. Only the one with [highest score](http://datashapes.org/forms.html#score) will be rendered",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "resource",
+          "attribute": "resource",
+          "description": "Gets or sets the resource graph as graph pointer",
+          "type": "FocusNode | undefined"
+        },
+        {
+          "name": "value",
+          "description": "Gets the resource as a [rdfine](https://npm.im/@tpluscode/rdfine) object",
+          "type": "RdfResource<DatasetCore<Quad, Quad>> | null"
+        },
+        {
+          "name": "isValid",
+          "description": "Gets a value indicating if there are any `sh:Violation` violation results",
+          "type": "boolean"
+        },
+        {
+          "name": "validationResults",
+          "description": "Get all validation results found in the {@see validationReport} graph",
+          "type": "ValidationResultState[]"
+        },
+        {
+          "name": "validationReport",
+          "description": "Gets a graph pointer to the latest [SHACL Validation Report](https://www.w3.org/TR/shacl/#validation-report)",
+          "type": "GraphPointer | undefined"
+        },
+        {
+          "name": "shapes",
+          "attribute": "shapes",
+          "description": "Gets or sets the shapes graph",
+          "type": "DatasetCore<Quad, Quad> | AnyPointer<AnyContext, DatasetCore<Quad, Quad>> | undefined"
+        },
+        {
+          "name": "configuration",
+          "attribute": "configuration",
+          "type": "ConfigCallback | undefined"
+        },
+        {
+          "name": "debug",
+          "attribute": "debug",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "dispatch",
+          "type": "ModelsDispatch<{ editors: Model<EditorsState, { addMetadata: (state: EditorsState, factory: (env: ShaperoneEnvironment) => DatasetCore<Quad, Quad> | AnyPointer<...> | Iterable<...>) => EditorsState; addMatchers: (state: EditorsState, editors: Record<...> | AnyEditor[]) => EditorsState; decorate: (editors: EditorsSta..."
+        },
+        {
+          "name": "reducer",
+          "type": "Reducer<S, Action<any>>"
+        },
+        {
+          "name": "state",
+          "attribute": "state",
+          "description": "Gets the internal state of the form element",
+          "type": "FormState"
+        }
+      ],
+      "events": [
+        {
+          "name": "changed"
+        }
+      ]
+    }
+  ]
+}
